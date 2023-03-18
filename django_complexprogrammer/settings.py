@@ -132,10 +132,8 @@ MEDIA_ROOT=BASE_DIR/MEDIA_URL
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-    
-
+APPEND_SLASH=False
+GET_FILE_FORMATS = {'.mp3', '.mp4', '.zip', '.xml'}
 UPLOAD_FOLDER_VIDEOS = STATIC_URL+'uploaded_videos/'
 CARTOONIZED_FOLDER = STATIC_URL+'cartoonized_images/'
 WRITE_BOX_CARTOONIZER = STATIC_URL+'white_box_cartoonizer/'

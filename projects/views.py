@@ -1,12 +1,16 @@
 import io
 import os
+import shutil
+import time
 import traceback
 import uuid
 import cv2
 from django.shortcuts import render, get_object_or_404
+from flask import send_file
+from instaloader import Instaloader, Profile
 import numpy as np
 import yaml
-from django_complexprogrammer.settings import CARTOONIZED_FOLDER, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
+from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
 from projects.models import Project
 from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
@@ -191,6 +195,58 @@ def cartoonize(request):
             return render("projects/cartoonize.html")
     else:
         return render(request, "projects/cartoonize.html")
+def save_insta_collection(user_name):
+    print("start...")
+    L = Instaloader()
+    PROFILE = user_name
+    profile = Profile.from_username(L.context, PROFILE)
+    posts_sorted_by_likes = sorted(profile.get_posts(), key=lambda post: post.likes, reverse=True)
+
+    try:
+        for post in posts_sorted_by_likes:
+            print(post)
+            print(post.profile)
+            print(post.url)
+            L.download_post(post, PROFILE)
+    except IndexError:
+        print("You have no saved posts yet.")
+        return 'IndexError'
+    print("end...")
+    return PROFILE
+def instagram_downloader_(request):
+    if request.method == 'GET':
+        return render(request, 'projects/instagram_downloader.html')
+    # form=InstagrammDownloaderForm(request.POST)
+    if request.method == 'POST':
+        user_name = request.POST['user_name']
+        # json_data = request.json
+        # user_name = json_data['user_name']
+        if user_name is None:
+            context={
+                        'result': '0'
+                    }
+        else:
+            result = save_insta_collection(user_name)
+            instagram_downloader_path = MEDIA_URL+'instagram_downloader'
+            print(instagram_downloader_path)
+            if result == user_name and os.path.exists(instagram_downloader_path):
+                shutil.make_archive(result, 'zip', instagram_downloader_path)
+                now = time.time()
+                future = now + 3
+                while True:
+                    print(future)
+                    if time.time() > future:
+                        context={
+                            'result': instagram_downloader_path + '.zip'
+                        }
+                        send_file_(instagram_downloader_path + '.zip')
+                        time.sleep(3)
+                        remove_file_(instagram_downloader_path + '.zip')
+            else:
+                context={
+                            'result': '0'
+                        }
+        return render(request, 'projects/instagram_downloader.html', context=context)
 def projects(request):
     projects=Project.actives.all()
     context={
@@ -209,3 +265,32 @@ def project_item(request, id):
         'item': item
     }
     return render(request, "projects/item.html", context=context)
+def send_file_(request):
+    filename = request.args.get('filename')
+    if filename[-4:] in GET_FILE_FORMATS:
+        return send_file(filename, as_attachment=True)
+    else:
+        return send_file(STATIC_URL+'img/fuck.jpg',
+                         as_attachment=True)
+def remove_file_(request):
+    filename = request.args.get('filename')
+    if os.path.exists(filename) and filename[-4:] in GET_FILE_FORMATS:
+        if filename[-4:] == ".mp3":
+            filename_ = filename[:-4] + ".mp4"
+            if os.path.exists(filename_):
+                os.remove(filename_)
+        if filename[-4:] == ".zip":
+            filename_ = filename[:-4]
+            path = filename_
+            shutil.rmtree(path, ignore_errors=True)
+            # for file_name in os.listdir(path):
+            #     print(file_name)
+            #     file = path + file_name
+            #     print(file)
+            #     if os.path.isfile(file):
+            #         print('Deleting file:', file)
+            #         os.remove(file)
+        os.remove(filename)
+        return "1"
+    else:
+        return "0"
