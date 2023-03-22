@@ -3,10 +3,10 @@ Code copyrights are with: https://github.com/SystemErrorWang/White-box-Cartooniz
 
 To adapt the code with tensorflow v2 changes obtained from: https://github.com/steubk/White-box-Cartoonization 
 """
-try:
-    import tensorflow.compat.v1 as tf
-except ImportError:
-    import tensorflow as tf
+# try:
+#     import tensorflow.compat.v1 as tf
+# except ImportError:
+#     import tensorflow as tf
 
 import numpy as np
 

@@ -1,23 +1,28 @@
 import io
+import json
 import os
 import shutil
 import time
 import traceback
 import uuid
 import cv2
+from django.conf import settings
+from django.http import FileResponse
 from django.shortcuts import render, get_object_or_404
-from flask import send_file
+import googletrans
 from instaloader import Instaloader, Profile
 import numpy as np
+import urllib3
 import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
 from projects.models import Project
-from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
+# from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
 import skvideo
 import skvideo.io
 from PIL import Image
 from django.contrib import messages
+from projects import youtube_downloader
 
 # from projects.cartoonize.video_api import api_request
 
@@ -42,11 +47,9 @@ def base(request):
         'services': services,
         'projects': projects
     }
-    if projects.get(id=1).application_id is not "":
-        print(projects.get(id=1).application_id)
     return render(request, "base.html", context=context)
 
-wb_cartoonizer = WB_Cartoonize(WRITE_BOX_CARTOONIZER+'saved_models/', opts['gpu'])
+# wb_cartoonizer = WB_Cartoonize(WRITE_BOX_CARTOONIZER+'saved_models/', opts['gpu'])
 
 
 def convert_bytes_to_image(img_bytes):
@@ -69,7 +72,7 @@ def convert_bytes_to_image(img_bytes):
 
     return image
 
-def cartoonize(request):
+# def cartoonize(request):
     if request.method == 'POST':
         try:
             if request.files.get('image'):
@@ -197,56 +200,126 @@ def cartoonize(request):
         return render(request, "projects/cartoonize.html")
 def save_insta_collection(user_name):
     print("start...")
-    L = Instaloader()
+    L = Instaloader(dirname_pattern='media/instagram_downloader/{target}')
     PROFILE = user_name
-    profile = Profile.from_username(L.context, PROFILE)
-    posts_sorted_by_likes = sorted(profile.get_posts(), key=lambda post: post.likes, reverse=True)
+    profile = Profile.from_username(
+        L.context,
+        PROFILE
+    )
+    uploaded_posts = profile.get_posts()
+    # if not(os.path.isdir(save_folder)):
+    #     os.makedirs(save_folder)
 
-    try:
-        for post in posts_sorted_by_likes:
-            print(post)
-            print(post.profile)
-            print(post.url)
-            L.download_post(post, PROFILE)
-    except IndexError:
-        print("You have no saved posts yet.")
-        return 'IndexError'
+    # Start Saving posts with a count
+    count = 1
+    for post in uploaded_posts:
+        print(count)
+        L.download_post(
+            post,
+            PROFILE
+        )
+    save_folder = os.path.join(
+        'media',
+        'instagram_downloader',
+        PROFILE
+    )
+    # profile = Profile.from_username(L.context, PROFILE)
+    # posts_sorted_by_likes = sorted(profile.get_posts(), key=lambda post: post.likes, reverse=True)
+
+    # try:
+    #     for post in posts_sorted_by_likes:
+    #         print(post)
+    #         print(post.profile)
+    #         print(post.url)
+    #         L.download_post(post, target=save_folder)
+    # except IndexError:
+    #     print("You have no saved posts yet.")
+    #     return 'IndexError'
     print("end...")
     return PROFILE
 def instagram_downloader_(request):
     if request.method == 'GET':
         return render(request, 'projects/instagram_downloader.html')
-    # form=InstagrammDownloaderForm(request.POST)
     if request.method == 'POST':
         user_name = request.POST['user_name']
-        # json_data = request.json
-        # user_name = json_data['user_name']
         if user_name is None:
             context={
                         'result': '0'
                     }
         else:
             result = save_insta_collection(user_name)
-            instagram_downloader_path = MEDIA_URL+'instagram_downloader'
-            print(instagram_downloader_path)
-            if result == user_name and os.path.exists(instagram_downloader_path):
-                shutil.make_archive(result, 'zip', instagram_downloader_path)
+            file_path = os.path.join(settings.MEDIA_ROOT, 'instagram_downloader') 
+            file_path = str(settings.BASE_DIR)
+            print(file_path)
+            if result == user_name and os.path.exists(file_path):
+                shutil.make_archive(result, 'zip', base_dir=file_path)
                 now = time.time()
                 future = now + 3
                 while True:
                     print(future)
                     if time.time() > future:
                         context={
-                            'result': instagram_downloader_path + '.zip'
+                            'result': file_path+'\\'+result + '.zip'
                         }
-                        send_file_(instagram_downloader_path + '.zip')
-                        time.sleep(3)
-                        remove_file_(instagram_downloader_path + '.zip')
+                        # send_file_(file_path+'\\'+result + '.zip')
+                        # time.sleep(3)
+                        # remove_file_(file_path+'\\'+result + '.zip')
+                        return FileResponse(open(file_path+'\\'+result + '.zip', 'rb'), as_attachment=True)
+                        # return render(request, 'projects/instagram_downloader.html', context=context)
             else:
                 context={
                             'result': '0'
                         }
         return render(request, 'projects/instagram_downloader.html', context=context)
+def youtube_downloader_(request):
+    if request.method == 'GET':
+        return render(request, 'projects/youtube_downloader.html')
+    if request.method == 'POST':
+        json_data = request.json
+        choice = json_data['choice']
+        quality = json_data['quality']  # low, medium, high, very high
+        link = json_data['link']
+        if link[0:23] == "https://www.youtube.com" or link[0:19] == "https://youtube.com" or link[
+                                                                                             0:16] == "https://youtu.be":
+            if choice == 1 or choice == 2:
+                if choice == 2:
+                    print("Pleylist yuklab olinmoqda...")
+                    filenames = youtube_downloader.download_playlist(link, quality)
+                    print("Yuklab olish tugadi!")
+                    print(filenames)
+                if choice == 1:
+                    filename = youtube_downloader.download_video(link, quality)
+                    # result = app.root_path.replace('website', '') + filename
+                    # print(result)
+                    return {"result": filename}
+            elif choice == 3:
+                print("Yuklab olinmoqda...")
+                filename = youtube_downloader.download_video(link, 'low')
+                print("Oʻzgartirilmoqda...")
+                youtube_downloader.convert_to_mp3(filename)
+                # result = app.root_path.replace('website', '') + filename.replace('.mp4', '.mp3')
+                return {"result": filename}
+            else:
+                print("Yaroqsiz kiritish! Tugatilmoqda...")
+        else:
+            return {"result": "0"}
+
+def coins(request):
+    url = "https://api.minerstat.com/v2/coins"
+    http = urllib3.PoolManager()
+    r = http.request('GET', url)
+    htmlSource = r.data
+    context={
+        "data": json.loads(htmlSource)
+    }
+    return render(request, 'projects/coins.html', context=context)
+
+def C0mplexTranslate(request):
+    context={
+        'data': googletrans.LANGUAGES
+    }
+    return render(request, 'projects/translate.html', context=context)
+
 def projects(request):
     projects=Project.actives.all()
     context={
@@ -266,21 +339,24 @@ def project_item(request, id):
     }
     return render(request, "projects/item.html", context=context)
 def send_file_(request):
-    filename = request.args.get('filename')
-    if filename[-4:] in GET_FILE_FORMATS:
-        return send_file(filename, as_attachment=True)
+    if request[-4:] in GET_FILE_FORMATS:
+        # global data
+        # headers = open("C:\\Users\\sazug\\OneDrive\\Desktop\\DDOS\\hammer\\headers\\headers.txt", "r")
+        # headers = open(request, 'rb')
+        # data = headers.read()
+        # headers.close
+        return FileResponse(open(request, 'rb'), as_attachment=True)
     else:
-        return send_file(STATIC_URL+'img/fuck.jpg',
+        return FileResponse(STATIC_URL+'img/fuck.jpg',
                          as_attachment=True)
 def remove_file_(request):
-    filename = request.args.get('filename')
-    if os.path.exists(filename) and filename[-4:] in GET_FILE_FORMATS:
-        if filename[-4:] == ".mp3":
-            filename_ = filename[:-4] + ".mp4"
+    if os.path.exists(request) and request[-4:] in GET_FILE_FORMATS:
+        if request[-4:] == ".mp3":
+            filename_ = request[:-4] + ".mp4"
             if os.path.exists(filename_):
                 os.remove(filename_)
-        if filename[-4:] == ".zip":
-            filename_ = filename[:-4]
+        if request[-4:] == ".zip":
+            filename_ = request[:-4]
             path = filename_
             shutil.rmtree(path, ignore_errors=True)
             # for file_name in os.listdir(path):
@@ -290,7 +366,7 @@ def remove_file_(request):
             #     if os.path.isfile(file):
             #         print('Deleting file:', file)
             #         os.remove(file)
-        os.remove(filename)
+        os.remove(request)
         return "1"
     else:
         return "0"

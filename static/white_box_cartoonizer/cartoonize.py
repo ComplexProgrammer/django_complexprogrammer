@@ -17,12 +17,12 @@ import numpy as np
 import skvideo.io
 from django_complexprogrammer.settings import WRITE_BOX_CARTOONIZER
 
-from static.white_box_cartoonizer import guided_filter, network
+# from static.white_box_cartoonizer import guided_filter, network
 
-try:
-    import tensorflow.compat.v1 as tf
-except ImportError:
-    import tensorflow as tf
+# try:
+#     import tensorflow.compat.v1 as tf
+# except ImportError:
+#     import tensorflow as tf
 
 
 class WB_Cartoonize:
