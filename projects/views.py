@@ -1,3 +1,4 @@
+from atexit import register
 import io
 import json
 import os
@@ -314,10 +315,14 @@ def coins(request):
     }
     return render(request, 'projects/coins.html', context=context)
 
+def hash(h, key):
+    return h[key]
+
 def C0mplexTranslate(request):
     context={
         'data': googletrans.LANGUAGES
     }
+    print(context.get('data'))
     return render(request, 'projects/translate.html', context=context)
 
 def projects(request):
