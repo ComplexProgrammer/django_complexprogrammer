@@ -125,13 +125,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
     <div class="row text-center">
         <div class="col">
-            <select class="form-select" ng-change="getResult()" required name="src" ng-model="src" ng-options="item for item in Languages"></select>
+            <select class="form-select" id="src" name="src" required onChange="getResult()">
+                <!-- <option  value="" selected="selected">---SELECT---</option> -->
+                {% for item in data %}
+                <option value="{{item}}">
+                    {{ item }} 
+                    <!-- {{data}}.{{item}} -->
+                </option>
+                {% endfor %}
+              </select>
+            <!-- <select class="form-select" ng-change="getResult()" required name="src" ng-model="src" ng-options="item for item in Languages"></select> -->
         </div>
 <!--        <div class="col-1">-->
 <!--                <button class="btn btn-light" ng-click="replace()"><img src="/static/icons/left-right.svg"></button>-->
 <!--        </div>-->
         <div class="col">
-            <select class="form-select" ng-change="getResult()" required name="dest" ng-model="dest" ng-options="item for item in Languages"></select>
+            <select class="form-select" id="dest" name="dest" required onChange="getResult()">
+                <option  value="" selected="selected">---SELECT---</option>
+                {% for item in data %}
+                <option value="{{item}}">{{item}}</option>
+                {% endfor %}
+              </select>
+            <!-- <select class="form-select" ng-change="getResult()" required name="dest" ng-model="dest" ng-options="item for item in Languages"></select> -->
         </div>
     </div>
     <div class="row">
@@ -465,7 +480,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        </div>
     </div>
 </div>
-<script src="/static/js/dropify.min.js"></script>
-<script src="/static/js/dropifycustom.js"></script>
 </body>
 </html>
