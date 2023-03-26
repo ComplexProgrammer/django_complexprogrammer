@@ -11,6 +11,7 @@ from django.conf import settings
 from django.http import FileResponse
 from django.shortcuts import render, get_object_or_404
 import googletrans
+from googletrans import Translator
 from instaloader import Instaloader, Profile
 import numpy as np
 import urllib3
@@ -322,6 +323,28 @@ def C0mplexTranslate(request):
     context={
         'data': googletrans.LANGUAGES
     }
+    if request.method=='POST':
+        text = request.POST['text']
+        src = request.POST['src']
+        dest = request.POST['dest']
+        print(src)
+        print(dest)
+        print(text)
+        translator = Translator()
+        print(context.get('data').get(src))
+        print(context.get('data').get(dest))
+        # result = translator.translate(text)
+        result = translator.translate(text, src=context.get('data').get(src), dest=context.get('data').get(dest))
+        print(result.src)
+        print(result.dest)
+        print(result.origin)
+        print(result.text)
+        print(result.pronunciation)
+        context={
+            'data': result.text
+        }
+        return render(request, 'projects/translate.html', context=context)
+    
     print(context.get('data'))
     return render(request, 'projects/translate.html', context=context)
 

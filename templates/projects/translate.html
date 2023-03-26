@@ -123,63 +123,59 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
         </div>
     </div>
-    <div class="row text-center">
-        <div class="col">
-            <select class="form-select" id="src" name="src" required onChange="getResult()">
-                <!-- <option  value="" selected="selected">---SELECT---</option> -->
-                {% for item in data %}
-                <option value="{{item}}">
-                    {{ item }} 
-                    <!-- {{data}}.{{item}} -->
-                </option>
-                {% endfor %}
-              </select>
-            <!-- <select class="form-select" ng-change="getResult()" required name="src" ng-model="src" ng-options="item for item in Languages"></select> -->
+    <form method="post" id="form">
+        {% csrf_token %}
+        <div class="row text-center">
+            <div class="col">
+                <select class="form-select" id="src" name="src" required onChange="getResult()">
+                    <!-- <option  value="" selected="selected">---SELECT---</option> -->
+                    {% for item in data %}
+                    <option value="{{item}}">
+                        {{ item }} 
+                        <!-- {{data}}.{{item}} -->
+                    </option>
+                    {% endfor %}
+                  </select>
+            </div>
+    <!--        <div class="col-1">-->
+    <!--                <button class="btn btn-light" ng-click="replace()"><img src="/static/icons/left-right.svg"></button>-->
+    <!--        </div>-->
+            <div class="col">
+                <select class="form-select" id="dest" name="dest" required onChange="getResult()">
+                    {% for item in data %}
+                    <option value="{{item}}">{{item}}</option>
+                    {% endfor %}
+                  </select>
+            </div>
         </div>
-<!--        <div class="col-1">-->
-<!--                <button class="btn btn-light" ng-click="replace()"><img src="/static/icons/left-right.svg"></button>-->
-<!--        </div>-->
-        <div class="col">
-            <select class="form-select" id="dest" name="dest" required onChange="getResult()">
-                <option  value="" selected="selected">---SELECT---</option>
-                {% for item in data %}
-                <option value="{{item}}">{{item}}</option>
-                {% endfor %}
-              </select>
-            <!-- <select class="form-select" ng-change="getResult()" required name="dest" ng-model="dest" ng-options="item for item in Languages"></select> -->
+        <div class="row">
+            <div class="col">
+                <textarea name="text" id="text" class="form-control" cols="5" rows="15"></textarea>
+            </div>
+            <div class="col">
+                <textarea name="result" class="form-control" cols="5" rows="15" disabled></textarea>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <textarea ng-model="text" id="text" class="form-control" cols="5" rows="15">
-
-            </textarea>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-light" style="width:50px" ng-click="speech(text)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
+            </div>
+            <div class="col">
+                <button class="btn btn-light float-end" style="width:50px" ng-click="speech(result)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
+            </div>
+    
         </div>
-        <div class="col">
-            <textarea ng-model="result" class="form-control" cols="5" rows="15" disabled>
-
-            </textarea>
+        <div class="C0mplexButton Success">
+            <a href="javascript:;" onclick="document.getElementById('form').submit();" style="width:100%;text-align:center">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <i class="fa-solid fa-rotate"></i>
+                Tarjima qilish
+            </a>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-light" style="width:50px" ng-click="speech(text)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
-        </div>
-        <div class="col">
-            <button class="btn btn-light float-end" style="width:50px" ng-click="speech(result)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
-        </div>
-
-    </div>
-    <div class="C0mplexButton Success">
-        <a href="#" ng-click="getResult()" style="width:100%;text-align:center">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <i class="fa-solid fa-rotate"></i>
-            Tarjima qilish
-        </a>
-    </div>
+    </form>
     <br />
     <div class="row">
        <div class="col">
