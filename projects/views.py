@@ -348,6 +348,84 @@ def C0mplexTranslate(request):
     print(context.get('data'))
     return render(request, 'projects/translate.html', context=context)
 
+def ImageCompare(request):
+    if request.method == 'GET':
+        return render(request, 'projects/imagecompare.html')
+    if request.method == 'POST':
+        if 'img1' not in request.files or 'img2' not in request.files:
+            print('No file part')
+            context = {"data": ''}
+        else:
+            img1_model = request.files['img1']
+            img2_model = request.files['img2']
+            print(img1_model)
+            print(img2_model)
+            image1 = np.asarray(bytearray(img1_model.read()), dtype="uint8")
+            image1 = cv2.imdecode(image1, cv2.IMREAD_COLOR)
+            image2 = np.asarray(bytearray(img2_model.read()), dtype="uint8")
+            image2 = cv2.imdecode(image2, cv2.IMREAD_COLOR)
+            # grayA = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+            # grayB = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+            grayA = cv2.cvtColor(image1, cv2.COLOR_BGRA2GRAY)
+            grayB = cv2.cvtColor(image2, cv2.COLOR_BGRA2GRAY)
+            height1, width1, channels1 = image1.shape
+            height2, width2, channels2 = image2.shape
+            print(height1, width1, channels1)
+            print(height2, width2, channels2)
+            if width1 == width2 and height1 == height2:
+                context = GetImageCompareResult(image1, image2, grayA, grayB)
+            else:
+                dim = (512, 512)
+                resized_image1 = cv2.resize(grayA, dim, interpolation=cv2.INTER_AREA)
+                resized_image2 = cv2.resize(grayB, dim, interpolation=cv2.INTER_AREA)
+                context = GetImageCompareResult(image1, image2, grayA, resized_image1)
+                # ImageFile.LOAD_TRUNCATED_IMAGES = True
+                # img1 = Image.open(img1_model)
+                # img2 = Image.open(img2_model)
+                #
+                # diff = ImageChops.difference(img1, img2)
+                # print(diff.getbbox())
+                # with io.BytesIO() as output:
+                #     diff.save(output, format="png")
+                #     contents = output.getvalue()
+                #     result = "data:image/png;base64," + base64.b64encode(contents).decode('utf-8')
+                #     # print(result)
+                #     return {"data": result}
+            return render(request, 'projects/imagecompare.html', context=context)
+
+def GetImageCompareResult(image1, image2, grayA, grayB):
+    (score, diff0) = compare_ssim(grayA, grayB, full=True)
+    diff0 = (diff0 * 255).astype("uint8")
+    print("SSIM: {}".format(score))
+    thresh = cv2.threshold(diff0, 0, 255,
+                        cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+    cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
+                            cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    for c in cnts:
+        # compute the bounding box of the contour and then draw the
+        # bounding box on both input images to represent where the two
+        # images differ
+        (x, y, w, h) = cv2.boundingRect(c)
+        cv2.rectangle(image1, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        cv2.rectangle(image2, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    im_arr = cv2.imencode('.jpg', thresh)[1].tostring()  # im_arr: image in Numpy one-dim array format.
+    base64_str = "data:image/png;base64," + base64.b64encode(im_arr).decode('utf-8')
+    # im_bytes = im_arr.tobytes()
+    # im_b64 = base64.b64encode(im_bytes)
+    context={
+        'data': base64_str
+    }
+    return context
+
+def avtotest(request):
+    context={
+        'bilet':0,
+        'togri_javob_soni':0,
+        'notogri_javob_soni':0
+    }
+    return render(request, 'projects/avtotest.html', context=context)
+
 def projects(request):
     projects=Project.actives.all()
     context={
