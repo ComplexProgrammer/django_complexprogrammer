@@ -31,6 +31,6 @@ class Project(models.Model):
     services=IsService()
     actives=IsActive()
     class Meta:
-        ordering=['-publish_time']
+        ordering=['order']
     def __str__(self):
         return self.title

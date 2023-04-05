@@ -2,5 +2,6 @@
     "python.analysis.extraPaths": [
         "./projects/cartoonize"
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
+    "python.analysis.typeCheckingMode": "basic"
 }

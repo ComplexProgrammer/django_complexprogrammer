@@ -28,6 +28,7 @@ SECRET_KEY = 'django-insecure-@7#81#)@a)etb_pd3gd#-$z6l4z8f)u=wp0@6z-zz2iza7t8nc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+# ALLOWED_HOSTS =  ['*']
 ALLOWED_HOSTS =  ['complexprogrammer.uz', '127.0.0.1', 'localhost']
 
 
@@ -41,10 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'projects',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -119,15 +122,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS=[BASE_DIR/STATIC_URL]
-STATIC_ROOT=BASE_DIR/'staticfiles'
+STATIC_URL = '/static/'
+# STATIC_ROOT = '/home/admin/webapps/staticfiles'
+# STATICFILES_DIRS = (
+#                         '/home/admin/webapps/mainfolder/mainapp/static',
+#                         '/home/admin/webapps/mainfolder/mainapp/media',
+#                    )
+STATIC_ROOT=BASE_DIR / 'staticfiles'
+STATICFILES_DIRS=[BASE_DIR / 'static', BASE_DIR / 'media']
 STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-MEDIA_URL='media/'
-MEDIA_ROOT=BASE_DIR/MEDIA_URL
+MEDIA_URL='/media/'
+MEDIA_ROOT=BASE_DIR / 'media'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -137,3 +145,5 @@ GET_FILE_FORMATS = {'.mp3', '.mp4', '.zip', '.xml'}
 UPLOAD_FOLDER_VIDEOS = STATIC_URL+'uploaded_videos/'
 CARTOONIZED_FOLDER = STATIC_URL+'cartoonized_images/'
 WRITE_BOX_CARTOONIZER = STATIC_URL+'white_box_cartoonizer/'
+
+STATICFILES_STORAGE='whitenoise.storage.CompressedStaticFilesStorage'
