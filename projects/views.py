@@ -420,10 +420,13 @@ def GetImageCompareResult(image1, image2, grayA, grayB):
 
 def avtotest(request):
     context={
-        'bilet':0,
-        'togri_javob_soni':0,
-        'notogri_javob_soni':0
+        'row': range(1, 109, 4),
+        'col': range(1, 5),
+        'bilet': 0,
+        'togri_javob_soni': 0,
+        'notogri_javob_soni': 0
     }
+    print(context)
     return render(request, 'projects/avtotest.html', context=context)
 
 def projects(request):
@@ -431,6 +434,7 @@ def projects(request):
     context={
         'projects': projects
     }
+    print(context)
     return render(request, "projects/home.html", context=context)
 def services(request):
     services=Project.services.all()
