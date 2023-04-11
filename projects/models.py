@@ -34,3 +34,31 @@ class Project(models.Model):
         ordering=['order']
     def __str__(self):
         return self.title
+
+class AvtoTest(models.Model):
+    savol=models.TextField()
+    savol_en=models.TextField()
+    savol_ru=models.TextField()
+    javob_a=models.TextField()
+    javob_a_en=models.TextField()
+    javob_a_ru=models.TextField()
+    javob_b=models.TextField()
+    javob_b_en=models.TextField()
+    javob_b_ru=models.TextField()
+    javob_c=models.TextField()
+    javob_c_en=models.TextField()
+    javob_c_ru=models.TextField()
+    javob_d=models.TextField()
+    javob_d_en=models.TextField()
+    javob_d_ru=models.TextField()
+    javob=models.CharField(max_length=1)
+    bilet=models.IntegerField()
+    raqam=models.IntegerField()
+    rasm=models.CharField(max_length=255, blank=True)
+    objects = models.Manager()
+    class Meta:
+        ordering=['raqam']
+    def __str__(self):
+        return f"{self.bilet} {self.savol}"
+
+    

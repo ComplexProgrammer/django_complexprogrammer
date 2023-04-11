@@ -18,7 +18,7 @@ import urllib3
 import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
-from projects.models import Project
+from projects.models import AvtoTest, Project
 # from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
 import skvideo
 import skvideo.io
@@ -334,7 +334,7 @@ def C0mplexTranslate(request):
         print(context.get('data').get(src))
         print(context.get('data').get(dest))
         # result = translator.translate(text)
-        result = translator.translate(text, src=context.get('data').get(src), dest=context.get('data').get(dest))
+        result = translator.translate(text, src=context.get('data').get(src), dest=context.get('data').get(dest)) # type: ignore
         print(result.src)
         print(result.dest)
         print(result.origin)
@@ -418,16 +418,34 @@ def GetImageCompareResult(image1, image2, grayA, grayB):
     }
     return context
 
-def avtotest(request):
+def avtotest(request, id):
     context={
         'row': range(1, 109, 4),
         'col': range(1, 5),
-        'bilet': 0,
+        'bilet': id,
         'togri_javob_soni': 0,
         'notogri_javob_soni': 0
     }
     print(context)
     return render(request, 'projects/avtotest.html', context=context)
+
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
+
+
+def GetSavol(request):
+    bilet=request.GET['bilet']
+    avtotest=AvtoTest.objects.filter(bilet=bilet)
+    context={
+        'data': avtotest
+    }
+    return avtotest
+
+
 
 def projects(request):
     projects=Project.actives.all()
