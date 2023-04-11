@@ -1,8 +1,10 @@
 import sqlite3
 
 
-db = sqlite3.connect(r"C:\Users\User\PycharmProjects\pythonProject_complexprogrammer_web\website\avtotest.db")
-db2 = sqlite3.connect(r"E:\VSCODE\django_complexprogrammer\db.sqlite3")
+# db = sqlite3.connect(r"C:\Users\User\PycharmProjects\pythonProject_complexprogrammer_web\website\avtotest.db")
+# db2 = sqlite3.connect(r"E:\VSCODE\django_complexprogrammer\db.sqlite3")
+db = sqlite3.connect(r"C:\Users\odilj\PycharmProjects\pythonProject_complexprogrammer_web\website\avtotest.db")
+db2 = sqlite3.connect(r"db.sqlite3")
 res = db.execute("select id, savol, savol_en, savol_ru, javob_a, javob_a_en, javob_a_ru, javob_b, javob_b_en, javob_b_ru, javob_c, javob_c_en, javob_c_ru, javob_d, javob_d_en, javob_d_ru, javob, bilet, raqam, rasm from savollar")
 for row in res:
     id=row[0]
@@ -25,6 +27,22 @@ for row in res:
     bilet=row[13]
     raqam=row[14]
     rasm=row[15]
-    params = (savol, savol_en, savol_ru, javob_a_ru, row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[19])
-    # print(params)
+    if javob_a_en is None:
+        javob_a_en = ''
+    if javob_a_ru is None:
+        javob_a_ru = ''
+    if javob_b_en is None:
+        javob_b_en = ''
+    if javob_b_ru is None:
+        javob_b_ru = ''
+    if javob_c_en is None:
+        javob_c_en = ''
+    if javob_c_ru is None:
+        javob_c_ru = ''
+    if javob_d_en is None:
+        javob_d_en = ''
+    if javob_d_ru is None:
+        javob_d_ru = ''
+    params = (savol, savol_en, savol_ru, javob_a, javob_a_en, javob_a_ru, javob_b, javob_b_en, javob_b_ru, javob_c, javob_c_en, javob_c_ru, javob_d, javob_d_en, javob_d_ru, javob, bilet, raqam, rasm)
+    print(params)
     # db2.execute("insert into projects_avtotest (savol, savol_en, savol_ru, javob_a, javob_a_en, javob_a_ru, javob_b, javob_b_en, javob_b_ru, javob_c, javob_c_en, javob_c_ru, javob_d, javob_d_en, javob_d_ru, javob, bilet, raqam, rasm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
