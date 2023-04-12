@@ -8,7 +8,7 @@ import traceback
 import uuid
 import cv2
 from django.conf import settings
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 import googletrans
 from googletrans import Translator
@@ -24,6 +24,7 @@ import skvideo
 import skvideo.io
 from PIL import Image
 from django.contrib import messages
+from django.core import serializers
 from projects import youtube_downloader
 
 # from projects.cartoonize.video_api import api_request
@@ -418,34 +419,129 @@ def GetImageCompareResult(image1, image2, grayA, grayB):
     }
     return context
 
-def avtotest(request, id):
+def avtotest(request, id=0):
     context={
-        'row': range(1, 109, 4),
-        'col': range(1, 5),
-        'bilet': id,
-        'togri_javob_soni': 0,
-        'notogri_javob_soni': 0
+        'row': range(1, 109),
+        'bilet': id
     }
-    print(context)
     return render(request, 'projects/avtotest.html', context=context)
-
-def dict_factory(cursor, row):
-    d = {}
-    for idx, col in enumerate(cursor.description):
-        d[col[0]] = row[idx]
-    return d
 
 
 
 def GetSavol(request):
     bilet=request.GET['bilet']
-    avtotest=AvtoTest.objects.filter(bilet=bilet)
+    avtotest=AvtoTest.objects.filter(bilet=bilet).values()
+    return JsonResponse(list(avtotest), safe=False) 
+    # qs = AvtoTest.objects.filter(bilet=bilet)
+    # qs_json = serializers.serialize('json', qs)
+    # return HttpResponse(qs_json, content_type='application/json')
+
+def exchangerates(request):
+    url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
+    http = urllib3.PoolManager()
+    r = http.request('GET', url)
+    print(r.status)
+    # r = urllib3.request.urlopen(url)
+    # data = r.read()
     context={
-        'data': avtotest
+        "data": json.loads(r.data)
     }
-    return avtotest
+    return render(request, 'projects/exchangerates.html', context=context)
 
+def changetext(request):
+    if request.method == 'POST':
+        text = request.POST['text']
+        characters = [["A", "А"], ["B", "Б"], ["D", "Д"], ["E", "Е"], ["F", "Ф"], ["G", "Г"], ["H", "Ҳ"], ["I", "И"],
+                    ["J", "Ж"], ["K", "К"], ["L", "Л"], ["M", "М"], ["N", "Н"], ["O", "О"], ["P", "П"], ["Q", "Қ"],
+                    ["R", "Р"], ["S", "С"], ["T", "Т"], ["U", "У"], ["V", "В"], ["X", "Х"], ["Y", "Й"], ["Z", "З"],
+                    ["a", "а"], ["b", "б"], ["d", "д"], ["e", "е"], ["f", "ф"], ["g", "г"], ["h", "ҳ"], ["i", "и"],
+                    ["j", "ж"], ["k", "к"], ["l", "л"], ["m", "м"], ["n", "н"], ["o", "о"], ["p", "п"], ["q", "қ"],
+                    ["r", "р"], ["s", "с"], ["t", "т"], ["u", "у"], ["v", "в"], ["x", "х"], ["y", "й"], ["z", "з"],
+                    ["А", "A"], ["Б", "B"], ["С", "C"], ["Ч", "Ch"], ["Д", "D"], ["Е", "E"], ["Ф", "F"], ["Г", "G"],
+                    ["Ҳ", "H"], ["И", "I"], ["Ж", "J"], ["К", "K"], ["Л", "L"], ["М", "M"], ["Н", "N"], ["О", "O"],
+                    ["П", "P"], ["Қ", "Q"], ["Р", "R"], ["С", "S"], ["Ш", "Sh"], ["Т", "T"], ["У", "U"], ["В", "V"],
+                    ["Х", "X"], ["Й", "Y"], ["Я", "Ya"], ["Ю", "Yu"], ["Ё", "Yo"], ["З", "Z"], ["Ғ", "Gʼ"], ["а", "a"],
+                    ["б", "b"], ["с", "c"], ["ч", "ch"], ["д", "d"], ["е", "e"], ["ф", "f"], ["г", "g"], ["ҳ", "h"],
+                    ["и", "i"], ["ж", "j"], ["к", "k"], ["л", "l"], ["м", "m"], ["н", "n"], ["о", "o"], ["п", "p"],
+                    ["қ", "q"], ["р", "r"], ["с", "s"], ["ш", "sh"], ["т", "t"], ["у", "u"], ["в", "v"], ["х", "x"],
+                    ["й", "y"], ["я", "ya"], ["ю", "yu"], ["ё", "yo"], ["з", "z"], ["ғ", "gʼ"], ["ъ", "`"], ["`", "ъ"],
+                    ["'", "ъ"]]
 
+        lotin = False
+        arr = list(text)
+        for ar in arr:
+            if 0 < ord(ar) < 1024:
+                lotin = True
+            for obj in characters:
+                if obj[0] == ar:
+                    text = text.replace(ar, obj[1])
+
+        if lotin:
+            text = text.replace("Оъ", "Ў").replace("оъ", "ў")
+            text = text.replace("йа", "я").replace("Йа", "Я").replace("ЙА", "Я").replace("йА", "я")
+            text = text.replace("йо", "ё").replace("Йо", "Ё").replace("ЙО", "Ё").replace("йО", "ё")
+            text = text.replace("йу", "ю").replace("Йу", "Ю").replace("ЙУ", "Ю").replace("йУ", "ю")
+            text = text.replace("сҳ", "ш").replace("Сҳ", "Ш").replace("СҲ", "Ш").replace("сҲ", "ш")
+            text = text.replace("cҳ", "ч").replace("Cҳ", "Ч").replace("CҲ", "Ч").replace("cҲ", "ч")
+            text = text.replace("Гъ", "Ғ").replace("гъ", "ғ")
+        else:
+            text = text.replace("Я", "Ya").replace("я", "ya")
+            text = text.replace("Ё", "Yo").replace("ё", "yo")
+            text = text.replace("Ю", "Yu").replace("ю", "yu")
+            text = text.replace("Ш", "Sh").replace("ш", "sh")
+            text = text.replace("Ч", "Ch").replace("ч", "ch")
+            text = text.replace("Ў", "Oʼ").replace("ў", "oʼ")
+            text = text.replace("Ғ", "Gʼ").replace("ғ", "gʼ")
+        # return JsonResponse(text, safe=False) 
+        return HttpResponse(text)
+    return render(request, 'projects/changetext.html')
+
+def GetChangeTextData(request, text):
+    if text is None:
+        return ''
+    characters = [["A", "А"], ["B", "Б"], ["D", "Д"], ["E", "Е"], ["F", "Ф"], ["G", "Г"], ["H", "Ҳ"], ["I", "И"],
+                ["J", "Ж"], ["K", "К"], ["L", "Л"], ["M", "М"], ["N", "Н"], ["O", "О"], ["P", "П"], ["Q", "Қ"],
+                ["R", "Р"], ["S", "С"], ["T", "Т"], ["U", "У"], ["V", "В"], ["X", "Х"], ["Y", "Й"], ["Z", "З"],
+                ["a", "а"], ["b", "б"], ["d", "д"], ["e", "е"], ["f", "ф"], ["g", "г"], ["h", "ҳ"], ["i", "и"],
+                ["j", "ж"], ["k", "к"], ["l", "л"], ["m", "м"], ["n", "н"], ["o", "о"], ["p", "п"], ["q", "қ"],
+                ["r", "р"], ["s", "с"], ["t", "т"], ["u", "у"], ["v", "в"], ["x", "х"], ["y", "й"], ["z", "з"],
+                ["А", "A"], ["Б", "B"], ["С", "C"], ["Ч", "Ch"], ["Д", "D"], ["Е", "E"], ["Ф", "F"], ["Г", "G"],
+                ["Ҳ", "H"], ["И", "I"], ["Ж", "J"], ["К", "K"], ["Л", "L"], ["М", "M"], ["Н", "N"], ["О", "O"],
+                ["П", "P"], ["Қ", "Q"], ["Р", "R"], ["С", "S"], ["Ш", "Sh"], ["Т", "T"], ["У", "U"], ["В", "V"],
+                ["Х", "X"], ["Й", "Y"], ["Я", "Ya"], ["Ю", "Yu"], ["Ё", "Yo"], ["З", "Z"], ["Ғ", "Gʼ"], ["а", "a"],
+                ["б", "b"], ["с", "c"], ["ч", "ch"], ["д", "d"], ["е", "e"], ["ф", "f"], ["г", "g"], ["ҳ", "h"],
+                ["и", "i"], ["ж", "j"], ["к", "k"], ["л", "l"], ["м", "m"], ["н", "n"], ["о", "o"], ["п", "p"],
+                ["қ", "q"], ["р", "r"], ["с", "s"], ["ш", "sh"], ["т", "t"], ["у", "u"], ["в", "v"], ["х", "x"],
+                ["й", "y"], ["я", "ya"], ["ю", "yu"], ["ё", "yo"], ["з", "z"], ["ғ", "gʼ"], ["ъ", "`"], ["`", "ъ"],
+                ["'", "ъ"]]
+
+    lotin = False
+    arr = list(text)
+    for ar in arr:
+        if 0 < ord(ar) < 1024:
+            lotin = True
+        for obj in characters:
+            if obj[0] == ar:
+                text = text.replace(ar, obj[1])
+
+    if lotin:
+        text = text.replace("Оъ", "Ў").replace("оъ", "ў")
+        text = text.replace("йа", "я").replace("Йа", "Я").replace("ЙА", "Я").replace("йА", "я")
+        text = text.replace("йо", "ё").replace("Йо", "Ё").replace("ЙО", "Ё").replace("йО", "ё")
+        text = text.replace("йу", "ю").replace("Йу", "Ю").replace("ЙУ", "Ю").replace("йУ", "ю")
+        text = text.replace("сҳ", "ш").replace("Сҳ", "Ш").replace("СҲ", "Ш").replace("сҲ", "ш")
+        text = text.replace("cҳ", "ч").replace("Cҳ", "Ч").replace("CҲ", "Ч").replace("cҲ", "ч")
+        text = text.replace("Гъ", "Ғ").replace("гъ", "ғ")
+    else:
+        text = text.replace("Я", "Ya").replace("я", "ya")
+        text = text.replace("Ё", "Yo").replace("ё", "yo")
+        text = text.replace("Ю", "Yu").replace("ю", "yu")
+        text = text.replace("Ш", "Sh").replace("ш", "sh")
+        text = text.replace("Ч", "Ch").replace("ч", "ch")
+        text = text.replace("Ў", "Oʼ").replace("ў", "oʼ")
+        text = text.replace("Ғ", "Gʼ").replace("ғ", "gʼ")
+    # return JsonResponse(text, safe=False) 
+    return HttpResponse(text)
 
 def projects(request):
     projects=Project.actives.all()

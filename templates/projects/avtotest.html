@@ -78,11 +78,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
@@ -126,8 +128,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .page-active {
       display: block;
     }
+    body {
+      background-color: #210021;
+  }
         .hero-image {
-          background: url("/static/img/avtotest.png") no-repeat center center fixed;
+          background: url("/static/img/avtotest1.png") no-repeat center center fixed;
         }
     </style>
     <style>
@@ -219,13 +224,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="row">
                     <div class="col">
                         <div class="C0mplexButton Success">
-                            <a href="/avtotest/{{ i }}">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            &#9758;
-                            {{ i }}- bilet
+                            <a href="/avtotest/{{ i }}" style='width:500px; font-size:30px'>
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                              <span class="material-symbols-outlined">
+                                touch_app
+                              </span>
+                              {{ i }}- bilet
                             </a>
                         </div>
                     </div>
@@ -268,7 +275,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
                 <div ng-repeat="item in data" ng-show="item.id==id">
                     <h4 class="page-content">{{bilet}} - bilet<br/>{{item.raqam}} - savol<br/>{{item.savol}}</h4>
-                    <img ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
+                    <img ng-show="item.rasm" src="/static/images/avtotest/{{item.rasm}}" width="30%">
                     <div class="list-group" style="text-align:left">
                       <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a}}</a>
                       <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b}}</a>
@@ -485,6 +492,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       url: "/GetSavol?bilet="+$scope.bilet,
                       dataType: "json"
                   }).then(function (d) {
+                          console.log(d)
                           d.data.forEach((item) => {
                             berilgan_javob='';
                             if($scope.javoblar.find(element => element.id == item.id))
