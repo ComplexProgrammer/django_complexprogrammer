@@ -1,9 +1,9 @@
 import sqlite3
 
 
-# db = sqlite3.connect(r"C:\Users\User\PycharmProjects\pythonProject_complexprogrammer_web\website\avtotest.db")
+db = sqlite3.connect(r"C:\Users\User\PycharmProjects\pythonProject_complexprogrammer_web\website\avtotest.db")
 # db2 = sqlite3.connect(r"E:\VSCODE\django_complexprogrammer\db.sqlite3")
-db = sqlite3.connect(r"C:\Users\odilj\PycharmProjects\pythonProject_complexprogrammer_web\website\avtotest.db")
+# db = sqlite3.connect(r"C:\Users\odilj\PycharmProjects\pythonProject_complexprogrammer_web\website\avtotest.db")
 db2 = sqlite3.connect(r"db.sqlite3")
 res = db.execute("select id, savol, savol_en, savol_ru, javob_a, javob_a_en, javob_a_ru, javob_b, javob_b_en, javob_b_ru, javob_c, javob_c_en, javob_c_ru, javob_d, javob_d_en, javob_d_ru, javob, bilet, raqam, rasm from savollar")
 for row in res:
@@ -23,10 +23,10 @@ for row in res:
     javob_d=row[13]
     javob_d_en=row[14]
     javob_d_ru=row[15]
-    javob=row[12]
-    bilet=row[13]
-    raqam=row[14]
-    rasm=row[15]
+    javob=row[16]
+    bilet=row[17]
+    raqam=row[18]
+    rasm=row[19]
     if javob_a_en is None:
         javob_a_en = ''
     if javob_a_ru is None:
@@ -44,5 +44,5 @@ for row in res:
     if javob_d_ru is None:
         javob_d_ru = ''
     params = (savol, savol_en, savol_ru, javob_a, javob_a_en, javob_a_ru, javob_b, javob_b_en, javob_b_ru, javob_c, javob_c_en, javob_c_ru, javob_d, javob_d_en, javob_d_ru, javob, bilet, raqam, rasm)
-    print(params)
-    # db2.execute("insert into projects_avtotest (savol, savol_en, savol_ru, javob_a, javob_a_en, javob_a_ru, javob_b, javob_b_en, javob_b_ru, javob_c, javob_c_en, javob_c_ru, javob_d, javob_d_en, javob_d_ru, javob, bilet, raqam, rasm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
+    print(id)
+    db2.execute("insert into projects_avtotest (savol, savol_en, savol_ru, javob_a, javob_a_en, javob_a_ru, javob_b, javob_b_en, javob_b_ru, javob_c, javob_c_en, javob_c_ru, javob_d, javob_d_en, javob_d_ru, javob, bilet, raqam, rasm) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
