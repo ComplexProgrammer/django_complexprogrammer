@@ -423,10 +423,16 @@ def GetImageCompareResult(image1, image2, grayA, grayB):
     return context
 
 def avtotest(request):
-    id = request.GET.get('id', 0);
     context={
         'row': range(1, 109),
-        'bilet': id
+        'bilet': 0
+    }
+    return render(request, 'projects/avtotest.html', context=context)
+
+def avtotest_item(request, bilet):
+    context={
+        'row': range(1, 109),
+        'bilet': bilet
     }
     return render(request, 'projects/avtotest.html', context=context)
 
