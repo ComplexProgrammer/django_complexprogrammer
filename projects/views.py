@@ -2,7 +2,9 @@ from atexit import register
 import io
 import json
 import os
+import random
 import shutil
+import string
 import time
 import traceback
 import uuid
@@ -13,6 +15,7 @@ from django.shortcuts import render, get_object_or_404
 import googletrans
 from googletrans import Translator
 from instaloader import Instaloader, Profile
+# from pysitemap import crawler
 import numpy as np
 import urllib3
 import yaml
@@ -419,7 +422,8 @@ def GetImageCompareResult(image1, image2, grayA, grayB):
     }
     return context
 
-def avtotest(request, id=0):
+def avtotest(request):
+    id = request.GET.get('id', 0);
     context={
         'row': range(1, 109),
         'bilet': id
@@ -540,8 +544,65 @@ def GetChangeTextData(request, text):
         text = text.replace("Ч", "Ch").replace("ч", "ch")
         text = text.replace("Ў", "Oʼ").replace("ў", "oʼ")
         text = text.replace("Ғ", "Gʼ").replace("ғ", "gʼ")
-    # return JsonResponse(text, safe=False) 
     return HttpResponse(text)
+
+
+def ip(request):
+    ip = request.GET.get('ip', False);
+    if ip == False:
+        url = "https://ipapi.co/json"
+    else:
+        url = "https://ipapi.co/" + ip + "/json"
+    http = urllib3.PoolManager()
+    r = http.request('GET', url)
+    context={
+        'data':json.loads(r.data)
+    }
+    return render(request, 'projects/ip.html', context=context)
+
+def password_generator(request):
+    if request.method == 'POST':
+        characterList = ""
+        json_data = json.loads(request.body)
+        PasswordLength = int(json_data['PasswordLength'])
+        Uppercase = json_data['Uppercase']
+        Lowercase = json_data['Lowercase']
+        Numbers = json_data['Numbers']
+        Symbols = json_data['Symbols']
+        if Uppercase:
+            characterList += string.ascii_uppercase
+        if Lowercase:
+            characterList += string.ascii_lowercase
+        if Numbers:
+            characterList += string.digits
+        if Symbols:
+            characterList += string.punctuation
+        password = []
+
+        for i in range(PasswordLength):
+            # Picking a random character from our
+            # character list
+            randomchar = random.choice(characterList)
+
+            # appending a random character to password
+            password.append(randomchar)
+        return HttpResponse({"".join(password)})
+    return render(request, 'projects/password_generator.html')
+
+
+def sitemap(request):
+    if request.method == 'POST':
+        url = request.args.get('url')
+        from asyncio import events, windows_events
+        el = windows_events.ProactorEventLoop()
+        events.set_event_loop(el)
+        crawler(url, out_file='sitemap.xml', exclude_urls=[".ico", ".css", ".pdf", ".jpg", ".zip", ".png", ".svg"])
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        time.sleep(10)
+        send_file_(str(settings.BASE_DIR)+'\\sitemap.xml')
+        time.sleep(3)
+        remove_file_(str(settings.BASE_DIR)+'\\sitemap.xml')
+    return render(request, 'projects/sitemap.html')
 
 def projects(request):
     projects=Project.actives.all()

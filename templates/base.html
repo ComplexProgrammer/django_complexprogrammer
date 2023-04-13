@@ -326,17 +326,19 @@
                 <img src="static/img/google-play.svg" />
               </a>
             {%endif%}
-            <div class="C0mplexButton Success">
-              <a href="/{{item.url}}">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <i class="material-icons">&#9758;</i>
-                  Enter
-                  <div class="spinner-border" role="status"></div>
-              </a>
-            </div>
+            {% if item.category != 'Mobile Project' %}
+              <div class="C0mplexButton Success">
+                <a href="/{{item.url}}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="material-icons">&#9758;</i>
+                    Enter
+                    <div class="spinner-border" role="status"></div>
+                </a>
+              </div>
+            {% endif %}
           </div>
           <div class="project-img">
             <img src="media/{{item.image}}" alt="img">

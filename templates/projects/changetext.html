@@ -93,18 +93,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     app.controller("Data", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
         $scope.TextLength = 0;
         $scope.ChangeText = function (text) {
-            $http({
-                method: 'GET',
-                {% comment %} url: "/GetChangeTextData?text=" + text, {% endcomment %}
-                url: "/GetChangeTextData/" + text,
-                dataType: "json"
-            }).then(function (d) {
-                $scope.new_text = d.data;
-                $scope.TextLength = d.data.length;
-            }, function (error) {
-                console.log("error in GetChangeTextData -> ", error);
-                alertify.error("Xatolik yuz berdi");
-            });
+            if(text){
+                $http({
+                    method: 'GET',
+                    {% comment %} url: "/GetChangeTextData?text=" + text, {% endcomment %}
+                    url: "/GetChangeTextData/" + text,
+                    dataType: "json"
+                }).then(function (d) {
+                    $scope.new_text = d.data;
+                    $scope.TextLength = d.data.length;
+                }, function (error) {
+                    console.log("error in GetChangeTextData -> ", error);
+                    alertify.error("Xatolik yuz berdi");
+                });
+            }
+            else{
+                $scope.new_text=''
+            }
         }
         var old_text = document.getElementById('old_text');
         old_text.focus();
