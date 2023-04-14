@@ -86,4 +86,3 @@ __pycache__/
 local_settings.py
 
 .env
-{% comment %} db.sqlite3 {% endcomment %}
