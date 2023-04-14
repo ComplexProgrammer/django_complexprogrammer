@@ -1,0 +1,206 @@
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "e815a36ng3");
+</script>
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(90624869, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
+<title>Snake2</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
+ crossorigin="anonymous"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8DHWL20H58');
+</script>
+        <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NW763C2');</script>
+<!-- End Google Tag Manager -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
+    authDomain: "c0mplex.firebaseapp.com",
+    projectId: "c0mplex",
+    storageBucket: "c0mplex.appspot.com",
+    messagingSenderId: "755681568857",
+    appId: "1:755681568857:web:102b1b733df55baefe2948",
+    measurementId: "G-95WQGY7X9E"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+<link rel="icon" sizes="16x16" href="/static/Games/snake/img/icon.png">
+<link rel="stylesheet" href="/static/Games/snake/snake.css">
+<canvas id="canvas" class="hide" width="400" height="400"></canvas>
+<div class="startScreen">
+    <div class='IlonchaRasmi'> </div>
+    <p>
+        Boshlash uchun shu erni bosing<br />
+        Boshqarish uchun &#8592;, &#8594;, &#8593;, &#8595; yoki (a, d, w, s) tugmalaridan foydalaning<br />
+        Iloncha tanasini o'ziga yedirsangiz yutqazasiz.
+    </p>
+</div>
+<script>
+    let player = {};
+    const canvas = document.getElementById('canvas');
+    const startScreen = document.querySelector('.startScreen');
+    let score = 0;
+    let t = 1;
+    var over = false;
+    class SnakeGame {
+        constructor() {
+            this.canvas = document.getElementById('canvas');
+            this.context = this.canvas.getContext('2d');
+            document.addEventListener('keydown', this.onKeyPress.bind(this));
+        }
+        init() {
+            score = 0;
+            t = 1;
+            this.positionX = this.positionY = 10;
+            this.appleX = this.appleY = 5;
+            this.tailSize = 5;
+            this.trail = [];
+            this.gridSize = this.tileCount = 20;
+            this.velocityX = this.velocityY = 0;
+
+            this.timer = setInterval(this.loop.bind(this), 1000 / 5);
+        }
+        reset() {
+            clearInterval(this.timer);
+            this.init();
+        }
+        loop() {
+            this.update();
+            this.draw();
+
+        }
+        update() {
+            this.positionX += this.velocityX;
+            this.positionY += this.velocityY;
+            if (this.positionX < 0) {
+                this.positionX = this.tileCount - 1;
+            }
+            if (this.positionY < 0) {
+                this.positionY = this.tileCount - 1;
+            }
+            if (this.positionX > this.tileCount - 1) {
+                this.positionX = 0;
+            }
+            if (this.positionY > this.tileCount - 1) {
+                this.positionY = 0;
+            }
+            this.trail.forEach(t => {
+                if (this.positionX === t.positionX && this.positionY === t.positionY) {
+                    if (over) {
+                        over = false;
+                        GameOver();
+                    }
+                    this.reset();
+                }
+            });
+            this.trail.push({ positionX: this.positionX, positionY: this.positionY, Score: score });
+            while (this.trail.length > this.tailSize) {
+                this.trail.shift();
+            }
+            if (this.appleX === this.positionX && this.appleY == this.positionY) {
+                this.tailSize++;
+                score++;
+                this.appleX = Math.floor(Math.random() * this.tileCount);
+                this.appleY = Math.floor(Math.random() * this.tileCount);
+            }
+        }
+        draw() {
+
+            this.context.fillStyle = 'black';
+            this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+            this.context.fillStyle = 'white';
+            this.context.font = '20px Arial';
+            this.context.fillText(score, 20, 40);
+            for (let i = 0; i < this.trail.length; i++) {
+                this.context.fillStyle = (i == this.trail.length - 1) ? "yellow" : "white";
+                this.context.fillRect(this.trail[i].positionX * this.gridSize, this.trail[i].positionY * this.gridSize, this.gridSize - 5, this.gridSize - 5);
+            }
+            //this.trail.forEach(t => {
+            //    console.log(t);
+            //    this.context.fillRect(t.positionX * this.gridSize, t.positionY * this.gridSize, this.gridSize - 5, this.gridSize - 5);
+            //});
+            this.context.fillStyle = 'pink';
+            this.context.fillRect(this.appleX * this.gridSize, this.appleY * this.gridSize, this.gridSize - 5, this.gridSize - 5);
+        }
+        onKeyPress(e) {
+            if ((e.keyCode === 37 || e.keyCode === 65) && this.velocityX !== 1) {
+                this.velocityX = -1;
+                this.velocityY = 0;
+            }
+            if ((e.keyCode === 38 || e.keyCode === 87) && this.velocityY !== 1) {
+                this.velocityX = 0;
+                this.velocityY = -1;
+            }
+            if ((e.keyCode === 39 || e.keyCode === 68) && this.velocityX !== -1) {
+                this.velocityX = 1;
+                this.velocityY = 0;
+            }
+            if ((e.keyCode === 40 || e.keyCode === 83) && this.velocityY !== -1) {
+                this.velocityX = 0;
+                this.velocityY = 1;
+            }
+            over = true;
+        }
+    }
+    startScreen.addEventListener('click', start);
+    let snake_game = new SnakeGame();
+    function RefreshGame() {
+        //snake_game = new SnakeGame();
+    }
+    function start() {
+        player.start = true;
+        canvas.classList.remove('hide');
+        startScreen.classList.add('hide');
+        snake_game.init();
+    }
+    function GameOver() {
+        player.start = false;
+        canvas.classList.add('hide');
+        startScreen.classList.remove('hide');
+        RefreshGame();
+        startScreen.classList.remove('hide');
+        startScreen.innerHTML = "<div class='IlonchaRasmi'></div><br /> O'yin tugadi <br /> Sizning yakuniy hisobingiz " + score +
+            "<br /> O'yinni qayta boshlash uchun shu yerni bosing.";
+    }
+</script>

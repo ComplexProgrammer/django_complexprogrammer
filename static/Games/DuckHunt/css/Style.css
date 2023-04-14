@@ -1,0 +1,127 @@
+﻿body.bodyClass {
+    margin: 0;
+    padding: 0;
+    /*cursor: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/9632/happy.png"), auto;*/
+    cursor: crosshair;
+    overflow: hidden;
+}
+    body.bodyClass:before {
+        content: '';
+        display: block;
+        position: fixed;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        background: url('../Images/bg.png') repeat-x bottom left;
+        background-size:100% 100%;
+    }
+    div.bodyClass:after {
+        overflow: hidden;
+    }
+    @keyframes duckfly {
+        0% {
+            left: 110%;
+            top: 50%;
+        }
+        25% {
+            left: 75%;
+            top: 10%;
+        }
+        50% {
+            left: 50%;
+            top: 30%;
+        }
+        75% {
+            left: 30%;
+            top: 10%;
+        }
+        100% {
+            left: -10%;
+            top: 50%;
+        }
+    }
+.shoot_check + .duck {
+    position: absolute;
+    left: -100px;
+    z-index: 1;
+    width: 70px;
+    height: 70px;
+    display: block;
+    /*z-index: 5;*/
+    transform: translate(-50%,-50%);
+    background: url('../Images/duck9.png') no-repeat;
+    background-size: 100% 100%;
+}
+.shoot_check:checked + .duck {
+    opacity: 0;
+    transition: 0.5s;
+    transform: rotate(120deg);
+    transform-origin: 60%;
+    /*z-index: -5;*/
+}
+.duck:nth-last-of-type(1) {
+    animation: duckfly 10s linear 1s infinite;
+    cursor: crosshair;
+}
+.duck:nth-last-of-type(2) {
+    animation: duckfly 10s linear 2s infinite;
+    cursor: crosshair;
+}
+.duck:nth-last-of-type(3) {
+    animation: duckfly 30s linear 3s infinite;
+    cursor: crosshair;
+}
+.duck:nth-last-of-type(4) {
+    animation: duckfly 40s linear 4s infinite;
+    cursor: crosshair;
+}
+.duck:nth-last-of-type(5) {
+    animation: duckfly 50s linear 5s infinite;
+    cursor: crosshair;
+}
+.duck:nth-last-of-type(6) {
+    animation: duckfly 60s linear 6s infinite;
+    cursor: crosshair;
+}
+
+.duck:nth-last-of-type(7) {
+    animation: duckfly 70s linear 7s infinite;
+    cursor: crosshair;
+}
+
+.duck:nth-last-of-type(8) {
+    animation: duckfly 80s linear 8s infinite;
+    cursor: crosshair;
+}
+
+.duck:nth-last-of-type(9) {
+    animation: duckfly 90s linear 9s infinite;
+    cursor: crosshair;
+}
+
+.duck:nth-last-of-type(10) {
+    animation: duckfly 100s linear 10s infinite;
+    cursor: crosshair;
+}
+.score {
+    position: absolute;
+    bottom: 0;
+    background-color: #dadada;
+    /*width: 100%;*/
+    z-index: 2;
+    text-align: center;
+    font-size: 30px;
+    overflow: hidden;
+}
+    .score:after {
+        content: counter(score);
+        display: inline-block;
+    }
+    .score:before {
+        content: 'Score : ';
+        display: inline-block;
+        margin-right: 10px;
+    }
+.shoot_check:checked {
+    counter-increment: score;
+}

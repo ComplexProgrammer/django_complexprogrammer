@@ -21,7 +21,7 @@ import urllib3
 import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
-from projects.models import AvtoTest, Project
+from projects.models import AvtoTest, IsService, Project
 # from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
 import skvideo
 import skvideo.io
@@ -47,7 +47,10 @@ if not opts['run_local']:
     from video_api import api_request
 
 def base(request):
-    services=Project.services.all()
+    class Status():
+        Draft = 0, "Draft"
+        Active = 1, "Active"
+    services=Project.objects.filter(status=1, is_service=True).values()
     projects=Project.actives.all()
     context={
         'services': services,
@@ -78,7 +81,7 @@ def convert_bytes_to_image(img_bytes):
 
     return image
 
-# def cartoonize(request):
+def cartoonize(request):
     if request.method == 'POST':
         try:
             if request.files.get('image'):
@@ -609,6 +612,38 @@ def sitemap(request):
         time.sleep(3)
         remove_file_(str(settings.BASE_DIR)+'\\sitemap.xml')
     return render(request, 'projects/sitemap.html')
+
+def snake(request):
+    return render(request, 'projects/snake.html')
+
+def snake2(request):
+    return render(request, 'projects/snake2.html')
+
+def car(request):
+    return render(request, 'projects/car.html')
+
+def duckhunt(request):
+    return render(request, 'projects/duckhunt.html')
+
+def motorcycle(request):
+    return render(request, 'projects/motorcycle.html')
+
+def bubbleshooter(request):
+    return render(request, 'projects/bubbleshooter.html')
+
+def pingpong(request):
+    return render(request, 'projects/pingpong.html')
+
+def tictactoe(request):
+    return render(request, 'projects/tictactoe.html')
+
+def tetris(request):
+    return render(request, 'projects/tetris.html')
+
+
+
+
+
 
 def projects(request):
     projects=Project.actives.all()
