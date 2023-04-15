@@ -147,4 +147,5 @@ UPLOAD_FOLDER_VIDEOS = STATIC_URL+'uploaded_videos/'
 CARTOONIZED_FOLDER = STATIC_URL+'cartoonized_images/'
 WRITE_BOX_CARTOONIZER = STATIC_URL+'white_box_cartoonizer/'
 
-STATICFILES_STORAGE='whitenoise.storage.CompressedStaticFilesStorage'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
