@@ -121,22 +121,28 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = '/home/complex1/complexprogrammer.uz/django/staticfiles'
-STATICFILES_DIRS = (
+if DEBUG == True:
+    STATICFILES_DIRS=[BASE_DIR / 'static', BASE_DIR / 'media']
+    STATIC_ROOT=BASE_DIR / 'staticfiles'
+    MEDIA_ROOT=BASE_DIR / 'media'
+else:
+    STATICFILES_DIRS = (
                         '/home/complex1/complexprogrammer.uz/django/static',
                         '/home/complex1/complexprogrammer.uz/django/media',
                    )
-# STATIC_ROOT=BASE_DIR / 'staticfiles'
-# STATICFILES_DIRS=[BASE_DIR / 'static', BASE_DIR / 'media']
+    STATIC_ROOT = '/home/complex1/complexprogrammer.uz/django/staticfiles'
+    MEDIA_ROOT='/home/complex1/complexprogrammer.uz/django/media'
+STATIC_URL = '/static/'
+
+
+
 STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 MEDIA_URL='/media/'
-MEDIA_ROOT='/home/complex1/complexprogrammer.uz/django/media'
-# MEDIA_ROOT=BASE_DIR / 'media'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
