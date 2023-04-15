@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # ALLOWED_HOSTS =  ['*']
-ALLOWED_HOSTS =  ['complexprogrammer.uz', '127.0.0.1', 'localhost', '89.249.63.162']
+ALLOWED_HOSTS =  ['complexprogrammer.uz', 'www.complexprogrammer.uz', '127.0.0.1', 'localhost', '162.55.134.175']
 
 
 # Application definition
