@@ -449,6 +449,17 @@ def GetSavol(request):
     # qs_json = serializers.serialize('json', qs)
     # return HttpResponse(qs_json, content_type='application/json')
 
+
+def GetBilet(request):
+    arr=[]
+    for i in range(1, 109):
+        context={
+            'bilet': i
+        }
+        arr.append(context)
+    print(arr)
+    return JsonResponse(list(arr), safe=False) 
+
 def exchangerates(request):
     url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
     http = urllib3.PoolManager()

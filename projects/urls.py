@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GetChangeTextData, GetSavol, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, projects, project_item, instagram_downloader_, sitemap, snake, snake2, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
+from .views import GetBilet, GetChangeTextData, GetSavol, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, projects, project_item, instagram_downloader_, sitemap, snake, snake2, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
 
 urlpatterns=[
     path('', base, name='base'),
@@ -12,6 +12,7 @@ urlpatterns=[
     path('avtotest/', avtotest, name='avtotest'),
     path('avtotest/<int:bilet>/', avtotest_item, name='avtotest'),
     path('GetSavol/', GetSavol, name='GetSavol'),
+    path('GetBilet/', GetBilet, name='GetBilet'),
     path('exchangerates/', exchangerates, name='exchangerates'),
     path('changetext/', changetext, name='changetext'),
     path('GetChangeTextData/<str:text>', GetChangeTextData, name='GetChangeTextData'), # type: ignore
