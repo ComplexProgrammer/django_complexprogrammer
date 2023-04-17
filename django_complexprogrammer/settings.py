@@ -133,14 +133,14 @@ else:
     STATIC_ROOT = '/home/complex1/complexprogrammer.uz/django/staticfiles'
     MEDIA_ROOT='/home/complex1/complexprogrammer.uz/django/media'
 STATIC_URL = '/static/'
-
+MEDIA_URL='/media/'
 
 
 STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-MEDIA_URL='/media/'
+
 
 
 # Default primary key field type
