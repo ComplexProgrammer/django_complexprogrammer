@@ -442,8 +442,11 @@ def avtotest_item(request, bilet):
 
 
 def GetSavol(request):
-    bilet=request.GET['bilet']
-    avtotest=AvtoTest.objects.filter(bilet=bilet).values()
+    bilet = request.GET.get('bilet', False);
+    if bilet == False:
+        avtotest=AvtoTest.objects.all().values()
+    else:
+        avtotest=AvtoTest.objects.filter(bilet=bilet).values()
     return JsonResponse(list(avtotest), safe=False) 
     # qs = AvtoTest.objects.filter(bilet=bilet)
     # qs_json = serializers.serialize('json', qs)

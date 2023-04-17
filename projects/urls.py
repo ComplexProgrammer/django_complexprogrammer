@@ -11,6 +11,7 @@ urlpatterns=[
     path('imagecompare/', ImageCompare, name='imagecompare'), # type: ignore
     path('avtotest/', avtotest, name='avtotest'),
     path('avtotest/<int:bilet>/', avtotest_item, name='avtotest'),
+    path('static/avtotest/<str>', tetris, name='avtotest'),
     path('GetSavol/', GetSavol, name='GetSavol'),
     path('GetBilet/', GetBilet, name='GetBilet'),
     path('exchangerates/', exchangerates, name='exchangerates'),
