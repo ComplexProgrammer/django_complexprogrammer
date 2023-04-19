@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GetBilet, GetChangeTextData, GetSavol, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, projects, project_item, instagram_downloader_, sitemap, snake, snake2, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
+from .views import GetBilet, GetChangeTextData, GetSavol, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, send_adstxt, send_bing_site_auth, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
 
 urlpatterns=[
     path('', base, name='base'),
@@ -29,6 +29,17 @@ urlpatterns=[
     path('pingpong/', pingpong, name='pingpong'),
     path('tictactoe/', tictactoe, name='tictactoe'),
     path('tetris/', tetris, name='tetris'),
+    path('terms/', terms, name='terms'),
+    path('privacy/', privacy, name='privacy'),
+    path('yandex_6bd5e2cc7d84e7b1.html/', send_yandex_verification, name='send_yandex_verification'),
+    path('googleed00602540a61448.html/', send_google_verification, name='send_google_verification'),
+    path('zen_7l9bCOKi66HKyY4ilLYmulKUQTlrZLJrS3HSjTiMhq0GoD4ap8COxE7Bjw1oYf26.html/', send_zen_verification, name='send_zen_verification'),
+    path('sitemap.xml/', send_sitemap, name='send_sitemap'),
+    path('BingSiteAuth.xml/', send_bing_site_auth, name='send_bing_site_auth'),
+    path('rss.xml/', send_rss, name='send_rss'),
+    path('app-ads.txt/', send_adstxt, name='send_adstxt'),
+    path('robots.txt/', send_robots, name='send_robots'),
+    
     path('projects/', projects, name='projects'),
     path('project/<int:id>/', project_item, name='item')
 ]

@@ -654,7 +654,53 @@ def tictactoe(request):
 def tetris(request):
     return render(request, 'projects/tetris.html')
 
+def terms(request):
+    return render(request, 'terms.html')
 
+def privacy(request):
+    return render(request, 'privacy.html')
+
+def send_yandex_verification(request):
+    temp = open('templates/yandex_6bd5e2cc7d84e7b1.html', 'rb')
+    response = FileResponse(temp)
+    return response
+
+def send_google_verification(request):
+    temp = open('templates/googleed00602540a61448.html', 'rb')
+    response = FileResponse(temp)
+    return response
+
+def send_zen_verification(request):
+    temp = open('templates/zen_7l9bCOKi66HKyY4ilLYmulKUQTlrZLJrS3HSjTiMhq0GoD4ap8COxE7Bjw1oYf26.html', 'rb')
+    response = FileResponse(temp)
+    return response
+
+
+
+def send_sitemap(request):
+    temp = open('static/sitemap.xml', 'rb')
+    response = FileResponse(temp)
+    return response
+
+def send_bing_site_auth(request):
+    temp = open('static/BingSiteAuth.xml', 'rb')
+    response = FileResponse(temp)
+    return response
+
+def send_rss(request):
+    temp = open('static/rss.xml', 'rb')
+    response = FileResponse(temp)
+    return response
+
+def send_adstxt(request):
+    temp = open('static/app-ads.txt', 'rb')
+    response = FileResponse(temp)
+    return response
+
+def send_robots(request):
+    temp = open('static/robots.txt', 'rb')
+    response = FileResponse(temp)
+    return response
 
 
 
