@@ -14,7 +14,6 @@ import os
 from pathlib import Path
 from decouple import config
 import yaml
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'projects',
     'whitenoise.runserver_nostatic',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +155,7 @@ WRITE_BOX_CARTOONIZER = STATIC_URL+'white_box_cartoonizer/'
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# SESSION_COOKIE_SECURE = False
+# CSRF_COOKIE_SECURE = False
+# SECURE_SSL_REDIRECT = False
