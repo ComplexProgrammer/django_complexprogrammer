@@ -121,6 +121,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+STATIC_URL = '/static/'
+MEDIA_URL='/media/'
+STATICFILES_DIRS=[BASE_DIR / 'static', BASE_DIR / 'media']
+STATIC_ROOT=BASE_DIR / 'staticfiles'
+MEDIA_ROOT=BASE_DIR / 'media'
 # if DEBUG == True:
 #     STATICFILES_DIRS=[BASE_DIR / 'static', BASE_DIR / 'media']
 #     STATIC_ROOT=BASE_DIR / 'staticfiles'
@@ -132,11 +137,7 @@ USE_TZ = True
 #                    )
 #     STATIC_ROOT = '/home/complex1/complexprogrammer.uz/django/staticfiles'
 #     MEDIA_ROOT='/home/complex1/complexprogrammer.uz/django/media'
-STATICFILES_DIRS=[BASE_DIR / 'static', BASE_DIR / 'media']
-STATIC_ROOT=BASE_DIR / 'staticfiles'
-MEDIA_ROOT=BASE_DIR / 'media'
-STATIC_URL = '/static/'
-MEDIA_URL='/media/'
+
 
 
 STATICFILES_FINDERS=[
