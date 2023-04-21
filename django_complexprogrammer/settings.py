@@ -134,7 +134,9 @@ else:
     MEDIA_ROOT='/home/complex1/complexprogrammer.uz/django/media'
 STATIC_URL = '/static/'
 MEDIA_URL='/media/'
-
+STATICFILES_DIRS=[BASE_DIR / 'static', BASE_DIR / 'media']
+STATIC_ROOT=BASE_DIR / 'staticfiles'
+MEDIA_ROOT=BASE_DIR / 'media'
 
 STATICFILES_FINDERS=[
     'django.contrib.staticfiles.finders.FileSystemFinder',
