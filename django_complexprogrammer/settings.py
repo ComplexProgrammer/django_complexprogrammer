@@ -73,7 +73,13 @@ TEMPLATES = [
         },
     },
 ]
-
+TEMPLATE_LOADERS = (
+    ('django_mobile.loader.CachedLoader', (
+          'django_mobile.loader.Loader',
+          'django.template.loaders.filesystem.Loader',
+          'django.template.loaders.app_directories.Loader',
+    )),
+)
 WSGI_APPLICATION = 'django_complexprogrammer.wsgi.application'
 
 
