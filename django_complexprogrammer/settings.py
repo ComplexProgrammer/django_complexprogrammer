@@ -27,6 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+# if request.device.is_mobile:
 # ALLOWED_HOSTS =  ['*']
 ALLOWED_HOSTS =  ['complexprogrammer.uz', 'www.complexprogrammer.uz', 'complexprogrammer-dev.uz', 'www.complexprogrammer-dev.uz', '127.0.0.1', 'localhost']
 
@@ -43,11 +44,13 @@ INSTALLED_APPS = [
     'projects',
     'whitenoise.runserver_nostatic',
     'django_extensions',
+    'mobiledetect',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'mobiledetect.middleware.DetectMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -73,13 +76,6 @@ TEMPLATES = [
         },
     },
 ]
-TEMPLATE_LOADERS = (
-    ('django_mobile.loader.CachedLoader', (
-          'django_mobile.loader.Loader',
-          'django.template.loaders.filesystem.Loader',
-          'django.template.loaders.app_directories.Loader',
-    )),
-)
 WSGI_APPLICATION = 'django_complexprogrammer.wsgi.application'
 
 

@@ -48,6 +48,10 @@ if not opts['run_local']:
     from video_api import api_request
 
 def base(request):
+    if request.device.get('is_mobile'):
+        is_mobile = True
+    else:
+        is_mobile = False
     class Status():
         Draft = 0, "Draft"
         Active = 1, "Active"
@@ -55,7 +59,8 @@ def base(request):
     projects=Project.actives.all()
     context={
         'services': services,
-        'projects': projects
+        'projects': projects,
+        'is_mobile': is_mobile,
     }
     return render(request, "base.html", context=context)
 
