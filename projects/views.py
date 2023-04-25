@@ -523,7 +523,8 @@ def changetext(request):
         return HttpResponse(text)
     return render(request, 'projects/changetext.html')
 
-def GetChangeTextData(request, text):
+def GetChangeTextData(request):
+    text = request.GET.get('text', None);
     if text is None:
         return ''
     characters = [["A", "А"], ["B", "Б"], ["D", "Д"], ["E", "Е"], ["F", "Ф"], ["G", "Г"], ["H", "Ҳ"], ["I", "И"],

@@ -95,9 +95,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         $scope.ChangeText = function (text) {
             if(text){
                 $http({
-                    method: 'POST',
-                    {% comment %} url: "/GetChangeTextData?text=" + text, {% endcomment %}
-                    url: "/GetChangeTextData/" + text,
+                    method: 'GET',
+                    url: "/GetChangeTextData?text=" + text,
                     dataType: "json"
                 }).then(function (d) {
                     $scope.new_text = d.data;
