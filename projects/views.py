@@ -26,6 +26,7 @@ from projects.models import AvtoTest, IsService, Project
 import skvideo
 import skvideo.io
 from PIL import Image
+import pyttsx3
 from django.contrib import messages
 from django.core import serializers
 from projects import youtube_downloader
@@ -326,34 +327,37 @@ def coins(request):
 def hash(h, key):
     return h[key]
 
+def GetTranslateLanguages(request):
+    print(googletrans.LANGUAGES)
+    return JsonResponse({'data': googletrans.LANGUAGES}, safe=False) 
+ 
+def TextToSpeech(request):
+    text = request.GET.get('text', None);
+    text_speech = pyttsx3.init()
+    text_speech.say(text)
+    text_speech.runAndWait()
+    return {"data": text}
+
+def GetTranslateResult(request):
+    text = request.GET.get('text', None);
+    src = request.GET.get('src', None);
+    dest = request.GET.get('dest', None);
+    print(src)
+    print(dest)
+    print(text)
+    translator = Translator()
+
+    # result = translator.translate(text)
+    result = translator.translate(text, src=src, dest=dest)
+    print(result.src)
+    print(result.dest)
+    print(result.origin)
+    print(result.text)
+    print(result.pronunciation)
+    return JsonResponse({'data': result.text}, safe=False) 
+
 def C0mplexTranslate(request):
-    context={
-        'data': googletrans.LANGUAGES
-    }
-    if request.method=='POST':
-        text = request.POST['text']
-        src = request.POST['src']
-        dest = request.POST['dest']
-        print(src)
-        print(dest)
-        print(text)
-        translator = Translator()
-        print(context.get('data').get(src))
-        print(context.get('data').get(dest))
-        # result = translator.translate(text)
-        result = translator.translate(text, src=context.get('data').get(src), dest=context.get('data').get(dest)) # type: ignore
-        print(result.src)
-        print(result.dest)
-        print(result.origin)
-        print(result.text)
-        print(result.pronunciation)
-        context={
-            'data': result.text
-        }
-        return render(request, 'projects/translate.html', context=context)
-    
-    print(context.get('data'))
-    return render(request, 'projects/translate.html', context=context)
+    return render(request, 'projects/translate.html')
 
 def ImageCompare(request):
     if request.method == 'GET':

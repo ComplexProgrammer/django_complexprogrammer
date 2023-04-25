@@ -29,7 +29,8 @@
 <script>window.yaContextCb=window.yaContextCb||[]</script>
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 <meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
+     crossorigin="anonymous"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
     <script>
@@ -70,30 +71,101 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       const analytics = getAnalytics(app);
     </script>
     <script src="https://kit.fontawesome.com/f7eccd980a.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
     <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
-<style>
-    body {
-    background-color: #212121;
-    color: white;
-}
-</style>
+    <style>
+        body {
+            background-color: #212121;
+            color: white;
+        }
+    </style>
+    <script>
+        var app = angular.module("App", []);
+        app.controller("Translate", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
+            var text = document.getElementById('text');
+            text.focus();
+            $scope.ShowData = false;
+            $scope.src = "english";
+            $scope.dest = "uzbek";
+            $http({
+                method: 'GET',
+                url: "/GetTranslateLanguages",
+                }).then(function (d) {
+                    console.log(d.data.data);
+                    $scope.Languages=d.data.data;
+                }, function (error) {
+                    alertify.error("Xatolik yuz berdi");
+                    console.log("error in GetTranslateLanguages -> ", error);
+            });
+            $scope.speech=function(text){
+                $http({
+                    method: 'POST',
+                    url: "/TextToSpeech?text="+text,
+                    }).then(function (d) {
+                        console.log(d.data.data);
+                    }, function (error) {
+                        console.log("error in TextToSpeech -> ", error);
+                });
+            }
+            $scope.replace=function(){
+                $scope.src1=$scope.src;
+                $scope.src=$scope.dest;
+                $scope.dest=$scope.src1;
+                $scope.text1=$scope.text;
+                $scope.text=$scope.result;
+                $scope.result=$scope.text1;
+            }
+            $scope.getResult=function() {
+                $scope.result='';
+                document.getElementById('hh').className= "modal-backdrop fade show";
+                document.getElementById('conn').style.visibility = "visible";
+                $http({
+                    method: 'GET',
+                    url: "/GetTranslateResult?text="+$scope.text+"&src="+$scope.src+"&dest="+$scope.dest,
+                }).then(function (d) {
+                    $scope.ShowData = true;
+                    console.log(d.data.data);
+                    $scope.Data = d.data.data;
+                    $scope.result=$scope.Data;
+                    alertify.success("Natija tayyor");
+                    document.getElementById('hh').className= "fade hide";
+                    document.getElementById('conn').style.visibility = "hidden";
+                }, function (error) {
+                    $scope.ShowData = false;
+                    alertify.error("Xatolik yuz berdi");
+                    console.log("error in GetTranslateResult -> ", error);
+                    document.getElementById('hh').className= "fade hide";
+                    document.getElementById('conn').style.visibility = "hidden";
+                });
+            };
+        }]);
+    </script>
+
     <title>Translate</title>
 </head>
-<body>
+<body ng-app="App" ng-controller="Translate">
+<!-- Yandex.RTB R-A-1963742-1 -->
+<div id="yandex_rtb_R-A-1963742-1"></div>
+<script>window.yaContextCb.push(()=>{
+  Ya.Context.AdvManager.render({
+    renderTo: 'yandex_rtb_R-A-1963742-1',
+    blockId: 'R-A-1963742-1'
+  })
+})</script>
 <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
     <img src="/static/img/buffering.gif" />
 </div>
 <input id="hh" type="text" class="fade hide" />
+{% verbatim %}
 <div class="container" >
     <div class="C0mplexButton float-end">
         <a href="/#services">
@@ -122,59 +194,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
         </div>
     </div>
-    <form method="post" id="form">
-        {% csrf_token %}
-        <div class="row text-center">
-            <div class="col">
-                <select class="form-select" id="src" name="src" required onChange="getResult()">
-                    <!-- <option  value="" selected="selected">---SELECT---</option> -->
-                    {% for item in data %}
-                    <option value="{{item}}">
-                        {{ item }} 
-                        <!-- {{data}}.{{item}} -->
-                    </option>
-                    {% endfor %}
-                  </select>
-            </div>
-    <!--        <div class="col-1">-->
-    <!--                <button class="btn btn-light" ng-click="replace()"><img src="/static/icons/left-right.svg"></button>-->
-    <!--        </div>-->
-            <div class="col">
-                <select class="form-select" id="dest" name="dest" required onChange="getResult()">
-                    {% for item in data %}
-                    <option value="{{item}}">{{item}}</option>
-                    {% endfor %}
-                  </select>
-            </div>
+    <div class="row text-center">
+        <div class="col">
+            <select class="form-select" ng-change="getResult()" required name="src" ng-model="src" ng-options="item for item in Languages"></select>
         </div>
-        <div class="row">
-            <div class="col">
-                <textarea name="text" id="text" class="form-control" cols="5" rows="15"></textarea>
-            </div>
-            <div class="col">
-                <textarea name="result" class="form-control" cols="5" rows="15" disabled></textarea>
-            </div>
+<!--        <div class="col-1">-->
+<!--                <button class="btn btn-light" ng-click="replace()"><img src="/static/icons/left-right.svg"></button>-->
+<!--        </div>-->
+        <div class="col">
+            <select class="form-select" ng-change="getResult()" required name="dest" ng-model="dest" ng-options="item for item in Languages"></select>
         </div>
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-light" style="width:50px" ng-click="speech(text)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
-            </div>
-            <div class="col">
-                <button class="btn btn-light float-end" style="width:50px" ng-click="speech(result)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
-            </div>
-    
+    </div>
+    <div class="row">
+        <div class="col">
+            <textarea ng-model="text" id="text" class="form-control" cols="5" rows="15">
+
+            </textarea>
         </div>
-        <div class="C0mplexButton Success">
-            <a href="javascript:;" onclick="document.getElementById('form').submit();" style="width:100%;text-align:center">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <i class="fa-solid fa-rotate"></i>
-                Tarjima qilish
-            </a>
+        <div class="col">
+            <textarea ng-model="result" class="form-control" cols="5" rows="15" disabled>
+
+            </textarea>
         </div>
-    </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-light" style="width:50px" ng-click="speech(text)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
+        </div>
+        <div class="col">
+            <button class="btn btn-light float-end" style="width:50px" ng-click="speech(result)"><img width="100%" src="/static/icons/icons9-voice-80.png"></button>
+        </div>
+
+    </div>
+    <div class="C0mplexButton Success">
+        <a href="#" ng-click="getResult()" style="width:100%;text-align:center">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <i class="fa-solid fa-rotate"></i>
+            Tarjima qilish
+        </a>
+    </div>
     <br />
     <div class="row">
        <div class="col">
@@ -475,5 +536,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
        </div>
     </div>
 </div>
+{% endverbatim %}
 </body>
 </html>

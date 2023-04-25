@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GetBilet, GetChangeTextData, GetSavol, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, send_adstxt, send_bing_site_auth, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
+from .views import GetBilet, GetChangeTextData, GetSavol, GetTranslateLanguages, GetTranslateResult, TextToSpeech, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, send_adstxt, send_bing_site_auth, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
 
 urlpatterns=[
     path('', base, name='base'),
@@ -7,6 +7,9 @@ urlpatterns=[
     path('instagram-downloader/', instagram_downloader_, name='instagram_downloader_' ), # type: ignore
     path('youtube_downloader/', youtube_downloader_, name='youtube_downloader'), # type: ignore
     path('coins/', coins, name='coins'),
+    path('GetTranslateLanguages/', GetTranslateLanguages, name='GetTranslateLanguages'),
+    path('TextToSpeech/', TextToSpeech, name='TextToSpeech'),
+    path('GetTranslateResult/', GetTranslateResult, name='GetTranslateResult'),
     path('translate/', C0mplexTranslate, name='translate'),
     path('imagecompare/', ImageCompare, name='imagecompare'), # type: ignore
     path('avtotest/', avtotest, name='avtotest'),
