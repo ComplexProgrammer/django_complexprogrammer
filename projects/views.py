@@ -479,6 +479,18 @@ def exchangerates(request):
     }
     return render(request, 'projects/exchangerates.html', context=context)
 
+def GetExchangeRates(request):
+    url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
+    http = urllib3.PoolManager()
+    r = http.request('GET', url)
+    print(r.status)
+    # r = urllib3.request.urlopen(url)
+    # data = r.read()
+    context={
+        "data": json.loads(r.data)
+    }
+    return JsonResponse(context, safe=False) 
+
 def changetext(request):
     if request.method == 'POST':
         text = request.POST['text']

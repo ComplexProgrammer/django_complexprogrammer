@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GetBilet, GetChangeTextData, GetSavol, GetTranslateLanguages, GetTranslateResult, TextToSpeech, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, send_adstxt, send_bing_site_auth, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
+from .views import GetExchangeRates, GetBilet, GetChangeTextData, GetSavol, GetTranslateLanguages, GetTranslateResult, TextToSpeech, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, send_adstxt, send_bing_site_auth, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
 
 urlpatterns=[
     path('', base, name='base'),
@@ -18,6 +18,7 @@ urlpatterns=[
     path('GetSavol/', GetSavol, name='GetSavol'),
     path('GetBilet/', GetBilet, name='GetBilet'),
     path('exchangerates/', exchangerates, name='exchangerates'),
+    path('GetExchangeRates/', GetExchangeRates, name='GetExchangeRates'),
     path('changetext/', changetext, name='changetext'),
     path('GetChangeTextData/', GetChangeTextData, name='GetChangeTextData'), # type: ignore
     path('ip/', ip, name='ip'),
