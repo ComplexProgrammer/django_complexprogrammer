@@ -18,13 +18,13 @@ from instaloader import Instaloader, Profile
 # from pysitemap import crawler
 import numpy as np
 import urllib3
-import yaml
+# import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
 from projects.models import AvtoTest, IsService, Project
 # from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
-import skvideo
-import skvideo.io
+# import skvideo
+# import skvideo.io
 from PIL import Image
 import pyttsx3
 from django.contrib import messages
@@ -34,18 +34,18 @@ from projects import youtube_downloader
 # from projects.cartoonize.video_api import api_request
 
 # skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
-with open('projects/cartoonize/config.yaml', 'r') as fd:
-    opts = yaml.safe_load(fd)
+# with open('projects/cartoonize/config.yaml', 'r') as fd:
+#     opts = yaml.safe_load(fd)
 # if opts['colab-mode']:
 #     from flask_ngrok import run_with_ngrok
 #     run_with_ngrok(app)
 
-if not opts['run_local']:
-    if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
-        from gcloud_utils import upload_blob, generate_signed_url, delete_blob, download_video
-    else:
-        raise Exception("GOOGLE_APPLICATION_CREDENTIALS not set in environment variables")
-    from video_api import api_request
+# if not opts['run_local']:
+#     if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
+#         from gcloud_utils import upload_blob, generate_signed_url, delete_blob, download_video
+#     else:
+#         raise Exception("GOOGLE_APPLICATION_CREDENTIALS not set in environment variables")
+#     from video_api import api_request
 
 def base(request):
     if request.device.get('is_mobile'):
@@ -87,7 +87,7 @@ def convert_bytes_to_image(img_bytes):
 
     return image
 
-def cartoonize(request):
+# def cartoonize(request):
     if request.method == 'POST':
         try:
             if request.files.get('image'):
