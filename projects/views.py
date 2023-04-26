@@ -341,7 +341,7 @@ def TextToSpeech(request):
     text_speech = pyttsx3.init()
     text_speech.say(text)
     text_speech.runAndWait()
-    return {"data": text}
+    return HttpResponse(text)
 
 def GetTranslateResult(request):
     text = request.GET.get('text', None);

@@ -108,10 +108,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
             $scope.speech=function(text){
                 $http({
-                    method: 'POST',
+                    method: 'GET',
                     url: "/TextToSpeech?text="+text,
                     }).then(function (d) {
-                        console.log(d.data.data);
+                        console.log(d.data);
                     }, function (error) {
                         console.log("error in TextToSpeech -> ", error);
                 });
