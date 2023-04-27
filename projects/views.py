@@ -290,7 +290,7 @@ def youtube_downloader_(request):
     if request.method == 'GET':
         return render(request, 'projects/youtube_downloader.html')
     if request.method == 'POST':
-        json_data = request.json
+        json_data = json.loads(request.body)
         choice = json_data['choice']
         quality = json_data['quality']  # low, medium, high, very high
         link = json_data['link']
@@ -306,18 +306,18 @@ def youtube_downloader_(request):
                     filename = youtube_downloader.download_video(link, quality)
                     # result = app.root_path.replace('website', '') + filename
                     # print(result)
-                    return {"result": filename}
+                    return JsonResponse({'result': filename}, safe=False)
             elif choice == 3:
                 print("Yuklab olinmoqda...")
                 filename = youtube_downloader.download_video(link, 'low')
                 print("Oʻzgartirilmoqda...")
                 youtube_downloader.convert_to_mp3(filename)
                 # result = app.root_path.replace('website', '') + filename.replace('.mp4', '.mp3')
-                return {"result": filename}
+                return JsonResponse({'result': filename}, safe=False)
             else:
                 print("Yaroqsiz kiritish! Tugatilmoqda...")
         else:
-            return {"result": "0"}
+            return JsonResponse({'result': "0"}, safe=False)
 
 def coins(request):
     url = "https://api.minerstat.com/v2/coins"

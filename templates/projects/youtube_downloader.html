@@ -8,7 +8,7 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "e815a36ng3");
 </script>
-        <!-- Yandex.Metrika counter -->
+<!-- Yandex.Metrika counter -->
 <script type="text/javascript" >
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
@@ -80,101 +80,195 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/391652c176.js" crossorigin="anonymous"></script>
     <title>Youtube Downloader</title>
     <style>
         body {
-    background-color: #212121;
-    color: white;
-}
+          background-color: #212121;
+          color: white;
+      }
     </style>
+    <script>
+      var app = angular.module("App", []);
+      app.controller("YoutubeDownloader", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
+            $scope.convert_choice = 1;
+            $scope.convert_quality = "low";
+            $scope.UrlTo = function(choice){
+                $scope.convert_choice = choice;
+                if(choice==1){
+                    document.getElementById('quality-tab').style = "display:visible";
+                }
+                else{
+                    document.getElementById('quality-tab').style = "display:none";
+                }
+            }
+            $scope.Quality = function(quality){
+                $scope.convert_quality = quality
+            }
+            $scope.Paste=function(){
+                navigator.clipboard.readText().then((clipText) => ($scope.link = clipText, document.getElementById('link').value = clipText ));
+            }
+            $scope.youtube_downloader = function(){
+                document.getElementById('conn').style.visibility = "visible";
+                document.getElementById('hh').className= "modal-backdrop fade show";
+                $scope.links = $scope.link.split(",");
+                console.log($scope.link)
+                console.log($scope.links)
+                $scope.model = {
+                    choice:$scope.convert_choice,
+                    quality:$scope.convert_quality,
+                    link:$scope.link,
+                    links:$scope.links
+                }
+                console.dir($scope.model)
+                function getCookie(name) {
+                  let cookieValue = null;
+                  if (document.cookie && document.cookie !== '') {
+                      const cookies = document.cookie.split(';');
+                      for (let i = 0; i < cookies.length; i++) {
+                          const cookie = cookies[i].trim();
+                          // Does this cookie string begin with the name we want?
+                          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                              break;
+                          }
+                      }
+                  }
+                  return cookieValue;
+              }
+              const csrftoken = getCookie('csrftoken');
+              console.log(csrftoken)
+              console.log(document.cookie)
+                $http({
+                    method: 'POST',
+                    url: "/youtube_downloader/",
+                    data: JSON.stringify($scope.model),
+                    headers: {'X-CSRFToken': csrftoken},
+                    dataType: "json"
+                }).then(function (d) {
+                  console.log(d.data)
+                    {% comment %} if(d.data.result=="0"){
+                        alertify.error("Youtube video url manzili kiritilmagan");
+                        document.getElementById('hh').className= "fade hide";
+                        document.getElementById('conn').style.visibility = "hidden";
+                    }
+                    else{
+                        window.location.href = "/send_file?filename="+d.data.result;
+                        setTimeout(function() {
+                            $http({
+                                method: 'POST',
+                                url: "/remove_file?filename="+d.data.result,
+                            }).then(function (d) {
+                                console.log(d.data);
+                                document.getElementById('hh').className= "fade hide";
+                                document.getElementById('conn').style.visibility = "hidden";
+                            }, function (error) {
+                                document.getElementById('hh').className= "fade hide";
+                                document.getElementById('conn').style.visibility = "hidden";
+                                console.log("error in remove_file -> ", error);
+                            });
+                        }, 3000);
+                        alertify.success("Fayl yuklanmoqda...");
+                    } {% endcomment %}
+                }, function (error) {
+                    alertify.error("Xatolik yuz berdi");
+                    document.getElementById('hh').className= "fade hide";
+                    document.getElementById('conn').style.visibility = "hidden";
+                    console.log("error in youtube_downloader -> ", error);
+                });
+            }
+      }]);
+    </script>
 </head>
-<body class="modal-open">
+<body ng-app="App" ng-controller="YoutubeDownloader" class="modal-open">
 <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
     <img src="/static/img/buffering.gif" />
 </div>
 <input id="hh" type="text" class="fade hide" />
+<input type="text" class="fade hide" value="{{csrf_token}}" />
+{%verbatim%}
 <div class="container">
-    <div class="C0mplexButton float-end">
-        <a href="/#services">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            X
-        </a>
-    </div>
-    <div class="row">
-        <div class="col"></div>
-        <div class="col">
-            <img src="/static/img/C0mplex.png" class="img-fluid" alt="...">
-        </div>
-        <div class="col"></div>
-        <div class="col">
-            <img src="/static/img/youtube.png" class="img-fluid" alt="...">
-        </div>
-        <div class="col"></div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="card text-white bg-dark mb-3">
-              <div class="card-header">
-                Youtube Downloader
-                    <a href="https://play.google.com/store/apps/details?id=youtubedownloader.complexprogrammer.uz" target="_blank">
-                        <img src="/static/img/google-play.svg" />
-                    </a>
-              </div>
-              <div class="card-body">
-                    <h5 class="card-title">youtube downloader converter</h5>
-                    <p class="card-text">A simple Website that is able to download YouTube videos or playlists and convert them into MP3.</p>
-                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                      <li class="nav-item" role="presentation">
-                        <button ng-click="UrlTo(1)" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons">video_file</span> .mp4</button>
-                      </li>
-<!--                      <li class="nav-item" role="presentation">-->
-<!--                        <button ng-click="UrlTo(2)" class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Playlist url to mp4s</button>-->
-<!--                      </li>-->
-                      <li class="nav-item" role="presentation">
-                        <button ng-click="UrlTo(3)" class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons">audio_file</span> .mp3</button>
-                      </li>
-                    </ul>
-                    <ul class="nav nav-pills mb-3" id="quality-tab" role="tablist">
-                      <li class="nav-item" role="presentation">
-                        <button ng-click="Quality('low')" class="nav-link text-danger active" id="low" data-bs-toggle="pill" data-bs-target="#low" type="button" role="tab" aria-controls="low" aria-selected="true">low</button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button ng-click="Quality('medium')" class="nav-link text-danger" id="medium" data-bs-toggle="pill" data-bs-target="#medium" type="button" role="tab" aria-controls="medium" aria-selected="false">medium</button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button ng-click="Quality('high')" class="nav-link text-danger" id="high" data-bs-toggle="pill" data-bs-target="#high" type="button" role="tab" aria-controls="high" aria-selected="false">high</button>
-                      </li>
-                      <li class="nav-item" role="presentation">
-                        <button ng-click="Quality('very high')" class="nav-link text-danger" id="very_high" data-bs-toggle="pill" data-bs-target="#very_high" type="button" role="tab" aria-controls="very_high" aria-selected="false">very high</button>
-                      </li>
-                    </ul>
-                    <div class="input-group mb-3">
-                        <input type="text" ng-model="link" id="link" class="form-control" placeholder="Youtube video url" aria-label="Youtube video or playlist url" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
-                        <button class="btn btn-outline-warning" type="button" ng-click="youtube_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
-                    </div>
-              </div>
+  <div class="C0mplexButton float-end">
+      <a href="/#services">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          X
+      </a>
+  </div>
+  <div class="row">
+      <div class="col"></div>
+      <div class="col">
+          <img src="/static/img/C0mplex.png" class="img-fluid" alt="...">
+      </div>
+      <div class="col"></div>
+      <div class="col">
+          <img src="/static/img/youtube.png" class="img-fluid" alt="...">
+      </div>
+      <div class="col"></div>
+  </div>
+  <div class="row">
+      <div class="col">
+          <div class="card text-white bg-dark mb-3">
+            <div class="card-header">
+              Youtube Downloader
+                  <a href="https://play.google.com/store/apps/details?id=youtubedownloader.complexprogrammer.uz" target="_blank">
+                      <img src="/static/img/google-play.svg" />
+                  </a>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <!-- Yandex.RTB R-A-1963742-3 -->
-            <div id="yandex_rtb_R-A-1963742-3"></div>
-            <script>window.yaContextCb.push(()=>{
-              Ya.Context.AdvManager.render({
-                renderTo: 'yandex_rtb_R-A-1963742-3',
-                blockId: 'R-A-1963742-3'
-              })
-            })</script>
-        </div>
-    </div>
+            <div class="card-body">
+                  <h5 class="card-title">youtube downloader converter</h5>
+                  <p class="card-text">A simple Website that is able to download YouTube videos or playlists and convert them into MP3.</p>
+                  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button ng-click="UrlTo(1)" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons">video_file</span> .mp4</button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                      <button ng-click="UrlTo(3)" class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons">audio_file</span> .mp3</button>
+                    </li>
+                  </ul>
+                  <ul class="nav nav-pills mb-3" id="quality-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button ng-click="Quality('low')" class="nav-link text-danger active" id="low" data-bs-toggle="pill" data-bs-target="#low" type="button" role="tab" aria-controls="low" aria-selected="true">low</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button ng-click="Quality('medium')" class="nav-link text-danger" id="medium" data-bs-toggle="pill" data-bs-target="#medium" type="button" role="tab" aria-controls="medium" aria-selected="false">medium</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button ng-click="Quality('high')" class="nav-link text-danger" id="high" data-bs-toggle="pill" data-bs-target="#high" type="button" role="tab" aria-controls="high" aria-selected="false">high</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button ng-click="Quality('very high')" class="nav-link text-danger" id="very_high" data-bs-toggle="pill" data-bs-target="#very_high" type="button" role="tab" aria-controls="very_high" aria-selected="false">very high</button>
+                    </li>
+                  </ul>
+                  <div class="input-group mb-3">
+                      <input type="text" ng-model="link" id="link" class="form-control" placeholder="Youtube video url" aria-label="Youtube video or playlist url" aria-describedby="button-addon2">
+                      <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
+                      <button class="btn btn-outline-warning" type="button" ng-click="youtube_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
+                  </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col">
+          <!-- Yandex.RTB R-A-1963742-3 -->
+          <div id="yandex_rtb_R-A-1963742-3"></div>
+          <script>window.yaContextCb.push(()=>{
+            Ya.Context.AdvManager.render({
+              renderTo: 'yandex_rtb_R-A-1963742-3',
+              blockId: 'R-A-1963742-3'
+            })
+          })</script>
+      </div>
+  </div>
 </div>
+{%endverbatim%}
 </body>
 </html>
