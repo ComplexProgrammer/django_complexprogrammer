@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import GetExchangeRates, GetBilet, GetChangeTextData, GetSavol, GetTranslateLanguages, GetTranslateResult, TextToSpeech, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, send_adstxt, send_bing_site_auth, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
+from .views import GetExchangeRates, GetBilet, GetChangeTextData, GetSavol, GetTranslateLanguages, GetTranslateResult, TextToSpeech, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, remove_file, remove_file_, send_adstxt, send_bing_site_auth, send_file, send_file_, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
 
 urlpatterns=[
     path('', base, name='base'),
+    path('send_file/', send_file, name='send_file'),
+    path('remove_file/', remove_file, name='remove_file'),
     # path('cartoonize/', cartoonize, name='cartoonize' ),
     path('instagram-downloader/', instagram_downloader_, name='instagram_downloader_' ), # type: ignore
     path('youtube_downloader/', youtube_downloader_, name='youtube_downloader'), # type: ignore

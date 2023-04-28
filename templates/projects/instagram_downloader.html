@@ -81,6 +81,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script src="https://kit.fontawesome.com/391652c176.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Instagram Downloader</title>
     <style>
       body {
@@ -88,142 +89,137 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           color: white;
       }
     </style>
+    <script>
+      var app = angular.module("App", []);
+      app.controller("InstagramDownloader", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
+          $scope.Paste=function(){
+              navigator.clipboard.readText().then((clipText) => ($scope.instagram_user_name = clipText, document.getElementById('instagram_user_name').value = clipText ));
+          }
+          function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+        console.log(csrftoken)
+        console.log(document.cookie)
+          $scope.instagram_downloader = function(){
+              document.getElementById('conn').style.visibility = "visible";
+              document.getElementById('hh').className= "modal-backdrop fade show";
+              $scope.model = {
+                  user_name:$scope.instagram_user_name
+              }
+              console.dir($scope.model)
+              $http({
+                  method: 'POST',
+                  url: "/instagram-downloader/",
+                  data: JSON.stringify($scope.model),
+                  headers: {'X-CSRFToken': csrftoken},
+                  dataType: "json"
+              }).then(function (d) {
+                  console.log(d.data);
+                  if(d.data.result=="0"){
+                      alertify.error("Instagram profil nomi kiritilmagan");
+                      document.getElementById('hh').className= "fade hide";
+                      document.getElementById('conn').style.visibility = "hidden";
+                  }
+                  else{
+                      window.location.href = "/send_file?filename="+d.data.result;
+                      setTimeout(function() {
+                          $http({
+                              method: 'GET',
+                              url: "/remove_file?filename="+d.data.result,
+                          }).then(function (d) {
+                              console.log(d.data);
+                              document.getElementById('hh').className= "fade hide";
+                              document.getElementById('conn').style.visibility = "hidden";
+                          }, function (error) {
+                              document.getElementById('hh').className= "fade hide";
+                              document.getElementById('conn').style.visibility = "hidden";
+                              console.log("error in remove_file -> ", error);
+                          });
+                      }, 3000);
+                      alertify.success("Fayl yuklanmoqda...");
+                  }
+              }, function (error) {
+                  alertify.error("Xatolik yuz berdi");
+                  document.getElementById('hh').className= "fade hide";
+                  document.getElementById('conn').style.visibility = "hidden";
+                  console.log("error in instagram_downloader -> ", error);
+              });
+          }
+      }]);
+    </script>
 </head>
 <body ng-app="App" ng-controller="InstagramDownloader" class="modal-open">
-<!-- Yandex.RTB R-A-1963742-1 -->
-<div id="yandex_rtb_R-A-1963742-1"></div>
-<script>window.yaContextCb.push(()=>{
-  Ya.Context.AdvManager.render({
-    renderTo: 'yandex_rtb_R-A-1963742-1',
-    blockId: 'R-A-1963742-1'
-  })
-})</script>
-<div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
-    <img src="/static/img/buffering.gif" />
-</div>
-<input id="hh" type="text" class="fade hide" />
-<div class="container">
-    <div class="C0mplexButton float-end">
-        <a href="/#services">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            X
-        </a>
-    </div>
-    <div class="row">
-        <div class="col"></div>
-        <div class="col">
-            <img src="/static/img/C0mplex.png" class="img-fluid" alt="...">
-        </div>
-        <div class="col"></div>
-        <div class="col">
-            <img src="/static/img/instagram.jpg" class="img-fluid" alt="...">
-        </div>
-        <div class="col"></div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="card text-white bg-dark mb-3">
-              <div class="card-header">
-                Instagram Downloader
+  <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
+      <img src="/static/img/buffering.gif" />
+  </div>
+  <input id="hh" type="text" class="fade hide" />
+  <input type="text" class="fade hide" value="{{csrf_token}}" />
+  {% verbatim %}
+  <div class="container">
+      <div class="C0mplexButton float-end">
+          <a href="/#services">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              X
+          </a>
+      </div>
+      <div class="row">
+          <div class="col"></div>
+          <div class="col">
+              <img src="/static/img/C0mplex.png" class="img-fluid" alt="...">
+          </div>
+          <div class="col"></div>
+          <div class="col">
+              <img src="/static/img/instagram.jpg" class="img-fluid" alt="...">
+          </div>
+          <div class="col"></div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <div class="card text-white bg-dark mb-3">
+                <div class="card-header">
+                  Instagram Downloader
+                </div>
+                <div class="card-body">
+                      <h5 class="card-title">instagram downloader converter</h5>
+                      <p class="card-text">A simple Website that is able to download Instagram posts or tagged.</p>
+                      <div class="input-group mb-3">
+                          <input type="text" ng-model="instagram_user_name" id="instagram_user_name" class="form-control" placeholder="Instagram user name" aria-label="Instagram user name" aria-describedby="button-addon2">
+                          <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
+                          <button class="btn btn-outline-warning" type="button" ng-click="instagram_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
+                      </div>
+                </div>
               </div>
-              <div class="card-body">
-                    <h5 class="card-title">instagram downloader converter</h5>
-                    <p class="card-text">A simple Website that is able to download Instagram posts or tagged.</p>
-                    <form method="post" class="input-group mb-3">
-                        {% csrf_token %}
-                        <input type="text" name="user_name" id="instagram_user_name" class="form-control" placeholder="Instagram user name" aria-label="Instagram user name" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-success" onclick="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
-                        <button class="btn btn-outline-warning" type="submit" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
-                    </form>
-              </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <!-- Yandex.RTB R-A-1963742-3 -->
-            <div id="yandex_rtb_R-A-1963742-3"></div>
-            <script>window.yaContextCb.push(()=>{
-              Ya.Context.AdvManager.render({
-                renderTo: 'yandex_rtb_R-A-1963742-3',
-                blockId: 'R-A-1963742-3'
-              })
-            })</script>
-        </div>
-    </div>
-</div>
-<script>
-  var instagram_user_name=document.getElementById('instagram_user_name').value;
-  function Paste(){
-    navigator.clipboard.readText().then((clipText) => (instagram_user_name = clipText, document.getElementById('instagram_user_name').value = clipText ));
-  }
-  function instagram_downloader(){
-    document.getElementById('conn').style.visibility = "visible";
-            document.getElementById('hh').className= "modal-backdrop fade show";
-            var model = {
-                user_name:instagram_user_name
-            }
-            console.dir(model)
-            // $.ajax({
-            //     url: '/instagram-downloader',
-            //     type: 'POST',
-            //     data: { user_name: instagram_user_name } ,
-            //     contentType: 'application/json; charset=utf-8',
-            //     success: function (response) {
-            //         alert(response.status);
-            //     },
-            //     error: function () {
-            //       alertify.error("Xatolik yuz berdi");
-            //       document.getElementById('hh').className= "fade hide";
-            //       document.getElementById('conn').style.visibility = "hidden";
-            //       console.log("error in instagram_downloader -> ", error);
-            //     }
-            // }); 
-            // $.post("/instagram-downloader",
-            // // {user_name:instagram_user_name},
-            // function(data, status){
-            //   alert("Data: " + data + "\nStatus: " + status);
-            // });
-            // $http({
-            //     method: 'POST',
-            //     url: "/instagram_downloader",
-            //     data: JSON.stringify(model),
-            //     dataType: "json"
-            // }).then(function (d) {
-            //     console.log(d.data);
-            //     if(d.data.result=="0"){
-            //         alertify.error("Instagram profil nomi kiritilmagan");
-            //         document.getElementById('hh').className= "fade hide";
-            //         document.getElementById('conn').style.visibility = "hidden";
-            //     }
-            //     else{
-            //         window.location.href = "/send_file?filename="+d.data.result;
-            //         setTimeout(function() {
-            //             $http({
-            //                 method: 'POST',
-            //                 url: "/remove_file?filename="+d.data.result,
-            //             }).then(function (d) {
-            //                 console.log(d.data);
-            //                 document.getElementById('hh').className= "fade hide";
-            //                 document.getElementById('conn').style.visibility = "hidden";
-            //             }, function (error) {
-            //                 document.getElementById('hh').className= "fade hide";
-            //                 document.getElementById('conn').style.visibility = "hidden";
-            //                 console.log("error in remove_file -> ", error);
-            //             });
-            //         }, 3000);
-            //         alertify.success("Fayl yuklanmoqda...");
-            //     }
-            // }, function (error) {
-            //     alertify.error("Xatolik yuz berdi");
-            //     document.getElementById('hh').className= "fade hide";
-            //     document.getElementById('conn').style.visibility = "hidden";
-            //     console.log("error in instagram_downloader -> ", error);
-            // });
-  }
-</script>
-</body>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <!-- Yandex.RTB R-A-1963742-3 -->
+              <div id="yandex_rtb_R-A-1963742-3"></div>
+              <script>window.yaContextCb.push(()=>{
+                Ya.Context.AdvManager.render({
+                  renderTo: 'yandex_rtb_R-A-1963742-3',
+                  blockId: 'R-A-1963742-3'
+                })
+              })</script>
+          </div>
+      </div>
+  </div>
+  {% endverbatim %}
+  </body>
 </html>

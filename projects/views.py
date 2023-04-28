@@ -256,7 +256,8 @@ def instagram_downloader_(request):
     if request.method == 'GET':
         return render(request, 'projects/instagram_downloader.html')
     if request.method == 'POST':
-        user_name = request.POST['user_name']
+        json_data = json.loads(request.body)
+        user_name = json_data['user_name']
         if user_name is None:
             context={
                         'result': '0'
@@ -264,10 +265,11 @@ def instagram_downloader_(request):
         else:
             result = save_insta_collection(user_name)
             file_path = os.path.join(settings.MEDIA_ROOT, 'instagram_downloader') 
-            file_path = str(settings.BASE_DIR)
             print(file_path)
             if result == user_name and os.path.exists(file_path):
-                shutil.make_archive(result, 'zip', base_dir=file_path)
+                shutil.make_archive(result, 'zip', root_dir=file_path)
+                file_path = str(settings.BASE_DIR)
+                print(file_path)
                 now = time.time()
                 future = now + 3
                 while True:
@@ -276,10 +278,14 @@ def instagram_downloader_(request):
                         context={
                             'result': file_path+'\\'+result + '.zip'
                         }
-                        # send_file_(file_path+'\\'+result + '.zip')
+                        return JsonResponse(context, safe=False)
+                        # rr=file_path+'\\'+result + '.zip'
+                        # print(rr)
                         # time.sleep(3)
-                        # remove_file_(file_path+'\\'+result + '.zip')
-                        return FileResponse(open(file_path+'\\'+result + '.zip', 'rb'), as_attachment=True)
+                        # send_file_(rr)
+                        # time.sleep(3)
+                        # remove_file_(rr)
+                        # return FileResponse(open(rr, 'rb'), as_attachment=True)
                         # return render(request, 'projects/instagram_downloader.html', context=context)
             else:
                 context={
@@ -752,6 +758,21 @@ def project_item(request, id):
         'item': item
     }
     return render(request, "projects/item.html", context=context)
+
+def send_file(request):
+    filename = request.GET.get('filename', None);
+    if filename is not None:
+        return send_file_(filename)
+    else:
+        return HttpResponse(filename)
+
+def remove_file(request):
+    filename = request.GET.get('filename', None);
+    if filename is not None:
+        return remove_file_(filename)
+    else:
+        return HttpResponse(filename)
+
 def send_file_(request):
     if request[-4:] in GET_FILE_FORMATS:
         # global data
