@@ -49,11 +49,19 @@
 
 
 
-import pyttsx3
+# import pyttsx3
 
-def say(sp):
-    engine = pyttsx3.init()
-    engine.say(sp)
-    engine.runAndWait()
+# def say(sp):
+#     engine = pyttsx3.init()
+#     engine.say(sp)
+#     engine.runAndWait()
     
-say("Hello my name is Neuron")
+# say("Hello my name is Neuron")
+# from projects import youtube_downloader
+# quality='low'
+# link='https://www.youtube.com/shorts/yNIFcuD4niQ'
+# youtube_downloader.download_video(link, quality)
+
+
+from pytube import YouTube
+YouTube('https://youtu.be/9bZkp7q19f0').streams.first()

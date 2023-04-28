@@ -306,6 +306,9 @@ def youtube_downloader_(request):
                     filename = youtube_downloader.download_video(link, quality)
                     # result = app.root_path.replace('website', '') + filename
                     # print(result)
+                    send_file_(filename)
+                    time.sleep(3)
+                    remove_file_(filename)
                     return JsonResponse({'result': filename}, safe=False)
             elif choice == 3:
                 print("Yuklab olinmoqda...")
@@ -313,6 +316,9 @@ def youtube_downloader_(request):
                 print("Oʻzgartirilmoqda...")
                 youtube_downloader.convert_to_mp3(filename)
                 # result = app.root_path.replace('website', '') + filename.replace('.mp4', '.mp3')
+                send_file_(filename)
+                time.sleep(3)
+                remove_file_(filename)
                 return JsonResponse({'result': filename}, safe=False)
             else:
                 print("Yaroqsiz kiritish! Tugatilmoqda...")
