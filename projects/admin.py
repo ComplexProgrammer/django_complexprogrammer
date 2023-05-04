@@ -41,14 +41,14 @@ class TopicsAdmin(admin.ModelAdmin):
 
 @admin.register(Questions)
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number', 'photo']
-    list_filter=['name_uz_uz', 'number', 'photo']
-    search_fields=['name_uz_uz', 'number', 'photo']
+    list_display=['name_uz_uz', 'number', 'image']
+    list_filter=['name_uz_uz', 'number', 'image']
+    search_fields=['name_uz_uz', 'number', 'image']
     ordering=['id']
     
 @admin.register(Answers)
 class AnswersAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number', 'photo', 'right']
-    list_filter=['name_uz_uz', 'number', 'photo', 'right']
-    search_fields=['name_uz_uz', 'number', 'photo', 'right']
+    list_display=['name_uz_uz', 'number', 'image', 'right']
+    list_filter=['name_uz_uz', 'number', 'image', 'right']
+    search_fields=['name_uz_uz', 'number', 'image', 'right']
     ordering=['id']

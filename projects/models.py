@@ -22,8 +22,8 @@ class Project(models.Model):
     created_time=models.DateTimeField(auto_now_add=True)
     updated_time=models.DateTimeField(auto_now=True)
     status=models.BooleanField(
-        choices=Status.choices,
-        default=Status.Draft
+        choices=Status.choices, # type: ignore
+        default=Status.Draft # type: ignore
     )
     is_service=models.BooleanField(default=False)
     order=models.IntegerField()
@@ -115,7 +115,7 @@ class Books(Translatable):
         choices=BookType.choices,
         default=BookType.none,
     )
-    group_id = models.ForeignKey(Groups,
+    group = models.ForeignKey(Groups,
                                   related_name='books',
                                   on_delete=models.CASCADE)
     class Meta:
@@ -127,7 +127,7 @@ class Books(Translatable):
     
 class Topics(Translatable):
     number = models.IntegerField()
-    book_id = models.ForeignKey(Books,
+    book = models.ForeignKey(Books,
                                   related_name='topics',
                                   on_delete=models.CASCADE)
     class Meta:
@@ -139,8 +139,8 @@ class Topics(Translatable):
 
 class Questions(Translatable):
     number = models.IntegerField()
-    photo = models.CharField(max_length=255, blank=True)
-    topic_id = models.ForeignKey(Topics,
+    image = models.ImageField(upload_to='projects/tests/questions/images')
+    topic = models.ForeignKey(Topics,
                                   related_name='questions',
                                   on_delete=models.CASCADE)
     class Meta:
@@ -152,9 +152,9 @@ class Questions(Translatable):
 
 class Answers(Translatable):
     number = models.IntegerField()
-    photo = models.CharField(max_length=255, blank=True)
+    image = models.ImageField(upload_to='projects/tests/answers/images')
     right = models.BooleanField(default=False)
-    question_id = models.ForeignKey(Questions,
+    question = models.ForeignKey(Questions,
                                   related_name='answers',
                                   on_delete=models.CASCADE)
     class Meta:

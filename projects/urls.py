@@ -4,7 +4,7 @@ from .views import GetAnswers, GetBooks, GetExchangeRates, GetBilet, GetChangeTe
 urlpatterns=[
     path('', base, name='base'),
     path('send_file/', send_file, name='send_file'),
-    path('remove_file/', remove_file, name='remove_file'),
+    path('remove_file/', remove_file, name='remove_file'), # type: ignore
     # path('cartoonize/', cartoonize, name='cartoonize' ),
     path('instagram-downloader/', instagram_downloader_, name='instagram_downloader_' ), # type: ignore
     path('youtube_downloader/', youtube_downloader_, name='youtube_downloader'), # type: ignore
@@ -50,8 +50,8 @@ urlpatterns=[
     path('project/<int:id>/', project_item, name='item'),
 
     path('GetGroups/', GetGroups, name='GetGroups'),
-    path('GetBooks/', GetBooks, name='GetBooks'),
-    path('GetTopics/', GetTopics, name='GetTopics'),
-    path('GetQuestions/', GetQuestions, name='GetQuestions'),
-    path('GetAnswers/', GetAnswers, name='GetAnswers'),
+    path('GetBooks/', GetBooks, name='GetBooks'), # type: ignore
+    path('GetTopics/', GetTopics, name='GetTopics'), # type: ignore
+    path('GetQuestions/', GetQuestions, name='GetQuestions'), # type: ignore
+    path('GetAnswers/', GetAnswers, name='GetAnswers'), # type: ignore
 ]
