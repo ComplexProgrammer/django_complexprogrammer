@@ -49,6 +49,7 @@ urlpatterns=[
     path('projects/', projects, name='projects'),
     path('project/<int:id>/', project_item, name='item'),
 
+
     path('GetGroups/', GetGroups, name='GetGroups'),
     path('GetBooks/', GetBooks, name='GetBooks'), # type: ignore
     path('GetTopics/', GetTopics, name='GetTopics'), # type: ignore
