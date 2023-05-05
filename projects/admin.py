@@ -27,28 +27,28 @@ class GroupsAdmin(admin.ModelAdmin):
 
 @admin.register(Books)
 class BooksAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'book_type']
-    list_filter=['name_uz_uz', 'book_type']
-    search_fields=['name_uz_uz', 'book_type']
+    list_display=['name_uz_uz', 'book_type', 'group']
+    list_filter=['name_uz_uz', 'book_type', 'group']
+    search_fields=['name_uz_uz', 'book_type', 'group']
     ordering=['id']
 
 @admin.register(Topics)
 class TopicsAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number']
-    list_filter=['name_uz_uz', 'number']
-    search_fields=['name_uz_uz', 'number']
+    list_display=['name_uz_uz', 'number', 'book']
+    list_filter=['name_uz_uz', 'number', 'book']
+    search_fields=['name_uz_uz', 'number', 'book']
     ordering=['id']
 
 @admin.register(Questions)
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number', 'image']
-    list_filter=['name_uz_uz', 'number', 'image']
-    search_fields=['name_uz_uz', 'number', 'image']
+    list_display=['name_uz_uz', 'number', 'topic', 'image']
+    list_filter=['name_uz_uz', 'number', 'topic', 'image']
+    search_fields=['name_uz_uz', 'number', 'topic', 'image']
     ordering=['id']
     
 @admin.register(Answers)
 class AnswersAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number', 'image', 'right']
-    list_filter=['name_uz_uz', 'number', 'image', 'right']
-    search_fields=['name_uz_uz', 'number', 'image', 'right']
+    list_display=['name_uz_uz', 'number', 'question', 'image', 'right']
+    list_filter=['name_uz_uz', 'number', 'question', 'image', 'right']
+    search_fields=['name_uz_uz', 'number', 'question', 'image', 'right']
     ordering=['id']

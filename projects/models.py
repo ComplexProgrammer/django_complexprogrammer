@@ -139,7 +139,7 @@ class Topics(Translatable):
 
 class Questions(Translatable):
     number = models.IntegerField()
-    image = models.ImageField(upload_to='projects/tests/questions/images')
+    image = models.ImageField(upload_to='projects/tests/questions/images', blank=True)
     topic = models.ForeignKey(Topics,
                                   related_name='questions',
                                   on_delete=models.CASCADE)
@@ -152,7 +152,7 @@ class Questions(Translatable):
 
 class Answers(Translatable):
     number = models.IntegerField()
-    image = models.ImageField(upload_to='projects/tests/answers/images')
+    image = models.ImageField(upload_to='projects/tests/answers/images', blank=True)
     right = models.BooleanField(default=False)
     question = models.ForeignKey(Questions,
                                   related_name='answers',
