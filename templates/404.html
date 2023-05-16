@@ -22,7 +22,7 @@
         accurateTrackBounce:true
    });
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; inset-inline-start:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
     <meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
     <meta charset="UTF-8">
@@ -42,7 +42,7 @@
 
 html,
 body {
-  height: 100%;
+  block-size: 100%;
   overflow: hidden;
 }
 
@@ -150,21 +150,21 @@ input {
 .top-header:before {
   content: "";
   display: block;
-  width: 100%;
-  height: 4px;
+  inline-size: 100%;
+  block-size: 4px;
   background-repeat: repeat-x;
   background-size: contain;
   position: absolute;
-  top: 0;
-  left: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   opacity: 0.5;
 }
 
 .starsec {
   content: " ";
   position: absolute;
-  width: 3px;
-  height: 3px;
+  inline-size: 3px;
+  block-size: 3px;
   background: transparent;
   box-shadow: 571px 173px #00bcd4, 1732px 143px #00bcd4, 1745px 454px #ff5722,
     234px 784px #00bcd4, 1793px 1123px #ff9800, 1076px 504px #03a9f4,
@@ -206,8 +206,8 @@ input {
 .starthird {
   content: " ";
   position: absolute;
-  width: 3px;
-  height: 3px;
+  inline-size: 3px;
+  block-size: 3px;
   background: transparent;
   box-shadow: 571px 173px #00bcd4, 1732px 143px #00bcd4, 1745px 454px #ff5722,
     234px 784px #00bcd4, 1793px 1123px #ff9800, 1076px 504px #03a9f4,
@@ -249,8 +249,8 @@ input {
 .starfourth {
   content: " ";
   position: absolute;
-  width: 2px;
-  height: 2px;
+  inline-size: 2px;
+  block-size: 2px;
   background: transparent;
   box-shadow: 571px 173px #00bcd4, 1732px 143px #00bcd4, 1745px 454px #ff5722,
     234px 784px #00bcd4, 1793px 1123px #ff9800, 1076px 504px #03a9f4,
@@ -292,8 +292,8 @@ input {
 .starfifth {
   content: " ";
   position: absolute;
-  width: 1px;
-  height: 1px;
+  inline-size: 1px;
+  block-size: 1px;
   background: transparent;
   box-shadow: 571px 173px #00bcd4, 1732px 143px #00bcd4, 1745px 454px #ff5722,
     234px 784px #00bcd4, 1793px 1123px #ff9800, 1076px 504px #03a9f4,
@@ -358,7 +358,7 @@ button {
 .clearfix:after {
   content: "\0020";
   display: block;
-  height: 0;
+  block-size: 0;
   visibility: hidden;
 }
 
@@ -378,30 +378,30 @@ button {
 /***********************************/
 /* 2.1. Section error */
 .error {
-  min-height: 100vh;
+  min-block-size: 100vh;
   position: relative;
   padding: 240px 0;
   box-sizing: border-box;
-  width: 100%;
-  height: 100%;
+  inline-size: 100%;
+  block-size: 100%;
   text-align: center;
-  margin-top: 70px;
+  margin-block-start: 70px;
 }
 
 .error__overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  block-size: 100%;
   overflow: hidden;
 }
 
 .error__content {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  inline-size: 100%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
@@ -417,8 +417,8 @@ button {
   text-transform: uppercase;
   letter-spacing: 5px;
   font-size: 5.6rem;
-  padding-bottom: 40px;
-  max-width: 960px;
+  padding-block-end: 40px;
+  max-inline-size: 960px;
   margin: 0 auto;
 }
 
@@ -427,32 +427,32 @@ button {
   line-height: 42px;
   font-size: 18px;
   padding: 0 60px;
-  max-width: 680px;
+  max-inline-size: 680px;
   margin: auto;
 }
 
 .error__nav {
-  max-width: 600px;
+  max-inline-size: 600px;
   margin: 40px auto 0;
   text-align: center;
 }
 
 .e-nav__form {
   position: relative;
-  height: 45px;
+  block-size: 45px;
   overflow: hidden;
-  width: 170px;
+  inline-size: 170px;
   display: inline-block;
   vertical-align: top;
   border: 1px solid #212121;
-  padding-left: 10px;
-  padding-right: 46px;
+  padding-inline-start: 10px;
+  padding-inline-end: 46px;
 }
 
 .e-nav__icon {
   position: absolute;
-  right: 15px;
-  top: 50%;
+  inset-inline-end: 15px;
+  inset-block-start: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   color: #212121;
@@ -461,9 +461,9 @@ button {
 }
 
 .e-nav__link {
-  height: 45px;
+  block-size: 45px;
   line-height: 45px;
-  width: 170px;
+  inline-size: 170px;
   display: inline-block;
   vertical-align: top;
   margin: 0 15px;
@@ -480,12 +480,12 @@ button {
 
 .e-nav__link:before {
   content: "";
-  height: 200px;
+  block-size: 200px;
   background: #212121;
   position: absolute;
-  top: 70px;
-  right: 70px;
-  width: 260px;
+  inset-block-start: 70px;
+  inset-inline-end: 70px;
+  inline-size: 260px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
   -webkit-transform: rotate(50deg);
@@ -504,8 +504,8 @@ button {
 }
 
 .e-nav__link:hover:before {
-  top: -60px;
-  right: -50px;
+  inset-block-start: -60px;
+  inset-inline-end: -50px;
 }
 
 .e-nav__link:hover {
@@ -520,10 +520,10 @@ button {
 /* 2.2. Social style */
 .error__social {
   position: absolute;
-  top: 50%;
+  inset-block-start: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
-  left: 20px;
+  inset-inline-start: 20px;
   z-index: 10;
 }
 
@@ -534,11 +534,11 @@ button {
 }
 
 .e-social__icon {
-  padding-bottom: 30px;
+  padding-block-end: 30px;
 }
 
 .e-social__icon:last-child {
-  padding-bottom: 0;
+  padding-block-end: 0;
 }
 
 .e-social__link {
@@ -556,11 +556,11 @@ button {
 /* 2.3. Lamp */
 .lamp {
   position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 0px;
+  inset-inline-start: 0px;
+  inset-inline-end: 0px;
+  inset-block-start: 0px;
   margin: 0px auto;
-  width: 300px;
+  inline-size: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -582,45 +582,45 @@ button {
 }
 
 .cable {
-  width: 8px;
-  height: 248px;
+  inline-size: 8px;
+  block-size: 248px;
   background-image: linear-gradient(rgb(32 148 218 / 70%), rgb(193 65 25)),
     linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
 }
 
 .cover {
-  width: 200px;
-  height: 80px;
+  inline-size: 200px;
+  block-size: 80px;
   background: #0bd5e8;
-  border-top-left-radius: 50%;
-  border-top-right-radius: 50%;
+  border-start-start-radius: 50%;
+  border-end-start-radius: 50%;
   position: relative;
   z-index: 200;
 }
 
 .in-cover {
-  width: 100%;
-  max-width: 200px;
-  height: 20px;
+  inline-size: 100%;
+  max-inline-size: 200px;
+  block-size: 20px;
   border-radius: 100%;
   background: #08ffff;
   position: absolute;
-  left: 0px;
-  right: 0px;
+  inset-inline-start: 0px;
+  inset-inline-end: 0px;
   margin: 0px auto;
-  bottom: -9px;
+  inset-block-end: -9px;
   z-index: 100;
 }
 .in-cover .bulb {
-  width: 50px;
-  height: 50px;
+  inline-size: 50px;
+  block-size: 50px;
   background-color: #08fffa;
   border-radius: 50%;
   position: absolute;
-  left: 0px;
-  right: 0px;
-  bottom: -20px;
+  inset-inline-start: 0px;
+  inset-inline-end: 0px;
+  inset-block-end: -20px;
   margin: 0px auto;
   -webkit-box-shadow: 0 0 15px 7px rgba(0, 255, 255, 0.8),
     0 0 40px 25px rgba(0, 255, 255, 0.5),
@@ -630,15 +630,15 @@ button {
 }
 
 .light {
-  width: 200px;
-  height: 0px;
-  border-bottom: 900px solid rgb(44 255 255 / 24%);
-  border-left: 50px solid transparent;
-  border-right: 50px solid transparent;
+  inline-size: 200px;
+  block-size: 0px;
+  border-block-end: 900px solid rgb(44 255 255 / 24%);
+  border-inline-start: 50px solid transparent;
+  border-inline-end: 50px solid transparent;
   position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 270px;
+  inset-inline-start: 0px;
+  inset-inline-end: 0px;
+  inset-block-start: 270px;
   margin: 0px auto;
   z-index: 1;
   border-radius: 90px 90px 0px 0px;
@@ -653,98 +653,98 @@ button {
 /***********************************/
 .error {
   overflow: hidden;
-  max-height: 100vh;
+  max-block-size: 100vh;
 }
-@media (max-width: 1400px) {
+@media (max-inline-size: 1400px) {
   .lamp {
     zoom: 0.5;
   }
   .error__content {
-    top: 55%;
+    inset-block-start: 55%;
   }
   .message__title {
     font-size: 3.5rem;
   }
 }
-@media (max-width: 900px) {
+@media (max-inline-size: 900px) {
   .message__title {
     font-size: 34px;
   }
   .error__content {
-    top: 55%;
+    inset-block-start: 55%;
   }
 }
-@media (max-width: 950px) {
+@media (max-inline-size: 950px) {
   .lamp__wrap {
-    max-height: 100vh;
+    max-block-size: 100vh;
     overflow: hidden;
-    max-width: 100vw;
+    max-inline-size: 100vw;
   }
   .error__social {
-    bottom: 30px;
-    top: auto;
+    inset-block-end: 30px;
+    inset-block-start: auto;
     transform: none;
-    width: 100%;
+    inline-size: 100%;
     position: fixed;
-    left: 0;
+    inset-inline-start: 0;
   }
   .e-social__icon {
     display: inline-block;
-    padding-right: 30px;
+    padding-inline-end: 30px;
   }
   .e-social__icon:last-child {
-    padding-right: 0;
+    padding-inline-end: 0;
   }
   .e-social__icon {
-    padding-bottom: 0;
+    padding-block-end: 0;
   }
 }
-@media (max-width: 750px) {
+@media (max-inline-size: 750px) {
   body,
   html {
-    max-height: 100vh;
+    max-block-size: 100vh;
   }
   .error__content {
     position: static;
     margin: 0 auto;
     transform: none;
-    padding-top: 300px;
+    padding-block-start: 300px;
   }
   .error {
-    padding-top: 0;
-    padding-bottom: 100px;
-    height: 100vh;
+    padding-block-start: 0;
+    padding-block-end: 100px;
+    block-size: 100vh;
   }
 }
-@media (max-width: 650px) {
+@media (max-inline-size: 650px) {
   .message__title {
     font-size: 36px;
-    padding-bottom: 20px;
+    padding-block-end: 20px;
   }
   .message__text {
     font-size: 16px;
     line-height: 2;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-inline-end: 20px;
+    padding-inline-start: 20px;
   }
   .lamp {
     zoom: 0.6;
   }
   .error__content {
-    padding-top: 180px;
+    padding-block-start: 180px;
   }
 }
-@media (max-width: 480px) {
+@media (max-inline-size: 480px) {
   .message__title {
     font-size: 30px;
   }
   .message__text {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
     font-size: 15px;
   }
   .error__nav {
-    margin-top: 20px;
+    margin-block-start: 20px;
   }
 }
 

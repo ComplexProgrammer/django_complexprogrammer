@@ -16,7 +16,7 @@
 <script src="https://yandex.ru/ads/system/context.js" async></script>
   <style>
         body,html{
-      height: 100%;
+      block-size: 100%;
       margin: 0;
       background: #7F7FD5;
           background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
@@ -24,11 +24,11 @@
     }
 
     .chat{
-      margin-top: auto;
-      margin-bottom: auto;
+      margin-block-start: auto;
+      margin-block-end: auto;
     }
     .card{
-      height: 500px;
+      block-size: 500px;
       border-radius: 15px !important;
       background-color: rgba(0,0,0,0.4) !important;
     }
@@ -42,11 +42,11 @@
     }
     .card-header{
       border-radius: 15px 15px 0 0 !important;
-      border-bottom: 0 !important;
+      border-block-end: 0 !important;
     }
         .card-footer{
             border-radius: 0 0 15px 15px !important;
-            border-top: 0 !important;
+            border-block-start: 0 !important;
         }
     .container{
       align-content: center;
@@ -65,7 +65,7 @@
       background-color: rgba(0,0,0,0.3) !important;
       border:0 !important;
       color:white !important;
-      height: 60px !important;
+      block-size: 60px !important;
       overflow-y: auto;
     }
       .type_msg:focus{
@@ -78,7 +78,7 @@
       border:0 !important;
       color: white !important;
       cursor: pointer;
-      height:60px;
+      block-size:60px;
     }
     .send_btn{
             border-radius: 0 15px 15px 0 !important;
@@ -86,7 +86,7 @@
       border:0 !important;
       color: white !important;
       cursor: pointer;
-      height:60px;
+      block-size:60px;
     }
     .search_btn{
       border-radius: 0 15px 15px 0 !important;
@@ -94,55 +94,55 @@
       border:0 !important;
       color: white !important;
       cursor: pointer;
-      height:70px
+      block-size:70px
     }
     .contacts{
       list-style: none;
       padding: 0;
     }
     .contacts li{
-      width: 100% !important;
+      inline-size: 100% !important;
       padding: 5px 10px;
-      margin-bottom: 15px !important;
+      margin-block-end: 15px !important;
     }
     .user_img{
-      height: 70px;
-      width: 70px;
+      block-size: 70px;
+      inline-size: 70px;
       border:1.5px solid #f5f6fa;
 
     }
     .user_img_msg{
-      height: 40px;
-      width: 40px;
+      block-size: 40px;
+      inline-size: 40px;
       border:1.5px solid #f5f6fa;
 
     }
     .img_cont{
       position: relative;
-      height: 70px;
-      width: 70px;
+      block-size: 70px;
+      inline-size: 70px;
     }
     .img_cont_msg{
-      height: 40px;
-      width: 40px;
+      block-size: 40px;
+      inline-size: 40px;
     }
     .online_icon{
     position: absolute;
-    height: 15px;
-    width:15px;
+    block-size: 15px;
+    inline-size:15px;
     background-color: #4cd137;
     border-radius: 50%;
-    bottom: 0.2em;
-    right: 0.4em;
+    inset-block-end: 0.2em;
+    inset-inline-end: 0.4em;
     border:1.5px solid white;
     }
     .offline{
     background-color: #c23616 !important;
     }
     .user_info{
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 15px;
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-start: 15px;
     }
     .user_info span{
     font-size: 20px;
@@ -153,46 +153,46 @@
         color: rgba(255,255,255,0.6);
     }
     .video_cam{
-    margin-left: 50px;
-    margin-top: 5px;
+    margin-inline-start: 50px;
+    margin-block-start: 5px;
     }
     .video_cam span{
     color: white;
     font-size: 20px;
     cursor: pointer;
-    margin-right: 20px;
+    margin-inline-end: 20px;
     }
     .msg_cotainer{
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 10px;
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-start: 10px;
     border-radius: 25px;
     background-color: #82ccdd;
     padding: 10px;
     position: relative;
     }
     .msg_cotainer_send{
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-right: 10px;
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-end: 10px;
     border-radius: 25px;
     background-color: #78e08f;
     padding: 10px;
     position: relative;
     }
     .msg_time{
-      width:100px;
+      inline-size:100px;
     position: absolute;
-    left: 0;
-    bottom: -15px;
+    inset-inline-start: 0;
+    inset-block-end: -15px;
     color: rgba(255,255,255,0.5);
     font-size: 10px;
     }
     .msg_time_send{
-      width:100px;
+      inline-size:100px;
     position: absolute;
-    right:0;
-    bottom: -15px;
+    inset-inline-end:0;
+    inset-block-end: -15px;
     color: rgba(255,255,255,0.5);
     font-size: 10px;
     }
@@ -201,15 +201,15 @@
     }
     .action_menu_btn{
     position: absolute;
-    right: 10px;
-    top: 10px;
+    inset-inline-end: 10px;
+    inset-block-start: 10px;
     color: white;
     cursor: pointer;
     font-size: 20px;
     }
-    @media(max-width: 576px){
+    @media(max-inline-size: 576px){
         .contacts_card{
-            margin-bottom: 15px !important;
+            margin-block-end: 15px !important;
         }
     }
     .hover:hover {
@@ -225,14 +225,14 @@
     cursor: pointer;
     opacity: 0.8;
     position: fixed;
-    bottom: 23px;
-    right: 28px;
+    inset-block-end: 23px;
+    inset-inline-end: 28px;
     }
     .chat-popup {
       display: none;
       position: fixed;
-      bottom: 25px;
-      right: 15px;
+      inset-block-end: 25px;
+      inset-inline-end: 15px;
       z-index: 9;
     }
   </style>
@@ -296,7 +296,7 @@
             <div class="icon"><img src="media/{{item.image}}" /></div>
             <h2>{{item.title}}</h2>
             <!-- <p>{{item.sub_title}}</p> -->
-            <div class="C0mplexButton Danger" style="margin-bottom: 0px;">
+            <div class="C0mplexButton Danger" style="margin-block-end: 0px;">
               <a href="/{{item.url}}">
                   <span></span>
                   <span></span>
