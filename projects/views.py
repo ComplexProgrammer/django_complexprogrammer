@@ -689,10 +689,10 @@ def tetris(request):
     return render(request, 'projects/tetris.html')
 
 def terms(request):
-    return render(request, 'terms.html')
+    return render(request, 'projects/terms.html')
 
 def privacy(request):
-    return render(request, 'privacy.html')
+    return render(request, 'projects/privacy.html')
 
 def send_yandex_verification(request):
     temp = open('templates/yandex_6bd5e2cc7d84e7b1.html', 'rb')
