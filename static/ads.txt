@@ -1,4 +1,3 @@
-google.com, pub-4137874891184814, DIRECT, f08c47fec0942fa0
 applovin.com, 96af61dbf8965648af7c1ec0e0ef903c, DIRECT
 facebook.com, 870748693645041, DIRECT, c3e20eee3f780d68
 startapp.com, 154252686, DIRECT
@@ -508,3 +507,4 @@ pubmatic.com,161162,RESELLER,5d62403b186f2ace
 pubnative.net,1007349,RESELLER,d641df8625486a7b
 bematterfull.com, 22289765, RESELLER
 inmobi.com,30f3830cfef249a3ad46ee1a0bba7af3, RESELLER, 83e75a7ae333ca9d
+google.com, pub-4137874891184814, DIRECT, f08c47fec0942fa0
