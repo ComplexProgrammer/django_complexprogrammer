@@ -349,16 +349,16 @@ def GetTranslateLanguages(request):
     return JsonResponse({'data': googletrans.LANGUAGES}, safe=False) 
  
 def TextToSpeech(request):
-    text = request.GET.get('text', None);
+    text = request.GET.get('text', None)
     text_speech = pyttsx3.init()
     text_speech.say(text)
     text_speech.runAndWait()
     return HttpResponse(text)
 
 def GetTranslateResult(request):
-    text = request.GET.get('text', None);
-    src = request.GET.get('src', None);
-    dest = request.GET.get('dest', None);
+    text = request.GET.get('text', None)
+    src = request.GET.get('src', None)
+    dest = request.GET.get('dest', None)
     print(src)
     print(dest)
     print(text)
@@ -463,7 +463,7 @@ def avtotest_item(request, bilet):
 
 
 def GetSavol(request):
-    bilet = request.GET.get('bilet', False);
+    bilet = request.GET.get('bilet', False)
     if bilet == False:
         avtotest=AvtoTest.objects.all().values()
     else:

@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-24 17:12+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\django_complexprogrammer\settings.py:127
+msgid "Uzbek"
+msgstr ""
+
+#: .\django_complexprogrammer\settings.py:128
+msgid "English"
+msgstr ""
+
+#: .\django_complexprogrammer\settings.py:129
+msgid "Turkish"
+msgstr ""
+
+#: .\templates\base.html:244
+msgid "Merhaba"
+msgstr "Hello"
+
+#: .\templates\base.html:259
+msgid "Home"
+msgstr "Home"
+
+#: .\templates\base.html:260
+msgid "Services"
+msgstr "Services"
+
+#: .\templates\base.html:261
+msgid "Projects"
+msgstr "Projects"
+
+#: .\templates\base.html:262
+msgid "About"
+msgstr "About"
+
+#: .\templates\base.html:263
+msgid "Contact"
+msgstr "Contact"
+
+#: .\templates\base.html:296
+msgid "Portfolio"
+msgstr "Portfolio"
+
+#: .\templates\base.html:318
+msgid "services sub title"
+msgstr "The company itself is a very successful company. He is prepared to take on those who are very gentle and, with pains and pleasures, as with pains, great duties of pains, they provide pains and troubles I will explain the pleasures!"
