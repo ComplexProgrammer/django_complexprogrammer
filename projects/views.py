@@ -312,9 +312,9 @@ def youtube_downloader_(request):
                     filename = youtube_downloader.download_video(link, quality)
                     # result = app.root_path.replace('website', '') + filename
                     # print(result)
-                    send_file_(filename)
-                    time.sleep(3)
-                    remove_file_(filename)
+                    # send_file_(filename)
+                    # time.sleep(3)
+                    # remove_file_(filename)
                     return JsonResponse({'result': filename}, safe=False)
             elif choice == 3:
                 print("Yuklab olinmoqda...")
@@ -801,7 +801,8 @@ def remove_file_(request):
             #     if os.path.isfile(file):
             #         print('Deleting file:', file)
             #         os.remove(file)
-        os.remove(request)
+        if os.path.isfile(request):
+            os.remove(request)
         return "1"
     else:
         return "0"
