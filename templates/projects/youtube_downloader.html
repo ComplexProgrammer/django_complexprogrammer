@@ -145,13 +145,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               console.log(document.cookie)
                 $http({
                     method: 'POST',
-                    url: "/youtube_downloader/",
+                    url: "/{{request.LANGUAGE_CODE}}/youtube_downloader/",
                     data: JSON.stringify($scope.model),
                     headers: {'X-CSRFToken': csrftoken},
                     dataType: "json"
                 }).then(function (d) {
                   console.log(d.data)
-                    {% comment %} if(d.data.result=="0"){
+                    if(d.data.result=="0"){
                         alertify.error("Youtube video url manzili kiritilmagan");
                         document.getElementById('hh').className= "fade hide";
                         document.getElementById('conn').style.visibility = "hidden";
@@ -173,7 +173,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             });
                         }, 3000);
                         alertify.success("Fayl yuklanmoqda...");
-                    } {% endcomment %}
+                    }
                 }, function (error) {
                     alertify.error("Xatolik yuz berdi");
                     document.getElementById('hh').className= "fade hide";
