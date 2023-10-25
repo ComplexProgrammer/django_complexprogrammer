@@ -322,10 +322,10 @@ def youtube_downloader_(request):
                 print("Oʻzgartirilmoqda...")
                 youtube_downloader.convert_to_mp3(filename)
                 # result = app.root_path.replace('website', '') + filename.replace('.mp4', '.mp3')
-                send_file_(filename)
-                time.sleep(3)
-                remove_file_(filename)
-                return JsonResponse({'result': filename}, safe=False)
+                # send_file_(filename)
+                # time.sleep(3)
+                # remove_file_(filename)
+                return JsonResponse({'result': filename.replace('.mp4', '.mp3')}, safe=False)
             else:
                 print("Yaroqsiz kiritish! Tugatilmoqda...")
         else:
