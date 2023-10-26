@@ -785,15 +785,13 @@ def send_file_(request):
         return FileResponse(STATIC_URL+'img/fuck.jpg',
                          as_attachment=True)
 def remove_file_(request):
-    if os.path.exists(request) and request[-4:] in GET_FILE_FORMATS:
+    if request and os.path.exists(request) and request[-4:] in GET_FILE_FORMATS:
+        os.remove(request)
         if request[-4:] == ".mp3":
             filename_ = request[:-4] + ".mp4"
             if os.path.exists(filename_):
                 os.remove(filename_)
-        if request[-4:] == ".zip":
-            filename_ = request[:-4]
-            path = filename_
-            shutil.rmtree(path, ignore_errors=True)
+
             # for file_name in os.listdir(path):
             #     print(file_name)
             #     file = path + file_name
@@ -801,11 +799,6 @@ def remove_file_(request):
             #     if os.path.isfile(file):
             #         print('Deleting file:', file)
             #         os.remove(file)
-        if os.path.isfile(request):
-            os.remove(request)
-        return "1"
-    else:
-        return "0"
     
 
 

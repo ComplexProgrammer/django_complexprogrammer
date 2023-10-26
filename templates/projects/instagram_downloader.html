@@ -100,76 +100,79 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
     </style>
     <script>
-      var app = angular.module("App", []);
-      app.controller("InstagramDownloader", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-          $scope.Paste=function(){
-              navigator.clipboard.readText().then((clipText) => ($scope.instagram_user_name = clipText, document.getElementById('instagram_user_name').value = clipText ));
-          }
-          function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
+        var app = angular.module("App", []);
+        app.controller("InstagramDownloader", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
+            $scope.Paste=function(){
+                navigator.clipboard.readText().then((clipText) => ($scope.instagram_user_name = clipText, document.getElementById('instagram_user_name').value = clipText ));
             }
-            return cookieValue;
-        }
-        const csrftoken = getCookie('csrftoken');
-        console.log(csrftoken)
-        console.log(document.cookie)
-          $scope.instagram_downloader = function(){
-              document.getElementById('conn').style.visibility = "visible";
-              document.getElementById('hh').className= "modal-backdrop fade show";
-              $scope.model = {
-                  user_name:$scope.instagram_user_name
+            function getCookie(name) {
+              let cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  const cookies = document.cookie.split(';');
+                  for (let i = 0; i < cookies.length; i++) {
+                      const cookie = cookies[i].trim();
+                      // Does this cookie string begin with the name we want?
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
               }
-              console.dir($scope.model)
-              $http({
-                  method: 'POST',
-                  url: "/instagram-downloader/",
-                  data: JSON.stringify($scope.model),
-                  headers: {'X-CSRFToken': csrftoken},
-                  dataType: "json"
-              }).then(function (d) {
-                  console.log(d.data);
-                  if(d.data.result=="0"){
-                      alertify.error("Instagram profil nomi kiritilmagan");
-                      document.getElementById('hh').className= "fade hide";
-                      document.getElementById('conn').style.visibility = "hidden";
-                  }
-                  else{
-                      window.location.href = "/send_file?filename="+d.data.result;
-                      setTimeout(function() {
-                          $http({
-                              method: 'GET',
-                              url: "/remove_file?filename="+d.data.result,
-                          }).then(function (d) {
-                              console.log(d.data);
-                              document.getElementById('hh').className= "fade hide";
-                              document.getElementById('conn').style.visibility = "hidden";
-                          }, function (error) {
-                              document.getElementById('hh').className= "fade hide";
-                              document.getElementById('conn').style.visibility = "hidden";
-                              console.log("error in remove_file -> ", error);
-                          });
-                      }, 3000);
-                      alertify.success("Fayl yuklanmoqda...");
-                  }
-              }, function (error) {
-                  alertify.error("Xatolik yuz berdi");
-                  document.getElementById('hh').className= "fade hide";
-                  document.getElementById('conn').style.visibility = "hidden";
-                  console.log("error in instagram_downloader -> ", error);
-              });
+              return cookieValue;
           }
-      }]);
-    </script>
+          const csrftoken = getCookie('csrftoken');
+          console.log(csrftoken)
+          console.log(document.cookie)
+            $scope.instagram_downloader = function(){
+                document.getElementById('conn').style.visibility = "visible";
+                document.getElementById('hh').className= "modal-backdrop fade show";
+                $scope.model = {
+                    user_name:$scope.instagram_user_name
+                }
+                console.dir($scope.model)
+                $http({
+                    method: 'POST',
+                    url: "/{{request.LANGUAGE_CODE}}/instagram-downloader/",
+                    data: JSON.stringify($scope.model),
+                    headers: {'X-CSRFToken': csrftoken},
+                    dataType: "json"
+                }).then(function (d) {
+                    console.log(d.data);
+                    if(d.data.result=="0"){
+                        alertify.error("Instagram profil nomi kiritilmagan");
+                        document.getElementById('hh').className= "fade hide";
+                        document.getElementById('conn').style.visibility = "hidden";
+                    }
+                    else{
+                        window.location.href = "/send_file?filename="+d.data.result;
+                        setTimeout(function() {
+                            window.location.href = "/remove_file?filename="+d.data.result;
+                            document.getElementById('hh').className= "fade hide";
+                            document.getElementById('conn').style.visibility = "hidden";
+                            {% comment %} $http({
+                                method: 'GET',
+                                url: "/remove_file?filename="+d.data.result,
+                            }).then(function (d) {
+                                console.log(d.data);
+                                document.getElementById('hh').className= "fade hide";
+                                document.getElementById('conn').style.visibility = "hidden";
+                            }, function (error) {
+                                document.getElementById('hh').className= "fade hide";
+                                document.getElementById('conn').style.visibility = "hidden";
+                                console.log("error in remove_file -> ", error);
+                            }); {% endcomment %}
+                        }, 3000);
+                        alertify.success("Fayl yuklanmoqda...");
+                    }
+                }, function (error) {
+                    alertify.error("Xatolik yuz berdi");
+                    document.getElementById('hh').className= "fade hide";
+                    document.getElementById('conn').style.visibility = "hidden";
+                    console.log("error in instagram_downloader -> ", error);
+                });
+            }
+        }]);
+      </script>
 </head>
 <body ng-app="App" ng-controller="InstagramDownloader" class="modal-open">
   <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
@@ -272,4 +275,4 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
   </div>
   </body>
-</html>
+  </html>
