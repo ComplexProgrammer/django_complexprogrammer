@@ -162,14 +162,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }]);
     </script>
 
-    <title>Free Online XML Sitemap Generator</title>
+    <title>
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        Bepul onlayn XML sayt xaritasi generatori
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        Бесплатный онлайн-генератор XML-карты сайта
+        {% else %}
+        Free Online XML Sitemap Generator
+        {% endif %}
+        {% endif %}
+    </title>
 </head>
 <body ng-app="App" ng-controller="SitemapGenerator">
 <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
     <img src="/static/img/buffering.gif" />
 </div>
 <input id="hh" type="text" class="fade hide" />
-{% verbatim %}
 <div class="container" >
     <div class="C0mplexButton float-end">
         <a href="/#services">
@@ -180,7 +189,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             X
         </a>
     </div>
-    <h2>Free Online XML Sitemap Generator
+    <h2>
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        Bepul onlayn XML sayt xaritasi generatori
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        Бесплатный онлайн-генератор XML-карты сайта
+        {% else %}
+        Free Online XML Sitemap Generator
+        {% endif %}
+        {% endif %}
         <a href="https://play.google.com/store/apps/dev?id=6854503445964035235" target="_blank">
             <img src="/static/img/google-play.svg" />
         </a>
@@ -188,50 +206,138 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="row">
         <div class="col">
             <div class="badge bg-success text-wrap">
-                <i class="fa-regular fa-circle-check"></i> XML Sitemap Generator
+                <i class="fa-regular fa-circle-check"></i> 
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                XML sayt xaritasi generatori
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                XML-генератор карты сайта
+                {% else %}
+                XML Sitemap Generator
+                {% endif %}
+                {% endif %}
             </div>
             <br>
             <br>
+            {% if request.LANGUAGE_CODE == 'uz' %}
             <div class="input-group">
-              <input type="text" class="form-control" ng-model="url" placeholder="Your Website URL" id="url">
-              <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
-              <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Generator Sitemap</button>
-            </div>
+                <input type="text" class="form-control" ng-model="url" placeholder="Veb-saytingiz URL manzili" id="url">
+                <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Joylashtirish</button>
+                <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Generator sayt xaritasi</button>
+              </div>
+            {% else %}
+            {% if request.LANGUAGE_CODE == 'ru' %}
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="url" placeholder="URL-адрес вашего веб-сайта" id="url">
+                <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Вставить</button>
+                <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Карта сайта генератора</button>
+              </div>
+            {% else %}
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="url" placeholder="Your Website URL" id="url">
+                <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
+                <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Generator Sitemap</button>
+              </div>
+            {% endif %}
+            {% endif %}
+
 <!--            <div class="progress">-->
 <!--              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>-->
 <!--            </div>-->
         </div>
     </div>
     <br />
+    {% if request.LANGUAGE_CODE == 'uz' %}
     <div class="row">
-       <div class="col">
-            <div class="card text-bg-info mb-12">
-                <div class="card-header">About XML Sitemap Generator</div>
-                <div class="card-body">
-<!--                    <h5 class="card-title"></h5>-->
-                    <p class="card-text">
-                        Creating XML SITEMAP is crucial for every website and blog for better indexing and SEO practices. Using the XML
-                        <br />
-                        Sitemap Generator, you can create functional XML Sitemaps and help Google find your pages and crawl them. It is free
-                        <br />
-                        and easy to use. Just use XML Sitemap Generator and start enjoying the results.
-                    </p>
-                    <br />
-                    <h5 class="card-title">How to use XML Sitemap Generator?</h5>
-                    <p class="card-text">
-                        To use XML Sitemap Generator, follow these steps:
-                        <br />
-                        <br />
-                        * Enter a domain name
+        <div class="col">
+             <div class="card text-bg-info mb-12">
+                 <div class="card-header">XML Sitemap Generator haqida</div>
+                 <div class="card-body">
+                     {% comment %} <h5 class="card-title"></h5> {% endcomment %}
+                     <p class="card-text">
+                        XML SITEMAP yaratish har bir veb-sayt va blog uchun indekslash va SEO amaliyotlarini yaxshilash uchun juda muhimdir. XML dan foydalanish
+                          <br />
+                          Sayt xaritasi generatori, siz funktsional XML sayt xaritalarini yaratishingiz va Google-ga sahifalaringizni topish va ularni skanerlashda yordam berishingiz mumkin. Bu bepul
+                          <br />
+                          va foydalanish oson. XML Sitemap Generator-dan foydalaning va natijalardan zavqlanishni boshlang.
+                     </p>
+                     <br />
+                     <h5 class="card-title">XML sayt xaritasi generatoridan qanday foydalanish kerak?</h5>
+                     <p class="card-text">
+                        XML Sitemap Generator-dan foydalanish uchun quyidagi amallarni bajaring:
                         <br />
                         <br />
-                        * Click Generate Sitemap
-                    </p>
-                </div>
-            </div>
-       </div>
-    </div>
+                        * Domen nomini kiriting
+                        <br />
+                        <br />
+                        * Sayt xaritasini yaratish tugmasini bosing
+                     </p>
+                 </div>
+             </div>
+        </div>
+     </div>
+    {% else %}
+    {% if request.LANGUAGE_CODE == 'ru' %}
+    <div class="row">
+        <div class="col">
+             <div class="card text-bg-info mb-12">
+                 <div class="card-header">О генераторе XML-карты сайта</div>
+                 <div class="card-body">
+                     {% comment %} <h5 class="card-title"></h5> {% endcomment %}
+                     <p class="card-text">
+                        Создание XML-карты сайта имеет решающее значение для каждого веб-сайта и блога для улучшения индексации и практики SEO. Использование XML
+                        <br />
+                        Генератор карты сайта: вы можете создавать функциональные XML-файлы Sitemap и помогать Google находить ваши страницы и сканировать их. Это бесплатно
+                        <br />
+                        и прост в использовании. Просто используйте XML Sitemap Generator и начните наслаждаться результатами.
+                     </p>
+                     <br />
+                     <h5 class="card-title">Как использовать генератор XML-карты сайта?</h5>
+                     <p class="card-text">
+                        Чтобы использовать генератор XML Sitemap, выполните следующие действия:
+                        <br />
+                        <br />
+                        * Введите доменное имя
+                        <br />
+                        <br />
+                        * Нажмите «Создать карту сайта».
+                     </p>
+                 </div>
+             </div>
+        </div>
+     </div>
+    {% else %}
+    <div class="row">
+        <div class="col">
+             <div class="card text-bg-info mb-12">
+                 <div class="card-header">About the XML Sitemap Generator</div>
+                 <div class="card-body">
+                     {% comment %} <h5 class="card-title"></h5> {% endcomment %}
+                     <p class="card-text">
+                         Creating XML SITEMAP is crucial for every website and blog for better indexing and SEO practices. Using the XML
+                         <br />
+                         Sitemap Generator, you can create functional XML Sitemaps and help Google find your pages and crawl them. It is free
+                         <br />
+                         and easy to use. Just use XML Sitemap Generator and start enjoying the results.
+                     </p>
+                     <br />
+                     <h5 class="card-title">How to use XML Sitemap Generator?</h5>
+                     <p class="card-text">
+                         To use XML Sitemap Generator, follow these steps:
+                         <br />
+                         <br />
+                         * Enter a domain name
+                         <br />
+                         <br />
+                         * Click Generate Sitemap
+                     </p>
+                 </div>
+             </div>
+        </div>
+     </div>
+    {% endif %}
+    {% endif %}
 </div>
-{% endverbatim %}
+
 </body>
 </html>

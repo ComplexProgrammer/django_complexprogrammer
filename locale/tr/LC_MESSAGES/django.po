@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 17:12+0500\n"
+"POT-Creation-Date: 2023-10-26 09:47+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,34 +30,40 @@ msgstr ""
 msgid "Turkish"
 msgstr ""
 
-#: .\templates\base.html:244
-msgid "Merhaba"
-msgstr "Merhaba"
+#: .\django_complexprogrammer\settings.py:130
+msgid "Russia"
+msgstr ""
 
-#: .\templates\base.html:259
+#: .\templates\base.html:258
 msgid "Home"
 msgstr ""
 
-#: .\templates\base.html:260
+#: .\templates\base.html:259
 msgid "Services"
 msgstr "Hizmetler"
 
-#: .\templates\base.html:261
+#: .\templates\base.html:260
 msgid "Projects"
 msgstr "Projeler"
 
-#: .\templates\base.html:262
+#: .\templates\base.html:261
 msgid "About"
 msgstr "Hakkında"
 
-#: .\templates\base.html:263
+#: .\templates\base.html:262
 msgid "Contact"
 msgstr "Temas etmek"
 
-#: .\templates\base.html:296
+#: .\templates\base.html:295
 msgid "Portfolio"
 msgstr "Portföy"
 
 #: .\templates\base.html:318
 msgid "services sub title"
-msgstr "Şirketin kendisi oldukça başarılı bir şirket. Çok nazik olanlarla karşılaşmaya hazır ve acılar ve zevklerle, acıların büyük görevleri olduğu gibi, acıların ve sıkıntıların yaşanmasını sağlarlar. Zevkleri anlatacağım!"
+msgstr ""
+"Şirketin kendisi oldukça başarılı bir şirket. Çok nazik olanlarla "
+"karşılaşmaya hazır ve acılar ve zevklerle, acıların büyük görevleri olduğu "
+"gibi, acıların ve sıkıntıların yaşanmasını sağlarlar. Zevkleri anlatacağım!"
+
+#~ msgid "Merhaba"
+#~ msgstr "Merhaba"

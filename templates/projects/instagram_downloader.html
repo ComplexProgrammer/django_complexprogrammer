@@ -82,7 +82,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script src="https://kit.fontawesome.com/391652c176.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <title>Instagram Downloader</title>
+    <title>
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        Instagram yuklab olish dasturi
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        Загрузчик Инстаграм
+        {% else %}
+        Instagram Downloader
+        {% endif %}
+        {% endif %}
+    </title>
     <style>
       body {
           background-color: #212121;
@@ -167,7 +177,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
   <input id="hh" type="text" class="fade hide" />
   <input type="text" class="fade hide" value="{{csrf_token}}" />
-  {% verbatim %}
   <div class="container">
       <div class="C0mplexButton float-end">
           <a href="/#services">
@@ -189,24 +198,66 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </div>
           <div class="col"></div>
       </div>
-      <div class="row">
-          <div class="col">
-              <div class="card text-white bg-dark mb-3">
-                <div class="card-header">
-                  Instagram Downloader
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        <div class="row">
+            <div class="col">
+                <div class="card text-white bg-dark mb-3">
+                  <div class="card-header">
+                    Instagram yuklab olish dasturi
+                  </div>
+                  <div class="card-body">
+                        <h5 class="card-title">instagram yuklab olish konvertori</h5>
+                        <p class="card-text">Instagram postlarini yoki teglarini yuklab olishga qodir oddiy veb-sayt.</p>
+                        <div class="input-group mb-3">
+                            <input type="text" ng-model="instagram_user_name" id="instagram_user_name" class="form-control" placeholder="Instagram foydalanuvchi nomi" aria-label="Instagram foydalanuvchi nomi" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Joylashtirish</button>
+                            <button class="btn btn-outline-warning" type="button" ng-click="instagram_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Konvertatsiya qilish</button>
+                        </div>
+                  </div>
                 </div>
-                <div class="card-body">
-                      <h5 class="card-title">instagram downloader converter</h5>
-                      <p class="card-text">A simple Website that is able to download Instagram posts or tagged.</p>
-                      <div class="input-group mb-3">
-                          <input type="text" ng-model="instagram_user_name" id="instagram_user_name" class="form-control" placeholder="Instagram user name" aria-label="Instagram user name" aria-describedby="button-addon2">
-                          <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
-                          <button class="btn btn-outline-warning" type="button" ng-click="instagram_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
-                      </div>
+            </div>
+        </div>
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        <div class="row">
+            <div class="col">
+                <div class="card text-white bg-dark mb-3">
+                  <div class="card-header">
+                    Загрузчик Инстаграм
+                  </div>
+                  <div class="card-body">
+                        <h5 class="card-title">конвертер загрузчика инстаграма</h5>
+                        <p class="card-text">Простой веб-сайт, на котором можно загружать публикации из Instagram или отмечать их.</p>
+                        <div class="input-group mb-3">
+                            <input type="text" ng-model="instagram_user_name" id="instagram_user_name" class="form-control" placeholder="Имя пользователя Инстаграм" aria-label="Имя пользователя Инстаграм" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Вставить</button>
+                            <button class="btn btn-outline-warning" type="button" ng-click="instagram_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Конвертировать</button>
+                        </div>
+                  </div>
                 </div>
-              </div>
-          </div>
-      </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col">
+                <div class="card text-white bg-dark mb-3">
+                  <div class="card-header">
+                      Instagram Downloader
+                  </div>
+                  <div class="card-body">
+                        <h5 class="card-title">instagram downloader converter</h5>
+                        <p class="card-text">A simple Website that is able to download Instagram posts or tagged.</p>
+                        <div class="input-group mb-3">
+                            <input type="text" ng-model="instagram_user_name" id="instagram_user_name" class="form-control" placeholder="Instagram user name" aria-label="Instagram user name" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
+                            <button class="btn btn-outline-warning" type="button" ng-click="instagram_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
+                        </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
       <div class="row">
           <div class="col">
               <!-- Yandex.RTB R-A-1963742-3 -->
@@ -220,6 +271,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </div>
       </div>
   </div>
-  {% endverbatim %}
   </body>
 </html>

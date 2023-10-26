@@ -89,7 +89,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         X
     </a>
 </div>
-<h2>Exchange rates of the Central Bank of the Republic of Uzbekistan
+<h2>
+    {% if request.LANGUAGE_CODE == 'uz' %}
+    O'zbekiston Respublikasi Markaziy bankining valyuta kurslari
+    {% else %}
+    {% if request.LANGUAGE_CODE == 'ru' %}
+    Курсы валют Центрального банка Республики Узбекистан
+    {% else %}
+    Exchange rates of the Central Bank of the Republic of Uzbekistan
+    {% endif %}
+    {% endif %}
     <a href="https://play.google.com/store/apps/details?id=exchangerates.complexprogrammer.uz" target="_blank">
         <img src="/static/img/google-play.svg" />
     </a>
@@ -117,7 +126,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </svg>
                     </i>
                     {{item.Nominal}}
+                    {% if request.LANGUAGE_CODE == 'uz' %}
                     <span>{{item.CcyNm_UZ}}</span>
+                    {% else %}
+                    {% if request.LANGUAGE_CODE == 'ru' %}
+                    <span>{{item.CcyNm_RU}}</span>
+                    {% else %}
+                    <span>{{item.CcyNm_EN}}</span>
+                    {% endif %}
+                    {% endif %}
                 </td>
                 <td>{{item.Ccy}}</td>
                 <td>{{item.Code}}</td>
@@ -153,7 +170,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </div>
                     {% endif %}
                 </td>
-                <td>{{item.Rate}} so'm</td>
+                <td>{{item.Rate}} 
+                    {% if request.LANGUAGE_CODE == 'uz' %}
+                    so'm
+                    {% else %}
+                    {% if request.LANGUAGE_CODE == 'ru' %}
+                    сум
+                    {% else %}
+                    sum
+                    {% endif %}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

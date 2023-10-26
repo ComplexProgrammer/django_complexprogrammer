@@ -29,7 +29,17 @@
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 <meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
 <meta charset="UTF-8">
-<title>Avto Test 1000+</title>
+<title>
+  {% if request.LANGUAGE_CODE == 'uz' %}
+  Avto Test 1000+
+  {% else %}
+  {% if request.LANGUAGE_CODE == 'ru' %}
+  Автотест 1000+
+  {% else %}
+  Auto Test 1000+
+  {% endif %}
+  {% endif %}
+</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814" crossorigin="anonymous"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
@@ -177,6 +187,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <audio id="wrong" controls="controls" style="position:absolute;visibility:hidden">
         <source src="/static/sounds/wrong.mp3" type="audio/mpeg" />
     </audio>
+{% if request.LANGUAGE_CODE == 'uz' %}
 {% verbatim %}
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -201,6 +212,60 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   </div>
 </div>
 {% endverbatim %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'ru' %}
+{% verbatim %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{bilet}} - Результат билета</h5>
+        <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="10-togri_javob_soni-notogri_javob_soni!=0">Неотмеченные вопросы: {{10-togri_javob_soni-notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=10">Правильный ответ: {{togri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=10">Неправильный ответ: {{notogri_javob_soni}}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - перейти к билету</button>
+        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Вернуться к билетам</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endverbatim %}
+{% else %}
+{% verbatim %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{bilet}} - Ticket result</h5>
+        <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="10-togri_javob_soni-notogri_javob_soni!=0">Unmarked questions: {{10-togri_javob_soni-notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=10">Correct answer: {{togri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=10">Incorrect answer: {{notogri_javob_soni}}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> Go to ticket {{bilet+1}}</button>
+        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Back to tickets</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Start over</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endverbatim %}
+{% endif %}
+{% endif %}
+
     <hr />
     {% if bilet == 0 %}
     <div class="wrapper hero-image">
@@ -215,7 +280,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="container">
             <h1>
-                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">Avto Test 1000+</a>
+                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  {% if request.LANGUAGE_CODE == 'uz' %}
+                  Avto Test 1000+
+                  {% else %}
+                  {% if request.LANGUAGE_CODE == 'ru' %}
+                  Автотест 1000+
+                  {% else %}
+                  Auto Test 1000+
+                  {% endif %}
+                  {% endif %}
+                </a>
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                     <img src="/static/img/google-play.svg" />
                 </a>
@@ -232,7 +307,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                               <span class="material-symbols-outlined">
                                 touch_app
                               </span>
-                              {{ i }}- bilet
+                              {% if request.LANGUAGE_CODE == 'uz' %}
+                                {{ i }}- bilet
+                              {% else %}
+                              {% if request.LANGUAGE_CODE == 'ru' %}
+                                {{ i }}- билет
+                              {% else %}
+                                {{ i }}st ticket
+                              {% endif %}
+                              {% endif %}
                             </a>
                         </div>
                     </div>
@@ -272,18 +355,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li class="page-item" id="savol9" ng-click="b(9)"><a class="page-link" id="ab9" href="#">9</a></li>
                 <li class="page-item" id="savol10" ng-click="b(10)"><a class="page-link" id="ab10" href="#">10</a></li>
               </ul>
-            {% verbatim %}
-                <div ng-repeat="item in data" ng-show="item.id==id">
-                    <h4 class="page-content">{{bilet}} - bilet<br/>{{item.raqam}} - savol<br/>{{item.savol}}</h4>
-                    <img ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
-                    <div class="list-group" style="text-align:left">
-                      <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a}}</a>
-                      <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b}}</a>
-                      <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c}}</a>
-                      <a ng-click="ok('D')" id="D{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='D'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='D'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_d!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === D{{item.id}}' name="javob{{savol_raqami}}" value="D{{item.id}}"> {{item.javob_d}}</a>
-                    </div>
-                </div>
-            {% endverbatim %}
+              {% if request.LANGUAGE_CODE == 'uz' %}
+              {% verbatim %}
+              <div ng-repeat="item in data" ng-show="item.id==id">
+                  <h4 class="page-content">{{bilet}} - bilet<br/>{{item.raqam}} - savol<br/>{{item.savol}}</h4>
+                  <img ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
+                  <div class="list-group" style="text-align:left">
+                    <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a}}</a>
+                    <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b}}</a>
+                    <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c}}</a>
+                    <a ng-click="ok('D')" id="D{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='D'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='D'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_d!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === D{{item.id}}' name="javob{{savol_raqami}}" value="D{{item.id}}"> {{item.javob_d}}</a>
+                  </div>
+              </div>
+              {% endverbatim %}
+              {% else %}
+              {% if request.LANGUAGE_CODE == 'ru' %}
+              {% verbatim %}
+              <div ng-repeat="item in data" ng-show="item.id==id">
+                  <h4 class="page-content">{{bilet}}- билет<br/>Вопрос {{item.raqam}}<br/>{{item.savol_ru}}</h4>
+                  <img ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
+                  <div class="list-group" style="text-align:left">
+                    <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a_ru}}</a>
+                    <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b_ru}}</a>
+                    <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c_ru}}</a>
+                    <a ng-click="ok('D')" id="D{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='D'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='D'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_d_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === D{{item.id}}' name="javob{{savol_raqami}}" value="D{{item.id}}"> {{item.javob_d_ru}}</a>
+                  </div>
+              </div>
+              {% endverbatim %}
+              {% else %}
+              {% verbatim %}
+              <div ng-repeat="item in data" ng-show="item.id==id">
+                  <h4 class="page-content">{{bilet}}st ticket<br/>Question {{item.raqam}}<br/>{{item.savol_en}}</h4>
+                  <img ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
+                  <div class="list-group" style="text-align:left">
+                    <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a_en!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a_en}}</a>
+                    <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b_en!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b_en}}</a>
+                    <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c_en!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c_en}}</a>
+                    <a ng-click="ok('D')" id="D{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='D'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='D'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_d_en!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === D{{item.id}}' name="javob{{savol_raqami}}" value="D{{item.id}}"> {{item.javob_d_en}}</a>
+                  </div>
+              </div>
+              {% endverbatim %}
+              {% endif %}
+              {% endif %}
         </div>
     </div>
     <script>
@@ -504,12 +617,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                               bilet: item.bilet,
                               javob:item.javob,
                               javob_a:item.javob_a,
+                              javob_a_en:item.javob_a_en,
+                              javob_a_ru:item.javob_a_ru,
                               javob_b:item.javob_b,
+                              javob_b_en:item.javob_b_en,
+                              javob_b_ru:item.javob_b_ru,
                               javob_c:item.javob_c,
+                              javob_c_en:item.javob_c_en,
+                              javob_c_ru:item.javob_c_ru,
                               javob_d:item.javob_d,
+                              javob_d_en:item.javob_d_en,
+                              javob_d_ru:item.javob_d_ru,
                               raqam:item.raqam,
                               rasm:item.rasm,
                               savol:item.savol,
+                              savol_en:item.savol_en,
+                              savol_ru:item.savol_ru,
                               berilgan_javob:berilgan_javob,
                             };
                             $scope.data.push(obj);

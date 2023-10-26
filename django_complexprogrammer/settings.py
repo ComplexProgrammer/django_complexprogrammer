@@ -127,6 +127,7 @@ LANGUAGES = (
     ('uz', _('Uzbek')),
     ('en', _('English')),
     ('tr', _('Turkish')),
+    ('ru', _('Russia')),
 )
 
 LOCALE_PATHS = [

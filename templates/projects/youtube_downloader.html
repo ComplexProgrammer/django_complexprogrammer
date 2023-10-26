@@ -85,7 +85,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/391652c176.js" crossorigin="anonymous"></script>
-    <title>Youtube Downloader</title>
+    <title>
+      {% if request.LANGUAGE_CODE == 'uz' %}
+      Youtube yuklab olish dasturi
+      {% else %}
+      {% if request.LANGUAGE_CODE == 'ru' %}
+      Загрузчик YouTube
+      {% else %}
+      Youtube Downloader
+      {% endif %}
+      {% endif %}
+    </title>
     <style>
         body {
           background-color: #212121;
@@ -190,7 +200,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 <input id="hh" type="text" class="fade hide" />
 <input type="text" class="fade hide" value="{{csrf_token}}" />
-{%verbatim%}
 <div class="container">
   <div class="C0mplexButton float-end">
       <a href="/#services">
@@ -216,43 +225,122 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="col">
           <div class="card text-white bg-dark mb-3">
             <div class="card-header">
+              {% if request.LANGUAGE_CODE == 'uz' %}
+              Youtube yuklab olish dasturi
+              {% else %}
+              {% if request.LANGUAGE_CODE == 'ru' %}
+              Загрузчик YouTube
+              {% else %}
               Youtube Downloader
+              {% endif %}
+              {% endif %}
                   <a href="https://play.google.com/store/apps/details?id=youtubedownloader.complexprogrammer.uz" target="_blank">
                       <img src="/static/img/google-play.svg" />
                   </a>
             </div>
+            {% if request.LANGUAGE_CODE == 'uz' %}
             <div class="card-body">
-                  <h5 class="card-title">youtube downloader converter</h5>
-                  <p class="card-text">A simple Website that is able to download YouTube videos or playlists and convert them into MP3.</p>
-                  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <button ng-click="UrlTo(1)" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons">video_file</span> .mp4</button>
-                    </li>
+              <h5 class="card-title">youtube yuklab olish konvertori</h5>
+              <p class="card-text">YouTube videolari yoki pleylistlarini yuklab olish va ularni MP3 ga aylantirish imkoniyatiga ega oddiy veb-sayt.</p>
+              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button ng-click="UrlTo(1)" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons">video_file</span> .mp4</button>
+                </li>
 
-                    <li class="nav-item" role="presentation">
-                      <button ng-click="UrlTo(3)" class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons">audio_file</span> .mp3</button>
-                    </li>
-                  </ul>
-                  <ul class="nav nav-pills mb-3" id="quality-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <button ng-click="Quality('low')" class="nav-link text-danger active" id="low" data-bs-toggle="pill" data-bs-target="#low" type="button" role="tab" aria-controls="low" aria-selected="true">low</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button ng-click="Quality('medium')" class="nav-link text-danger" id="medium" data-bs-toggle="pill" data-bs-target="#medium" type="button" role="tab" aria-controls="medium" aria-selected="false">medium</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button ng-click="Quality('high')" class="nav-link text-danger" id="high" data-bs-toggle="pill" data-bs-target="#high" type="button" role="tab" aria-controls="high" aria-selected="false">high</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button ng-click="Quality('very high')" class="nav-link text-danger" id="very_high" data-bs-toggle="pill" data-bs-target="#very_high" type="button" role="tab" aria-controls="very_high" aria-selected="false">very high</button>
-                    </li>
-                  </ul>
-                  <div class="input-group mb-3">
-                      <input type="text" ng-model="link" id="link" class="form-control" placeholder="Youtube video url" aria-label="Youtube video or playlist url" aria-describedby="button-addon2">
-                      <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
-                      <button class="btn btn-outline-warning" type="button" ng-click="youtube_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
-                  </div>
-            </div>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="UrlTo(3)" class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons">audio_file</span> .mp3</button>
+                </li>
+              </ul>
+              <ul class="nav nav-pills mb-3" id="quality-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('low')" class="nav-link text-danger active" id="low" data-bs-toggle="pill" data-bs-target="#low" type="button" role="tab" aria-controls="low" aria-selected="true">past</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('medium')" class="nav-link text-danger" id="medium" data-bs-toggle="pill" data-bs-target="#medium" type="button" role="tab" aria-controls="medium" aria-selected="false">o'rtacha</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('high')" class="nav-link text-danger" id="high" data-bs-toggle="pill" data-bs-target="#high" type="button" role="tab" aria-controls="high" aria-selected="false">yuqori</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('very high')" class="nav-link text-danger" id="very_high" data-bs-toggle="pill" data-bs-target="#very_high" type="button" role="tab" aria-controls="very_high" aria-selected="false">juda yuqori</button>
+                </li>
+              </ul>
+              <div class="input-group mb-3">
+                  <input type="text" ng-model="link" id="link" class="form-control" placeholder="Youtube video url" aria-label="Youtube video or playlist url" aria-describedby="button-addon2">
+                  <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Joylashtirish</button>
+                  <button class="btn btn-outline-warning" type="button" ng-click="youtube_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Konvertatsiya qilish</button>
+              </div>
+        </div>
+            {% else %}
+            {% if request.LANGUAGE_CODE == 'ru' %}
+            <div class="card-body">
+              <h5 class="card-title">конвертер загрузчика YouTube</h5>
+              <p class="card-text">Простой веб-сайт, позволяющий загружать видео или плейлисты с YouTube и конвертировать их в MP3.</p>
+              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button ng-click="UrlTo(1)" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons">video_file</span> .mp4</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button ng-click="UrlTo(3)" class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons">audio_file</span> .mp3</button>
+                </li>
+              </ul>
+              <ul class="nav nav-pills mb-3" id="quality-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('low')" class="nav-link text-danger active" id="low" data-bs-toggle="pill" data-bs-target="#low" type="button" role="tab" aria-controls="low" aria-selected="true">низкий</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('medium')" class="nav-link text-danger" id="medium" data-bs-toggle="pill" data-bs-target="#medium" type="button" role="tab" aria-controls="medium" aria-selected="false">середина</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('high')" class="nav-link text-danger" id="high" data-bs-toggle="pill" data-bs-target="#high" type="button" role="tab" aria-controls="high" aria-selected="false">высокий</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('very high')" class="nav-link text-danger" id="very_high" data-bs-toggle="pill" data-bs-target="#very_high" type="button" role="tab" aria-controls="very_high" aria-selected="false">очень высоко</button>
+                </li>
+              </ul>
+              <div class="input-group mb-3">
+                  <input type="text" ng-model="link" id="link" class="form-control" placeholder="URL-адрес видео на YouTube" aria-label="Youtube video or playlist url" aria-describedby="button-addon2">
+                  <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Вставить</button>
+                  <button class="btn btn-outline-warning" type="button" ng-click="youtube_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Конвертировать</button>
+              </div>
+        </div>
+            {% else %}
+            <div class="card-body">
+              <h5 class="card-title">youtube downloader converter</h5>
+              <p class="card-text">A simple Website that is able to download YouTube videos or playlists and convert them into MP3.</p>
+              <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button ng-click="UrlTo(1)" class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true"><span class="material-icons">video_file</span> .mp4</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button ng-click="UrlTo(3)" class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"><span class="material-icons">audio_file</span> .mp3</button>
+                </li>
+              </ul>
+              <ul class="nav nav-pills mb-3" id="quality-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('low')" class="nav-link text-danger active" id="low" data-bs-toggle="pill" data-bs-target="#low" type="button" role="tab" aria-controls="low" aria-selected="true">low</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('medium')" class="nav-link text-danger" id="medium" data-bs-toggle="pill" data-bs-target="#medium" type="button" role="tab" aria-controls="medium" aria-selected="false">medium</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('high')" class="nav-link text-danger" id="high" data-bs-toggle="pill" data-bs-target="#high" type="button" role="tab" aria-controls="high" aria-selected="false">high</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button ng-click="Quality('very high')" class="nav-link text-danger" id="very_high" data-bs-toggle="pill" data-bs-target="#very_high" type="button" role="tab" aria-controls="very_high" aria-selected="false">very high</button>
+                </li>
+              </ul>
+              <div class="input-group mb-3">
+                  <input type="text" ng-model="link" id="link" class="form-control" placeholder="Youtube video url" aria-label="Youtube video or playlist url" aria-describedby="button-addon2">
+                  <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
+                  <button class="btn btn-outline-warning" type="button" ng-click="youtube_downloader()" id="button-addon2"><i class="fa-solid fa-recycle"></i> Convert</button>
+              </div>
+        </div>
+            {% endif %}
+            {% endif %}
+
           </div>
       </div>
   </div>
@@ -269,6 +357,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
   </div>
 </div>
-{%endverbatim%}
 </body>
 </html>

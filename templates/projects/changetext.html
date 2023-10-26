@@ -152,7 +152,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   })
 })</script>
 <marquee>
-    <h2 style="color:green;">The service determines the Latin or Cyrillic text.</h2>
+    <h2 style="color:green;">
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        Xizmat lotin yoki kirill yozuvini belgilaydi.
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        Сервис определяет латиницу или кириллицу.
+        {% else %}
+        The service determines the Latin or Cyrillic text.
+        {% endif %}
+        {% endif %}
+    </h2>
 </marquee>
 <div class="C0mplexButton float-end">
     <a href="/#services">
@@ -164,11 +174,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </a>
 </div>
 <div ng-app="App" ng-controller="Data" class="container">
-    <h2>Lotin Kirill
+    <h2>
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        Lotin Kirill
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        Латинский Кирилл
+        {% else %}
+        Latin Kirill
+        {% endif %}
+        {% endif %}
         <a href="https://play.google.com/store/apps/details?id=changetext.complexprogrammer.uz" target="_blank">
             <img src="/static/img/google-play.svg" />
         </a>
     </h2>
+    {% if request.LANGUAGE_CODE == 'uz' %}
+    {% verbatim %}
+    <h6 ng-show="TextLength==0" style="text-align:center">
+        Matnni kiriting
+    </h6>
+    <h6 ng-show="TextLength!=0" style="text-align:center">
+        Matndagi belgilar soni {{TextLength}} ta
+    </h6>
+    {% endverbatim %}
+    {% else %}
+    {% if request.LANGUAGE_CODE == 'ru' %}
+    {% verbatim %}
+    <h6 ng-show="TextLength==0" style="text-align:center">
+        Введите текст
+    </h6>
+    <h6 ng-show="TextLength!=0" style="text-align:center">
+        Количество символов в тексте {{TextLength}}
+    </h6>
+    {% endverbatim %}
+    {% else %}
     {% verbatim %}
     <h6 ng-show="TextLength==0" style="text-align:center">
         Enter the text
@@ -177,6 +216,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         The number of characters in the text {{TextLength}}
     </h6>
     {% endverbatim %}
+    {% endif %}
+    {% endif %}
     <form method="post" action="/ChangeTextData" id="form">
         <textarea class="form-control" ng-model="old_text" ng-change="ChangeText(old_text)" rows="10" cols="50"  name="old_text" id="old_text" placeholder="EnterText"></textarea>
         <textarea ng-model="new_text" class="form-control" name="new_text" id="new_text" rows="10" cols="50" placeholder="Result" disabled>{{new_text}}</textarea>
@@ -187,13 +228,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <span></span>
                 <span></span>
                 <i class="fa fa-copy"></i>
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                Nusxalash
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                Копировать
+                {% else %}
                 Copy
+                {% endif %}
+                {% endif %}
             </a>
         </div>
         <p style="margin:15px">
+            {% if request.LANGUAGE_CODE == 'uz' %}
             Koʼpincha bizda kirill yoki lotin alifbosidagi matnlarni kirilldan-lotinga, lotindan-kirillga oʼgirishga ehtiyoj boʼladi.Ushbu kiril lotin, lotin kiril onlayn translit dasturi oʼzbek tilidagi har qanday matnlarni hech qanday muammosiz hal qilishingizda sizga yordam beradi.Bu dasturning afzalligi shundaki, simvollar soni cheklanmangan, hamda qaysi tilga oʼgirishni dasturni oʼzi aniqlaydi. Butun bir maqolani yoki matnni birinchi boʼsh katakka qoʼysangiz, bir necha soniyadan soʼng tayyor natijani qoʼlga kiritasiz. Hozircha sinov tartibida ishlayotganligi sababli, natijani tekshirib oling.
-        </p>
-        <p style="margin:15px">
-            Кўпинча бизда кирилл ёки лотин алифбосидаги матнларни кириллдан-лотинга, лотиндан-кириллга ўгиришга еҳтиёж бўлади.Ушбу кирил лотин, лотин кирил онлайн транслит дастури ўзбек тилидаги ҳар қандай матнларни ҳеч қандай муаммосиз ҳал қилишингизда сизга ёрдам беради.Бу дастурнинг афзаллиги шундаки, символлар сони чекланманган, ҳамда қайси тилга ўгиришни дастурни ўзи аниқлайди. Бутун бир мақолани ёки матнни биринчи бўш катакка қўйсангиз, бир неча сониядан сўнг тайёр натижани қўлга киритасиз. Ҳозирча синов тартибида ишлаётганлиги сабабли, натижани текшириб олинг.
+            {% else %}
+            {% if request.LANGUAGE_CODE == 'ru' %}
+            Часто нам требуется конвертировать кириллические или латинские тексты с кириллицы на латиницу, с латиницы на кириллицу.Эта программа онлайн-транслитерации Кириллица Латиница, Латиница Кириллица поможет вам без проблем решить любой текст на узбекском языке.Преимущество этой программы в том, что количество символов не ограничено, и программа сама определяет, какой язык конвертировать. Если в первую пустую ячейку поместить всю статью или текст, то через несколько секунд вы получите готовый результат. Поскольку сейчас он работает в пробном режиме, проверьте результат.
+            {% else %}
+            Often we need to convert Cyrillic or Latin texts from Cyrillic to Latin, from Latin to Cyrillic. This Cyrillic Latin, Latin Cyrillic online transliteration program will help you solve any text in the Uzbek language without any problems. The advantage of this program is that the number of characters is not limited, and the program determines which language to convert. If you put an entire article or text in the first empty cell, you will get the finished result in a few seconds. As it is running in trial mode for now, check the result.
+            {% endif %}
+            {% endif %}
         </p>
     </form>

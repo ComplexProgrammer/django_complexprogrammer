@@ -156,14 +156,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }]);
     </script>
 
-    <title>Image Compare</title>
+    <title>
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        Rasm solishtirish
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        Сравнение изображений
+        {% else %}
+        Image Compare
+        {% endif %}
+        {% endif %}
+    </title>
 </head>
 <body ng-app="App" ng-controller="ImageCompare">
 <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
     <img src="/static/img/buffering.gif" />
 </div>
 <input id="hh" type="hidden" />
-{% verbatim %}
 <div class="C0mplexButton float-end">
     <a href="/#services">
         <span></span>
@@ -174,15 +183,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </a>
 </div>
 <div class="container" >
-    <h2>Image Compare
+    <h2>
+        {% if request.LANGUAGE_CODE == 'uz' %}
+        Rasm solishtirish
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+        Сравнение изображений
+        {% else %}
+        Image Compare
+        {% endif %}
+        {% endif %}
         <a href="https://play.google.com/store/apps/details?id=exchangerates.complexprogrammer.uz" target="_blank">
             <img src="/static/img/google-play.svg" />
         </a>
     </h2>
+    {% if request.LANGUAGE_CODE == 'uz' %}
     <div class="row text-center">
         <div class="col"><p class="text-info">1 - Rasm</p></div>
         <div class="col"><p class="text-info">2 - Rasm</p></div>
     </div>
+    {% else %}
+    {% if request.LANGUAGE_CODE == 'ru' %}
+    <div class="row text-center">
+        <div class="col"><p class="text-info">1 - Изображение</p></div>
+        <div class="col"><p class="text-info">2 - Изображение</p></div>
+    </div>
+    {% else %}
+    <div class="row text-center">
+        <div class="col"><p class="text-info">1 - Picture</p></div>
+        <div class="col"><p class="text-info">2 - Picture</p></div>
+    </div>
+    {% endif %}
+    {% endif %}
+
     <div class="row">
         <div class="col"><input type="file" ng-files="getTheFiles1($files)" ng-model="img_model1" id="img1" name="img1" data-height="500" class="dropify" /></div>
         <div class="col"><input type="file" ng-files="getTheFiles2($files)" ng-model="img_model2" id="img2" name="img2" data-height="500" class="dropify" /></div>
@@ -194,21 +227,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <span></span>
             <span></span>
             <i class="fa fa-copy"></i>
+            {% if request.LANGUAGE_CODE == 'uz' %}
             Taqqoslash
+            {% else %}
+            {% if request.LANGUAGE_CODE == 'ru' %}
+            Сравнение
+            {% else %}
+            Comparison
+            {% endif %}
+            {% endif %}
         </a>
     </div>
+    {% if request.LANGUAGE_CODE == 'uz' %}
     <div class="row text-center" ng-show="Data!=0&&ShowData">
         <div class="col"><p class="text-info">Natija</p></div>
     </div>
     <div class="row text-center" ng-show="Data==0">
-        <div class="col"><p class="text-danger">Rasm o`lchamlari bir xil bo`lishi kerak.</p></div>
+        <div class="col"><p class="text-danger">Rasm o`lchamlari bir xil bo`lishi kerak!</p></div>
     </div>
+    {% else %}
+    {% if request.LANGUAGE_CODE == 'ru' %}
+    <div class="row text-center" ng-show="Data!=0&&ShowData">
+        <div class="col"><p class="text-info">Результат</p></div>
+    </div>
+    <div class="row text-center" ng-show="Data==0">
+        <div class="col"><p class="text-danger">Размеры изображений должны быть одинаковыми!</p></div>
+    </div>
+    {% else %}
+    <div class="row text-center" ng-show="Data!=0&&ShowData">
+        <div class="col"><p class="text-info">The result</p></div>
+    </div>
+    <div class="row text-center" ng-show="Data==0">
+        <div class="col"><p class="text-danger">Image dimensions must be the same!</p></div>
+    </div>
+    {% endif %}
+    {% endif %}
+    {% verbatim %}
     <div class="row text-center" ng-show="Data!=0&&ShowData">
         <div class="col"><img ng-src="{{img_result}}" /></div>
     </div>
+    {% endverbatim %}
 </div>
 <script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
 <script>$('.dropify').dropify();</script>
-{% endverbatim %}
 </body>
 </html>
