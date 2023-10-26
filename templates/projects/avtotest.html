@@ -336,7 +336,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </a>
                 </div>
                 <h1 style="color:green">
-                    <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">Avto Test 1000+</a>
+                    <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                      {% if request.LANGUAGE_CODE == 'uz' %}
+                      Avto Test 1000+
+                      {% else %}
+                      {% if request.LANGUAGE_CODE == 'ru' %}
+                      Автотест 1000+
+                      {% else %}
+                      Auto Test 1000+
+                      {% endif %}
+                      {% endif %}
+                    </a>
                     <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                         <img src="/static/img/google-play.svg" />
                     </a>
