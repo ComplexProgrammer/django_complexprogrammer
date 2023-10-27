@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import GetAnswers, GetBooks, GetExchangeRates, GetBilet, GetChangeTextData, GetGroups, GetQuestions, GetSavol, GetTopics, GetTranslateLanguages, GetTranslateResult, TextToSpeech, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, remove_file, remove_file_, send_adstxt, send_bing_site_auth, send_file, send_file_, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
+from .views import GetAnswers, GetBooks, GetExchangeRates, GetBilet, GetChangeTextData, GetGroups, GetQuestions, GetSavol, GetTopics, GetTranslateLanguages, GetTranslateResult, TextToSpeech, base, bubbleshooter, car, changetext, duckhunt, exchangerates, ip, motorcycle, pingpong, privacy, projects, project_item, instagram_downloader_, remove_file, remove_file_, send_adstxt, send_app_adstxt, send_bing_site_auth, send_file, send_file_, send_google_verification, send_robots, send_rss, send_sitemap, send_yandex_verification, send_zen_verification, sitemap, snake, snake2, terms, tetris, tictactoe, youtube_downloader_, coins, C0mplexTranslate, ImageCompare, avtotest, avtotest_item, password_generator
 
 urlpatterns=[
     path('', base, name='base'),
@@ -43,6 +43,7 @@ urlpatterns=[
     path('sitemap.xml/', send_sitemap, name='send_sitemap'),
     path('BingSiteAuth.xml/', send_bing_site_auth, name='send_bing_site_auth'),
     path('rss.xml/', send_rss, name='send_rss'),
+    path('app-ads.txt/', send_app_adstxt, name='send_app_adstxt'),
     path('ads.txt/', send_adstxt, name='send_adstxt'),
     path('robots.txt/', send_robots, name='send_robots'),
     

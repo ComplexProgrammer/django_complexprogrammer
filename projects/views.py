@@ -726,6 +726,11 @@ def send_rss(request):
     response = FileResponse(temp)
     return response
 
+def send_app_adstxt(request):
+    temp = open('static/app-ads.txt', 'rb')
+    response = FileResponse(temp)
+    return response
+
 def send_adstxt(request):
     temp = open('static/ads.txt', 'rb')
     response = FileResponse(temp)
