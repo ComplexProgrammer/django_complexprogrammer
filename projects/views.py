@@ -30,7 +30,7 @@ import pyttsx3
 from django.contrib import messages
 from django.core import serializers
 from projects import youtube_downloader
-
+from django.views.decorators.csrf import csrf_exempt
 # from projects.cartoonize.video_api import api_request
 
 # skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
@@ -292,6 +292,7 @@ def instagram_downloader_(request):
                             'result': '0'
                         }
         return render(request, 'projects/instagram_downloader.html', context=context)
+@csrf_exempt
 def youtube_downloader_(request):
     if request.method == 'GET':
         return render(request, 'projects/youtube_downloader.html')
