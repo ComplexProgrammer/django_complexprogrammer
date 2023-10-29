@@ -123,6 +123,8 @@ USE_TZ = True
 
 USE_L10N = True
 
+SOLID_I18N_USE_REDIRECTS = False
+
 LANGUAGES = (
     ('uz', _('Uzbek')),
     ('en', _('English')),

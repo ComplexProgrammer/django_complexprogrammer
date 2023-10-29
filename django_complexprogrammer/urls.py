@@ -20,6 +20,7 @@ from django.urls import include, path, re_path
 from django.views.static import serve
 from django.conf.urls.i18n import i18n_patterns
 
+from projects import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('projects.urls'))
