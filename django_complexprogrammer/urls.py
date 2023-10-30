@@ -33,3 +33,7 @@ urlpatterns += [path('i18n/', include('django.conf.urls.i18n')),]
 urlpatterns = [
     *i18n_patterns(*urlpatterns, prefix_default_language=False),
     ]
+
+urlpatterns += [
+    path('', include('projects.urls'))
+]
