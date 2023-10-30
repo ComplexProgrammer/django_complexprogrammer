@@ -18,35 +18,36 @@ from instaloader import Instaloader, Profile
 # from pysitemap import crawler
 import numpy as np
 import urllib3
+import yaml
 # import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
 from projects.models import Answers, AvtoTest, Books, Groups, IsService, Project, Questions, Topics
-# from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
-# import skvideo
-# import skvideo.io
+from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
+import skvideo
+import skvideo.io
 from PIL import Image
 import pyttsx3
 from django.contrib import messages
 from django.core import serializers
 from projects import youtube_downloader
 from django.views.decorators.csrf import csrf_exempt
-# from projects.cartoonize.video_api import api_request
+from projects.cartoonize.video_api import api_request
 
-# skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
-# with open('projects/cartoonize/config.yaml', 'r') as fd:
-#     opts = yaml.safe_load(fd)
+skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
+with open('projects/cartoonize/config.yaml', 'r') as fd:
+    opts = yaml.safe_load(fd)
 # if opts['colab-mode']:
 #     from flask_ngrok import run_with_ngrok
 #     run_with_ngrok(app)
 
-# if not opts['run_local']:
-#     if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
-#         from gcloud_utils import upload_blob, generate_signed_url, delete_blob, download_video
-#     else:
-#         raise Exception("GOOGLE_APPLICATION_CREDENTIALS not set in environment variables")
-#     from video_api import api_request
-
+if not opts['run_local']:
+    if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
+        from gcloud_utils import upload_blob, generate_signed_url, delete_blob, download_video
+    else:
+        raise Exception("GOOGLE_APPLICATION_CREDENTIALS not set in environment variables")
+    from video_api import api_request
+    import Algorithmia
 def base(request):
     if request.device.get('is_mobile'):
         is_mobile = True
@@ -64,7 +65,7 @@ def base(request):
     }
     return render(request, "base.html", context=context)
 
-# wb_cartoonizer = WB_Cartoonize(WRITE_BOX_CARTOONIZER+'saved_models/', opts['gpu'])
+wb_cartoonizer = WB_Cartoonize(WRITE_BOX_CARTOONIZER+'saved_models/', opts['gpu'])
 
 
 def convert_bytes_to_image(img_bytes):
@@ -87,7 +88,7 @@ def convert_bytes_to_image(img_bytes):
 
     return image
 
-# def cartoonize(request):
+def cartoonize(request):
     if request.method == 'POST':
         try:
             if request.files.get('image'):
@@ -111,9 +112,13 @@ def convert_bytes_to_image(img_bytes):
                     # Delete locally stored cartoonized image
                     os.system("rm " + cartoonized_img_name)
                     cartoonized_img_name = generate_signed_url(output_uri)
+                context={
+                        'cartoonized_image': cartoonized_img_name
+                    }
+                return render(request, 'projects/cartoonize.html', context=context)
                 print(cartoonized_img_name)
-                return render("projects/cartoonize.html",
-                                       cartoonized_image=cartoonized_img_name)
+                # return render("projects/cartoonize.html",
+                #                        cartoonized_image=cartoonized_img_name)
 
             if request.files.get('video'):
 
@@ -205,12 +210,16 @@ def convert_bytes_to_image(img_bytes):
                 os.system("rm {} {} {} {}".format(original_video_path, modified_video_path, audio_file_path,
                                                   cartoon_video_path))
 
-                return render("projects/cartoonize.html", cartoonized_video=final_cartoon_video_path)
+                #return render(request, "projects/cartoonize.html", cartoonized_video=final_cartoon_video_path)
+                context={
+                        'cartoonized_video': final_cartoon_video_path
+                    }
+                return render(request, 'projects/cartoonize.html', context=context)
 
         except Exception:
             print(traceback.print_exc())
             messages.error(request, 'Our server hiccuped :/ Please upload another file! :)')
-            return render("projects/cartoonize.html")
+            return render(request, "projects/cartoonize.html")
     else:
         return render(request, "projects/cartoonize.html")
 def save_insta_collection(user_name):
