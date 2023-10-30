@@ -239,7 +239,6 @@
   </style>
   <title>C0mplex</title>
 </head>
-
 <body>
   <!-- Header -->
   <section id="header">
@@ -260,31 +259,69 @@
             <li><a href="#projects" data-after="Projects">{% trans 'Projects' %}</a></li>
             <li><a href="#about" data-after="About">{% trans 'About' %}</a></li>
             <li><a href="#contact" data-after="Contact">{% trans 'Contact' %}</a></li>
-          <li>
-            <div>
-              {% get_current_language as LANGUAGE_CODE %}
-              {% get_available_languages as LANGUAGES %}
-              {% get_language_info_list for LANGUAGES as languages %}
-                  <form action="{% url 'set_language' %}" method="POST">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}">
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
-                      {% for language in languages %}
-                      <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                      {{ language.name_local }} ({{ language.code }})
-                      </option>
-                      {% endfor %}
-                    </select>
-                  </form>
-              </div>
-          </li>
+          </ul>
+          {% comment %} <ul class="nav">
+            <li class="nav-item">
+              {% if LANGUAGE_CODE == 'en' %}
+              <img src="https://ipapi.co/static/images/flags/us.png" />
+              {% else %}
+              <img src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
+              {% endif %}
+            </li>
+            <li class="nav-item">
+              <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
+                  {% for language in languages %}
+                  <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </form>
+            </li>
+          </ul> {% endcomment %}
+        </div>
+      </div>
+      
+    </div>
+
+    {% get_current_language as LANGUAGE_CODE %}
+    {% get_available_languages as LANGUAGES %}
+    {% get_language_info_list for LANGUAGES as languages %}
+    <div class="position-relative">
+      <div class="position-absolute top-0 end-0 translate-middle">
+        <div class="nav-list">
+          <ul class="nav1">
+            <li class="nav-item1">
+              {% if LANGUAGE_CODE == 'en' %}
+              <img src="https://ipapi.co/static/images/flags/us.png" />
+              {% else %}
+              <img src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
+              {% endif %}
+            </li>
+            <li class="nav-item">
+              <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
+                  {% for language in languages %}
+                  <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </form>
+            </li>
           </ul>
         </div>
       </div>
     </div>
   </section>
-  <!-- End Header -->
 
+
+  <!-- End Header -->
   <!-- Hero Section  -->
   <section id="hero">
     <div class="hero container">
