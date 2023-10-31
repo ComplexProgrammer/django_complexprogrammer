@@ -7,7 +7,7 @@ Google Cloud Util Functions:
 import os
 import datetime
 
-from google.cloud import storage
+from google.cloud import storage # type: ignore
 from google.cloud.storage.blob import Blob
 
 ## Google Storage Client

@@ -32,7 +32,7 @@ from django.contrib import messages
 from django.core import serializers
 from projects import youtube_downloader
 from django.views.decorators.csrf import csrf_exempt
-from projects.cartoonize.video_api import api_request
+# from projects.cartoonize.video_api import api_request
 
 skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
 with open('projects/cartoonize/config.yaml', 'r') as fd:
@@ -41,13 +41,14 @@ with open('projects/cartoonize/config.yaml', 'r') as fd:
 #     from flask_ngrok import run_with_ngrok
 #     run_with_ngrok(app)
 
-if not opts['run_local']:
-    if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
-        from gcloud_utils import upload_blob, generate_signed_url, delete_blob, download_video
-    else:
-        raise Exception("GOOGLE_APPLICATION_CREDENTIALS not set in environment variables")
-    from video_api import api_request
-    import Algorithmia
+# if not opts['run_local']:
+#     if 'GOOGLE_APPLICATION_CREDENTIALS' in os.environ:
+#         from gcloud_utils import upload_blob, generate_signed_url, delete_blob, download_video
+#     else:
+#         raise Exception("GOOGLE_APPLICATION_CREDENTIALS not set in environment variables")
+#     from video_api import api_request
+#     import Algorithmia
+  
 def base(request):
     if request.device.get('is_mobile'):
         is_mobile = True
@@ -65,7 +66,7 @@ def base(request):
     }
     return render(request, "base.html", context=context)
 
-wb_cartoonizer = WB_Cartoonize(WRITE_BOX_CARTOONIZER+'saved_models/', opts['gpu'])
+# wb_cartoonizer = WB_Cartoonize(WRITE_BOX_CARTOONIZER+'saved_models/', opts['gpu'])
 
 
 def convert_bytes_to_image(img_bytes):
@@ -88,7 +89,7 @@ def convert_bytes_to_image(img_bytes):
 
     return image
 
-def cartoonize(request):
+# def cartoonize(request):
     if request.method == 'POST':
         try:
             if request.files.get('image'):
@@ -189,26 +190,26 @@ def cartoonize(request):
 
                 if opts["run_local"]:
                     cartoon_video_path = wb_cartoonizer.process_video(modified_video_path, output_frame_rate)
-                else:
-                    data_uri = upload_blob("processed_videos_cartoonize", modified_video_path, filename,
-                                           content_type='video/mp4', algo_unique_key='cartoonizeinput')
-                    response = api_request(data_uri)
-                    # Delete the processed video from Cloud storage
-                    delete_blob("processed_videos_cartoonize", filename)
-                    cartoon_video_path = download_video('cartoonized_videos', os.path.basename(response['output_uri']),
-                                                        os.path.join(UPLOAD_FOLDER_VIDEOS,
-                                                                     filename.split(".")[0] + "_cartoon.mp4"))
+                # else:
+                #     data_uri = upload_blob("processed_videos_cartoonize", modified_video_path, filename,
+                #                            content_type='video/mp4', algo_unique_key='cartoonizeinput')
+                #     response = api_request(data_uri)
+                #     # Delete the processed video from Cloud storage
+                #     delete_blob("processed_videos_cartoonize", filename)
+                #     cartoon_video_path = download_video('cartoonized_videos', os.path.basename(response['output_uri']),
+                #                                         os.path.join(UPLOAD_FOLDER_VIDEOS,
+                #                                                      filename.split(".")[0] + "_cartoon.mp4"))
 
                 ## Add audio to the cartoonized video
                 final_cartoon_video_path = os.path.join(UPLOAD_FOLDER_VIDEOS,
                                                         filename.split(".")[0] + "_cartoon_audio.mp4")
-                os.system("ffmpeg -hide_banner -loglevel warning -i '{}' -i '{}' -codec copy -shortest '{}'".format(
-                    os.path.abspath(cartoon_video_path), os.path.abspath(audio_file_path),
-                    os.path.abspath(final_cartoon_video_path)))
+                # os.system("ffmpeg -hide_banner -loglevel warning -i '{}' -i '{}' -codec copy -shortest '{}'".format(
+                #     os.path.abspath(cartoon_video_path), os.path.abspath(audio_file_path),
+                #     os.path.abspath(final_cartoon_video_path)))
 
-                # Delete the videos from local disk
-                os.system("rm {} {} {} {}".format(original_video_path, modified_video_path, audio_file_path,
-                                                  cartoon_video_path))
+                # # Delete the videos from local disk
+                # os.system("rm {} {} {} {}".format(original_video_path, modified_video_path, audio_file_path,
+                #                                   cartoon_video_path))
 
                 #return render(request, "projects/cartoonize.html", cartoonized_video=final_cartoon_video_path)
                 context={
