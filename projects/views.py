@@ -22,7 +22,7 @@ import urllib3
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
 from projects.models import Answers, AvtoTest, Books, Groups, IsService, Project, Questions, Topics
-from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
+# from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
 # import skvideo
 # import skvideo.io
 from PIL import Image
