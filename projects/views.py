@@ -18,7 +18,6 @@ from instaloader import Instaloader, Profile
 # from pysitemap import crawler
 import numpy as np
 import urllib3
-import yaml
 # import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
@@ -34,9 +33,9 @@ from projects import youtube_downloader
 from django.views.decorators.csrf import csrf_exempt
 # from projects.cartoonize.video_api import api_request
 
-skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
-with open('projects/cartoonize/config.yaml', 'r') as fd:
-    opts = yaml.safe_load(fd)
+# skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
+# with open('projects/cartoonize/config.yaml', 'r') as fd:
+#     opts = yaml.safe_load(fd)
 # if opts['colab-mode']:
 #     from flask_ngrok import run_with_ngrok
 #     run_with_ngrok(app)
