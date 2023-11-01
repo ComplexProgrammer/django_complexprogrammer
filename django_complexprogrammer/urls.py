@@ -22,7 +22,8 @@ from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('projects.urls'))
+    path('', include('projects.urls')),
+    path('', include('tests.urls')),
 ]
 urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
 if settings.DEBUG:
@@ -34,5 +35,6 @@ urlpatterns = [
     ]
 
 urlpatterns += [
-    path('', include('projects.urls'))
+    path('', include('projects.urls')),
+    path('', include('tests.urls')),
 ]
