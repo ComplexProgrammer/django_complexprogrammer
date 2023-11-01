@@ -11,6 +11,7 @@ def getText(filename):
     doc = docx.Document(filename)
     jj=0
     right=0
+    question_id=0
     for para in doc.paragraphs:
         row_savol=row_savol+1
         if str(para.text).__contains__('#'):
@@ -31,7 +32,11 @@ def getText(filename):
             print(str(savol)+'-savol -> '+text_savol+" "+str(jj))
             params=(datetime.now(), datetime.now(), '0', str(text_savol), '.', '.', '.', str(savol), '', '1')
             cursor.execute("insert into tests_questions (created_at, updated_at, is_deleted, name_en_us, name_ru_ru, name_uz_crl, name_uz_uz, number, image, topic_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
-        if str(para.text).__contains__('@'):
+            cursor.execute("SELECT * FROM tests_questions WHERE name_en_us=?", (str(text_savol),))
+
+            row = cursor.fetchone()
+            question_id=row[0]
+        if str(para.text).__contains__('@') and question_id>0:
             javob=javob+1
             if javob == jj:
                 right=1
@@ -40,9 +45,10 @@ def getText(filename):
 
             text_javob=str(para.text).replace('@', '')
             print(str(javob)+' -> '+text_javob+" "+ str(jj))
-            params=(datetime.now(), datetime.now(), '0', str(text_javob), '.', '.', '.', str(javob), '', right, '1')
+            params=(datetime.now(), datetime.now(), '0', str(text_javob), '.', '.', '.', str(javob), '', right, question_id)
             cursor.execute("insert into tests_answers (created_at, updated_at, is_deleted, name_en_us, name_ru_ru, name_uz_crl, name_uz_uz, number, image, right, question_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", params)
-        
+    # conn.commit()
+    # conn.close()
 
 
 getText(r'general_knowledge_test.docx')
