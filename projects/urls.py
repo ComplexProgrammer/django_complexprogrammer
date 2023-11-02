@@ -17,7 +17,6 @@ urlpatterns=[
     path('imagecompare/', views.ImageCompare, name='imagecompare'), # type: ignore
     path('avtotest/', views.avtotest, name='avtotest'),
     path('avtotest/<int:bilet>/', views.avtotest_item, name='avtotest'),
-    path('static/avtotest/<str>', views.tetris, name='avtotest'),
     path('GetSavol/', views.GetSavol, name='GetSavol'),
     path('GetBilet/', views.GetBilet, name='GetBilet'),
     path('exchangerates/', views.exchangerates, name='exchangerates'),
@@ -52,9 +51,9 @@ urlpatterns=[
     path('project/<int:id>/', views.project_item, name='item'),
 
 
-    path('GetGroups/', views.GetGroups, name='GetGroups'),
-    path('GetBooks/', views.GetBooks, name='GetBooks'), # type: ignore
-    path('GetTopics/', views.GetTopics, name='GetTopics'), # type: ignore
-    path('GetQuestions/', views.GetQuestions, name='GetQuestions'), # type: ignore
-    path('GetAnswers/', views.GetAnswers, name='GetAnswers'), # type: ignore
+    # path('GetGroups/', views.GetGroups, name='GetGroups'),
+    # path('GetBooks/', views.GetBooks, name='GetBooks'), # type: ignore
+    # path('GetTopics/', views.GetTopics, name='GetTopics'), # type: ignore
+    # path('GetQuestions/', views.GetQuestions, name='GetQuestions'), # type: ignore
+    # path('GetAnswers/', views.GetAnswers, name='GetAnswers'), # type: ignore
 ]
