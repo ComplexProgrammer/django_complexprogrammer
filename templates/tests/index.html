@@ -557,7 +557,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               {% verbatim %}
               <div ng-repeat="item in data" ng-show="item.id==id">
                   <h4 class="page-content">{{bilet}} - bilet<br/>{{item.number}} - savol<br/>{{item.name_uz_uz}}</h4>
-                  <img ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
+                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
                   <div class="list-group" style="text-align:left">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{question_number}}" value="A{{item.id}}"> {{item.javob_a}}</a>
                     <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{question_number}}" value="B{{item.id}}"> {{item.javob_b}}</a>
@@ -569,7 +569,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               {% else %}
               {% if request.LANGUAGE_CODE == 'ru' %}
               {% verbatim %}
-              <div ng-repeat="item in data" ng-show="item.id==id">
+              <div ng-if="item.rasm" ng-repeat="item in data" ng-show="item.id==id">
                   <h4 class="page-content">{{bilet}}- билет<br/>Вопрос {{item.number}}<br/>{{item.name_ru_ru}}</h4>
                   <img ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
                   <div class="list-group" style="text-align:left">
@@ -583,7 +583,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               {% else %}
               {% verbatim %}
               <h4 class="page-content">{{bilet}}st ticket<br/>Question {{question.number}}<br/>{{question.name_en_us}}</h4>
-                <img ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+                <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
                 <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                     <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a>
                 </div>
