@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django_extensions',
     'mobiledetect',
-    'tests'
+    'tests',
+    'pdf_tools'
 ]
 
 MIDDLEWARE = [

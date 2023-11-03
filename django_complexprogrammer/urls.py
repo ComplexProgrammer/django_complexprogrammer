@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('projects.urls')),
     path('', include('tests.urls')),
+    path('', include('pdf_tools.urls')),
 ]
 urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
 if settings.DEBUG:
@@ -37,5 +38,6 @@ urlpatterns = [
 urlpatterns += [
     path('admin/', admin.site.urls),
     path('', include('projects.urls')),
-    path('', include('tests.urls')), 
+    path('', include('tests.urls')),
+    path('', include('pdf_tools.urls')),
 ]
