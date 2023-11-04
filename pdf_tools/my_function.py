@@ -16,7 +16,7 @@ def convert_pdf2docs(input_file :str, pages: Tuple = None): # type: ignore
     print("## Summary #########################################################")
     print("\n".join("{}:{}".format(i, j) for i , j in summary.items()))
     print("#####################################################################")
-    return result
+    return summary
 
 def handle_uploaded_file(f):  
     with open('static/upload/'+f.name, 'wb+') as destination:  

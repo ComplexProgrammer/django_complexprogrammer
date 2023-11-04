@@ -388,34 +388,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="col">
             <div class="badge bg-success text-wrap">
                 <i class="fa-regular fa-circle-check"></i> 
-                Generate Secure Unbreakable Passwords in Seconds!
+                PDF online tools
             </div>
             <br>
             <br>
-            <div class="input-group">
-                <form method="POST" action="/pdf_tools/" class="form-contrtol1" enctype="multipart/form-data">  
-                    {% csrf_token %}  
-                    {{ form.as_p }}  
-                    <button type="submit" class="save btn btn-outline-success"><i class="fa fa-save"></i> Save</button>  
-                </form> 
-              {% comment %} <input type="text" class="form-control" ng-model="Password" id="Password" aria-label="Recipient's username with two button addons">
-              <button class="btn btn-outline-success" ng-click="Copy()" type="button"><i class="fa fa-copy"></i> Copy</button>
-              <button class="btn btn-outline-warning" ng-click="Refresh()" type="button"><i class="fa fa-refresh"></i> Refresh</button> {% endcomment %}
-            </div>
+            <form method="POST" id="myForm" action="/pdf_tools/" class="input-group" enctype="multipart/form-data">  
+              {% csrf_token %}  
+              {% comment %} <label for="formFileLg" class="form-label">Large file input example</label> {% endcomment %}
+              <input class="form-control form-control-lg" id="formFileLg" required type="file" name="file">
+              {% comment %} {{ form.as_p }}   {% endcomment %}
+              <button type="button" onclick="resetForm()" class="save btn btn-outline-success"><i class="fa-regular fa-file-word"></i> Convert</button>  
+          </form> 
             <br />
             {% verbatim %}
             <div class="badge bg-primary text-wrap">
               Password Length ({{Model.PasswordLength}} Characters)
             </div>
             {% endverbatim %}
-            <div>
-                <span id="rangeValue">0</span>
-                <input class="range" type="range" value="8" min="0" max="100" id="myRange"></input>
-            </div>
         </div>
     </div>
     {% endif %}
     {% endif %}
+    <script>
+      function resetForm() {
+        document.getElementById("myForm").submit();
+        document.getElementById("myForm").reset();
+      }
+      </script>
     <br />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
      crossorigin="anonymous"></script>
