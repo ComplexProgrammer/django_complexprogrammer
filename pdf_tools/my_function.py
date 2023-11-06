@@ -2,7 +2,6 @@ from pdf2docx import parse
 from typing import Tuple
 
 def convert_pdf2docs(input_file :str, pages: Tuple = None): # type: ignore
-    input_file='static/upload/'+input_file
     output_file=input_file[:-4] + ".docx"
     if pages:
         pages = [int(i) for i in list(pages) if i.isnumeric()] # type: ignore
