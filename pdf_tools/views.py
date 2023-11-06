@@ -19,6 +19,11 @@ def index(request):
             path = '' + fileName
             with open(path, 'wb+') as destination: 
                 destination.write(file)
+            FileFolder = File()
+            FileFolder.existingPath = fileName
+            FileFolder.eof = end
+            FileFolder.name = fileName
+            FileFolder.save()
             result = convert_pdf2docs(path)
             print(result['Output File'])
             res = JsonResponse({'data':'Uploaded Successfully','existingPath': fileName, 'result': result['Output File']})
