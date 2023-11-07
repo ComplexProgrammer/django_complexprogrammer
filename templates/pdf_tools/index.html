@@ -168,13 +168,59 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       } ]).controller("PDF", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
           $scope.imageSrc = "";
           var formdata = new FormData();
+          $scope.type='pdf2docx'
+          $scope.b=function(type){
+            $scope.type=type
+            var element = document.getElementsByClassName('page-item');
+            for(var i = 0; i < element.length; i++)
+            {
+                element[i].classList.remove('active');
+            }
+            document.getElementById(type).classList.add('active');
+          }
+          $scope.uploadFile = function() {
+            var fileInput = document.querySelector('#fileupload');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            var end=1;
+            document.getElementById('hh').className= "modal-backdrop fade show";
+            document.getElementById('conn').style.visibility = "visible";
+            if(file === undefined){
+                alertify.error('File not selected');
+                document.getElementById('hh').className= "fade hide";
+                document.getElementById('conn').style.visibility = "hidden";
+            }
+            else{
+                formData.append('type', $scope.type)
+                formData.append('file', file);
+                formData.append('filename', file.name)
+                $('.filename').text(file.name)
+                $('.textbox').text("Uploading file")
+                formData.append('end', end)
+                $http({
+                    url: '/pdf_tools/', // Serverning yuklash qismi URL'si
+                    method: 'POST',
+                    data: formData,
+                    headers: { "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,'Content-Type': undefined },
+                    transformRequest: angular.identity
+                }).then(function(response) {
+                    console.dir(response.data)
+                    window.location.href = "/send_file?filename="+response.data.result;
+                    $('.textbox').text(response.data.data);
+                    alertify.success(response.data.data);
+                    document.getElementById('hh').className= "fade hide";
+                    document.getElementById('conn').style.visibility = "hidden";
+                }, function(error) {
+                    alertify.error(error);
+                    console.error(error);
+                    document.getElementById('hh').className= "fade hide";
+                    document.getElementById('conn').style.visibility = "hidden";
+                });
+            }
+        };
           $scope.getTheFiles1 = function ($files) {
               formdata.set('pdf', $files[0]);
               console.log($files[0]);
-      //        angular.forEach($files, function (value, key) {
-      //            console.log(value);
-      //            console.log(formdata);
-      //        });
           };
           $scope.ShowData = false;
           function getCookie(name) {
@@ -242,8 +288,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         {% endif %}
         {% endif %}
     </title>
+    <script>
+        var scope = angular.element(document.getElementById("MainWrap")).scope(); 
+        console.dir(scope)
+    </script>
 </head>
-<body ng-app="App" ng-controller="PDF">
+<body ng-app="App" ng-controller="PDF" id="MainWrap">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
      crossorigin="anonymous"></script>
 <ins class="adsbygoogle"
@@ -329,18 +379,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <br>
             <br>
             <div class="col-lg-6 col-md-6" style="margin: 100px auto; display: block;">
-                <div class="drop-box" id="dropBox" style="width: 100%; height: 400px; border: 4px dashed gray;" >
-                    <p style="text-align: center; vertical-align: middle; line-height: 400px; font-size: 24px; color: gray;">Faylni yuklash uchun sudrab olib tashlang</p>
-                </div>
                 <form enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
-                    <p style="color: gray; padding-top: 20px;">yoki</p>
                     {% csrf_token %}
                     <div class="form-group">
                         <label>Yuklash uchun faylni tanlang.</label>
-                        <input type="file" class="form-control" id="fileupload" placeholder="Select file">
+                        <input type="file" accept=".pdf" class="form-control" id="fileupload" placeholder="Select file">
                     </div>
                     <br>
-                    <button type="button" id="submit" class="save btn btn-outline-success"><i class="fa-regular fa-file-word"></i> Konvertatsiya qilish</button>
+                    <button ng-click="uploadFile()" class="save btn btn-outline-success"><i class="fa-solid fa-rotate"></i> Konvertatsiya qilish</button>
                 </form>
                 <div id="uploaded_files"></div>
             </div>
@@ -356,19 +402,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <br>
             <br>
             <div class="col-lg-6 col-md-6" style="margin: 100px auto; display: block;">
-                <div class="drop-box" id="dropBox" style="width: 100%; height: 400px; border: 4px dashed gray;" >
-                    <p style="text-align: center; vertical-align: middle; line-height: 400px; font-size: 24px; color: gray;">Перетащите, чтобы загрузить файл</p>
-                </div>
-                <form enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
-                    <p style="color: gray; padding-top: 20px;">или</p>
+                <div enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
                     {% csrf_token %}
                     <div class="form-group">
                         <label>Выберите файл для загрузки.</label>
-                        <input type="file" class="form-control" id="fileupload" placeholder="Select file">
+                        <input type="file"  accept=".pdf" class="form-control" id="fileupload" placeholder="Select file">
                     </div>
                     <br>
-                    <button type="button" id="submit" class="save btn btn-outline-success"><i class="fa-regular fa-file-word"></i> Конвертировать</button>
-                </form>
+                    <button ng-click="uploadFile()" class="save btn btn-outline-success"><i class="fa-solid fa-rotate"></i> Конвертировать</button>
+                </div>
                 <div id="uploaded_files"></div>
             </div>
     </div>
@@ -381,20 +423,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
             <br>
             <br>
+            <nav aria-label="...">
+                <ul class="pagination pagination-lg">
+                  <li class="page-item active" id='pdf2docx' ng-click="b('pdf2docx')"><a class="page-link" href="">PDF to Word <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-word"></i></a></li>
+                  <li class="page-item" id='pdf2excel' ng-click="b('pdf2excel')"><a class="page-link" href="">PDF to Excel <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-excel"></i></a></li>
+                  <li class="page-item" id='pdf2image' ng-click="b('pdf2image')"><a class="page-link" href="">PDF to Image <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-image"></i></a></li>
+                </ul>
+              </nav>
             <div class="col-lg-6 col-md-6" style="margin: 100px auto; display: block;">
-                <div class="drop-box" id="dropBox" style="width: 100%; height: 400px; border: 4px dashed gray;" >
-                    <p style="text-align: center; vertical-align: middle; line-height: 400px; font-size: 24px; color: gray;">Drag & Drop to Upload File</p>
-                </div>
-                <form enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
-                    <p style="color: gray; padding-top: 20px;">or</p>
+                <div enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
                     {% csrf_token %}
                     <div class="form-group">
                         <label>Select file to upload.</label>
-                        <input type="file" class="form-control" id="fileupload" placeholder="Select file">
+                        <input type="file"  accept=".pdf" class="form-control" id="fileupload" placeholder="Select file">
                     </div>
                     <br>
-                    <button type="button" id="submit" class="save btn btn-outline-success"><i class="fa-regular fa-file-word"></i> Convert</button>
-                </form>
+                    <button ng-click="uploadFile()" class="save btn btn-outline-success"><i class="fa-solid fa-rotate"></i> Convert</button>
+                </div>
                 <div id="uploaded_files"></div>
             </div>
     </div>
@@ -609,145 +654,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      data-ad-slot="7796778743"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-  class FileUpload {
-
-    constructor(input) {
-        this.input = input
-        this.max_length = 1024 * 1024 * 10;
-    }
-
-    create_progress_bar() {
-        var progress = `<div class="file-icon">
-                            <i class="fa fa-file-o" aria-hidden="true"></i>
-                        </div>
-                        <div class="file-details">
-                            <p class="filename"></p>
-                            <small class="textbox"></small>
-                            <div class="progress" style="margin-top: 5px;">
-                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                                </div>
-                            </div>
-                        </div>`
-        document.getElementById('uploaded_files').innerHTML = progress
-    }
-
-    upload() {
-        this.create_progress_bar();
-        this.initFileUpload();
-    }
-
-    initFileUpload() {
-        this.file = this.input.files[0];
-        this.upload_file(0, null);
-    }
-
-    upload_file(start, model_id) {
-        var end;
-        var self = this;
-        var existingPath = model_id;
-        var formData = new FormData();
-        var nextChunk = start + this.max_length + 1;
-        var currentChunk = this.file.slice(start, nextChunk);
-        var uploadedChunk = start + currentChunk.size
-        if (uploadedChunk >= this.file.size) {
-            end = 1;
-        } else {
-            end = 0;
-        }
-        formData.append('file', currentChunk)
-        formData.append('filename', this.file.name)
-        $('.filename').text(this.file.name)
-        $('.textbox').text("Uploading file")
-        formData.append('end', end)
-        formData.append('existingPath', existingPath);
-        formData.append('nextSlice', nextChunk);
-        $.ajaxSetup({
-            headers: {
-                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
-            }
-        });
-        $.ajax({
-            xhr: function () {
-                var xhr = new XMLHttpRequest();
-                xhr.upload.addEventListener('progress', function (e) {
-                    if (e.lengthComputable) {
-                        if (self.file.size < self.max_length) {
-                            var percent = Math.round((e.loaded / e.total) * 100);
-                        } else {
-                            var percent = Math.round((uploadedChunk / self.file.size) * 100);
-                        }
-                        percent=100
-                        $('.progress-bar').css('width', percent + '%')
-                        $('.progress-bar').text(percent + '%')
-                    }
-                });
-                return xhr;
-            },
-
-            url: '/pdf_tools/',
-            type: 'POST',
-            dataType: 'json',
-            cache: false,
-            processData: false,
-            contentType: false,
-            data: formData,
-            error: function (xhr) {
-                alertify.error(xhr.statusText);
-            },
-            success: function (res) {
-                window.location.href = "/send_file?filename="+res.result;
-                console.dir(res)
-                console.dir(nextChunk)
-                console.dir(self.file.size)
-                $('.textbox').text(res.data);
-                alertify.success(res.data);
-            }
-        });
-    };
-}
-
-(function ($) {
-    $('#submit').on('click', (event) => {
-        event.preventDefault();
-        var uploader = new FileUpload(document.querySelector('#fileupload'))
-        console.log(document.querySelector('#fileupload'));
-        uploader.upload();
-    });
-})(jQuery);
-
-ondragenter = function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-};
-
-ondragover = function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-};
-
-ondragleave = function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-};
-  
-ondrop = function(evt) {
-    evt.preventDefault();
-    evt.stopPropagation();
-    const files = evt.originalEvent.dataTransfer;
-    var uploader = new FileUpload(files);
-    uploader.upload();
-};
-
-$('#dropBox')
-    .on('dragover', ondragover)
-    .on('dragenter', ondragenter)
-    .on('dragleave', ondragleave)
-    .on('drop', ondrop);
-
-
 </script>
 </body>
 </html>
