@@ -170,7 +170,7 @@ STATICFILES_FINDERS=[
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # APPEND_SLASH=False
-GET_FILE_FORMATS = {'.mp3', '.mp4', '.zip', '.xml', 'docx', '.jpg', 'jpeg'}
+GET_FILE_FORMATS = {'.mp3', '.mp4', '.zip', '.xml', 'docx', '.jpg', 'jpeg', '.csv', 'xlsx'}
 UPLOAD_FOLDER_VIDEOS = STATIC_URL+'uploaded_videos/'
 CARTOONIZED_FOLDER = STATIC_URL+'cartoonized_images/'
 WRITE_BOX_CARTOONIZER = STATIC_URL+'white_box_cartoonizer/'

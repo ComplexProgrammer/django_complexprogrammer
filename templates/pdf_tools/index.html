@@ -378,6 +378,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
             <br>
             <br>
+            <nav aria-label="...">
+                <ul class="pagination pagination-lg">
+                  <li class="page-item active" id='pdf2docx' ng-click="b('pdf2docx')"><a class="page-link" href="">PDFdan Wordga <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-word"></i></a></li>
+                  <li class="page-item" id='pdf2excel' ng-click="b('pdf2excel')"><a class="page-link" href="">PDFdan Excelga <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-excel"></i></a></li>
+                  {% comment %} <li class="page-item" id='pdf2image' ng-click="b('pdf2image')"><a class="page-link" href="">PDFdan rasmga <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-image"></i></a></li> {% endcomment %}
+                </ul>
+            </nav>
             <div class="col-lg-6 col-md-6" style="margin: 100px auto; display: block;">
                 <form enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
                     {% csrf_token %}
@@ -401,6 +408,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </div>
             <br>
             <br>
+            <nav aria-label="...">
+                <ul class="pagination pagination-lg">
+                  <li class="page-item active" id='pdf2docx' ng-click="b('pdf2docx')"><a class="page-link" href="">PDF в Word <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-word"></i></a></li>
+                  <li class="page-item" id='pdf2excel' ng-click="b('pdf2excel')"><a class="page-link" href="">PDF в Excel <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-excel"></i></a></li>
+                  {% comment %} <li class="page-item" id='pdf2image' ng-click="b('pdf2image')"><a class="page-link" href="">PDF в изображение <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-image"></i></a></li> {% endcomment %}
+                </ul>
+            </nav>
             <div class="col-lg-6 col-md-6" style="margin: 100px auto; display: block;">
                 <div enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
                     {% csrf_token %}
@@ -427,9 +441,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <ul class="pagination pagination-lg">
                   <li class="page-item active" id='pdf2docx' ng-click="b('pdf2docx')"><a class="page-link" href="">PDF to Word <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-word"></i></a></li>
                   <li class="page-item" id='pdf2excel' ng-click="b('pdf2excel')"><a class="page-link" href="">PDF to Excel <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-excel"></i></a></li>
-                  <li class="page-item" id='pdf2image' ng-click="b('pdf2image')"><a class="page-link" href="">PDF to Image <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-image"></i></a></li>
+                  {% comment %} <li class="page-item" id='pdf2image' ng-click="b('pdf2image')"><a class="page-link" href="">PDF to Image <i class="fa-regular fa-file-pdf"></i>  <i class="fa-solid fa-arrow-right"></i>  <i class="fa-regular fa-file-image"></i></a></li> {% endcomment %}
                 </ul>
-              </nav>
+            </nav>
             <div class="col-lg-6 col-md-6" style="margin: 100px auto; display: block;">
                 <div enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
                     {% csrf_token %}
