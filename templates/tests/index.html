@@ -311,7 +311,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <hr />
     {% if type == 'group' %}
     <div class="wrapper">
-        <div class="C0mplexButton float-end">
+        <div class="container">
+          <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-4137874891184814"
+          data-ad-slot="4202531555"></ins>
+          <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+          <div class="C0mplexButton float-end">
             <a href="/#services">
                 <span></span>
                 <span></span>
@@ -319,56 +328,64 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <span></span>
                 X
             </a>
-        </div>
-        <div class="container">
-            <h1>
-                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                    {% if request.LANGUAGE_CODE == 'uz' %}
-                    Testlar
-                    {% else %}
-                    {% if request.LANGUAGE_CODE == 'ru' %}
-                    Тесты
-                    {% else %}
-                    Tests
-                    {% endif %}
-                    {% endif %}
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                    <img src="/static/img/google-play.svg" />
-                </a>
-            </h1>
-            {% for i in data %}
-                <div class="row">
-                    <div class="col">
-                        <div class="C0mplexButton Success">
-                            <a href="/tests?group_id={{ i.id }}" style='width:500px; font-size:30px'>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span class="material-symbols-outlined">
-                                touch_app
-                              </span>
-                              {% if request.LANGUAGE_CODE == 'uz' %}
-                                {{ i.name_uz_uz }}
-                              {% else %}
-                              {% if request.LANGUAGE_CODE == 'ru' %}
-                                {{ i.name_ru_ru }}
-                              {% else %}
-                                {{ i.name_en_us }}
-                              {% endif %}
-                              {% endif %}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  {% if request.LANGUAGE_CODE == 'uz' %}
+                  Testlar
+                  {% else %}
+                  {% if request.LANGUAGE_CODE == 'ru' %}
+                  Тесты
+                  {% else %}
+                  Tests
+                  {% endif %}
+                  {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?group_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
         </div>
     </div>
     {% endif %}
     {% if type == 'book' %}
     <div class="wrapper">
-        <div class="C0mplexButton float-end">
+        <div class="container">
+          <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-4137874891184814"
+          data-ad-slot="4202531555"></ins>
+          <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+          <div class="C0mplexButton float-end">
             <a href="/tests">
                 <span></span>
                 <span></span>
@@ -376,209 +393,224 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <span></span>
                 X
             </a>
-        </div>
-        <div class="container">
-            <h1>
-                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                    {% if request.LANGUAGE_CODE == 'uz' %}
-                    Testlar
-                    {% else %}
-                    {% if request.LANGUAGE_CODE == 'ru' %}
-                    Тесты
-                    {% else %}
-                    Tests
-                    {% endif %}
-                    {% endif %}
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                    <img src="/static/img/google-play.svg" />
-                </a>
-            </h1>
-            {% for i in data %}
-                <div class="row">
-                    <div class="col">
-                        <div class="C0mplexButton Success">
-                            <a href="/tests?book_id={{ i.id }}" style='width:500px; font-size:30px'>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span class="material-symbols-outlined">
-                                touch_app
-                              </span>
-                              {% if request.LANGUAGE_CODE == 'uz' %}
-                                {{ i.name_uz_uz }}
-                              {% else %}
-                              {% if request.LANGUAGE_CODE == 'ru' %}
-                                {{ i.name_ru_ru }}
-                              {% else %}
-                                {{ i.name_en_us }}
-                              {% endif %}
-                              {% endif %}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  {% if request.LANGUAGE_CODE == 'uz' %}
+                  Testlar
+                  {% else %}
+                  {% if request.LANGUAGE_CODE == 'ru' %}
+                  Тесты
+                  {% else %}
+                  Tests
+                  {% endif %}
+                  {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?book_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
         </div>
     </div>
     {% endif %}
     {% if type == 'topic' %}
     <div class="wrapper">
-        <div class="C0mplexButton float-end">
+        <div class="container">
+          <ins class="adsbygoogle"
+          style="display:block"
+          data-ad-format="autorelaxed"
+          data-ad-client="ca-pub-4137874891184814"
+          data-ad-slot="4202531555"></ins>
+          <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+          <div class="C0mplexButton float-end">
             {% comment %} <a href="/tests?group_id=1"> {% endcomment %}
-                <a href="/#services">
+            <a href="/#services">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 X
             </a>
-        </div>
-        <div class="container">
-            <h1>
-                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                    {% if request.LANGUAGE_CODE == 'uz' %}
-                    Testlar
-                    {% else %}
-                    {% if request.LANGUAGE_CODE == 'ru' %}
-                    Тесты
-                    {% else %}
-                    Tests
-                    {% endif %}
-                    {% endif %}
-                </a>
-                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                    <img src="/static/img/google-play.svg" />
-                </a>
-            </h1>
-            {% for i in data %}
-                <div class="row">
-                    <div class="col">
-                        <div class="C0mplexButton Success">
-                            <a href="/tests?topic_id={{ i.id }}" style='width:500px; font-size:30px'>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span class="material-symbols-outlined">
-                                touch_app
-                              </span>
-                              {% if request.LANGUAGE_CODE == 'uz' %}
-                                {{ i.name_uz_uz }}
-                              {% else %}
-                              {% if request.LANGUAGE_CODE == 'ru' %}
-                                {{ i.name_ru_ru }}
-                              {% else %}
-                                {{ i.name_en_us }}
-                              {% endif %}
-                              {% endif %}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  {% if request.LANGUAGE_CODE == 'uz' %}
+                  Testlar
+                  {% else %}
+                  {% if request.LANGUAGE_CODE == 'ru' %}
+                  Тесты
+                  {% else %}
+                  Tests
+                  {% endif %}
+                  {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?topic_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
         </div>
     </div>
     {% endif %}
     {% if type == 'question' %}
     <div class="wrapper">
           <div class="container">
-                <div class="C0mplexButton float-end" ng-click="showModal()">
-                    <a href="#">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        X
-                    </a>
-                </div>
-                <h1 style="color:green">
-                    <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                      {% if request.LANGUAGE_CODE == 'uz' %}
-                      Testlar
-                      {% else %}
-                      {% if request.LANGUAGE_CODE == 'ru' %}
-                      Тесты
-                      {% else %}
-                      Tests
-                      {% endif %}
-                      {% endif %}
-                    </a>
-                    <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                        <img src="/static/img/google-play.svg" />
-                    </a>
-                </h1>
-              <h1 id="timer" ng-click="f()">00:00</h1>
-              <input type="hidden" id="t" value="0" />
-              {% verbatim %}
-              <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                  <li class="page-item" ng-click="prev()">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  
-                  <li class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" href="#">{{question_number-x}}</a></li>
-                  <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+1">{{question_number+1-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+2">{{question_number+2-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+3}}" ng-click="b(question_number+3-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+3">{{question_number+3-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+4}}" ng-click="b(question_number+4-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+4">{{question_number+4-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+5}}" ng-click="b(question_number+5-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+5">{{question_number+5-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+6}}" ng-click="b(question_number+6-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+6">{{question_number+6-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+7}}" ng-click="b(question_number+7-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+7">{{question_number+7-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+8}}" ng-click="b(question_number+8-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+8">{{question_number+8-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+9}}" ng-click="b(question_number+9-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+9">{{question_number+9-x}}</a></li>
-                  <li class="page-item" id="question{{question_number+10}}" ng-click="b(question_number+10-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+10">{{question_number+10-x}}</a></li>
-                  -->
-                  <li class="page-item" ng-click="next()">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-              {% endverbatim %}
-              {% comment %} <ul class="pagination pagination-lg">
-                <li class="page-item" id="question1" ng-click="b(1)"><a class="page-link" id="ab1" href="#">1</a></li>
-                <li class="page-item" id="question2" ng-click="b(2)"><a class="page-link" id="ab2" href="#">2</a></li>
-                <li class="page-item" id="question3" ng-click="b(3)"><a class="page-link" id="ab3" href="#">3</a></li>
-                <li class="page-item" id="question4" ng-click="b(4)"><a class="page-link" id="ab4" href="#">4</a></li>
-                <li class="page-item" id="question5" ng-click="b(5)"><a class="page-link" id="ab5" href="#">5</a></li>
-                <li class="page-item" id="question6" ng-click="b(6)"><a class="page-link" id="ab6" href="#">6</a></li>
-                <li class="page-item" id="question7" ng-click="b(7)"><a class="page-link" id="ab7" href="#">7</a></li>
-                <li class="page-item" id="question8" ng-click="b(8)"><a class="page-link" id="ab8" href="#">8</a></li>
-                <li class="page-item" id="question9" ng-click="b(9)"><a class="page-link" id="ab9" href="#">9</a></li>
-                <li class="page-item" id="question10" ng-click="b(10)"><a class="page-link" id="ab10" href="#">10</a></li>
-              </ul> {% endcomment %}
-              {% if request.LANGUAGE_CODE == 'uz' %}
-              {% verbatim %}
-              <h4 class="page-content">{{bilet}} - bilet<br/>{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
+            <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4137874891184814"
+            data-ad-slot="4202531555"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <div class="C0mplexButton float-end" ng-click="showModal()">
+                <a href="#">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    X
+                </a>
+            </div>
+            <h1 style="color:green">
+                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  {% if request.LANGUAGE_CODE == 'uz' %}
+                  Testlar
+                  {% else %}
+                  {% if request.LANGUAGE_CODE == 'ru' %}
+                  Тесты
+                  {% else %}
+                  Tests
+                  {% endif %}
+                  {% endif %}
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                    <img src="/static/img/google-play.svg" />
+                </a>
+            </h1>
+            <h1 id="timer" ng-click="f()">00:00</h1>
+            <input type="hidden" id="t" value="0" />
+            {% verbatim %}
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" ng-click="prev()">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                
+                <li class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" href="#">{{question_number-x}}</a></li>
+                <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+1">{{question_number+1-x}}</a></li>
+                <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+2">{{question_number+2-x}}</a></li>
+                <li class="page-item" id="question{{question_number+3}}" ng-click="b(question_number+3-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+3">{{question_number+3-x}}</a></li>
+                <li class="page-item" id="question{{question_number+4}}" ng-click="b(question_number+4-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+4">{{question_number+4-x}}</a></li>
+                <li class="page-item" id="question{{question_number+5}}" ng-click="b(question_number+5-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+5">{{question_number+5-x}}</a></li>
+                <li class="page-item" id="question{{question_number+6}}" ng-click="b(question_number+6-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+6">{{question_number+6-x}}</a></li>
+                <li class="page-item" id="question{{question_number+7}}" ng-click="b(question_number+7-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+7">{{question_number+7-x}}</a></li>
+                <li class="page-item" id="question{{question_number+8}}" ng-click="b(question_number+8-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+8">{{question_number+8-x}}</a></li>
+                <li class="page-item" id="question{{question_number+9}}" ng-click="b(question_number+9-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+9">{{question_number+9-x}}</a></li>
+                <li class="page-item" id="question{{question_number+10}}" ng-click="b(question_number+10-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+10">{{question_number+10-x}}</a></li>
+                -->
+                <li class="page-item" ng-click="next()">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            {% endverbatim %}
+            {% comment %} <ul class="pagination pagination-lg">
+              <li class="page-item" id="question1" ng-click="b(1)"><a class="page-link" id="ab1" href="#">1</a></li>
+              <li class="page-item" id="question2" ng-click="b(2)"><a class="page-link" id="ab2" href="#">2</a></li>
+              <li class="page-item" id="question3" ng-click="b(3)"><a class="page-link" id="ab3" href="#">3</a></li>
+              <li class="page-item" id="question4" ng-click="b(4)"><a class="page-link" id="ab4" href="#">4</a></li>
+              <li class="page-item" id="question5" ng-click="b(5)"><a class="page-link" id="ab5" href="#">5</a></li>
+              <li class="page-item" id="question6" ng-click="b(6)"><a class="page-link" id="ab6" href="#">6</a></li>
+              <li class="page-item" id="question7" ng-click="b(7)"><a class="page-link" id="ab7" href="#">7</a></li>
+              <li class="page-item" id="question8" ng-click="b(8)"><a class="page-link" id="ab8" href="#">8</a></li>
+              <li class="page-item" id="question9" ng-click="b(9)"><a class="page-link" id="ab9" href="#">9</a></li>
+              <li class="page-item" id="question10" ng-click="b(10)"><a class="page-link" id="ab10" href="#">10</a></li>
+            </ul> {% endcomment %}
+            {% if request.LANGUAGE_CODE == 'uz' %}
+            {% verbatim %}
+            <h4 class="page-content">{{bilet}} - bilet<br/>{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
+            <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+            <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
+            </div>
+            {% endverbatim %}
+            {% else %}
+            {% if request.LANGUAGE_CODE == 'ru' %}
+            {% verbatim %}
+            <h4 class="page-content">{{bilet}} - билет<br/>Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
+            <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+            <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
+            </div>
+            {% endverbatim %}
+            {% else %}
+            {% verbatim %}
+              <h4 class="page-content">{{bilet}}st ticket<br/>Question {{question.number}}<br/>{{question.name_en_us}}</h4>
               <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
               <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
+                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a>
               </div>
-              {% endverbatim %}
-              {% else %}
-              {% if request.LANGUAGE_CODE == 'ru' %}
-              {% verbatim %}
-              <h4 class="page-content">{{bilet}} - билет<br/>Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
-              <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
-              <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
-              </div>
-              {% endverbatim %}
-              {% else %}
-              {% verbatim %}
-                <h4 class="page-content">{{bilet}}st ticket<br/>Question {{question.number}}<br/>{{question.name_en_us}}</h4>
-                <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
-                <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                    <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a>
-                </div>
-              {% endverbatim %}
-              {% endif %}
-              {% endif %}
+            {% endverbatim %}
+            {% endif %}
+            {% endif %}
         </div>
     </div>
     <script>
@@ -712,12 +744,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }
                     else
                     {
-                        if($scope.javoblar.filter(word => word.bilet == $scope.bilet).length!=0)
+                        {% comment %} if($scope.javoblar.filter(word => word.bilet == $scope.bilet).length!=0)
                         {
-<!--                            $scope.isPaused = true;-->
-<!--                            $scope.timeout = true;-->
-<!--                            myModal.show();-->
-                        }
+                            $scope.isPaused = true;
+                            $scope.timeout = true;
+                            myModal.show();
+                        } {% endcomment %}
                     }
                     $scope.javoblar.filter(word => word.bilet == $scope.bilet).forEach((element) =>{
                         if(element.time<$scope.time)
@@ -909,17 +941,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
         }
           }]);
-</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-4137874891184814"
-     data-ad-slot="6832564320"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    </script>
+    <ins class="adsbygoogle"
+    style="display:block; text-align:center;"
+    data-ad-layout="in-article"
+    data-ad-format="fluid"
+    data-ad-client="ca-pub-4137874891184814"
+    data-ad-slot="6832564320"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </body>
 </html>
