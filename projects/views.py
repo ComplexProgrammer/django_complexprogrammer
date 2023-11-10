@@ -376,7 +376,7 @@ def GetTranslateResult(request):
 
     # result = translator.translate(text)
     result = translator.translate(text, src=src, dest=dest)
-    print(result.src)
+    print(result.src) # type: ignore
     print(result.dest)
     print(result.origin)
     print(result.text)
