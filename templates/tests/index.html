@@ -182,7 +182,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="col">
               <form action="{% url 'set_language' %}" method="POST">
                 {% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}">
+                {% comment %} <input name="next" type="hidden" value="{{ redirect_to }}"> {% endcomment %}
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
                   {% for language in languages %}
                   <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
@@ -244,7 +244,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{bilet}} - Bilet natijasi</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic_number}} - Bilet natijasi</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -254,9 +254,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
       <div class="modal-footer">
         <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - biletga o'tish</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(topic_number+1)"><i class="bi bi-box-arrow-right"></i> {{topic_number+1}} - biletga o'tish</button>
         <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(topic_number)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
       </div>
     </div>
   </div>
@@ -270,7 +270,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{bilet}} - Результат билета</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic_number}} - Результат билета</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -280,9 +280,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
       <div class="modal-footer">
         <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - перейти к билету</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(topic_number+1)"><i class="bi bi-box-arrow-right"></i> {{topic_number+1}} - перейти к билету</button>
         <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Вернуться к билетам</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(topic_number)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
       </div>
     </div>
   </div>
@@ -295,7 +295,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{bilet}} - Ticket result</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic_number}} - Ticket result</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -305,9 +305,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
       <div class="modal-footer">
         <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> Go to ticket {{bilet+1}}</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Go to ticket {{topic_number+1}}</button>
         <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Back to tickets</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Start over</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(topic_number)"><i class="bi bi-arrow-repeat"></i> Start over</button>
       </div>
     </div>
   </div>
@@ -526,7 +526,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                
+                {{ data[0] }}
                 <li class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" href="#">{{question_number-x}}</a></li>
                 <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+1">{{question_number+1-x}}</a></li>
                 <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+2">{{question_number+2-x}}</a></li>
@@ -561,8 +561,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </ul> {% endcomment %}
             {% if request.LANGUAGE_CODE == 'uz' %}
             {% verbatim %}
-            <h4 class="page-content">{{bilet}} - bilet<br/>{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
-            <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+            <h4 class="page-content">{{topic_number}} - bilet<br/>{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
+            <img ng-if="question.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
             </div>
@@ -570,16 +570,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% else %}
             {% if request.LANGUAGE_CODE == 'ru' %}
             {% verbatim %}
-            <h4 class="page-content">{{bilet}} - билет<br/>Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
-            <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+            <h4 class="page-content">{{topic_number}} - билет<br/>Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
+            <img ng-if="question.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
             </div>
             {% endverbatim %}
             {% else %}
             {% verbatim %}
-              <h4 class="page-content">{{bilet}}st ticket<br/>Question {{question.number}}<br/>{{question.name_en_us}}</h4>
-              <img ng-if="item.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+              <h4 class="page-content">{{topic_number}}st ticket<br/>Question {{question.number}}<br/>{{question.name_en_us}}</h4>
+              <img ng-if="question.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
               <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a>
               </div>
@@ -604,6 +604,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {% endif %}
     <hr />
     <script>
+      var received_data = "{{data}}";
+    console.log(received_data);
+    console.dir('{{ data }}')
+    console.dir('{{ type }}')
+    console.dir('{{type_data}}')
+    
+    console.dir({{ type_id }})
     var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
       keyboard: false
     });
@@ -614,7 +621,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 $scope.isPaused = false;
                 $scope.timeout = false;
                 $scope.question_number=1;
-                $scope.bilet={{ type_id }};
+                console.dir('{{ data }}')
+                console.dir('{{ type }}')
+                console.dir('{{type_data}}')
+                if('{{ type }}'=='question'){
+                  
+                }
+                $scope.topic_number={{ type_data.number }};
+                $scope.topic_id=$scope.topic_number;
                 $scope.time=3600;
                 $scope.togri_javob_soni=0;
                 $scope.notogri_javob_soni=0;
@@ -633,7 +647,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }
                     myFunction($scope.question_number);
                 }
-                if($scope.bilet!=0){
+                if($scope.topic_id!=0){
                     checkJavoblar();
                     LoadData();
                 }
@@ -643,9 +657,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 }
                 $scope.nextbilet=function(value){
                     value=1
-                    if($scope.bilet==value)
+                    if($scope.topic_id==value)
                     {
-                        setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.bilet != $scope.bilet)), 365);
+                        setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
                     }
                     window.location.href="/tests?topic_id="+value;
                 }
@@ -712,21 +726,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     if(getCookie("javoblar")){
                          $scope.javoblar = JSON.parse(getCookie("javoblar"));
                     }
-                    if($scope.javoblar.filter(word => word.bilet == $scope.bilet).length==$scope.data.length)
+                    if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.data.length)
                     {
-                        setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.bilet != $scope.bilet)), 365);
+                        setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
                         $scope.javoblar = JSON.parse(getCookie("javoblar"));
                     }
                     else
                     {
-                        {% comment %} if($scope.javoblar.filter(word => word.bilet == $scope.bilet).length!=0)
+                        {% comment %} if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length!=0)
                         {
                             $scope.isPaused = true;
                             $scope.timeout = true;
                             myModal.show();
                         } {% endcomment %}
                     }
-                    $scope.javoblar.filter(word => word.bilet == $scope.bilet).forEach((element) =>{
+                    $scope.javoblar.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
                         if(element.time<$scope.time)
                         {
                             $scope.time=element.time;
@@ -766,7 +780,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 {
                     {% comment %} var obj = {
                       id: $scope.question.id,
-                      bilet: $scope.bilet,
+                      topic_id: $scope.topic_id,
                       time: $scope.time,
                       javob:javob,
                     };
@@ -797,7 +811,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
                     }
                     {% comment %}
-                    if($scope.javoblar.filter(word => word.bilet == $scope.bilet).length==$scope.data.length)
+                    if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.data.length)
                     {
                         $scope.isPaused = true;
                         $scope.timeout = false;
@@ -818,7 +832,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 })
                   $http({
                       method: 'GET',
-                      url: "/GetQuestions?topic_id="+$scope.bilet,
+                      url: "/GetQuestions?topic_id="+$scope.topic_id,
                       dataType: "json"
                   }).then(function (d) {
                           console.log(d)
@@ -832,7 +846,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             }
                             var obj = {
                               id: item.id,
-                              bilet: item.bilet,
+                              topic_id: item.topic_id,
                               javob:item.javob,
                               javob_a:item.javob_a,
                               javob_a_en:item.javob_a_en,
