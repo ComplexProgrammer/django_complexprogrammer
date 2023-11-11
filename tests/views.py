@@ -1,3 +1,4 @@
+import datetime
 import json
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -40,11 +41,14 @@ def tests(request):
     context={
         'data': data,
         'type': type,
-        'type_data':type_data,
+        'type_data':json.dumps(type_data, default=serialize_datetime),
         'type_id':type_id
     }
     return render(request, 'tests/index.html', context=context)
-
+def serialize_datetime(obj): 
+    if isinstance(obj, datetime.datetime): 
+        return obj.isoformat() 
+    raise TypeError("Type not serializable") 
 def GetGroups(request):
     data=Groups.objects.all().values()
     return JsonResponse(list(data), safe=False) 

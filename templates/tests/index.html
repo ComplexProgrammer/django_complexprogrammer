@@ -109,14 +109,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       text-align: center;
     }
 
-    #pagination-demo{
-      display: inline-block;
-      margin-bottom: 1.75em;
-    }
-    #pagination-demo li{
-      display: inline-block;
-    }
-
     .page-content{
       background: #eee;
       display: inline-block;
@@ -248,9 +240,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="p-3 mb-2 bg-secondary text-white" ng-show="data.length-togri_javob_soni-notogri_javob_soni!=0">Belgilanmagan savollar : {{data.length-togri_javob_soni-notogri_javob_soni}} ta</div>
-        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=data.length">To'g'ri javob : {{togri_javob_soni}} ta</div>
-        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=data.length">Noto'g'ri javob : {{notogri_javob_soni}} ta</div>
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="questions.length-togri_javob_soni-notogri_javob_soni!=0">Belgilanmagan savollar : {{questions.length-togri_javob_soni-notogri_javob_soni}} ta</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=questions.length">To'g'ri javob : {{togri_javob_soni}} ta</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Noto'g'ri javob : {{notogri_javob_soni}} ta</div>
       </div>
       <div class="modal-footer">
         <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
@@ -274,9 +266,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="p-3 mb-2 bg-secondary text-white" ng-show="data.length-togri_javob_soni-notogri_javob_soni!=0">Неотмеченные вопросы: {{data.length-togri_javob_soni-notogri_javob_soni}}</div>
-        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=data.length">Правильный ответ: {{togri_javob_soni}}</div>
-        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=data.length">Неправильный ответ: {{notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="questions.length-togri_javob_soni-notogri_javob_soni!=0">Неотмеченные вопросы: {{questions.length-togri_javob_soni-notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=questions.length">Правильный ответ: {{togri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Неправильный ответ: {{notogri_javob_soni}}</div>
       </div>
       <div class="modal-footer">
         <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
@@ -299,9 +291,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="p-3 mb-2 bg-secondary text-white" ng-show="data.length-togri_javob_soni-notogri_javob_soni!=0">Unmarked questions: {{data.length-togri_javob_soni-notogri_javob_soni}}</div>
-        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=data.length">Correct answer: {{togri_javob_soni}}</div>
-        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=data.length">Incorrect answer: {{notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="questions.length-togri_javob_soni-notogri_javob_soni!=0">Unmarked questions: {{questions.length-togri_javob_soni-notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=questions.length">Correct answer: {{togri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Incorrect answer: {{notogri_javob_soni}}</div>
       </div>
       <div class="modal-footer">
         <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
@@ -503,12 +495,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h1 style="color:green">
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                   {% if request.LANGUAGE_CODE == 'uz' %}
-                  Testlar
+                  {% verbatim %}
+                  {{topic.name_uz_uz}}
+                  {% endverbatim %}
                   {% else %}
                   {% if request.LANGUAGE_CODE == 'ru' %}
-                  Тесты
+                  {% verbatim %}
+                  {{topic.name_ru_ru}}
+                  {% endverbatim %}
                   {% else %}
-                  Tests
+                  {% verbatim %}
+                  {{topic.name_en_us}}
+                  {% endverbatim %}
                   {% endif %}
                   {% endif %}
                 </a>
@@ -526,18 +524,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                {{ data[0] }}
                 <li class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" href="#">{{question_number-x}}</a></li>
-                <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+1">{{question_number+1-x}}</a></li>
-                <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+2">{{question_number+2-x}}</a></li>
-                <li class="page-item" id="question{{question_number+3}}" ng-click="b(question_number+3-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+3">{{question_number+3-x}}</a></li>
-                <li class="page-item" id="question{{question_number+4}}" ng-click="b(question_number+4-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+4">{{question_number+4-x}}</a></li>
-                <li class="page-item" id="question{{question_number+5}}" ng-click="b(question_number+5-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+5">{{question_number+5-x}}</a></li>
-                <li class="page-item" id="question{{question_number+6}}" ng-click="b(question_number+6-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+6">{{question_number+6-x}}</a></li>
-                <li class="page-item" id="question{{question_number+7}}" ng-click="b(question_number+7-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+7">{{question_number+7-x}}</a></li>
-                <li class="page-item" id="question{{question_number+8}}" ng-click="b(question_number+8-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+8">{{question_number+8-x}}</a></li>
-                <li class="page-item" id="question{{question_number+9}}" ng-click="b(question_number+9-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+9">{{question_number+9-x}}</a></li>
-                <li class="page-item" id="question{{question_number+10}}" ng-click="b(question_number+10-x)"><a class="page-link" href="#" ng-show="data.length>=question_number+10">{{question_number+10-x}}</a></li>
+                <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+1">{{question_number+1-x}}</a></li>
+                <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+2">{{question_number+2-x}}</a></li>
+                <li class="page-item" id="question{{question_number+3}}" ng-click="b(question_number+3-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+3">{{question_number+3-x}}</a></li>
+                <li class="page-item" id="question{{question_number+4}}" ng-click="b(question_number+4-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+4">{{question_number+4-x}}</a></li>
+                <li class="page-item" id="question{{question_number+5}}" ng-click="b(question_number+5-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+5">{{question_number+5-x}}</a></li>
+                <li class="page-item" id="question{{question_number+6}}" ng-click="b(question_number+6-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+6">{{question_number+6-x}}</a></li>
+                <li class="page-item" id="question{{question_number+7}}" ng-click="b(question_number+7-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+7">{{question_number+7-x}}</a></li>
+                <li class="page-item" id="question{{question_number+8}}" ng-click="b(question_number+8-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+8">{{question_number+8-x}}</a></li>
+                <li class="page-item" id="question{{question_number+9}}" ng-click="b(question_number+9-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+9">{{question_number+9-x}}</a></li>
+                <li class="page-item" id="question{{question_number+10}}" ng-click="b(question_number+10-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+10">{{question_number+10-x}}</a></li>
                 -->
                 <li class="page-item" ng-click="next()">
                   <a class="page-link" href="#" aria-label="Next">
@@ -561,8 +558,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </ul> {% endcomment %}
             {% if request.LANGUAGE_CODE == 'uz' %}
             {% verbatim %}
-            <h4 class="page-content">{{topic_number}} - bilet<br/>{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
-            <img ng-if="question.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+            <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
+            <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
             </div>
@@ -570,16 +567,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% else %}
             {% if request.LANGUAGE_CODE == 'ru' %}
             {% verbatim %}
-            <h4 class="page-content">{{topic_number}} - билет<br/>Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
-            <img ng-if="question.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+            <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
+            <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
             </div>
             {% endverbatim %}
             {% else %}
             {% verbatim %}
-              <h4 class="page-content">{{topic_number}}st ticket<br/>Question {{question.number}}<br/>{{question.name_en_us}}</h4>
-              <img ng-if="question.rasm" ng-show="question.rasm" src="/static/avtotest/{{question.rasm}}" width="30%">
+              <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
+              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/static/avtotest/{{question.image}}" width="30%">
               <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a>
               </div>
@@ -590,347 +587,350 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
     <script>
         if(window.screen.availWidth>1366){
-            document.getElementsByClassName('pagination')[0].className ="pagination pagination-lg";
+            document.getElementsByClassName('pagination')[0].className ="pagination justify-content-center pagination-lg";
         }
         else{
             if(window.screen.availWidth>768&&window.screen.availWidth<1366){
-                document.getElementsByClassName('pagination')[0].className ="pagination";
+                document.getElementsByClassName('pagination')[0].className ="pagination justify-content-center";
             }
             else{
-                document.getElementsByClassName('pagination')[0].className ="pagination";
+                document.getElementsByClassName('pagination')[0].className ="pagination justify-content-center";
             }
         }
     </script>
     {% endif %}
     <hr />
     <script>
-      var received_data = "{{data}}";
-    console.log(received_data);
-    console.dir('{{ data }}')
-    console.dir('{{ type }}')
-    console.dir('{{type_data}}')
-    
-    console.dir({{ type_id }})
-    var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
-      keyboard: false
-    });
-      var app = angular.module("App", []);
-      app.controller("tests", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-                var timeH = document.getElementById("timer");
-                $scope.x=0
-                $scope.isPaused = false;
-                $scope.timeout = false;
-                $scope.question_number=1;
-                console.dir('{{ data }}')
-                console.dir('{{ type }}')
-                console.dir('{{type_data}}')
-                if('{{ type }}'=='question'){
-                  
-                }
-                $scope.topic_number={{ type_data.number }};
-                $scope.topic_id=$scope.topic_number;
-                $scope.time=3600;
-                $scope.togri_javob_soni=0;
-                $scope.notogri_javob_soni=0;
-                $scope.javoblar=[];
-                $scope.data=[];
-                //setCookie("javoblar", JSON.stringify($scope.javoblar), 365);
-                $scope.prev=function(){
-                    if($scope.question_number>1){
-                        $scope.question_number=$scope.question_number-1
-                    }
-                    myFunction($scope.question_number);
-                }
-                $scope.next=function(){
-                    if($scope.question_number<$scope.data.length){
-                        $scope.question_number=$scope.question_number+1
-                    }
-                    myFunction($scope.question_number);
-                }
-                if($scope.topic_id!=0){
-                    checkJavoblar();
-                    LoadData();
-                }
-                $scope.mValue=null;
-                $scope.back=function(){
-                    window.location.href="/tests?book_id=1";
-                }
-                $scope.nextbilet=function(value){
-                    value=1
-                    if($scope.topic_id==value)
-                    {
-                        setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
-                    }
-                    window.location.href="/tests?topic_id="+value;
-                }
-                $scope.showModal=function(){
-                    $scope.isPaused = true;
-                    $scope.timeout = true;
-                    myModal.show();
-
-                }
-                $('#timer').on('click', function(e) {
-                  e.preventDefault();
-                  //$scope.isPaused = !$scope.isPaused;
-                });
-                $("#staticBackdrop").on('hide.bs.modal', function(){
+      if('{{ type }}'=='question'){
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+          keyboard: false
+        });
+        function hexHtmlToString(str) {
+            var REG_HEX = /&#x([a-fA-F0-9]+);/g;
+            console.log(REG_HEX)
+            return str.replace(REG_HEX, function(match, grp){
+                var num = parseInt(grp, 16);
+                console.log(String.fromCharCode(num))
+                return String.fromCharCode(num);
+            });
+        }
+          var app = angular.module("App", []);
+          app.controller("tests", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
+                    var timeH = document.getElementById("timer");
+                    $scope.x=0
                     $scope.isPaused = false;
-                });
-                function startTimer(timeSecond){
-                    displayTime(timeSecond);
-                    const countDown = setInterval(() => {
-                        if(!$scope.isPaused) {
-                          timeSecond--;
-                          $scope.time=timeSecond;
-                          displayTime(timeSecond);
-                          if (timeSecond == 0 || timeSecond < 1) {
-                            endCount();
-                            clearInterval(countDown);
-                          }
+                    $scope.timeout = false;
+                    $scope.question_number=1;
+                    $scope.type='{{ type|safe }}';
+                    $scope.topic=JSON.parse('{{ type_data|safe }}');
+                    console.log($scope.type); 
+                    console.log($scope.topic); 
+                    $scope.topic_number=$scope.topic.number;
+                    $scope.topic_id=$scope.topic.id;
+                    $scope.time=3600;
+                    $scope.togri_javob_soni=0;
+                    $scope.notogri_javob_soni=0;
+                    $scope.javoblar=[];
+                    $scope.questions=[];
+                    //setCookie("javoblar", JSON.stringify($scope.javoblar), 365);
+                    $scope.prev=function(){
+                        if($scope.question_number>1){
+                            $scope.question_number=$scope.question_number-1
                         }
-                    }, 1000);
-                }
-
-                function displayTime(second) {
-                  const min = Math.floor(second / 60);
-                  const sec = Math.floor(second % 60);
-                  timeH.innerHTML = `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
-                }
-
-                function endCount() {
-                  timeH.innerHTML = "Vaqt tugadi";
-                  myModal.show();
-                }
-                function setCookie(cname, cvalue, exdays) {
-                  const d = new Date();
-                  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                  let expires = "expires="+d.toUTCString();
-                  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-                }
-
-                function getCookie(cname) {
-                    let name = cname + "=";
-                    let ca = document.cookie.split(';');
-                    for(let i = 0; i < ca.length; i++) {
-                        let c = ca[i];
-                        while (c.charAt(0) == ' ') {
-                            c = c.substring(1);
-                        }
-                        if (c.indexOf(name) == 0) {
-                            return c.substring(name.length, c.length);
-                        }
+                        myFunction($scope.question_number);
                     }
-                    return "";
-                }
-                function checkJavoblar() {
-                    if(getCookie("javoblar")){
-                         $scope.javoblar = JSON.parse(getCookie("javoblar"));
+                    $scope.next=function(){
+                        if($scope.question_number<$scope.questions.length){
+                            $scope.question_number=$scope.question_number+1
+                        }
+                        myFunction($scope.question_number);
                     }
-                    if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.data.length)
+                    if($scope.topic_id!=0){
+                        checkJavoblar();
+                        LoadData();
+                    }
+                    $scope.mValue=null;
+                    $scope.back=function(){
+                        window.location.href="/tests?book_id=1";
+                    }
+                    $scope.nextbilet=function(value){
+                        value=1
+                        if($scope.topic_id==value)
+                        {
+                            setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
+                        }
+                        window.location.href="/tests?topic_id="+value;
+                    }
+                    $scope.showModal=function(){
+                        $scope.isPaused = true;
+                        $scope.timeout = true;
+                        myModal.show();
+    
+                    }
+                    $('#timer').on('click', function(e) {
+                      e.preventDefault();
+                      //$scope.isPaused = !$scope.isPaused;
+                    });
+                    $("#staticBackdrop").on('hide.bs.modal', function(){
+                        $scope.isPaused = false;
+                    });
+                    function startTimer(timeSecond){
+                        displayTime(timeSecond);
+                        const countDown = setInterval(() => {
+                            if(!$scope.isPaused) {
+                              timeSecond--;
+                              $scope.time=timeSecond;
+                              displayTime(timeSecond);
+                              if (timeSecond == 0 || timeSecond < 1) {
+                                endCount();
+                                clearInterval(countDown);
+                              }
+                            }
+                        }, 1000);
+                    }
+    
+                    function displayTime(second) {
+                      const min = Math.floor(second / 60);
+                      const sec = Math.floor(second % 60);
+                      timeH.innerHTML = `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+                    }
+    
+                    function endCount() {
+                      timeH.innerHTML = "Vaqt tugadi";
+                      myModal.show();
+                    }
+                    function setCookie(cname, cvalue, exdays) {
+                      const d = new Date();
+                      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                      let expires = "expires="+d.toUTCString();
+                      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                    }
+    
+                    function getCookie(cname) {
+                        let name = cname + "=";
+                        let ca = document.cookie.split(';');
+                        for(let i = 0; i < ca.length; i++) {
+                            let c = ca[i];
+                            while (c.charAt(0) == ' ') {
+                                c = c.substring(1);
+                            }
+                            if (c.indexOf(name) == 0) {
+                                return c.substring(name.length, c.length);
+                            }
+                        }
+                        return "";
+                    }
+                    function checkJavoblar() {
+                        if(getCookie("javoblar")){
+                             $scope.javoblar = JSON.parse(getCookie("javoblar"));
+                        }
+                        if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                        {
+                            setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
+                            $scope.javoblar = JSON.parse(getCookie("javoblar"));
+                        }
+                        else
+                        {
+                            {% comment %} if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length!=0)
+                            {
+                                $scope.isPaused = true;
+                                $scope.timeout = true;
+                                myModal.show();
+                            } {% endcomment %}
+                        }
+                        $scope.javoblar.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
+                            if(element.time<$scope.time)
+                            {
+                                $scope.time=element.time;
+                            }
+                        });
+                        startTimer($scope.time);
+    
+                    }
+                  $scope.b=function(value){
+                    console.log(value, $scope.question_number, $scope.x)
+                    $scope.x=0
+                    if(value>$scope.question_number){
+                        $scope.x=value-$scope.question_number
+                    }
+                    else{
+                        $scope.x=$scope.question_number-value
+                    }
+                    if(value>1&&value<$scope.questions.length){
+                        myFunction(value);
+                    }
+                  }
+                  function myFunction(value) {
+                        $scope.question_number=value;
+                        $scope.question=$scope.questions.find(element => element.number == $scope.question_number);
+                        $scope.id=$scope.question.id;
+                        LoadAnswers($scope.id)
+                        //$scope.mValue=$scope.question.berilgan_javob+$scope.id;
+                        document.getElementById('click').play();
+                        {% comment %} var element = document.getElementsByClassName('page-item');
+                            for(var i = 0; i < element.length; i++)
+                            {
+                                element[i].classList.remove('active');
+                            } {% endcomment %}
+                        //document.getElementById('question'+$scope.question_number).classList.add('active');
+                    }
+                    function setJavob(javob)
                     {
-                        setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
-                        $scope.javoblar = JSON.parse(getCookie("javoblar"));
-                    }
-                    else
-                    {
-                        {% comment %} if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length!=0)
+                        {% comment %} var obj = {
+                          id: $scope.question.id,
+                          topic_id: $scope.topic_id,
+                          time: $scope.time,
+                          javob:javob,
+                        };
+    
+                        if(!$scope.javoblar.find(element => element.id == obj.id))
+                        {
+                            $scope.javoblar.push(obj);
+                            setCookie("javoblar", JSON.stringify($scope.javoblar), 365);
+                        } {% endcomment %}
+    
+                        $scope.mValue=javob.id;
+                        if(javob.right){
+                            $scope.togri_javob_soni=$scope.togri_javob_soni+1;
+                            document.getElementById('right').play();
+                            document.getElementById('answer'+javob.id).classList.add('list-group-item-success');
+                            //document.getElementById('ab'+$scope.question_number).classList.add('bg-success');
+                            alertify.success("To`g`ri javob");
+                        }
+                        else{
+                            $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
+                            document.getElementById('wrong').play();
+                            document.getElementById('answer'+javob.id).classList.add('list-group-item-danger');
+                            //document.getElementById('ab'+$scope.question_number).classList.add('bg-danger');
+                            alertify.error("Noto`g`ri javob");
+                        }
+                        for(var i = 0; i < $scope.answers.length; i++)
+                        {
+                            document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
+                        }
+                        {% comment %}
+                        if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
                         {
                             $scope.isPaused = true;
-                            $scope.timeout = true;
+                            $scope.timeout = false;
                             myModal.show();
                         } {% endcomment %}
                     }
-                    $scope.javoblar.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
-                        if(element.time<$scope.time)
-                        {
-                            $scope.time=element.time;
-                        }
-                    });
-                    startTimer($scope.time);
-
+                $scope.ok=function(javob){
+                    console.log(javob)
+                    setJavob(javob);
+                    //setTimeout(myFunction, 3000, $scope.question_number+1);
                 }
-              $scope.b=function(value){
-                console.log(value, $scope.question_number, $scope.x)
-                $scope.x=0
-                if(value>$scope.question_number){
-                    $scope.x=value-$scope.question_number
-                }
-                else{
-                    $scope.x=$scope.question_number-value
-                }
-                if(value>1&&value<$scope.data.length){
-                    myFunction(value);
-                }
-              }
-              function myFunction(value) {
-                    $scope.question_number=value;
-                    $scope.question=$scope.data.find(element => element.number == $scope.question_number);
-                    $scope.id=$scope.question.id;
-                    LoadAnswers($scope.id)
-                    //$scope.mValue=$scope.question.berilgan_javob+$scope.id;
-                    document.getElementById('click').play();
-                    {% comment %} var element = document.getElementsByClassName('page-item');
-                        for(var i = 0; i < element.length; i++)
-                        {
-                            element[i].classList.remove('active');
-                        } {% endcomment %}
-                    //document.getElementById('question'+$scope.question_number).classList.add('active');
-                }
-                function setJavob(javob)
-                {
-                    {% comment %} var obj = {
-                      id: $scope.question.id,
-                      topic_id: $scope.topic_id,
-                      time: $scope.time,
-                      javob:javob,
-                    };
-
-                    if(!$scope.javoblar.find(element => element.id == obj.id))
-                    {
-                        $scope.javoblar.push(obj);
-                        setCookie("javoblar", JSON.stringify($scope.javoblar), 365);
-                    } {% endcomment %}
-
-                    $scope.mValue=javob.id;
-                    if(javob.right){
-                        $scope.togri_javob_soni=$scope.togri_javob_soni+1;
-                        document.getElementById('right').play();
-                        document.getElementById('answer'+javob.id).classList.add('list-group-item-success');
-                        //document.getElementById('ab'+$scope.question_number).classList.add('bg-success');
-                        alertify.success("To`g`ri javob");
-                    }
-                    else{
-                        $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
-                        document.getElementById('wrong').play();
-                        document.getElementById('answer'+javob.id).classList.add('list-group-item-danger');
-                        //document.getElementById('ab'+$scope.question_number).classList.add('bg-danger');
-                        alertify.error("Noto`g`ri javob");
-                    }
-                    for(var i = 0; i < $scope.answers.length; i++)
-                    {
-                        document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
-                    }
-                    {% comment %}
-                    if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.data.length)
-                    {
-                        $scope.isPaused = true;
-                        $scope.timeout = false;
-                        myModal.show();
-                    } {% endcomment %}
-                }
-            $scope.ok=function(javob){
-                console.log(javob)
-                setJavob(javob);
-                //setTimeout(myFunction, 3000, $scope.question_number+1);
-            }
-
-          function LoadData(){
-              document.getElementById('conn').style.visibility = "visible";
-              $('#hh').modal({
-                       backdrop: 'static',
-                       keyboard: false
-                })
-                  $http({
-                      method: 'GET',
-                      url: "/GetQuestions?topic_id="+$scope.topic_id,
-                      dataType: "json"
-                  }).then(function (d) {
-                          console.log(d)
-                          $scope.data=d.data
-                          let raqam=0;
-                          {% comment %} d.data.forEach((item) => {
-                            berilgan_javob='';
-                            if($scope.javoblar.find(element => element.id == item.id))
-                            {
-                                berilgan_javob=$scope.javoblar.find(element => element.id == item.id).javob;
-                            }
-                            var obj = {
-                              id: item.id,
-                              topic_id: item.topic_id,
-                              javob:item.javob,
-                              javob_a:item.javob_a,
-                              javob_a_en:item.javob_a_en,
-                              javob_a_ru:item.javob_a_ru,
-                              javob_b:item.javob_b,
-                              javob_b_en:item.javob_b_en,
-                              javob_b_ru:item.javob_b_ru,
-                              javob_c:item.javob_c,
-                              javob_c_en:item.javob_c_en,
-                              javob_c_ru:item.javob_c_ru,
-                              javob_d:item.javob_d,
-                              javob_d_en:item.javob_d_en,
-                              javob_d_ru:item.javob_d_ru,
-                              raqam:item.raqam,
-                              rasm:item.rasm,
-                              savol:item.savol,
-                              savol_en:item.savol_en,
-                              savol_ru:item.savol_ru,
-                              berilgan_javob:berilgan_javob,
-                            };
-                            $scope.data.push(obj);
-                          });
-                          $scope.data=$scope.data.sort(function(a, b){return a.raqam-b.raqam});
-                          $scope.data.forEach((element) =>
-                          {
-                              if(element.raqam>raqam&&raqam==element.raqam-1&&element.berilgan_javob!='')
+    
+              function LoadData(){
+                  document.getElementById('conn').style.visibility = "visible";
+                  $('#hh').modal({
+                           backdrop: 'static',
+                           keyboard: false
+                    })
+                      $http({
+                          method: 'GET',
+                          url: "/GetQuestions?topic_id="+$scope.topic_id,
+                          dataType: "json"
+                      }).then(function (d) {
+                              console.log(d)
+                              $scope.questions=d.data
+                              let raqam=0;
+                              {% comment %} d.data.forEach((item) => {
+                                berilgan_javob='';
+                                if($scope.javoblar.find(element => element.id == item.id))
+                                {
+                                    berilgan_javob=$scope.javoblar.find(element => element.id == item.id).javob;
+                                }
+                                var obj = {
+                                  id: item.id,
+                                  topic_id: item.topic_id,
+                                  javob:item.javob,
+                                  javob_a:item.javob_a,
+                                  javob_a_en:item.javob_a_en,
+                                  javob_a_ru:item.javob_a_ru,
+                                  javob_b:item.javob_b,
+                                  javob_b_en:item.javob_b_en,
+                                  javob_b_ru:item.javob_b_ru,
+                                  javob_c:item.javob_c,
+                                  javob_c_en:item.javob_c_en,
+                                  javob_c_ru:item.javob_c_ru,
+                                  javob_d:item.javob_d,
+                                  javob_d_en:item.javob_d_en,
+                                  javob_d_ru:item.javob_d_ru,
+                                  raqam:item.raqam,
+                                  image:item.image,
+                                  savol:item.savol,
+                                  savol_en:item.savol_en,
+                                  savol_ru:item.savol_ru,
+                                  berilgan_javob:berilgan_javob,
+                                };
+                                $scope.questions.push(obj);
+                              });
+                              $scope.questions=$scope.questions.sort(function(a, b){return a.raqam-b.raqam});
+                              $scope.questions.forEach((element) =>
                               {
-                                  raqam=element.raqam;
-                              }
-                              if(element.berilgan_javob){
-                                if(element.javob==element.berilgan_javob){
-                                    $scope.togri_javob_soni=$scope.togri_javob_soni+1;
-                                    document.getElementById('ab'+element.raqam).classList.add('bg-success');
-                                }
-                                else{
-                                    $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
-                                    document.getElementById('ab'+element.raqam).classList.add('bg-danger');
-                                }
-                              }
-                          });
-                          $scope.question=$scope.data[raqam];
-                          $scope.id=$scope.question.id;
-                          {% endcomment %}
-                          $scope.question_number=raqam+1;
-                          myFunction($scope.question_number)
-
-
-                  $("#hh").modal('hide');
-                  document.getElementById('conn').style.visibility = "hidden";
-              }, function (error) {
+                                  if(element.raqam>raqam&&raqam==element.raqam-1&&element.berilgan_javob!='')
+                                  {
+                                      raqam=element.raqam;
+                                  }
+                                  if(element.berilgan_javob){
+                                    if(element.javob==element.berilgan_javob){
+                                        $scope.togri_javob_soni=$scope.togri_javob_soni+1;
+                                        document.getElementById('ab'+element.raqam).classList.add('bg-success');
+                                    }
+                                    else{
+                                        $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
+                                        document.getElementById('ab'+element.raqam).classList.add('bg-danger');
+                                    }
+                                  }
+                              });
+                              $scope.question=$scope.questions[raqam];
+                              $scope.id=$scope.question.id;
+                              {% endcomment %}
+                              $scope.question_number=raqam+1;
+                              myFunction($scope.question_number)
+    
+    
+                      $("#hh").modal('hide');
+                      document.getElementById('conn').style.visibility = "hidden";
+                  }, function (error) {
+                        $("#hh").modal('hide');
+                        document.getElementById('conn').style.visibility = "hidden";
+                      console.log("error in GetQuestions -> ", error);
+                      alertify.error("Xatolik yuz berdi");
+                  });
+              }
+              function LoadQuestions(number){
+    
+              }
+              function LoadAnswers(question_id){
+                document.getElementById('conn').style.visibility = "visible";
+                $('#hh').modal({
+                         backdrop: 'static',
+                         keyboard: false
+                  })
+                    $http({
+                        method: 'GET',
+                        url: "/GetAnswers?question_id="+question_id,
+                        dataType: "json"
+                    }).then(function (d) {
+                            console.log(d)
+                            $scope.answers=d.data
+    
                     $("#hh").modal('hide');
                     document.getElementById('conn').style.visibility = "hidden";
-                  console.log("error in GetQuestions -> ", error);
-                  alertify.error("Xatolik yuz berdi");
-              });
-          }
-          function LoadQuestions(number){
-
-          }
-          function LoadAnswers(question_id){
-            document.getElementById('conn').style.visibility = "visible";
-            $('#hh').modal({
-                     backdrop: 'static',
-                     keyboard: false
-              })
-                $http({
-                    method: 'GET',
-                    url: "/GetAnswers?question_id="+question_id,
-                    dataType: "json"
-                }).then(function (d) {
-                        console.log(d)
-                        $scope.answers=d.data
-
-                $("#hh").modal('hide');
-                document.getElementById('conn').style.visibility = "hidden";
-            }, function (error) {
-                  $("#hh").modal('hide');
-                  document.getElementById('conn').style.visibility = "hidden";
-                console.log("error in GetAnswers -> ", error);
-                alertify.error("Xatolik yuz berdi");
-            });
-        }
-          }]);
-    </script>
+                }, function (error) {
+                      $("#hh").modal('hide');
+                      document.getElementById('conn').style.visibility = "hidden";
+                    console.log("error in GetAnswers -> ", error);
+                    alertify.error("Xatolik yuz berdi");
+                });
+            }
+              }]);
+                        
+      }
+  </script>
     <ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-format="autorelaxed"
