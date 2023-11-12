@@ -182,7 +182,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="col">
               <form action="{% url 'set_language' %}" method="POST">
                 {% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}">
+                {% comment %} <input name="next" type="hidden" value="{{ redirect_to }}"> {% endcomment %}
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
                   {% for language in languages %}
                   <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
@@ -697,6 +697,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             };
                             $scope.data.push(obj);
                           });
+                          console.log($scope.data)
                           let raqam=0;
                           $scope.data=$scope.data.sort(function(a, b){return a.raqam-b.raqam});
                           $scope.data.forEach((element) =>

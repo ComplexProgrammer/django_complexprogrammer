@@ -236,7 +236,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{topic_number}} - Bilet natijasi</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_uz_uz}} - natijasi</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -262,7 +262,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{topic_number}} - Результат билета</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Результат - {{topic.name_ru_ru}}</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -287,7 +287,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{topic_number}} - Ticket result</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_en_us}} - Ticket result</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -561,7 +561,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
             <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
             </div>
             {% endverbatim %}
             {% else %}
@@ -570,7 +570,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
             <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
             </div>
             {% endverbatim %}
             {% else %}
@@ -578,7 +578,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
               <img ng-if="question.image!=''" ng-show="question.image!=''" src="/static/avtotest/{{question.image}}" width="30%">
               <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="javob{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a>
+                  <!-- <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> -->
+                 <!-- 
+                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-class="!question.selected_answer?'':question.selected_answer.right==answer.right&&answer.right?'list-group-item-success disabledDiv':question.selected_answer.right!=answer.right&&!answer.right?'list-group-item-danger disabledDiv':'disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}} {{question.selected_answer}}</a>
+                  -->
+                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}} {{question.selected_answer.right}} {{answer.right}}</a>
+                    
               </div>
             {% endverbatim %}
             {% endif %}
@@ -630,9 +635,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     $scope.time=3600;
                     $scope.togri_javob_soni=0;
                     $scope.notogri_javob_soni=0;
-                    $scope.javoblar=[];
                     $scope.questions=[];
-                    //setCookie("javoblar", JSON.stringify($scope.javoblar), 365);
+                    $scope.selected_answers=[];
+                    //setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
                     $scope.prev=function(){
                         if($scope.question_number>1){
                             $scope.question_number=$scope.question_number-1
@@ -655,9 +660,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }
                     $scope.nextbilet=function(value){
                         value=1
-                        if($scope.topic_id==value)
+                        if($scope.topic.number==value)
                         {
-                            setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
+                            setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);
                         }
                         window.location.href="/tests?topic_id="+value;
                     }
@@ -721,24 +726,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         return "";
                     }
                     function checkJavoblar() {
-                        if(getCookie("javoblar")){
-                             $scope.javoblar = JSON.parse(getCookie("javoblar"));
+                        if(getCookie("selected_answers")){
+                             $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
                         }
-                        if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                        if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
                         {
-                            setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.topic_id != $scope.topic_id)), 365);
-                            $scope.javoblar = JSON.parse(getCookie("javoblar"));
+                            setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic_id)), 365);
+                            $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
                         }
                         else
                         {
-                            {% comment %} if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length!=0)
+                            {% comment %} if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length!=0)
                             {
                                 $scope.isPaused = true;
                                 $scope.timeout = true;
                                 myModal.show();
                             } {% endcomment %}
                         }
-                        $scope.javoblar.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
+                        $scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
                             if(element.time<$scope.time)
                             {
                                 $scope.time=element.time;
@@ -763,9 +768,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   function myFunction(value) {
                         $scope.question_number=value;
                         $scope.question=$scope.questions.find(element => element.number == $scope.question_number);
-                        $scope.id=$scope.question.id;
-                        LoadAnswers($scope.id)
-                        //$scope.mValue=$scope.question.berilgan_javob+$scope.id;
+                        console.log($scope.question)
+                        LoadAnswers($scope.question.id)
+                        if($scope.selected_answers.find(element => element.question_id == $scope.question.id))
+                        {
+                          $scope.question.selected_answer=$scope.selected_answers.find(element => element.question_id == $scope.question.id);
+                        }
+                        $scope.mValue=$scope.question.selected_answer.id;
                         document.getElementById('click').play();
                         {% comment %} var element = document.getElementsByClassName('page-item');
                             for(var i = 0; i < element.length; i++)
@@ -774,33 +783,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             } {% endcomment %}
                         //document.getElementById('question'+$scope.question_number).classList.add('active');
                     }
-                    function setJavob(javob)
+                    function setJavob(answer)
                     {
-                        {% comment %} var obj = {
-                          id: $scope.question.id,
+                        var obj = {
                           topic_id: $scope.topic_id,
+                          question_id: $scope.question.id,
+                          id:answer.id,
+                          right:answer.right,
                           time: $scope.time,
-                          javob:javob,
                         };
     
-                        if(!$scope.javoblar.find(element => element.id == obj.id))
+                        if(!$scope.selected_answers.find(element => element.id == obj.id))
                         {
-                            $scope.javoblar.push(obj);
-                            setCookie("javoblar", JSON.stringify($scope.javoblar), 365);
-                        } {% endcomment %}
+                            $scope.selected_answers.push(obj);
+                            setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
+                        }
     
-                        $scope.mValue=javob.id;
-                        if(javob.right){
+                        $scope.mValue=answer.id;
+                        if(answer.right){
                             $scope.togri_javob_soni=$scope.togri_javob_soni+1;
                             document.getElementById('right').play();
-                            document.getElementById('answer'+javob.id).classList.add('list-group-item-success');
+                            document.getElementById('answer'+answer.id).classList.add('list-group-item-success');
                             //document.getElementById('ab'+$scope.question_number).classList.add('bg-success');
                             alertify.success("To`g`ri javob");
                         }
                         else{
                             $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
                             document.getElementById('wrong').play();
-                            document.getElementById('answer'+javob.id).classList.add('list-group-item-danger');
+                            document.getElementById('answer'+answer.id).classList.add('list-group-item-danger');
                             //document.getElementById('ab'+$scope.question_number).classList.add('bg-danger');
                             alertify.error("Noto`g`ri javob");
                         }
@@ -808,17 +818,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         {
                             document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
                         }
-                        {% comment %}
-                        if($scope.javoblar.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                        if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
                         {
                             $scope.isPaused = true;
                             $scope.timeout = false;
                             myModal.show();
-                        } {% endcomment %}
+                        }
                     }
-                $scope.ok=function(javob){
-                    console.log(javob)
-                    setJavob(javob);
+                $scope.ok=function(answer){
+                    console.log(answer)
+                    setJavob(answer);
                     //setTimeout(myFunction, 3000, $scope.question_number+1);
                 }
     
@@ -834,61 +843,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           dataType: "json"
                       }).then(function (d) {
                               console.log(d)
-                              $scope.questions=d.data
-                              let raqam=0;
-                              {% comment %} d.data.forEach((item) => {
-                                berilgan_javob='';
-                                if($scope.javoblar.find(element => element.id == item.id))
+                              let number=0;
+                              d.data.forEach((item) => {
+                                selected_answer='';
+                                if($scope.selected_answers.find(element => element.question_id == item.id))
                                 {
-                                    berilgan_javob=$scope.javoblar.find(element => element.id == item.id).javob;
+                                    selected_answer=$scope.selected_answers.find(element => element.question_id == item.id);
                                 }
-                                var obj = {
-                                  id: item.id,
-                                  topic_id: item.topic_id,
-                                  javob:item.javob,
-                                  javob_a:item.javob_a,
-                                  javob_a_en:item.javob_a_en,
-                                  javob_a_ru:item.javob_a_ru,
-                                  javob_b:item.javob_b,
-                                  javob_b_en:item.javob_b_en,
-                                  javob_b_ru:item.javob_b_ru,
-                                  javob_c:item.javob_c,
-                                  javob_c_en:item.javob_c_en,
-                                  javob_c_ru:item.javob_c_ru,
-                                  javob_d:item.javob_d,
-                                  javob_d_en:item.javob_d_en,
-                                  javob_d_ru:item.javob_d_ru,
-                                  raqam:item.raqam,
-                                  image:item.image,
-                                  savol:item.savol,
-                                  savol_en:item.savol_en,
-                                  savol_ru:item.savol_ru,
-                                  berilgan_javob:berilgan_javob,
-                                };
-                                $scope.questions.push(obj);
+                                item.selected_answer=selected_answer
+                                $scope.questions.push(item);
                               });
-                              $scope.questions=$scope.questions.sort(function(a, b){return a.raqam-b.raqam});
+                              $scope.questions=$scope.questions.sort(function(a, b){return a.number-b.number});
                               $scope.questions.forEach((element) =>
                               {
-                                  if(element.raqam>raqam&&raqam==element.raqam-1&&element.berilgan_javob!='')
+                                  if(element.number>number&&number==element.number-1&&element.selected_answer)
                                   {
-                                      raqam=element.raqam;
+                                      number=element.number;
                                   }
-                                  if(element.berilgan_javob){
-                                    if(element.javob==element.berilgan_javob){
+                                  if(element.selected_answer){
+                                    if(element.selected_answer.right){
                                         $scope.togri_javob_soni=$scope.togri_javob_soni+1;
-                                        document.getElementById('ab'+element.raqam).classList.add('bg-success');
+                                        {% comment %} document.getElementById('ab'+element.number).classList.add('bg-success'); {% endcomment %}
                                     }
                                     else{
                                         $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
-                                        document.getElementById('ab'+element.raqam).classList.add('bg-danger');
+                                        {% comment %} document.getElementById('ab'+element.number).classList.add('bg-danger'); {% endcomment %}
                                     }
                                   }
                               });
-                              $scope.question=$scope.questions[raqam];
-                              $scope.id=$scope.question.id;
-                              {% endcomment %}
-                              $scope.question_number=raqam+1;
+                              $scope.question_number=number+1;
                               myFunction($scope.question_number)
     
     
@@ -917,7 +900,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }).then(function (d) {
                             console.log(d)
                             $scope.answers=d.data
-    
                     $("#hh").modal('hide');
                     document.getElementById('conn').style.visibility = "hidden";
                 }, function (error) {
