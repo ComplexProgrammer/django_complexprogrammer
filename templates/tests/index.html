@@ -519,7 +519,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
             <nav aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item" ng-click="prev()">
+                <li class="page-item" ng-show="question_number>1" ng-click="prev()">
                   <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
@@ -536,7 +536,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li class="page-item" id="question{{question_number+9}}" ng-click="b(question_number+9-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+9">{{question_number+9-x}}</a></li>
                 <li class="page-item" id="question{{question_number+10}}" ng-click="b(question_number+10-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+10">{{question_number+10-x}}</a></li>
                 -->
-                <li class="page-item" ng-click="next()">
+                <li class="page-item" ng-show="question_number<questions.length" ng-click="next()">
                   <a class="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
