@@ -236,7 +236,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_uz_uz}} - natijasi</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_uz_uz}} natijasi</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -262,7 +262,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Результат - {{topic.name_ru_ru}}</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Результат {{topic.name_ru_ru}}</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -287,7 +287,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_en_us}} - Ticket result</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_en_us}} result</h5>
         <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -524,7 +524,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" href="#">{{question_number-x}}</a></li>
+                <li class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" id="ab{{question.id}}" href="#">{{question_number-x}}</a></li>
                 <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+1">{{question_number+1-x}}</a></li>
                 <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+2">{{question_number+2-x}}</a></li>
                 <li class="page-item" id="question{{question_number+3}}" ng-click="b(question_number+3-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+3">{{question_number+3-x}}</a></li>
@@ -561,8 +561,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
             <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
-            </div>
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a> 
+              </div>
             {% endverbatim %}
             {% else %}
             {% if request.LANGUAGE_CODE == 'ru' %}
@@ -570,20 +570,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
             <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
-            </div>
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a> 
+              </div>
             {% endverbatim %}
             {% else %}
             {% verbatim %}
               <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
               <img ng-if="question.image!=''" ng-show="question.image!=''" src="/static/avtotest/{{question.image}}" width="30%">
               <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
-                  <!-- <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === answer{{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> -->
-                 <!-- 
-                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-class="!question.selected_answer?'':question.selected_answer.right==answer.right&&answer.right?'list-group-item-success disabledDiv':question.selected_answer.right!=answer.right&&!answer.right?'list-group-item-danger disabledDiv':'disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}} {{question.selected_answer}}</a>
-                  -->
-                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}} {{question.selected_answer.right}} {{answer.right}}</a>
-                    
+                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> 
               </div>
             {% endverbatim %}
             {% endif %}
@@ -628,8 +623,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     $scope.question_number=1;
                     $scope.type='{{ type|safe }}';
                     $scope.topic=JSON.parse('{{ type_data|safe }}');
-                    console.log($scope.type); 
-                    console.log($scope.topic); 
                     $scope.topic_number=$scope.topic.number;
                     $scope.topic_id=$scope.topic.id;
                     $scope.time=3600;
@@ -753,7 +746,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     
                     }
                   $scope.b=function(value){
-                    console.log(value, $scope.question_number, $scope.x)
                     $scope.x=0
                     if(value>$scope.question_number){
                         $scope.x=value-$scope.question_number
@@ -768,7 +760,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   function myFunction(value) {
                         $scope.question_number=value;
                         $scope.question=$scope.questions.find(element => element.number == $scope.question_number);
-                        console.log($scope.question)
                         LoadAnswers($scope.question.id)
                         if($scope.selected_answers.find(element => element.question_id == $scope.question.id))
                         {
@@ -804,14 +795,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             $scope.togri_javob_soni=$scope.togri_javob_soni+1;
                             document.getElementById('right').play();
                             document.getElementById('answer'+answer.id).classList.add('list-group-item-success');
-                            //document.getElementById('ab'+$scope.question_number).classList.add('bg-success');
+                            {% comment %} document.getElementById('ab'+$scope.question.id).classList.add('bg-success'); {% endcomment %}
                             alertify.success("To`g`ri javob");
                         }
                         else{
                             $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
                             document.getElementById('wrong').play();
                             document.getElementById('answer'+answer.id).classList.add('list-group-item-danger');
-                            //document.getElementById('ab'+$scope.question_number).classList.add('bg-danger');
+                            {% comment %} document.getElementById('ab'+$scope.question.id).classList.add('bg-danger'); {% endcomment %}
                             alertify.error("Noto`g`ri javob");
                         }
                         for(var i = 0; i < $scope.answers.length; i++)
@@ -826,7 +817,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         }
                     }
                 $scope.ok=function(answer){
-                    console.log(answer)
                     setJavob(answer);
                     //setTimeout(myFunction, 3000, $scope.question_number+1);
                 }
@@ -842,7 +832,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           url: "/GetQuestions?topic_id="+$scope.topic_id,
                           dataType: "json"
                       }).then(function (d) {
-                              console.log(d)
                               let number=0;
                               d.data.forEach((item) => {
                                 selected_answer='';
@@ -863,11 +852,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                   if(element.selected_answer){
                                     if(element.selected_answer.right){
                                         $scope.togri_javob_soni=$scope.togri_javob_soni+1;
-                                        {% comment %} document.getElementById('ab'+element.number).classList.add('bg-success'); {% endcomment %}
+                                        {% comment %} document.getElementById('ab'+element.id).classList.add('bg-success'); {% endcomment %}
                                     }
                                     else{
                                         $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
-                                        {% comment %} document.getElementById('ab'+element.number).classList.add('bg-danger'); {% endcomment %}
+                                        {% comment %} document.getElementById('ab'+element.id).classList.add('bg-danger'); {% endcomment %}
                                     }
                                   }
                               });
@@ -898,7 +887,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         url: "/GetAnswers?question_id="+question_id,
                         dataType: "json"
                     }).then(function (d) {
-                            console.log(d)
                             $scope.answers=d.data
                     $("#hh").modal('hide');
                     document.getElementById('conn').style.visibility = "hidden";
