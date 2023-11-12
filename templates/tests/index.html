@@ -524,7 +524,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" id="ab{{question.id}}" href="#">{{question_number-x}}</a></li>
+                <li ng-repeat="q in questions" ng-show="q==question" class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" id="ab{{q.id}}" href="#">{{question_number-x}}</a></li>
                 <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+1">{{question_number+1-x}}</a></li>
                 <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+2">{{question_number+2-x}}</a></li>
                 <li class="page-item" id="question{{question_number+3}}" ng-click="b(question_number+3-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+3">{{question_number+3-x}}</a></li>
@@ -636,12 +636,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             $scope.question_number=$scope.question_number-1
                         }
                         myFunction($scope.question_number);
+                        set_color()
                     }
                     $scope.next=function(){
                         if($scope.question_number<$scope.questions.length){
                             $scope.question_number=$scope.question_number+1
                         }
                         myFunction($scope.question_number);
+                        set_color()
+                    }
+                    function set_color(){
+                      $scope.questions.forEach((element) =>
+                      {
+                          if(element.selected_answer){
+                            if(element.selected_answer.right){
+                                $scope.togri_javob_soni=$scope.togri_javob_soni+1;
+                                document.getElementById('ab'+element.id).classList.add('bg-success');
+                            }
+                            else{
+                                $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
+                                document.getElementById('ab'+element.id).classList.add('bg-danger');
+                            }
+                          }
+                      });
                     }
                     if($scope.topic_id!=0){
                         checkJavoblar();
@@ -795,14 +812,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             $scope.togri_javob_soni=$scope.togri_javob_soni+1;
                             document.getElementById('right').play();
                             document.getElementById('answer'+answer.id).classList.add('list-group-item-success');
-                            {% comment %} document.getElementById('ab'+$scope.question.id).classList.add('bg-success'); {% endcomment %}
+                            document.getElementById('ab'+$scope.question.id).classList.add('bg-success');
                             alertify.success("To`g`ri javob");
                         }
                         else{
                             $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
                             document.getElementById('wrong').play();
                             document.getElementById('answer'+answer.id).classList.add('list-group-item-danger');
-                            {% comment %} document.getElementById('ab'+$scope.question.id).classList.add('bg-danger'); {% endcomment %}
+                            document.getElementById('ab'+$scope.question.id).classList.add('bg-danger');
                             alertify.error("Noto`g`ri javob");
                         }
                         for(var i = 0; i < $scope.answers.length; i++)
@@ -848,16 +865,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                   if(element.number>number&&number==element.number-1&&element.selected_answer)
                                   {
                                       number=element.number;
-                                  }
-                                  if(element.selected_answer){
-                                    if(element.selected_answer.right){
-                                        $scope.togri_javob_soni=$scope.togri_javob_soni+1;
-                                        {% comment %} document.getElementById('ab'+element.id).classList.add('bg-success'); {% endcomment %}
-                                    }
-                                    else{
-                                        $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
-                                        {% comment %} document.getElementById('ab'+element.id).classList.add('bg-danger'); {% endcomment %}
-                                    }
                                   }
                               });
                               $scope.question_number=number+1;
