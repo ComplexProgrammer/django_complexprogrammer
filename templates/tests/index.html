@@ -794,9 +794,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     function setJavob(answer)
                     {
                         var obj = {
+                          topic_id: $scope.topic_id,
+                          question_id: $scope.question.id,
                           id:answer.id,
                           right:answer.right,
-                          topic_id: $scope.topic_id,
                           time: $scope.time,
                         };
     
