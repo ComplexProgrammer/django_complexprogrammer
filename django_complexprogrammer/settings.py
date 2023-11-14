@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'mobiledetect',
     'tests',
-    'pdf_tools'
+    'pdf_tools',
+    'markets'
 ]
 
 MIDDLEWARE = [
