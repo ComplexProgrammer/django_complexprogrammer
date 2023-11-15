@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-26 09:47+0500\n"
+"POT-Creation-Date: 2023-11-15 18:30+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,47 +18,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\django_complexprogrammer\settings.py:127
+#: .\django_complexprogrammer\settings.py:135
 msgid "Uzbek"
 msgstr ""
 
-#: .\django_complexprogrammer\settings.py:128
+#: .\django_complexprogrammer\settings.py:136
 msgid "English"
 msgstr ""
 
-#: .\django_complexprogrammer\settings.py:129
+#: .\django_complexprogrammer\settings.py:137
 msgid "Turkish"
 msgstr ""
 
-#: .\django_complexprogrammer\settings.py:130
+#: .\django_complexprogrammer\settings.py:138
 msgid "Russia"
 msgstr ""
 
-#: .\templates\base.html:258
+#: .\templates\base.html:259
 msgid "Home"
 msgstr "Home"
 
-#: .\templates\base.html:259
+#: .\templates\base.html:260
+msgid "News"
+msgstr "News"
+
+#: .\templates\base.html:261
 msgid "Services"
 msgstr "Services"
 
-#: .\templates\base.html:260
+#: .\templates\base.html:262
 msgid "Projects"
 msgstr "Projects"
 
-#: .\templates\base.html:261
+#: .\templates\base.html:263
 msgid "About"
 msgstr "About"
 
-#: .\templates\base.html:262
+#: .\templates\base.html:264
 msgid "Contact"
 msgstr "Contact"
 
-#: .\templates\base.html:295
+#: .\templates\base.html:337
 msgid "Portfolio"
 msgstr "Portfolio"
 
-#: .\templates\base.html:318
+#: .\templates\base.html:367
 msgid "services sub title"
 msgstr ""
 "The company itself is a very successful company. He is prepared to take on "

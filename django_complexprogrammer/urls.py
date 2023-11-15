@@ -20,13 +20,16 @@ from django.urls import include, path, re_path
 from django.views.static import serve
 from django.conf.urls.i18n import i18n_patterns
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('projects.urls')),
-    path('', include('tests.urls')),
-    path('', include('pdf_tools.urls')),
-    path('markets/', include('markets.urls')),
-]
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('', include('projects.urls')),
+#     path('', include('tests.urls')),
+#     path('', include('pdf_tools.urls')),
+#     path('markets/', include('markets.urls')),
+#     path('news/', include('news.urls')),
+#     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+# ]
+urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
 if settings.DEBUG:
     urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
@@ -42,4 +45,6 @@ urlpatterns += [
     path('', include('tests.urls')),
     path('', include('pdf_tools.urls')),
     path('markets/', include('markets.urls')),
+    path('news/', include('news.urls')),
+    re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
