@@ -8,7 +8,7 @@ def index(request):
     if id == 0:
         news=Posts.objects.values()
     else:
-        news=Posts.objects.filter(id=id).values()
+        news=Posts.objects.filter(id=id).first()
     context={
         'id':id,
         'news': news

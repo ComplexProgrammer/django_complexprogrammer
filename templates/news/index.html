@@ -92,7 +92,17 @@
 <script>window.yaContextCb=window.yaContextCb||[]</script>
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 <meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
-<title>News {{news.title}}</title>
+<title>
+    {% if request.LANGUAGE_CODE == 'uz' %}
+        Yangiliklar {{news.name_uz_uz }}
+    {% else %}
+    {% if request.LANGUAGE_CODE == 'ru' %}
+        Новости {{news.name_ru_ru }}
+    {% else %}
+        News {{news.name_en_us }}
+    {% endif %}
+    {% endif %}
+</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
  crossorigin="anonymous"></script>
  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
@@ -274,12 +284,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h1>
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                     {% if request.LANGUAGE_CODE == 'uz' %}
-                    Yangiliklar
+                    {{news.title_uz_uz }}
                     {% else %}
                     {% if request.LANGUAGE_CODE == 'ru' %}
-                    Новости
+                    {{news.title_ru_ru }}
                     {% else %}
-                    News
+                    {{news.title_en_us }}
                     {% endif %}
                     {% endif %}
                 </a>
@@ -287,9 +297,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <img src="/static/img/google-play.svg" />
                 </a>
             </h1>
-            {% for item in news%}
-            {{item.body_en_us|safe }}
-            {% endfor %}
+            {% if request.LANGUAGE_CODE == 'uz' %}
+            {{news.body_uz_uz|safe }}
+            {% else %}
+            {% if request.LANGUAGE_CODE == 'ru' %}
+            {{news.body_ru_ru|safe }}
+            {% else %}
+            {{news.body_en_us|safe }}
+            {% endif %}
+            {% endif %}
         </div>
     {% endif %}
     <ins class="adsbygoogle"
