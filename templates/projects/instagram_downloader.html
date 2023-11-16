@@ -173,7 +173,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 console.dir($scope.model)
                 $http({
                     method: 'POST',
-                    url: "/{{request.LANGUAGE_CODE}}/instagram-downloader/",
+                    url: "/instagram-downloader/",
                     data: JSON.stringify($scope.model),
                     headers: {'X-CSRFToken': csrftoken},
                     dataType: "json"

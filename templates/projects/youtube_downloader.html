@@ -196,7 +196,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               console.log(document.cookie)
                 $http({
                     method: 'POST',
-                    url: "/{{request.LANGUAGE_CODE}}/youtube_downloader/",
+                    url: "/youtube_downloader/",
                     data: JSON.stringify($scope.model),
                     headers: {'X-CSRFToken': csrftoken},
                     dataType: "json"
