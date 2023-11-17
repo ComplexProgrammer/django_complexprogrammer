@@ -613,15 +613,15 @@ def GetChangeTextData(request):
         text = text.replace("Ғ", "Gʼ").replace("ғ", "gʼ")
     return HttpResponse(text)
 
-
 def ip(request):
-    ip = request.GET.get('ip', False);
+    ip = request.GET.get('ip', False)
     if ip == False:
         url = "https://ipapi.co/json"
     else:
         url = "https://ipapi.co/" + ip + "/json"
     http = urllib3.PoolManager()
     r = http.request('GET', url)
+    print(r.data)
     context={
         'data':json.loads(r.data)
     }
