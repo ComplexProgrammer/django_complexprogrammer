@@ -37,6 +37,22 @@
       </div>
     </div>
   </div>
+
+<div class="fixed-top">
+    <div class="position-relative">
+        <div class="position-absolute end-0">
+            <div class="C0mplexButton float-end">
+                <a href="/#services">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    X
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -142,15 +158,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <img src="/static/img/buffering.gif" />
 </div>
 <input id="hh" type="hidden" />
-<div class="C0mplexButton float-end">
-    <a href="/#services">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        X
-    </a>
-</div>
 <h2>BTC Markets
 <!--    <a href="https://play.google.com/store/apps/details?id=coins.complexprogrammer.uz" target="_blank">-->
 <!--        <img src="/static/img/google-play.svg" />-->
@@ -172,7 +179,7 @@ data-ad-slot="6832564320"></ins>
                 <th>№</th>
                 <th scope="col">Currency</th>
                 <th scope="col">Market</th>
-                <th scope="col">Change</th>
+                {% comment %} <th scope="col">Change</th> {% endcomment %}
                 <th scope="col">Price</th>
                 <th scope="col">Volume</th>
                 <th scope="col">High</th>
@@ -192,7 +199,7 @@ data-ad-slot="6832564320"></ins>
                     <td>
                         <a href="#">{{item.market}}</a>
                     </td>
-                    <td>{{item.bid}}</td>
+                    {% comment %} <td>{{item.bid}}</td> {% endcomment %}
                     <td>{{item.ask}}</td>
                     <td>{{item.volume}}</td>
                     <td>{{item.high}}</td>
@@ -221,7 +228,7 @@ data-ad-slot="6832564320"></ins>
                 <th>№</th>
                 <th scope="col">Currency</th>
                 <th scope="col">Market</th>
-                <th scope="col">Change</th>
+                {% comment %} <th scope="col">Change</th> {% endcomment %}
                 <th scope="col">Price</th>
                 <th scope="col">Volume</th>
                 <th scope="col">High</th>
@@ -241,7 +248,7 @@ data-ad-slot="6832564320"></ins>
                     <td>
                         <a href="#">{{item.market}}</a>
                     </td>
-                    <td>{{item.bid}}</td>
+                    {% comment %} <td>{{item.bid}}</td> {% endcomment %}
                     <td>{{item.ask}}</td>
                     <td>{{item.volume}}</td>
                     <td>{{item.high}}</td>
@@ -270,7 +277,7 @@ data-ad-slot="6832564320"></ins>
                 <th>№</th>
                 <th scope="col">Currency</th>
                 <th scope="col">Market</th>
-                <th scope="col">Change</th>
+                {% comment %} <th scope="col">Change</th> {% endcomment %}
                 <th scope="col">Price</th>
                 <th scope="col">Volume</th>
                 <th scope="col">High</th>
@@ -290,7 +297,7 @@ data-ad-slot="6832564320"></ins>
                     <td>
                         <a href="#">{{item.market}}</a>
                     </td>
-                    <td>{{item.bid}}</td>
+                    {% comment %} <td>{{item.bid}}</td> {% endcomment %}
                     <td>{{item.ask}}</td>
                     <td>{{item.volume}}</td>
                     <td>{{item.high}}</td>
