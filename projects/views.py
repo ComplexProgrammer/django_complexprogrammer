@@ -15,6 +15,7 @@ from django.shortcuts import render, get_object_or_404
 import googletrans
 from googletrans import Translator
 from instaloader import Instaloader, Profile
+from decouple import config
 # from pysitemap import crawler
 import numpy as np
 import urllib3
@@ -626,6 +627,33 @@ def ip(request):
         'data':json.loads(r.data)
     }
     return render(request, 'projects/ip.html', context=context)
+
+def map(request):
+    key = config('GOOGLE_MAP_API_KEY')
+    # eligable_locations = Locations.objects.filter(place_id__isnull=False)
+    locations = []
+
+    # for a in eligable_locations: 
+    #     data = {
+    #         'lat': float(a.lat), 
+    #         'lng': float(a.lng), 
+    #         'name': a.name
+    #     }
+
+    #     locations.append(data)
+
+    data = {
+        'lat': float(50.4777), 
+        'lng': float(12.3649), 
+        'name': 'Saxony'
+    }
+
+    locations.append(data)
+    context = {
+        "key":key, 
+        "locations": locations
+    }
+    return render(request, 'projects/map.html', context)
 
 def password_generator(request):
     if request.method == 'POST':

@@ -24,6 +24,7 @@ urlpatterns=[
     path('changetext/', views.changetext, name='changetext'),
     path('GetChangeTextData/', views.GetChangeTextData, name='GetChangeTextData'), # type: ignore
     path('ip/', views.ip, name='ip'),
+    path('map',views.map, name="map"),
     path('password_generator/', views.password_generator, name='password_generator'),
     path('sitemap/', views.sitemap, name='sitemap'),
     path('snake/', views.snake, name='snake'),
