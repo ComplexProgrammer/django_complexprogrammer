@@ -90,3 +90,38 @@ def postda_uz(request):
         'data':htmlSource
     }
     return render(request, 'site_clones/postda.html', context=context)
+
+def konsta_uz(request):
+    http = urllib3.PoolManager()
+    r = http.request('GET', 'https://konsta.uz')
+    htmlSource = r.data.decode('utf-8')
+    htmlSource = htmlSource.replace("8388915255381447", "7773722896374259");
+    htmlSource = htmlSource.replace("<title>OFFICIAL WEB SITE OF KONSTA</title>", "<title>Complex Programmer | KONSTA</title>");
+    htmlSource = htmlSource.replace("https://uzinterbiz.com/wp-content/uploads/2019/01/Favicon.png", "https://complexprogrammer.uz/static/img/favicon.ico");
+    htmlSource = htmlSource.replace("img/favicon.png", "https://complexprogrammer.uz/static/img/favicon.ico");
+    htmlSource = htmlSource.replace("css/normalize.css", "https://konsta.uz/css/normalize.css");
+    htmlSource = htmlSource.replace("css/main.css", "https://konsta.uz/css/main.css");
+    htmlSource = htmlSource.replace("css/animate.min.css", "https://konsta.uz/css/animate.min.css");
+    htmlSource = htmlSource.replace("css/fontawesome-all.min.css", "https://konsta.uz/css/fontawesome-all.min.css");
+    htmlSource = htmlSource.replace("css/bootstrap.min.css", "https://konsta.uz/css/bootstrap.min.css");
+    htmlSource = htmlSource.replace("img/figure/bell-icon.png", "https://konsta.uz/img/figure/bell-icon.png");
+    htmlSource = htmlSource.replace("js/modernizr-3.6.0.min.js", "https://konsta.uz/js/modernizr-3.6.0.min.js");
+    htmlSource = htmlSource.replace("js/jquery-3.3.1.min.js", "https://konsta.uz/js/jquery-3.3.1.min.js");
+    htmlSource = htmlSource.replace("js/popper.min.js", "https://konsta.uz/js/popper.min.js");
+    htmlSource = htmlSource.replace("js/bootstrap.min.js", "https://konsta.uz/js/bootstrap.min.js");
+    htmlSource = htmlSource.replace("vendor/vegas/vegas.min.css", "https://konsta.uz/vendor/vegas/vegas.min.css");
+    htmlSource = htmlSource.replace("vendor/vegas/vegas.min.js", "https://konsta.uz/vendor/vegas/vegas.min.js");
+    htmlSource = htmlSource.replace("js/pace.min.js", "https://konsta.uz/js/pace.min.js");
+    htmlSource = htmlSource.replace("js/main.js", "https://konsta.uz/js/main.js");
+    htmlSource = htmlSource.replace("style.css", "https://konsta.uz/style.css");
+    htmlSource = htmlSource.replace("img/figure/bg3.jpg", "img/k2.png");
+    htmlSource = htmlSource.replace("https://www.youtube.com/@Konsta_uz", "https://www.youtube.com/@C0mplex224");
+    htmlSource = htmlSource.replace("https://konsta.uz/img/figure/bg3.jpg", "https://complexprogrammer.uz/static/img/C0mplex.png");
+    htmlSource = htmlSource.replace('<p>© 2020 - 2022 <a href="http://t.me/jahongirFm">JSD WEB SECURITY </a> — All rights reserved.</p>', '<p>© 2020 - 2023 <a href="http://t.me/ComplexProgrammer">Complex Programmer </a> — All rights reserved.</p>');
+    htmlSource = htmlSource.replace('http://t.me/konstainfo', 'http://t.me/ComplexProgrammer');
+    htmlSource = htmlSource.replace("https://t.me/konsta", "https://t.me/ComplexProgrammer");
+    htmlSource = htmlSource.replace("https://www.instagram.com/konsta_uz/", "https://www.instagram.com/complexprogrammer");
+    context={
+        'data':htmlSource
+    }
+    return render(request, 'site_clones/index.html', context=context)
