@@ -30,14 +30,15 @@ from django.conf.urls.i18n import i18n_patterns
 #     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 # ]
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
-if settings.DEBUG:
-    urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [path('i18n/', include('django.conf.urls.i18n')),]
 urlpatterns = [
     *i18n_patterns(*urlpatterns, prefix_default_language=False),
     ]
+urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
+if settings.DEBUG:
+    urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 urlpatterns += [
     path('admin/', admin.site.urls),
