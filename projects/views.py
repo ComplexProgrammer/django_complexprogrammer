@@ -22,7 +22,7 @@ import urllib3
 # import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
 # from gcloud_utils import delete_blob, download_video, generate_signed_url, upload_blob
-from projects.models import Answers, AvtoTest, Books, Groups, IsService, Project, Questions, Topics
+from projects.models import AvtoTest, IsService, Project
 # from static.white_box_cartoonizer.cartoonize import WB_Cartoonize
 # import skvideo
 # import skvideo.io
@@ -843,48 +843,3 @@ def remove_file_(request):
             #         print('Deleting file:', file)
             #         os.remove(file)
     
-
-
-
-
-
-
-
-def GetGroups(request):
-    data=Groups.objects.all().values()
-    return JsonResponse(list(data), safe=False) 
-
-def GetBooks(request):
-    group_id = request.GET.get('group_id', False)
-    if group_id is False:
-        return None
-    else:
-        data=Books.objects.filter(group_id=group_id).values()
-        return JsonResponse(list(data), safe=False) 
-
-
-def GetTopics(request):
-    book_id = request.GET.get('book_id', False)
-    if book_id is False:
-        return None
-    else:
-        data=Topics.objects.filter(book_id=book_id).values()
-        return JsonResponse(list(data), safe=False) 
-    
-
-def GetQuestions(request):
-    topic_id = request.GET.get('topic_id', False)
-    if topic_id is False:
-        return None
-    else:
-        data=Questions.objects.filter(topic_id=topic_id).values()
-        return JsonResponse(list(data), safe=False) 
-    
-
-def GetAnswers(request):
-    question_id = request.GET.get('question_id', False)
-    if question_id is False:
-        return None
-    else:
-        data=Answers.objects.filter(question_id=question_id).values()
-        return JsonResponse(list(data), safe=False) 

@@ -6,6 +6,7 @@ class Auditable(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     # updated_by = models.IntegerField()
     is_deleted = models.BooleanField(default=False)
+    sort_order = models.IntegerField(default=0)
     class Meta:
         abstract = True
 
@@ -17,32 +18,50 @@ class Translatable(Auditable):
     class Meta:
         abstract = True
 
+class Types(Translatable):
+    class Meta:
+        verbose_name = "Type"
+        verbose_name_plural = "Types"
+        ordering=['sort_order']
+    def __str__(self):
+        return f"{self.name_en_us}"
 class Groups(Translatable):
     number = models.IntegerField()
+    type = models.ForeignKey(Types,
+                                null=True,
+                                default=None,
+                                related_name='groups',
+                                on_delete=models.DO_NOTHING)
     class Meta:
         verbose_name = "Group"
         verbose_name_plural = "Groups"
         ordering=['number']
     def __str__(self):
         return f"{self.name_en_us}"
+    
+class BookTypes(Auditable):
+    code = models.TextField()
+    description = models.TextField()
+    class Meta:
+        verbose_name = "BookType"
+        verbose_name_plural = "BookTypes"
+        ordering=['sort_order']
+    def __str__(self):
+        return f"{self.description}"
 
 class Books(Translatable):
-    class BookType(models.TextChoices):
-        # none = 'none'
-        # uzb_avto_test = 'uzb_avto_test'
-        usa_avto_test= 'usa_avto_test'
-    book_type = models.CharField(
-        max_length=20,
-        choices=BookType.choices,
-        default=BookType.usa_avto_test,
-    )
+    type = models.ForeignKey(BookTypes,
+                                null=True,
+                                default=None,
+                                related_name='books',
+                                on_delete=models.DO_NOTHING)
     group = models.ForeignKey(Groups,
                                   related_name='books',
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.DO_NOTHING)
     class Meta:
         verbose_name = "Book"
         verbose_name_plural = "Books"
-        ordering=['id']
+        ordering=['sort_order']
     def __str__(self):
         return f"{self.name_en_us}"
     
@@ -50,7 +69,7 @@ class Topics(Translatable):
     number = models.IntegerField()
     book = models.ForeignKey(Books,
                                   related_name='topics',
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.DO_NOTHING)
     class Meta:
         verbose_name = "Topic"
         verbose_name_plural = "Topics"
@@ -60,10 +79,10 @@ class Topics(Translatable):
 
 class Questions(Translatable):
     number = models.IntegerField()
-    image = models.ImageField(upload_to='projects/tests/questions/images', blank=True)
+    image = models.ImageField(upload_to='tests/questions/images', blank=True)
     topic = models.ForeignKey(Topics,
                                   related_name='questions',
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.DO_NOTHING)
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
@@ -73,11 +92,11 @@ class Questions(Translatable):
 
 class Answers(Translatable):
     number = models.IntegerField()
-    image = models.ImageField(upload_to='projects/tests/answers/images', blank=True)
+    image = models.ImageField(upload_to='tests/answers/images', blank=True)
     right = models.BooleanField(default=False)
     question = models.ForeignKey(Questions,
                                   related_name='answers',
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.DO_NOTHING)
     class Meta:
         verbose_name = "Answer"
         verbose_name_plural = "Answers"

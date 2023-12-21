@@ -50,11 +50,4 @@ urlpatterns=[
     
     path('projects/', views.projects, name='projects'),
     path('project/<int:id>/', views.project_item, name='item'),
-
-
-    # path('GetGroups/', views.GetGroups, name='GetGroups'),
-    # path('GetBooks/', views.GetBooks, name='GetBooks'), # type: ignore
-    # path('GetTopics/', views.GetTopics, name='GetTopics'), # type: ignore
-    # path('GetQuestions/', views.GetQuestions, name='GetQuestions'), # type: ignore
-    # path('GetAnswers/', views.GetAnswers, name='GetAnswers'), # type: ignore
 ]
