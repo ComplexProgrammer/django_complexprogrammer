@@ -46,7 +46,7 @@ class QuestionsAdmin(admin.ModelAdmin):
     
 @admin.register(Answers)
 class AnswersAdmin(admin.ModelAdmin):
-    list_display=['name_en_us', 'number', 'question', 'image', 'right']
+    list_display=['name_en_us', 'number', 'question_id', 'question', 'image', 'right']
     list_filter=['name_en_us', 'number', 'question', 'image', 'right']
     search_fields=['name_en_us', 'number', 'question', 'image', 'right']
     ordering=['sort_order']

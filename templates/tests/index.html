@@ -308,7 +308,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 {% endif %}
 {% endif %}
     <hr />
-    {% if type == 'group' %}
+    {% if type == 'type' %}
     <div class="wrapper">
         <div class="container">
           <div class="C0mplexButton float-end">
@@ -331,6 +331,69 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   Tests
                   {% endif %}
                   {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?type_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% if type == 'group' %}
+    <div class="wrapper">
+        <div class="container">
+          <div class="C0mplexButton float-end">
+            <a href="/tests">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                X
+            </a>
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                {% verbatim %}
+                {{type.name_uz_uz}}
+                {% endverbatim %}
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                {% verbatim %}
+                {{type.name_ru_ru}}
+                {% endverbatim %}
+                {% else %}
+                {% verbatim %}
+                {{type.name_en_us}}
+                {% endverbatim %}
+                {% endif %}
+                {% endif %}
               </a>
               <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                   <img src="/static/img/google-play.svg" />
@@ -369,25 +432,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="wrapper">
         <div class="container">
           <div class="C0mplexButton float-end">
-            <a href="/tests">
+            {% verbatim %}
+            <a href="/tests?type_id={{group.type_id}}">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 X
             </a>
+            {% endverbatim %}
           </div>
           <h1>
               <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                  {% if request.LANGUAGE_CODE == 'uz' %}
-                  Testlar
-                  {% else %}
-                  {% if request.LANGUAGE_CODE == 'ru' %}
-                  Тесты
-                  {% else %}
-                  Tests
-                  {% endif %}
-                  {% endif %}
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                {% verbatim %}
+                {{group.name_uz_uz}}
+                {% endverbatim %}
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                {% verbatim %}
+                {{group.name_ru_ru}}
+                {% endverbatim %}
+                {% else %}
+                {% verbatim %}
+                {{group.name_en_us}}
+                {% endverbatim %}
+                {% endif %}
+                {% endif %}
               </a>
               <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                   <img src="/static/img/google-play.svg" />
@@ -426,26 +497,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="wrapper">
         <div class="container">
           <div class="C0mplexButton float-end">
-            {% comment %} <a href="/tests?group_id=1"> {% endcomment %}
-            <a href="/#services">
+            {% verbatim %}
+            <a href="/tests?group_id={{book.type_id}}">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 X
             </a>
+            {% endverbatim %}
           </div>
           <h1>
               <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
-                  {% if request.LANGUAGE_CODE == 'uz' %}
-                  Testlar
-                  {% else %}
-                  {% if request.LANGUAGE_CODE == 'ru' %}
-                  Тесты
-                  {% else %}
-                  Tests
-                  {% endif %}
-                  {% endif %}
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                {% verbatim %}
+                {{book.name_uz_uz}}
+                {% endverbatim %}
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                {% verbatim %}
+                {{book.name_ru_ru}}
+                {% endverbatim %}
+                {% else %}
+                {% verbatim %}
+                {{book.name_en_us}}
+                {% endverbatim %}
+                {% endif %}
+                {% endif %}
               </a>
               <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                   <img src="/static/img/google-play.svg" />
@@ -601,7 +679,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {% endif %}
     <hr />
     <script>
-      if('{{ type }}'=='question'){
         var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
           keyboard: false
         });
@@ -616,297 +693,306 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
           var app = angular.module("App", []);
           app.controller("tests", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-                    var timeH = document.getElementById("timer");
-                    $scope.x=0
-                    $scope.isPaused = false;
-                    $scope.timeout = false;
-                    $scope.question_number=1;
-                    $scope.type='{{ type|safe }}';
-                    $scope.topic=JSON.parse('{{ type_data|safe }}');
-                    $scope.topic_number=$scope.topic.number;
-                    $scope.topic_id=$scope.topic.id;
-                    $scope.time=3600;
-                    $scope.togri_javob_soni=0;
-                    $scope.notogri_javob_soni=0;
-                    $scope.questions=[];
-                    $scope.selected_answers=[];
-                    //setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
-                    $scope.prev=function(){
-                        if($scope.question_number>1){
-                            $scope.question_number=$scope.question_number-1
-                        }
-                        myFunction($scope.question_number);
-                        set_color()
+                    $scope._type='{{ type|safe }}';
+                    if($scope._type=="group"){
+                      $scope.type=JSON.parse('{{ type_data|safe }}');
                     }
-                    $scope.next=function(){
-                        if($scope.question_number<$scope.questions.length){
-                            $scope.question_number=$scope.question_number+1
-                        }
-                        myFunction($scope.question_number);
-                        set_color()
+                    if($scope._type=="book"){
+                      $scope.group=JSON.parse('{{ type_data|safe }}');
                     }
-                    function set_color(){
-                      $scope.questions.forEach((element) =>
-                      {
-                          if(element.selected_answer){
-                            if(element.selected_answer.right){
-                                $scope.togri_javob_soni=$scope.togri_javob_soni+1;
-                                document.getElementById('ab'+element.id).classList.add('bg-success');
-                            }
-                            else{
-                                $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
-                                document.getElementById('ab'+element.id).classList.add('bg-danger');
-                            }
-                          }
-                      });
+                    if($scope._type=="topic"){
+                      $scope.book=JSON.parse('{{ type_data|safe }}');
                     }
-                    if($scope.topic_id!=0){
-                        checkJavoblar();
-                        LoadData();
-                    }
-                    $scope.mValue=null;
-                    $scope.back=function(){
-                        window.location.href="/tests?book_id=1";
-                    }
-                    $scope.nextbilet=function(value){
-                        value=1
-                        if($scope.topic.number==value)
-                        {
-                            setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);
-                        }
-                        window.location.href="/tests?topic_id="+value;
-                    }
-                    $scope.showModal=function(){
-                        $scope.isPaused = true;
-                        $scope.timeout = true;
-                        myModal.show();
-    
-                    }
-                    $('#timer').on('click', function(e) {
-                      e.preventDefault();
-                      //$scope.isPaused = !$scope.isPaused;
-                    });
-                    $("#staticBackdrop").on('hide.bs.modal', function(){
-                        $scope.isPaused = false;
-                    });
-                    function startTimer(timeSecond){
-                        displayTime(timeSecond);
-                        const countDown = setInterval(() => {
-                            if(!$scope.isPaused) {
-                              timeSecond--;
-                              $scope.time=timeSecond;
-                              displayTime(timeSecond);
-                              if (timeSecond == 0 || timeSecond < 1) {
-                                endCount();
-                                clearInterval(countDown);
+                    if($scope._type=="question"){
+                          var timeH = document.getElementById("timer");
+                          $scope.x=0
+                          $scope.isPaused = false;
+                          $scope.timeout = false;
+                          $scope.question_number=1;
+                          $scope.topic=JSON.parse('{{ type_data|safe }}');
+                          $scope.topic_number=$scope.topic.number;
+                          $scope.topic_id=$scope.topic.id;
+                          $scope.time=3600;
+                          $scope.togri_javob_soni=0;
+                          $scope.notogri_javob_soni=0;
+                          $scope.questions=[];
+                          $scope.selected_answers=[];
+                          //setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
+                          $scope.prev=function(){
+                              if($scope.question_number>1){
+                                  $scope.question_number=$scope.question_number-1
                               }
-                            }
-                        }, 1000);
-                    }
-    
-                    function displayTime(second) {
-                      const min = Math.floor(second / 60);
-                      const sec = Math.floor(second % 60);
-                      timeH.innerHTML = `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
-                    }
-    
-                    function endCount() {
-                      timeH.innerHTML = "Vaqt tugadi";
-                      myModal.show();
-                    }
-                    function setCookie(cname, cvalue, exdays) {
-                      const d = new Date();
-                      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                      let expires = "expires="+d.toUTCString();
-                      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-                    }
-    
-                    function getCookie(cname) {
-                        let name = cname + "=";
-                        let ca = document.cookie.split(';');
-                        for(let i = 0; i < ca.length; i++) {
-                            let c = ca[i];
-                            while (c.charAt(0) == ' ') {
-                                c = c.substring(1);
-                            }
-                            if (c.indexOf(name) == 0) {
-                                return c.substring(name.length, c.length);
-                            }
-                        }
-                        return "";
-                    }
-                    function checkJavoblar() {
-                        if(getCookie("selected_answers")){
-                             $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
-                        }
-                        if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
-                        {
-                            setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic_id)), 365);
-                            $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
-                        }
-                        else
-                        {
-                            {% comment %} if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length!=0)
+                              myFunction($scope.question_number);
+                              set_color()
+                          }
+                          $scope.next=function(){
+                              if($scope.question_number<$scope.questions.length){
+                                  $scope.question_number=$scope.question_number+1
+                              }
+                              myFunction($scope.question_number);
+                              set_color()
+                          }
+                          function set_color(){
+                            $scope.questions.forEach((element) =>
                             {
-                                $scope.isPaused = true;
-                                $scope.timeout = true;
-                                myModal.show();
-                            } {% endcomment %}
-                        }
-                        $scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
-                            if(element.time<$scope.time)
-                            {
-                                $scope.time=element.time;
-                            }
-                        });
-                        startTimer($scope.time);
-    
-                    }
-                  $scope.b=function(value){
-                    $scope.x=0
-                    if(value>$scope.question_number){
-                        $scope.x=value-$scope.question_number
-                    }
-                    else{
-                        $scope.x=$scope.question_number-value
-                    }
-                    if(value>1&&value<$scope.questions.length){
-                        myFunction(value);
-                    }
-                  }
-                  function myFunction(value) {
-                        $scope.question_number=value;
-                        $scope.question=$scope.questions.find(element => element.number == $scope.question_number);
-                        LoadAnswers($scope.question.id)
-                        if($scope.selected_answers.find(element => element.question_id == $scope.question.id))
-                        {
-                          $scope.question.selected_answer=$scope.selected_answers.find(element => element.question_id == $scope.question.id);
-                        }
-                        $scope.mValue=$scope.question.selected_answer.id;
-                        document.getElementById('click').play();
-                        {% comment %} var element = document.getElementsByClassName('page-item');
-                            for(var i = 0; i < element.length; i++)
-                            {
-                                element[i].classList.remove('active');
-                            } {% endcomment %}
-                        //document.getElementById('question'+$scope.question_number).classList.add('active');
-                    }
-                    function setJavob(answer)
-                    {
-                        var obj = {
-                          topic_id: $scope.topic_id,
-                          question_id: $scope.question.id,
-                          id:answer.id,
-                          right:answer.right,
-                          time: $scope.time,
-                        };
-    
-                        if(!$scope.selected_answers.find(element => element.id == obj.id))
-                        {
-                            $scope.selected_answers.push(obj);
-                            setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
-                        }
-    
-                        $scope.mValue=answer.id;
-                        if(answer.right){
-                            $scope.togri_javob_soni=$scope.togri_javob_soni+1;
-                            document.getElementById('right').play();
-                            document.getElementById('answer'+answer.id).classList.add('list-group-item-success');
-                            document.getElementById('ab'+$scope.question.id).classList.add('bg-success');
-                            alertify.success("To`g`ri javob");
-                        }
-                        else{
-                            $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
-                            document.getElementById('wrong').play();
-                            document.getElementById('answer'+answer.id).classList.add('list-group-item-danger');
-                            document.getElementById('ab'+$scope.question.id).classList.add('bg-danger');
-                            alertify.error("Noto`g`ri javob");
-                        }
-                        for(var i = 0; i < $scope.answers.length; i++)
-                        {
-                            document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
-                        }
-                        if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
-                        {
-                            $scope.isPaused = true;
-                            $scope.timeout = false;
-                            myModal.show();
-                        }
-                    }
-                $scope.ok=function(answer){
-                    setJavob(answer);
-                    //setTimeout(myFunction, 3000, $scope.question_number+1);
-                }
-    
-              function LoadData(){
-                  document.getElementById('conn').style.visibility = "visible";
-                  $('#hh').modal({
-                           backdrop: 'static',
-                           keyboard: false
-                    })
-                      $http({
-                          method: 'GET',
-                          url: "/GetQuestions?topic_id="+$scope.topic_id,
-                          dataType: "json"
-                      }).then(function (d) {
-                              let number=0;
-                              d.data.forEach((item) => {
-                                selected_answer='';
-                                if($scope.selected_answers.find(element => element.question_id == item.id))
-                                {
-                                    selected_answer=$scope.selected_answers.find(element => element.question_id == item.id);
+                                if(element.selected_answer){
+                                  if(element.selected_answer.right){
+                                      $scope.togri_javob_soni=$scope.togri_javob_soni+1;
+                                      document.getElementById('ab'+element.id).classList.add('bg-success');
+                                  }
+                                  else{
+                                      $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
+                                      document.getElementById('ab'+element.id).classList.add('bg-danger');
+                                  }
                                 }
-                                item.selected_answer=selected_answer
-                                $scope.questions.push(item);
-                              });
-                              $scope.questions=$scope.questions.sort(function(a, b){return a.number-b.number});
-                              $scope.questions.forEach((element) =>
+                            });
+                          }
+                          if($scope.topic_id!=0){
+                              checkJavoblar();
+                              LoadData();
+                          }
+                          $scope.mValue=null;
+                          $scope.back=function(){
+                              window.location.href="/tests?book_id=1";
+                          }
+                          $scope.nextbilet=function(value){
+                              value=1
+                              if($scope.topic.number==value)
                               {
-                                  if(element.number>number&&number==element.number-1&&element.selected_answer)
+                                  setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);
+                              }
+                              window.location.href="/tests?topic_id="+value;
+                          }
+                          $scope.showModal=function(){
+                              $scope.isPaused = true;
+                              $scope.timeout = true;
+                              myModal.show();
+          
+                          }
+                          $('#timer').on('click', function(e) {
+                            e.preventDefault();
+                            //$scope.isPaused = !$scope.isPaused;
+                          });
+                          $("#staticBackdrop").on('hide.bs.modal', function(){
+                              $scope.isPaused = false;
+                          });
+                          function startTimer(timeSecond){
+                              displayTime(timeSecond);
+                              const countDown = setInterval(() => {
+                                  if(!$scope.isPaused) {
+                                    timeSecond--;
+                                    $scope.time=timeSecond;
+                                    displayTime(timeSecond);
+                                    if (timeSecond == 0 || timeSecond < 1) {
+                                      endCount();
+                                      clearInterval(countDown);
+                                    }
+                                  }
+                              }, 1000);
+                          }
+          
+                          function displayTime(second) {
+                            const min = Math.floor(second / 60);
+                            const sec = Math.floor(second % 60);
+                            timeH.innerHTML = `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+                          }
+          
+                          function endCount() {
+                            timeH.innerHTML = "Vaqt tugadi";
+                            myModal.show();
+                          }
+                          function setCookie(cname, cvalue, exdays) {
+                            const d = new Date();
+                            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                            let expires = "expires="+d.toUTCString();
+                            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                          }
+          
+                          function getCookie(cname) {
+                              let name = cname + "=";
+                              let ca = document.cookie.split(';');
+                              for(let i = 0; i < ca.length; i++) {
+                                  let c = ca[i];
+                                  while (c.charAt(0) == ' ') {
+                                      c = c.substring(1);
+                                  }
+                                  if (c.indexOf(name) == 0) {
+                                      return c.substring(name.length, c.length);
+                                  }
+                              }
+                              return "";
+                          }
+                          function checkJavoblar() {
+                              if(getCookie("selected_answers")){
+                                  $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
+                              }
+                              if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                              {
+                                  setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic_id)), 365);
+                                  $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
+                              }
+                              else
+                              {
+                                  {% comment %} if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length!=0)
                                   {
-                                      number=element.number;
+                                      $scope.isPaused = true;
+                                      $scope.timeout = true;
+                                      myModal.show();
+                                  } {% endcomment %}
+                              }
+                              $scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
+                                  if(element.time<$scope.time)
+                                  {
+                                      $scope.time=element.time;
                                   }
                               });
-                              $scope.question_number=number+1;
-                              myFunction($scope.question_number)
-    
-    
-                      $("#hh").modal('hide');
-                      document.getElementById('conn').style.visibility = "hidden";
-                  }, function (error) {
-                        $("#hh").modal('hide');
-                        document.getElementById('conn').style.visibility = "hidden";
-                      console.log("error in GetQuestions -> ", error);
-                      alertify.error("Xatolik yuz berdi");
-                  });
-              }
-              function LoadQuestions(number){
-    
-              }
-              function LoadAnswers(question_id){
-                document.getElementById('conn').style.visibility = "visible";
-                $('#hh').modal({
-                         backdrop: 'static',
-                         keyboard: false
-                  })
-                    $http({
-                        method: 'GET',
-                        url: "/GetAnswers?question_id="+question_id,
-                        dataType: "json"
-                    }).then(function (d) {
-                            $scope.answers=d.data
-                    $("#hh").modal('hide');
-                    document.getElementById('conn').style.visibility = "hidden";
-                }, function (error) {
-                      $("#hh").modal('hide');
-                      document.getElementById('conn').style.visibility = "hidden";
-                    console.log("error in GetAnswers -> ", error);
-                    alertify.error("Xatolik yuz berdi");
-                });
-            }
+                              startTimer($scope.time);
+          
+                          }
+                        $scope.b=function(value){
+                          $scope.x=0
+                          if(value>$scope.question_number){
+                              $scope.x=value-$scope.question_number
+                          }
+                          else{
+                              $scope.x=$scope.question_number-value
+                          }
+                          if(value>1&&value<$scope.questions.length){
+                              myFunction(value);
+                          }
+                        }
+                        function myFunction(value) {
+                              $scope.question_number=value;
+                              $scope.question=$scope.questions.find(element => element.number == $scope.question_number);
+                              LoadAnswers($scope.question.id)
+                              if($scope.selected_answers.find(element => element.question_id == $scope.question.id))
+                              {
+                                $scope.question.selected_answer=$scope.selected_answers.find(element => element.question_id == $scope.question.id);
+                              }
+                              $scope.mValue=$scope.question.selected_answer.id;
+                              document.getElementById('click').play();
+                              {% comment %} var element = document.getElementsByClassName('page-item');
+                                  for(var i = 0; i < element.length; i++)
+                                  {
+                                      element[i].classList.remove('active');
+                                  } {% endcomment %}
+                              //document.getElementById('question'+$scope.question_number).classList.add('active');
+                          }
+                          function setJavob(answer)
+                          {
+                              var obj = {
+                                topic_id: $scope.topic_id,
+                                question_id: $scope.question.id,
+                                id:answer.id,
+                                right:answer.right,
+                                time: $scope.time,
+                              };
+          
+                              if(!$scope.selected_answers.find(element => element.id == obj.id))
+                              {
+                                  $scope.selected_answers.push(obj);
+                                  setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
+                              }
+          
+                              $scope.mValue=answer.id;
+                              if(answer.right){
+                                  $scope.togri_javob_soni=$scope.togri_javob_soni+1;
+                                  document.getElementById('right').play();
+                                  document.getElementById('answer'+answer.id).classList.add('list-group-item-success');
+                                  document.getElementById('ab'+$scope.question.id).classList.add('bg-success');
+                                  alertify.success("To`g`ri javob");
+                              }
+                              else{
+                                  $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
+                                  document.getElementById('wrong').play();
+                                  document.getElementById('answer'+answer.id).classList.add('list-group-item-danger');
+                                  document.getElementById('ab'+$scope.question.id).classList.add('bg-danger');
+                                  alertify.error("Noto`g`ri javob");
+                              }
+                              for(var i = 0; i < $scope.answers.length; i++)
+                              {
+                                  document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
+                              }
+                              if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                              {
+                                  $scope.isPaused = true;
+                                  $scope.timeout = false;
+                                  myModal.show();
+                              }
+                          }
+                      $scope.ok=function(answer){
+                          setJavob(answer);
+                          //setTimeout(myFunction, 3000, $scope.question_number+1);
+                      }
+          
+                        function LoadData(){
+                            document.getElementById('conn').style.visibility = "visible";
+                            $('#hh').modal({
+                                    backdrop: 'static',
+                                    keyboard: false
+                              })
+                                $http({
+                                    method: 'GET',
+                                    url: "/GetQuestions?topic_id="+$scope.topic_id,
+                                    dataType: "json"
+                                }).then(function (d) {
+                                        let number=0;
+                                        d.data.forEach((item) => {
+                                          selected_answer='';
+                                          if($scope.selected_answers.find(element => element.question_id == item.id))
+                                          {
+                                              selected_answer=$scope.selected_answers.find(element => element.question_id == item.id);
+                                          }
+                                          item.selected_answer=selected_answer
+                                          $scope.questions.push(item);
+                                        });
+                                        $scope.questions=$scope.questions.sort(function(a, b){return a.number-b.number});
+                                        $scope.questions.forEach((element) =>
+                                        {
+                                            if(element.number>number&&number==element.number-1&&element.selected_answer)
+                                            {
+                                                number=element.number;
+                                            }
+                                        });
+                                        $scope.question_number=number+1;
+                                        myFunction($scope.question_number)
+              
+              
+                                $("#hh").modal('hide');
+                                document.getElementById('conn').style.visibility = "hidden";
+                            }, function (error) {
+                                  $("#hh").modal('hide');
+                                  document.getElementById('conn').style.visibility = "hidden";
+                                console.log("error in GetQuestions -> ", error);
+                                alertify.error("Xatolik yuz berdi");
+                            });
+                        }
+                        function LoadQuestions(number){
+              
+                        }
+                        function LoadAnswers(question_id){
+                          document.getElementById('conn').style.visibility = "visible";
+                          $('#hh').modal({
+                                  backdrop: 'static',
+                                  keyboard: false
+                            })
+                              $http({
+                                  method: 'GET',
+                                  url: "/GetAnswers?question_id="+question_id,
+                                  dataType: "json"
+                              }).then(function (d) {
+                                      $scope.answers=d.data
+                              $("#hh").modal('hide');
+                              document.getElementById('conn').style.visibility = "hidden";
+                          }, function (error) {
+                                $("#hh").modal('hide');
+                                document.getElementById('conn').style.visibility = "hidden";
+                              console.log("error in GetAnswers -> ", error);
+                              alertify.error("Xatolik yuz berdi");
+                          });
+                      }
+                    }
               }]);
-                        
-      }
   </script>
     <ins class="adsbygoogle"
     style="display:block; text-align:center;"
