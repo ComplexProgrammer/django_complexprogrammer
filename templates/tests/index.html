@@ -888,7 +888,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 time: $scope.time,
                               };
           
-                              if(!$scope.selected_answers.find(element => element.id == obj.id))
+                              if(!$scope.selected_answers.find(element => element.question_id == obj.question_id))
                               {
                                   $scope.selected_answers.push(obj);
                                   setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
@@ -911,6 +911,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                               }
                               for(var i = 0; i < $scope.answers.length; i++)
                               {
+                                  if($scope.answers[i].right){
+                                    document.getElementById('answer'+$scope.answers[i].id).classList.add('list-group-item-success');
+                                  }
                                   document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
                               }
                               if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
