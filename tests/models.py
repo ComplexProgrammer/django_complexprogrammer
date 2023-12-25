@@ -19,6 +19,7 @@ class Translatable(Auditable):
         abstract = True
 
 class Types(Translatable):
+    image = models.ImageField(upload_to='tests/types/images', blank=True)
     class Meta:
         verbose_name = "Type"
         verbose_name_plural = "Types"
@@ -32,6 +33,7 @@ class Groups(Translatable):
                                 default=None,
                                 related_name='groups',
                                 on_delete=models.DO_NOTHING)
+    image = models.ImageField(upload_to='tests/groups/images', blank=True)
     class Meta:
         verbose_name = "Group"
         verbose_name_plural = "Groups"
@@ -71,6 +73,7 @@ class Topics(Translatable):
     book = models.ForeignKey(Books,
                                   related_name='topics',
                                   on_delete=models.DO_NOTHING)
+    image = models.ImageField(upload_to='tests/topics/images', blank=True)
     class Meta:
         verbose_name = "Topic"
         verbose_name_plural = "Topics"
