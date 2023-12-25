@@ -42,6 +42,7 @@ class Groups(Translatable):
 class BookTypes(Auditable):
     code = models.TextField()
     description = models.TextField()
+    image = models.ImageField(upload_to='tests/book_types/images', blank=True)
     class Meta:
         verbose_name = "BookType"
         verbose_name_plural = "BookTypes"

@@ -43,6 +43,7 @@ def tests(request):
         'type': type,
         'type_data':json.dumps(type_data, default=serialize_datetime),
     }
+    print(data)
     return render(request, 'tests/index.html', context=context)
 def serialize_datetime(obj): 
     if isinstance(obj, datetime.datetime): 
@@ -67,7 +68,7 @@ def GetBooks(request):
         data=Books.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
         data=Books.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').values()
-    return JsonResponse(list(data), safe=False) 
+    return JsonResponse(list(data.values('id', 'name_en_us', 'name_ru_ru', 'name_uz_crl', 'name_uz_uz', 'type__image', 'group_id')), safe=False) 
 
 
 def GetTopics(request):
