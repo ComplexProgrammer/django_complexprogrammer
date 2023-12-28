@@ -6,7 +6,7 @@ def index(request):
     news=[]
     id = request.GET.get('id', 0)
     if id == 0:
-        news=Posts.objects.values()
+        news=Posts.objects.filter(is_deleted=False).values()
     else:
         news=Posts.objects.filter(id=id).first()
     context={

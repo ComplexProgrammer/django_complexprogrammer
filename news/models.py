@@ -33,7 +33,7 @@ class Posts(Translatable):
     body_uz_crl = RichTextUploadingField()
     body_uz_uz = RichTextUploadingField()
     image = models.ImageField(upload_to='news/images', blank=True)
-    sort_number = models.IntegerField()
+    sort_number = models.IntegerField(default=0)
     view_count = models.IntegerField()
     publish_time=models.DateTimeField(default=timezone.now)
     class Meta:
