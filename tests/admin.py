@@ -6,15 +6,15 @@ from . models import Answers, Books, Groups, Questions, Topics, Types, BookTypes
 
 @admin.register(Types)
 class TypesAdmin(admin.ModelAdmin):
-    list_display=['name_en_us']
-    list_filter=['name_en_us']
-    search_fields=['name_en_us']
+    list_display=['name_uz_uz']
+    list_filter=['name_uz_uz']
+    search_fields=['name_uz_uz']
     ordering=['sort_order']
 @admin.register(Groups)
 class GroupsAdmin(admin.ModelAdmin):
-    list_display=['name_en_us', 'number', 'type']
-    list_filter=['name_en_us', 'number', 'type']
-    search_fields=['name_en_us', 'number', 'type']
+    list_display=['name_uz_uz', 'number', 'type']
+    list_filter=['name_uz_uz', 'number', 'type']
+    search_fields=['name_uz_uz', 'number', 'type']
     ordering=['sort_order']
 
 @admin.register(BookTypes)
@@ -25,28 +25,28 @@ class BookTypesAdmin(admin.ModelAdmin):
     ordering=['sort_order']
 @admin.register(Books)
 class BooksAdmin(admin.ModelAdmin):
-    list_display=['name_en_us', 'type', 'group']
-    list_filter=['name_en_us', 'type', 'group']
-    search_fields=['name_en_us', 'type', 'group']
+    list_display=['name_uz_uz', 'type', 'group']
+    list_filter=['name_uz_uz', 'type', 'group']
+    search_fields=['name_uz_uz', 'type', 'group']
     ordering=['sort_order']
 
 @admin.register(Topics)
 class TopicsAdmin(admin.ModelAdmin):
-    list_display=['name_en_us', 'number', 'book']
-    list_filter=['name_en_us', 'number', 'book']
-    search_fields=['name_en_us', 'number', 'book']
+    list_display=['name_uz_uz', 'number', 'book']
+    list_filter=['name_uz_uz', 'number', 'book']
+    search_fields=['name_uz_uz', 'number', 'book']
     ordering=['sort_order']
 
 @admin.register(Questions)
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display=['name_en_us', 'number', 'topic', 'image']
-    list_filter=['name_en_us', 'number', 'topic', 'image']
-    search_fields=['name_en_us', 'number', 'topic', 'image']
+    list_display=['name_uz_uz', 'number', 'topic', 'image']
+    list_filter=['name_uz_uz', 'number', 'topic', 'image']
+    search_fields=['name_uz_uz', 'number', 'topic', 'image']
     ordering=['sort_order']
     
 @admin.register(Answers)
 class AnswersAdmin(admin.ModelAdmin):
-    list_display=['name_en_us', 'number', 'question_id', 'question', 'image', 'right']
-    list_filter=['name_en_us', 'number', 'question', 'image', 'right']
-    search_fields=['name_en_us', 'number', 'question', 'image', 'right']
+    list_display=['name_uz_uz', 'number', 'question_id', 'question', 'image', 'right']
+    list_filter=['name_uz_uz', 'number', 'question', 'image', 'right']
+    search_fields=['name_uz_uz', 'number', 'question', 'image', 'right']
     ordering=['sort_order']
