@@ -25,7 +25,7 @@ class Types(Translatable):
         verbose_name_plural = "Types"
         ordering=['sort_order']
     def __str__(self):
-        return f"{self.name_en_us}"
+        return f"{self.name_uz_uz}"
 class Groups(Translatable):
     number = models.IntegerField()
     type = models.ForeignKey(Types,
@@ -39,7 +39,7 @@ class Groups(Translatable):
         verbose_name_plural = "Groups"
         ordering=['number']
     def __str__(self):
-        return f"{self.name_en_us}"
+        return f"{self.name_uz_uz}"
     
 class BookTypes(Auditable):
     code = models.TextField()
@@ -66,7 +66,7 @@ class Books(Translatable):
         verbose_name_plural = "Books"
         ordering=['sort_order']
     def __str__(self):
-        return f"{self.name_en_us}"
+        return f"{self.name_uz_uz}"
     
 class Topics(Translatable):
     number = models.IntegerField()
@@ -79,7 +79,7 @@ class Topics(Translatable):
         verbose_name_plural = "Topics"
         ordering=['number']
     def __str__(self):
-        return f"{self.name_en_us}"
+        return f"{self.name_uz_uz}"
 
 class Questions(Translatable):
     number = models.IntegerField()
@@ -92,7 +92,7 @@ class Questions(Translatable):
         verbose_name_plural = "Questions"
         ordering=['number']
     def __str__(self):
-        return f"{self.name_en_us}"
+        return f"{self.name_uz_uz}"
 
 class Answers(Translatable):
     number = models.IntegerField()
@@ -106,4 +106,4 @@ class Answers(Translatable):
         verbose_name_plural = "Answers"
         ordering=['number']
     def __str__(self):
-        return f"{self.name_en_us}"
+        return f"{self.name_uz_uz}"
