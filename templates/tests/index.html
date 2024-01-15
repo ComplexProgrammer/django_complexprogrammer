@@ -705,13 +705,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           var app = angular.module("App", []);
           app.controller("tests", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
             $scope._type='{{ type|safe }}';
-            $scope.type_id='{{ type_id }}';
-            $scope.group_id='{{ group_id }}';
-            $scope.book_id='{{ book_id }}';
-            //$scope.topic_id='{{ topic_id }}';
-            console.dir($scope.type_id)
-            console.dir($scope.group_id)
-            console.dir($scope.book_id)
                     if($scope._type=="group"){
                       $scope.type=JSON.parse('{{ type_data|safe }}');
                     }
@@ -720,10 +713,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }
                     if($scope._type=="topic"){
                       $scope.book=JSON.parse('{{ type_data|safe }}');
-                      {% comment %} $scope.topics=JSON.parse('{{ data|safe }}');
-                      console.dir($scope.topics) {% endcomment %}
                     }
                     if($scope._type=="question"){
+                      $scope.topic=JSON.parse('{{ type_data|safe }}');
                           document.getElementById('conn').style.visibility = "visible";
                           $('#hh').modal({
                                   backdrop: 'static',
@@ -731,11 +723,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             })
                               $http({
                                   method: 'GET',
-                                  url: "/GetTopics?book_id="+$scope.book_id,
+                                  url: "/GetTopics?book_id="+$scope.topic.book_id,
                                   dataType: "json"
                               }).then(function (d) {
                                       $scope.topics=d.data
-                                      console.dir($scope.topics)
                               $("#hh").modal('hide');
                               document.getElementById('conn').style.visibility = "hidden";
                           }, function (error) {
@@ -749,7 +740,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           $scope.isPaused = false;
                           $scope.timeout = false;
                           $scope.question_number=1;
-                          $scope.topic=JSON.parse('{{ type_data|safe }}');
                           //LoadTopics($scope.topic.book_id);
                           $scope.topic_number=$scope.topic.number;
                           $scope.topic_id=$scope.topic.id;
@@ -796,9 +786,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           }
                           $scope.nextbilet=function(value){
                             console.dir($scope.topics)
+                            alert(value)
                             alert($scope.topic.number)
-                            alert($scope.topics.filter(word => word.number == value).number)
-                            //$scope.topics.filter(word => word.topic_id != $scope.topic.id)
+                            alert($scope.topics.find(word => word.number == value).number)
+                            $scope.topic=$scope.topics.find(word => word.number == value)
                               if($scope.topic.number==value)
                               {
                                   setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);
@@ -1026,7 +1017,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                   dataType: "json"
                               }).then(function (d) {
                                       $scope.topics=d.data
-                                      console.dir($scope.topics)
                               $("#hh").modal('hide');
                               document.getElementById('conn').style.visibility = "hidden";
                           }, function (error) {
