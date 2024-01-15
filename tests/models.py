@@ -41,7 +41,7 @@ class Groups(Translatable):
     def __str__(self):
         return f"{self.name_uz_uz}"
     
-class BookTypes(Auditable):
+class BookTypes(Translatable):
     code = models.TextField()
     description = models.TextField()
     image = models.ImageField(upload_to='tests/book_types/images', blank=True)
@@ -52,8 +52,13 @@ class BookTypes(Auditable):
     def __str__(self):
         return f"{self.description}"
 
-class Books(Translatable):
-    type = models.ForeignKey(BookTypes,
+class Books(Auditable):
+    book_type = models.ForeignKey(BookTypes,
+                                null=True,
+                                default=None,
+                                related_name='books',
+                                on_delete=models.DO_NOTHING)
+    type = models.ForeignKey(Types,
                                 null=True,
                                 default=None,
                                 related_name='books',
@@ -66,10 +71,20 @@ class Books(Translatable):
         verbose_name_plural = "Books"
         ordering=['sort_order']
     def __str__(self):
-        return f"{self.name_uz_uz}"
+        return f"{self.book_type}"
     
 class Topics(Translatable):
     number = models.IntegerField()
+    type = models.ForeignKey(Types,
+                                null=True,
+                                default=None,
+                                related_name='topics',
+                                on_delete=models.DO_NOTHING)
+    group = models.ForeignKey(Groups,
+                              null=True,
+                                default=None,
+                                  related_name='topics',
+                                  on_delete=models.DO_NOTHING)
     book = models.ForeignKey(Books,
                                   related_name='topics',
                                   on_delete=models.DO_NOTHING)
@@ -84,6 +99,21 @@ class Topics(Translatable):
 class Questions(Translatable):
     number = models.IntegerField()
     image = models.ImageField(upload_to='tests/questions/images', blank=True)
+    type = models.ForeignKey(Types,
+                                null=True,
+                                default=None,
+                                related_name='questions',
+                                on_delete=models.DO_NOTHING)
+    group = models.ForeignKey(Groups,
+                              null=True,
+                                default=None,
+                                  related_name='questions',
+                                  on_delete=models.DO_NOTHING)
+    book = models.ForeignKey(Books,
+                             null=True,
+                                default=None,
+                                  related_name='questions',
+                                  on_delete=models.DO_NOTHING)
     topic = models.ForeignKey(Topics,
                                   related_name='questions',
                                   on_delete=models.DO_NOTHING)
@@ -98,6 +128,26 @@ class Answers(Translatable):
     number = models.IntegerField()
     image = models.ImageField(upload_to='tests/answers/images', blank=True)
     right = models.BooleanField(default=False)
+    type = models.ForeignKey(Types,
+                                null=True,
+                                default=None,
+                                related_name='answers',
+                                on_delete=models.DO_NOTHING)
+    group = models.ForeignKey(Groups,
+                              null=True,
+                                default=None,
+                                  related_name='answers',
+                                  on_delete=models.DO_NOTHING)
+    book = models.ForeignKey(Books,
+                             null=True,
+                                default=None,
+                                  related_name='answers',
+                                  on_delete=models.DO_NOTHING)
+    topic = models.ForeignKey(Topics,
+                              null=True,
+                                default=None,
+                                  related_name='answers',
+                                  on_delete=models.DO_NOTHING)
     question = models.ForeignKey(Questions,
                                   related_name='answers',
                                   on_delete=models.DO_NOTHING)

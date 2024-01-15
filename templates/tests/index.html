@@ -1,4 +1,5 @@
 {% load i18n %}
+{% comment %} {% load jsonify %} {% endcomment %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
@@ -580,6 +581,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </a>
             </div>
             <h1 style="color:green">
+              {% comment %} <h1 id = "list"> {{data}}</h1> {% endcomment %}
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                   {% if request.LANGUAGE_CODE == 'uz' %}
                   {% verbatim %}
@@ -702,7 +704,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
           var app = angular.module("App", []);
           app.controller("tests", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-                    $scope._type='{{ type|safe }}';
+            $scope._type='{{ type|safe }}';
+            $scope.type_id='{{ type_id }}';
+            $scope.group_id='{{ group_id }}';
+            $scope.book_id='{{ book_id }}';
+            //$scope.topic_id='{{ topic_id }}';
+            console.dir($scope.type_id)
+            console.dir($scope.group_id)
+            console.dir($scope.book_id)
                     if($scope._type=="group"){
                       $scope.type=JSON.parse('{{ type_data|safe }}');
                     }
@@ -711,14 +720,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }
                     if($scope._type=="topic"){
                       $scope.book=JSON.parse('{{ type_data|safe }}');
+                      {% comment %} $scope.topics=JSON.parse('{{ data|safe }}');
+                      console.dir($scope.topics) {% endcomment %}
                     }
                     if($scope._type=="question"){
+                          document.getElementById('conn').style.visibility = "visible";
+                          $('#hh').modal({
+                                  backdrop: 'static',
+                                  keyboard: false
+                            })
+                              $http({
+                                  method: 'GET',
+                                  url: "/GetTopics?book_id="+$scope.book_id,
+                                  dataType: "json"
+                              }).then(function (d) {
+                                      $scope.topics=d.data
+                                      console.dir($scope.topics)
+                              $("#hh").modal('hide');
+                              document.getElementById('conn').style.visibility = "hidden";
+                          }, function (error) {
+                                $("#hh").modal('hide');
+                                document.getElementById('conn').style.visibility = "hidden";
+                              console.log("error in GetTopics -> ", error);
+                              alertify.error("Xatolik yuz berdi");
+                          });
                           var timeH = document.getElementById("timer");
                           $scope.x=0
                           $scope.isPaused = false;
                           $scope.timeout = false;
                           $scope.question_number=1;
                           $scope.topic=JSON.parse('{{ type_data|safe }}');
+                          //LoadTopics($scope.topic.book_id);
                           $scope.topic_number=$scope.topic.number;
                           $scope.topic_id=$scope.topic.id;
                           $scope.time=3600;
@@ -760,15 +792,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           }
                           $scope.mValue=null;
                           $scope.back=function(){
-                              window.location.href="/tests?book_id=1";
+                              window.location.href="/tests?book_id="+$scope.book.id;
                           }
                           $scope.nextbilet=function(value){
-                              value=1
+                            console.dir($scope.topics)
+                            alert($scope.topic.number)
+                            alert($scope.topics.filter(word => word.number == value).number)
+                            //$scope.topics.filter(word => word.topic_id != $scope.topic.id)
                               if($scope.topic.number==value)
                               {
                                   setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);
                               }
-                              window.location.href="/tests?topic_id="+value;
+                              window.location.href="/tests?topic_id="+$scope.topic.id;
                           }
                           $scope.showModal=function(){
                               $scope.isPaused = true;
@@ -832,20 +867,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           function checkJavoblar() {
                               if(getCookie("selected_answers")){
                                   $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
-                              }
-                              if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
-                              {
-                                  setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic_id)), 365);
-                                  $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
-                              }
-                              else
-                              {
-                                  {% comment %} if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length!=0)
-                                  {
-                                      $scope.isPaused = true;
-                                      $scope.timeout = true;
-                                      myModal.show();
-                                  } {% endcomment %}
                               }
                               $scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
                                   if(element.time<$scope.time)
@@ -993,6 +1014,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 alertify.error("Xatolik yuz berdi");
                             });
                         }
+                        function LoadTopics(book_id){
+                          document.getElementById('conn').style.visibility = "visible";
+                          $('#hh').modal({
+                                  backdrop: 'static',
+                                  keyboard: false
+                            })
+                              $http({
+                                  method: 'GET',
+                                  url: "/GetTopics?book_id="+book_id,
+                                  dataType: "json"
+                              }).then(function (d) {
+                                      $scope.topics=d.data
+                                      console.dir($scope.topics)
+                              $("#hh").modal('hide');
+                              document.getElementById('conn').style.visibility = "hidden";
+                          }, function (error) {
+                                $("#hh").modal('hide');
+                                document.getElementById('conn').style.visibility = "hidden";
+                              console.log("error in GetTopics -> ", error);
+                              alertify.error("Xatolik yuz berdi");
+                          });
+                        }
                         function LoadQuestions(number){
               
                         }
@@ -1016,7 +1059,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                               console.log("error in GetAnswers -> ", error);
                               alertify.error("Xatolik yuz berdi");
                           });
-                      }
+                        }
                     }
               }]);
   </script>

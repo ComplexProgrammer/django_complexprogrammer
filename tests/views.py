@@ -8,39 +8,57 @@ from tests.models import Answers, Books, Groups, Questions, Topics, Types
 
 def tests(request):
     data=[]
-    type='type'
+    _type='type'
     type_data=[]
-    type_id = request.GET.get('type_id', False)
-    group_id = request.GET.get('group_id', False)
-    book_id = request.GET.get('book_id', False)
-    topic_id = request.GET.get('topic_id', False)
-    question_id = request.GET.get('question_id', False)
-    if type_id is False and group_id is False and book_id is False and topic_id is False and question_id is False:
+    type_id = request.GET.get('type_id', 0)
+    group_id = request.GET.get('group_id', 0)
+    book_id = request.GET.get('book_id', 0)
+    topic_id = request.GET.get('topic_id', 0)
+    question_id = request.GET.get('question_id', 0)
+    types=Types.objects.filter(is_deleted=False).order_by('sort_order').values()
+    groups=Groups.objects.filter(is_deleted=False, type_id=type_id).order_by('sort_order').values()
+    books=Books.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').values()
+    topics=Topics.objects.filter(is_deleted=False, book_id=book_id).order_by('sort_order').values()
+    questions=Questions.objects.filter(is_deleted=False, topic_id=topic_id).order_by('sort_order').values()
+    answers=Answers.objects.filter(is_deleted=False, question_id=question_id).order_by('sort_order').values()
+    if type_id is 0 and group_id is 0 and book_id is 0 and topic_id is 0 and question_id is 0:
         data=Types.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
-        if type_id is not False:
-            type='group'
+        if type_id is not 0:
+            _type='group'
             type_data=Types.objects.filter(is_deleted=False, id=type_id).values().first()
             data=Groups.objects.filter(is_deleted=False, type_id=type_id).order_by('sort_order').values()
-        if group_id is not False:
-            type='book'
+        if group_id is not 0:
+            _type='book'
             type_data=Groups.objects.filter(is_deleted=False, id=group_id).values().first()
             data=Books.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').values()
-        if book_id is not False:
-            type='topic'
+        if book_id is not 0:
+            _type='topic'
             type_data=Books.objects.filter(is_deleted=False, id=book_id).values().first()
             data=Topics.objects.filter(is_deleted=False, book_id=book_id).order_by('sort_order').values()
-        if topic_id is not False:
-            type='question'
+        if topic_id is not 0:
+            _type='question'
             type_data=Topics.objects.filter(is_deleted=False, id=topic_id).values().first()
             data=Questions.objects.filter(is_deleted=False, topic_id=topic_id).order_by('sort_order').values()
-        if question_id is not False:
-            type='answer'
+        if question_id is not 0:
+            _type='answer'
             type_data=Questions.objects.filter(is_deleted=False, id=question_id).values().first()
             data=Answers.objects.filter(is_deleted=False, question_id=question_id).order_by('sort_order').values() # type: ignore
+    
     context={
+        'types': json.dumps(list(types), default=serialize_datetime),
+        'groups': json.dumps(list(groups), default=serialize_datetime),
+        'books': json.dumps(list(books), default=serialize_datetime),
+        'topics': json.dumps(list(topics), default=serialize_datetime),
+        'questions': json.dumps(list(questions), default=serialize_datetime),
+        'answers': json.dumps(list(answers), default=serialize_datetime),
+        'type_id': type_id,
+        'group_id': group_id,
+        'book_id': book_id,
+        'topic_id': topic_id,
+        'question_id': question_id,
         'data': data,
-        'type': type,
+        'type': _type,
         'type_data':json.dumps(type_data, default=serialize_datetime),
     }
     print(data)

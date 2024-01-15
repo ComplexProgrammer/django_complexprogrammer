@@ -25,28 +25,28 @@ class BookTypesAdmin(admin.ModelAdmin):
     ordering=['sort_order']
 @admin.register(Books)
 class BooksAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'type', 'group']
-    list_filter=['name_uz_uz', 'type', 'group']
-    search_fields=['name_uz_uz', 'type', 'group']
+    list_display=['book_type', 'type', 'group']
+    list_filter=['book_type', 'type', 'group']
+    search_fields=['book_type', 'type', 'group']
     ordering=['sort_order']
 
 @admin.register(Topics)
 class TopicsAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number', 'book']
-    list_filter=['name_uz_uz', 'number', 'book']
-    search_fields=['name_uz_uz', 'number', 'book']
+    list_display=['name_uz_uz', 'number', 'type', 'group', 'book']
+    list_filter=['name_uz_uz', 'number', 'type', 'group', 'book']
+    search_fields=['name_uz_uz', 'number', 'type', 'group', 'book']
     ordering=['sort_order']
 
 @admin.register(Questions)
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number', 'topic', 'image']
-    list_filter=['name_uz_uz', 'number', 'topic', 'image']
-    search_fields=['name_uz_uz', 'number', 'topic', 'image']
+    list_display=['name_uz_uz', 'number', 'type', 'group', 'book', 'topic', 'image']
+    list_filter=['name_uz_uz', 'number', 'type', 'group', 'book', 'topic', 'image']
+    search_fields=['name_uz_uz', 'number', 'type', 'group', 'book', 'topic', 'image']
     ordering=['sort_order']
     
 @admin.register(Answers)
 class AnswersAdmin(admin.ModelAdmin):
-    list_display=['name_uz_uz', 'number', 'question_id', 'question', 'image', 'right']
-    list_filter=['name_uz_uz', 'number', 'question', 'image', 'right']
-    search_fields=['name_uz_uz', 'number', 'question', 'image', 'right']
+    list_display=['name_uz_uz', 'number', 'question_id', 'type', 'group', 'book', 'topic', 'question', 'image', 'right']
+    list_filter=['name_uz_uz', 'number', 'type', 'group', 'book', 'topic', 'question', 'image', 'right']
+    search_fields=['name_uz_uz', 'number', 'type', 'group', 'book', 'topic', 'question', 'image', 'right']
     ordering=['sort_order']
