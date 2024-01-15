@@ -972,6 +972,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                               }
                                             }
                                         });
+                                        if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                                        {
+                                            $("#hh").modal('hide');
+                                            document.getElementById('conn').style.visibility = "hidden";
+                                            $scope.isPaused = true;
+                                            $scope.timeout = false;
+                                            myModal.show();
+                                        }
                                         $scope.question_number=number+1;
                                         myFunction($scope.question_number)
               
