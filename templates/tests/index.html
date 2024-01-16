@@ -508,7 +508,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="container">
           <div class="C0mplexButton float-end">
             {% verbatim %}
-            <a href="/tests?group_id={{book.type_id}}">
+            <a href="/tests?group_id={{book.group_id}}">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -715,32 +715,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       $scope.book=JSON.parse('{{ type_data|safe }}');
                     }
                     if($scope._type=="question"){
-                      $scope.topic=JSON.parse('{{ type_data|safe }}');
-                          document.getElementById('conn').style.visibility = "visible";
-                          $('#hh').modal({
-                                  backdrop: 'static',
-                                  keyboard: false
-                            })
-                              $http({
-                                  method: 'GET',
-                                  url: "/GetTopics?book_id="+$scope.topic.book_id,
-                                  dataType: "json"
-                              }).then(function (d) {
-                                      $scope.topics=d.data
-                              $("#hh").modal('hide');
-                              document.getElementById('conn').style.visibility = "hidden";
-                          }, function (error) {
-                                $("#hh").modal('hide');
-                                document.getElementById('conn').style.visibility = "hidden";
-                              console.log("error in GetTopics -> ", error);
-                              alertify.error("Xatolik yuz berdi");
-                          });
+                          $scope.topic=JSON.parse('{{ type_data|safe }}');
                           var timeH = document.getElementById("timer");
                           $scope.x=0
                           $scope.isPaused = false;
                           $scope.timeout = false;
                           $scope.question_number=1;
-                          //LoadTopics($scope.topic.book_id);
+                          LoadTopics($scope.topic.book_id);
                           $scope.topic_number=$scope.topic.number;
                           $scope.topic_id=$scope.topic.id;
                           $scope.time=3600;
@@ -782,14 +763,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                           }
                           $scope.mValue=null;
                           $scope.back=function(){
-                              window.location.href="/tests?book_id="+$scope.book.id;
+                              window.location.href="/tests?book_id="+$scope.topic.book_id;
                           }
                           $scope.nextbilet=function(value){
-                            console.dir($scope.topics)
-                            alert(value)
-                            alert($scope.topic.number)
-                            alert($scope.topics.find(word => word.number == value).number)
-                            $scope.topic=$scope.topics.find(word => word.number == value)
+                              $scope.topic=$scope.topics.find(word => word.number == value)
                               if($scope.topic.number==value)
                               {
                                   setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);

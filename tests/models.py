@@ -1,5 +1,5 @@
+import sys
 from django.db import models
-
 class Auditable(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # created_by = models.IntegerField()
@@ -50,7 +50,7 @@ class BookTypes(Translatable):
         verbose_name_plural = "BookTypes"
         ordering=['sort_order']
     def __str__(self):
-        return f"{self.description}"
+        return f"{self.code}"
 
 class Books(Auditable):
     book_type = models.ForeignKey(BookTypes,
