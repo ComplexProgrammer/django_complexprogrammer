@@ -68,10 +68,10 @@ def GetGroups(request):
 def GetBooks(request):
     group_id = request.GET.get('group_id', False)
     if group_id is False:
-        data=Books.objects.filter(is_deleted=False).order_by('sort_order').values()
+        data=Books.objects.filter(is_deleted=False).order_by('sort_order').annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
     else:
-        data=Books.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').values()
-    return JsonResponse(list(data.values('id', 'name_en_us', 'name_ru_ru', 'name_uz_crl', 'name_uz_uz', 'type__image', 'group_id')), safe=False) 
+        data=Books.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
+    return JsonResponse(list(data), safe=False) 
 
 
 def GetTopics(request):
