@@ -29,7 +29,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 # if request.device.is_mobile:
 # ALLOWED_HOSTS =  ['*']
-ALLOWED_HOSTS =  ['complexprogrammer.uz', 'www.complexprogrammer.uz', 'complexprogrammer-dev.uz', 'www.complexprogrammer-dev.uz', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS =  ['complexprogrammer.uz', 'www.complexprogrammer.uz', '10.0.2.2', 'www.complexprogrammer-dev.uz', '127.0.0.1', 'localhost']
 
 
 # Application definition
