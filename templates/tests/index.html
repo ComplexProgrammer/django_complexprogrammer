@@ -648,7 +648,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% if request.LANGUAGE_CODE == 'uz' %}
             {% verbatim %}
             <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
-            <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
+            <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a> 
               </div>
@@ -657,7 +657,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% if request.LANGUAGE_CODE == 'ru' %}
             {% verbatim %}
             <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
-            <img ng-if="question.image!=''" ng-show="question.image" src="/static/avtotest/{{question.image}}" width="30%">
+            <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
             <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a> 
               </div>
@@ -665,7 +665,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% else %}
             {% verbatim %}
               <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
-              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/static/avtotest/{{question.image}}" width="30%">
+              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/media/{{question.image}}" width="30%">
               <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> 
               </div>
