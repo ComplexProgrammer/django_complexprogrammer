@@ -42,7 +42,7 @@ def to_crl(text):
 
 
 results1 = conn.execute("SELECT * from projects_avtotest where id>1")   
-results2 = conn.execute("SELECT * from tests_questions where book_id=49")   
+results2 = conn.execute("SELECT * from tests_questions where id>3525 and book_id=49")   
 for row1 in results1:
     for row2 in results2:
         if row1[17]+374==row2[9]:
