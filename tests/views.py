@@ -66,7 +66,12 @@ def GetGroups(request):
     return JsonResponse(list(data), safe=False) 
 
 def GetBooks(request):
+    type_id = request.GET.get('type_id', False)
     group_id = request.GET.get('group_id', False)
+    if type_id is False:
+        data=Books.objects.filter(is_deleted=False).order_by('sort_order').annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
+    else:
+        data=Books.objects.filter(is_deleted=False, type_id=type_id).annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).order_by('sort_order').values()
     if group_id is False:
         data=Books.objects.filter(is_deleted=False).order_by('sort_order').annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
     else:
@@ -75,7 +80,17 @@ def GetBooks(request):
 
 
 def GetTopics(request):
+    type_id = request.GET.get('type_id', False)
+    group_id = request.GET.get('group_id', False)
     book_id = request.GET.get('book_id', False)
+    if type_id is False:
+        data=Topics.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Topics.objects.filter(is_deleted=False, type_id=type_id).values()
+    if group_id is False:
+        data=Topics.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Topics.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').values()
     if book_id is False:
         data=Topics.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
@@ -84,7 +99,22 @@ def GetTopics(request):
     
 
 def GetQuestions(request):
+    type_id = request.GET.get('type_id', False)
+    group_id = request.GET.get('group_id', False)
+    book_id = request.GET.get('book_id', False)
     topic_id = request.GET.get('topic_id', False)
+    if type_id is False:
+        data=Questions.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Questions.objects.filter(is_deleted=False, type_id=type_id).values()
+    if group_id is False:
+        data=Questions.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Questions.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').values()
+    if book_id is False:
+        data=Questions.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Questions.objects.filter(is_deleted=False, book_id=book_id).order_by('sort_order').values()
     if topic_id is False:
         data=Questions.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
@@ -93,7 +123,27 @@ def GetQuestions(request):
     
 
 def GetAnswers(request):
+    type_id = request.GET.get('type_id', False)
+    group_id = request.GET.get('group_id', False)
+    book_id = request.GET.get('book_id', False)
+    topic_id = request.GET.get('topic_id', False)
     question_id = request.GET.get('question_id', False)
+    if type_id is False:
+        data=Answers.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Answers.objects.filter(is_deleted=False, type_id=type_id).values()
+    if group_id is False:
+        data=Answers.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Answers.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order').values()
+    if book_id is False:
+        data=Answers.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Answers.objects.filter(is_deleted=False, book_id=book_id).order_by('sort_order').values()
+    if topic_id is False:
+        data=Answers.objects.filter(is_deleted=False).order_by('sort_order').values()
+    else:
+        data=Answers.objects.filter(is_deleted=False, topic_id=topic_id).order_by('sort_order').values()
     if question_id is False:
         data=Answers.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
