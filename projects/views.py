@@ -356,7 +356,6 @@ def hash(h, key):
     return h[key]
 
 def GetTranslateLanguages(request):
-    print(googletrans.LANGUAGES)
     return JsonResponse({'data': googletrans.LANGUAGES}, safe=False) 
  
 def TextToSpeech(request):
@@ -492,14 +491,12 @@ def GetBilet(request):
             'bilet': i
         }
         arr.append(context)
-    print(arr)
     return JsonResponse(list(arr), safe=False) 
 
 def exchangerates(request):
     url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
     http = urllib3.PoolManager()
     r = http.request('GET', url)
-    print(r.status)
     # r = urllib3.request.urlopen(url)
     # data = r.read()
     context={
@@ -511,7 +508,6 @@ def GetExchangeRates(request):
     url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
     http = urllib3.PoolManager()
     r = http.request('GET', url)
-    print(r.status)
     # r = urllib3.request.urlopen(url)
     # data = r.read()
     context={
@@ -622,7 +618,6 @@ def ip(request):
         url = "https://ipapi.co/" + ip + "/json"
     http = urllib3.PoolManager()
     r = http.request('GET', url)
-    print(r.data)
     context={
         'data':json.loads(r.data)
     }
@@ -787,7 +782,6 @@ def projects(request):
     context={
         'projects': projects
     }
-    print(context)
     return render(request, "projects/home.html", context=context)
 def services(request):
     services=Project.services.all()

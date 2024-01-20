@@ -46,7 +46,6 @@ def tests(request):
         'type': _type,
         'type_data':json.dumps(type_data, default=serialize_datetime),
     }
-    print(data)
     return render(request, 'tests/index.html', context=context)
 def serialize_datetime(obj): 
     if isinstance(obj, datetime.datetime): 
