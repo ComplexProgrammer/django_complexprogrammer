@@ -10,7 +10,6 @@ def index(request):
     http = urllib3.PoolManager()
     r = http.request('GET', url)
     htmlSource = r.data.decode('utf-8')
-    print(htmlSource)
     context={
         'data':htmlSource
     }
@@ -51,7 +50,6 @@ def postda_uz(request):
     http = urllib3.PoolManager()
     r = http.request('GET', 'https://postda.uz')
     htmlSource = r.data.decode('utf-8')
-    print(htmlSource)
     htmlSource = htmlSource.replace("/img/logo.106cf606.png", "https://postda.uz/img/logo.106cf606.png");
     htmlSource = htmlSource.replace("/img/loader.2e487c0b.svg", "https://postda.uz/img/loader.2e487c0b.svg");
     htmlSource = htmlSource.replace("/img/prev-arrow-dark.93f00cb2.svg", "https://postda.uz/img/prev-arrow-dark.93f00cb2.svg");
@@ -85,7 +83,6 @@ def postda_uz(request):
     # htmlSource = htmlSource.replace("http://uzinfobiz.ru/wp-content/uploads/2018/11/logo4.png", "https://complexprogrammer.uz/static/img/C0mplex.png");
     # htmlSource = htmlSource.replace("Блог Умиджона Обудова", "Complex Programmer");
     # htmlSource = htmlSource.replace("Блог Умиджон Обудова", '<img width="100" height="50" src="https://complexprogrammer.uz/static/img/C0mplex.png" class="attachment-thumb-wide size-thumb-wide wp-post-image" alt="Talabalar uchun ish" itemprop="image" decoding="async"/> Complex Programmer');
-    print(htmlSource)
     context={
         'data':htmlSource
     }
