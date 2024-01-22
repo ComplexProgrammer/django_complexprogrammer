@@ -19,24 +19,24 @@ def tests(request):
     if type_id is 0 and group_id is 0 and book_id is 0 and topic_id is 0 and question_id is 0:
         data=Types.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
-        if type_id is not 0:
+        if type_id != 0:
             _type='group'
             type_data=Types.objects.filter(is_deleted=False, id=type_id).values().first()
             data=Groups.objects.filter(is_deleted=False, type_id=type_id).order_by('sort_order').values()
-        if group_id is not 0:
+        if group_id != 0:
             _type='book'
             type_data=Groups.objects.filter(is_deleted=False, id=group_id).values().first()
             data=Books.objects.filter(is_deleted=False, group_id=group_id).order_by('sort_order')
             data=data.annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()    
-        if book_id is not 0:
+        if book_id != 0:
             _type='topic'
             type_data=Books.objects.filter(is_deleted=False, id=book_id).annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values().first()
             data=Topics.objects.filter(is_deleted=False, book_id=book_id).order_by('sort_order').values()
-        if topic_id is not 0:
+        if topic_id != 0:
             _type='question'
             type_data=Topics.objects.filter(is_deleted=False, id=topic_id).values().first()
             data=Questions.objects.filter(is_deleted=False, topic_id=topic_id).order_by('sort_order').values()
-        if question_id is not 0:
+        if question_id != 0:
             _type='answer'
             type_data=Questions.objects.filter(is_deleted=False, id=question_id).values().first()
             data=Answers.objects.filter(is_deleted=False, question_id=question_id).order_by('sort_order').values() # type: ignore

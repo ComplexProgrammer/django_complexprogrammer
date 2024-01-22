@@ -1,0 +1,1236 @@
+{% load i18n %}
+{% load static %}
+{% comment %} {% load jsonify %} {% endcomment %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "e815a36ng3");
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(90624869, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    <!-- Yandex.RTB -->
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+<meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
+<meta charset="UTF-8">
+<title>
+  {% if request.LANGUAGE_CODE == 'uz' %}
+    Testlar {{type}}
+  {% else %}
+  {% if request.LANGUAGE_CODE == 'ru' %}
+    Тесты {{type}}
+  {% else %}
+    Tests {{type}} 
+  {% endif %}
+  {% endif %}
+</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
+     crossorigin="anonymous"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8DHWL20H58');
+</script>
+        <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NW763C2');</script>
+<!-- End Google Tag Manager -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
+        authDomain: "c0mplex.firebaseapp.com",
+        projectId: "c0mplex",
+        storageBucket: "c0mplex.appspot.com",
+        messagingSenderId: "755681568857",
+        appId: "1:755681568857:web:102b1b733df55baefe2948",
+        measurementId: "G-95WQGY7X9E"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
+    <link rel="icon" sizes="16x16" href="/static/img/avtotest.png">
+    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+    .wrapper{
+      margin: 60px auto;
+      text-align: center;
+    }
+
+    .page-content{
+      background: #eee;
+      display: inline-block;
+      padding: 10px;
+      width: 100%;
+      max-width: 660px;
+    }
+    .alertify-log-custom {
+        background: #fba155;
+    }
+
+    .poin:hover {
+        cursor: pointer;
+    }
+    .disabledDiv {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    .page {
+      display: none;
+    }
+    .page-active {
+      display: block;
+    }
+    body {
+      background-color: #210021;
+  }
+        section {
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        h1 {
+          font-family: "Montserrat";
+          font-size: 90px;
+        }      
+    </style>
+    <style>
+      #services .services {
+        flex-direction: column;
+        text-align: center;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 100px 0;
+      }
+      #services .service-top {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      #services .service-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 50px;
+      }
+      #services .service-item {
+        flex-basis: 80%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        padding: 30px;
+        border-radius: 10px;
+        background-image: url(../img/img-1.png);
+        background-size: cover;
+        margin: 10px 5%;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        height: 350px;
+      }
+      #services .service-item::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        background-image: linear-gradient(0deg, black 20%, green 100%);
+        opacity: 0.9;
+        z-index: -1;
+      }
+      #services .service-bottom .icon {
+        height: 120px;
+        width: 120px;
+        margin-bottom: 20px;
+      }
+      #services .service-item h2 {
+        font-size: 2rem;
+        color: white;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+      }
+      #services .service-item p {
+        color: white;
+        text-align: left;
+      }
+      #services .service-bottom .service-item {
+        flex-basis: 25%;
+        margin: 2.5%;
+      }
+    </style>
+</head>
+<body ng-app="App" ng-controller="tests">
+  <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7773722896374259"
+     data-ad-slot="2303661293"></ins>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  <ins class="adsbygoogle"
+  style="display:block; text-align:center;"
+  data-ad-layout="in-article"
+  data-ad-format="fluid"
+  data-ad-client="ca-pub-4137874891184814"
+  data-ad-slot="6832564320"></ins>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  <div class="fixed-top">
+    <div class="position-relative" style="margin-top:50px;">
+      <div class="position-absolute top-0 end-0 translate-middle">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                {% comment %} <input name="next" type="hidden" value="{{ redirect_to }}"> {% endcomment %}
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
+                  {% for language in languages %}
+                  <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                    {{ language.name_local }}
+                    {% if LANGUAGE_CODE == 'en' %}
+                    <img src="https://ipapi.co/static/images/flags/us.png" />
+                    {% else %}
+                    <img src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
+                    {% endif %}
+                  </option>
+                  {% endfor %}
+                </select>
+              </form>
+            </div>
+            <div class="col-1">
+              {% if LANGUAGE_CODE == 'en' %}
+              <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/us.png" />
+              {% else %}
+              <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Yandex.RTB R-A-1963742-5 -->
+<script>window.yaContextCb.push(()=>{
+  Ya.Context.AdvManager.render({
+    type: 'fullscreen',
+    blockId: 'R-A-1963742-5'
+  })
+})</script>
+    <!-- Yandex.RTB R-A-1963742-1 -->
+    <div id="yandex_rtb_R-A-1963742-1"></div>
+    <script>window.yaContextCb.push(()=>{
+      Ya.Context.AdvManager.render({
+        renderTo: 'yandex_rtb_R-A-1963742-1',
+        blockId: 'R-A-1963742-1'
+      })
+    })</script>
+    <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
+        <img src="/static/img/buffering.gif" />
+    </div>
+    <input id="hh" type="hidden" />
+    <audio id="click" controls="controls" style="position:absolute;visibility:hidden">
+        <source src="/static/sounds/click.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="right" controls="controls" style="position:absolute;visibility:hidden">
+        <source src="/static/sounds/right.mp3" type="audio/mpeg" />
+    </audio>
+    <audio id="wrong" controls="controls" style="position:absolute;visibility:hidden">
+        <source src="/static/sounds/wrong.mp3" type="audio/mpeg" />
+    </audio>
+{% if request.LANGUAGE_CODE == 'uz' %}
+{% verbatim %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_uz_uz}} natijasi</h5>
+        <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="questions.length-togri_javob_soni-notogri_javob_soni!=0">Belgilanmagan savollar : {{questions.length-togri_javob_soni-notogri_javob_soni}} ta</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=questions.length">To'g'ri javob : {{togri_javob_soni}} ta</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Noto'g'ri javob : {{notogri_javob_soni}} ta</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(topic_number+1)"><i class="bi bi-box-arrow-right"></i> {{topic_number+1}} - biletga o'tish</button>
+        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(topic_number)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endverbatim %}
+{% else %}
+{% if request.LANGUAGE_CODE == 'ru' %}
+{% verbatim %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Результат {{topic.name_ru_ru}}</h5>
+        <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="questions.length-togri_javob_soni-notogri_javob_soni!=0">Неотмеченные вопросы: {{questions.length-togri_javob_soni-notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=questions.length">Правильный ответ: {{togri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Неправильный ответ: {{notogri_javob_soni}}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(topic_number+1)"><i class="bi bi-box-arrow-right"></i> {{topic_number+1}} - перейти к билету</button>
+        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Вернуться к билетам</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(topic_number)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endverbatim %}
+{% else %}
+{% verbatim %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{topic.name_en_us}} result</h5>
+        <button type="button" ng-show="timeout" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="p-3 mb-2 bg-secondary text-white" ng-show="questions.length-togri_javob_soni-notogri_javob_soni!=0">Unmarked questions: {{questions.length-togri_javob_soni-notogri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=questions.length">Correct answer: {{togri_javob_soni}}</div>
+        <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Incorrect answer: {{notogri_javob_soni}}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Go to ticket {{topic_number+1}}</button>
+        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Back to tickets</button>
+        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(topic_number)"><i class="bi bi-arrow-repeat"></i> Start over</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endverbatim %}
+{% endif %}
+{% endif %}
+    <hr />
+    {% if type != 'type1' %}
+    <section id="services">
+      <div class="services container">
+        <div class="service-top">
+          <h1>
+            <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                Testlar
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                Тесты
+                {% else %}
+                Tests
+                {% endif %}
+                {% endif %}
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                <img src="/static/img/google-play.svg" />
+            </a>
+          </h1>
+        </div>
+        <div class="service-bottom">
+          {%for item in data%}
+            <div class="service-item" style="background-image: url(/media/{{item.image}});">
+              <div class="icon" if="{{item.image}}!=''">{{item.image}}<img style="height: 100%;width: 100%;object-fit: cover;" src="/media/{{item.image}}" /></div>
+              {% if request.LANGUAGE_CODE == 'uz' %}
+                <h2>{{item.name_uz_uz}}</h2>
+              {% else %}
+              {% if request.LANGUAGE_CODE == 'ru' %}
+                <h2>{{item.name_ru_ru}}</h2>  
+              {% else %}
+                <h2>{{item.name_en_us}}</h2>
+              {% endif %}
+              {% endif %}
+              <!-- <p>{{item.sub_title}}</p> -->
+              <div class="C0mplexButton Success" style="margin-block-end: 0px;">
+                {% if type == 'type' %}
+                <a href="/tests?type_id={{ item.id }}">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <i class="material-icons">&#9758;</i>
+                  Enter
+                  <div class="spinner-border" role="status"></div>
+                </a>
+                {% endif %}
+                {% if type == 'group' %}
+                  <a href="/tests?group_id={{ item.id }}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="material-icons">&#9758;</i>
+                    Enter
+                    <div class="spinner-border" role="status"></div>
+                  </a>
+                {% endif %}
+                {% if type == 'book' %}
+                  <a href="/tests?book_id={{ item.id }}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="material-icons">&#9758;</i>
+                    Enter
+                    <div class="spinner-border" role="status"></div>
+                  </a>
+                {% endif %}
+                {% if type == 'topic' %}
+                  <a href="/tests?topic_id={{ item.id }}">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <i class="material-icons">&#9758;</i>
+                    Enter
+                    <div class="spinner-border" role="status"></div>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {%endfor%}
+        </div>
+      </div>
+    </section>
+    <div class="wrapper">
+        <div class="container">
+          <div class="C0mplexButton float-end">
+            <a href="/#services">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                X
+            </a>
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                  {% if request.LANGUAGE_CODE == 'uz' %}
+                  Testlar
+                  {% else %}
+                  {% if request.LANGUAGE_CODE == 'ru' %}
+                  Тесты
+                  {% else %}
+                  Tests
+                  {% endif %}
+                  {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?type_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% if type == 'group' %}
+    <div class="wrapper">
+        <div class="container">
+          <div class="C0mplexButton float-end">
+            <a href="/tests">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                X
+            </a>
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                {% verbatim %}
+                {{type.name_uz_uz}}
+                {% endverbatim %}
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                {% verbatim %}
+                {{type.name_ru_ru}}
+                {% endverbatim %}
+                {% else %}
+                {% verbatim %}
+                {{type.name_en_us}}
+                {% endverbatim %}
+                {% endif %}
+                {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?group_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% if type == 'book' %}
+    <div class="wrapper">
+        <div class="container">
+          <div class="C0mplexButton float-end">
+            {% verbatim %}
+            <a href="/tests?type_id={{group.type_id}}">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                X
+            </a>
+            {% endverbatim %}
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                {% verbatim %}
+                {{group.name_uz_uz}}
+                {% endverbatim %}
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                {% verbatim %}
+                {{group.name_ru_ru}}
+                {% endverbatim %}
+                {% else %}
+                {% verbatim %}
+                {{group.name_en_us}}
+                {% endverbatim %}
+                {% endif %}
+                {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?book_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% if type == 'topic' %}
+    <div class="wrapper">
+        <div class="container">
+          <div class="C0mplexButton float-end">
+            {% verbatim %}
+            <a href="/tests?group_id={{book.group_id}}">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                X
+            </a>
+            {% endverbatim %}
+          </div>
+          <h1>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                {% verbatim %}
+                {{book.name_uz_uz}}
+                {% endverbatim %}
+                {% else %}
+                {% if request.LANGUAGE_CODE == 'ru' %}
+                {% verbatim %}
+                {{book.name_ru_ru}}
+                {% endverbatim %}
+                {% else %}
+                {% verbatim %}
+                {{book.name_en_us}}
+                {% endverbatim %}
+                {% endif %}
+                {% endif %}
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                  <img src="/static/img/google-play.svg" />
+              </a>
+          </h1>
+          {% for i in data %}
+              <div class="row">
+                  <div class="col">
+                      <div class="C0mplexButton Success">
+                          <a href="/tests?topic_id={{ i.id }}" style='width:500px; font-size:30px'>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="material-symbols-outlined">
+                              touch_app
+                            </span>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                              {{ i.name_uz_uz }}
+                            {% else %}
+                            {% if request.LANGUAGE_CODE == 'ru' %}
+                              {{ i.name_ru_ru }}
+                            {% else %}
+                              {{ i.name_en_us }}
+                            {% endif %}
+                            {% endif %}
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% if type == 'question' %}
+    <div class="wrapper">
+          <div class="container">
+            <div class="C0mplexButton float-end" ng-click="showModal()">
+                <a href="#">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    X
+                </a>
+            </div>
+            <h1 style="color:green">
+              {% comment %} <h1 id = "list"> {{data}}</h1> {% endcomment %}
+                <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                  {% if request.LANGUAGE_CODE == 'uz' %}
+                  {% verbatim %}
+                  {{topic.name_uz_uz}}
+                  {% endverbatim %}
+                  {% else %}
+                  {% if request.LANGUAGE_CODE == 'ru' %}
+                  {% verbatim %}
+                  {{topic.name_ru_ru}}
+                  {% endverbatim %}
+                  {% else %}
+                  {% verbatim %}
+                  {{topic.name_en_us}}
+                  {% endverbatim %}
+                  {% endif %}
+                  {% endif %}
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
+                    <img src="/static/img/google-play.svg" />
+                </a>
+            </h1>
+            <h1 id="timer" ng-click="f()">00:00</h1>
+            <input type="hidden" id="t" value="0" />
+            {% verbatim %}
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item" ng-show="question_number>1" ng-click="prev()">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li ng-repeat="q in questions" ng-show="q==question" class="page-item active" id="question{{question_number}}" ng-click="b(question_number-x)"><a class="page-link" id="ab{{q.id}}" href="#">{{question_number-x}}</a></li>
+                <!--<li class="page-item" id="question{{question_number+1}}" ng-click="b(question_number+1-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+1">{{question_number+1-x}}</a></li>
+                <li class="page-item" id="question{{question_number+2}}" ng-click="b(question_number+2-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+2">{{question_number+2-x}}</a></li>
+                <li class="page-item" id="question{{question_number+3}}" ng-click="b(question_number+3-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+3">{{question_number+3-x}}</a></li>
+                <li class="page-item" id="question{{question_number+4}}" ng-click="b(question_number+4-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+4">{{question_number+4-x}}</a></li>
+                <li class="page-item" id="question{{question_number+5}}" ng-click="b(question_number+5-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+5">{{question_number+5-x}}</a></li>
+                <li class="page-item" id="question{{question_number+6}}" ng-click="b(question_number+6-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+6">{{question_number+6-x}}</a></li>
+                <li class="page-item" id="question{{question_number+7}}" ng-click="b(question_number+7-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+7">{{question_number+7-x}}</a></li>
+                <li class="page-item" id="question{{question_number+8}}" ng-click="b(question_number+8-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+8">{{question_number+8-x}}</a></li>
+                <li class="page-item" id="question{{question_number+9}}" ng-click="b(question_number+9-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+9">{{question_number+9-x}}</a></li>
+                <li class="page-item" id="question{{question_number+10}}" ng-click="b(question_number+10-x)"><a class="page-link" href="#" ng-show="questions.length>=question_number+10">{{question_number+10-x}}</a></li>
+                -->
+                <li class="page-item" ng-show="question_number<questions.length" ng-click="next()">
+                  <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+            {% endverbatim %}
+            {% comment %} <ul class="pagination pagination-lg">
+              <li class="page-item" id="question1" ng-click="b(1)"><a class="page-link" id="ab1" href="#">1</a></li>
+              <li class="page-item" id="question2" ng-click="b(2)"><a class="page-link" id="ab2" href="#">2</a></li>
+              <li class="page-item" id="question3" ng-click="b(3)"><a class="page-link" id="ab3" href="#">3</a></li>
+              <li class="page-item" id="question4" ng-click="b(4)"><a class="page-link" id="ab4" href="#">4</a></li>
+              <li class="page-item" id="question5" ng-click="b(5)"><a class="page-link" id="ab5" href="#">5</a></li>
+              <li class="page-item" id="question6" ng-click="b(6)"><a class="page-link" id="ab6" href="#">6</a></li>
+              <li class="page-item" id="question7" ng-click="b(7)"><a class="page-link" id="ab7" href="#">7</a></li>
+              <li class="page-item" id="question8" ng-click="b(8)"><a class="page-link" id="ab8" href="#">8</a></li>
+              <li class="page-item" id="question9" ng-click="b(9)"><a class="page-link" id="ab9" href="#">9</a></li>
+              <li class="page-item" id="question10" ng-click="b(10)"><a class="page-link" id="ab10" href="#">10</a></li>
+            </ul> {% endcomment %}
+            {% if request.LANGUAGE_CODE == 'uz' %}
+            {% verbatim %}
+            <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
+            <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
+            <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a> 
+              </div>
+            {% endverbatim %}
+            {% else %}
+            {% if request.LANGUAGE_CODE == 'ru' %}
+            {% verbatim %}
+            <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
+            <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
+            <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a> 
+              </div>
+            {% endverbatim %}
+            {% else %}
+            {% verbatim %}
+              <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
+              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/media/{{question.image}}" width="30%">
+              <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> 
+              </div>
+            {% endverbatim %}
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        if(window.screen.availWidth>1366){
+            document.getElementsByClassName('pagination')[0].className ="pagination justify-content-center pagination-lg";
+        }
+        else{
+            if(window.screen.availWidth>768&&window.screen.availWidth<1366){
+                document.getElementsByClassName('pagination')[0].className ="pagination justify-content-center";
+            }
+            else{
+                document.getElementsByClassName('pagination')[0].className ="pagination justify-content-center";
+            }
+        }
+    </script>
+    {% endif %}
+    <hr />
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+          keyboard: false
+        });
+        function hexHtmlToString(str) {
+            var REG_HEX = /&#x([a-fA-F0-9]+);/g;
+            console.log(REG_HEX)
+            return str.replace(REG_HEX, function(match, grp){
+                var num = parseInt(grp, 16);
+                console.log(String.fromCharCode(num))
+                return String.fromCharCode(num);
+            });
+        }
+          var app = angular.module("App", []);
+          app.controller("tests", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
+            $scope._type='{{ type|safe }}';
+                    if($scope._type=="group"){
+                      $scope.type=JSON.parse('{{ type_data|safe }}');
+                    }
+                    if($scope._type=="book"){
+                      $scope.group=JSON.parse('{{ type_data|safe }}');
+                    }
+                    if($scope._type=="topic"){
+                      $scope.book=JSON.parse('{{ type_data|safe }}');
+                    }
+                    if($scope._type=="question"){
+                          $scope.topic=JSON.parse('{{ type_data|safe }}');
+                          var timeH = document.getElementById("timer");
+                          $scope.x=0
+                          $scope.isPaused = false;
+                          $scope.timeout = false;
+                          $scope.question_number=1;
+                          LoadTopics($scope.topic.book_id);
+                          $scope.topic_number=$scope.topic.number;
+                          $scope.topic_id=$scope.topic.id;
+                          $scope.time=3600;
+                          $scope.togri_javob_soni=0;
+                          $scope.notogri_javob_soni=0;
+                          $scope.questions=[];
+                          $scope.selected_answers=[];
+                          //setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
+                          $scope.prev=function(){
+                              if($scope.question_number>1){
+                                  $scope.question_number=$scope.question_number-1
+                              }
+                              myFunction($scope.question_number);
+                              set_color()
+                          }
+                          $scope.next=function(){
+                              if($scope.question_number<$scope.questions.length){
+                                  $scope.question_number=$scope.question_number+1
+                              }
+                              myFunction($scope.question_number);
+                              set_color()
+                          }
+                          function set_color(){
+                            $scope.questions.forEach((element) =>
+                            {
+                                if(element.selected_answer){
+                                  if(element.selected_answer.right){
+                                      document.getElementById('ab'+element.id).classList.add('bg-success');
+                                  }
+                                  else{
+                                      document.getElementById('ab'+element.id).classList.add('bg-danger');
+                                  }
+                                }
+                            });
+                          }
+                          if($scope.topic_id!=0){
+                              checkJavoblar();
+                              LoadData();
+                          }
+                          $scope.mValue=null;
+                          $scope.back=function(){
+                              window.location.href="/tests?book_id="+$scope.topic.book_id;
+                          }
+                          $scope.nextbilet=function(value){
+                              $scope.topic=$scope.topics.find(word => word.number == value)
+                              if($scope.topic.number==value)
+                              {
+                                  setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);
+                              }
+                              window.location.href="/tests?topic_id="+$scope.topic.id;
+                          }
+                          $scope.showModal=function(){
+                              $scope.isPaused = true;
+                              $scope.timeout = true;
+                              myModal.show();
+          
+                          }
+                          $('#timer').on('click', function(e) {
+                            e.preventDefault();
+                            //$scope.isPaused = !$scope.isPaused;
+                          });
+                          $("#staticBackdrop").on('hide.bs.modal', function(){
+                              $scope.isPaused = false;
+                          });
+                          function startTimer(timeSecond){
+                              displayTime(timeSecond);
+                              const countDown = setInterval(() => {
+                                  if(!$scope.isPaused) {
+                                    timeSecond--;
+                                    $scope.time=timeSecond;
+                                    displayTime(timeSecond);
+                                    if (timeSecond == 0 || timeSecond < 1) {
+                                      endCount();
+                                      clearInterval(countDown);
+                                    }
+                                  }
+                              }, 1000);
+                          }
+          
+                          function displayTime(second) {
+                            const min = Math.floor(second / 60);
+                            const sec = Math.floor(second % 60);
+                            timeH.innerHTML = `${min < 10 ? "0" : ""}${min}:${sec < 10 ? "0" : ""}${sec}`;
+                          }
+          
+                          function endCount() {
+                            timeH.innerHTML = "Vaqt tugadi";
+                            myModal.show();
+                          }
+                          function setCookie(cname, cvalue, exdays) {
+                            const d = new Date();
+                            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                            let expires = "expires="+d.toUTCString();
+                            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                          }
+          
+                          function getCookie(cname) {
+                              let name = cname + "=";
+                              let ca = document.cookie.split(';');
+                              for(let i = 0; i < ca.length; i++) {
+                                  let c = ca[i];
+                                  while (c.charAt(0) == ' ') {
+                                      c = c.substring(1);
+                                  }
+                                  if (c.indexOf(name) == 0) {
+                                      return c.substring(name.length, c.length);
+                                  }
+                              }
+                              return "";
+                          }
+                          function checkJavoblar() {
+                              if(getCookie("selected_answers")){
+                                  $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
+                              }
+                              $scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).forEach((element) =>{
+                                  if(element.time<$scope.time)
+                                  {
+                                      $scope.time=element.time;
+                                  }
+                              });
+                              startTimer($scope.time);
+          
+                          }
+                        $scope.b=function(value){
+                          $scope.x=0
+                          if(value>$scope.question_number){
+                              $scope.x=value-$scope.question_number
+                          }
+                          else{
+                              $scope.x=$scope.question_number-value
+                          }
+                          if(value>1&&value<$scope.questions.length){
+                              myFunction(value);
+                          }
+                        }
+                        function myFunction(value) {
+                              $scope.question_number=value;
+                              $scope.question=$scope.questions.find(element => element.number == $scope.question_number);
+                              LoadAnswers($scope.question.id)
+                              if($scope.selected_answers.find(element => element.question_id == $scope.question.id))
+                              {
+                                $scope.question.selected_answer=$scope.selected_answers.find(element => element.question_id == $scope.question.id);
+                              }
+                              $scope.mValue=$scope.question.selected_answer.id;
+                              document.getElementById('click').play();
+                              {% comment %} var element = document.getElementsByClassName('page-item');
+                                  for(var i = 0; i < element.length; i++)
+                                  {
+                                      element[i].classList.remove('active');
+                                  } {% endcomment %}
+                              //document.getElementById('question'+$scope.question_number).classList.add('active');
+                          }
+                          function setJavob(answer)
+                          {
+                              var obj = {
+                                topic_id: $scope.topic_id,
+                                question_id: $scope.question.id,
+                                id:answer.id,
+                                right:answer.right,
+                                time: $scope.time,
+                              };
+          
+                              if(!$scope.selected_answers.find(element => element.question_id == obj.question_id))
+                              {
+                                  $scope.selected_answers.push(obj);
+                                  setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
+                              }
+          
+                              $scope.mValue=answer.id;
+                              if(answer.right){
+                                  $scope.togri_javob_soni=$scope.togri_javob_soni+1;
+                                  document.getElementById('right').play();
+                                  document.getElementById('answer'+answer.id).classList.add('list-group-item-success');
+                                  document.getElementById('ab'+$scope.question.id).classList.add('bg-success');
+                                  alertify.success("To`g`ri javob");
+                              }
+                              else{
+                                  $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
+                                  document.getElementById('wrong').play();
+                                  document.getElementById('answer'+answer.id).classList.add('list-group-item-danger');
+                                  document.getElementById('ab'+$scope.question.id).classList.add('bg-danger');
+                                  alertify.error("Noto`g`ri javob");
+                              }
+                              for(var i = 0; i < $scope.answers.length; i++)
+                              {
+                                  if($scope.answers[i].right){
+                                    document.getElementById('answer'+$scope.answers[i].id).classList.add('list-group-item-success');
+                                  }
+                                  document.getElementById('answer'+$scope.answers[i].id).classList.add('disabledDiv');
+                              }
+                              if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                              {
+                                  $scope.isPaused = true;
+                                  $scope.timeout = false;
+                                  myModal.show();
+                              }
+                          }
+                      $scope.ok=function(answer){
+                          setJavob(answer);
+                          //setTimeout(myFunction, 3000, $scope.question_number+1);
+                      }
+          
+                        function LoadData(){
+                            document.getElementById('conn').style.visibility = "visible";
+                            $('#hh').modal({
+                                    backdrop: 'static',
+                                    keyboard: false
+                              })
+                                $http({
+                                    method: 'GET',
+                                    url: "/GetQuestions?topic_id="+$scope.topic_id,
+                                    dataType: "json"
+                                }).then(function (d) {
+                                        let number=0;
+                                        d.data.forEach((item) => {
+                                          selected_answer='';
+                                          if($scope.selected_answers.find(element => element.question_id == item.id))
+                                          {
+                                              selected_answer=$scope.selected_answers.find(element => element.question_id == item.id);
+                                          }
+                                          item.selected_answer=selected_answer
+                                          $scope.questions.push(item);
+                                        });
+                                        $scope.questions=$scope.questions.sort(function(a, b){return a.number-b.number});
+                                        $scope.questions.forEach((element) =>
+                                        {
+                                            if(element.number>number&&number==element.number-1&&element.selected_answer)
+                                            {
+                                                number=element.number;
+                                            }
+                                            if(element.selected_answer){
+                                              if(element.selected_answer.right){
+                                                  $scope.togri_javob_soni=$scope.togri_javob_soni+1;
+                                              }
+                                              else{
+                                                  $scope.notogri_javob_soni=$scope.notogri_javob_soni+1;
+                                              }
+                                            }
+                                        });
+                                        if($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length==$scope.questions.length)
+                                        {
+                                            $("#hh").modal('hide');
+                                            document.getElementById('conn').style.visibility = "hidden";
+                                            $scope.isPaused = true;
+                                            $scope.timeout = false;
+                                            myModal.show();
+                                        }
+                                        $scope.question_number=number+1;
+                                        myFunction($scope.question_number)
+              
+              
+                                $("#hh").modal('hide');
+                                document.getElementById('conn').style.visibility = "hidden";
+                            }, function (error) {
+                                  $("#hh").modal('hide');
+                                  document.getElementById('conn').style.visibility = "hidden";
+                                console.log("error in GetQuestions -> ", error);
+                                alertify.error("Xatolik yuz berdi");
+                            });
+                        }
+                        function LoadTopics(book_id){
+                          document.getElementById('conn').style.visibility = "visible";
+                          $('#hh').modal({
+                                  backdrop: 'static',
+                                  keyboard: false
+                            })
+                              $http({
+                                  method: 'GET',
+                                  url: "/GetTopics?book_id="+book_id,
+                                  dataType: "json"
+                              }).then(function (d) {
+                                      $scope.topics=d.data
+                              $("#hh").modal('hide');
+                              document.getElementById('conn').style.visibility = "hidden";
+                          }, function (error) {
+                                $("#hh").modal('hide');
+                                document.getElementById('conn').style.visibility = "hidden";
+                              console.log("error in GetTopics -> ", error);
+                              alertify.error("Xatolik yuz berdi");
+                          });
+                        }
+                        function LoadQuestions(number){
+              
+                        }
+                        function LoadAnswers(question_id){
+                          document.getElementById('conn').style.visibility = "visible";
+                          $('#hh').modal({
+                                  backdrop: 'static',
+                                  keyboard: false
+                            })
+                              $http({
+                                  method: 'GET',
+                                  url: "/GetAnswers?question_id="+question_id,
+                                  dataType: "json"
+                              }).then(function (d) {
+                                      $scope.answers=d.data
+                              $("#hh").modal('hide');
+                              document.getElementById('conn').style.visibility = "hidden";
+                          }, function (error) {
+                                $("#hh").modal('hide');
+                                document.getElementById('conn').style.visibility = "hidden";
+                              console.log("error in GetAnswers -> ", error);
+                              alertify.error("Xatolik yuz berdi");
+                          });
+                        }
+                    }
+              }]);
+  </script>
+  <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-format="autorelaxed"
+     data-ad-client="ca-pub-7773722896374259"
+     data-ad-slot="2479701367"></ins>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+    <ins class="adsbygoogle"
+    style="display:block; text-align:center;"
+    data-ad-format="autorelaxed"
+    data-ad-client="ca-pub-4137874891184814"
+    data-ad-slot="4202531555"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-format="fluid"
+      data-ad-layout-key="-an-4i-cp+a2+21k"
+      data-ad-client="ca-pub-7773722896374259"
+      data-ad-slot="4679993061"></ins>
+  <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+    <ins class="adsbygoogle"
+    style="display:block; text-align:center;"
+    data-ad-format="fluid"
+    data-ad-layout-key="-6t+ed+2i-1n-4w"
+    data-ad-client="ca-pub-4137874891184814"
+    data-ad-slot="7442938415"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <!-- Display 1 -->
+  <ins class="adsbygoogle"
+    style="display:block; text-align:center;"
+    data-ad-client="ca-pub-7773722896374259"
+    data-ad-slot="3869366477"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+    <!-- 1 chi abzast Mobil -->
+    <ins class="adsbygoogle"
+    style="display:block; text-align:center;"
+    data-ad-client="ca-pub-4137874891184814"
+    data-ad-slot="2799587029"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>
