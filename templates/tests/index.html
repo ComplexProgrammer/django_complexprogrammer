@@ -128,6 +128,22 @@
     Tests {{type}} 
   {% endif %}
   {% endif %}
+
+  {% if request.LANGUAGE_CODE == 'uz' %}
+  {% verbatim %}
+  {{type_data.name_uz_uz}}
+  {% endverbatim %}
+  {% else %}
+  {% if request.LANGUAGE_CODE == 'ru' %}
+  {% verbatim %}
+  {{type_data.name_ru_ru}}
+  {% endverbatim %}
+  {% else %}
+  {% verbatim %}
+  {{type_data.name_en_us}}
+  {% endverbatim %}
+  {% endif %}
+  {% endif %}
 </title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814" crossorigin="anonymous"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
