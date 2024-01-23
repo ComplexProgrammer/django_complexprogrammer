@@ -162,12 +162,22 @@ def GetCounts(request):
         topics_count=Topics.objects.filter(is_deleted=False).count()
         questions_count=Questions.objects.filter(is_deleted=False).count()
         answers_count=Answers.objects.filter(is_deleted=False).count()
+        group=Groups.objects.filter(is_deleted=False).first()
+        book=Books.objects.filter(is_deleted=False).first()
+        topic=Topics.objects.filter(is_deleted=False).first()
+        question=Questions.objects.filter(is_deleted=False).first()
+        answer=Answers.objects.filter(is_deleted=False).first()
     else:
         groups_count=Groups.objects.filter(is_deleted=False, type_id=type_id).count()
         books_count=Books.objects.filter(is_deleted=False, type_id=type_id).count()
         topics_count=Topics.objects.filter(is_deleted=False, type_id=type_id).count()
         questions_count=Questions.objects.filter(is_deleted=False, type_id=type_id).count()
         answers_count=Answers.objects.filter(is_deleted=False, type_id=type_id).count()
+        group=Groups.objects.filter(is_deleted=False, type_id=type_id).first()
+        book=Books.objects.filter(is_deleted=False, type_id=type_id).first()
+        topic=Topics.objects.filter(is_deleted=False, type_id=type_id).first()
+        question=Questions.objects.filter(is_deleted=False, type_id=type_id).first()
+        answer=Answers.objects.filter(is_deleted=False, type_id=type_id).first()
     
     context={
         'types_count': types_count,
@@ -176,6 +186,10 @@ def GetCounts(request):
         'topics_count': topics_count,
         'questions_count': questions_count,
         'answers_count': answers_count,
-        
+        'group':json.dumps(group, default=serialize_datetime),
+        'book':json.dumps(book, default=serialize_datetime),
+        'topic':json.dumps(topic, default=serialize_datetime),
+        'question':json.dumps(question, default=serialize_datetime),
+        'answer':json.dumps(answer, default=serialize_datetime),
     }
     return JsonResponse(context, safe=False) 
