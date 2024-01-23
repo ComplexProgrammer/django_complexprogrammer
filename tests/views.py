@@ -148,3 +148,26 @@ def GetAnswers(request):
     else:
         data=Answers.objects.filter(is_deleted=False, question_id=question_id).order_by('sort_order').values()
     return JsonResponse(list(data), safe=False)
+
+def GetCounts(request):
+    type_id = request.GET.get('type_id', False)
+    group_id = request.GET.get('group_id', False)
+    book_id = request.GET.get('book_id', False)
+    topic_id = request.GET.get('topic_id', False)
+    types_count=Types.objects.filter(is_deleted=False).count()
+    if type_id is False:
+        groups_count=Groups.objects.filter(is_deleted=False).count()
+        books_count=Books.objects.filter(is_deleted=False).count()
+        topics_count=Topics.objects.filter(is_deleted=False).count()
+    else:
+        groups_count=Groups.objects.filter(is_deleted=False, type_id=type_id).count()
+        books_count=Books.objects.filter(is_deleted=False, type_id=type_id).count()
+        topics_count=Topics.objects.filter(is_deleted=False, type_id=type_id).count()
+    
+    context={
+        'types_count': types_count,
+        'groups_count': groups_count,
+        'books_count': books_count,
+        'topics_count': topics_count,
+    }
+    return JsonResponse(context, safe=False) 
