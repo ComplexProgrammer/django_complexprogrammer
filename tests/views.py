@@ -228,4 +228,4 @@ def GetAllData(request):
         'questions':questions,
         'answers':answers,
     }
-    return JsonResponse(context, safe=False) 
+    return JsonResponse(list(context), safe=False) 
