@@ -149,7 +149,7 @@ def GetAnswers(request):
         data=Answers.objects.filter(is_deleted=False, question_id=question_id).order_by('sort_order').values()
     return JsonResponse(list(data), safe=False)
 
-def GetAllData(request):
+def GetCounts(request):
     type_id = request.GET.get('type_id', False)
     group_id = request.GET.get('group_id', False)
     book_id = request.GET.get('book_id', False)
@@ -199,7 +199,7 @@ def GetAllData(request):
         
     }
     return JsonResponse(context, safe=False) 
-def GetCounts(request):
+def GetAllData(request):
     type_id = request.GET.get('type_id', False)
     group_id = request.GET.get('group_id', False)
     book_id = request.GET.get('book_id', False)
