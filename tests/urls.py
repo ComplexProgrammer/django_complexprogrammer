@@ -9,5 +9,6 @@ urlpatterns = [
     path('GetQuestions/', views.GetQuestions, name='GetQuestions'), # type: ignore
     path('GetAnswers/', views.GetAnswers, name='GetAnswers'), # type: ignore
     path('GetCounts/', views.GetCounts, name='GetCounts'), # type: ignore
+    path('GetAllData/', views.GetAllData, name='GetAllData'), # type: ignore
     # path('tests/<int:bilet>/', views.test_item, name='tests'),
 ]

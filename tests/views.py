@@ -149,7 +149,7 @@ def GetAnswers(request):
         data=Answers.objects.filter(is_deleted=False, question_id=question_id).order_by('sort_order').values()
     return JsonResponse(list(data), safe=False)
 
-def GetCounts(request):
+def GetAllData(request):
     type_id = request.GET.get('type_id', False)
     group_id = request.GET.get('group_id', False)
     book_id = request.GET.get('book_id', False)
@@ -197,5 +197,35 @@ def GetCounts(request):
         # 'question':json.dumps(question, default=serialize_datetime),
         # 'answer':json.dumps(answer, default=serialize_datetime),
         
+    }
+    return JsonResponse(context, safe=False) 
+def GetCounts(request):
+    type_id = request.GET.get('type_id', False)
+    group_id = request.GET.get('group_id', False)
+    book_id = request.GET.get('book_id', False)
+    topic_id = request.GET.get('topic_id', False)
+    question_id = request.GET.get('question_id', False)
+    if type_id is False:
+        types=Types.objects.filter(is_deleted=False).values()
+        groups=Groups.objects.filter(is_deleted=False).values()
+        books=Books.objects.filter(is_deleted=False).annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
+        topics=Topics.objects.filter(is_deleted=False).values()
+        questions=Questions.objects.filter(is_deleted=False).values()
+        answers=Answers.objects.filter(is_deleted=False).values()
+    else:
+        types=Types.objects.filter(is_deleted=False, id=type_id).values()
+        groups=Groups.objects.filter(is_deleted=False, type_id=type_id).values()
+        books=Books.objects.filter(is_deleted=False, type_id=type_id).annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
+        topics=Topics.objects.filter(is_deleted=False, type_id=type_id).values()
+        questions=Questions.objects.filter(is_deleted=False, type_id=type_id).values()
+        answers=Answers.objects.filter(is_deleted=False, type_id=type_id).values()
+    
+    context={
+        'types':types,
+        'groups':groups,
+        'books':books,
+        'topics':topics,
+        'questions':questions,
+        'answers':answers,
     }
     return JsonResponse(context, safe=False) 
