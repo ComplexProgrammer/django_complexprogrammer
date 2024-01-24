@@ -186,10 +186,16 @@ def GetCounts(request):
         'topics_count': topics_count,
         'questions_count': questions_count,
         'answers_count': answers_count,
-        'group':json.dumps(group, default=serialize_datetime),
-        'book':json.dumps(book, default=serialize_datetime),
-        'topic':json.dumps(topic, default=serialize_datetime),
-        'question':json.dumps(question, default=serialize_datetime),
-        'answer':json.dumps(answer, default=serialize_datetime),
+        'group':group,
+        'book':book,
+        'topic':topic,
+        'question':question,
+        'answer':answer,
+        # 'group':json.dumps(group, default=serialize_datetime),
+        # 'book':json.dumps(book, default=serialize_datetime),
+        # 'topic':json.dumps(topic, default=serialize_datetime),
+        # 'question':json.dumps(question, default=serialize_datetime),
+        # 'answer':json.dumps(answer, default=serialize_datetime),
+        
     }
     return JsonResponse(context, safe=False) 
