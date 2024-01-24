@@ -221,11 +221,11 @@ def GetAllData(request):
         answers=Answers.objects.filter(is_deleted=False, type_id=type_id).values()
     
     context={
-        'types':types,
-        'groups':groups,
-        'books':books,
-        'topics':topics,
-        'questions':questions,
-        'answers':answers,
+        'types':list(types),
+        'groups':list(groups),
+        'books':list(books),
+        'topics':list(topics),
+        'questions':list(questions),
+        'answers':list(answers),
     }
-    return JsonResponse(list(context), safe=False) 
+    return JsonResponse(context, safe=False) 
