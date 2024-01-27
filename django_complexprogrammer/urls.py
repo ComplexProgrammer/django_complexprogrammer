@@ -44,9 +44,10 @@ urlpatterns += [
     path('admin/', admin.site.urls),
     path('', include('projects.urls')),
     path('', include('tests.urls')),
-    path('', include('pdf_tools.urls')),
+    path('tests/', include('tests.urls')),
+    path('pdf_tools', include('pdf_tools.urls')),
     path('markets/', include('markets.urls')),
     path('news/', include('news.urls')),
-    path('', include('site_clones.urls')),
+    path('site_clones/', include('site_clones.urls')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
