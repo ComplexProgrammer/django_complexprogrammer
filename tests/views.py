@@ -61,6 +61,8 @@ def GetGroups(request):
     if type_id is False:
         data=Groups.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
+        if type_id==1:
+            type_id=3
         data=Groups.objects.filter(is_deleted=False, type_id=type_id).order_by('sort_order').values()
     return JsonResponse(list(data), safe=False) 
 
