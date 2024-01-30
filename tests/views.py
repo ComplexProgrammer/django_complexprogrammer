@@ -16,7 +16,7 @@ def tests(request):
     book_id = request.GET.get('book_id', 0)
     topic_id = request.GET.get('topic_id', 0)
     question_id = request.GET.get('question_id', 0)
-    if type_id is 0 and group_id is 0 and book_id is 0 and topic_id is 0 and question_id is 0:
+    if type_id == 0 and group_id == 0 and book_id == 0 and topic_id == 0 and question_id == 0:
         data=Types.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
         if type_id != 0:
@@ -61,7 +61,7 @@ def GetGroups(request):
     if type_id is False:
         data=Groups.objects.filter(is_deleted=False).order_by('sort_order').values()
     else:
-        if type_id==1:
+        if type_id=='1':
             type_id=3
         data=Groups.objects.filter(is_deleted=False, type_id=type_id).order_by('sort_order').values()
     return JsonResponse(list(data), safe=False) 
