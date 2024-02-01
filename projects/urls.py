@@ -44,6 +44,7 @@ urlpatterns=[
     path('sitemap.xml/', views.send_sitemap, name='send_sitemap'),
     path('BingSiteAuth.xml/', views.send_bing_site_auth, name='send_bing_site_auth'),
     path('rss.xml/', views.send_rss, name='send_rss'),
+    path('rss.txt/', views.send_rss, name='send_rss'),
     path('app-ads.txt/', views.send_app_adstxt, name='send_app_adstxt'),
     path('ads.txt/', views.send_adstxt, name='send_adstxt'),
     path('robots.txt/', views.send_robots, name='send_robots'),
