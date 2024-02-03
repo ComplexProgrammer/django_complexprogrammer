@@ -334,15 +334,225 @@ select {
           background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
           background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
     }
+
+    .chat{
+      margin-block-start: auto;
+      margin-block-end: auto;
+    }
+    .card{
+      block-size: 500px;
+      border-radius: 15px !important;
+      background-color: rgba(0,0,0,0.4) !important;
+    }
+    .contacts_body{
+      padding:  0.75rem 0 !important;
+      overflow-y: auto;
+      white-space: nowrap;
+    }
+    .msg_card_body{
+      overflow-y:auto;
+    }
+    .card-header{
+      border-radius: 15px 15px 0 0 !important;
+      border-block-end: 0 !important;
+    }
+        .card-footer{
+            border-radius: 0 0 15px 15px !important;
+            border-block-start: 0 !important;
+        }
     .container{
       align-content: center;
+    }
+    .search{
+      border-radius: 15px 0 0 15px !important;
+      background-color: rgba(0,0,0,0.3) !important;
+      border:0 !important;
+      color:white !important;
+    }
+    .search:focus{
+        box-shadow:none !important;
+          outline:0px !important;
+    }
+    .type_msg{
+      background-color: rgba(0,0,0,0.3) !important;
+      border:0 !important;
+      color:white !important;
+      block-size: 60px !important;
+      overflow-y: auto;
+    }
+      .type_msg:focus{
+        box-shadow:none !important;
+          outline:0px !important;
+    }
+    .attach_btn{
+            border-radius: 15px 0 0 15px !important;
+            background-color: rgba(0,0,0,0.3) !important;
+      border:0 !important;
+      color: white !important;
+      cursor: pointer;
+      block-size:60px;
+    }
+    .send_btn{
+            border-radius: 0 15px 15px 0 !important;
+            background-color: rgba(0,0,0,0.3) !important;
+      border:0 !important;
+      color: white !important;
+      cursor: pointer;
+      block-size:60px;
+    }
+    .search_btn{
+      border-radius: 0 15px 15px 0 !important;
+      background-color: rgba(0,0,0,0.3) !important;
+      border:0 !important;
+      color: white !important;
+      cursor: pointer;
+      block-size:70px
+    }
+    .contacts{
+      list-style: none;
+      padding: 0;
+    }
+    .contacts li{
+      inline-size: 100% !important;
+      padding: 5px 10px;
+      margin-block-end: 15px !important;
+    }
+    .user_img{
+      block-size: 70px;
+      inline-size: 70px;
+      border:1.5px solid #f5f6fa;
+
+    }
+    .user_img_msg{
+      block-size: 40px;
+      inline-size: 40px;
+      border:1.5px solid #f5f6fa;
+
+    }
+    .img_cont{
+      position: relative;
+      block-size: 70px;
+      inline-size: 70px;
+    }
+    .img_cont_msg{
+      block-size: 40px;
+      inline-size: 40px;
+    }
+    .online_icon{
+    position: absolute;
+    block-size: 15px;
+    inline-size:15px;
+    background-color: #4cd137;
+    border-radius: 50%;
+    inset-block-end: 0.2em;
+    inset-inline-end: 0.4em;
+    border:1.5px solid white;
+    }
+    .offline{
+    background-color: #c23616 !important;
+    }
+    .user_info{
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-start: 15px;
+    }
+    .user_info span{
+    font-size: 20px;
+    color: white;
+    }
+    .user_info p{
+        font-size: 10px;
+        color: rgba(255,255,255,0.6);
+    }
+    .video_cam{
+    margin-inline-start: 50px;
+    margin-block-start: 5px;
+    }
+    .video_cam span{
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin-inline-end: 20px;
+    }
+    .msg_cotainer{
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-start: 10px;
+    border-radius: 25px;
+    background-color: #82ccdd;
+    padding: 10px;
+    position: relative;
+    }
+    .msg_cotainer_send{
+    margin-block-start: auto;
+    margin-block-end: auto;
+    margin-inline-end: 10px;
+    border-radius: 25px;
+    background-color: #78e08f;
+    padding: 10px;
+    position: relative;
+    }
+    .msg_time{
+      inline-size:100px;
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: -15px;
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    }
+    .msg_time_send{
+      inline-size:100px;
+    position: absolute;
+    inset-inline-end:0;
+    inset-block-end: -15px;
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    }
+    .msg_head{
+    position: relative;
+    }
+    .action_menu_btn{
+    position: absolute;
+    inset-inline-end: 10px;
+    inset-block-start: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    }
+    @media(max-inline-size: 576px){
+        .contacts_card{
+            margin-block-end: 15px !important;
+        }
+    }
+    .hover:hover {
+      cursor:pointer;
+      background-color: rgba(0,0,0,0.4) !important;
+    }
+
+
+    .open-button {
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    inset-block-end: 23px;
+    inset-inline-end: 28px;
+    }
+    .chat-popup {
+      display: none;
+      position: fixed;
+      inset-block-end: 25px;
+      inset-inline-end: 15px;
+      z-index: 9;
     }
   </style>
   <title>C0mplex</title>
   <meta name="description" content="Complex Programmer"/>
   <meta name="theme-color" content="#317EFB"/>
-  {% comment %} <script async src="https://aflt.travel.yandex.ru/widgets/api.js" type="text/javascript"></script> {% endcomment %}
-  {% comment %} <script type="text/javascript">
+  <script async src="https://aflt.travel.yandex.ru/widgets/api.js" type="text/javascript"></script>
+  <script type="text/javascript">
       (function (w) {
           function start() {
               w.removeEventListener('YaTravelAffiliateLoaded', start);
@@ -367,7 +577,7 @@ select {
               ? start()
               : w.addEventListener('YaTravelAffiliateLoaded', start);
       })(window);
-  </script> {% endcomment %}
+  </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
   crossorigin="anonymous"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
@@ -469,10 +679,10 @@ select {
   <!-- Service Section -->
   <section id="services">
     <div class="services container">
-      {% comment %} <script src="https://yastatic.net/taxi-widget/ya-taxi-widget.js"></script><div class="ya-taxi-widget" data-ref="5289614" data-proxy-url="https://{app}.redirect.appmetrica.yandex.com/route?start-lat={start-lat}&amp;start-lon={start-lon}&amp;end-lat={end-lat}&amp;end-lon={end-lon}&amp;tariffClass={tariff}&amp;ref={ref}&amp;appmetrica_tracking_id={redirect}&amp;lang={lang}" data-tariff="econom" data-app="3" data-lang="en" data-redirect="1178268795219780156" data-size="m" data-theme="normal" data-title="Call a taxi" data-use-location="true" data-point-a="" data-point-b="37.588144,55.733842"></div> {% endcomment %}
+      <script src="https://yastatic.net/taxi-widget/ya-taxi-widget.js"></script><div class="ya-taxi-widget" data-ref="5289614" data-proxy-url="https://{app}.redirect.appmetrica.yandex.com/route?start-lat={start-lat}&amp;start-lon={start-lon}&amp;end-lat={end-lat}&amp;end-lon={end-lon}&amp;tariffClass={tariff}&amp;ref={ref}&amp;appmetrica_tracking_id={redirect}&amp;lang={lang}" data-tariff="econom" data-app="3" data-lang="en" data-redirect="1178268795219780156" data-size="m" data-theme="normal" data-title="Call a taxi" data-use-location="true" data-point-a="" data-point-b="37.588144,55.733842"></div>
   
       <div class="service-top">
-        {% comment %} <div id="travelWidget"></div> {% endcomment %}
+        <div id="travelWidget"></div>
         <h1 class="section-title">Serv<span>i</span>ces</h1>
         <a href="https://complexprogrammer.uz" target="_blank"><img src="https://s.pr-cy.ru/counters/complexprogrammer.uz" width="88" height="31" alt="Анализ сайта" /></a>
         <p>{% trans 'services sub title' %}</p>
