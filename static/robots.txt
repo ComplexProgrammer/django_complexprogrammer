@@ -35,3 +35,8 @@ User-agent: *
 Disallow: 
 Disallow: website
 Sitemap: http://complexprogrammer.uz/sitemap.xml
+user-agent: *
+disallow: /downloads/
+
+user-agent: magicsearchbot
+disallow: /uploads/
