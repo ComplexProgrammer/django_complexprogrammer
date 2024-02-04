@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'pdf_tools',
     'markets',
     'news',
+    'blog',
     'site_clones',
     'ckeditor', # CKEditor config
     'ckeditor_uploader', # CKEditor media uploader

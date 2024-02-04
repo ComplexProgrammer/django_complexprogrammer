@@ -48,6 +48,7 @@ urlpatterns += [
     path('pdf_tools', include('pdf_tools.urls')),
     path('markets/', include('markets.urls')),
     path('news/', include('news.urls')),
+    path('blog/', include('blog.urls')),
     path('site_clones/', include('site_clones.urls')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]

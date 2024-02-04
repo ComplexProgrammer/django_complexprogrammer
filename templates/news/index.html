@@ -12,7 +12,7 @@
             <div class="col">
               <form action="{% url 'set_language' %}" method="POST">
                 {% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}">
+                {% comment %} <input name="next" type="hidden" value="{{ redirect_to }}"> {% endcomment %}
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
                   {% for language in languages %}
                   <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
@@ -93,14 +93,26 @@
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 <meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
 <title>
-    {% if request.LANGUAGE_CODE == 'uz' %}
-        Yangiliklar {{news.name_uz_uz }}
+    {% if id == 0 %}
+        {% if request.LANGUAGE_CODE == 'uz' %}
+            Yangiliklar
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+            Новости
+        {% else %}
+            News
+        {% endif %}
+        {% endif %}
     {% else %}
-    {% if request.LANGUAGE_CODE == 'ru' %}
-        Новости {{news.name_ru_ru }}
-    {% else %}
-        News {{news.name_en_us }}
-    {% endif %}
+        {% if request.LANGUAGE_CODE == 'uz' %}
+            Yangiliklar {{news.name_uz_uz }}
+        {% else %}
+        {% if request.LANGUAGE_CODE == 'ru' %}
+            Новости {{news.name_ru_ru }}
+        {% else %}
+            News {{news.name_en_us }}
+        {% endif %}
+        {% endif %}
     {% endif %}
 </title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
