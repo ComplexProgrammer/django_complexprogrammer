@@ -13,8 +13,19 @@ def index(request):
     context={
         'data':htmlSource
     }
-    return render(request, 'site_clones/index.html', context=context)
+    return render(request, 'site_clones/myclonedsites.html', context=context)
 
+def myclonedsites(request):
+    url = request.GET.get('url', False);
+    if url == False:
+        return render(request, 'site_clones/myclonedsites.html')
+    http = urllib3.PoolManager()
+    r = http.request('GET', url)
+    htmlSource = r.data.decode('utf-8')
+    context={
+        'data':htmlSource
+    }
+    return render(request, 'site_clones/myclonedsites.html', context=context)
 def uzinfobiz_ru(request):
     http = urllib3.PoolManager()
     r = http.request('GET', 'https://uzinfobiz.ru')
@@ -27,7 +38,7 @@ def uzinfobiz_ru(request):
     context={
         'data':htmlSource
     }
-    return render(request, 'site_clones/index.html', context=context)
+    return render(request, 'site_clones/myclonedsites.html', context=context)
 
 def uzinterbiz_com(request):
     http = urllib3.PoolManager()
@@ -44,7 +55,7 @@ def uzinterbiz_com(request):
     context={
         'data':htmlSource
     }
-    return render(request, 'site_clones/index.html', context=context)
+    return render(request, 'site_clones/myclonedsites.html', context=context)
 
 def postda_uz(request):
     http = urllib3.PoolManager()
@@ -121,4 +132,4 @@ def konsta_uz(request):
     context={
         'data':htmlSource
     }
-    return render(request, 'site_clones/index.html', context=context)
+    return render(request, 'site_clones/myclonedsites.html', context=context)

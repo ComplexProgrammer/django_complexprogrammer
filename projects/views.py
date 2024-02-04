@@ -342,6 +342,7 @@ def youtube_downloader_(request):
         else:
             return JsonResponse({'result': "0"}, safe=False)
 
+
 def coins(request):
     url = "https://api.minerstat.com/v2/coins"
     http = urllib3.PoolManager()
