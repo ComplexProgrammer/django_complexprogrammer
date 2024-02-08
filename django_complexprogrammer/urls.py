@@ -19,7 +19,8 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.static import serve
 from django.conf.urls.i18n import i18n_patterns
-
+from tests import views
+from django.views.generic import RedirectView
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
 #     path('', include('projects.urls')),
@@ -43,6 +44,8 @@ if settings.DEBUG:
 urlpatterns += [
     path('admin/', admin.site.urls),
     path('', include('projects.urls')),
+    #path('avtotest/', views.tests),
+    path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
     path('', include('tests.urls')),
     path('tests/', include('tests.urls')),
     path('pdf_tools', include('pdf_tools.urls')),

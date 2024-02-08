@@ -607,10 +607,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
         <div class="service-bottom">
           {%for item in data%}
-            <div class="service-item" style="background-image: url(/media/{{item.image}});">
               {% if item.image != '' %}
+              <div class="service-item" style="background-image: url(/media/{{item.image}});">
                 <div class="icon">
                   <img style="height: 100%;width: 100%;object-fit: cover;" src="/media/{{item.image}}" />
+                </div>
+              {% else %}
+              <div class="service-item" style="background-image: url(/media/projects/images/avtotest.jpg);">
+                <div class="icon">
+                  <img style="height: 100%;width: 100%;object-fit: cover;" src="/media/projects/images/avtotest.jpg" />
                 </div>
               {% endif %}
               {% if request.LANGUAGE_CODE == 'uz' %}
