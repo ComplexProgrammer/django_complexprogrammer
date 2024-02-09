@@ -137,27 +137,24 @@
               <div class="col-md-4">
                 <h2>Kategoriyalar</h2>
                 <ul class="list-group">
-                    <li class="list-group-item">
-                      <button type="button" class="btn btn-primary">
-                        Maqola nomi 1 <span class="badge text-bg-secondary">4</span>
-                      </button>
-                    </li>
-                    <li class="list-group-item">
-                      <button type="button" class="btn btn-primary position-relative">
-                        Maqola nomi 2
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          99+
-                          <span class="visually-hidden">unread messages</span>
-                        </span>
-                      </button>
-                    </li>
+                  {%for item in categories%}
+                  <li class="list-group-item">
+                    <button type="button" class="btn btn-primary position-relative">
+                      {{item.name_uz_uz}}
+                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{categories|safe}}
+                      </span>
+                    </button>
+                  </li>
+                  {%endfor%}
                 </ul>
                 <br />
                 <h2>So'nggi Maqolalar</h2>
                   <ul class="list-group">
-                      <li class="list-group-item"><a href="#">Maqola nomi 3</a></li>
-                      <li class="list-group-item"><a href="#">Maqola nomi 4</a></li>
-                </ul>
+                    {%for item in data%}
+                      <li class="list-group-item"><a href="/blog?id={{item.id}}">{{item.name_uz_uz}}</a></li>
+                    {%endfor%}
+                  </ul>
                   
               </div>
           </div>
