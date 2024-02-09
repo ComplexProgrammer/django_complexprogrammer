@@ -5,7 +5,7 @@
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
 <div class="fixed-top">
-  <div class="position-relative" style="margin-top:50px;">
+  <div class="position-relative" style="margin-block-start:50px;">
     <div class="position-absolute top-0 end-0 translate-middle">
       <div class="container">
         <div class="row">
@@ -67,7 +67,7 @@
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container">
-              <a class="navbar-brand" href="#">Sizning Blog</a>
+              <a class="navbar-brand" href="#">My Blog</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
               </button>
@@ -89,73 +89,83 @@
       </nav>
   
       <!-- Maqolalar sehnasi -->
-      <div class="container mt-5">
+      <div class="container mt-5" style="margin-block-end:100px">
           <div class="row">
               <div class="col-md-8">
-                  <h1>Maqolalar</h1>
-                  <div class="mb-4">
-                      <h2>O'zbekistondagi Avtotestlar 2024: Yangiliklar va O'zgarishlar</h2>
-                      <p>O&#39;zbekistonda avtotest tizimi har yili yangilanib boradi va 2024 yil ham foydalanuvchilarga qulayliklar ko&#39;rsatish uchun yangi o&#39;zgarishlar kiritilmoqda. Quyidagi maqolada, avtotest tizimining yangiliklari va muhim o&#39;zgarishlarni ko&#39;rib chiqamiz.</p>
-
-                      <p><strong>1. Yangi Test Savollar va Sinovlar</strong></p>
-
-                      <p>2024 yili O&#39;zbekiston avtotest tizimida yangi test savollar va sinovlar kiritilgan. Bu o&#39;zgarish, haydovchi nomzodi uchun sinovlarni ta&#39;minlash va haydovchi bilimlarini oshirish maqsadida amalga oshirilgan.</p>
-
-                      <p><strong>2. Tezkor Topshiriqlar va Natijalar</strong></p>
-
-                      <p>Avtotest natijalari tezkor ochib beriladi va shaharlararo aloqada ko&#39;rsatiladi. Bu, haydovchilarning natijalarni tezkor bilib olishlari va muammoni hal qilishlari uchun qulaylik yaratadi.</p>
-
-                      <p><strong>3. Boshqaruv Paneli O&#39;zgarishlari</strong></p>
-
-                      <p>Avtotest boshqaruv paneli interfeysi o&#39;zgarib, foydalanuvchilar uchun aniq va sodda bo&#39;lishi uchun yangi funksiyalar qo&#39;shilgan. Bunda, haydovchilar o&#39;z natijalarini nazorat qilish, baholash va xatolarni tuzatish imkoniyati mavjud.</p>
-
-                      <p><strong>4. Elektron Kurslar va Qo&#39;llanmalar</strong></p>
-
-                      <p>2024 yilida avtotest tizimida yangi elektron kurslar va qo&#39;llanmalar kiritilgan. Bu kurslar orqali haydovchilar o&#39;zlarini tayyorlashlari, yangi qoidalarni o&#39;rganishlari va testni muvofiqligini sinashlari mumkin.</p>
-
-                      <p><strong>5. Mintaqaviy Avtotest Markazlar</strong></p>
-
-                      <p>O&#39;zbekistonda avtotestlar bo&#39;yicha xizmat ko&#39;rsatadigan mintaqaviy markazlar tashkil etilgan. Bu markazlar haydovchilar uchun qulaylik yaratish, testlarni topshirish va boshqaruvni soddalashtirish maqsadida faoliyat ko&#39;rsatishadi.</p>
-
-                      <p><strong>6. O&#39;zgartirilgan Haydovchi Statistikasi</strong></p>
-
-                      <p>Yangi o&#39;zgartirishlar orqali avtotest tizimida haydovchi statistikasi o&#39;zgartirilgan. Bu, haydovchilar uchun o&#39;z natijalari va o&#39;zini rivojlantirishlari haqida ko&#39;proq ma&#39;lumotlarni taqdim etadi.</p>
-
-                      <p>Ushbu yangiliklar hamda o&#39;zgarishlar O&#39;zbekiston avtotest tizimida 2024 yilda haydovchilar uchun ko&#39;rsatilgan. Bu o&#39;zgarishlar, avtotest tizimini yanada samarali va qulay qilish maqsadida amalga oshirilgan.</p>
+                <h1>Maqolalar</h1>
+                {% if id == 0 %}
+                {%for item in data%}
+                <div class="card mb-3">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="/media/{{item.image}}" class="img-fluid rounded-start" alt="{{item.image}}">
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title"><a class="nav-link" href="#">{{item.name_uz_uz}}</a></h5>
+                        <p class="card-text"><a class="nav-link" href="#">{{item.title_uz_uz}}</a></p>
+                        <div class="C0mplexButton Success">
+                          <a href="/blog?id={{item.id}}">
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                              <span></span>
+                              <div class="spinner-grow spinner-grow-sm" role="status"></div>
+                              Kirish
+                              <div class="spinner-border spinner-grow-sm" role="status"></div>
+                          </a>
+                        </div>
+                        <p class="card-text"><small class="text-muted">{{item.created_at}}</small></p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="mb-4">
-                      <h2>Maqola nomi 2</h2>
-                      <p>Maqola matni va tavsifi...</p>
+                </div>
+                {%endfor%}
+                {% else %}
+                <h4>{{data.name_uz_uz}}</h4>
+                <div class="card mb-3">
+                  <img src="/media/{{data.image}}" class="card-img-top" alt="{{data.image}}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{data.name_uz_uz}}</h5>
+                    <p class="card-text">{{data.title_uz_uz}}</p>
+                    <p class="card-text">{{data.body_uz_uz|safe}}</p>
+                    <p class="card-text"><small class="text-muted">{{data.created_at}}</small></p>
                   </div>
-                  <!-- Boshqa maqolalar qo'shishingiz mumkin -->
+                </div>
+                {% endif %}
               </div>
               <div class="col-md-4">
-                  <h2>So'nggi Maqolalar</h2>
+                <h2>Kategoriyalar</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                      <button type="button" class="btn btn-primary">
+                        Maqola nomi 1 <span class="badge text-bg-secondary">4</span>
+                      </button>
+                    </li>
+                    <li class="list-group-item">
+                      <button type="button" class="btn btn-primary position-relative">
+                        Maqola nomi 2
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          99+
+                          <span class="visually-hidden">unread messages</span>
+                        </span>
+                      </button>
+                    </li>
+                </ul>
+                <br />
+                <h2>So'nggi Maqolalar</h2>
                   <ul class="list-group">
-                      <li class="list-group-item">
-                        <button type="button" class="btn btn-primary">
-                          Maqola nomi 1 <span class="badge text-bg-secondary">4</span>
-                        </button>
-                      </li>
-                      <li class="list-group-item">
-                        <button type="button" class="btn btn-primary position-relative">
-                          Maqola nomi 2
-                          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            99+
-                            <span class="visually-hidden">unread messages</span>
-                          </span>
-                        </button>
                       <li class="list-group-item"><a href="#">Maqola nomi 3</a></li>
                       <li class="list-group-item"><a href="#">Maqola nomi 4</a></li>
-                      
-                  </ul>
+                </ul>
+                  
               </div>
           </div>
       </div>
   
       <!-- Footer -->
       <footer class="bg-dark text-light text-center py-3">
-          <p>&copy; 2024 Sizning Blog Saytingiz. Barcha huquqlar himoyalangan.</p>
+          <p>&copy; 2024 Complex Programmer Blog Sayti. Barcha huquqlar himoyalangan.</p>
       </footer>
   
       <!-- Bootstrap JavaScript fayllari (Popper.js va Bootstrap JS ni o'z ichiga oladi) -->

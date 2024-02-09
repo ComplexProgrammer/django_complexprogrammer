@@ -8,6 +8,7 @@ class Auditable(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
+    sort_order = models.IntegerField(default=0)
     class Meta:
         abstract = True
 
@@ -33,12 +34,10 @@ class Posts(Translatable):
     body_uz_crl = RichTextUploadingField()
     body_uz_uz = RichTextUploadingField()
     image = models.ImageField(upload_to='news/images', blank=True)
-    sort_number = models.IntegerField(default=0)
-    view_count = models.IntegerField()
     publish_time=models.DateTimeField(default=timezone.now)
     class Meta:
         verbose_name = "Post"
         verbose_name_plural = "Posts"
-        ordering=['sort_number']
+        ordering=['sort_order']
     def __str__(self):
         return self.title_en_us
