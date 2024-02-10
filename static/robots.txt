@@ -33,7 +33,6 @@ User-agent: yahoo-blogs/v3.9
 Disallow: /downloads/
 User-agent: *
 Disallow: /downloads/
-Disallow: website
 Sitemap: https://complexprogrammer.uz/sitemap.xml
 user-agent: *
 disallow: /downloads/
