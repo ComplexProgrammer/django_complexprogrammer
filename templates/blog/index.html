@@ -112,7 +112,12 @@
                 <div class="card mb-3">
                   <div class="row g-0">
                     <div class="col-md-4">
-                      <img src="/media/{{item.image}}" class="img-fluid rounded-start" alt="{{item.image}}">
+                      <picture>
+                        <source type="image/webp" srcset="media/{{item.image}}">
+                        <source type="image/jpeg" srcset="media/{{item.image}}">
+                        <source type="image/png" srcset="media/{{item.image}}">
+                        <img src="/media/{{item.image}}" class="img-fluid rounded-start" alt="{{item.image}}">
+                      </picture>
                     </div>
                     <div class="col-md-8">
                       <div class="card-body">
@@ -138,7 +143,12 @@
                 {% else %}
                 <h4>{{post.name_uz_uz}}</h4>
                 <div class="card mb-3">
-                  <img src="/media/{{post.image}}" class="card-img-top" alt="{{post.image}}">
+                  <picture>
+                    <source type="image/webp" srcset="media/{{post.image}}">
+                    <source type="image/jpeg" srcset="media/{{post.image}}">
+                    <source type="image/png" srcset="media/{{post.image}}">
+                    <img src="/media/{{post.image}}" class="card-img-top" alt="{{post.image}}">
+                  </picture>
                   <div class="card-body">
                     <h5 class="card-title">{{post.name_uz_uz}}</h5>
                     <p class="card-text">{{post.title_uz_uz}}</p>
