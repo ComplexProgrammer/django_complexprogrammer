@@ -3,5 +3,14 @@
         "./projects/cartoonize"
     ],
     "sqltools.useNodeRuntime": true,
-    "python.analysis.typeCheckingMode": "basic"
+    "python.analysis.typeCheckingMode": "basic",
+    "java.format.settings.url": ".vscode/java-formatter.xml",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:django_complexprogrammer}/db.sqlite3",
+            "name": "DB"
+        }
+    ]
 }

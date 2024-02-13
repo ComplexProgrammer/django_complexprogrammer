@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Count
 
 from blog.models import Categories, Posts
 def index(request):
@@ -6,6 +7,7 @@ def index(request):
     post=[]
     posts=Posts.objects.filter(is_deleted=False).values()
     categories=Categories.objects.filter(is_deleted=False).values()
+    posts=Posts.objects.filter(is_deleted=False).values('actor').annotate(total=Count('actor'))
     if id != 0:
         post=Posts.objects.filter(id=id).values().first()
     context={
