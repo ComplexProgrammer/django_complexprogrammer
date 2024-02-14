@@ -66,6 +66,16 @@
       <link rel="stylesheet" href="/static/css/blog/style.css">
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
       crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24
+        }
+        </style>
       <title>My Blog</title>
     </head>
     <body>
@@ -106,7 +116,12 @@
       <div class="container mt-5" style="margin-block-end:100px">
           <div class="row">
               <div class="col-md-8">
-                <h1><a class="nav-link" href='/blog'>Maqolalar</a></h1>
+                <div class="shadow-lg p-3 mb-5 bg-body rounded">
+                  <a class="btn btn-outline-primary position-relative" href='/blog'><div class="spinner-grow spinner-grow-sm" role="status"></div> Maqolalar</a>
+                  {%if categorie%}
+                  <a class="btn btn-outline-primary position-relative" href='/blog?categorie_id={{categorie.id}}'><div class="spinner-grow spinner-grow-sm" role="status"></div> {{categorie.name_uz_uz}}</a>
+                  {%endif%}
+                </div>
                 {% if id == 0 %}
                 {%for item in posts%}
                 <div class="card mb-3">
@@ -141,7 +156,10 @@
                 </div>
                 {%endfor%}
                 {% else %}
-                <h4>{{post.name_uz_uz}}</h4>
+                <div class="d-flex align-items-center">
+                  <strong>{{post.name_uz_uz}}</strong>
+                  <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                </div>
                 <div class="card mb-3">
                   <picture>
                     <source type="image/webp" srcset="/media/{{post.image}}">
@@ -163,12 +181,12 @@
                 <ul class="list-group">
                   {%for item in categories%}
                   <li class="list-group-item">
-                    <button type="button" class="btn btn-primary position-relative">
+                    <a href="/blog?categorie_id={{item.id}}" class="btn btn-primary position-relative">
                       {{item.name_uz_uz}}
                       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        2
+                        {{item.total}}
                       </span>
-                    </button>
+                    </a>
                   </li>
                   {%endfor%}
                 </ul>
