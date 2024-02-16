@@ -674,7 +674,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       url: "/GetSavol?bilet="+$scope.bilet,
                       dataType: "json"
                   }).then(function (d) {
-                          console.log(d)
                           d.data.forEach((item) => {
                             berilgan_javob='';
                             if($scope.javoblar.find(element => element.id == item.id))
@@ -706,7 +705,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             };
                             $scope.data.push(obj);
                           });
-                          console.log($scope.data)
                           let raqam=0;
                           $scope.data=$scope.data.sort(function(a, b){return a.raqam-b.raqam});
                           $scope.data.forEach((element) =>
