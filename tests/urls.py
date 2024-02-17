@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.tests, name='tests'),
+    path('index/', views.index, name='index'),
     path('GetGroups/', views.GetGroups, name='GetGroups'), # type: ignore
     path('GetBooks/', views.GetBooks, name='GetBooks'), # type: ignore
     path('GetTopics/', views.GetTopics, name='GetTopics'), # type: ignore

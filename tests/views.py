@@ -7,6 +7,48 @@ from django.db.models.functions import Concat
 from django.db.models import F
 from tests.models import Answers, Books, Groups, Questions, Topics, Types
 
+def index(request):
+    _type='type'
+    type_id = request.GET.get('type_id', False)
+    group_id = request.GET.get('group_id', False)
+    book_id = request.GET.get('book_id', False)
+    topic_id = request.GET.get('topic_id', False)
+    question_id = request.GET.get('question_id', False)
+    if type_id is False:
+        types=Types.objects.filter(is_deleted=False).values()
+        groups=Groups.objects.filter(is_deleted=False).values()
+        books=Books.objects.filter(is_deleted=False).annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
+        topics=Topics.objects.filter(is_deleted=False).values()
+        questions=Questions.objects.filter(is_deleted=False).values()
+        answers=Answers.objects.filter(is_deleted=False).values()
+    else:
+        _type='group'
+        types=Types.objects.filter(is_deleted=False, id=type_id).values()
+        groups=Groups.objects.filter(is_deleted=False, type_id=type_id).values()
+        books=Books.objects.filter(is_deleted=False, type_id=type_id).annotate(name_en_us=F('book_type__name_en_us'), name_ru_ru=F('book_type__name_ru_ru'), name_uz_crl=F('book_type__name_uz_crl'), name_uz_uz=F('book_type__name_uz_uz'), image=F('book_type__image')).values()
+        topics=Topics.objects.filter(is_deleted=False, type_id=type_id).values()
+        questions=Questions.objects.filter(is_deleted=False, type_id=type_id).values()
+        answers=Answers.objects.filter(is_deleted=False, type_id=type_id).values()
+    if group_id is not False:
+        _type='book'
+    if book_id is not False:
+        _type='topic'
+    if topic_id is not False:
+        _type='question'
+    if question_id is not False:
+        _type='answer'
+    
+    context={
+        'type': _type,
+        'types':list(types),
+        'groups':list(groups),
+        'books':list(books),
+        'topics':list(topics),
+        'questions':list(questions),
+        'answers':list(answers),
+    }
+    print(context)
+    return render(request, 'tests/index3.html', context=context)
 def tests(request):
     data=[]
     _type='type'
