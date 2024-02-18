@@ -2,7 +2,6 @@ import subprocess
 
 # Kutubxonalar ro'yxatini olish
 installed_packages = subprocess.check_output(['pip', 'list']).decode('utf-8').split('\n')[2:]
-print(installed_packages)
 # Har bir kutubxonani hajmini aniqlash
 package_sizes = {}
 for package in installed_packages:
@@ -13,7 +12,6 @@ for package in installed_packages:
         package_sizes[package_name] = package_size
         print(package_name, package_size)
 
-# Eng katta hajmni aniqlash
-# largest_package = max(package_sizes.items(), key=lambda x: int(x[1]))
+largest_package = max(package_sizes.items(), key=lambda x: int(x[1]))
 
-# print(f"Eng katta hajmli kutubxona: {largest_package[0]} - {largest_package[1]}")
+print(f"Eng katta hajmli kutubxona: {largest_package[0]} - {largest_package[1]}")
