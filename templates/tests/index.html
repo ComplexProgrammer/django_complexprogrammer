@@ -5,7 +5,7 @@
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
 <div class="fixed-top">
-  <div class="position-relative" style="margin-top:50px;">
+  <div class="position-relative" style="margin-block-start:50px;">
     <div class="position-absolute top-0 end-0 translate-middle">
       <div class="container">
         <div class="row">
@@ -111,7 +111,7 @@
         accurateTrackBounce:true
    });
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; inset-inline-start:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
     <!-- Yandex.RTB -->
 <script>window.yaContextCb=window.yaContextCb||[]</script>
@@ -128,7 +128,6 @@
     Tests {{type}} 
   {% endif %}
   {% endif %}
-
   {% if request.LANGUAGE_CODE == 'uz' %}
   {% verbatim %}
   {{type_data.name_uz_uz}}
@@ -215,8 +214,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       background: #eee;
       display: inline-block;
       padding: 10px;
-      width: 100%;
-      max-width: 660px;
+      inline-size: 100%;
+      max-inline-size: 660px;
     }
     .alertify-log-custom {
         background: #fba155;
@@ -230,7 +229,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         opacity: 0.4;
     }
     .container {
-      margin-top: 20px;
+      margin-block-start: 20px;
     }
     .page {
       display: none;
@@ -256,12 +255,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       #services .services {
         flex-direction: column;
         text-align: center;
-        max-width: 1500px;
+        max-inline-size: 1500px;
         margin: 0 auto;
         padding: 100px 0;
       }
       #services .service-top {
-        max-width: 500px;
+        max-inline-size: 500px;
         margin: 0 auto;
       }
       #services .service-bottom {
@@ -269,7 +268,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
-        margin-top: 50px;
+        margin-block-start: 50px;
       }
       #services .service-item {
         flex-basis: 80%;
@@ -285,33 +284,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         position: relative;
         z-index: 1;
         overflow: hidden;
-        height: 350px;
+        block-size: 350px;
       }
       #services .service-item::after {
         content: '';
         position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        block-size: 100%;
+        inline-size: 100%;
         background-image: linear-gradient(0deg, black 20%, grey 100%);
         opacity: 0.9;
         z-index: -1;
       }
       #services .service-bottom .icon {
-        height: 120px;
-        width: 120px;
-        margin-bottom: 20px;
+        block-size: 120px;
+        inline-size: 120px;
+        margin-block-end: 20px;
       }
       #services .service-item h2 {
         font-size: 2rem;
         color: white;
-        margin-bottom: 10px;
+        margin-block-end: 10px;
         text-transform: uppercase;
       }
       #services .service-item p {
         color: white;
-        text-align: left;
+        text-align: start;
       }
       #services .service-bottom .service-item {
         flex-basis: 25%;
@@ -353,7 +352,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         blockId: 'R-A-1963742-1'
       })
     })</script>
-    <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
+    <div id="conn" style="visibility:hidden;position:absolute;margin-inline-start:45%;margin-block-start:20%;z-index:9999">
         <img src="/static/img/buffering.gif" />
     </div>
     <input id="hh" type="hidden" />
@@ -382,10 +381,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Noto'g'ri javob : {{notogri_javob_soni}} ta</div>
       </div>
       <div class="modal-footer">
-        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-show="topics.length>topic_number" ng-click="changeTopic(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Keyingi biletga o'tish</button>
-        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="changeTopic(topic_number)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
+        <button type="button" class="btn btn-outline-primary" style="inline-size:200px" ng-show="topics.length>topic_number" ng-click="changeTopic(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Keyingi biletga o'tish</button>
+        <button type="button" class="btn btn-outline-danger" style="inline-size:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
+        <button type="button" class="btn btn-outline-success" style="inline-size:200px" ng-click="changeTopic(topic_number)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
       </div>
     </div>
   </div>
@@ -408,10 +407,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Неправильный ответ: {{notogri_javob_soni}}</div>
       </div>
       <div class="modal-footer">
-        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-show="topics.length>topic_number" ng-click="changeTopic(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Перейти к следующему билету</button>
-        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Вернуться к билетам</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="changeTopic(topic_number)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
+        <button type="button" class="btn btn-outline-primary" style="inline-size:200px" ng-show="topics.length>topic_number" ng-click="changeTopic(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Перейти к следующему билету</button>
+        <button type="button" class="btn btn-outline-danger" style="inline-size:200px" ng-click="back()"><i class="bi bi-backspace"></i> Вернуться к билетам</button>
+        <button type="button" class="btn btn-outline-success" style="inline-size:200px" ng-click="changeTopic(topic_number)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
       </div>
     </div>
   </div>
@@ -433,10 +432,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=questions.length">Incorrect answer: {{notogri_javob_soni}}</div>
       </div>
       <div class="modal-footer">
-        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-show="topics.length>topic_number" ng-click="changeTopic(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Go to the next ticket</button>
-        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Back to tickets</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="changeTopic(topic_number)"><i class="bi bi-arrow-repeat"></i> Start over</button>
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
+        <button type="button" class="btn btn-outline-primary" style="inline-size:200px" ng-show="topics.length>topic_number" ng-click="changeTopic(topic_number+1)"><i class="bi bi-box-arrow-right"></i> Go to the next ticket</button>
+        <button type="button" class="btn btn-outline-danger" style="inline-size:200px" ng-click="back()"><i class="bi bi-backspace"></i> Back to tickets</button>
+        <button type="button" class="btn btn-outline-success" style="inline-size:200px" ng-click="changeTopic(topic_number)"><i class="bi bi-arrow-repeat"></i> Start over</button>
       </div>
     </div>
   </div>
@@ -526,7 +525,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
             <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
             <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
-            <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+            <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a> 
               </div>
             {% endverbatim %}
@@ -535,7 +534,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
             <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
             <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
-            <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+            <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
                 <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a> 
               </div>
             {% endverbatim %}
@@ -543,7 +542,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
               <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
               <img ng-if="question.image!=''" ng-show="question.image!=''" src="/media/{{question.image}}" width="30%">
-              <div class="list-group" style="text-align:left" ng-repeat="answer in answers">
+              <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> 
               </div>
             {% endverbatim %}
@@ -610,12 +609,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               {% if item.image != '' %}
               <div class="service-item" style="background-image: url(/media/{{item.image}});">
                 <div class="icon">
-                  <img style="height: 100%;width: 100%;object-fit: cover;" src="/media/{{item.image}}" />
+                  <img style="block-size: 100%;inline-size: 100%;object-fit: cover;" src="/media/{{item.image}}" />
                 </div>
               {% else %}
               <div class="service-item" style="background-image: url(/media/projects/images/avtotest.jpg);">
                 <div class="icon">
-                  <img style="height: 100%;width: 100%;object-fit: cover;" src="/media/projects/images/avtotest.jpg" />
+                  <img style="block-size: 100%;inline-size: 100%;object-fit: cover;" src="/media/projects/images/avtotest.jpg" />
                 </div>
               {% endif %}
               {% if request.LANGUAGE_CODE == 'uz' %}
@@ -627,7 +626,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <h2>{{item.name_en_us}}</h2>
               {% endif %}
               {% endif %}
-              <!-- <p>{{item.sub_title}}</p> -->
               <div class="C0mplexButton Success" style="margin-block-end: 0px;">
                 {% if type == 'type' %}
                 <a href="/tests?type_id={{ item.id }}">
@@ -698,6 +696,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           app.controller("tests", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
             $scope._type='{{ type|safe }}';
             $scope.type_data=JSON.parse('{{ type_data|safe }}');
+            console.log($scope.type_data)
                     if($scope._type=="group"){
                       $scope.type=JSON.parse('{{ type_data|safe }}');
                     }
