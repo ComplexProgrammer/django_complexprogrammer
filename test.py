@@ -12,6 +12,5 @@ for package in installed_packages:
         package_sizes[package_name] = package_size
         print(package_name, package_size)
 
-largest_package = max(package_sizes.items(), key=lambda x: int(x[1]))
-
+largest_package = max(package_sizes.items())
 print(f"Eng katta hajmli kutubxona: {largest_package[0]} - {largest_package[1]}")
