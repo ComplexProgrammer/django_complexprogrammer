@@ -44,7 +44,7 @@ urlpatterns += [
     path('admin/', admin.site.urls),
     path('', include('projects.urls')),
     #path('avtotest/', views.tests),
-    path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
+    # path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
     path('', include('tests.urls')),
     path('tests/', include('tests.urls')),
     path('pdf_tools', include('pdf_tools.urls')),
