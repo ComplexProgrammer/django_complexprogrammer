@@ -48,6 +48,7 @@ urlpatterns=[
     path('app-ads.txt/', views.send_app_adstxt, name='send_app_adstxt'),
     path('ads.txt/', views.send_adstxt, name='send_adstxt'),
     path('robots.txt/', views.send_robots, name='send_robots'),
+    path('.well-known/assetlinks.json/', views.assetlinks, name='assetlinks'),
     
     path('projects/', views.projects, name='projects'),
     path('project/<int:id>/', views.project_item, name='item'),

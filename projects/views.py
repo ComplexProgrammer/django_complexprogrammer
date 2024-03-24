@@ -775,6 +775,11 @@ def send_robots(request):
     response = FileResponse(temp)
     return response
 
+def assetlinks(request):
+    temp = open('static/assetlinks.json', 'rb')
+    response = FileResponse(temp)
+    return response
+
 
 
 

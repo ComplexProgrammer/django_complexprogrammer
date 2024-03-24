@@ -1,0 +1,14 @@
+[
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "uzbavtotest.complexprogrammer.uz",
+        "sha256_cert_fingerprints": [
+          "72:CF:6D:FC:90:C2:32:E0:64:9F:EE:8F:4A:CA:34:94:BB:50:68:96:22:4F:84:D2:7E:33:A8:4A:E0:C3:D6:D8"
+        ]
+      }
+    }
+  ]
