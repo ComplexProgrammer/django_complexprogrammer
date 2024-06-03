@@ -7,7 +7,7 @@ class CategoriesAdmin(admin.ModelAdmin):
     list_display=['name_uz_uz', 'sort_order']
     list_filter=['name_uz_uz', 'sort_order']
     search_fields=['name_uz_uz', 'sort_order']
-    ordering=['sort_order', '-created_at']
+    ordering=['-sort_order', '-created_at']
 
 @admin.register(Posts)
 class PostAdmin(admin.ModelAdmin):

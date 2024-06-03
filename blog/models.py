@@ -24,7 +24,7 @@ class Categories(Translatable):
     class Meta:
         verbose_name = "Categorie"
         verbose_name_plural = "Categories"
-        ordering=['-created_at', 'sort_order']
+        ordering=['-sort_order', '-created_at']
     def __str__(self):
         return f"{self.name_uz_uz}"
 
@@ -51,6 +51,6 @@ class Posts(Translatable):
     class Meta:
         verbose_name = "Post"
         verbose_name_plural = "Posts"
-        ordering=['-publish_time', 'sort_order']
+        ordering=['-sort_order', '-publish_time']
     def __str__(self):
         return self.title_uz_uz
