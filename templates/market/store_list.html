@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Store List</title>
+</head>
+<body>
+    <h1>Stores in {{ market.name }}</h1>
+    <ul>
+        {% for store in stores %}
+            <li><a href="{% url 'product_list' store.id %}">{{ store.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

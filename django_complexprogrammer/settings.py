@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'markets',
     'news',
     'blog',
+    'market',
     'site_clones',
     'ckeditor', # CKEditor config
     'ckeditor_uploader', # CKEditor media uploader
