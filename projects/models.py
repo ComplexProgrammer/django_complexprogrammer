@@ -1,6 +1,7 @@
 
 from django.utils import timezone
 from django.db import models
+from core.models import Auditable, Translatable
 
 class IsService(models.Manager):
     def get_queryset(self):
@@ -60,21 +61,3 @@ class AvtoTest(models.Model):
         ordering=['raqam']
     def __str__(self):
         return f"{self.bilet} {self.savol}"
-
-
-class Auditable(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    # created_by = models.IntegerField()
-    updated_at = models.DateTimeField(auto_now=True)
-    # updated_by = models.IntegerField()
-    is_deleted = models.BooleanField(default=False)
-    class Meta:
-        abstract = True
-
-class Translatable(Auditable):
-    name_en_us = models.TextField()
-    name_ru_ru = models.TextField()
-    name_uz_crl = models.TextField()
-    name_uz_uz = models.TextField()
-    class Meta:
-        abstract = True

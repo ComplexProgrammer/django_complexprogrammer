@@ -1,22 +1,7 @@
 import sys
 from django.db import models
-class Auditable(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    # created_by = models.IntegerField()
-    updated_at = models.DateTimeField(auto_now=True)
-    # updated_by = models.IntegerField()
-    is_deleted = models.BooleanField(default=False)
-    sort_order = models.IntegerField(default=0)
-    class Meta:
-        abstract = True
-
-class Translatable(Auditable):
-    name_en_us = models.TextField()
-    name_ru_ru = models.TextField()
-    name_uz_crl = models.TextField()
-    name_uz_uz = models.TextField()
-    class Meta:
-        abstract = True
+from django.contrib.auth.models import User
+from core.models import Auditable, Translatable
 
 class Types(Translatable):
     image = models.ImageField(upload_to='tests/types/images', blank=True)
@@ -27,6 +12,7 @@ class Types(Translatable):
     def __str__(self):
         return f"{self.name_uz_uz}"
 class Groups(Translatable):
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='tests_groups')
     number = models.IntegerField()
     type = models.ForeignKey(Types,
                                 null=True,

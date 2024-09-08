@@ -1,24 +1,9 @@
 from django.utils import timezone
 import uuid
 from django.db import models
+from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
-
-
-class Auditable(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_deleted = models.BooleanField(default=False)
-    sort_order = models.IntegerField(default=0)
-    class Meta:
-        abstract = True
-
-class Translatable(Auditable):
-    name_en_us = models.CharField(max_length=255)
-    name_ru_ru = models.CharField(max_length=255)
-    name_uz_crl = models.CharField(max_length=255)
-    name_uz_uz = models.CharField(max_length=255)
-    class Meta:
-        abstract = True
+from core.models import Auditable, Translatable
 
 class Categories(Translatable):
     class Meta:
@@ -33,6 +18,7 @@ class Posts(Translatable):
          primary_key = True, 
          default = uuid.uuid4, 
          editable = False) 
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='blog_posts')
     categorie = models.ForeignKey(Categories,
                             null=True,
                             default=None,

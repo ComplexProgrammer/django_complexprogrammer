@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django_extensions',
     'mobiledetect',
+    'core',
     'tests',
     'pdf_tools',
     'markets',
