@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ValidationError
@@ -21,13 +23,21 @@ class Translatable(Auditable):
     class Meta:
         abstract = True
 
-class Type(Translatable):
+class Type(Auditable):
   parent = models.ForeignKey('self', on_delete=models.PROTECT, null=True, blank=True, related_name='children')
+  name = models.TextField()
+  description = models.TextField()
   code = models.CharField(max_length=255)
   value = models.CharField(max_length=255)
 
 class Image(Auditable):
     image = models.ImageField(upload_to='core/images', blank=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return f"Image for {self.content_object} - {self.image.name}"
 
 def no_spaces_validator(value):
     if ' ' in value:
