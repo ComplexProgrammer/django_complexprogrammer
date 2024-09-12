@@ -10,7 +10,7 @@
             "previewLimit": 50,
             "driver": "SQLite",
             "database": "${workspaceFolder:django_complexprogrammer}/db.sqlite3",
-            "name": "DB"
+            "name": "1"
         }
     ]
 }
