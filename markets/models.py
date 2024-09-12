@@ -1,5 +1,5 @@
 from django.db import models
-from core.models import Auditable, Translatable, Image
+from core.models import Type
 class Category(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
@@ -36,3 +36,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    type = models.ForeignKey(Type, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='markets/stores/products/images', blank=True)
+
+    def __str__(self):
+        return self.image
