@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
-from decouple import config # type: ignore
+from decouple import config
 from django.utils.translation import gettext_lazy as _
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +26,6 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
-
 # if request.device.is_mobile:
 # ALLOWED_HOSTS =  ['*']
 ALLOWED_HOSTS =  ['complexprogrammer.uz', 'www.complexprogrammer.uz', '10.0.2.2', 'www.complexprogrammer-dev.uz', '127.0.0.1', 'localhost']

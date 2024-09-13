@@ -15,7 +15,7 @@ from django.shortcuts import render, get_object_or_404
 import googletrans
 from googletrans import Translator
 from instaloader import Instaloader, Profile
-from decouple import config
+# from decouple import config
 # from pysitemap import crawler
 import numpy as np
 import urllib3

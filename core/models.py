@@ -29,6 +29,8 @@ class Type(Auditable):
   description = models.TextField()
   code = models.CharField(max_length=255)
   value = models.CharField(max_length=255)
+  def __str__(self):
+    return self.name +' -> '+ self.description
 
 class Image(Auditable):
     image = models.ImageField(upload_to='core/images', blank=True)

@@ -43,4 +43,5 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to='markets/stores/products/images', blank=True)
 
     def __str__(self):
-        return self.image
+        return self.image.name
+    
