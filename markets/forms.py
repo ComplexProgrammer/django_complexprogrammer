@@ -4,7 +4,7 @@ from .models import Product, ProductImage
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['store', 'name', 'category', 'price']
+        fields = ['store', 'name_uz_uz', 'category', 'price']
 
 class ProductImageForm(forms.ModelForm):
     image = forms.FileField(

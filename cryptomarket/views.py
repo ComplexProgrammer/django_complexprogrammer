@@ -35,4 +35,4 @@ def index(request):
         "usdt_markets": usdt_markets,
         "ltc_markets": ltc_markets,
     }
-    return render(request, "markets/index.html", context=context)
+    return render(request, "cryptomarket/index.html", context=context)
