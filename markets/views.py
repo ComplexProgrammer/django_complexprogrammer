@@ -1,34 +1,53 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Market, Store, Product, Category
-from .forms import ProductForm
+# from .forms import ProductForm
 from django.db.models import F
 from django.db.models import Count
 def index(request):
-    id = request.GET.get('id', 0)
     market_id = request.GET.get('market_id', 0)
     store_id = request.GET.get('store_id', 0)
+    product_id = request.GET.get('product_id', 0)
     category_id = request.GET.get('category_id', 0)
     market=[]
+    markets=[]
     store=[]
+    stores=[]
+    product=[]
+    products=[]
     category=[]
-    categories=Store.objects.filter(is_deleted=False).values('category__id', 'category__name_en_us', 'category__name_ru_ru', 'category__name_uz_crl', 'category__name_uz_uz', 'category__sort_order').annotate(id=F('category__id'), name_en_us=F('category__name_en_us'), name_ru_ru=F('category__name_ru_ru'), name_uz_crl=F('category__name_uz_crl'), name_uz_uz=F('category__name_uz_uz'), sort_order=F('category__sort_order'), total=Count('category__id')).values('id', 'name_en_us', 'name_ru_ru', 'name_uz_crl', 'name_uz_uz', 'sort_order',   'total')
-    if market_id == 0:
-        markets=Market.objects.filter(is_deleted=False).values()
-    else:
+    markets=Market.objects.filter(is_deleted=False).values()
+    all_stores=Store.objects.filter(is_deleted=False).values()
+    all_products=Product.objects.filter(is_deleted=False).values()
+    categories=Store.objects.filter(is_deleted=False).values('type__id', 'type__name_en_us', 'type__name_ru_ru', 'type__name_uz_crl', 'type__name_uz_uz', 'type__sort_order').annotate(id=F('type__id'), name_en_us=F('type__name_en_us'), name_ru_ru=F('type__name_ru_ru'), name_uz_crl=F('type__name_uz_crl'), name_uz_uz=F('type__name_uz_uz'), sort_order=F('type__sort_order'), total=Count('type__id')).values('id', 'name_en_us', 'name_ru_ru', 'name_uz_crl', 'name_uz_uz', 'sort_order',   'total')
+    if int(market_id) > 0:
         market=Market.objects.filter(id=market_id).values().first()
-    if store_id == 0:
+    if int(store_id) == 0:
         stores=Store.objects.filter(is_deleted=False, market_id=market_id).values()
     else:
-        store=Store.objects.filter(id=store_id).values()
-    if category_id == 0:
-        stores=Store.objects.filter(is_deleted=False).values()
+        store=Store.objects.filter(id=store_id).values().first()
+        market_id=Store.objects.filter(id=store_id).values_list('market_id')[0][0]
+        market=Market.objects.filter(id=market_id).values().first()
+    if int(product_id) == 0:
+        products=Product.objects.filter(is_deleted=False, store_id=store_id).values()
     else:
-        category=Category.objects.filter(id=category_id).values().first()
-        stores=Store.objects.filter(type=category_id).values()
+        product=Product.objects.filter(id=product_id).values().first()
+        store_id=Product.objects.filter(id=product_id).values_list('store_id')[0][0]
+        store=Store.objects.filter(id=store_id).values().first()
+        market_id=Store.objects.filter(id=store_id).values_list('market_id')[0][0]
+        market=Market.objects.filter(id=market_id).values().first()
     context={
-        'id':id,
+        'market_id':market_id,
         'market': market,
         'markets':markets,
+        'store_id':store_id,
+        'store': store,
+        'stores': stores,
+        'all_stores': all_stores,
+        'product_id':product_id,
+        'product': product,
+        'products': products,
+        'all_products': all_products,
+        'category_id':category_id,
         'category':category,
         'categories':categories.order_by('-sort_order'),
     }

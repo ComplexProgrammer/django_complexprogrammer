@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'site_clones',
     'ckeditor', # CKEditor config
     'ckeditor_uploader', # CKEditor media uploader
+    'colorfield',
 ]
 
 MIDDLEWARE = [
