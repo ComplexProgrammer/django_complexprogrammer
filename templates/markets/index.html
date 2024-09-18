@@ -314,7 +314,7 @@
           <hr/>
           {% comment %} <div>{{item}}</div> {% endcomment %}
           <div>size: {{item.size_value}}</div>
-          <div>color: {{item.color}}</div>
+          <div>color: <button class="button" style="background:{{item.color}}">{{item.color}}</button></div>
           <div>quantity: {{item.quantity}}</div>
           <div>price: {{item.price}}</div>
           {%endfor%}
