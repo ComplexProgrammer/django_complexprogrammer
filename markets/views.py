@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Market, Store, Product, Category
+from .models import Market, ProductDetail, Store, Product, Category
 # from .forms import ProductForm
 from django.db.models import F
 from django.db.models import Count
@@ -14,6 +14,7 @@ def index(request):
     stores=[]
     product=[]
     products=[]
+    product_details=[]
     category=[]
     markets=Market.objects.filter(is_deleted=False).values()
     all_stores=Store.objects.filter(is_deleted=False).values()
@@ -30,6 +31,8 @@ def index(request):
     if int(product_id) == 0:
         products=Product.objects.filter(is_deleted=False, store_id=store_id).values()
     else:
+        # product_details=ProductDetail.objects.filter(product_id=product_id).annotate(size_name=F('size__name'), size_description=F('size__description'), size_code=F('size__code'), size_value=F('size__value'), size_count=Count('size__value'), color_count=Count('color')).values()
+        product_details=ProductDetail.objects.filter(product_id=product_id).annotate(size_value=F('size__value'), size_count=Count('size__id')).values()
         product=Product.objects.filter(id=product_id).values().first()
         store_id=Product.objects.filter(id=product_id).values_list('store_id')[0][0]
         store=Store.objects.filter(id=store_id).values().first()
@@ -47,6 +50,7 @@ def index(request):
         'product': product,
         'products': products,
         'all_products': all_products,
+        'product_details': product_details,
         'category_id':category_id,
         'category':category,
         'categories':categories.order_by('-sort_order'),

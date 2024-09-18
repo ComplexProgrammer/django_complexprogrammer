@@ -1,12 +1,30 @@
 from django.contrib import admin
 
-# from markets.forms import ProductImageForm
-from .models import Category, Market, Store, Product, ProductImage
+from core.admin import CoreModelAdmin
 
+# from markets.forms import ProductImageForm
+from .models import Category, Market, ProductDetail, ProductDetailImage, Store, Product, ProductImage
+
+class ProductDetailInline(admin.TabularInline):
+    model = ProductDetail
+    extra = 1
+    class Media:
+        js = ('admin/js/dynamic_inline.js',)
 admin.site.register(Category)
 admin.site.register(Market)
 admin.site.register(Store)
-admin.site.register(Product)
+# admin.site.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    inlines = [ProductDetailInline]
+    exclude = ('created_by',)
+    def save_model(self, request, obj, form, change):
+        if not change:  # Yangi obyekt yaratishda
+            obj.created_by = request.user
+        obj.save()
+
+admin.site.register(Product, ProductAdmin)
+admin.site.register(ProductDetail, CoreModelAdmin)
+admin.site.register(ProductDetailImage, CoreModelAdmin)
 admin.site.register(ProductImage)
 # class ProductImageInline(admin.TabularInline):
 #     model = ProductImage

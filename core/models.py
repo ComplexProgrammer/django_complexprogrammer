@@ -1,10 +1,13 @@
+from email.headerregistry import Group
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 
-
+def get_current_user(request):
+    return getattr(request, 'current_user', None)
 class Auditable(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT)

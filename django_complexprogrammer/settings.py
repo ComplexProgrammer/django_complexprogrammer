@@ -272,3 +272,11 @@ if DEBUG:
     SECURE_SSL_REDIRECT = False
 else:
     SECURE_SSL_REDIRECT = True
+
+COLOR_PALETTE = [
+    ("#FFFFFF", "white", ),
+    ("#FF0000", "red", ),
+    ("#FFFF00", "yellow", ),
+    ("#0000FF", "blue", ),
+    ("#000000", "black", ),
+]
