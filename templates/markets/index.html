@@ -310,14 +310,38 @@
           {% endif %} {% endif %} {% endif %}
         </div>
         <div class="col-md-4">
-          {%for item in product_details%}
-          <hr/>
-          {% comment %} <div>{{item}}</div> {% endcomment %}
-          <div>size: {{item.size_value}}</div>
-          <div>color: <button class="button" style="background:{{item.color}}">{{item.color}}</button></div>
-          <div>quantity: {{item.quantity}}</div>
-          <div>price: {{item.price}}</div>
-          {%endfor%}
+          {% if product %}
+          {% comment %} {{total_color_size}} {% endcomment %}
+          <h1>{{product.name_uz_uz}}</h1>
+          <table class="table">
+            <tr>
+              <td>color:</td>
+                {% for item in total_color %}
+                    <td class="bg-secondary bg-opacity-10">
+                      <button class="btn" style="background-color:{{ item.color }};color:{{ item.color }}">{{ item.color }}</button>
+                      {% comment %} {% if item.color == "#000000" %}
+                        <button class="btn" style="background-color:{{ item.color }};color:#FFFFFF">{{ item.color }}</button>
+                        {% else %}
+                        <button class="btn" style="background-color:{{ item.color }};color:#000000">{{ item.color }}</button>
+                      {% endif %} {% endcomment %}
+                    </td>
+                {% endfor %}
+            </tr>
+          </table>
+          <table class="table">
+            <tr>
+              <td>size:</td>
+                {% for item in total_size %}
+                    <td>
+                      <button class="btn btn-secondary">{{ item.size }}</button>
+                        {% comment %} <p>{{ item.size }}</p> {% endcomment %}
+                        {% comment %} <p>{{ item.total_size }}</p> {% endcomment %}
+                    </td>
+                {% endfor %}
+            </tr>
+          </table>
+          Soni: {{total_quantity}}
+          {% endif %}
           <h2>Kategoriyalar</h2>
           <ul class="list-group">
             {%for item in categories%}

@@ -39,20 +39,20 @@ class Product(Translatable):
     def __str__(self):
         return self.name_uz_uz
 
-class ProductDetail(Auditable):
+class ProductVariant(Auditable):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     size = models.ForeignKey(Type, on_delete=models.CASCADE)
     color = ColorField(samples=COLOR_PALETTE, default='#000000') # type: ignore
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.IntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=1)
     def __str__(self):
         return self.product.name_uz_uz+" "+self.size.description+" "+self.size.name+" "+str(self.price)+" so`m "+str(self.quantity)+" dona"
 
-class ProductDetailImage(Auditable):
-    product_detail = models.ForeignKey(ProductDetail, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='markets/stores/products/details/images', blank=True)
+class ProductVariantImage(Auditable):
+    product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='markets/stores/products/variants/images', blank=True)
     def __str__(self):
-        return self.product_detail.product.name_uz_uz
+        return self.product_variant.product.name_uz_uz
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)

@@ -3,10 +3,10 @@ from django.contrib import admin
 from core.admin import CoreModelAdmin
 
 # from markets.forms import ProductImageForm
-from .models import Category, Market, ProductDetail, ProductDetailImage, Store, Product, ProductImage
+from .models import Category, Market, ProductVariant, ProductVariantImage, Store, Product, ProductImage
 
 class ProductDetailInline(admin.TabularInline):
-    model = ProductDetail
+    model = ProductVariant
     extra = 1
     class Media:
         js = ('admin/js/dynamic_inline.js',)
@@ -23,9 +23,9 @@ class ProductAdmin(admin.ModelAdmin):
         obj.save()
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(ProductDetail, CoreModelAdmin)
-admin.site.register(ProductDetailImage, CoreModelAdmin)
-admin.site.register(ProductImage)
+admin.site.register(ProductVariant, CoreModelAdmin)
+admin.site.register(ProductVariantImage, CoreModelAdmin)
+# admin.site.register(ProductImage)
 # class ProductImageInline(admin.TabularInline):
 #     model = ProductImage
 #     extra = 1

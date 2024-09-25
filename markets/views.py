@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Market, ProductDetail, Store, Product, Category
+from .models import Market, ProductVariant, Store, Product, Category
 # from .forms import ProductForm
 from django.db.models import F
-from django.db.models import Count
+from django.db.models import Count, Sum
 def index(request):
     market_id = request.GET.get('market_id', 0)
     store_id = request.GET.get('store_id', 0)
@@ -14,7 +14,12 @@ def index(request):
     stores=[]
     product=[]
     products=[]
-    product_details=[]
+    product_variants=[]
+    color_groups = {}
+    total_quantity=0
+    total_color=[]
+    total_size=[]
+    total_color_size=[]
     category=[]
     markets=Market.objects.filter(is_deleted=False).values()
     all_stores=Store.objects.filter(is_deleted=False).values()
@@ -31,9 +36,15 @@ def index(request):
     if int(product_id) == 0:
         products=Product.objects.filter(is_deleted=False, store_id=store_id).values()
     else:
-        # product_details=ProductDetail.objects.filter(product_id=product_id).annotate(size_name=F('size__name'), size_description=F('size__description'), size_code=F('size__code'), size_value=F('size__value'), size_count=Count('size__value'), color_count=Count('color')).values()
-        product_details=ProductDetail.objects.filter(product_id=product_id).annotate(size_value=F('size__value'), size_count=Count('size__id')).values()
+        # product_variants=ProductDetail.objects.filter(product_id=product_id).annotate(size_name=F('size__name'), size_description=F('size__description'), size_code=F('size__code'), size_value=F('size__value'), size_count=Count('size__value'), color_count=Count('color')).values()
+        product_variants=ProductVariant.objects.filter(product_id=product_id).annotate(size_value=F('size__value'), size_count=Count('size__id')).values()
         product=Product.objects.filter(id=product_id).values().first()
+        variants=ProductVariant.objects.filter(product_id=product_id)
+
+        total_quantity=variants.aggregate(total_quantity=Sum('quantity'))['total_quantity']
+        total_color=variants.values('color').annotate(total_color=Sum('quantity'))
+        total_size=variants.values('size__value').annotate(size=F('size__value'), total_size=Sum('quantity')).values('size', 'total_size')
+        total_color_size=variants.values('color', 'size__value').annotate(size=F('size__value'), total=Sum('quantity')).values('color', 'size', 'total')
         store_id=Product.objects.filter(id=product_id).values_list('store_id')[0][0]
         store=Store.objects.filter(id=store_id).values().first()
         market_id=Store.objects.filter(id=store_id).values_list('market_id')[0][0]
@@ -50,7 +61,12 @@ def index(request):
         'product': product,
         'products': products,
         'all_products': all_products,
-        'product_details': product_details,
+        'product_variants': product_variants,
+        'color_groups': color_groups,
+        'total_quantity': total_quantity,
+        'total_color': total_color,
+        'total_size': total_size,
+        'total_color_size': total_color_size,
         'category_id':category_id,
         'category':category,
         'categories':categories.order_by('-sort_order'),
