@@ -121,29 +121,36 @@
 <title>
   {% if request.LANGUAGE_CODE == 'uz' %}
     Testlar {{type}}
+    <meta name="description" content="Testlar {{type}}"/>
   {% else %}
   {% if request.LANGUAGE_CODE == 'ru' %}
     Тесты {{type}}
+    <meta name="description" content="Тесты {{type}}"/>
   {% else %}
     Tests {{type}} 
+    <meta name="description" content="Tests {{type}}"/>
   {% endif %}
   {% endif %}
   {% if request.LANGUAGE_CODE == 'uz' %}
   {% verbatim %}
   {{type_data.name_uz_uz}}
+  <meta name="description" content="{{type_data.name_uz_uz}}"/>
   {% endverbatim %}
   {% else %}
   {% if request.LANGUAGE_CODE == 'ru' %}
   {% verbatim %}
   {{type_data.name_ru_ru}}
+  <meta name="description" content="{{type_data.name_ru_ru}}"/>
   {% endverbatim %}
   {% else %}
   {% verbatim %}
   {{type_data.name_en_us}}
+  <meta name="description" content="{{type_data.name_en_us}}"/>
   {% endverbatim %}
   {% endif %}
   {% endif %}
 </title>
+<meta property="og:image" content="/media/projects/images/test.png"/>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814" crossorigin="anonymous"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
      crossorigin="anonymous"></script>
