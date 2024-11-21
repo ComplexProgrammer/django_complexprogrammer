@@ -58,12 +58,12 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="theme-color" content="#317EFB"/>
-      {% if id == 0 %}
-      <meta name="description" content="Complex Programmer - Online services (Tests, IP search, Latin - Cyrillic text translate, instagram downloader, youtube downloader, complex password generator, online games, ...)"/>
-      <meta property="og:image" content="/static/img/hero-bg.png"/>
-      {% else %}
+      {% if request.GET.id %}
       <meta name="description" content="{{post.name_uz_uz}}"/>
       <meta property="og:image" content="/media/{{post.image}}"/>
+      {% else %}
+      <meta name="description" content="Complex Programmer - Online services (Tests, IP search, Latin - Cyrillic text translate, instagram downloader, youtube downloader, complex password generator, online games, ...)"/>
+      <meta property="og:image" content="/static/img/hero-bg.png"/>
       {% endif %}
       <link rel="icon" sizes="16x16" href="https://complexprogrammer.uz/static/img/favicon.ico">
       <link rel="manifest" href="/static/manifest.json">
