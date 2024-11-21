@@ -158,10 +158,47 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="shadow-lg p-3 mb-5 bg-body rounded">
                   <a class="btn btn-outline-primary position-relative" href='/blog'><div class="spinner-grow spinner-grow-sm" role="status"></div> Maqolalar</a>
                   {%if categorie%}
-                  <a class="btn btn-outline-primary position-relative" href='/blog?categorie_id={{categorie.id}}'><div class="spinner-grow spinner-grow-sm" role="status"></div> {{categorie.name_uz_uz}}</a>
+                  <a class="btn btn-outline-primary position-relative" href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}'><div class="spinner-grow spinner-grow-sm" role="status"></div> {{categorie.name_uz_uz}}</a>
                   {%endif%}
                 </div>
                 {% if id == 0 %}
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                      {% if posts.has_previous %}
+                          <li class="page-item">
+                              <a class="page-link" href="?page=1{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="First">
+                                  <span aria-hidden="true">&laquo; First</span>
+                              </a>
+                          </li>
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ posts.previous_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Previous</a>
+                          </li>
+                      {% endif %}
+  
+                      {% for num in posts.paginator.page_range %}
+                          {% if posts.number == num %}
+                              <li class="page-item active" aria-current="page">
+                                  <span class="page-link">{{ num }}</span>
+                              </li>
+                          {% else %}
+                              <li class="page-item">
+                                  <a class="page-link" href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">{{ num }}</a>
+                              </li>
+                          {% endif %}
+                      {% endfor %}
+  
+                      {% if posts.has_next %}
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ posts.next_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Next</a>
+                          </li>
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ posts.paginator.num_pages }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="Last">
+                                  <span aria-hidden="true">Last &raquo;</span>
+                              </a>
+                          </li>
+                      {% endif %}
+                  </ul>
+                </nav>
                 {%for item in posts%}
                 <div class="card mb-3">
                   <div class="row g-0">
@@ -175,10 +212,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </div>
                     <div class="col-md-8">
                       <div class="card-body">
-                        <h5 class="card-title"><a class="nav-link" href="/blog?id={{item.id}}">{{item.name_uz_uz}}</a></h5>
-                        <p class="card-text"><a class="nav-link" href="/blog?id={{item.id}}">{{item.title_uz_uz}}</a></p>
+                        <h5 class="card-title"><a class="nav-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">{{item.name_uz_uz}}</a></h5>
+                        <p class="card-text"><a class="nav-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">{{item.title_uz_uz}}</a></p>
                         <div class="C0mplexButton Success">
-                          <a href="/blog?id={{item.id}}">
+                          <a href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
                               <span></span>
                               <span></span>
                               <span></span>
@@ -194,6 +231,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   </div>
                 </div>
                 {%endfor%}
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                      {% if posts.has_previous %}
+                          <li class="page-item">
+                              <a class="page-link" href="?page=1{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="First">
+                                  <span aria-hidden="true">&laquo; First</span>
+                              </a>
+                          </li>
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ posts.previous_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Previous</a>
+                          </li>
+                      {% endif %}
+  
+                      {% for num in posts.paginator.page_range %}
+                          {% if posts.number == num %}
+                              <li class="page-item active" aria-current="page">
+                                  <span class="page-link">{{ num }}</span>
+                              </li>
+                          {% else %}
+                              <li class="page-item">
+                                  <a class="page-link" href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">{{ num }}</a>
+                              </li>
+                          {% endif %}
+                      {% endfor %}
+  
+                      {% if posts.has_next %}
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ posts.next_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Next</a>
+                          </li>
+                          <li class="page-item">
+                              <a class="page-link" href="?page={{ posts.paginator.num_pages }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="Last">
+                                  <span aria-hidden="true">Last &raquo;</span>
+                              </a>
+                          </li>
+                      {% endif %}
+                  </ul>
+                </nav>
                 {% else %}
                 <div class="d-flex align-items-center">
                   <strong>{{post.name_uz_uz}}</strong>
