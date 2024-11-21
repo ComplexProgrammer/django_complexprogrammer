@@ -19,7 +19,7 @@ def index(request):
         categorie_id=Posts.objects.filter(id=id).values_list('categorie_id')[0][0]
         print(categorie_id)
         categorie=Categories.objects.filter(id=categorie_id).values().first()
-    paginator = Paginator(posts, 5)  # Har sahifada 10 ta post ko'rsatish
+    paginator = Paginator(posts, 3)  # Har sahifada 10 ta post ko'rsatish
     page_number = request.GET.get('page')  # URL dan sahifa raqamini olish
     posts = paginator.get_page(page_number)  # Sahifani olish
     context={
