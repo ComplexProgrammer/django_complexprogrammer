@@ -119,6 +119,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       text-align: center;
     }
 
+    /* Qora rang uchun stil */
+    .dark-mode {
+      background-color: #210021 !important;
+      color: #ffffff !important;
+    }
+    
+    /* Oq rang uchun stil */
+    .light-mode {
+      background-color: #f0f2f5 !important;
+      color: #000000 !important;
+    }
+    
+    /* Theme switch tugmasi uchun stil */
+    .theme-switch {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: none;
+      background: #007bff;
+      color: white;
+    }
+
     #pagination-demo{
       display: inline-block;
       margin-bottom: 1.75em;
@@ -155,7 +181,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       display: block;
     }
     body {
-      background-color: #210021;
+      background-color: #f0f2f5;
+      transition: background-color 0.3s, color 0.3s;
   }
   {% comment %} .hero-image {
     background: url("/static/img/avtotest.png") no-repeat center center fixed;
@@ -173,6 +200,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           font-size: 90px;
         }
     </style>
+    <script>
+      // Local Storage-da theme ni saqlash
+      function setTheme(themeName) {
+        localStorage.setItem('theme', themeName);
+        document.body.className = themeName;
+      }
+
+      // Temani almashtirib beruvchi funksiya  
+      function toggleTheme() {
+        if (localStorage.getItem('theme') === 'dark-mode'){
+          setTheme('light-mode');
+        } else {
+          setTheme('dark-mode');
+        }
+      }
+
+      // Sahifa yuklanganda avvalgi tanlangan temani yuklash
+      (function () {
+        if (localStorage.getItem('theme') === 'dark-mode') {
+          setTheme('dark-mode');
+        } else {
+          setTheme('light-mode');
+        }
+      })();
+    </script>
 </head>
 <body ng-app="App" ng-controller="avtotest">
   <ins class="adsbygoogle"
@@ -804,5 +856,8 @@ data-full-width-responsive="true"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+<button onclick="toggleTheme()" class="theme-switch">
+  <i class="bi bi-brightness-high"></i>
+</button>
 </body>
 </html>

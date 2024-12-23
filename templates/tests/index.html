@@ -236,6 +236,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       text-align: center;
     }
 
+    /* Qora rang uchun stil */
+    .dark-mode {
+      background-color: #210021;
+      color: #ffffff;
+    }
+    
+    /* Oq rang uchun stil */
+    .light-mode {
+      background-color: #f0f2f5;
+      color: #000000;
+    }
+    
+    /* Theme switch tugmasi uchun stil */
+    .theme-switch {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 9999;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: none;
+      background: #007bff;
+      color: white;
+      outline: none;
+    }
+
     .page-content{
       background: #eee;
       display: inline-block;
@@ -264,8 +291,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       display: block;
     }
     body {
-      background-color: #210021;
-  }
+      transition: background-color 0.3s, color 0.3s;
+    }
         section {
 
           display: flex;
@@ -343,6 +370,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         margin: 2.5%;
       }
     </style>
+
+    <script>
+      // Local Storage-da theme ni saqlash
+      function setTheme(themeName) {
+        localStorage.setItem('theme', themeName);
+        document.body.classList.remove('light-mode', 'dark-mode');
+        document.body.classList.add(themeName);
+      }
+
+      // Temani almashtirib beruvchi funksiya  
+      function toggleTheme() {
+        if (document.body.classList.contains('dark-mode')){
+          setTheme('light-mode');
+        } else {
+          setTheme('dark-mode');
+        }
+      }
+
+      // Sahifa yuklanganda avvalgi tanlangan temani yuklash
+      document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('theme') === 'dark-mode') {
+          setTheme('dark-mode');
+        } else {
+          setTheme('light-mode');
+        }
+      });
+    </script>
 </head>
 <body ng-app="App" ng-controller="tests">
   <ins class="adsbygoogle"
@@ -1108,5 +1162,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
+    <button onclick="toggleTheme()" class="theme-switch">
+      <i class="bi bi-brightness-high"></i>
+    </button>
 </body>
 </html>

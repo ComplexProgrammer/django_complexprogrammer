@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
   <link rel="manifest" href="/static/manifest.json">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <style>
     @charset "UTF-8";
    :root,[data-bs-theme=light] {
@@ -331,10 +332,17 @@ select {
         body,html{
       block-size: 100%;
       margin: 0;
-      background: #7F7FD5;
-          background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
-          background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+-     background: #7F7FD5;
+-     background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+-     background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
     }
+
+    body {
+      transition: background-color 0.3s, color 0.3s;
+-     background-color: #f0f2f5;
++     background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    }
+
     .container{
       align-content: center;
     }
@@ -385,8 +393,125 @@ select {
   crossorigin="anonymous"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
   crossorigin="anonymous"></script>
+  <style>
+    @charset "UTF-8";
+    /* Qora rang uchun stil */
+    .dark-mode {
+      background: linear-gradient(to right, #1a1a1a, #210021, #1a1a1a) !important;
+      color: #ffffff;
+    }
+    
+    /* Oq rang uchun stil */
+    .light-mode {
+      background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5) !important;
+      color: #000000;
+    }
+    
+    /* Theme switch tugmasi uchun stil */
+    .theme-switch {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 9999;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: none;
+      background: rgba(0, 123, 255, 0.8);
+      color: white;
+      outline: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .theme-switch:hover {
+      background: rgba(0, 123, 255, 1);
+      transform: scale(1.05);
+    }
+
+    .theme-switch i {
+      font-size: 1.2rem;
+    }
+
+    /* Dark mode uchun qo'shimcha stillar */
+    .dark-mode {
+      background: #210021;
+      color: #fff;
+    }
+
+    .dark-mode .header {
+      background: rgba(33, 0, 33, 0.9);
+    }
+    
+    .dark-mode .theme-switch {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .dark-mode .theme-switch:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .dark-mode .service-item,
+    .dark-mode .project-item,
+    .dark-mode .contact-item {
+      background: #333;
+      color: #fff;
+    }
+    
+    .dark-mode .section-title {
+      color: #fff;
+    }
+
+    .dark-mode .nav-bar {
+      background: rgba(33, 0, 33, 0.95);
+    }
+
+    .dark-mode .brand h1 {
+      color: #fff;
+    }
+
+    .dark-mode .nav-list ul a {
+      color: #fff;
+    }
+
+    body {
+      transition: background-color 0.3s, color 0.3s;
+      background-color: #f0f2f5;
+    }
+  </style>
+
+  <script>
+    // Local Storage-da theme ni saqlash
+    function setTheme(themeName) {
+      localStorage.setItem('theme', themeName);
+      document.body.classList.remove('light-mode', 'dark-mode');
+      document.body.classList.add(themeName);
+    }
+
+    // Temani almashtirib beruvchi funksiya  
+    function toggleTheme() {
+      if (document.body.classList.contains('dark-mode')){
+        setTheme('light-mode');
+      } else {
+        setTheme('dark-mode');
+      }
+    }
+
+    // Sahifa yuklanganda avvalgi tanlangan temani yuklash
+    document.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('theme') === 'dark-mode') {
+        setTheme('dark-mode');
+      } else {
+        setTheme('light-mode');
+      }
+    });
+  </script>
 </head>
 <body>
+  <button onclick="toggleTheme()" class="theme-switch">
+    <i class="bi bi-brightness-high"></i>
+  </button>
   <!-- Header -->
   <section id="header">
     <div class="header container">

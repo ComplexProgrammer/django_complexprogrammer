@@ -67,7 +67,8 @@
       {% endif %}
       <link rel="icon" sizes="16x16" href="https://complexprogrammer.uz/static/img/favicon.ico">
       <link rel="manifest" href="/static/manifest.json">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
       <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
       <link rel="stylesheet" href="/static/css/blog/style.css">
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
@@ -120,10 +121,161 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'GRAD' 0,
           'opsz' 24
         }
-        </style>
+        /* Qora rang uchun stil */
+        .dark-mode {
+          background: linear-gradient(to right, #1a1a1a, #210021, #1a1a1a) !important;
+          color: #ffffff;
+        }
+        
+        /* Oq rang uchun stil */
+        .light-mode {
+          background-color: #f0f2f5;
+          color: #000000;
+        }
+        
+        /* Theme switch tugmasi uchun stil */
+        .theme-switch {
+          position: fixed;
+          top: 20px;
+          left: 20px;
+          z-index: 9999;
+          padding: 8px 15px;
+          border-radius: 20px;
+          cursor: pointer;
+          border: none;
+          background: rgba(0, 123, 255, 0.8);
+          color: white;
+          outline: none;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+          transition: all 0.3s ease;
+        }
+        
+        .theme-switch:hover {
+          background: rgba(0, 123, 255, 1);
+          transform: scale(1.05);
+        }
+        
+        .theme-switch i {
+          font-size: 1.2rem;
+        }
+        
+        /* Dark mode uchun qo'shimcha stillar */
+        .dark-mode .card {
+          background: #333;
+          color: #fff;
+        }
+        
+        .dark-mode .card-title a,
+        .dark-mode .card-text a,
+        .dark-mode .list-group-item a {
+          color: #fff;
+        }
+        
+        .dark-mode .list-group-item {
+          background: #333;
+          border-color: #444;
+        }
+        
+        .dark-mode .bg-dark {
+          background: #1a1a1a !important;
+        }
+        
+        /* Dark mode da text-muted rangi */
+        .dark-mode .text-muted {
+          color: #adb5bd !important;
+        }
+        
+        /* Dark mode da card va list elementlar */
+        .dark-mode .card,
+        .dark-mode .list-group-item,
+        .dark-mode .bg-body {
+          background-color: #333 !important;
+          border-color: #444;
+        }
+        
+        /* Dark mode da linklar */
+        .dark-mode a {
+          color: #8bb9fe;
+        }
+        
+        /* Dark mode da linklar */
+        .dark-mode a:hover {
+          color: #4a9eff;
+        }
+        
+        /* Dark mode da pagination */
+        .dark-mode .pagination .page-link {
+          background-color: #1a1a1a;
+          border-color: #333;
+          color: #fff;
+        }
+
+        .dark-mode .pagination .page-item.active .page-link {
+          background-color: #0d6efd !important;
+          border-color: #0a58ca !important;
+          color: #fff;
+        }
+
+        .dark-mode .pagination .page-link:hover {
+          background-color: #2d2d2d;
+          border-color: #444;
+          color: #fff;
+        }
+
+        .dark-mode .pagination .page-item.disabled .page-link {
+          background-color: #1a1a1a;
+          border-color: #333;
+          color: #6c757d;
+        }
+        
+        body {
+          transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Dark mode da btn-outline-primary */
+        .dark-mode .btn-outline-primary {
+          color: #8bb9fe;
+          border-color: #8bb9fe;
+        }
+
+        .dark-mode .btn-outline-primary:hover {
+          color: #000;
+          background-color: #8bb9fe;
+          border-color: #8bb9fe;
+        }
+      </style>
+      <script>
+        // Local Storage-da theme ni saqlash
+        function setTheme(themeName) {
+          localStorage.setItem('theme', themeName);
+          document.body.classList.remove('light-mode', 'dark-mode');
+          document.body.classList.add(themeName);
+        }
+        
+        // Temani almashtirib beruvchi funksiya  
+        function toggleTheme() {
+          if (document.body.classList.contains('dark-mode')){
+            setTheme('light-mode');
+          } else {
+            setTheme('dark-mode');
+          }
+        }
+        
+        // Sahifa yuklanganda avvalgi tanlangan temani yuklash
+        document.addEventListener('DOMContentLoaded', function() {
+          if (localStorage.getItem('theme') === 'dark-mode') {
+            setTheme('dark-mode');
+          } else {
+            setTheme('light-mode');
+          }
+        });
+      </script>
       <title>My Blog</title>
     </head>
     <body>
+      <button onclick="toggleTheme()" class="theme-switch">
+        <i class="bi bi-brightness-high"></i>
+      </button>
       <ins class="adsbygoogle"
         style="display:block; text-align:center;"
         data-ad-layout="in-article"
