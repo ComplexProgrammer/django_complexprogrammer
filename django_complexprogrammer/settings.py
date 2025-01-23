@@ -281,3 +281,5 @@ COLOR_PALETTE = [
     ("#0000FF", "blue", ),
     ("#000000", "black", ),
 ]
+
+X_FRAME_OPTIONS = 'ALLOWALL'
