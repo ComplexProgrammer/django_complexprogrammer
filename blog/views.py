@@ -3,6 +3,7 @@ from django.db.models import Count
 from django.db.models import F
 from blog.models import Categories, Posts
 from django.core.paginator import Paginator
+from comments.models import Comment
 def index(request):
     id = request.GET.get('id', 0)
     categorie_id = request.GET.get('categorie_id', 0)
@@ -21,12 +22,23 @@ def index(request):
         categorie=Categories.objects.filter(id=categorie_id).values().first()
     paginator = Paginator(posts, 3)  # Har sahifada 10 ta post ko'rsatish
     page_number = request.GET.get('page')  # URL dan sahifa raqamini olish
-    posts = paginator.get_page(page_number)  # Sahifani olish
+    posts = paginator.get_page(page_number)  # Sahifani olish    # Get comments for the current page
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(
+        page_url=current_url,
+        parent=None
+    ).prefetch_related(
+        'replies',
+        'replies__replies',
+        'replies__replies__replies'
+    ).order_by('-created_at')
+    
     context={
         'id':id,
         'post': post,
         'posts':posts,
         'categorie':categorie,
         'categories':categories.order_by('-sort_order'),
+        'comments': comments,
     }
     return render(request, 'blog/index.html', context=context)

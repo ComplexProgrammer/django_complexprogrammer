@@ -124,73 +124,75 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
         body {
-            background-color: #212121;
-            color: white;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            inset-block-start: 20px;
+            inset-inline-end: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
         }
     </style>
     <script>
-        var app = angular.module("App", []);
-        app.controller("Translate", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-            var text = document.getElementById('text');
-            text.focus();
-            $scope.ShowData = false;
-            $scope.src = "english";
-            $scope.dest = "uzbek";
-            $http({
-                method: 'GET',
-                url: "/GetTranslateLanguages",
-                }).then(function (d) {
-                    console.log(d.data.data);
-                    $scope.Languages=d.data.data;
-                }, function (error) {
-                    alertify.error("Xatolik yuz berdi");
-                    console.log("error in GetTranslateLanguages -> ", error);
-            });
-            $scope.speech=function(text){
-                $http({
-                    method: 'GET',
-                    url: "/TextToSpeech?text="+text,
-                    }).then(function (d) {
-                        console.log(d.data);
-                    }, function (error) {
-                        console.log("error in TextToSpeech -> ", error);
-                });
-            }
-            $scope.replace=function(){
-                $scope.src1=$scope.src;
-                $scope.src=$scope.dest;
-                $scope.dest=$scope.src1;
-                $scope.text1=$scope.text;
-                $scope.text=$scope.result;
-                $scope.result=$scope.text1;
-            }
-            $scope.getResult=function() {
-                $scope.result='';
-                document.getElementById('hh').className= "modal-backdrop fade show";
-                document.getElementById('conn').style.visibility = "visible";
-                $http({
-                    method: 'GET',
-                    url: "/GetTranslateResult?text="+$scope.text+"&src="+$scope.src+"&dest="+$scope.dest,
-                }).then(function (d) {
-                    $scope.ShowData = true;
-                    console.log(d.data.data);
-                    $scope.Data = d.data.data;
-                    $scope.result=$scope.Data;
-                    alertify.success("Natija tayyor");
-                    document.getElementById('hh').className= "fade hide";
-                    document.getElementById('conn').style.visibility = "hidden";
-                }, function (error) {
-                    $scope.ShowData = false;
-                    alertify.error("Xatolik yuz berdi");
-                    console.log("error in GetTranslateResult -> ", error);
-                    document.getElementById('hh').className= "fade hide";
-                    document.getElementById('conn').style.visibility = "hidden";
-                });
-            };
-        }]);
-    </script>
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
 
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+        }
+    </script>
+    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i> Dark Mode
+    </button>
     <title>
         {% if request.LANGUAGE_CODE == 'uz' %}
         Tarjima qilish
@@ -1237,6 +1239,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {% endif %}
     {% endif %}
 </div>
+{% include 'comment_form.html' %}
 <ins class="adsbygoogle"
 style="display:block; text-align:center;"
 data-ad-format="fluid"

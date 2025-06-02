@@ -1,0 +1,228 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm" id="comment-form-main">
+        <div class="card-body">
+          <h4 class="card-title text-center mb-4">Izoh qoldiring</h4>
+          <form action="{% url 'add_comment' %}" method="post">
+            {% csrf_token %}            <input type="hidden" name="page_url" value="{{ request.build_absolute_uri }}">
+            <input type="hidden" name="parent_id" id="parent_id" value="">
+            <div class="mb-3">
+              <label for="username" class="form-label">
+                <i class="fas fa-user me-2"></i>Ismingiz
+              </label>
+              <input type="text" name="username" class="form-control" required 
+                     placeholder="Ismingizni kiriting">
+            </div>
+            <div class="mb-3">
+              <label for="text" class="form-label">
+                <i class="fas fa-comment me-2"></i>Izoh
+              </label>
+              <textarea name="text" class="form-control" rows="3" required
+                        placeholder="Izohingizni yozing..."></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-4">
+                <i class="fas fa-paper-plane me-2"></i>Yuborish
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Izohlar ro'yxati -->
+      <div class="mt-5">
+        <h5 class="mb-4">
+          <i class="fas fa-comments me-2"></i>Izohlar
+        </h5>
+        {% for comment in comments %}
+        {% if not comment.parent %}
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2">
+              <i class="fas fa-user-circle fs-4 me-2 text-primary"></i>
+              <div>
+                <h6 class="mb-0">{{ comment.username }}</h6>
+                <small class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+              </div>
+            </div>
+            <p class="card-text ms-5">{{ comment.text }}</p>
+            <div class="ms-5">
+              <button class="btn btn-sm btn-light reply-btn" 
+                      data-comment-id="{{ comment.id }}"
+                      onclick="showReplyForm(this)">
+                <i class="fas fa-reply me-1"></i>Javob berish
+              </button>
+            </div>
+              <!-- Javoblar -->
+            {% include "replies_template.html" with replies=comment.replies.all %}
+          </div>
+        </div>
+        {% endif %}
+        {% empty %}
+        <div class="text-center text-muted">
+          <i class="fas fa-inbox fa-3x mb-3"></i>
+          <p>Hozircha izoh yo'q.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reply Form Template -->
+<div class="reply-form-template d-none">
+  <div class="card shadow-sm mt-2 mb-3">
+    <div class="card-body">
+      <form action="{% url 'add_comment' %}" method="post">
+        {% csrf_token %}        <input type="hidden" name="page_url" value="{{ request.build_absolute_uri }}">
+        <input type="hidden" name="parent_id" value="">
+        <div class="mb-2">
+          <label for="username" class="form-label small">
+            <i class="fas fa-user me-1"></i>Ismingiz
+          </label>
+          <input type="text" name="username" class="form-control form-control-sm" required 
+                 placeholder="Ismingizni kiriting">
+        </div>
+        <div class="mb-2">
+          <label for="text" class="form-label small">
+            <i class="fas fa-comment me-1"></i>Javobingiz
+          </label>
+          <textarea name="text" class="form-control form-control-sm" rows="2" required
+                    placeholder="Javobingizni yozing..."></textarea>
+        </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-sm btn-light me-2" onclick="hideReplyForm(this)">
+            <i class="fas fa-times me-1"></i>Bekor qilish
+          </button>
+          <button type="submit" class="btn btn-sm btn-primary">
+            <i class="fas fa-paper-plane me-1"></i>Yuborish
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+.reply-form-template {
+  display: none;
+}
+.reply-form-container {
+  animation: slideDown 0.3s ease-out;
+  position: relative;
+}
+.reply-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  display: none;
+}
+.reply-form-active {
+  position: relative;
+  z-index: 101;
+  background-color: white;
+  border-radius: 0.375rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.reply-btn:hover {
+  background-color: #e9ecef;
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+</style>
+
+<script>
+function showReplyForm(btn) {
+  // Hide any existing reply forms and overlays
+  const allReplyForms = document.querySelectorAll('.reply-form-container');
+  const allOverlays = document.querySelectorAll('.reply-form-overlay');
+  allReplyForms.forEach(form => form.remove());
+  allOverlays.forEach(overlay => overlay.remove());
+  
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'reply-form-overlay';
+  document.body.appendChild(overlay);
+  
+  const commentId = btn.dataset.commentId;
+  const template = document.querySelector('.reply-form-template').innerHTML;
+  const replyFormContainer = document.createElement('div');
+  replyFormContainer.className = 'reply-form-container';
+  replyFormContainer.innerHTML = template;
+  
+  // Set the parent comment ID
+  replyFormContainer.querySelector('input[name="parent_id"]').value = commentId;
+  
+  // Add "Javob yozilmoqda..." message
+  const replyingTo = btn.closest('.card-body').querySelector('h6').textContent;
+  const replyingText = document.createElement('div');
+  replyingText.className = 'small text-muted mb-2';
+  replyingText.innerHTML = `<i class="fas fa-reply me-1"></i>${replyingTo} ga javob yozilmoqda...`;
+  replyFormContainer.querySelector('.card-body').insertBefore(replyingText, replyFormContainer.querySelector('form'));
+  
+  // Insert the new form after the reply button
+  btn.parentElement.appendChild(replyFormContainer);
+  
+  // Show overlay with animation
+  setTimeout(() => {
+    overlay.style.display = 'block';
+    overlay.style.animation = 'fadeIn 0.3s forwards';
+  }, 0);
+  
+  // Add active class to form
+  const formCard = replyFormContainer.querySelector('.card');
+  formCard.classList.add('reply-form-active');
+  
+  // Focus on username input
+  setTimeout(() => {
+    replyFormContainer.querySelector('input[name="username"]').focus();
+  }, 300);
+
+  // Setup form submission handler
+  const form = replyFormContainer.querySelector('form');
+  form.addEventListener('submit', () => {
+    hideReplyForm(replyFormContainer.querySelector('button[type="button"]'));
+  });
+}
+
+function hideReplyForm(btn) {
+  const container = btn.closest('.reply-form-container');
+  const overlay = document.querySelector('.reply-form-overlay');
+  
+  // Animate out
+  container.style.opacity = '0';
+  container.style.transform = 'translateY(-10px)';
+  if (overlay) {
+    overlay.style.opacity = '0';
+  }
+  
+  // Remove after animation
+  setTimeout(() => {
+    container.remove();
+    if (overlay) {
+      overlay.remove();
+    }
+  }, 200);
+}
+</script>

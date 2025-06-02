@@ -138,12 +138,91 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       {% endif %}
     </title>
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
         body {
-          background-color: #212121;
-          color: white;
-      }
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+        }
+        body {
+            background-color: #212121;
+            color: white;
+        }
+        /* Comment styles */
+        .comments-section {
+            margin-top: 2rem;
+        }
+        .comment {
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .comment-meta {
+            margin-bottom: 0.5rem;
+        }
+        .comment-content {
+            margin-bottom: 1rem;
+        }
+        .replies {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+        .reply-form {
+            display: none;
+            margin: 1rem 0;
+        }
+        .btn-outline-primary {
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-outline-primary:hover {
+            color: #fff;
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
     </style>
     <script>
+        function toggleReplyForm(formId) {
+            const form = document.getElementById(formId);
+            if (form.style.display === "block") {
+                form.style.display = "none";
+            } else {
+                form.style.display = "block";
+            }
+        }
       var app = angular.module("App", []);
       app.controller("YoutubeDownloader", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
             $scope.convert_choice = 1;
@@ -236,6 +315,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </script>
 </head>
 <body ng-app="App" ng-controller="YoutubeDownloader" class="modal-open">
+    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i> Dark Mode
+    </button>
   <ins class="adsbygoogle"
   style="display:block; text-align:center;"
   data-ad-layout="in-article"
@@ -403,6 +485,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </div>
       </div>
   </div>
+  {% include 'comment_form.html' %}
+
   <div class="row">
       <div class="col">
           <!-- Yandex.RTB R-A-1963742-3 -->

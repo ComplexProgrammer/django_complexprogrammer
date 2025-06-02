@@ -1,208 +1,215 @@
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "e815a36ng3");
-</script>
-    <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(90624869, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
-<title>Snake2</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
- crossorigin="anonymous"></script>
- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
-     crossorigin="anonymous"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8DHWL20H58');
-</script>
-        <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NW763C2');</script>
-<!-- End Google Tag Manager -->
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
-    authDomain: "c0mplex.firebaseapp.com",
-    projectId: "c0mplex",
-    storageBucket: "c0mplex.appspot.com",
-    messagingSenderId: "755681568857",
-    appId: "1:755681568857:web:102b1b733df55baefe2948",
-    measurementId: "G-H8XGTS4B9J"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-<link rel="icon" sizes="16x16" href="/static/Games/snake/img/icon.png">
-<link rel="stylesheet" href="/static/Games/snake/snake.css">
-<canvas id="canvas" class="hide" width="400" height="400"></canvas>
-<div class="startScreen">
-    <div class='IlonchaRasmi'> </div>
-    <p>
-        Boshlash uchun shu erni bosing<br />
-        Boshqarish uchun &#8592;, &#8594;, &#8593;, &#8595; yoki (a, d, w, s) tugmalaridan foydalaning<br />
-        Iloncha tanasini o'ziga yedirsangiz yutqazasiz.
-    </p>
-</div>
-<script>
-    let player = {};
-    const canvas = document.getElementById('canvas');
-    const startScreen = document.querySelector('.startScreen');
-    let score = 0;
-    let t = 1;
-    var over = false;
-    class SnakeGame {
-        constructor() {
-            this.canvas = document.getElementById('canvas');
-            this.context = this.canvas.getContext('2d');
-            document.addEventListener('keydown', this.onKeyPress.bind(this));
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Snake Game 2</title>
+    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <style>
+        canvas {
+            border: 1px solid black;
         }
-        init() {
-            score = 0;
-            t = 1;
-            this.positionX = this.positionY = 10;
-            this.appleX = this.appleY = 5;
-            this.tailSize = 5;
-            this.trail = [];
-            this.gridSize = this.tileCount = 20;
-            this.velocityX = this.velocityY = 0;
+        .comment-form {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .comment {
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .comment-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-block-end: 8px;
+        }
+        .reply-form {
+            margin: 10px 0 10px 20px;
+            display: none;
+        }
+        .replies {
+            margin-inline-start: 40px;
+        }
+        .replies .comment {
+            border-inline-start: 2px solid #ddd;
+        }
+        .comment-actions {
+            margin-block-start: 10px;
+        }
+        .comment-actions button {
+            margin-inline-end: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <h1>Snake Game 2</h1>
+            <a href="/projects" class="C0mplexButton Danger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Back
+            </a>
+        </div>
 
-            this.timer = setInterval(this.loop.bind(this), 1000 / 5);
-        }
-        reset() {
-            clearInterval(this.timer);
-            this.init();
-        }
-        loop() {
-            this.update();
-            this.draw();
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
 
+        {% include 'comment_form.html' %}
+    </div>
+
+    <script>
+        function toggleReplyForm(formId) {
+            const form = document.getElementById(formId);
+            if (form.style.display === 'none' || !form.style.display) {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
         }
-        update() {
-            this.positionX += this.velocityX;
-            this.positionY += this.velocityY;
-            if (this.positionX < 0) {
-                this.positionX = this.tileCount - 1;
+
+        var canvas;
+        var canvasContext;
+        var ballX = 50;
+        var ballY = 50;
+        var ballSpeedX = 10;
+        var ballSpeedY = 4;
+        var paddle1Y = 250;
+        var paddle2Y = 250;
+        const PADDLE_HEIGHT = 100;
+        const PADDLE_THICKNESS = 10;
+        var player1Score = 0;
+        var player2Score = 0;
+        const WINNING_SCORE = 3;
+        var showingWinScreen = false;
+        function calculateMousePos(evt) {
+            var rect = canvas.getBoundingClientRect();
+            var root = document.documentElement;
+            var mouseX = evt.clientX - rect.left - root.scrollLeft;
+            var mouseY = evt.clientY - rect.top - root.scrollTop;
+            return {
+                x:mouseX,
+                y:mouseY
+            };
+        }
+        function handleMouseClick(evt) {
+            if(showingWinScreen) {
+                player1Score = 0;
+                player2Score = 0;
+                showingWinScreen = false;
             }
-            if (this.positionY < 0) {
-                this.positionY = this.tileCount - 1;
+        }
+        window.onload = function() {
+            canvas = document.getElementById('gameCanvas');
+            canvasContext = canvas.getContext('2d');
+            var framesPerSecond = 30;
+            setInterval(function() {
+                    moveEverything();
+                    drawEverything();	
+                }, 1000/framesPerSecond);
+            canvas.addEventListener('mousedown',handleMouseClick);
+            canvas.addEventListener('mousemove',
+                function(evt) {
+                    var mousePos = calculateMousePos(evt);
+                    paddle1Y = mousePos.y-(PADDLE_HEIGHT/2);
+                });
+        }
+        function ballReset() {
+            if(player1Score >= WINNING_SCORE ||
+                player2Score >= WINNING_SCORE) {
+                showingWinScreen = true;
             }
-            if (this.positionX > this.tileCount - 1) {
-                this.positionX = 0;
+            ballSpeedX = -ballSpeedX;
+            ballX = canvas.width/2;
+            ballY = canvas.height/2;
+        }
+        function computerMovement() {
+            var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
+            if(paddle2YCenter < ballY-35) {
+                paddle2Y = paddle2Y + 6;
+            } else if(paddle2YCenter > ballY+35) {
+                paddle2Y = paddle2Y - 6;
             }
-            if (this.positionY > this.tileCount - 1) {
-                this.positionY = 0;
+        }
+        function moveEverything() {
+            if(showingWinScreen) {
+                return;
             }
-            this.trail.forEach(t => {
-                if (this.positionX === t.positionX && this.positionY === t.positionY) {
-                    if (over) {
-                        over = false;
-                        GameOver();
-                    }
-                    this.reset();
+            computerMovement();
+            ballX = ballX + ballSpeedX;
+            ballY = ballY + ballSpeedY;
+            
+            if(ballX < 0) {
+                if(ballY > paddle1Y &&
+                    ballY < paddle1Y+PADDLE_HEIGHT) {
+                    ballSpeedX = -ballSpeedX;
+                    var deltaY = ballY-(paddle1Y+PADDLE_HEIGHT/2);
+                    ballSpeedY = deltaY * 0.35;
+                } else {
+                    player2Score++; // must be BEFORE ballReset()
+                    ballReset();
                 }
-            });
-            this.trail.push({ positionX: this.positionX, positionY: this.positionY, Score: score });
-            while (this.trail.length > this.tailSize) {
-                this.trail.shift();
             }
-            if (this.appleX === this.positionX && this.appleY == this.positionY) {
-                this.tailSize++;
-                score++;
-                this.appleX = Math.floor(Math.random() * this.tileCount);
-                this.appleY = Math.floor(Math.random() * this.tileCount);
+            if(ballX > canvas.width) {
+                if(ballY > paddle2Y &&
+                    ballY < paddle2Y+PADDLE_HEIGHT) {
+                    ballSpeedX = -ballSpeedX;
+                    var deltaY = ballY-(paddle2Y+PADDLE_HEIGHT/2);
+                    ballSpeedY = deltaY * 0.35;
+                } else {
+                    player1Score++; // must be BEFORE ballReset()
+                    ballReset();	
+                }
+            }
+            if(ballY < 0) {
+                ballSpeedY = -ballSpeedY;
+            }
+            if(ballY > canvas.height) {
+                ballSpeedY = -ballSpeedY;
             }
         }
-        draw() {
-
-            this.context.fillStyle = 'black';
-            this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-            this.context.fillStyle = 'white';
-            this.context.font = '20px Arial';
-            this.context.fillText(score, 20, 40);
-            for (let i = 0; i < this.trail.length; i++) {
-                this.context.fillStyle = (i == this.trail.length - 1) ? "yellow" : "white";
-                this.context.fillRect(this.trail[i].positionX * this.gridSize, this.trail[i].positionY * this.gridSize, this.gridSize - 5, this.gridSize - 5);
+        function drawNet() {
+            for(var i=0;i<canvas.height;i+=40) {
+                colorRect(canvas.width/2-1,i,2,20,'white');
             }
-            //this.trail.forEach(t => {
-            //    console.log(t);
-            //    this.context.fillRect(t.positionX * this.gridSize, t.positionY * this.gridSize, this.gridSize - 5, this.gridSize - 5);
-            //});
-            this.context.fillStyle = 'pink';
-            this.context.fillRect(this.appleX * this.gridSize, this.appleY * this.gridSize, this.gridSize - 5, this.gridSize - 5);
         }
-        onKeyPress(e) {
-            if ((e.keyCode === 37 || e.keyCode === 65) && this.velocityX !== 1) {
-                this.velocityX = -1;
-                this.velocityY = 0;
+        function drawEverything() {
+            // next line blanks out the screen with black
+            colorRect(0,0,canvas.width,canvas.height,'black');
+            if(showingWinScreen) {
+                canvasContext.fillStyle = 'white';
+                if(player1Score >= WINNING_SCORE) {
+                    canvasContext.fillText("Left Player Won!", 350, 200);
+                } else if(player2Score >= WINNING_SCORE) {
+                    canvasContext.fillText("Right Player Won!", 350, 200);
+                }
+                canvasContext.fillText("click to continue", 350, 500);
+                return;
             }
-            if ((e.keyCode === 38 || e.keyCode === 87) && this.velocityY !== 1) {
-                this.velocityX = 0;
-                this.velocityY = -1;
-            }
-            if ((e.keyCode === 39 || e.keyCode === 68) && this.velocityX !== -1) {
-                this.velocityX = 1;
-                this.velocityY = 0;
-            }
-            if ((e.keyCode === 40 || e.keyCode === 83) && this.velocityY !== -1) {
-                this.velocityX = 0;
-                this.velocityY = 1;
-            }
-            over = true;
+            drawNet();
+            // this is left player paddle
+            colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+            // this is right computer paddle
+            colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+            // next line draws the ball
+            colorCircle(ballX, ballY, 10, 'white');
+            canvasContext.fillText(player1Score, 100, 100);
+            canvasContext.fillText(player2Score, canvas.width-100, 100);
         }
-    }
-    startScreen.addEventListener('click', start);
-    let snake_game = new SnakeGame();
-    function RefreshGame() {
-        //snake_game = new SnakeGame();
-    }
-    function start() {
-        player.start = true;
-        canvas.classList.remove('hide');
-        startScreen.classList.add('hide');
-        snake_game.init();
-    }
-    function GameOver() {
-        player.start = false;
-        canvas.classList.add('hide');
-        startScreen.classList.remove('hide');
-        RefreshGame();
-        startScreen.classList.remove('hide');
-        startScreen.innerHTML = "<div class='IlonchaRasmi'></div><br /> O'yin tugadi <br /> Sizning yakuniy hisobingiz " + score +
-            "<br /> O'yinni qayta boshlash uchun shu yerni bosing.";
-    }
-</script>
+        function colorCircle(centerX, centerY, radius, drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.beginPath();
+            canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);
+            canvasContext.fill();
+        }
+        function colorRect(leftX,topY, width,height, drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.fillRect(leftX,topY, width,height);
+        }
+    </script>
+</body>
+</html>

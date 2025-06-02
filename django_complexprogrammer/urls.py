@@ -51,6 +51,7 @@ urlpatterns += [
     path('markets/', include('markets.urls')),
     path('news/', include('news.urls')),
     path('blog/', include('blog.urls')),
+    path('', include('comments.urls')),
     path('cryptomarket/', include('cryptomarket.urls')),
     path('site_clones/', include('site_clones.urls')),
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),

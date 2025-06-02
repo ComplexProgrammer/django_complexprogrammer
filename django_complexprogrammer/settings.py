@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'markets',
     'news',
     'blog',
+    'comments',
     'cryptomarket',
     'site_clones',
     'ckeditor', # CKEditor config

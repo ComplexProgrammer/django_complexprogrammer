@@ -254,6 +254,7 @@ data-ad-slot="6832564320"></ins>
         </tbody>
     </table>
 </div>
+{% include 'comment_form.html' %}
 <ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-format="autorelaxed"
@@ -308,3 +309,84 @@ data-ad-slot="4679993061"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+<style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            inset-block-start: 20px;
+            inset-inline-end: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .table {
+            color: var(--text-color);
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .table-dark {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+    </style>
+    <script>
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+        }
+    </script>
+    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i> Dark Mode
+    </button>

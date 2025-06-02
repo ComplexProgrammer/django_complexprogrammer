@@ -6,8 +6,11 @@ from django.template import loader
 from django.db.models.functions import Concat
 from django.db.models import F
 from tests.models import Answers, Books, Groups, Questions, Topics, Types
+from comments.models import Comment
 
 def index(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     _type='type'
     type_id = request.GET.get('type_id', False)
     group_id = request.GET.get('group_id', False)
@@ -46,12 +49,15 @@ def index(request):
         'topics':list(topics),
         'questions':list(questions),
         'answers':list(answers),
+        'comments': comments,
     }
     print(context)
     return render(request, 'tests/index3.html', context=context)
 def tests(request):
     data=[]
     _type='type'
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     type_data=[]
     type_id = request.GET.get('type_id', 0)
     group_id = request.GET.get('group_id', 0)
@@ -87,6 +93,7 @@ def tests(request):
         'data': data,
         'type': _type,
         'type_data':json.dumps(type_data, default=serialize_datetime),
+        'comments': comments,
     }
     return render(request, 'tests/index.html', context=context)
 def serialize_datetime(obj): 

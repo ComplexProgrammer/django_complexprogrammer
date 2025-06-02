@@ -12,6 +12,7 @@ import cv2
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from comments.models import Comment
 import googletrans
 from googletrans import Translator
 from instaloader import Instaloader, Profile
@@ -263,6 +264,8 @@ def save_insta_collection(user_name):
     print("end...")
     return PROFILE
 def instagram_downloader_(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     if request.method == 'GET':
         return render(request, 'projects/instagram_downloader.html')
     if request.method == 'POST':
@@ -270,7 +273,8 @@ def instagram_downloader_(request):
         user_name = json_data['user_name']
         if user_name is None:
             context={
-                        'result': '0'
+                        'result': '0',
+                        'comments': comments
                     }
         else:
             result = save_insta_collection(user_name)
@@ -286,7 +290,8 @@ def instagram_downloader_(request):
                     print(future)
                     if time.time() > future:
                         context={
-                            'result': file_path+'\\'+result + '.zip'
+                            'result': file_path+'\\'+result + '.zip',
+                            'comments': comments
                         }
                         return JsonResponse(context, safe=False)
                         # rr=file_path+'\\'+result + '.zip'
@@ -299,13 +304,20 @@ def instagram_downloader_(request):
                         # return render(request, 'projects/instagram_downloader.html', context=context)
             else:
                 context={
-                            'result': '0'
+                            'result': '0',
+                            'comments': comments
                         }
         return render(request, 'projects/instagram_downloader.html', context=context)
 @csrf_exempt
 def youtube_downloader_(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
     if request.method == 'GET':
-        return render(request, 'projects/youtube_downloader.html')
+        return render(request, 'projects/youtube_downloader.html', context=context)
+
     if request.method == 'POST':
         json_data = json.loads(request.body)
         choice = json_data['choice']
@@ -323,9 +335,6 @@ def youtube_downloader_(request):
                     filename = youtube_downloader.download_video(link, quality)
                     # result = app.root_path.replace('website', '') + filename
                     # print(result)
-                    # send_file_(filename)
-                    # time.sleep(3)
-                    # remove_file_(filename)
                     return JsonResponse({'result': filename}, safe=False)
             elif choice == 3:
                 print("Yuklab olinmoqda...")
@@ -344,12 +353,15 @@ def youtube_downloader_(request):
 
 
 def coins(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     url = "https://api.minerstat.com/v2/coins"
     http = urllib3.PoolManager()
     r = http.request('GET', url)
     htmlSource = r.data
     context={
-        "data": json.loads(htmlSource)
+        "data": json.loads(htmlSource),
+        "comments": comments
     }
     return render(request, 'projects/coins.html', context=context)
 
@@ -385,11 +397,21 @@ def GetTranslateResult(request):
     return JsonResponse({'data': result.text}, safe=False) 
 
 def C0mplexTranslate(request):
-    return render(request, 'projects/translate.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/translate.html', context=context)
 
 def ImageCompare(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
     if request.method == 'GET':
-        return render(request, 'projects/imagecompare.html')
+        return render(request, 'projects/imagecompare.html', context=context)
     if request.method == 'POST':
         if 'img1' not in request.files or 'img2' not in request.files:
             print('No file part')
@@ -458,14 +480,20 @@ def GetImageCompareResult(image1, image2, grayA, grayB):
     return context
 
 def avtotest(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     context={
+        'comments': comments,
         'row': range(1, 109),
         'bilet': 0
     }
     return render(request, 'projects/avtotest.html', context=context)
 
 def avtotest_item(request, bilet):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     context={
+        'comments': comments,
         'row': range(1, 109),
         'bilet': bilet
     }
@@ -495,13 +523,16 @@ def GetBilet(request):
     return JsonResponse(list(arr), safe=False) 
 
 def exchangerates(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
     http = urllib3.PoolManager()
     r = http.request('GET', url)
     # r = urllib3.request.urlopen(url)
     # data = r.read()
     context={
-        "data": json.loads(r.data)
+        "data": json.loads(r.data),
+        "comments": comments
     }
     return render(request, 'projects/exchangerates.html', context=context)
 
@@ -517,6 +548,11 @@ def GetExchangeRates(request):
     return JsonResponse(context, safe=False) 
 
 def changetext(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
     if request.method == 'POST':
         text = request.POST['text']
         characters = [["A", "А"], ["B", "Б"], ["D", "Д"], ["E", "Е"], ["F", "Ф"], ["G", "Г"], ["H", "Ҳ"], ["I", "И"],
@@ -527,8 +563,8 @@ def changetext(request):
                     ["r", "р"], ["s", "с"], ["t", "т"], ["u", "у"], ["v", "в"], ["x", "х"], ["y", "й"], ["z", "з"],
                     ["А", "A"], ["Б", "B"], ["С", "C"], ["Ч", "Ch"], ["Д", "D"], ["Е", "E"], ["Ф", "F"], ["Г", "G"],
                     ["Ҳ", "H"], ["И", "I"], ["Ж", "J"], ["К", "K"], ["Л", "L"], ["М", "M"], ["Н", "N"], ["О", "O"],
-                    ["П", "P"], ["Қ", "Q"], ["Р", "R"], ["С", "S"], ["Ш", "Sh"], ["Т", "T"], ["У", "U"], ["В", "V"],
-                    ["Х", "X"], ["Й", "Y"], ["Я", "Ya"], ["Ю", "Yu"], ["Ё", "Yo"], ["З", "Z"], ["Ғ", "Gʼ"], ["а", "a"],
+                    ["П", "P"], ["Қ", "Q"], ["Р", "R"], ["С", "S"], ["Ш", "T"], ["Т", "U"], ["У", "V"], ["В", "X"],
+                    ["Х", "Y"], ["Й", "Z"], ["Я", "Ya"], ["Ю", "Yu"], ["Ё", "Yo"], ["З", "Z"], ["Ғ", "Gʼ"], ["а", "a"],
                     ["б", "b"], ["с", "c"], ["ч", "ch"], ["д", "d"], ["е", "e"], ["ф", "f"], ["г", "g"], ["ҳ", "h"],
                     ["и", "i"], ["ж", "j"], ["к", "k"], ["л", "l"], ["м", "m"], ["н", "n"], ["о", "o"], ["п", "p"],
                     ["қ", "q"], ["р", "r"], ["с", "s"], ["ш", "sh"], ["т", "t"], ["у", "u"], ["в", "v"], ["х", "x"],
@@ -562,7 +598,7 @@ def changetext(request):
             text = text.replace("Ғ", "Gʼ").replace("ғ", "gʼ")
         # return JsonResponse(text, safe=False) 
         return HttpResponse(text)
-    return render(request, 'projects/changetext.html')
+    return render(request, 'projects/changetext.html', context=context)
 
 def GetChangeTextData(request):
     text = request.GET.get('text', None);
@@ -576,8 +612,8 @@ def GetChangeTextData(request):
                 ["r", "р"], ["s", "с"], ["t", "т"], ["u", "у"], ["v", "в"], ["x", "х"], ["y", "й"], ["z", "з"],
                 ["А", "A"], ["Б", "B"], ["С", "C"], ["Ч", "Ch"], ["Д", "D"], ["Е", "E"], ["Ф", "F"], ["Г", "G"],
                 ["Ҳ", "H"], ["И", "I"], ["Ж", "J"], ["К", "K"], ["Л", "L"], ["М", "M"], ["Н", "N"], ["О", "O"],
-                ["П", "P"], ["Қ", "Q"], ["Р", "R"], ["С", "S"], ["Ш", "Sh"], ["Т", "T"], ["У", "U"], ["В", "V"],
-                ["Х", "X"], ["Й", "Y"], ["Я", "Ya"], ["Ю", "Yu"], ["Ё", "Yo"], ["З", "Z"], ["Ғ", "Gʼ"], ["а", "a"],
+                ["П", "P"], ["Қ", "Q"], ["Р", "R"], ["С", "S"], ["Ш", "T"], ["Т", "U"], ["У", "V"], ["В", "X"],
+                ["Х", "Y"], ["Й", "Z"], ["Я", "Ya"], ["Ю", "Yu"], ["Ё", "Yo"], ["З", "Z"], ["Ғ", "Gʼ"], ["а", "a"],
                 ["б", "b"], ["с", "c"], ["ч", "ch"], ["д", "d"], ["е", "e"], ["ф", "f"], ["г", "g"], ["ҳ", "h"],
                 ["и", "i"], ["ж", "j"], ["к", "k"], ["л", "l"], ["м", "m"], ["н", "n"], ["о", "o"], ["п", "p"],
                 ["қ", "q"], ["р", "r"], ["с", "s"], ["ш", "sh"], ["т", "t"], ["у", "u"], ["в", "v"], ["х", "x"],
@@ -612,6 +648,8 @@ def GetChangeTextData(request):
     return HttpResponse(text)
 
 def ip(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     ip = request.GET.get('ip', False)
     if ip == False:
         url = "https://ipapi.co/json"
@@ -620,11 +658,14 @@ def ip(request):
     http = urllib3.PoolManager()
     r = http.request('GET', url)
     context={
-        'data':json.loads(r.data)
+        'data':json.loads(r.data),
+        'comments': comments
     }
     return render(request, 'projects/ip.html', context=context)
 
 def map(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
     key = config('GOOGLE_MAP_API_KEY')
     # eligable_locations = Locations.objects.filter(place_id__isnull=False)
     locations = []
@@ -647,11 +688,17 @@ def map(request):
     locations.append(data)
     context = {
         "key":key, 
-        "locations": locations
+        "locations": locations,
+        'comments': comments
     }
     return render(request, 'projects/map.html', context)
 
 def password_generator(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
     if request.method == 'POST':
         characterList = ""
         json_data = json.loads(request.body)
@@ -678,10 +725,15 @@ def password_generator(request):
             # appending a random character to password
             password.append(randomchar)
         return HttpResponse({"".join(password)})
-    return render(request, 'projects/password_generator.html')
+    return render(request, 'projects/password_generator.html', context=context)
 
 
 def sitemap(request):
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
     if request.method == 'POST':
         url = request.args.get('url')
         from asyncio import events, windows_events
@@ -693,34 +745,79 @@ def sitemap(request):
         send_file_(str(settings.BASE_DIR)+'\\sitemap.xml')
         time.sleep(3)
         remove_file_(str(settings.BASE_DIR)+'\\sitemap.xml')
-    return render(request, 'projects/sitemap.html')
+    return render(request, 'projects/sitemap.html', context=context)
 
 def snake(request):
-    return render(request, 'projects/snake.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/snake.html', context=context)
 
 def snake2(request):
-    return render(request, 'projects/snake2.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/snake2.html', context=context)
 
 def car(request):
-    return render(request, 'projects/car.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/car.html', context=context)
 
 def duckhunt(request):
-    return render(request, 'projects/duckhunt.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/duckhunt.html', context=context)
 
 def motorcycle(request):
-    return render(request, 'projects/motorcycle.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/motorcycle.html', context=context)
 
 def bubbleshooter(request):
-    return render(request, 'projects/bubbleshooter.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/bubbleshooter.html', context=context)
 
 def pingpong(request):
-    return render(request, 'projects/pingpong.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/pingpong.html', context=context)
 
 def tictactoe(request):
-    return render(request, 'projects/tictactoe.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/tictactoe.html', context=context)
 
 def tetris(request):
-    return render(request, 'projects/tetris.html')
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    return render(request, 'projects/tetris.html', context=context)
 
 def terms(request):
     return render(request, 'terms.html')
@@ -784,9 +881,16 @@ def assetlinks(request):
 
 
 def projects(request):
-    projects=Project.actives.all()
-    context={
-        'projects': projects
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+    
+    projects = Project.actives.all()
+    context = {
+        'projects': projects,
+        'comments': comments
     }
     return render(request, "projects/home.html", context=context)
 def services(request):
@@ -796,9 +900,16 @@ def services(request):
     }
     return render(request, "base.html", context=context)
 def project_item(request, id):
-    item=get_object_or_404(Project, id=id)
+    current_url = request.build_absolute_uri()
+    comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    context={   
+        'comments': comments
+    }
+
+    item = get_object_or_404(Project, id=id)
     context={
-        'item': item
+        'item': item,
+        'comments': comments,
     }
     return render(request, "projects/item.html", context=context)
 
@@ -842,4 +953,3 @@ def remove_file_(request):
             #     if os.path.isfile(file):
             #         print('Deleting file:', file)
             #         os.remove(file)
-    

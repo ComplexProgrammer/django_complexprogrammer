@@ -523,6 +523,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 {% endverbatim %}
 {% endif %}
 {% endif %}
+
     <hr />
     {% if type == 'question' %}
     <div class="wrapper">
@@ -759,6 +760,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </section>
     {% endif %}
     <hr />
+    {% include "comment_form.html" %}
     <script>
         var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
           keyboard: false

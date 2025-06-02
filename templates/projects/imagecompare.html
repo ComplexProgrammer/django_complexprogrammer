@@ -124,79 +124,75 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
         body {
-            background-color: #212121;
-            color: white;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            inset-block-start: 20px;
+            inset-inline-end: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
         }
     </style>
     <script>
-        var app = angular.module("App", []);
-        app.directive('ngFiles', ['$parse', function ($parse) {
-            function fn_link(scope, element, attrs) {
-                var onChange = $parse(attrs.ngFiles);
-                element.on('change', function (event) {
-                    onChange(scope, { $files: event.target.files });
-                });
-            };
-            return {
-                link: fn_link
-            }
-        } ]).controller("ImageCompare", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-        $scope.imageSrc = "";
-        var formdata = new FormData();
-        $scope.getTheFiles1 = function ($files) {
-            formdata.set('img1', $files[0]);
-            console.log($files[0]);
-    //        angular.forEach($files, function (value, key) {
-    //            console.log(value);
-    //            console.log(formdata);
-    //        });
-        };
-        $scope.getTheFiles2 = function ($files) {
-            formdata.set('img2', $files[0]);
-            console.log($files[0]);
-        };
-        $scope.ShowData = false;
-        $scope.getResult=function() {
-            console.log(formdata.get('img1'));
-            console.log(formdata.get('img2'));
-            if(formdata.get('img1')==null||formdata.get('img2')==null){
-                alertify.error("Rasmlar tanlanmagan");
-            }
-            else{
-                document.getElementById('conn').style.visibility = "visible";
-                $http({
-                    method: 'POST',
-                    url: "/ImageCompare",
-                    data: formdata,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                }).then(function (d) {
-                    $scope.ShowData = true;
-                    console.log(d.data.data);
-                    $scope.Data = d.data.data;
-                    $scope.img_result=$scope.Data;
-                    if($scope.Data==0){
-                        alertify.error("Rasm o`lchamlari bir xil emas. \n\n\n Iltimos bir xil o`lchamdagi rasm kiriting.");
-                    }
-                    else{
-                        alertify.success("Natija tayyor");
-                    }
-                    document.getElementById('conn').style.visibility = "hidden";
-                }, function (error) {
-                    $scope.ShowData = false;
-                    alertify.error("Xatolik yuz berdi");
-                    console.log("error in ImageCompare -> ", error);
-                    document.getElementById('conn').style.visibility = "hidden";
-                });
-            }
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
 
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
 
-        };
-    }]);
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+        }
     </script>
-
+    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i> Dark Mode
+    </button>
     <title>
         {% if request.LANGUAGE_CODE == 'uz' %}
         Rasm solishtirish

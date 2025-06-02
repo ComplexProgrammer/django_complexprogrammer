@@ -122,87 +122,81 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
         body {
-            background-color: #212121;
-            color: white;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
         }
-        #rangeValue {
-          position: relative;
-          display: block;
-          text-align: center;
-          font-size: 6em;
-          color: #999;
-          font-weight: 400;
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
         }
-        .range {
-          width: 100%;
-          height: 25px;
-          -webkit-appearance: none;
-          background: #d3d3d3;
-          outline: none;
-          opacity: 0.7;
-          overflow: hidden;
-          box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
+
+        .theme-toggle {
+            position: fixed;
+            inset-block-start: 20px;
+            inset-inline-end: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
         }
-        .range:hover {
-          opacity: 1;
+
+        textarea, input[type="text"] {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
         }
-        .range::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          width: 25px;
-          height: 25px;
-        
-          background: #00fd0a;
-          cursor: pointer;
-          border: 0 0 solid #fffd0a;
-          box-shadow: -407px 0 0 400px #fffd0a;
-        }        
     </style>
     <script>
-        var app = angular.module("App", []);
-        app.controller("SitemapGenerator", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-        function LoadData(){
-            document.getElementById('hh').className= "modal-backdrop fade show";
-            document.getElementById('conn').style.visibility = "visible";
-            $http({
-                method: 'POST',
-                url: "/sitemap?url="+$scope.url,
-                }).then(function (d) {
-                    console.log(d.data.result);
-                    window.location.href = "/send_file?filename="+d.data.result;
-                    setTimeout(function() {
-                        $http({
-                            method: 'POST',
-                            url: "/remove_file?filename="+d.data.result,
-                        }).then(function (d) {
-                            console.log(d.data);
-                            document.getElementById('hh').className= "fade hide";
-                            document.getElementById('conn').style.visibility = "hidden";
-                        }, function (error) {
-                            document.getElementById('hh').className= "fade hide";
-                            document.getElementById('conn').style.visibility = "hidden";
-                            console.log("error in remove_file -> ", error);
-                        });
-                    }, 3000);
-                    alertify.success('Success!');
-                    document.getElementById('hh').className= "fade hide";
-                    document.getElementById('conn').style.visibility = "hidden";
-                }, function (error) {
-                    document.getElementById('hh').className= "fade hide";
-                    document.getElementById('conn').style.visibility = "hidden";
-                    alertify.error("Error");
-                    console.log("error in sitemap -> ", error);
-                });
-            }
-            $scope.Paste=function(){
-                navigator.clipboard.readText().then((clipText) => ($scope.url = clipText, document.getElementById('url').value = clipText ));
-            }
-            $scope.Generator=function() {
-                LoadData()
-            };
-        }]);
-    </script>
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
 
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+        }
+    </script>
+    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i> Dark Mode
+    </button>
     <title>
         {% if request.LANGUAGE_CODE == 'uz' %}
         Bepul onlayn XML sayt xaritasi generatori
@@ -397,6 +391,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {% endif %}
     {% endif %}
 </div>
+{% include 'comment_form.html' %}
 <ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-format="autorelaxed"

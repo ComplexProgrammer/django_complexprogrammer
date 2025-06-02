@@ -140,80 +140,78 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           color: white;
       }
     </style>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
     <script>
-        var app = angular.module("App", []);
-        app.controller("InstagramDownloader", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-            $scope.Paste=function(){
-                navigator.clipboard.readText().then((clipText) => ($scope.instagram_user_name = clipText, document.getElementById('instagram_user_name').value = clipText ));
-            }
-            function getCookie(name) {
-              let cookieValue = null;
-              if (document.cookie && document.cookie !== '') {
-                  const cookies = document.cookie.split(';');
-                  for (let i = 0; i < cookies.length; i++) {
-                      const cookie = cookies[i].trim();
-                      // Does this cookie string begin with the name we want?
-                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                          break;
-                      }
-                  }
-              }
-              return cookieValue;
-          }
-          const csrftoken = getCookie('csrftoken');
-          console.log(csrftoken)
-          console.log(document.cookie)
-            $scope.instagram_downloader = function(){
-                document.getElementById('conn').style.visibility = "visible";
-                document.getElementById('hh').className= "modal-backdrop fade show";
-                $scope.model = {
-                    user_name:$scope.instagram_user_name
-                }
-                console.dir($scope.model)
-                $http({
-                    method: 'POST',
-                    url: "/instagram-downloader/",
-                    data: JSON.stringify($scope.model),
-                    headers: {'X-CSRFToken': csrftoken},
-                    dataType: "json"
-                }).then(function (d) {
-                    console.log(d.data);
-                    if(d.data.result=="0"){
-                        alertify.error("Instagram profil nomi kiritilmagan");
-                        document.getElementById('hh').className= "fade hide";
-                        document.getElementById('conn').style.visibility = "hidden";
-                    }
-                    else{
-                        window.location.href = "/send_file?filename="+d.data.result;
-                        setTimeout(function() {
-                            window.location.href = "/remove_file?filename="+d.data.result;
-                            document.getElementById('hh').className= "fade hide";
-                            document.getElementById('conn').style.visibility = "hidden";
-                            {% comment %} $http({
-                                method: 'GET',
-                                url: "/remove_file?filename="+d.data.result,
-                            }).then(function (d) {
-                                console.log(d.data);
-                                document.getElementById('hh').className= "fade hide";
-                                document.getElementById('conn').style.visibility = "hidden";
-                            }, function (error) {
-                                document.getElementById('hh').className= "fade hide";
-                                document.getElementById('conn').style.visibility = "hidden";
-                                console.log("error in remove_file -> ", error);
-                            }); {% endcomment %}
-                        }, 3000);
-                        alertify.success("Fayl yuklanmoqda...");
-                    }
-                }, function (error) {
-                    alertify.error("Xatolik yuz berdi");
-                    document.getElementById('hh').className= "fade hide";
-                    document.getElementById('conn').style.visibility = "hidden";
-                    console.log("error in instagram_downloader -> ", error);
-                });
-            }
-        }]);
-      </script>
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
+    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i> Dark Mode
+    </button>
 </head>
 <body ng-app="App" ng-controller="InstagramDownloader" class="modal-open">
   <ins class="adsbygoogle"
@@ -333,6 +331,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </div>
       </div>
   </div>
+  {% include 'comment_form.html' %}
   <ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-format="autorelaxed"

@@ -1,86 +1,247 @@
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "e815a36ng3");
-</script>
-    <!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();
-   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ping Pong Game</title>
+    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <style>
+        canvas { 
+            border: 1px solid black;
+            background-color: black;
+        }
+        .comment-form {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .comment {
+            margin: 10px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .comment-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-block-end: 8px;
+        }
+        .reply-form {
+            margin: 10px 0 10px 20px;
+            display: none;
+        }
+        .replies {
+            margin-inline-start: 40px;
+        }
+        .replies .comment {
+            border-inline-start: 2px solid #ddd;
+        }
+        .comment-actions {
+            margin-block-start: 10px;
+        }
+        .comment-actions button {
+            margin-inline-end: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <h1>Ping Pong Game</h1>
+            <a href="/projects" class="C0mplexButton Danger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Back
+            </a>
+        </div>
 
-   ym(90624869, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
-<link rel="icon" sizes="16x16" href="/static/Games/pingpong/pingpong.png">
-<title>Ping Pong Game</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
- crossorigin="anonymous"></script>
- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
-     crossorigin="anonymous"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        {% include 'comment_form.html' %}
+    </div>
 
-  gtag('config', 'G-8DHWL20H58');
-</script>
-        <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NW763C2');</script>
-<!-- End Google Tag Manager -->
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    <script>
+        function toggleReplyForm(formId) {
+            const form = document.getElementById(formId);
+            if (form.style.display === 'none' || !form.style.display) {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        }
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
-    authDomain: "c0mplex.firebaseapp.com",
-    projectId: "c0mplex",
-    storageBucket: "c0mplex.appspot.com",
-    messagingSenderId: "755681568857",
-    appId: "1:755681568857:web:102b1b733df55baefe2948",
-    measurementId: "G-H8XGTS4B9J"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-<style>
-    body {
-    background-color: #212121;
-    color: white
-    }
-    #pong {
-        border: 2px solid #FFF;
-        position: absolute;
-        margin: auto;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-    }
-</style>
-<canvas id="pong" width="600" height="400"></canvas>
-<script src="/static/Games/PingPong/pong.js"></script>
+        var canvas;
+        var canvasContext;
+        var ballX = 50;
+        var ballY = 50;
+        var ballSpeedX = 10;
+        var ballSpeedY = 4;
+        
+        var player1Score = 0;
+        var player2Score = 0;
+        const WINNING_SCORE = 3;
+        
+        var paddle1Y = 250;
+        var paddle2Y = 250;
+        const PADDLE_HEIGHT = 100;
+        const PADDLE_THICKNESS = 10;
+        
+        var showingWinScreen = false;
+        
+        window.onload = function() {
+            canvas = document.getElementById('gameCanvas');
+            canvasContext = canvas.getContext('2d');
+            
+            var framesPerSecond = 30;
+            setInterval(function() {
+                moveEverything();
+                drawEverything();	
+            }, 1000/framesPerSecond);
+            
+            canvas.addEventListener('mousedown',handleMouseClick);
+            
+            canvas.addEventListener('mousemove',
+                function(evt) {
+                    var mousePos = calculateMousePos(evt);
+                    paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
+                });
+        }
+        
+        function calculateMousePos(evt) {
+            var rect = canvas.getBoundingClientRect();
+            var root = document.documentElement;
+            var mouseX = evt.clientX - rect.left - root.scrollLeft;
+            var mouseY = evt.clientY - rect.top - root.scrollTop;
+            return {
+                x:mouseX,
+                y:mouseY
+            };
+        }
+        
+        function handleMouseClick(evt) {
+            if(showingWinScreen) {
+                player1Score = 0;
+                player2Score = 0;
+                showingWinScreen = false;
+            }
+        }
+        
+        function computerMovement() {
+            var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
+            if(paddle2YCenter < ballY-35) {
+                paddle2Y = paddle2Y + 6;
+            } else if(paddle2YCenter > ballY+35) {
+                paddle2Y = paddle2Y - 6;
+            }
+        }
+        
+        function moveEverything() {
+            if(showingWinScreen) {
+                return;
+            }
+        
+            computerMovement();
+            
+            ballX = ballX + ballSpeedX;
+            ballY = ballY + ballSpeedY;
+            
+            if(ballX < 0) {
+                if(ballY > paddle1Y &&
+                   ballY < paddle1Y+PADDLE_HEIGHT) {
+                    ballSpeedX = -ballSpeedX;
+                    
+                    var deltaY = ballY
+                            -(paddle1Y+PADDLE_HEIGHT/2);
+                    ballSpeedY = deltaY * 0.35;
+                } else {
+                    player2Score++; // must be BEFORE ballReset()
+                    ballReset();
+                }
+            }
+            if(ballX > canvas.width) {
+                if(ballY > paddle2Y &&
+                   ballY < paddle2Y+PADDLE_HEIGHT) {
+                    ballSpeedX = -ballSpeedX;
+                    
+                    var deltaY = ballY
+                            -(paddle2Y+PADDLE_HEIGHT/2);
+                    ballSpeedY = deltaY * 0.35;
+                } else {
+                    player1Score++; // must be BEFORE ballReset()
+                    ballReset();	
+                }
+            }
+            if(ballY < 0) {
+                ballSpeedY = -ballSpeedY;
+            }
+            if(ballY > canvas.height) {
+                ballSpeedY = -ballSpeedY;
+            }
+        }
+        
+        function drawNet() {
+            for(var i=0;i<canvas.height;i+=40) {
+                colorRect(canvas.width/2-1,i,2,20,'white');
+            }
+        }
+        
+        function drawEverything() {
+            // next line blanks out the screen with black
+            colorRect(0,0,canvas.width,canvas.height,'black');
+            
+            if(showingWinScreen) {
+                canvasContext.fillStyle = 'white';
+                
+                if(player1Score >= WINNING_SCORE) {
+                    canvasContext.fillText("Left Player Won!", 350,200);
+                } else if(player2Score >= WINNING_SCORE) {
+                    canvasContext.fillText("Right Player Won!", 350,200);
+                }
+                
+                canvasContext.fillText("click to continue", 350,500);
+                return;
+            }
+            
+            drawNet();
+            
+            // this is left player paddle
+            colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+            
+            // this is right computer paddle
+            colorRect(canvas.width-PADDLE_THICKNESS,
+                    paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
+            
+            // next line draws the ball
+            colorCircle(ballX, ballY, 10, 'white');
+            
+            canvasContext.fillText(player1Score, 100,100);
+            canvasContext.fillText(player2Score, canvas.width-100,100);
+        }
+        
+        function colorCircle(centerX, centerY, radius, drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.beginPath();
+            canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);
+            canvasContext.fill();
+        }
+        
+        function colorRect(leftX,topY, width,height, drawColor) {
+            canvasContext.fillStyle = drawColor;
+            canvasContext.fillRect(leftX,topY, width,height);
+        }
+        
+        function ballReset() {
+            if(player1Score >= WINNING_SCORE ||
+               player2Score >= WINNING_SCORE) {
+                showingWinScreen = true;
+            }
+            
+            ballSpeedX = -ballSpeedX;
+            ballX = canvas.width/2;
+            ballY = canvas.height/2;
+        }
+    </script>
+</body>
+</html>
