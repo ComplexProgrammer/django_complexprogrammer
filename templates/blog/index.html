@@ -67,7 +67,8 @@
       {% endif %}
       <link rel="icon" sizes="16x16" href="https://complexprogrammer.uz/static/img/favicon.ico">
       <link rel="manifest" href="/static/manifest.json">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> {% endcomment %}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
       <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
       <link rel="stylesheet" href="/static/css/blog/style.css">
@@ -89,192 +90,165 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NW763C2');</script>
-<!-- End Google Tag Manager -->
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
-        authDomain: "c0mplex.firebaseapp.com",
-        projectId: "c0mplex",
-        storageBucket: "c0mplex.appspot.com",
-        messagingSenderId: "755681568857",
-        appId: "1:755681568857:web:102b1b733df55baefe2948",
-        measurementId: "G-H8XGTS4B9J"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-    </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
+    authDomain: "c0mplex.firebaseapp.com",
+    projectId: "c0mplex",
+    storageBucket: "c0mplex.appspot.com",
+    messagingSenderId: "755681568857",
+    appId: "1:755681568857:web:102b1b733df55baefe2948",
+    measurementId: "G-H8XGTS4B9J"
+  };
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
       <style>
-        .material-symbols-outlined {
-          font-variation-settings:
-          'FILL' 0,
-          'wght' 400,
-          'GRAD' 0,
-          'opsz' 24
-        }
-        /* Qora rang uchun stil */
-        .dark-mode {
-          background: linear-gradient(to right, #1a1a1a, #210021, #1a1a1a) !important;
-          color: #ffffff;
-        }
-        
-        /* Oq rang uchun stil */
-        .light-mode {
-          background-color: #f0f2f5;
-          color: #000000;
-        }
-        
-        /* Theme switch tugmasi uchun stil */
-        .theme-switch {
-          position: fixed;
-          top: 20px;
-          left: 20px;
-          z-index: 9999;
-          padding: 8px 15px;
-          border-radius: 20px;
-          cursor: pointer;
-          border: none;
-          background: rgba(0, 123, 255, 0.8);
-          color: white;
-          outline: none;
-          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-          transition: all 0.3s ease;
-        }
-        
-        .theme-switch:hover {
-          background: rgba(0, 123, 255, 1);
-          transform: scale(1.05);
-        }
-        
-        .theme-switch i {
-          font-size: 1.2rem;
-        }
-        
-        /* Dark mode uchun qo'shimcha stillar */
-        .dark-mode .card {
-          background: #333;
-          color: #fff;
-        }
-        
-        .dark-mode .card-title a,
-        .dark-mode .card-text a,
-        .dark-mode .list-group-item a {
-          color: #fff;
-        }
-        
-        .dark-mode .list-group-item {
-          background: #333;
-          border-color: #444;
-        }
-        
-        .dark-mode .bg-dark {
-          background: #1a1a1a !important;
-        }
-        
-        /* Dark mode da text-muted rangi */
-        .dark-mode .text-muted {
-          color: #adb5bd !important;
-        }
-        
-        /* Dark mode da card va list elementlar */
-        .dark-mode .card,
-        .dark-mode .list-group-item,
-        .dark-mode .bg-body {
-          background-color: #333 !important;
-          border-color: #444;
-        }
-        
-        /* Dark mode da linklar */
-        .dark-mode a {
-          color: #8bb9fe;
-        }
-        
-        /* Dark mode da linklar */
-        .dark-mode a:hover {
-          color: #4a9eff;
-        }
-        
-        /* Dark mode da pagination */
-        .dark-mode .pagination .page-link {
-          background-color: #1a1a1a;
-          border-color: #333;
-          color: #fff;
+            :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
         }
 
-        .dark-mode .pagination .page-item.active .page-link {
-          background-color: #0d6efd !important;
-          border-color: #0a58ca !important;
-          color: #fff;
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+            --link-color: #8ab4f8;
+            --link-hover-color: #aecbfa;
+            --pagination-bg: #333;
+            --pagination-border: #444;
+            --list-group-bg: #2d2d2d;
         }
 
-        .dark-mode .pagination .page-link:hover {
-          background-color: #2d2d2d;
-          border-color: #444;
-          color: #fff;
-        }
-
-        .dark-mode .pagination .page-item.disabled .page-link {
-          background-color: #1a1a1a;
-          border-color: #333;
-          color: #6c757d;
-        }
-        
         body {
-          transition: background-color 0.3s, color 0.3s;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
         }
 
-        /* Dark mode da btn-outline-primary */
-        .dark-mode .btn-outline-primary {
-          color: #8bb9fe;
-          border-color: #8bb9fe;
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
         }
 
-        .dark-mode .btn-outline-primary:hover {
-          color: #000;
-          background-color: #8bb9fe;
-          border-color: #8bb9fe;
+        [data-theme="dark"] .nav-link {
+            color: var(--link-color);
         }
-      </style>
+
+        [data-theme="dark"] .nav-link:hover {
+            color: var(--link-hover-color);
+        }
+
+        [data-theme="dark"] .link-info {
+            color: var(--link-color) !important;
+        }
+
+        [data-theme="dark"] .link-info:hover {
+            color: var(--link-hover-color) !important;
+        }
+
+        [data-theme="dark"] .list-group-item {
+            background-color: var(--list-group-bg);
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .page-link {
+            background-color: var(--pagination-bg);
+            border-color: var(--pagination-border);
+            color: var(--link-color);
+        }
+
+        [data-theme="dark"] .page-link:hover {
+            background-color: var(--card-bg);
+            border-color: var(--pagination-border);
+            color: var(--link-hover-color);
+        }
+
+        [data-theme="dark"] .page-item.active .page-link {
+            background-color: var(--link-color);
+            border-color: var(--link-color);
+            color: var(--bg-color);
+        }
+
+        [data-theme="dark"] .text-muted {
+            color: #999 !important;
+        }
+
+        [data-theme="dark"] .bg-body {
+            background-color: var(--card-bg) !important;
+        }
+
+        /* Add table styles for dark mode */
+        [data-theme="dark"] .table {
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.075);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .table thead th {
+            color: var(--text-color);
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .table td {
+            border-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>    
       <script>
-        // Local Storage-da theme ni saqlash
-        function setTheme(themeName) {
-          localStorage.setItem('theme', themeName);
-          document.body.classList.remove('light-mode', 'dark-mode');
-          document.body.classList.add(themeName);
-        }
-        
-        // Temani almashtirib beruvchi funksiya  
-        function toggleTheme() {
-          if (document.body.classList.contains('dark-mode')){
-            setTheme('light-mode');
-          } else {
-            setTheme('dark-mode');
-          }
-        }
-        
-        // Sahifa yuklanganda avvalgi tanlangan temani yuklash
-        document.addEventListener('DOMContentLoaded', function() {
-          if (localStorage.getItem('theme') === 'dark-mode') {
-            setTheme('dark-mode');
-          } else {
-            setTheme('light-mode');
-          }
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
         });
-      </script>
+
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+        }
+    </script>
       <title>My Blog</title>
     </head>
     <body>
-      <button onclick="toggleTheme()" class="theme-switch">
-        <i class="bi bi-brightness-high"></i>
+      <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+          <i class="fas fa-sun"></i> Dark Mode
       </button>
       <ins class="adsbygoogle"
         style="display:block; text-align:center;"
