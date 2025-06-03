@@ -236,32 +236,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       text-align: center;
     }
 
-    /* Qora rang uchun stil */
-    .dark-mode {
-      background-color: #210021;
-      color: #ffffff;
-    }
-    
-    /* Oq rang uchun stil */
-    .light-mode {
-      background-color: #f0f2f5;
-      color: #000000;
-    }
-    
-    /* Theme switch tugmasi uchun stil */
-    .theme-switch {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 9999;
-      padding: 8px 15px;
-      border-radius: 20px;
-      cursor: pointer;
-      border: none;
-      background: #007bff;
-      color: white;
-      outline: none;
-    }
 
     .page-content{
       background: #eee;
@@ -289,9 +263,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     .page-active {
       display: block;
-    }
-    body {
-      transition: background-color 0.3s, color 0.3s;
     }
         section {
 
@@ -371,32 +342,95 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
     </style>
 
+<style>
+            :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        /* Add table styles for dark mode */
+        [data-theme="dark"] .table {
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.075);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .table thead th {
+            color: var(--text-color);
+            border-bottom-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .table td {
+            border-color: var(--border-color);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
     <script>
-      // Local Storage-da theme ni saqlash
-      function setTheme(themeName) {
-        localStorage.setItem('theme', themeName);
-        document.body.classList.remove('light-mode', 'dark-mode');
-        document.body.classList.add(themeName);
-      }
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
 
-      // Temani almashtirib beruvchi funksiya  
-      function toggleTheme() {
-        if (document.body.classList.contains('dark-mode')){
-          setTheme('light-mode');
-        } else {
-          setTheme('dark-mode');
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
         }
-      }
 
-      // Sahifa yuklanganda avvalgi tanlangan temani yuklash
-      document.addEventListener('DOMContentLoaded', function() {
-        if (localStorage.getItem('theme') === 'dark-mode') {
-          setTheme('dark-mode');
-        } else {
-          setTheme('light-mode');
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
         }
-      });
     </script>
+<button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-sun"></i> Dark Mode
+</button>
 </head>
 <body ng-app="App" ng-controller="tests">
   <ins class="adsbygoogle"
@@ -1164,8 +1198,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-    <button onclick="toggleTheme()" class="theme-switch">
-      <i class="bi bi-brightness-high"></i>
-    </button>
 </body>
 </html>
