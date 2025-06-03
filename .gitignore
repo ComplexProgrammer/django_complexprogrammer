@@ -91,3 +91,4 @@ local_settings.py
 
 django_complexprogrammer/__pycache__/
 projects/__pycache__/
+db.sqlite3
