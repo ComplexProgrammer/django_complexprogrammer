@@ -292,5 +292,5 @@ EMAIL_USE_SSL = True  # Using SSL instead of TLS
 EMAIL_USE_TLS = False  # Disable TLS when using SSL
 EMAIL_HOST_USER = 'complexprogrammer@mail.ru'
 EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
-# DEFAULT_FROM_EMAIL = 'Complex Programmer <complexprogrammer@mail.ru>'
 DEFAULT_FROM_EMAIL = 'complexprogrammer@mail.ru'
+SERVER_EMAIL = 'complexprogrammer@mail.ru'
