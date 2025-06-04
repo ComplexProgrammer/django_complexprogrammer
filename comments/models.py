@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class Comment(models.Model):
     username = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)  # Email manzili
     page_url = models.CharField(max_length=200)  # Qaysi sahifada qoldirilgani
     text = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)

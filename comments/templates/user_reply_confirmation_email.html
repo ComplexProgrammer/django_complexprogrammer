@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Javobingiz qabul qilindi</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px">
+      <h2 style="color: #2c3e50; margin-bottom: 20px">
+        Hurmatli {{ username }},
+      </h2>
+
+      <p>Sizning javobingiz muvaffaqiyatli qabul qilindi. Rahmat!</p>
+
+      <div
+        style="
+          background-color: #f8f9fa;
+          padding: 15px;
+          border-left: 4px solid #28a745;
+          margin: 20px 0;
+        "
+      >
+        <h4 style="margin-top: 0; color: #2c3e50">Siz javob bergan izoh:</h4>
+        <p
+          style="
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+          "
+        >
+          {{ original_comment }}
+        </p>
+        <p><strong>Izoh egasi:</strong> {{ original_author }}</p>
+      </div>
+
+      <div
+        style="
+          background-color: #f8f9fa;
+          padding: 15px;
+          border-left: 4px solid #007bff;
+          margin: 20px 0;
+        "
+      >
+        <p style="margin: 0"><strong>Sizning javobingiz:</strong></p>
+        <p
+          style="
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+          "
+        >
+          {{ reply_text }}
+        </p>
+        <p style="color: #6c757d; font-size: 0.9em">
+          Vaqt: {{ created_at|date:"d.m.Y H:i" }}
+        </p>
+      </div>
+
+      <p>
+        Javob qoldirilgan sahifa:
+        <a href="{{ page_url }}" style="color: #007bff; text-decoration: none"
+          >{{ page_url }}</a
+        >
+      </p>
+
+      <hr style="border: none; border-top: 1px solid #e9ecef; margin: 20px 0" />
+
+      <p style="color: #6c757d; font-size: 0.9em">
+        Bu avtomatik xabar. Iltimos, javob qaytarmang.
+      </p>
+    </div>
+  </body>
+</html>

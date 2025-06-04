@@ -1,6 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
-from comments.utils import send_comment_notification, send_reply_notification
 from .forms import CommentForm
 from .models import Comment
 from django.http import HttpResponseRedirect
@@ -15,10 +13,6 @@ def add_comment(request):
                 parent = Comment.objects.get(id=parent_id)
                 comment.parent = parent
             comment.save()
-            if not parent_id:
-                send_comment_notification(comment)
-            else:
-                send_reply_notification(comment, parent)
             return HttpResponseRedirect(request.POST.get('page_url'))
     else:
         form = CommentForm()      # Get comments for the current page

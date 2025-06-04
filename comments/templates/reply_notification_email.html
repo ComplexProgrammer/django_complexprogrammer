@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sizning izohingizga javob yozildi</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; margin: 0; padding: 20px">
+    <div
+      style="
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+      "
+    >
+      <h2 style="color: #333; margin-top: 0">
+        Sizning izohingizga javob yozildi
+      </h2>
+
+      <div
+        style="
+          background: #f9f9f9;
+          border-left: 4px solid #6c757d;
+          padding: 15px;
+          margin: 15px 0;
+        "
+      >
+        <p style="margin: 0"><strong>Sizning izohingiz:</strong></p>
+        <p style="margin: 10px 0; color: #666">{{ original_comment }}</p>
+      </div>
+
+      <div
+        style="
+          background: #f9f9f9;
+          border-left: 4px solid #007bff;
+          padding: 15px;
+          margin: 15px 0;
+        "
+      >
+        <p style="margin: 0">
+          <strong>Javob beruvchi:</strong> {{ username }} ({{ email }})
+        </p>
+        <p style="margin: 10px 0">
+          <strong>Javob matni:</strong> {{ reply_text }}
+        </p>
+        <p style="margin: 0"><strong>Vaqt:</strong> {{ created_at }}</p>
+        <p style="margin: 0">
+          <strong>Sahifa manzili:</strong>
+          <a href="{{ page_url }}" style="color: #007bff; text-decoration: none"
+            >{{ page_url }}</a
+          >
+        </p>
+      </div>
+      <p style="margin-top: 20px">
+        <a
+          href="{{ page_url }}"
+          style="
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+          "
+        >
+          Sahifaga o'tish
+        </a>
+      </p>
+    </div>
+  </body>
+</html>

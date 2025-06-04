@@ -43,14 +43,13 @@ INSTALLED_APPS = [
     'projects',
     'whitenoise.runserver_nostatic',
     'django_extensions',
-    # 'mobiledetect',
     'core',
     'tests',
     'pdf_tools',
     'markets',
     'news',
+    'comments',  # Add comments app
     'blog',
-    'comments',
     'cryptomarket',
     'site_clones',
     'ckeditor', # CKEditor config
@@ -284,3 +283,14 @@ COLOR_PALETTE = [
 ]
 
 X_FRAME_OPTIONS = 'ALLOWALL'
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465  # Changed to 465 for SSL
+EMAIL_USE_SSL = True  # Using SSL instead of TLS
+EMAIL_USE_TLS = False  # Disable TLS when using SSL
+EMAIL_HOST_USER = 'complexprogrammer@mail.ru'
+EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
+# DEFAULT_FROM_EMAIL = 'Complex Programmer <complexprogrammer@mail.ru>'
+DEFAULT_FROM_EMAIL = 'complexprogrammer@mail.ru'

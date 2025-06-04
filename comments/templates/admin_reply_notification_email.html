@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Yangi javob xabari</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333">
+    <div style="max-width: 600px; margin: 0 auto; padding: 20px">
+      <h2 style="color: #2c3e50; margin-bottom: 20px">
+        Yangi javob qoldirildi!
+      </h2>
+
+      <div
+        style="
+          background-color: #f8f9fa;
+          padding: 15px;
+          border-left: 4px solid #28a745;
+          margin: 20px 0;
+        "
+      >
+        <h4 style="margin-top: 0; color: #2c3e50">Javob ma'lumotlari:</h4>
+        <p><strong>Javob yozgan:</strong> {{ username }} ({{ email }})</p>
+        <p><strong>Javob matni:</strong></p>
+        <p
+          style="
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+          "
+        >
+          {{ reply_text }}
+        </p>
+        <p style="color: #6c757d; font-size: 0.9em">
+          Vaqt: {{ created_at|date:"d.m.Y H:i" }}
+        </p>
+      </div>
+
+      <div
+        style="
+          background-color: #f8f9fa;
+          padding: 15px;
+          border-left: 4px solid #17a2b8;
+          margin: 20px 0;
+        "
+      >
+        <h4 style="margin-top: 0; color: #2c3e50">Asl izoh ma'lumotlari:</h4>
+        <p><strong>Izoh egasi:</strong> {{ original_author }}</p>
+        <p><strong>Izoh matni:</strong></p>
+        <p
+          style="
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+          "
+        >
+          {{ original_comment }}
+        </p>
+      </div>
+
+      <p>
+        Sahifaga o'tish:
+        <a href="{{ page_url }}" style="color: #007bff; text-decoration: none"
+          >{{ page_url }}</a
+        >
+      </p>
+    </div>
+  </body>
+</html>

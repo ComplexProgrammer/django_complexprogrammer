@@ -6,9 +6,10 @@ class CommentForm(forms.ModelForm):
     
     class Meta:
         model = Comment
-        fields = ['username', 'text', 'page_url']
+        fields = ['username', 'email', 'text', 'page_url']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'page_url': forms.HiddenInput(),
             'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
