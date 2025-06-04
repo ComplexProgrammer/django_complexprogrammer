@@ -18,7 +18,7 @@ from googletrans import Translator
 from instaloader import Instaloader, Profile
 # from decouple import config
 # from pysitemap import crawler
-import numpy as np
+# import numpy as np
 import urllib3
 # import yaml
 from django_complexprogrammer.settings import CARTOONIZED_FOLDER, GET_FILE_FORMATS, MEDIA_URL, STATIC_URL, WRITE_BOX_CARTOONIZER, UPLOAD_FOLDER_VIDEOS
@@ -86,7 +86,7 @@ def convert_bytes_to_image(img_bytes):
         image.paste(pil_image, mask=pil_image.split()[3])
     else:
         image = pil_image.convert('RGB')
-    image = np.array(image)
+    # image = np.array(image)
 
     return image
 
@@ -379,22 +379,23 @@ def TextToSpeech(request):
     return HttpResponse(text)
 
 def GetTranslateResult(request):
-    text = request.GET.get('text', None)
-    src = request.GET.get('src', None)
-    dest = request.GET.get('dest', None)
-    print(src)
-    print(dest)
-    print(text)
-    translator = Translator()
+    # text = request.GET.get('text', None)
+    # src = request.GET.get('src', None)
+    # dest = request.GET.get('dest', None)
+    # print(src)
+    # print(dest)
+    # print(text)
+    # translator = Translator()
 
-    # result = translator.translate(text)
-    result = translator.translate(text, src=src, dest=dest)
-    print(result.src) # type: ignore
-    print(result.dest)
-    print(result.origin)
-    print(result.text)
-    print(result.pronunciation)
-    return JsonResponse({'data': result.text}, safe=False) 
+    # # result = translator.translate(text)
+    # result = translator.translate(text, src=src, dest=dest)
+    # print(result.src) # type: ignore
+    # print(result.dest)
+    # print(result.origin)
+    # print(result.text)
+    # print(result.pronunciation)
+    # return JsonResponse({'data': result.text}, safe=False) 
+    return JsonResponse({'data': 'result.text'}, safe=False) 
 
 def C0mplexTranslate(request):
     current_url = request.build_absolute_uri()
@@ -412,34 +413,34 @@ def ImageCompare(request):
     }
     if request.method == 'GET':
         return render(request, 'projects/imagecompare.html', context=context)
-    if request.method == 'POST':
-        if 'img1' not in request.files or 'img2' not in request.files:
-            print('No file part')
-            context = {"data": ''}
-        else:
-            img1_model = request.files['img1']
-            img2_model = request.files['img2']
-            print(img1_model)
-            print(img2_model)
-            image1 = np.asarray(bytearray(img1_model.read()), dtype="uint8")
-            image1 = cv2.imdecode(image1, cv2.IMREAD_COLOR)
-            image2 = np.asarray(bytearray(img2_model.read()), dtype="uint8")
-            image2 = cv2.imdecode(image2, cv2.IMREAD_COLOR)
-            # grayA = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-            # grayB = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
-            grayA = cv2.cvtColor(image1, cv2.COLOR_BGRA2GRAY)
-            grayB = cv2.cvtColor(image2, cv2.COLOR_BGRA2GRAY)
-            height1, width1, channels1 = image1.shape
-            height2, width2, channels2 = image2.shape
-            print(height1, width1, channels1)
-            print(height2, width2, channels2)
-            if width1 == width2 and height1 == height2:
-                context = GetImageCompareResult(image1, image2, grayA, grayB)
-            else:
-                dim = (512, 512)
-                resized_image1 = cv2.resize(grayA, dim, interpolation=cv2.INTER_AREA)
-                resized_image2 = cv2.resize(grayB, dim, interpolation=cv2.INTER_AREA)
-                context = GetImageCompareResult(image1, image2, grayA, resized_image1)
+    # if request.method == 'POST':
+    #     if 'img1' not in request.files or 'img2' not in request.files:
+    #         print('No file part')
+    #         context = {"data": ''}
+        # else:
+            # img1_model = request.files['img1']
+            # img2_model = request.files['img2']
+            # print(img1_model)
+            # print(img2_model)
+            # image1 = np.asarray(bytearray(img1_model.read()), dtype="uint8")
+            # image1 = cv2.imdecode(image1, cv2.IMREAD_COLOR)
+            # image2 = np.asarray(bytearray(img2_model.read()), dtype="uint8")
+            # image2 = cv2.imdecode(image2, cv2.IMREAD_COLOR)
+            # # grayA = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
+            # # grayB = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
+            # grayA = cv2.cvtColor(image1, cv2.COLOR_BGRA2GRAY)
+            # grayB = cv2.cvtColor(image2, cv2.COLOR_BGRA2GRAY)
+            # height1, width1, channels1 = image1.shape
+            # height2, width2, channels2 = image2.shape
+            # print(height1, width1, channels1)
+            # print(height2, width2, channels2)
+            # if width1 == width2 and height1 == height2:
+            #     context = GetImageCompareResult(image1, image2, grayA, grayB)
+            # else:
+            #     dim = (512, 512)
+            #     resized_image1 = cv2.resize(grayA, dim, interpolation=cv2.INTER_AREA)
+            #     resized_image2 = cv2.resize(grayB, dim, interpolation=cv2.INTER_AREA)
+            #     context = GetImageCompareResult(image1, image2, grayA, resized_image1)
                 # ImageFile.LOAD_TRUNCATED_IMAGES = True
                 # img1 = Image.open(img1_model)
                 # img2 = Image.open(img2_model)
@@ -452,30 +453,27 @@ def ImageCompare(request):
                 #     result = "data:image/png;base64," + base64.b64encode(contents).decode('utf-8')
                 #     # print(result)
                 #     return {"data": result}
-            return render(request, 'projects/imagecompare.html', context=context)
+            # return render(request, 'projects/imagecompare.html', context=context)
 
 def GetImageCompareResult(image1, image2, grayA, grayB):
-    (score, diff0) = compare_ssim(grayA, grayB, full=True)
-    diff0 = (diff0 * 255).astype("uint8")
-    print("SSIM: {}".format(score))
-    thresh = cv2.threshold(diff0, 0, 255,
-                        cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-    cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-                            cv2.CHAIN_APPROX_SIMPLE)
-    cnts = imutils.grab_contours(cnts)
-    for c in cnts:
-        # compute the bounding box of the contour and then draw the
-        # bounding box on both input images to represent where the two
-        # images differ
-        (x, y, w, h) = cv2.boundingRect(c)
-        cv2.rectangle(image1, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        cv2.rectangle(image2, (x, y), (x + w, y + h), (0, 0, 255), 2)
-    im_arr = cv2.imencode('.jpg', thresh)[1].tostring()  # im_arr: image in Numpy one-dim array format.
-    base64_str = "data:image/png;base64," + base64.b64encode(im_arr).decode('utf-8')
+    # (score, diff0) = compare_ssim(grayA, grayB, full=True)
+    # diff0 = (diff0 * 255).astype("uint8")
+    # print("SSIM: {}".format(score))
+    # thresh = cv2.threshold(diff0, 0, 255,
+    #                     cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+    # cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
+    #                         cv2.CHAIN_APPROX_SIMPLE)
+    # cnts = imutils.grab_contours(cnts)
+    # for c in cnts:
+    #     (x, y, w, h) = cv2.boundingRect(c)
+    #     cv2.rectangle(image1, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    #     cv2.rectangle(image2, (x, y), (x + w, y + h), (0, 0, 255), 2)
+    # im_arr = cv2.imencode('.jpg', thresh)[1].tostring()  # im_arr: image in Numpy one-dim array format.
+    # base64_str = "data:image/png;base64," + base64.b64encode(im_arr).decode('utf-8')
     # im_bytes = im_arr.tobytes()
     # im_b64 = base64.b64encode(im_bytes)
     context={
-        'data': base64_str
+        'data': 'base64_str'
     }
     return context
 
@@ -666,7 +664,7 @@ def ip(request):
 def map(request):
     current_url = request.build_absolute_uri()
     comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
-    key = config('GOOGLE_MAP_API_KEY')
+    # key = config('GOOGLE_MAP_API_KEY')
     # eligable_locations = Locations.objects.filter(place_id__isnull=False)
     locations = []
 
@@ -687,7 +685,7 @@ def map(request):
 
     locations.append(data)
     context = {
-        "key":key, 
+        "key":'key', 
         "locations": locations,
         'comments': comments
     }
@@ -739,7 +737,7 @@ def sitemap(request):
         from asyncio import events, windows_events
         el = windows_events.ProactorEventLoop()
         events.set_event_loop(el)
-        crawler(url, out_file='sitemap.xml', exclude_urls=[".ico", ".css", ".pdf", ".jpg", ".zip", ".png", ".svg"])
+        # crawler(url, out_file='sitemap.xml', exclude_urls=[".ico", ".css", ".pdf", ".jpg", ".zip", ".png", ".svg"])
         basedir = os.path.abspath(os.path.dirname(__file__))
         time.sleep(10)
         send_file_(str(settings.BASE_DIR)+'\\sitemap.xml')
