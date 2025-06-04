@@ -1,0 +1,44 @@
+/* Advertisement styles */
+.ad-container {
+    margin: 2rem 0;
+    inline-size: 100%;
+    min-block-size: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.adsbygoogle {
+    display: block !important;
+    margin: 0 auto;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    min-block-size: 250px;
+    background: transparent;
+}
+
+@media (max-inline-size: 768px) {
+    .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
+        display: block !important;
+    }
+    .adsbygoogle[data-ad-client="ca-pub-7773722896374259"] {
+        display: none !important;
+    }
+    .ad-container {
+        margin: 1rem 0;
+        min-block-size: 100px;
+    }
+}
+
+@media (min-inline-size: 769px) {
+    .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
+        display: none !important;
+    }
+    .adsbygoogle[data-ad-client="ca-pub-7773722896374259"] {
+        display: block !important;
+    }
+}
