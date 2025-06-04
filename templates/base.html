@@ -6,8 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Complex Programmer - Professional programming solutions">
-    <meta name="theme-color" content="#317EFB"/>
-    <meta property="og:image" content="/static/img/hero-bg.png"/>
     <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
     <link rel="manifest" href="/static/manifest.json">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -501,6 +499,23 @@
             main {
                 padding: var(--spacing-lg) var(--spacing-md);
             }
+        }        /* Advertisement styles */
+        .adsbygoogle {
+            margin: 2rem auto;
+            max-inline-size: 100%;
+            overflow: hidden;
+        }
+
+        @media (max-inline-size: 768px) {
+            .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
+                display: none !important;
+            }
+        }
+
+        @media (min-inline-size: 769px) {
+            .adsbygoogle[data-ad-client="ca-pub-7773722896374259"] {
+                display: none !important;
+            }
         }    </style>    <script>
         // Theme button update function
         function updateThemeButton(theme) {
@@ -555,7 +570,7 @@
                 const column = document.createElement('div');
                 column.className = 'code-column';
                 column.style.left = `${i * 30}px`;
-                column.style.animationDelay = `${Math.random() * 12}s`; // Shorter delays
+                column.style.animationDelay = `${Math.random() * 8}s`; // Shorter delays
                 column.textContent = Array(15).fill(0) // Reduced symbols per column
                     .map(() => symbols[Math.floor(Math.random() * symbols.length)])
                     .join('\\n');
@@ -582,24 +597,42 @@
                 initCodeRain();
             }
         });
+    </script>    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-8DHWL20H58');
     </script>
+
+    <!-- Google Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259" crossorigin="anonymous"></script>
+
+    <!-- Google Funding Choices -->
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-4137874891184814?ers=1" nonce="d9aDtkYHWiyzXi90igUlvg"></script>
+    <script nonce="d9aDtkYHWiyzXi90igUlvg">
+        (function() {
+            function signalGooglefcPresent() {
+                if (!window.frames['googlefcPresent']) {
+                    if (document.body) {
+                        const iframe = document.createElement('iframe');
+                        iframe.style = 'inline-size: 0; block-size: 0; border: none; z-index: -1000; inset-inline-start: -1000px; inset-block-start: -1000px;';
+                        iframe.style.display = 'none';
+                        iframe.name = 'googlefcPresent';
+                        document.body.appendChild(iframe);
+                    } else {
+                        setTimeout(signalGooglefcPresent, 0);
+                    }
+                }
+            }
+            signalGooglefcPresent();
+        })();
+    </script>
+
     {% block extra_head %}{% endblock %}
     <title>{% block title %}Complex Programmer{% endblock %}</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8DHWL20H58');
-</script>
-<script async src="https://fundingchoicesmessages.google.com/i/pub-4137874891184814?ers=1" nonce="d9aDtkYHWiyzXi90igUlvg"></script><script nonce="d9aDtkYHWiyzXi90igUlvg">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
-<script async src="https://fundingchoicesmessages.google.com/i/pub-7773722896374259?ers=1" nonce="sGG5LwmtfkrIyGTmOqNI6w"></script><script nonce="sGG5LwmtfkrIyGTmOqNI6w">(function() {function signalGooglefcPresent() {if (!window.frames['googlefcPresent']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent, 0);}}}signalGooglefcPresent();})();</script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
-  crossorigin="anonymous"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
-  crossorigin="anonymous"></script>
- 
 </head>
 <body>    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
@@ -663,54 +696,78 @@
             </button>
             </div>
         </div>
-    </nav>    <!-- Main Content -->
-    <main role="main" class="fade-in">
-        <div class="container">
-          <ins class="adsbygoogle"
+    </nav>    <!-- Main Content -->    <main role="main" class="fade-in">
+        <!-- Display Ad 1 -->
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;"
+             data-ad-client="ca-pub-7773722896374259"
+             data-ad-slot="3869366477"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <!-- Mobile Ad 1 -->
+        <ins class="adsbygoogle"
             style="display:block; text-align:center;"
-            data-ad-client="ca-pub-7773722896374259"
-            data-ad-slot="3869366477"
+            data-ad-client="ca-pub-4137874891184814"
+            data-ad-slot="2799587029"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
-          <!-- 1 chi abzast Mobil -->
-          <ins class="adsbygoogle"
-          style="display:block; text-align:center;"
-          data-ad-client="ca-pub-4137874891184814"
-          data-ad-slot="2799587029"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-          <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
+
+        <div class="container">
             {% block content %}{% endblock %}
-          <ins class="adsbygoogle"
+        </div>
+
+        <!-- Display Ad 2 -->
+        <ins class="adsbygoogle"
             style="display:block; text-align:center;"
             data-ad-client="ca-pub-7773722896374259"
             data-ad-slot="9722986318"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
-            <script>
+        <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-              <!-- 1 chi abzast Desktop -->
-          <ins class="adsbygoogle"
+        </script>
+
+        <!-- Desktop Ad 1 -->
+        <ins class="adsbygoogle"
             style="display:block; text-align:center;"
             data-ad-client="ca-pub-4137874891184814"
             data-ad-slot="4986766667"
             data-ad-format="auto"
             data-full-width-responsive="true"></ins>
-            <script>
+        <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-
-        </div>
-    </main>
-
-    <!-- Footer -->
+        </script>
+    </main>    <!-- Footer -->
     <footer>
+        <!-- Display Ad 3 -->
+        <ins class="adsbygoogle"
+            style="display:block; text-align:center;"
+            data-ad-client="ca-pub-7773722896374259"
+            data-ad-slot="8855222233"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <!-- Mobile Ad 2 -->
+        <ins class="adsbygoogle"
+            style="display:block; text-align:center;"
+            data-ad-client="ca-pub-4137874891184814"
+            data-ad-slot="1305745791"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
         <div class="container">
             <div class="footer-content">
                 <div class="footer-social-links">
