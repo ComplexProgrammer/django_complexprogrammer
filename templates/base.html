@@ -570,7 +570,7 @@
                 const column = document.createElement('div');
                 column.className = 'code-column';
                 column.style.left = `${i * 30}px`;
-                column.style.animationDelay = `${Math.random() * 8}s`; // Shorter delays
+                column.style.animationDelay = `${Math.random() * 12}s`; // Shorter delays
                 column.textContent = Array(15).fill(0) // Reduced symbols per column
                     .map(() => symbols[Math.floor(Math.random() * symbols.length)])
                     .join('\\n');
