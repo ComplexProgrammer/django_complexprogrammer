@@ -8,7 +8,7 @@ import string
 import time
 import traceback
 import uuid
-import cv2
+# import cv2
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
