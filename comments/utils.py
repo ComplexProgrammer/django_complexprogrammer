@@ -5,7 +5,27 @@ from django.utils.html import strip_tags
 import logging
 import os
 from datetime import datetime
+from django.core.mail import get_connection, EmailMessage
 
+def send_mail_with_timeout(subject, message, from_email, recipient_list, html_message=None):
+    try:
+        connection = get_connection(timeout=30)  # 30 sekundlik timeout
+        email = EmailMessage(
+            subject=subject,
+            body=message,
+            from_email=from_email,
+            to=recipient_list,
+            connection=connection,
+        )
+        if html_message:
+            email.content_subtype = "html"
+            email.body = html_message
+        
+        email.send(fail_silently=False)
+        return True
+    except Exception as e:
+        logger.error(f'Email yuborishda xatolik: {str(e)}')
+        return False
 # Logging ni sozlash
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -70,15 +90,17 @@ def send_comment_notification(comment):
         plain_message = strip_tags(html_message)
         
         # Administratorga yuborish
-        send_mail(
+        # send_mail funksiyasi o'rniga send_mail_with_timeout ni ishlatamiz
+        success = send_mail_with_timeout(
             subject,
             plain_message,
             settings.DEFAULT_FROM_EMAIL,
             ['complexprogrammer@mail.ru'],
             html_message=html_message,
-            fail_silently=False,
         )
-        logger.info(f'Admin xabari yuborildi: {comment.username}dan yangi izoh')
+
+        if not success:
+            logger.error(f'Xabar yuborilmadi: {comment.username}')
         
         # Foydalanuvchiga tasdiqlash xabarini yuborish
         try:
