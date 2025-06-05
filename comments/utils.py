@@ -105,7 +105,6 @@ def send_comment_notification(comment):
         # Foydalanuvchiga tasdiqlash xabarini yuborish
         try:
             send_user_comment_confirmation(comment)
-            logger.info(f'Foydalanuvchi xabari yuborildi: {comment.username}')
         except Exception as e:
             logger.error(f'Foydalanuvchi xabarini yuborishda xatolik: {str(e)}, Foydalanuvchi: {comment.username}')
             

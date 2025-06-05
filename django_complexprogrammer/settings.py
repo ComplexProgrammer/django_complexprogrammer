@@ -287,7 +287,7 @@ X_FRAME_OPTIONS = 'ALLOWALL'
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = 465  # Changed to 465 for SSL
+EMAIL_PORT = 587  # Changed to 465 for SSL
 EMAIL_USE_SSL = True  # Using SSL instead of TLS
 EMAIL_USE_TLS = False  # Disable TLS when using SSL
 EMAIL_HOST_USER = 'complexprogrammer@mail.ru'
