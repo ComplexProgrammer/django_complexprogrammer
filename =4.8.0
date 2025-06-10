@@ -1,0 +1,7 @@
+Collecting opencv-contrib-python
+  Downloading opencv_contrib_python-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (20 kB)
+Requirement already satisfied: numpy>=1.21.2 in /home/complex1/virtualenv/complexprogrammer.uz/django/3.11/lib64/python3.11/site-packages (from opencv-contrib-python) (2.2.6)
+Downloading opencv_contrib_python-4.11.0.86-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (69.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.1/69.1 MB 3.7 MB/s eta 0:00:00
+Installing collected packages: opencv-contrib-python
+Successfully installed opencv-contrib-python-4.11.0.86
