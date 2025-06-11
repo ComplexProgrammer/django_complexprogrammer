@@ -12,6 +12,7 @@ import uuid
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Max
 from comments.models import Comment
 import googletrans
 from googletrans import Translator
@@ -480,9 +481,14 @@ def GetImageCompareResult(image1, image2, grayA, grayB):
 def avtotest(request):
     current_url = request.build_absolute_uri()
     comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
-    context={
+    
+    # Get max bilet value and add 1
+    max_bilet = AvtoTest.objects.aggregate(Max('bilet'))['bilet__max']
+    total_bilets = max_bilet + 1 if max_bilet else 1
+    
+    context = {
         'comments': comments,
-        'row': range(1, 109),
+        'row': range(1, total_bilets),
         'bilet': 0
     }
     return render(request, 'projects/avtotest.html', context=context)
@@ -490,9 +496,11 @@ def avtotest(request):
 def avtotest_item(request, bilet):
     current_url = request.build_absolute_uri()
     comments = Comment.objects.filter(page_url=current_url).order_by('-created_at')
+    max_bilet = AvtoTest.objects.aggregate(Max('bilet'))['bilet__max']
+    total_bilets = max_bilet + 1 if max_bilet else 1
     context={
         'comments': comments,
-        'row': range(1, 109),
+        'row': range(1, total_bilets),
         'bilet': bilet
     }
     return render(request, 'projects/avtotest.html', context=context)
@@ -513,7 +521,9 @@ def GetSavol(request):
 
 def GetBilet(request):
     arr=[]
-    for i in range(1, 109):
+    max_bilet = AvtoTest.objects.aggregate(Max('bilet'))['bilet__max']
+    total_bilets = max_bilet + 1 if max_bilet else 1
+    for i in range(1, total_bilets):
         context={
             'bilet': i
         }
