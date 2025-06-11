@@ -113,174 +113,55 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <style>
-        /* Core styles with logical properties */
-        :root {
-            --max-button-width: 200px;
-            --max-complex-button-width: 500px;
-        }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+    .wrapper{
+      margin: 60px auto;
+      text-align: center;
+    }
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
-        }
+    #pagination-demo{
+      display: inline-block;
+      margin-bottom: 1.75em;
+    }
+    #pagination-demo li{
+      display: inline-block;
+    }
 
-        .wrapper {
-            max-inline-size: 1200px;
-            margin-block: 40px;
-            margin-inline: auto;
-            padding-block: 24px;
-            padding-inline: 24px;
-            text-align: center;
-        }
+    .page-content{
+      background: #eee;
+      display: inline-block;
+      padding: 10px;
+      width: 100%;
+      max-width: 660px;
+    }
+    .alertify-log-custom {
+        background: #fba155;
+    }
 
-        .page-content {
-            background: #fff;
-            padding-block: 24px;
-            padding-inline: 24px;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-            margin-block-end: 24px;
-            inline-size: 100%;
-            max-inline-size: 720px;
-            display: inline-block;
-            transition: all 0.2s ease;
-        }
-
-        /* Button and control styles */
-        .btn {
-            inline-size: var(--max-button-width);
-        }
-
-        .complex-button a {
-            inline-size: var(--max-complex-button-width);
-            font-size: 30px;
-        }
-
-        .btn-fixed-width {
-            inline-size: 200px;
-        }
-
-        .list-group {
-            text-align: start !important;
-        }
-
-        .list-group-item {
-            border: 1px solid #dee2e6;
-            border-radius: 8px !important;
-            margin-block-end: 10px;
-            padding-block: 12px;
-            padding-inline: 16px;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        /* Status indicators */
-        .list-group-item:hover:not(.disabledDiv) {
-            background: #e9ecef;
-            transform: translateX(5px);
-        }
-
-        .list-group-item.list-group-item-success {
-            background: #28a745;
-            color: white;
-            border-color: #28a745;
-        }
-
-        .list-group-item.list-group-item-danger {
-            background: #dc3545;
-            color: white;
-            border-color: #dc3545;
-        }
-
-        /* Timer and navigation */
-        #timer {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #0d6efd;
-            text-align: center;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-block: 20px;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            margin-block: 20px;
-        }
-
-        .page-item .page-link {
-            border-radius: 6px;
-            border: none;
-            padding-block: 8px;
-            padding-inline: 12px;
-            color: #0d6efd;
-            background: #fff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: all 0.2s;
-        }
-
-        .page-item .page-link:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
-        }
-
-        .page-item.active .page-link {
-            background: #0d6efd;
-            color: white;
-        }
-
-        /* Utility classes */
-        .disabledDiv {
-            pointer-events: none;
-            opacity: 0.4;
-        }
-
-        .position-relative {
-            margin-block-start: 50px;
-        }
-
-        #conn {
-            visibility: hidden;
-            position: absolute;
-            margin-inline-start: 45%;
-            margin-block-start: 20%;
-            z-index: 9999;
-        }
-
-        /* Theme toggle */
-        .theme-toggle {
-            position: fixed;
-            inset-block-start: var(--spacing-md);
-            inset-inline-start: var(--spacing-md);
-            padding-block: var(--spacing-sm);
-            padding-inline: var(--spacing-md);
-            border-radius: 5px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        /* Images */
-        .test-image {
-            inline-size: 30%;
-            block-size: auto;
-            margin-block: 1rem;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease-in;
-        }
+    .poin:hover {
+        cursor: pointer;
+    }
+    .disabledDiv {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    .page {
+      display: none;
+    }
+    .page-active {
+      display: block;
+    }
+    body {
+      background-color: #f0f2f5;
+      transition: background-color 0.3s, color 0.3s;
+  }
+  {% comment %} .hero-image {
+    background: url("/static/img/avtotest.png") no-repeat center center fixed;
+  } {% endcomment %}
     </style>
     <style>
         section {
@@ -294,7 +175,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           font-size: 90px;
         }
     </style>
-    <style>
+<style>
             :root {
             --bg-color: #ffffff;
             --text-color: #212121;
@@ -333,7 +214,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         [data-theme="dark"] .table thead th {
             color: var(--text-color);
-            border-block-end-color: var(--border-color);
+            border-bottom-color: var(--border-color);
         }
 
         [data-theme="dark"] .table td {
@@ -341,14 +222,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         .theme-toggle {
-            position: fixed;            inset-block-start: 20px;
-            inset-inline-start: 20px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
             padding: 8px 12px;
             border-radius: 5px;
             border: 1px solid var(--border-color);
             background: var(--card-bg);
             color: var(--text-color);
-            cursor: var(--cursor);
+            cursor: pointer;
             z-index: 1000;
         }
     </style>
@@ -403,7 +285,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
   <div class="fixed-top">
-    <div class="position-relative" style="margin-block-start:50px;">
+    <div class="position-relative" style="margin-top:50px;">
       <div class="position-absolute top-0 end-0 translate-middle">
         <div class="container">
           <div class="row">
@@ -451,7 +333,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         renderTo: 'yandex_rtb_R-A-1963742-1',
         blockId: 'R-A-1963742-1'
       })
-    })</script>    <div id="conn" style="visibility:hidden;position:absolute;margin-inline-start:45%;margin-block-start:20%;z-index:9999">
+    })</script>
+    <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
         <img src="/static/img/buffering.gif" />
     </div>
     <input id="hh" type="hidden" />
@@ -478,10 +361,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="p-3 mb-2 bg-secondary text-white" ng-show="10-togri_javob_soni-notogri_javob_soni!=0">Belgilanmagan savollar : {{10-togri_javob_soni-notogri_javob_soni}} ta</div>
         <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=10">To'g'ri javob : {{togri_javob_soni}} ta</div>
         <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=10">Noto'g'ri javob : {{notogri_javob_soni}} ta</div>
-      </div>      <div class="modal-footer">
-        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
-        <button type="button" class="btn btn-outline-primary" style="inline-size:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - biletga o'tish</button>
-        <button type="button" class="btn btn-outline-danger" style="inline-size:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
+        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - biletga o'tish</button>
+        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
         <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
       </div>
     </div>
@@ -575,7 +459,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="row">
                     <div class="col">
                         <div class="C0mplexButton Success">
-                            <a href="/avtotest/{{ i }}" style='inline-size:500px; font-size:30px'>
+                            <a href="/avtotest/{{ i }}" style='width:500px; font-size:30px'>
                               <span></span>
                               <span></span>
                               <span></span>
@@ -643,9 +527,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               </ul>
               {% if request.LANGUAGE_CODE == 'uz' %}
               {% verbatim %}
-              <div ng-repeat="item in data" ng-show="item.id==id">                  <h4 class="page-content">{{bilet}} - bilet<br/>{{item.raqam}} - savol<br/>{{item.savol}}</h4>
-                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" class="test-image">
-                  <div class="list-group" style="text-align:start">
+              <div ng-repeat="item in data" ng-show="item.id==id">
+                  <h4 class="page-content">{{bilet}} - bilet<br/>{{item.raqam}} - savol<br/>{{item.savol}}</h4>
+                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
+                  <div class="list-group" style="text-align:left">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a}}</a>
                     <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b}}</a>
                     <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c}}</a>
@@ -656,8 +541,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               {% else %}
               {% if request.LANGUAGE_CODE == 'ru' %}
               {% verbatim %}
-              <div ng-repeat="item in data" ng-show="item.id==id">                  <h4 class="page-content">{{bilet}}- билет<br/>Вопрос {{item.raqam}}<br/>{{item.savol_ru}}</h4>
-                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" class="test-image">
+              <div ng-repeat="item in data" ng-show="item.id==id">
+                  <h4 class="page-content">{{bilet}}- билет<br/>Вопрос {{item.raqam}}<br/>{{item.savol_ru}}</h4>
+                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
                   <div class="list-group" style="text-align:left">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a_ru}}</a>
                     <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b_ru}}</a>
