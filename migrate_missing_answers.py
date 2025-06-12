@@ -51,7 +51,7 @@ def migrate_missing_answers():
                     javob_d, javob_d_en, javob_d_ru,
                     javob
                 FROM projects_avtotest 
-                WHERE savol = ?
+                WHERE bilet>108 and savol = ?
             """, (question[0],))
             answers = cursor.fetchone()
             if not answers:
