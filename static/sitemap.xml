@@ -1,3177 +1,2512 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	  xmlns:xhtml="http://www.w3.org/1999/xhtml"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	  	  
-<!-- www.check-domains.com sitemap generator -->
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
 
 <url>
-   <loc>https://complexprogrammer.uz/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>1.0000</priority>
+  <loc>https://complexprogrammer.uz/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>1.00</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?type_id=2</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.8000</priority>
+  <loc>https://complexprogrammer.uz/blog/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/pdf_tools</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.8000</priority>
+  <loc>https://complexprogrammer.uz/projects/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?type_id=3</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.8000</priority>
+  <loc>https://complexprogrammer.uz/news/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/blog/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/markets/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/news/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/tests/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/avtotest/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=49</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/terms/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=1</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/privacy/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.80</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/password_generator/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/markets/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/ip/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/site_clones/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/changetext/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/exchangerates/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/imagecompare/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/translate/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/coins/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/youtube_downloader/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=11</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/sitemap/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=12</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/instagram-downloader/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=13</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/snake/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=14</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/snake2/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/car/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=16</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/duckhunt/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=ac2ee5c2-3d89-498e-b81a-73acbe7738d5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/motorcycle/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1c0a976d-46cf-47a8-a20e-f7a4f951e98e</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/bubbleshooter/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=334b57c0-eb2d-4bc1-9f2f-05ba21b17dd8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/pingpong/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tictactoe/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tetris/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/terms/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/privacy/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.6400</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=17</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=18</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=19</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/project/30/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=20</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/project/6/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=21</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/project/25/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=22</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/project/28/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=23</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/project/2/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=24</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/project/26/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?group_id=1</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.5120</priority>
+  <loc>https://complexprogrammer.uz/project/27/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/blog/?id=81824c19-e607-43e3-b53f-d08b3c2aa986</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/29/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/blog/?id=b0935fc6-7a67-4ea1-9447-f79a3aea157c</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/3/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/news/?id=8fbd48d5-d43c-4dc0-9fcf-beae230ca408</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/31/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/news/?id=bcb98e5a-85e3-48e7-a17b-aa7297a24a26</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/4/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/news/?id=d3679d57-1b0d-4e9e-ab80-8a402f233c26</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/5/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=375</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/7/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=376</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/8/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=377</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/9/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=378</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/10/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=379</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/1/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=380</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/11/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=381</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/12/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=382</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/13/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=383</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/14/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=384</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/15/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=385</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/16/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=386</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/17/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=387</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/18/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=388</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/19/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=389</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/20/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=390</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/21/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=391</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/22/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=392</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/project/23/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=393</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/news/?id=8fbd48d5-d43c-4dc0-9fcf-beae230ca408</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=394</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/news/?id=bcb98e5a-85e3-48e7-a17b-aa7297a24a26</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=395</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/news/?id=d3679d57-1b0d-4e9e-ab80-8a402f233c26</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=396</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/markets/?market_id=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=397</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/markets/?category=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=398</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/markets/?store_id=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=399</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/markets/?store_id=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=400</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/markets/?product_id=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=401</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/markets/?product_id=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=402</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/markets/?product_id=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=403</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/tests/?type_id=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=404</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/tests/?type_id=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=405</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/1/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=406</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/2/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=407</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/3/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=408</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/4/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=409</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/5/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=410</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/6/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=411</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/7/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=412</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/8/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=413</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/9/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=414</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/10/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=415</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/11/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=416</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/12/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=417</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/13/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=418</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/14/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=419</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/15/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=420</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/16/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=421</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/17/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=422</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/18/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=423</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/19/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=424</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/20/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=425</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/21/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=426</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/22/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=427</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/23/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=428</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/24/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=429</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/25/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=430</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/26/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=431</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/27/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=432</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/28/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=433</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/29/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=434</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/30/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=435</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/31/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=436</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/32/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=437</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/33/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=438</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/34/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=439</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/35/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=440</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/36/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=441</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/37/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=442</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/38/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=443</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/39/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=444</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/40/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=445</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/41/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=446</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/42/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=447</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/43/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=448</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/44/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=449</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/45/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=450</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/46/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=451</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/47/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=452</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/48/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=453</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/49/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=454</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/50/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=455</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/51/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=456</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/52/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=457</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/53/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=458</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/54/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=459</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/55/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=460</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/56/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=461</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/57/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=462</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/58/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=463</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/59/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=464</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/60/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=465</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/61/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=466</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/62/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=467</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/63/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=468</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/64/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=469</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/65/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=470</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/66/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=471</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/67/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=472</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/68/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=473</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/69/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=474</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/70/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=475</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/71/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=476</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/72/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=477</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/73/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=478</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/74/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=479</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/75/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=480</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/76/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=481</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/77/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=482</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/78/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/site_clones/postda.uz/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/79/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/site_clones/konsta.uz/</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.4096</priority>
+  <loc>https://complexprogrammer.uz/avtotest/80/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=11</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/81/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=12</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/82/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=13</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/83/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=14</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/84/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=15</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/85/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=16</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/86/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=17</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/87/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=18</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/88/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=19</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/89/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=20</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/90/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=21</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/91/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=22</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/92/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=23</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/93/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=24</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/94/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=25</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/95/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=26</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/96/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=27</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/97/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=28</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/98/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=29</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/99/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=30</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/100/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=31</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/101/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=32</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/102/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=33</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/103/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=34</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/104/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=35</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/105/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=36</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/106/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=37</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/107/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=38</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/108/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=39</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/109/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=40</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/110/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=41</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/111/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=42</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/112/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=43</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/113/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=44</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/114/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=45</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/115/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=46</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/116/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=47</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/117/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=48</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/118/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?book_id=1</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.3277</priority>
+  <loc>https://complexprogrammer.uz/avtotest/119/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=42</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/120/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=43</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/121/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=44</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/122/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=45</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/123/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=46</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/124/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=47</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/125/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=48</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/126/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=49</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/127/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=50</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/128/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=51</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/129/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=52</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/130/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=53</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/131/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=54</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/132/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=55</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/133/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=56</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/134/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=57</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/135/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=58</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/136/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=59</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/137/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=60</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/138/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=61</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/avtotest/139/</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=66</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=67</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=fe32df00-1cd1-480d-a2d4-926a813a59e6&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=68</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=81824c19-e607-43e3-b53f-d08b3c2aa986&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=62</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=cf8acdcb-7e10-4ca3-a34c-fdd70d4c8d04&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=63</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=fe32df00-1cd1-480d-a2d4-926a813a59e6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=64</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=81824c19-e607-43e3-b53f-d08b3c2aa986</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=69</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=cf8acdcb-7e10-4ca3-a34c-fdd70d4c8d04</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=70</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b0935fc6-7a67-4ea1-9447-f79a3aea157c&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=71</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=d390f1db-f7f9-43c3-a248-3986fe86d725&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=65</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=fe500c44-0f05-4b49-9036-22f3a96f13e2&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=72</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b0935fc6-7a67-4ea1-9447-f79a3aea157c</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=73</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=d390f1db-f7f9-43c3-a248-3986fe86d725</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=74</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=fe500c44-0f05-4b49-9036-22f3a96f13e2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=75</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=584baa9e-9992-4144-a2fe-1910cda55011&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=76</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3b6c76df-da1d-4f9a-9150-c469f3480cc8&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=77</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=a071fc78-e881-49ab-9e0b-fdce070d6817&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=78</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=584baa9e-9992-4144-a2fe-1910cda55011</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=79</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3b6c76df-da1d-4f9a-9150-c469f3480cc8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=80</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=a071fc78-e881-49ab-9e0b-fdce070d6817</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=81</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f4f43f65-e5a4-41a4-9fb9-74c72cc17acb&amp;page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=82</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=6cfcb79a-722d-4940-8693-0c8218d93254&amp;page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=83</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9eaa83d8-57ab-44ca-ac98-8f9af46d6cb8&amp;page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=84</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f4f43f65-e5a4-41a4-9fb9-74c72cc17acb</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=85</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=6cfcb79a-722d-4940-8693-0c8218d93254</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=86</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9eaa83d8-57ab-44ca-ac98-8f9af46d6cb8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=87</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=956ccf1e-414a-4987-a8c5-0c6eea028780&amp;page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=88</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b0332425-ceb4-496e-9fec-7bf122c78aa2&amp;page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=89</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=e16b1a15-8cd6-4692-af9a-10ae1a85bb75&amp;page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=90</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=956ccf1e-414a-4987-a8c5-0c6eea028780</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=91</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b0332425-ceb4-496e-9fec-7bf122c78aa2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=92</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=e16b1a15-8cd6-4692-af9a-10ae1a85bb75</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=93</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=6c81beb0-8e91-46f0-b310-e682c31ff1bc&amp;page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=94</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=48640f1a-4050-4d66-981a-6c40344c6304&amp;page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=95</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=a7020b25-9981-48d5-b826-5527765094ac&amp;page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=96</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=6c81beb0-8e91-46f0-b310-e682c31ff1bc</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=97</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=48640f1a-4050-4d66-981a-6c40344c6304</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=98</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=a7020b25-9981-48d5-b826-5527765094ac</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=99</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=97da2e89-3108-4828-82fe-46aad73ed344&amp;page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=100</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=0d70d440-626a-4a6d-ae00-d01b96261d2d&amp;page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=101</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=7cc8ac09-3184-4e43-b0c3-6785f1c5ae7d&amp;page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=102</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=97da2e89-3108-4828-82fe-46aad73ed344</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=103</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=0d70d440-626a-4a6d-ae00-d01b96261d2d</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=104</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=7cc8ac09-3184-4e43-b0c3-6785f1c5ae7d</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=105</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=53a91a39-829d-4bba-9171-642f49dd7671&amp;page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=106</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=bf85280b-67b3-450d-bcc2-ffc5c0da7446&amp;page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=107</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3909fc1d-b3aa-4a84-a3fc-655daf4fd8ee&amp;page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=108</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=53a91a39-829d-4bba-9171-642f49dd7671</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=109</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=bf85280b-67b3-450d-bcc2-ffc5c0da7446</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=110</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3909fc1d-b3aa-4a84-a3fc-655daf4fd8ee</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=111</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9d8faa21-7bd6-4c72-b5e5-5e36547ec701&amp;page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=112</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=4f2ee6a0-9fa3-4443-a485-f045ff8fc1d3&amp;page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=113</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b8cbbe8d-9dec-4345-9842-168c5ebf61ce&amp;page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=114</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9d8faa21-7bd6-4c72-b5e5-5e36547ec701</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=115</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=4f2ee6a0-9fa3-4443-a485-f045ff8fc1d3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=116</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b8cbbe8d-9dec-4345-9842-168c5ebf61ce</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=117</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=5d36223d-862f-4d3e-a57e-e4ab2a330533&amp;page=11</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=118</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=66702a1e-71b3-404f-9245-4fcdc4354270&amp;page=11</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=119</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f2177639-cfa8-4c90-b64a-0e75c319b0a4&amp;page=11</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=120</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=5d36223d-862f-4d3e-a57e-e4ab2a330533</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=121</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=66702a1e-71b3-404f-9245-4fcdc4354270</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=122</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f2177639-cfa8-4c90-b64a-0e75c319b0a4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=123</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=8397dc84-2871-49d3-8c79-0478574eb79a&amp;page=12</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=124</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1d9a46cf-29d6-4461-b744-1aa5386205ce&amp;page=12</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=125</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=87c75e2c-515a-499d-a479-72ccfddf7a79&amp;page=12</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=126</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=8397dc84-2871-49d3-8c79-0478574eb79a</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=127</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1d9a46cf-29d6-4461-b744-1aa5386205ce</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=128</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=87c75e2c-515a-499d-a479-72ccfddf7a79</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=129</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=442cecde-2836-40e4-9e67-8b6ce7da8fcf&amp;page=13</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=130</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=2210cd1e-254f-4efa-864b-8c64733f1ffa&amp;page=13</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=131</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f8f279df-1e2b-402b-9cd8-a6d7281ea7ec&amp;page=13</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=132</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=442cecde-2836-40e4-9e67-8b6ce7da8fcf</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=133</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=2210cd1e-254f-4efa-864b-8c64733f1ffa</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=134</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f8f279df-1e2b-402b-9cd8-a6d7281ea7ec</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=135</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=915c1fb5-7559-4034-b7fc-dbaa768cc163&amp;page=14</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=136</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9b50b4e6-c4c1-4ce2-833a-0ae669ca4ccf&amp;page=14</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=137</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=fef7e61a-dba9-4710-818f-22aaaadbedc9&amp;page=14</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=138</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=915c1fb5-7559-4034-b7fc-dbaa768cc163</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=139</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9b50b4e6-c4c1-4ce2-833a-0ae669ca4ccf</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=140</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=fef7e61a-dba9-4710-818f-22aaaadbedc9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=141</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=315a32a9-207e-4034-ac94-f1d00cc982e0&amp;page=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=142</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1f33e5b5-6e85-4b5b-a06e-4884596e1647&amp;page=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=143</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=14e7171e-d29d-41f4-a10b-894bb3185684&amp;page=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=144</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=315a32a9-207e-4034-ac94-f1d00cc982e0</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=145</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1f33e5b5-6e85-4b5b-a06e-4884596e1647</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=146</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=14e7171e-d29d-41f4-a10b-894bb3185684</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=147</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3fedbe8c-b28a-454a-8cbf-59b95a51398e&amp;page=16</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=148</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3fedbe8c-b28a-454a-8cbf-59b95a51398e</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=149</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=2&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=150</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=3&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=151</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=4&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=152</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=5&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=153</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=6&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=154</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=7&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=155</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=8&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=156</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=9&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=157</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=10&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=158</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=11&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=159</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=24</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=160</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=161</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=17</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=162</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=18</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=163</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=19</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=164</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=20</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=165</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=21</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=166</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=22</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=167</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?group_id=23</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.51</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=168</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=ac2ee5c2-3d89-498e-b81a-73acbe7738d5&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=169</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1c0a976d-46cf-47a8-a20e-f7a4f951e98e&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=170</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=334b57c0-eb2d-4bc1-9f2f-05ba21b17dd8&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=171</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=2&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=172</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=1&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=173</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=3&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=174</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=1&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=175</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=7&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=176</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=3&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=177</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=4&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=178</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=179</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=180</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=181</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=182</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=183</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=184</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=11</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=185</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=12</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=186</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=13</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=187</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=14</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=188</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=189</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=5&amp;page=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=190</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=5&amp;page=16</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=191</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=192</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?page=1&amp;categorie_id=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=193</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=956ccf1e-414a-4987-a8c5-0c6eea028780&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=194</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b0332425-ceb4-496e-9fec-7bf122c78aa2&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=195</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=e16b1a15-8cd6-4692-af9a-10ae1a85bb75&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=196</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=197</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=6c81beb0-8e91-46f0-b310-e682c31ff1bc&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=198</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=48640f1a-4050-4d66-981a-6c40344c6304&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=199</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=a7020b25-9981-48d5-b826-5527765094ac&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=200</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=201</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=97da2e89-3108-4828-82fe-46aad73ed344&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=202</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=0d70d440-626a-4a6d-ae00-d01b96261d2d&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=203</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=7cc8ac09-3184-4e43-b0c3-6785f1c5ae7d&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=204</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=53a91a39-829d-4bba-9171-642f49dd7671&amp;page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=205</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=bf85280b-67b3-450d-bcc2-ffc5c0da7446&amp;page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=206</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3909fc1d-b3aa-4a84-a3fc-655daf4fd8ee&amp;page=5</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=207</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9d8faa21-7bd6-4c72-b5e5-5e36547ec701&amp;page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=208</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=4f2ee6a0-9fa3-4443-a485-f045ff8fc1d3&amp;page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=209</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b8cbbe8d-9dec-4345-9842-168c5ebf61ce&amp;page=6</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=210</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=5d36223d-862f-4d3e-a57e-e4ab2a330533&amp;page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=211</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=66702a1e-71b3-404f-9245-4fcdc4354270&amp;page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=212</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f2177639-cfa8-4c90-b64a-0e75c319b0a4&amp;page=7</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=213</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=8397dc84-2871-49d3-8c79-0478574eb79a&amp;page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=214</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1d9a46cf-29d6-4461-b744-1aa5386205ce&amp;page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=215</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=87c75e2c-515a-499d-a479-72ccfddf7a79&amp;page=8</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=216</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=442cecde-2836-40e4-9e67-8b6ce7da8fcf&amp;page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=217</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=2210cd1e-254f-4efa-864b-8c64733f1ffa&amp;page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=218</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f8f279df-1e2b-402b-9cd8-a6d7281ea7ec&amp;page=9</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=219</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=915c1fb5-7559-4034-b7fc-dbaa768cc163&amp;page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=220</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9b50b4e6-c4c1-4ce2-833a-0ae669ca4ccf&amp;page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=221</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=fef7e61a-dba9-4710-818f-22aaaadbedc9&amp;page=10</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=222</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=315a32a9-207e-4034-ac94-f1d00cc982e0&amp;page=11</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=223</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=49</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=224</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=50</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=225</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=226</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=11</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=227</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=12</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=228</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=13</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=229</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=14</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=230</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=231</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=16</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=232</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=17</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=233</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=18</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=234</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=19</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=235</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=20</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=236</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=21</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=237</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=22</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=238</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=23</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=239</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=24</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=240</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=25</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=241</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=26</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=242</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=27</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=243</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=28</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=244</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=29</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=245</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=30</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=246</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=31</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=247</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=32</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=248</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=33</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=249</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=34</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=250</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=35</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=251</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=36</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=252</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=37</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=253</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=38</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=254</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=39</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=255</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=40</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=256</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=41</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=257</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=42</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=258</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=43</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=259</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=44</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=260</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=45</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=261</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=46</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=262</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=47</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=263</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?book_id=48</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.41</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=264</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=4&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=265</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=2&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=266</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=334b57c0-eb2d-4bc1-9f2f-05ba21b17dd8&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=267</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=b0935fc6-7a67-4ea1-9447-f79a3aea157c&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=268</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=584baa9e-9992-4144-a2fe-1910cda55011&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=269</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3b6c76df-da1d-4f9a-9150-c469f3480cc8&amp;page=2</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=270</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=81824c19-e607-43e3-b53f-d08b3c2aa986&amp;page=3</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=271</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=cf8acdcb-7e10-4ca3-a34c-fdd70d4c8d04&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=272</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=ac2ee5c2-3d89-498e-b81a-73acbe7738d5&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=273</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1c0a976d-46cf-47a8-a20e-f7a4f951e98e&amp;page=4</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=274</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=315a32a9-207e-4034-ac94-f1d00cc982e0&amp;page=12</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=275</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=315a32a9-207e-4034-ac94-f1d00cc982e0&amp;page=13</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=276</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=315a32a9-207e-4034-ac94-f1d00cc982e0&amp;page=14</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=277</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=3fedbe8c-b28a-454a-8cbf-59b95a51398e&amp;page=15</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=278</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=1f33e5b5-6e85-4b5b-a06e-4884596e1647&amp;page=16</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=279</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=14e7171e-d29d-41f4-a10b-894bb3185684&amp;page=16</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=280</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?categorie_id=6&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=281</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=f4f43f65-e5a4-41a4-9fb9-74c72cc17acb&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=282</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=6cfcb79a-722d-4940-8693-0c8218d93254&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=283</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/blog/?id=9eaa83d8-57ab-44ca-ac98-8f9af46d6cb8&amp;page=1</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=284</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=375</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=285</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=376</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=286</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=377</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=287</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=378</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=288</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=379</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=289</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=380</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=290</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=381</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=291</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=382</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=292</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=383</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=293</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=384</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=294</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=385</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=295</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=386</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=296</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=387</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=297</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=388</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=298</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=389</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=299</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=390</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=300</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=391</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=301</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=392</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=302</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=393</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=303</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=394</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=304</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=395</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=305</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=396</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=306</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=397</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=307</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=398</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=308</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=399</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=309</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=400</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=310</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=401</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=311</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=402</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=312</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=403</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=313</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=404</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=314</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=405</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=315</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=406</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=316</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=407</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=317</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=408</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=318</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=409</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=319</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=410</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=320</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=411</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=321</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=412</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=322</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=413</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=323</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=414</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=324</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=415</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=325</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=416</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=326</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=417</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=327</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=418</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=328</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=419</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=329</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=420</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=330</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=421</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=331</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=422</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=332</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=423</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=333</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=424</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=334</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=425</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=335</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=426</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=336</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=427</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=337</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=428</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=338</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=429</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=339</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=430</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=340</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=431</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=341</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=432</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=342</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=433</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=343</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=434</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=344</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=435</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=345</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=436</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
 <url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=346</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
+  <loc>https://complexprogrammer.uz/tests/?topic_id=437</loc>
+  <lastmod>2025-06-12T05:41:51+00:00</lastmod>
+  <priority>0.33</priority>
 </url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=347</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=348</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=349</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=350</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=351</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=352</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=353</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=354</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=355</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=356</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=357</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=358</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=359</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=360</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=361</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=362</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=363</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=364</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=365</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=366</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=367</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=368</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=369</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=370</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=371</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=372</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=373</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
-<url>
-   <loc>https://complexprogrammer.uz/tests/?topic_id=374</loc>
-   <lastmod>2024-02-10T12:10:10+00:00</lastmod>
-   <changefreq>monthly</changefreq>
-   <priority>0.2097</priority>
-</url>
+
+
 </urlset>
