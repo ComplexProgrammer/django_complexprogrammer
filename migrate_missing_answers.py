@@ -42,41 +42,66 @@ def migrate_missing_answers():
                 print(f"XATO: question_id = {question_id} uchun savol topilmadi")
                 continue
 
+            # projects_avtotests jadvalidan javoblarni olish
+            cursor.execute("""
+                SELECT 
+                    javob_a, javob_a_en, javob_a_ru,
+                    javob_b, javob_b_en, javob_b_ru,
+                    javob_c, javob_c_en, javob_c_ru,
+                    javob_d, javob_d_en, javob_d_ru,
+                    javob
+                FROM projects_avtotest 
+                WHERE savol = ?
+            """, (question[0],))
+            answers = cursor.fetchone()
+            if not answers:
+                print(f"XATO: question_id = {question_id} uchun javoblar topilmadi")
+                continue
+
             # Javoblarni kiritish
-            answers_to_insert = [
-                {
-                    'number': 1,
-                    'name_en_us': 'Option A',
-                    'name_ru_ru': 'Вариант A',
-                    'name_uz_uz': 'A variant',
-                    'name_uz_crl': 'A вариант',
-                    'right': 1
-                },
-                {
-                    'number': 2,
-                    'name_en_us': 'Option B',
-                    'name_ru_ru': 'Вариант B',
-                    'name_uz_uz': 'B variant',
-                    'name_uz_crl': 'B вариант',
-                    'right': 0
-                },
-                {
+            answers_to_insert = []
+            
+            # A variant
+            answers_to_insert.append({
+                'number': 1,
+                'name_en_us': answers[1],
+                'name_ru_ru': answers[2],
+                'name_uz_uz': answers[0],
+                'name_uz_crl': answers[0],
+                'right': 1 if answers[12] == 'A' else 0
+            })
+            
+            # B variant
+            answers_to_insert.append({
+                'number': 2,
+                'name_en_us': answers[4],
+                'name_ru_ru': answers[5],
+                'name_uz_uz': answers[3],
+                'name_uz_crl': answers[3],
+                'right': 1 if answers[12] == 'B' else 0
+            })
+            
+            # C variant (agar bo'sh bo'lmasa)
+            if answers[6] and answers[6].strip():
+                answers_to_insert.append({
                     'number': 3,
-                    'name_en_us': 'Option C',
-                    'name_ru_ru': 'Вариант C',
-                    'name_uz_uz': 'C variant',
-                    'name_uz_crl': 'C вариант',
-                    'right': 0
-                },
-                {
+                    'name_en_us': answers[7],
+                    'name_ru_ru': answers[8],
+                    'name_uz_uz': answers[6],
+                    'name_uz_crl': answers[6],
+                    'right': 1 if answers[12] == 'C' else 0
+                })
+            
+            # D variant (agar bo'sh bo'lmasa)
+            if answers[9] and answers[9].strip():
+                answers_to_insert.append({
                     'number': 4,
-                    'name_en_us': 'Option D',
-                    'name_ru_ru': 'Вариант D',
-                    'name_uz_uz': 'D variant',
-                    'name_uz_crl': 'D вариант',
-                    'right': 0
-                }
-            ]
+                    'name_en_us': answers[10],
+                    'name_ru_ru': answers[11],
+                    'name_uz_uz': answers[9],
+                    'name_uz_crl': answers[9],
+                    'right': 1 if answers[12] == 'D' else 0
+                })
 
             current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
@@ -104,7 +129,6 @@ def migrate_missing_answers():
                         0,
                         1
                     ))
-
                 print(f"Javoblar qo'shildi: question_id = {question_id}")
 
             except sqlite3.Error as e:
