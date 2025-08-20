@@ -32,27 +32,28 @@ from django.views.generic import RedirectView
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [path('i18n/', include('django.conf.urls.i18n')),]
 urlpatterns = [
-    *i18n_patterns(*urlpatterns, prefix_default_language=False),
-    ]
+	*i18n_patterns(*urlpatterns, prefix_default_language=False),
+	]
 urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
 if settings.DEBUG:
-    urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+	# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 urlpatterns += [
-    path('admin/', admin.site.urls),
-    path('', include('projects.urls')),
-    #path('avtotest/', views.tests),
-    # path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
-    path('', include('tests.urls')),
-    path('tests/', include('tests.urls')),
-    path('pdf_tools', include('pdf_tools.urls')),
-    path('markets/', include('markets.urls')),
-    path('news/', include('news.urls')),
-    path('blog/', include('blog.urls')),
-    path('', include('comments.urls')),
-    path('cryptomarket/', include('cryptomarket.urls')),
-    path('site_clones/', include('site_clones.urls')),
-    re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+	path('admin/', admin.site.urls),
+	path('', include('projects.urls')),
+	#path('avtotest/', views.tests),
+	# path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
+	path('', include('tests.urls')),
+	path('tests/', include('tests.urls')),
+	path('pdf_tools', include('pdf_tools.urls')),
+	path('markets/', include('markets.urls')),
+	path('news/', include('news.urls')),
+	path('blog/', include('blog.urls')),
+	path('', include('comments.urls')),
+	path('cryptomarket/', include('cryptomarket.urls')),
+	path('site_clones/', include('site_clones.urls')),
+	path('', include('arxiv.urls')),
+	re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]

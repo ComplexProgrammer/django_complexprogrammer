@@ -34,59 +34,60 @@ ALLOWED_HOSTS =  ['complexprogrammer.uz', 'www.complexprogrammer.uz', '10.0.2.2'
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'projects',
-    'whitenoise.runserver_nostatic',
-    'django_extensions',
-    'core',
-    'tests',
-    'pdf_tools',
-    'markets',
-    'news',
-    'comments',  # Add comments app
-    'blog',
-    'cryptomarket',
-    'site_clones',
-    'ckeditor', # CKEditor config
-    'ckeditor_uploader', # CKEditor media uploader
-    'colorfield',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+	'projects',
+	'whitenoise.runserver_nostatic',
+	'django_extensions',
+	'core',
+	'tests',
+	'pdf_tools',
+	'markets',
+	'news',
+	'comments',  # Add comments app
+	'blog',
+	'cryptomarket',
+	'site_clones',
+	'ckeditor', # CKEditor config
+	'ckeditor_uploader', # CKEditor media uploader
+	'colorfield',
+	'arxiv',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    # 'mobiledetect.middleware.DetectMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middleware.StaticFileMiddleware',
+	'django.middleware.security.SecurityMiddleware',
+	'django.middleware.locale.LocaleMiddleware',
+	'whitenoise.middleware.WhiteNoiseMiddleware',
+	# 'mobiledetect.middleware.DetectMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'middleware.StaticFileMiddleware',
 ]
 
 ROOT_URLCONF = 'django_complexprogrammer.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [BASE_DIR/'templates'],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+			],
+		},
+	},
 ]
 WSGI_APPLICATION = 'django_complexprogrammer.wsgi.application'
 
@@ -95,10 +96,10 @@ WSGI_APPLICATION = 'django_complexprogrammer.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': BASE_DIR / 'db.sqlite3',
+	}
 }
 # DATABASES = {
 #     "default": {
@@ -124,18 +125,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
 
@@ -155,14 +156,14 @@ USE_L10N = True
 SOLID_I18N_USE_REDIRECTS = False
 
 LANGUAGES = (
-    ('uz', _('Uzbek')),
-    ('en', _('English')),
-    ('tr', _('Turkish')),
-    ('ru', _('Russia')),
+	('uz', _('Uzbek')),
+	('en', _('English')),
+	('tr', _('Turkish')),
+	('ru', _('Russia')),
 )
 
 LOCALE_PATHS = [
-    BASE_DIR / 'locale/',
+	BASE_DIR / 'locale/',
 ]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -187,70 +188,70 @@ CKEDITOR_UPLOAD_PATH="uploads/"
 
 
 STATICFILES_FINDERS=[
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+	'django.contrib.staticfiles.finders.FileSystemFinder',
+	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 CKEDITOR_CONFIGS = {
-    'default': {
-     
-        'toolbar_Custom': [
-            {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
-            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
-            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
-            {'name': 'forms',
-             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
-                       'HiddenField']},
-            '/',
-            {'name': 'basicstyles',
-             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
-            {'name': 'paragraph',
-             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
-                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
-                       'Language']},
-            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
-            {'name': 'insert',
-             'items': ['Image', 'Youtube','Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
-            '/',
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
-            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
-            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
-            {'name': 'about', 'items': ['CodeSnippet']},
-            {'name': 'about', 'items': ['About']},
-            '/',  # put this to force next toolbar on new line
-            {'name': 'yourcustomtools', 'items': [
-                # put the name of your editor.ui.addButton here
-                'Preview',
-                'Maximize',
+	'default': {
+	 
+		'toolbar_Custom': [
+			{'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
+			{'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+			{'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
+			{'name': 'forms',
+			 'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+					'HiddenField']},
+			'/',
+			{'name': 'basicstyles',
+			 'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+			{'name': 'paragraph',
+			 'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+					'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+					'Language']},
+			{'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+			{'name': 'insert',
+			 'items': ['Image', 'Youtube','Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+			'/',
+			{'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+			{'name': 'colors', 'items': ['TextColor', 'BGColor']},
+			{'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+			{'name': 'about', 'items': ['CodeSnippet']},
+			{'name': 'about', 'items': ['About']},
+			'/',  # put this to force next toolbar on new line
+			{'name': 'yourcustomtools', 'items': [
+				# put the name of your editor.ui.addButton here
+				'Preview',
+				'Maximize',
 
-            ]},
-        ],
-        'toolbar': 'Custom',  # put selected toolbar config here
-        'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        'height': 400,
-        # 'width': '100%',
-        'filebrowserWindowHeight': 725,
-        'filebrowserWindowWidth': 940,
-        'toolbarCanCollapse': True,
-        'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
-        'tabSpaces': 4,
-        'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
-            # your extra plugins here
-            'div',
-            'autolink',
-            'autoembed',
-            'embedsemantic',
-            'autogrow',
-            'devtools',
-            'widget',
-            'lineutils',
-            'clipboard',
-            'dialog',
-            'dialogui',
-            'elementspath',
-            'codesnippet',
-        ]),
-    }
+			]},
+		],
+		'toolbar': 'Custom',  # put selected toolbar config here
+		'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+		'height': 400,
+		# 'width': '100%',
+		'filebrowserWindowHeight': 725,
+		'filebrowserWindowWidth': 940,
+		'toolbarCanCollapse': True,
+		'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+		'tabSpaces': 4,
+		'extraPlugins': ','.join([
+			'uploadimage', # the upload image feature
+			# your extra plugins here
+			'div',
+			'autolink',
+			'autoembed',
+			'embedsemantic',
+			'autogrow',
+			'devtools',
+			'widget',
+			'lineutils',
+			'clipboard',
+			'dialog',
+			'dialogui',
+			'elementspath',
+			'codesnippet',
+		]),
+	}
 }
 
 
@@ -270,16 +271,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # SESSION_COOKIE_SECURE = False
 # CSRF_COOKIE_SECURE = False
 if DEBUG:
-    SECURE_SSL_REDIRECT = False
+	SECURE_SSL_REDIRECT = False
 else:
-    SECURE_SSL_REDIRECT = True
+	SECURE_SSL_REDIRECT = True
 
 COLOR_PALETTE = [
-    ("#FFFFFF", "white", ),
-    ("#FF0000", "red", ),
-    ("#FFFF00", "yellow", ),
-    ("#0000FF", "blue", ),
-    ("#000000", "black", ),
+	("#FFFFFF", "white", ),
+	("#FF0000", "red", ),
+	("#FFFF00", "yellow", ),
+	("#0000FF", "blue", ),
+	("#000000", "black", ),
 ]
 
 X_FRAME_OPTIONS = 'ALLOWALL'

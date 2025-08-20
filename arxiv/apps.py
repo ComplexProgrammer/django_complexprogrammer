@@ -1,0 +1,7 @@
+from django.apps import AppConfig
+
+
+class ArxivConfig(AppConfig):
+	default_auto_field = 'django.db.models.BigAutoField'
+	name = 'arxiv'
+	verbose_name = 'Arxiv'
