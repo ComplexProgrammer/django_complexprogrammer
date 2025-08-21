@@ -60,6 +60,7 @@ class ArchiveItem(models.Model):
 	patent_number = models.CharField(max_length=100, null=True, blank=True, verbose_name=_('Patent raqami'))
 	status = models.ForeignKey(ArchiveStatus, on_delete=models.PROTECT, related_name='archive_items', verbose_name=_('Holati'))
 	document = models.FileField(upload_to='arxiv/documents/', null=True, blank=True, verbose_name=_('Hujjat'))
+	is_public = models.BooleanField(default=True, verbose_name=_('Foydalanuvchilar ko\'ra oladi'))
 	created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Yaratilgan vaqt'))
 
 	class Meta:
