@@ -34,6 +34,7 @@ ALLOWED_HOSTS =  ['complexprogrammer.uz', 'www.complexprogrammer.uz', '10.0.2.2'
 # Application definition
 
 INSTALLED_APPS = [
+	'jazzmin',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -85,6 +86,9 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+			],
+			'builtins': [
+				'core.templatetags.compat_filters',
 			],
 		},
 	},
@@ -295,3 +299,77 @@ EMAIL_HOST_USER = 'complexprogrammer@mail.ru'
 EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = 'complexprogrammer@mail.ru'
 SERVER_EMAIL = 'complexprogrammer@mail.ru'
+
+
+JAZZMIN_SETTINGS = {
+	"site_title": "Complex Admin",
+	"site_header": "Complex Admin",
+	"site_brand": "ComplexProgrammer",
+	"welcome_sign": "ComplexProgrammer boshqaruv paneli",
+	"copyright": "ComplexProgrammer",
+	"custom_css": "css/admin-dark.css",
+	"custom_js": "js/admin-theme-toggle.js",
+	"site_logo": "img/C0mplex.png",
+	"login_logo": "img/C0mplex.png",
+	"login_logo_dark": "img/C0mplex.png",
+	"show_ui_builder": False,
+	"navigation_expanded": True,
+	"hide_apps": [],
+	"hide_models": [],
+	"related_modal_active": True,
+	"topmenu_links": [
+		{"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
+		{"app": "projects"},
+		{"app": "markets"},
+		{"app": "news"},
+		{"model": "auth.User"}
+	],
+	"usermenu_links": [
+		{"name": "Homepage", "url": "/", "new_window": True},
+		{"model": "auth.user"}
+	],
+	"changeform_format": "horizontal_tabs",
+	"changeform_format_overrides": {
+		"auth.user": "collapsible"
+	},
+	"icons": {
+		"auth": "fas fa-users-cog",
+		"auth.user": "fas fa-user",
+		"auth.group": "fas fa-users",
+		"core": "fas fa-cubes",
+		"projects": "fas fa-project-diagram",
+		"markets": "fas fa-store",
+		"markets.category": "fas fa-tags",
+		"markets.product": "fas fa-box",
+		"markets.store": "fas fa-shop",
+		"news": "fas fa-newspaper",
+		"blog": "fas fa-blog",
+		"comments": "fas fa-comments",
+		"arxiv": "fas fa-archive",
+		"pdf_tools": "fas fa-file-pdf",
+		"tests": "fas fa-book-open",
+		"cryptomarket": "fas fa-coins",
+		"site_clones": "fas fa-clone",
+	},
+	"order_with_respect_to": [
+		"core",
+		"projects",
+		"markets",
+		"news",
+		"blog",
+		"comments",
+		"arxiv",
+		"pdf_tools",
+		"tests",
+		"cryptomarket",
+		"site_clones",
+	],
+}
+
+JAZZMIN_UI_TWEAKS = {
+	"theme": "flatly",
+	"dark_mode_theme": "darkly",
+	"navbar": "navbar-light",
+	"sidebar_nav_flat_style": True,
+	"sidebar_nav_compact_style": True,
+}

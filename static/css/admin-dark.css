@@ -1,0 +1,334 @@
+/* Minimal dark overrides for Jazzmin/Django Admin */
+.admin-dark {
+	--bs-body-bg: #0f1115;
+	--bs-body-color: #d7dae0;
+	--bs-dark: #0f1115;
+	--bs-light: #151822;
+	--bs-secondary: #2a2f3a;
+}
+
+.admin-dark body,
+.admin-dark .content-wrapper,
+.admin-dark .card,
+.admin-dark .modal-content,
+.admin-dark .table,
+.admin-dark .navbar,
+.admin-dark .sidebar,
+.admin-dark .form-control,
+.admin-dark .dropdown-menu {
+	background-color: #0f1115 !important;
+	color: #d7dae0 !important;
+	border-radius: 10px;
+	box-shadow: 0 6px 20px rgba(0,0,0,.25);
+}
+
+/* Sidebar modern look */
+.sidebar .nav-link { width: 100%; display: flex; align-items: center; transition: background-color .15s ease, color .15s ease; }
+.admin-dark .sidebar .nav-link.active,
+.admin-dark .sidebar .nav-link:focus {
+	background-color: #1f2937 !important;
+	border-left: 3px solid #3b82f6;
+	border-radius: 0;
+}
+.admin-light .sidebar .nav-link.active,
+.admin-light .sidebar .nav-link:focus {
+	background-color: #e2e8f0 !important;
+	border-left: 3px solid #2563eb;
+	border-radius: 0;
+}
+.admin-dark .sidebar .nav-link:hover { background-color: #1b2030 !important; color: #e5e7eb !important; }
+.admin-light .sidebar .nav-link:hover { background-color: #eef2ff !important; color: #0f172a !important; }
+
+/* Refine sidebar text colors for both modes */
+.admin-dark .nav-sidebar .nav-link { color: #cbd5e1; }
+.admin-dark .nav-sidebar .nav-link.active { color: #ffffff; background-color: #1f2937; }
+.admin-light .nav-sidebar .nav-link { color: #334155; }
+.admin-light .nav-sidebar .nav-link.active { color: #0f172a; background-color: #e2e8f0; }
+
+/* Sidebar container and brand area by theme */
+.admin-dark .main-sidebar { background-color: #0f1115 !important; border-right: 1px solid #1f2430; }
+.admin-dark .brand-link { background-color: #0f1115 !important; color: #e2e8f0 !important; border-bottom: 1px solid #1f2430; }
+.admin-light .main-sidebar { background-color: #ffffff !important; border-right: 1px solid #e2e8f0; }
+.admin-light .brand-link { background-color: #ffffff !important; color: #0f172a !important; border-bottom: 1px solid #e2e8f0; }
+
+/* Section headers */
+.admin-dark .nav-sidebar .nav-header { color: #94a3b8; letter-spacing: .03em; }
+.admin-light .nav-sidebar .nav-header { color: #64748b; letter-spacing: .03em; }
+
+/* Submenus (treeview) */
+.admin-dark .nav-treeview { background-color: #141820; border-left: 1px dashed #2a2f3a; border-radius: 8px; }
+.admin-dark .nav-treeview .nav-link { color: #cbd5e1; padding-left: 2rem; }
+.admin-dark .nav-treeview .nav-link:hover { background-color: #1b2030 !important; color: #ffffff !important; }
+
+.admin-light .nav-treeview { background-color: #f1f5f9; border-left: 1px dashed #e2e8f0; border-radius: 8px; }
+.admin-light .nav-treeview .nav-link { color: #334155; padding-left: 2rem; }
+.admin-light .nav-treeview .nav-link:hover { background-color: #eaf1ff !important; color: #0f172a !important; }
+
+/* Open menu link styling */
+.admin-dark .nav-sidebar > .nav-item.menu-open > .nav-link { background-color: #1f2937 !important; color: #ffffff !important; }
+.admin-light .nav-sidebar > .nav-item.menu-open > .nav-link { background-color: #e2e8f0 !important; color: #0f172a !important; }
+
+/* Icons and badges */
+.admin-dark .nav-icon, .admin-dark .nav-link .nav-icon { color: #9fb3c8 !important; }
+.admin-dark .nav-link:hover .nav-icon, .admin-dark .nav-link.active .nav-icon { color: #ffffff !important; }
+.admin-light .nav-icon, .admin-light .nav-link .nav-icon { color: #64748b !important; }
+.admin-light .nav-link:hover .nav-icon, .admin-light .nav-link.active .nav-icon { color: #0f172a !important; }
+.admin-dark .badge { background-color: #233876; }
+.admin-light .badge { background-color: #2563eb; }
+
+/* Scrollbar (webkit) */
+.main-sidebar::-webkit-scrollbar { width: 8px; }
+.main-sidebar::-webkit-scrollbar-thumb { background-color: rgba(100,116,139,.45); border-radius: 8px; }
+.admin-light .main-sidebar::-webkit-scrollbar-thumb { background-color: rgba(100,116,139,.35); }
+
+/* =============================
+   User panel (sidebar top)
+   ============================= */
+.admin-dark .user-panel { background-color: #0f1115; border-bottom: 1px solid #1f2430; }
+.admin-dark .user-panel .info, .admin-dark .user-panel .info a { color: #e2e8f0 !important; font-weight: 500; }
+.admin-dark .user-panel .image img { background-color: #151822; border: 2px solid #2a2f3a; box-shadow: 0 2px 10px rgba(0,0,0,.25); filter: none; }
+.admin-dark .user-panel .info a:hover { color: #ffffff !important; }
+
+.admin-light .user-panel { background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+.admin-light .user-panel .info, .admin-light .user-panel .info a, .admin-light .user-panel .info .d-block { color: #0b1327 !important; font-weight: 700; opacity: 1 !important; text-shadow: none !important; }
+.admin-light .user-panel .image img { background-color: #e2e8f0; border: 2px solid #475569; box-shadow: inset 0 0 0 1px rgba(15,23,42,.1), 0 4px 14px rgba(2,6,23,.08); filter: brightness(.8) contrast(1.2) !important; opacity: 1 !important; mix-blend-mode: normal !important; }
+.admin-light .user-panel .info a:hover { color: #1e293b !important; }
+
+/* Brand logo visibility by theme */
+.admin-light .brand-link .brand-image { filter: drop-shadow(0 1px 1px rgba(2,6,23,.12)); opacity: 1 !important; }
+.admin-dark .brand-link .brand-image { filter: brightness(1.15) drop-shadow(0 1px 1px rgba(255,255,255,.12)); }
+
+/* Recent actions / timeline (Jazzmin/AdminLTE) */
+.admin-dark .timeline::before { background: #2a2f3a; }
+.admin-dark .timeline .time-label span { background: #0f1115; color: #9aa4b2; border: 1px solid #2a2f3a; }
+.admin-dark .timeline > div > .timeline-item,
+.admin-dark .timeline .timeline-item {
+	background-color: #151822;
+	color: #d7dae0;
+	border: 1px solid #2a2f3a;
+	border-radius: 10px;
+	box-shadow: 0 6px 18px rgba(0,0,0,.25);
+}
+.admin-dark .timeline .timeline-header { color: #d7dae0; border-bottom-color: #1f2430; }
+.admin-dark .timeline .time { color: #9aa4b2; }
+
+.admin-light .timeline::before { background: #e2e8f0; }
+.admin-light .timeline .time-label span { background: #ffffff; color: #334155; border: 1px solid #e2e8f0; }
+.admin-light .timeline > div > .timeline-item,
+.admin-light .timeline .timeline-item {
+	background-color: #ffffff;
+	color: #0f172a;
+	border: 1px solid #e2e8f0;
+	border-radius: 10px;
+	box-shadow: 0 8px 24px rgba(2,6,23,.06);
+}
+.admin-light .timeline .timeline-header { color: #0f172a; border-bottom-color: #e5e7eb; }
+.admin-light .timeline .time { color: #475569; }
+
+.admin-dark a { color: #8ab4f8; }
+.admin-dark a:hover { color: #a2c1fb; }
+
+.admin-dark .btn-primary { background-color: #2563eb; border-color: #2563eb; }
+.admin-dark .btn-outline-secondary { color: #d7dae0; border-color: #3a4150; }
+
+.admin-dark .table thead th { background-color: #151822 !important; }
+.admin-dark .table tbody tr { border-color: #1f2430; }
+
+.admin-dark .form-control, .admin-dark .form-select { background-color: #151822; border-color: #2a2f3a; color: #d7dae0; }
+.admin-dark .form-control:focus { border-color: #3b82f6; box-shadow: none; }
+
+.admin-dark .select2-container--default .select2-selection--single { background-color: #151822; border-color: #2a2f3a; }
+
+.admin-dark .dropdown-menu { background-color: #151822; border-color: #2a2f3a; }
+.admin-dark .dropdown-item { color: #d7dae0; }
+.admin-dark .dropdown-item:hover { background-color: #1b2030; }
+
+.admin-dark .navbar, .admin-dark .main-header .navbar { background-color: #0c0f14 !important; }
+
+/* Top navbar for dark mode */
+.admin-dark .main-header .navbar, .admin-dark nav.navbar {
+	background-color: #0c0f14 !important;
+	border-bottom: 1px solid #1f2430;
+}
+.admin-dark .navbar .nav-link { color: #cbd5e1 !important; }
+.admin-dark .navbar .nav-link:hover, .admin-dark .navbar .nav-link:focus {
+	color: #ffffff !important;
+	background-color: rgba(148,163,184,.08);
+	border-radius: 6px;
+}
+.admin-dark .navbar .nav-link.active {
+	color: #ffffff !important;
+	border-bottom: 2px solid #3b82f6;
+	border-radius: 0;
+}
+.admin-dark .navbar .dropdown-menu { background-color: #151822; border-color: #2a2f3a; }
+.admin-dark .navbar .dropdown-item { color: #d7dae0; }
+.admin-dark .navbar .dropdown-item:hover { background-color: #1b2030; }
+
+/* Subtle light refinements to make contrast clearer when toggling */
+.admin-light body,
+.admin-light .content-wrapper,
+.admin-light .card,
+.admin-light .modal-content,
+.admin-light .table,
+.admin-light .navbar,
+.admin-light .sidebar,
+.admin-light .form-control,
+.admin-light .dropdown-menu {
+	background-color: #f8fafc !important;
+	color: #0f172a !important;
+	border-radius: 10px;
+	box-shadow: 0 8px 24px rgba(2,6,23,.06);
+}
+.admin-light .navbar, .admin-light .main-header .navbar { background-color: #ffffff !important; }
+.admin-light .table thead th { background-color: #e2e8f0 !important; }
+
+/* Top navbar for light mode */
+.admin-light .main-header .navbar, .admin-light nav.navbar {
+	background-color: #ffffff !important;
+	border-bottom: 1px solid #e2e8f0;
+}
+.admin-light .navbar .nav-link { color: #334155 !important; }
+.admin-light .navbar .nav-link:hover, .admin-light .navbar .nav-link:focus {
+	color: #0f172a !important;
+	background-color: rgba(37,99,235,.08);
+	border-radius: 6px;
+}
+.admin-light .navbar .nav-link.active {
+	color: #0f172a !important;
+	border-bottom: 2px solid #2563eb;
+	border-radius: 0;
+}
+.admin-light .navbar .dropdown-menu { background-color: #ffffff; border-color: #e2e8f0; }
+.admin-light .navbar .dropdown-item { color: #334155; }
+.admin-light .navbar .dropdown-item:hover { background-color: #eef2ff; }
+
+/* Floating toggle button (always present) */
+.admin-theme-fab {
+	position: fixed;
+	right: 16px;
+	bottom: 16px;
+	z-index: 9999;
+	border-radius: 9999px;
+	padding: 8px 14px;
+	background-color: #2563eb !important;
+	color: #fff !important;
+	border: none !important;
+	box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+.admin-theme-fab:hover { filter: brightness(1.05); }
+
+/* =============================
+   Tables (changelist, results)
+   ============================= */
+/* Header */
+.admin-light table.table thead th { background-color: #e2e8f0 !important; color: #0f172a !important; border-bottom: 1px solid #cbd5e1 !important; }
+.admin-dark table.table thead th { background-color: #1b2030 !important; color: #d7dae0 !important; border-bottom: 1px solid #2a2f3a !important; }
+
+/* Body zebra */
+.admin-light table.table tbody tr:nth-child(odd) { background-color: #ffffff !important; }
+.admin-light table.table tbody tr:nth-child(even) { background-color: #f8fafc !important; }
+.admin-light table.table tbody tr td { color: #0f172a !important; border-top: 1px solid #e5e7eb !important; }
+
+.admin-dark table.table tbody tr:nth-child(odd) { background-color: #0f1115 !important; }
+.admin-dark table.table tbody tr:nth-child(even) { background-color: #141820 !important; }
+.admin-dark table.table tbody tr td { color: #d7dae0 !important; border-top: 1px solid #1f2430 !important; }
+
+/* Hover and selected */
+.admin-light table.table tbody tr:hover { background-color: #eef2ff !important; }
+.admin-dark table.table tbody tr:hover { background-color: #1b2030 !important; }
+
+/* Links inside table */
+.admin-light table.table a { color: #2563eb !important; }
+.admin-light table.table a:hover { color: #1d4ed8 !important; }
+.admin-dark table.table a { color: #8ab4f8 !important; }
+.admin-dark table.table a:hover { color: #a2c1fb !important; }
+
+/* Checkbox column width tweaks */
+table.table td.action-checkbox, table.table th.action-checkbox { width: 36px; }
+
+/* Django admin specific IDs */
+.admin-light #result_list thead th { background-color: #e2e8f0 !important; }
+.admin-dark #result_list thead th { background-color: #1b2030 !important; }
+
+
+/* Sidebar width override removed to restore defaults */
+/* Sidebar width override: expand from 250px to 300px */
+.main-sidebar { width: 300px !important; }
+.layout-fixed .main-sidebar { width: 300px !important; }
+.content-wrapper, .main-header, .main-footer { margin-left: 300px !important; }
+/* Keep proper layout when collapsed (AdminLTE) */
+.sidebar-mini.sidebar-collapse .main-sidebar { width: 4.6rem !important; }
+.sidebar-mini.sidebar-collapse .content-wrapper,
+.sidebar-mini.sidebar-collapse .main-header,
+.sidebar-mini.sidebar-collapse .main-footer { margin-left: 4.6rem !important; }
+
+/* =============================
+   Change form pages
+   ============================= */
+/* Fieldsets */
+.admin-dark fieldset.module, .admin-dark .card .card-body fieldset {
+	background-color: #151822;
+	border: 1px solid #2a2f3a;
+	border-radius: 10px;
+}
+.admin-light fieldset.module, .admin-light .card .card-body fieldset {
+	background-color: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 10px;
+}
+.admin-dark fieldset.module legend, .admin-dark .card .card-body legend { color: #d7dae0; }
+.admin-light fieldset.module legend, .admin-light .card .card-body legend { color: #0f172a; }
+
+/* Help texts */
+.admin-dark .help, .admin-dark .help-block, .admin-dark .helptext { color: #9aa4b2; }
+.admin-light .help, .admin-light .help-block, .admin-light .helptext { color: #475569; }
+
+/* Readonly fields */
+.admin-dark .readonly { background-color: #141820; border: 1px solid #2a2f3a; color: #d7dae0; }
+.admin-light .readonly { background-color: #f1f5f9; border: 1px solid #e2e8f0; color: #0f172a; }
+
+/* Tabs (horizontal_tabs) */
+.admin-dark .nav-tabs .nav-link { color: #cbd5e1; border-color: transparent; }
+.admin-dark .nav-tabs .nav-link.active { color: #ffffff; background-color: #151822; border-color: #2a2f3a; }
+.admin-light .nav-tabs .nav-link { color: #334155; border-color: transparent; }
+.admin-light .nav-tabs .nav-link.active { color: #0f172a; background-color: #ffffff; border: 1px solid #e2e8f0; }
+.admin-dark .tab-content { background-color: #0f1115; border: 1px solid #1f2430; border-top: none; border-radius: 0 10px 10px 10px; }
+.admin-light .tab-content { background-color: #ffffff; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 10px 10px 10px; }
+
+/* Inline groups */
+.admin-dark .inline-group { background-color: #0f1115; border: 1px solid #1f2430; border-radius: 10px; }
+.admin-light .inline-group { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; }
+.admin-dark .inline-group .tabular tr th { background-color: #1b2030; color: #d7dae0; }
+.admin-dark .inline-group .tabular tr td { background-color: #141820; border-top: 1px solid #2a2f3a; }
+.admin-light .inline-group .tabular tr th { background-color: #e2e8f0; color: #0f172a; }
+.admin-light .inline-group .tabular tr td { background-color: #ffffff; border-top: 1px solid #e5e7eb; }
+
+/* Select2 dropdown */
+.admin-dark .select2-dropdown { background-color: #151822; border-color: #2a2f3a; color: #d7dae0; }
+.admin-light .select2-dropdown { background-color: #ffffff; border-color: #e2e8f0; color: #0f172a; }
+
+/* Submit row & object tools */
+.admin-dark .submit-row { background-color: #0f1115; border-top: 1px solid #1f2430; }
+.admin-light .submit-row { background-color: #ffffff; border-top: 1px solid #e2e8f0; }
+.admin-dark .submit-row input, .admin-dark .object-tools a { background-color: #2563eb; border-color: #2563eb; color: #fff; }
+.admin-dark .submit-row input:hover, .admin-dark .object-tools a:hover { filter: brightness(1.05); }
+.admin-light .submit-row input, .admin-light .object-tools a { background-color: #2563eb; border-color: #2563eb; color: #fff; }
+
+/* =============================
+   Footer (main-footer)
+   ============================= */
+.admin-dark .main-footer {
+	background-color: #0f1115 !important;
+	border-top: 1px solid #1f2430 !important;
+	color: #9aa4b2 !important;
+}
+.admin-dark .main-footer a { color: #8ab4f8 !important; }
+
+.admin-light .main-footer {
+	background-color: #ffffff !important;
+	border-top: 1px solid #e2e8f0 !important;
+	color: #475569 !important;
+}
+.admin-light .main-footer a { color: #2563eb !important; }
+
