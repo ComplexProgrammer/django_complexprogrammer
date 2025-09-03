@@ -113,55 +113,207 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <style>
-    .wrapper{
-      margin: 60px auto;
-      text-align: center;
-    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <style>
+        /* Core styles with logical properties */
+        :root {
+            --max-button-width: 200px;
+            --max-complex-button-width: 500px;
+        }
 
-    #pagination-demo{
-      display: inline-block;
-      margin-bottom: 1.75em;
-    }
-    #pagination-demo li{
-      display: inline-block;
-    }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
 
-    .page-content{
-      background: #eee;
-      display: inline-block;
-      padding: 10px;
-      width: 100%;
-      max-width: 660px;
-    }
-    .alertify-log-custom {
-        background: #fba155;
-    }
+        .wrapper {
+            max-inline-size: 1200px;
+            margin-block: 40px;
+            margin-inline: auto;
+            padding-block: 24px;
+            padding-inline: 24px;
+            text-align: center;
+        }
 
-    .poin:hover {
-        cursor: pointer;
-    }
-    .disabledDiv {
-        pointer-events: none;
-        opacity: 0.4;
-    }
-    .container {
-      margin-top: 20px;
-    }
-    .page {
-      display: none;
-    }
-    .page-active {
-      display: block;
-    }
-    body {
-      background-color: #f0f2f5;
-      transition: background-color 0.3s, color 0.3s;
-  }
-  {% comment %} .hero-image {
-    background: url("/static/img/avtotest.png") no-repeat center center fixed;
-  } {% endcomment %}
+        .page-content {
+            background: #fff;
+            padding-block: 24px;
+            padding-inline: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            margin-block-end: 24px;
+            inline-size: 100%;
+            max-inline-size: 720px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        /* Button and control styles */
+        .btn {
+            inline-size: var(--max-button-width);
+        }
+
+        .complex-button a {
+            inline-size: var(--max-complex-button-width);
+            font-size: 30px;
+        }
+
+        .btn-fixed-width {
+            inline-size: 200px;
+        }
+
+        .list-group {
+            text-align: start !important;
+        }
+
+        .list-group-item {
+            border: 1px solid #dee2e6;
+            border-radius: 8px !important;
+            margin-block-end: 10px;
+            padding-block: 12px;
+            padding-inline: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        /* Status indicators */
+        .list-group-item:hover:not(.disabledDiv) {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .list-group-item.list-group-item-success {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .list-group-item.list-group-item-danger {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        /* Timer and navigation */
+        #timer {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #0d6efd;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-block: 20px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-block: 20px;
+        }
+
+        .page-item .page-link {
+            border-radius: 6px;
+            border: none;
+            padding-block: 8px;
+            padding-inline: 12px;
+            color: #0d6efd;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .page-item .page-link:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .page-item.active .page-link {
+            background: #0d6efd;
+            color: white;
+        }
+
+        /* Utility classes */
+        .disabledDiv {
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .position-relative {
+            margin-block-start: 50px;
+        }
+
+        #conn {
+            visibility: hidden;
+            position: absolute;
+            margin-inline-start: 45%;
+            margin-block-start: 20%;
+            z-index: 9999;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            inset-block-start: 20px;
+            inset-inline-start: 20px;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle i {
+            font-size: 1.1rem;
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: #333;
+            border-color: #444;
+            color: #fff;
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: #444;
+        }
+
+        /* Hide icon based on theme */
+        [data-theme="light"] .fa-sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .fa-moon {
+            display: none;
+        }
+
+        /* Images */
+        .test-image {
+            inline-size: 30%;
+            block-size: auto;
+            margin-block: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
     </style>
     <style>
         section {
@@ -175,12 +327,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           font-size: 90px;
         }
     </style>
-<style>
+    <style>
             :root {
             --bg-color: #ffffff;
             --text-color: #212121;
             --card-bg: #ffffff;
             --border-color: #e0e0e0;
+            --list-item-bg: #ffffff;
+            --list-item-hover: #f8f9fa;
+            --question-bg: #ffffff;
+            --button-width: 200px;
             transition: all 0.3s ease;
         }
 
@@ -189,6 +345,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             --text-color: #ffffff;
             --card-bg: #2d2d2d;
             --border-color: #444;
+            --list-item-bg: #333;
+            --list-item-hover: #444;
+            --question-bg: #2d2d2d;
+            --btn-outline-color: #555;
         }
 
         body {
@@ -202,36 +362,207 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border-color: var(--border-color);
         }
 
-        /* Add table styles for dark mode */
-        [data-theme="dark"] .table {
+        .page-content {
+            background: var(--question-bg);
             color: var(--text-color);
+            border: 1px solid var(--border-color);
         }
 
-        [data-theme="dark"] .table-hover tbody tr:hover {
-            background-color: rgba(255, 255, 255, 0.075);
+        .list-group-item {
+            background-color: var(--list-item-bg);
             color: var(--text-color);
-        }
-
-        [data-theme="dark"] .table thead th {
-            color: var(--text-color);
-            border-bottom-color: var(--border-color);
-        }
-
-        [data-theme="dark"] .table td {
             border-color: var(--border-color);
         }
 
+        .list-group-item:hover:not(.disabledDiv) {
+            background-color: var(--list-item-hover);
+            color: var(--text-color);
+        }
+
+        /* Success and danger states should remain visible in dark mode */
+        .list-group-item.list-group-item-success {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .list-group-item.list-group-item-danger {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        /* Modal dark mode support */
+        .modal-content {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+
+        .modal-header {
+            border-block-end-color: var(--border-color);
+        }
+
+        .modal-footer {
+            border-block-start-color: var(--border-color);
+        }
+
+        /* Button styling */
+        .modal-footer .btn {
+            inline-size: var(--button-width);
+        }
+
+        /* List group alignment */
+        .list-group {
+            text-align: start;
+        }
+
+        /* Timer styling */
+        #timer {
+            color: var(--text-color);
+            margin-block: 1rem;
+        }
+
+        /* RTL support */
+        [dir="rtl"] .list-group {
+            text-align: end;
+        }
+
+        [dir="rtl"] .modal-footer {
+            justify-content: start;
+        }
+
+        /* Dark mode specific styles */
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+            --list-item-bg: #333;
+            --list-item-hover: #444;
+            --question-bg: #2d2d2d;
+            --btn-outline-color: #555;
+        }
+
+        [data-theme="dark"] .btn-outline-primary {
+            color: #90caf9;
+            border-color: #90caf9;
+        }
+
+        [data-theme="dark"] .btn-outline-primary:hover {
+            background-color: #90caf9;
+            color: #212121;
+        }
+
+        [data-theme="dark"] .btn-outline-secondary {
+            color: #b0bec5;
+            border-color: #b0bec5;
+        }
+
+        [data-theme="dark"] .btn-outline-secondary:hover {
+            background-color: #b0bec5;
+            color: #212121;
+        }
+
+        [data-theme="dark"] .btn-outline-success {
+            color: #81c784;
+            border-color: #81c784;
+        }
+
+        [data-theme="dark"] .btn-outline-success:hover {
+            background-color: #81c784;
+            color: #212121;
+        }
+
+        [data-theme="dark"] .btn-outline-danger {
+            color: #e57373;
+            border-color: #e57373;
+        }
+
+        [data-theme="dark"] .btn-outline-danger:hover {
+            background-color: #e57373;
+            color: #212121;
+        }
+
+        /* Focus states in dark mode */
+        [data-theme="dark"] .btn:focus,
+        [data-theme="dark"] .list-group-item:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+        }
+
+        /* List group hover effects in dark mode */
+        [data-theme="dark"] .list-group-item:hover:not(.disabledDiv) {
+            background-color: var(--list-item-hover);
+            transform: translateX(5px);
+        }
+
+        /* Pagination in dark mode */
+        [data-theme="dark"] .page-link {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .page-link:hover {
+            background-color: var(--list-item-hover);
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .page-item.active .page-link {
+            background-color: #90caf9;
+            border-color: #90caf9;
+            color: #212121;
+        }
+    </style>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Theme toggle button styles */
         .theme-toggle {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            padding: 8px 12px;
-            border-radius: 5px;
+            inset-block-start: 20px;
+            inset-inline-start: 20px;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
             border: 1px solid var(--border-color);
             background: var(--card-bg);
             color: var(--text-color);
             cursor: pointer;
             z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle i {
+            font-size: 1.1rem;
+        }
+
+        [data-theme="dark"] .theme-toggle {
+            background: #333;
+            border-color: #444;
+            color: #fff;
+        }
+
+        [data-theme="dark"] .theme-toggle:hover {
+            background: #444;
+        }
+
+        /* Hide icon based on theme */
+        [data-theme="light"] .fa-sun {
+            display: none;
+        }
+
+        [data-theme="dark"] .fa-moon {
+            display: none;
         }
     </style>
     <script>
@@ -240,13 +571,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButton(savedTheme);
-        });
-
-        function toggleTheme() {
+        });        function toggleTheme() {
             const body = document.documentElement;
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
             
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
@@ -255,14 +583,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         function updateThemeButton(theme) {
-            const button = document.getElementById('themeButton');
-            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
-            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
-            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+            const themeText = document.querySelector('.theme-text');
+            themeText.textContent = theme === 'light' ? 'Light Mode' : 'Dark Mode';
         }
     </script>
-<button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-    <i class="fas fa-sun"></i> Dark Mode
+<button type="button" id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-sun"></i>
+    <i class="fas fa-moon"></i>
+    <span class="theme-text">Theme</span>
 </button>
 </head>
 <body ng-app="App" ng-controller="avtotest">
@@ -285,7 +613,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
   <div class="fixed-top">
-    <div class="position-relative" style="margin-top:50px;">
+    <div class="position-relative" style="margin-block-start:50px;">
       <div class="position-absolute top-0 end-0 translate-middle">
         <div class="container">
           <div class="row">
@@ -333,8 +661,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         renderTo: 'yandex_rtb_R-A-1963742-1',
         blockId: 'R-A-1963742-1'
       })
-    })</script>
-    <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
+    })</script>    <div id="conn" style="visibility:hidden;position:absolute;margin-inline-start:45%;margin-block-start:20%;z-index:9999">
         <img src="/static/img/buffering.gif" />
     </div>
     <input id="hh" type="hidden" />
@@ -361,12 +688,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="p-3 mb-2 bg-secondary text-white" ng-show="10-togri_javob_soni-notogri_javob_soni!=0">Belgilanmagan savollar : {{10-togri_javob_soni-notogri_javob_soni}} ta</div>
         <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=10">To'g'ri javob : {{togri_javob_soni}} ta</div>
         <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=10">Noto'g'ri javob : {{notogri_javob_soni}} ta</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - biletga o'tish</button>
-        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
+      </div>      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
+        <button type="button" class="btn btn-outline-primary" style="inline-size:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - biletga o'tish</button>
+        <button type="button" class="btn btn-outline-danger" style="inline-size:200px" ng-click="back()"><i class="bi bi-backspace"></i> Biletlarga qaytish</button>
+        <button type="button" class="btn btn-outline-success" style="inline-size:var(--button-width)" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
       </div>
     </div>
   </div>
@@ -387,12 +713,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="p-3 mb-2 bg-secondary text-white" ng-show="10-togri_javob_soni-notogri_javob_soni!=0">Неотмеченные вопросы: {{10-togri_javob_soni-notogri_javob_soni}}</div>
         <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=10">Правильный ответ: {{togri_javob_soni}}</div>
         <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=10">Неправильный ответ: {{notogri_javob_soni}}</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - перейти к билету</button>
-        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Вернуться к билетам</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
+      </div>      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:var(--button-width)" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Продолжать</button>
+        <button type="button" class="btn btn-outline-primary" style="inline-size:var(--button-width)" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - перейти к билету</button>
+        <button type="button" class="btn btn-outline-danger" style="inline-size:var(--button-width)" ng-click="back()"><i class="bi bi-backspace"></i> Вернуться к билетам</button>
+        <button type="button" class="btn btn-outline-success" style="inline-size:var(--button-width)" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Начать сначала</button>
       </div>
     </div>
   </div>
@@ -412,12 +737,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="p-3 mb-2 bg-secondary text-white" ng-show="10-togri_javob_soni-notogri_javob_soni!=0">Unmarked questions: {{10-togri_javob_soni-notogri_javob_soni}}</div>
         <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=10">Correct answer: {{togri_javob_soni}}</div>
         <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=10">Incorrect answer: {{notogri_javob_soni}}</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="width:200px" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
-        <button type="button" class="btn btn-outline-primary" style="width:200px" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> Go to ticket {{bilet+1}}</button>
-        <button type="button" class="btn btn-outline-danger" style="width:200px" ng-click="back()"><i class="bi bi-backspace"></i> Back to tickets</button>
-        <button type="button" class="btn btn-outline-success" style="width:200px" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Start over</button>
+      </div>      <div class="modal-footer">
+        <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:var(--button-width)" data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Continue</button>
+        <button type="button" class="btn btn-outline-primary" style="inline-size:var(--button-width)" ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> Go to ticket {{bilet+1}}</button>
+        <button type="button" class="btn btn-outline-danger" style="inline-size:var(--button-width)" ng-click="back()"><i class="bi bi-backspace"></i> Back to tickets</button>
+        <button type="button" class="btn btn-outline-success" style="inline-size:var(--button-width)" ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Start over</button>
       </div>
     </div>
   </div>
@@ -459,7 +783,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="row">
                     <div class="col">
                         <div class="C0mplexButton Success">
-                            <a href="/avtotest/{{ i }}" style='width:500px; font-size:30px'>
+                            <a href="/avtotest/{{ i }}" style='inline-size:500px; font-size:30px'>
                               <span></span>
                               <span></span>
                               <span></span>
@@ -527,10 +851,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               </ul>
               {% if request.LANGUAGE_CODE == 'uz' %}
               {% verbatim %}
-              <div ng-repeat="item in data" ng-show="item.id==id">
-                  <h4 class="page-content">{{bilet}} - bilet<br/>{{item.raqam}} - savol<br/>{{item.savol}}</h4>
-                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
-                  <div class="list-group" style="text-align:left">
+              <div ng-repeat="item in data" ng-show="item.id==id">                  <h4 class="page-content">{{bilet}} - bilet<br/>{{item.raqam}} - savol<br/>{{item.savol}}</h4>
+                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" class="test-image">
+                  <div class="list-group" style="text-align:start">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a}}</a>
                     <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b}}</a>
                     <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c}}</a>
@@ -541,11 +864,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               {% else %}
               {% if request.LANGUAGE_CODE == 'ru' %}
               {% verbatim %}
-              <div ng-repeat="item in data" ng-show="item.id==id">
-                  <h4 class="page-content">{{bilet}}- билет<br/>Вопрос {{item.raqam}}<br/>{{item.savol_ru}}</h4>
-                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
-                  <div class="list-group" style="text-align:left">
-                    <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a_ru}}</a>
+              <div ng-repeat="item in data" ng-show="item.id==id">                  <h4 class="page-content">{{bilet}}- билет<br/>Вопрос {{item.raqam}}<br/>{{item.savol_ru}}</h4>
+                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" class="test-image">                  <div class="list-group">
+                    <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action"ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a_ru}}</a>
                     <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b_ru}}</a>
                     <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c_ru}}</a>
                     <a ng-click="ok('D')" id="D{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='D'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='D'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_d_ru!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === D{{item.id}}' name="javob{{savol_raqami}}" value="D{{item.id}}"> {{item.javob_d_ru}}</a>
@@ -553,11 +874,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               </div>
               {% endverbatim %}
               {% else %}
-              {% verbatim %}
-              <div ng-repeat="item in data" ng-show="item.id==id">
+              {% verbatim %}                  <div ng-repeat="item in data" ng-show="item.id==id">
                   <h4 class="page-content">{{bilet}}st ticket<br/>Question {{item.raqam}}<br/>{{item.savol_en}}</h4>
-                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" width="30%">
-                  <div class="list-group" style="text-align:left">
+                  <img ng-if="item.rasm" ng-show="item.rasm" src="/static/avtotest/{{item.rasm}}" class="test-image">
+                  <div class="list-group">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_a_en!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === A{{item.id}}' name="javob{{savol_raqami}}" value="A{{item.id}}"> {{item.javob_a_en}}</a>
                     <a ng-click="ok('B')" id="B{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='B'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='B'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_b_en!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === B{{item.id}}' name="javob{{savol_raqami}}" value="B{{item.id}}"> {{item.javob_b_en}}</a>
                     <a ng-click="ok('C')" id="C{{item.id}}" href="#" class="list-group-item list-group-item-action" ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='C'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='C'?'list-group-item-danger disabledDiv':'disabledDiv'" ng-show="item.javob_c_en!=''"><input type="radio" ng-model='mValue' ng-checked='mValue === C{{item.id}}' name="javob{{savol_raqami}}" value="C{{item.id}}"> {{item.javob_c_en}}</a>

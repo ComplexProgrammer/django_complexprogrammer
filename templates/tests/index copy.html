@@ -410,27 +410,192 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         });
 
         function toggleTheme() {
-            const body = document.documentElement;
-            const currentTheme = body.getAttribute('data-theme');
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            const icon = document.querySelector('.theme-toggle i');
             
-            body.setAttribute('data-theme', newTheme);
+            html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
-            updateThemeButton(newTheme);
+            // Ikonni almashtirish
+            icon.classList.remove(newTheme === 'light' ? 'fa-sun' : 'fa-moon');
+            icon.classList.add(newTheme === 'light' ? 'fa-moon' : 'fa-sun');
         }
 
         function updateThemeButton(theme) {
             const button = document.getElementById('themeButton');
             const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
-            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            const text = theme === 'light' ? '' : '';
             button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
         }
     </script>
+<!-- Theme toggle tugmasini yangilash -->
 <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-    <i class="fas fa-sun"></i> Dark Mode
+    <i class="fas fa-moon"></i>
 </button>
+<!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Color variables */
+            --primary-color: #0072e5;
+            --secondary-color: #475569;
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #3399ff;
+            
+            /* Light theme */
+            --bg-color: #ffffff;
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --question-bg: #ffffff;
+            --option-bg: #f8fafc;
+            --option-hover: #f1f5f9;
+            --option-border: #e2e8f0;
+            --option-text: #1e293b;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0a1929;
+            --text-color: #e7ebf0;
+            --card-bg: #132f4c;
+            --border-color: #1e4976;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --question-bg: #132f4c;
+            --option-bg: #173a5e;
+            --option-hover: #1e4976;
+            --option-border: #265d97;
+            --option-text: #e7ebf0;
+            --primary-color: #3399ff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
+        }
+
+        .page-content {
+            background-color: var(--card-bg) !important;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        /* List group styles */
+        .list-group-item {
+            background-color: var(--option-bg);
+            color: var(--option-text);
+            border-color: var(--option-border);
+            transition: all 0.2s ease;
+        }
+
+        .list-group-item:hover:not(.disabledDiv) {
+            background-color: var(--option-hover);
+            border-color: var(--option-border);
+            transform: translateX(8px);
+        }
+
+        /* CSS logical properties */
+        .table thead th {
+            border-block-end-color: var(--border-color);
+        }
+        
+        [dir="ltr"] .list-group-item:hover:not(.disabledDiv) {
+            transform: translateX(var(--spacing-sm));
+        }
+        
+        [dir="rtl"] .list-group-item:hover:not(.disabledDiv) {
+            transform: translateX(calc(var(--spacing-sm) * -1));
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            position: fixed;
+            inset-block-start: 20px;
+            inset-inline-start: 20px;
+            inline-size: 40px;
+            block-size: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--shadow-color);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .theme-toggle i {
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        /* Table styles */
+        .table {
+            color: var(--text-color);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: var(--option-hover);
+            color: var(--text-color);
+        }
+
+        .table thead th {
+            color: var(--text-color);
+            border-bottom-color: var(--border-color);
+        }
+
+        .table td {
+            border-color: var(--border-color);
+        }
+
+        /* Success/Error states */
+        .list-group-item.list-group-item-success {
+            background-color: var(--success-color);
+            color: white;
+            border-color: transparent;
+        }
+
+        .list-group-item.list-group-item-danger {
+            background-color: var(--danger-color);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Modal styles */
+        .modal-content {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+
+        .modal-header {
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .modal-body {
+            color: var(--text-color);
+        }
+    </style>
 </head>
 <body ng-app="App" ng-controller="tests">
   <ins class="adsbygoogle"

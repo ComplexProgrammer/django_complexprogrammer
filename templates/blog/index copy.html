@@ -106,30 +106,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   const analytics = getAnalytics(app);
 </script>
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        :root {
-            --bg-color: #fafbfc;
-            --text-color: #1a1a1a;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --border-color: rgba(255, 255, 255, 0.2);
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
         }
 
         [data-theme="dark"] {
-            --bg-color: #0f0f23;
+            --bg-color: #212121;
             --text-color: #ffffff;
-            --card-bg: rgba(30, 30, 46, 0.8);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --glass-bg: rgba(30, 30, 46, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-bg: #2d2d2d;
+            --border-color: #444;
             --link-color: #8ab4f8;
             --link-hover-color: #aecbfa;
             --pagination-bg: #333;
@@ -137,140 +126,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             --list-group-bg: #2d2d2d;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-color);
+            background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Comment section fixes */
-        .container {
-            position: relative;
-            z-index: 1;
+            transition: all 0.3s ease;
         }
 
         .card {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Ensure comment forms are clickable */
-        .form-control, .btn, input, textarea, button {
-            pointer-events: auto !important;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Comment form specific fixes */
-        #comment-form-main {
-            position: relative;
-            z-index: 100;
-        }
-
-        .reply-form-container {
-            position: relative;
-            z-index: 101;
-        }
-
-        .reply-form-active {
-            position: relative;
-            z-index: 102;
-        }
-
-        /* Additional comment form fixes */
-        .form-control:focus {
-            z-index: 103;
-            position: relative;
-        }
-
-        .btn:focus {
-            z-index: 103;
-            position: relative;
-        }
-
-        /* Ensure all interactive elements are clickable */
-        input, textarea, button, select, a {
-            pointer-events: auto !important;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Fix for comment cards */
-        .card .card-body {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Ensure reply buttons work */
-        .reply-btn {
-            position: relative;
-            z-index: 15;
-            pointer-events: auto !important;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--card-shadow);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--primary-gradient);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 1;
-            border-radius: 24px;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            border-color: rgba(39, 93, 201, 0.3);
-        }
-
-        .card:hover::before {
-            opacity: 0.8;
-        }
-
-        .card .row {
-            position: relative;
-            z-index: 2;
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
         }
 
         [data-theme="dark"] .nav-link {
@@ -321,25 +185,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             background-color: var(--card-bg) !important;
         }
 
-        /* Dark mode card hover fixes */
-        [data-theme="dark"] .card:hover .card-title {
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        [data-theme="dark"] .card:hover .card-title a {
-            color: #ffffff !important;
-        }
-
-        [data-theme="dark"] .card:hover .card-text {
-            color: rgba(255, 255, 255, 0.95);
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        [data-theme="dark"] .card:hover .card-text a {
-            color: rgba(255, 255, 255, 0.95) !important;
-        }
-
         /* Add table styles for dark mode */
         [data-theme="dark"] .table {
             color: var(--text-color);
@@ -361,294 +206,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         .theme-toggle {
             position: fixed;
-            top: 30px;
-            right: 30px;
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            top: 20px;
+            left: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
             color: var(--text-color);
             cursor: pointer;
             z-index: 1000;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--card-shadow);
-            transform: translateZ(0);
-            will-change: transform;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px) translateZ(0);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            background: var(--primary-gradient);
-            color: white;
-        }
-
-        /* Hero Section */
-        .hero-section {
-            background: var(--primary-gradient);
-            padding: 80px 0 60px;
-            margin-bottom: 50px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-section::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-            z-index: 0;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 3vw, 1.3rem);
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 400;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        /* Blog Cards */
-        .blog-card {
-            margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .blog-card:nth-child(1) { animation-delay: 0.1s; }
-        .blog-card:nth-child(2) { animation-delay: 0.2s; }
-        .blog-card:nth-child(3) { animation-delay: 0.3s; }
-        .blog-card:nth-child(4) { animation-delay: 0.4s; }
-        .blog-card:nth-child(5) { animation-delay: 0.5s; }
-
-        .card-img {
-            height: 200px;
-            object-fit: cover;
-            border-radius: 16px 16px 0 0;
-            transition: transform 0.4s ease;
-        }
-
-        .card:hover .card-img {
-            transform: scale(1.05);
-        }
-
-        .card-title {
-            color: var(--text-color);
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 3;
-        }
-
-        .card:hover .card-title {
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .card:hover .card-title a {
-            color: #ffffff !important;
-            text-decoration: none;
-        }
-
-        .card-text {
-            color: var(--text-color);
-            opacity: 0.7;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 3;
-        }
-
-        .card:hover .card-text {
-            color: rgba(255, 255, 255, 0.9);
-            opacity: 1;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .card:hover .card-text a {
-            color: rgba(255, 255, 255, 0.9) !important;
-            text-decoration: none;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: var(--card-shadow);
-            position: sticky;
-            top: 100px;
-        }
-
-        .sidebar h2 {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .sidebar h2::after {
-            content: "";
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--accent-gradient);
-            border-radius: 2px;
-        }
-
-        .list-group-item {
-            background: transparent;
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            margin-bottom: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .list-group-item:hover {
-            background: var(--glass-bg);
-            transform: translateX(5px);
-        }
-
-        .badge {
-            background: var(--accent-gradient);
-            color: white;
-            font-weight: 600;
-        }
-
-        /* Pagination */
-        .pagination {
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .page-link {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-color);
-            border-radius: 12px;
-            margin: 0 2px;
-            transition: all 0.3s ease;
-        }
-
-        .page-link:hover {
-            background: var(--primary-gradient);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .page-item.active .page-link {
-            background: var(--primary-gradient);
-            border-color: transparent;
-            color: white;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInFromRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .slide-in-left {
-            animation: slideInFromLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .slide-in-right {
-            animation: slideInFromRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 60px 0 40px;
-            }
-            
-            .sidebar {
-                position: static;
-                margin-top: 2rem;
-            }
-            
-            .theme-toggle {
-                top: 20px;
-                right: 20px;
-                padding: 10px 16px;
-                font-size: 13px;
-                transform: translateZ(0);
-                will-change: transform;
-            }
-            
-            .theme-toggle:hover {
-                transform: translateY(-2px) translateZ(0);
-            }
         }
     </style>    
       <script>
@@ -657,166 +223,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButton(savedTheme);
-            
-            // Initialize animations
-            initializeAnimations();
-            initializeScrollEffects();
         });
 
         function toggleTheme() {
             const body = document.documentElement;
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
             
-            // Add smooth transition
-            body.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
             
-            setTimeout(() => {
-                body.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                updateThemeButton(newTheme);
-            }, 100);
-            
-            setTimeout(() => {
-                body.style.transition = '';
-            }, 600);
+            updateThemeButton(newTheme);
         }
 
         function updateThemeButton(theme) {
             const button = document.getElementById('themeButton');
             const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
             const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
-            
-            // Smooth button animation without position change
-            button.style.transform = 'scale(0.95) translateZ(0)';
-            button.style.transition = 'transform 0.15s ease';
-            
-            setTimeout(() => {
-                button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
-                button.style.transform = 'scale(1) translateZ(0)';
-            }, 150);
-            
-            setTimeout(() => {
-                button.style.transition = '';
-            }, 300);
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
         }
-
-        // Advanced scroll animations with Intersection Observer
-        function initializeAnimations() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all animated elements
-            document.querySelectorAll('.blog-card, .sidebar').forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        // Scroll effects
-        function initializeScrollEffects() {
-            let ticking = false;
-
-            function updateScrollEffects() {
-                const scrolled = window.pageYOffset;
-                const parallax = document.querySelector('.hero-section');
-                
-                if (parallax) {
-                    const speed = scrolled * 0.5;
-                    parallax.style.transform = `translateY(${speed}px)`;
-                }
-                
-                ticking = false;
-            }
-
-            function requestTick() {
-                if (!ticking) {
-                    requestAnimationFrame(updateScrollEffects);
-                    ticking = true;
-                }
-            }
-
-            window.addEventListener('scroll', requestTick);
-        }
-
-        // Add ripple effect to buttons (excluding form elements)
-        document.addEventListener('click', function(e) {
-            // Skip ripple effect for form elements to avoid interference
-            if (e.target.matches('input, textarea, select, button[type="submit"], .form-control')) {
-                return;
-            }
-            
-            if (e.target.matches('.btn:not([type="submit"]), .theme-toggle, .card:not(.reply-form-active)')) {
-                const ripple = document.createElement('span');
-                const rect = e.target.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.cssText = `
-                    position: absolute;
-                    width: ${size}px;
-                    height: ${size}px;
-                    left: ${x}px;
-                    top: ${y}px;
-                    background: rgba(255, 255, 255, 0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s ease-out;
-                    pointer-events: none;
-                    z-index: 5;
-                `;
-                
-                // Ensure parent has relative positioning
-                if (getComputedStyle(e.target).position === 'static') {
-                    e.target.style.position = 'relative';
-                }
-                
-                e.target.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            }
-        });
-
-        // Add CSS for ripple animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-            
-            .animate-in {
-                animation: slideInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            }
-            
-            @keyframes slideInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
       <title>My Blog</title>
     </head>
@@ -856,18 +282,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               </div>
           </div>
       </nav> {% endcomment %}
-
+  
       <!-- Maqolalar sehnasi -->
-      <div class="container" style="margin-block-end:100px">
+      <div class="container mt-5" style="margin-block-end:100px">
           <div class="row">
               <div class="col-md-8">
-                <div class="card mb-4">
-                  <div class="card-body">
-                    <a class="btn btn-outline-primary position-relative" href='/blog'><div class="spinner-grow spinner-grow-sm" role="status"></div> Maqolalar</a>
-                    {%if categorie%}
-                    <a class="btn btn-outline-primary position-relative" href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}'><div class="spinner-grow spinner-grow-sm" role="status"></div> {{categorie.name_uz_uz}}</a>
-                    {%endif%}
-                  </div>
+                <div class="shadow-lg p-3 mb-5 bg-body rounded">
+                  <a class="btn btn-outline-primary position-relative" href='/blog'><div class="spinner-grow spinner-grow-sm" role="status"></div> Maqolalar</a>
+                  {%if categorie%}
+                  <a class="btn btn-outline-primary position-relative" href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}'><div class="spinner-grow spinner-grow-sm" role="status"></div> {{categorie.name_uz_uz}}</a>
+                  {%endif%}
                 </div>
                 {% if id == 0 %}
                 {% if posts.paginator.num_pages > 1 %}
@@ -910,14 +334,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 </nav>
                 {% endif %}
                 {%for item in posts%}
-                <div class="card mb-3 blog-card">
+                <div class="card mb-3">
                   <div class="row g-0">
                     <div class="col-md-4">
                       <picture>
                         <source type="image/webp" srcset="/media/{{item.image}}">
                         <source type="image/jpeg" srcset="/media/{{item.image}}">
                         <source type="image/png" srcset="/media/{{item.image}}">
-                        <img src="/media/{{item.image}}" class="img-fluid card-img" alt="{{item.image}}">
+                        <img src="/media/{{item.image}}" class="img-fluid rounded-start" alt="{{item.image}}">
                       </picture>
                     </div>
                     <div class="col-md-8">
@@ -1002,28 +426,26 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 {% endif %}
               </div>
               <div class="col-md-4">
-                <div class="sidebar slide-in-right">
-                  <h2>Kategoriyalar</h2>
+                <h2>Kategoriyalar</h2>
+                <ul class="list-group">
+                  {%for item in categories%}
+                  <li class="list-group-item">
+                    <a href="/blog?categorie_id={{item.id}}" class="btn btn-primary position-relative">
+                      {{item.name_uz_uz}}
+                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{item.total}}
+                      </span>
+                    </a>
+                  </li>
+                  {%endfor%}
+                </ul>
+                <br />
+                <h2>So'nggi Maqolalar</h2>
                   <ul class="list-group">
-                    {%for item in categories%}
-                    <li class="list-group-item">
-                      <a href="/blog?categorie_id={{item.id}}" class="btn btn-primary position-relative">
-                        {{item.name_uz_uz}}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {{item.total}}
-                        </span>
-                      </a>
-                    </li>
+                    {%for item in posts%}
+                      <li class="list-group-item"><a class="link-info" href="/blog?id={{item.id}}">{{item.name_uz_uz}}</a></li>
                     {%endfor%}
                   </ul>
-                  <br />
-                  <h2>So'nggi Maqolalar</h2>
-                    <ul class="list-group">
-                      {%for item in posts%}
-                        <li class="list-group-item"><a class="link-info" href="/blog?id={{item.id}}">{{item.name_uz_uz}}</a></li>
-                      {%endfor%}
-                    </ul>
-                </div>
               </div>
           </div>
       </div>
@@ -1056,7 +478,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </script>      <!-- Comments Section -->
 
       <!-- Footer -->
-      <footer class="bg-dark text-light text-center py-3" style="z-index: 1000;">
+      <footer class="bg-dark text-light text-center py-3">
           <p>&copy; 2024 Complex Programmer Blog Sayti. Barcha huquqlar himoyalangan.</p>
       </footer>
       <!-- Bootstrap JavaScript fayllari (Popper.js va Bootstrap JS ni o'z ichiga oladi) -->

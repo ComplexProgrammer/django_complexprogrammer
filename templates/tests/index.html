@@ -231,114 +231,638 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
-    .wrapper{
-      margin: 60px auto;
-      text-align: center;
-    }
-
-
-    .page-content{
-      background: #eee;
-      display: inline-block;
-      padding: 10px;
-      inline-size: 100%;
-      max-inline-size: 660px;
-    }
-    .alertify-log-custom {
-        background: #fba155;
-    }
-
-    .poin:hover {
-        cursor: pointer;
-    }
-    .disabledDiv {
-        pointer-events: none;
-        opacity: 0.4;
-    }
-    .container {
-      margin-block-start: 20px;
-    }
-    .page {
-      display: none;
-    }
-    .page-active {
-      display: block;
-    }
-        section {
-
-          display: flex;
-          align-items: center;
-          justify-content: center;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-color: #fafbfc;
+            --text-color: #1a1a1a;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(255, 255, 255, 0.2);
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        [data-theme="dark"] {
+            --bg-color: #0f0f23;
+            --text-color: #ffffff;
+            --card-bg: rgba(30, 30, 46, 0.8);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(30, 30, 46, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .wrapper{
+            margin: 60px auto;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .page-content{
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            display: inline-block;
+            padding: 2rem;
+            width: 100%;
+            max-width: 660px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        .page-content:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .alertify-log-custom {
+            background: var(--warning-color);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .poin:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+            transition: transform 0.2s ease;
+        }
+
+        .disabledDiv {
+            pointer-events: none;
+            opacity: 0.4;
+            filter: grayscale(50%);
+        }
+
+        .container {
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page-active {
+            display: block;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
         h1 {
-          font-family: "Montserrat";
-          font-size: 90px;
-        }      
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Timer styles */
+        #timer {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            box-shadow: var(--card-shadow);
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        #timer:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Question styles */
+        .question-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .question-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
+        }
+
+        /* Answer options */
+        .list-group-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            margin: 0.5rem 0;
+            padding: 1rem 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .list-group-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .list-group-item:hover:not(.disabledDiv) {
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .list-group-item:hover:not(.disabledDiv)::before {
+            opacity: 0.1;
+        }
+
+        .list-group-item > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Success/Error states */
+        .list-group-item-success {
+            background: var(--success-color) !important;
+            color: white !important;
+            border-color: var(--success-color) !important;
+            transform: scale(1.02);
+        }
+
+        .list-group-item-danger {
+            background: var(--danger-color) !important;
+            color: white !important;
+            border-color: var(--danger-color) !important;
+            transform: scale(1.02);
+        }
+
+        /* Pagination */
+        .pagination {
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .page-link {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            border-radius: 12px;
+            margin: 0 2px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .page-link:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-item.active .page-link {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .wrapper {
+                margin: 20px auto;
+                padding: 0 10px;
+            }
+            
+            .page-content {
+                padding: 1.5rem;
+                margin: 10px 0;
+            }
+            
+            .question-container {
+                padding: 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            #timer {
+                font-size: 1.5rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            /* Theme toggle mobile */
+            .theme-toggle {
+                width: 50px;
+                height: 50px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .theme-toggle i {
+                font-size: 1.2rem;
+            }
+
+            .theme-toggle-text {
+                font-size: 0.6rem;
+                bottom: -20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .theme-toggle {
+                width: 45px;
+                height: 45px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .theme-toggle i {
+                font-size: 1rem;
+            }
+
+            .theme-toggle-text {
+                font-size: 0.5rem;
+                bottom: -18px;
+            }
+        }
     </style>
     <style>
+      /* Hero Section for Tests */
+      .tests-hero {
+        background: var(--primary-gradient);
+        padding: 80px 0 60px;
+        margin-bottom: 50px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .tests-hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+        z-index: 0;
+      }
+
+      .tests-hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .tests-hero-title {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 800;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .tests-hero-subtitle {
+        font-size: clamp(1.1rem, 3vw, 1.3rem);
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 400;
+        margin-bottom: 30px;
+        line-height: 1.6;
+      }
+
       #services .services {
         flex-direction: column;
         text-align: center;
-        max-inline-size: 1500px;
+        max-width: 1500px;
         margin: 0 auto;
         padding: 100px 0;
       }
+      
       #services .service-top {
-        max-inline-size: 500px;
+        max-width: 500px;
         margin: 0 auto;
       }
+      
       #services .service-bottom {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
-        margin-block-start: 50px;
+        margin-top: 50px;
+        gap: 2rem;
       }
+      
       #services .service-item {
-        flex-basis: 80%;
+        flex-basis: calc(25% - 2rem);
+        min-width: 280px;
         display: flex;
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
-        padding: 30px;
-        border-radius: 10px;
-        background-image: url(../img/img-1.png);
-        background-size: cover;
-        margin: 10px 5%;
+        padding: 2rem;
+        border-radius: 24px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--card-shadow);
+        margin: 0;
         position: relative;
         z-index: 1;
         overflow: hidden;
-        block-size: 350px;
+        height: 350px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
       }
-      #services .service-item::after {
+
+      /* Dark mode for service-item */
+      [data-theme="dark"] #services .service-item {
+        background: rgba(30, 30, 46, 0.4);
+        border-color: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      [data-theme="dark"] #services .service-item:hover {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      #services .service-item::before {
         content: '';
         position: absolute;
-        inset-inline-start: 0;
-        inset-block-start: 0;
-        block-size: 100%;
-        inline-size: 100%;
-        background-image: linear-gradient(0deg, black 20%, grey 100%);
-        opacity: 0.9;
-        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--primary-gradient);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+        border-radius: 24px;
       }
-      #services .service-bottom .icon {
-        block-size: 120px;
-        inline-size: 120px;
-        margin-block-end: 20px;
+
+      #services .service-item:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
       }
+
+      #services .service-item:hover::before {
+        opacity: 0.1;
+      }
+
+      #services .service-item .icon {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      #services .service-item:hover .icon {
+        transform: scale(1.1);
+      }
+
+      #services .service-item .icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 16px;
+        transition: all 0.3s ease;
+      }
+
+      /* Dark mode for icons */
+      [data-theme="dark"] #services .service-item .icon {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      [data-theme="dark"] #services .service-item:hover .icon {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      }
+
       #services .service-item h2 {
-        font-size: 2rem;
-        color: white;
-        margin-block-end: 10px;
+        font-size: 1.5rem;
+        color: var(--text-color);
+        margin-bottom: 10px;
         text-transform: uppercase;
+        font-weight: 700;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
       }
+
+      #services .service-item:hover h2 {
+        color: #ffffff;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+      }
+
       #services .service-item p {
-        color: white;
+        color: var(--text-color);
         text-align: start;
+        opacity: 0.7;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
       }
-      #services .service-bottom .service-item {
-        flex-basis: 25%;
-        margin: 2.5%;
+
+      #services .service-item:hover p {
+        color: rgba(255, 255, 255, 0.9);
+        opacity: 1;
+      }
+
+      /* Dark mode text colors */
+      [data-theme="dark"] #services .service-item h2 {
+        color: #ffffff;
+      }
+
+      [data-theme="dark"] #services .service-item p {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      [data-theme="dark"] #services .service-item:hover h2 {
+        color: #ffffff;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      }
+
+      [data-theme="dark"] #services .service-item:hover p {
+        color: rgba(255, 255, 255, 0.95);
+        opacity: 1;
+      }
+
+      #services .service-item .C0mplexButton {
+        position: relative;
+        z-index: 2;
+        margin-top: auto;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 1200px) {
+        #services .service-item {
+          flex-basis: calc(33.333% - 2rem);
+        }
+      }
+
+      @media (max-width: 768px) {
+        #services .service-item {
+          flex-basis: calc(50% - 1rem);
+          min-width: 250px;
+          height: 300px;
+          padding: 1.5rem;
+        }
+        
+        #services .service-item .icon {
+          width: 80px;
+          height: 80px;
+        }
+        
+        #services .service-item h2 {
+          font-size: 1.2rem;
+        }
+
+        /* Dark mode mobile adjustments */
+        [data-theme="dark"] #services .service-item {
+          background: rgba(30, 30, 46, 0.5);
+          border-color: rgba(255, 255, 255, 0.15);
+        }
+      }
+
+      @media (max-width: 480px) {
+        #services .service-item {
+          flex-basis: 100%;
+          min-width: 100%;
+          height: 280px;
+          padding: 1rem;
+        }
+
+        /* Dark mode mobile small adjustments */
+        [data-theme="dark"] #services .service-item {
+          background: rgba(30, 30, 46, 0.6);
+          border-color: rgba(255, 255, 255, 0.2);
+        }
       }
     </style>
 
@@ -413,26 +937,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            const icon = document.querySelector('.theme-toggle i');
             
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
-            // Ikonni almashtirish
-            icon.classList.remove(newTheme === 'light' ? 'fa-sun' : 'fa-moon');
-            icon.classList.add(newTheme === 'light' ? 'fa-moon' : 'fa-sun');
+            // Tugmani yangilash
+            updateThemeButton(newTheme);
+            
+            // Tugma animatsiyasi
+            const button = document.getElementById('themeButton');
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+            }, 150);
         }
 
         function updateThemeButton(theme) {
             const button = document.getElementById('themeButton');
             const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
-            const text = theme === 'light' ? '' : '';
-            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+            const text = theme === 'light' ? 'Tun' : 'Kun';
+            const title = theme === 'light' ? 'Tun rejimiga o\'tish' : 'Kun rejimiga o\'tish';
+            
+            button.innerHTML = `<i class="fas ${icon}"></i><span class="theme-toggle-text">${text}</span>`;
+            button.title = title;
         }
     </script>
 <!-- Theme toggle tugmasini yangilash -->
-<button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+<button id="themeButton" class="theme-toggle" onclick="toggleTheme()" title="Kun/Tun rejimini o'zgartirish">
     <i class="fas fa-moon"></i>
+    <span class="theme-toggle-text">Tun</span>
 </button>
 <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -521,32 +1054,66 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         /* Theme toggle button */
         .theme-toggle {
             position: fixed;
-            inset-block-start: 20px;
-            inset-inline-start: 20px;
-            inline-size: 40px;
-            block-size: 40px;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
             padding: 0;
-            border: none;
+            border: 2px solid var(--glass-border);
             border-radius: 50%;
-            background: var(--card-bg);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             color: var(--text-color);
             cursor: pointer;
-            box-shadow: 0 2px 6px var(--shadow-color);
+            box-shadow: var(--card-shadow);
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .theme-toggle:hover {
-            transform: scale(1.1) rotate(360deg);
-            box-shadow: 0 4px 12px var(--shadow-color);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background: var(--primary-gradient);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(-1px) scale(1.02);
         }
 
         .theme-toggle i {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             transition: transform 0.3s ease;
+        }
+
+        .theme-toggle:hover i {
+            transform: rotate(180deg);
+        }
+
+        /* Theme toggle text */
+        .theme-toggle-text {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-color);
+            opacity: 0.7;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover .theme-toggle-text {
+            opacity: 1;
+            color: white;
         }
 
         /* Table styles */
@@ -803,28 +1370,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             </ul> {% endcomment %}
             {% if request.LANGUAGE_CODE == 'uz' %}
             {% verbatim %}
-            <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
-            <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
-            <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
-                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a> 
-              </div>
+            <div class="question-container">
+              <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
+              <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" class="question-image" width="30%">
+              <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
+                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a> 
+                </div>
+            </div>
             {% endverbatim %}
             {% else %}
             {% if request.LANGUAGE_CODE == 'ru' %}
             {% verbatim %}
-            <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
-            <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" width="30%">
-            <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
-                <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a> 
-              </div>
+            <div class="question-container">
+              <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
+              <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" class="question-image" width="30%">
+              <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
+                  <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a> 
+                </div>
+            </div>
             {% endverbatim %}
             {% else %}
             {% verbatim %}
+            <div class="question-container">
               <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
-              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/media/{{question.image}}" width="30%">
+              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/media/{{question.image}}" class="question-image" width="30%">
               <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> 
               </div>
+            </div>
             {% endverbatim %}
             {% endif %}
             {% endif %}
@@ -844,9 +1417,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
     </script>
     {%else%}
+    <!-- Hero Section -->
+    <div class="tests-hero">
+      <div class="tests-hero-content">
+        {% if type == 'type' %}
+          {% if request.LANGUAGE_CODE == 'uz' %}
+          <h1 class="tests-hero-title">Testlar</h1>
+          <p class="tests-hero-subtitle">Bilimingizni sinab ko'ring va yangi ko'nikmalar oling</p>
+          {% else %}
+          {% if request.LANGUAGE_CODE == 'ru' %}
+          <h1 class="tests-hero-title">Тесты</h1>
+          <p class="tests-hero-subtitle">Проверьте свои знания и получите новые навыки</p>
+          {% else %}
+          <h1 class="tests-hero-title">Tests</h1>
+          <p class="tests-hero-subtitle">Test your knowledge and gain new skills</p>
+          {% endif %}
+          {% endif %}
+        {%else%}
+          {% if request.LANGUAGE_CODE == 'uz' %}
+          {% verbatim %}
+          <h1 class="tests-hero-title">{{type_data.name_uz_uz}}</h1>
+          <p class="tests-hero-subtitle">Bilimingizni sinab ko'ring</p>
+          {% endverbatim %}
+          {% else %}
+          {% if request.LANGUAGE_CODE == 'ru' %}
+          {% verbatim %}
+          <h1 class="tests-hero-title">{{type_data.name_ru_ru}}</h1>
+          <p class="tests-hero-subtitle">Проверьте свои знания</p>
+          {% endverbatim %}
+          {% else %}
+          {% verbatim %}
+          <h1 class="tests-hero-title">{{type_data.name_en_us}}</h1>
+          <p class="tests-hero-subtitle">Test your knowledge</p>
+          {% endverbatim %}
+          {% endif %}
+          {% endif %}
+        {%endif%}
+      </div>
+    </div>
+
     <section id="services">
       <div class="services container">
-        <div class="service-top" style="fonn-size:36px">
+        <div class="service-top">
           <h2>
             <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
               {% if type == 'type' %}
@@ -887,12 +1499,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="service-bottom">
           {%for item in data%}
               {% if item.image != '' %}
-              <div class="service-item" style="background-image: url(/media/{{item.image}});">
+              <div class="service-item">
                 <div class="icon">
                   <img style="block-size: 100%;inline-size: 100%;object-fit: cover;" src="/media/{{item.image}}" />
                 </div>
               {% else %}
-              <div class="service-item" style="background-image: url(/media/projects/images/avtotest.jpg);">
+              <div class="service-item">
                 <div class="icon">
                   <img style="block-size: 100%;inline-size: 100%;object-fit: cover;" src="/media/projects/images/avtotest.jpg" />
                 </div>
