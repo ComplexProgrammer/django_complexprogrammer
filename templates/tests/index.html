@@ -621,6 +621,77 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             margin: 1rem 0;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Modal styles for image preview */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .image-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s ease;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #fff;
+            font-size: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+        }
+
+        .modal-close:hover {
+            color: #06b6d4;
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         /* Enhanced 3D Answer Options */
@@ -1949,7 +2020,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
             <div class="question-container">
               <h4 class="page-content">{{question.number}} - savol<br/>{{question.name_uz_uz}}</h4>
-              <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" class="question-image" width="30%">
+              <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" class="question-image" width="30%" ng-click="openImageModal('/media/' + question.image)" title="Rasmni kattalashtirish uchun bosing">
               <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_uz_uz!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a> 
                 </div>
@@ -1960,7 +2031,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
             <div class="question-container">
               <h4 class="page-content">Вопрос {{question.number}}<br/>{{question.name_ru_ru}}</h4>
-              <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" class="question-image" width="30%">
+              <img ng-if="question.image!=''" ng-show="question.image" src="/media/{{question.image}}" class="question-image" width="30%" ng-click="openImageModal('/media/' + question.image)" title="Нажмите, чтобы увеличить изображение">
               <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_ru_ru!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a> 
                 </div>
@@ -1970,7 +2041,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% verbatim %}
             <div class="question-container">
               <h4 class="page-content">Question {{question.number}}<br/>{{question.name_en_us}}</h4>
-              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/media/{{question.image}}" class="question-image" width="30%">
+              <img ng-if="question.image!=''" ng-show="question.image!=''" src="/media/{{question.image}}" class="question-image" width="30%" ng-click="openImageModal('/media/' + question.image)" title="Click to enlarge image">
               <div class="list-group" style="text-align:start" ng-repeat="answer in answers">
                   <a ng-click="ok(answer)" id="answer{{answer.id}}" href="#" class="list-group-item list-group-item-action" ng-show="answer.name_en_us!=''" ng-class="!question.selected_answer?'':answer.right?'list-group-item-success disabledDiv':'list-group-item-danger disabledDiv'"><input type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}" value="answer{{answer.id}}"> {{answer.name_en_us}}</a> 
               </div>
@@ -2167,6 +2238,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                               }
                               myFunction($scope.question_number);
                               set_color()
+                          }
+                          $scope.openImageModal=function(imageSrc){
+                              openImageModal(imageSrc);
                           }
                           function set_color(){
                             $scope.questions.forEach((element) =>
@@ -2514,5 +2588,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal">
+    <span class="modal-close" onclick="closeImageModal()">&times;</span>
+    <img id="modalImage" class="modal-content-image" src="" alt="Question Image">
+</div>
+
+<script>
+function openImageModal(imageSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modal.classList.add('show');
+    modalImg.src = imageSrc;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    modal.classList.remove('show');
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside the image
+document.getElementById('imageModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeImageModal();
+    }
+});
+
+// Close modal with ESC key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeImageModal();
+    }
+});
+</script>
+
 </body>
 </html>
