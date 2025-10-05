@@ -1543,19 +1543,201 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             border-color: transparent;
         }
 
-        /* Modal styles */
+        /* Enhanced 3D Modal Styles */
         .modal-content {
-            background-color: var(--card-bg);
-            border-color: var(--border-color);
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.95),
+                rgba(248, 250, 252, 0.9)) !important;
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 2px solid rgba(99, 102, 241, 0.3) !important;
+            border-radius: 28px !important;
+            box-shadow:
+                0 20px 60px rgba(99, 102, 241, 0.25),
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                inset 0 2px 8px rgba(255, 255, 255, 0.5) !important;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] .modal-content {
+            background: linear-gradient(135deg,
+                rgba(30, 30, 46, 0.98),
+                rgba(15, 23, 42, 0.95)) !important;
+            border: 2px solid rgba(129, 140, 248, 0.4) !important;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.6),
+                0 8px 24px rgba(129, 140, 248, 0.2),
+                inset 0 2px 8px rgba(255, 255, 255, 0.1) !important;
         }
 
         .modal-header {
-            border-color: var(--border-color);
-            color: var(--text-color);
+            border-bottom: 2px solid rgba(99, 102, 241, 0.2) !important;
+            color: var(--text-color) !important;
+            padding: 1.5rem 2rem !important;
+            background: linear-gradient(135deg,
+                rgba(99, 102, 241, 0.08),
+                rgba(236, 72, 153, 0.05));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        [data-theme="dark"] .modal-header {
+            border-bottom-color: rgba(129, 140, 248, 0.3) !important;
+            background: linear-gradient(135deg,
+                rgba(129, 140, 248, 0.12),
+                rgba(244, 114, 182, 0.08));
+        }
+
+        .modal-header .modal-title {
+            font-weight: 800 !important;
+            font-size: 1.5rem !important;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
         }
 
         .modal-body {
-            color: var(--text-color);
+            color: var(--text-color) !important;
+            padding: 2rem !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-body > div {
+            border-radius: 16px !important;
+            padding: 1rem 1.5rem !important;
+            margin-bottom: 1rem !important;
+            font-weight: 600 !important;
+            font-size: 1.1rem !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+            transition: all 0.3s ease;
+        }
+
+        .modal-body > div:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .modal-footer {
+            border-top: 2px solid rgba(99, 102, 241, 0.2) !important;
+            padding: 1.5rem 2rem !important;
+            background: linear-gradient(135deg,
+                rgba(99, 102, 241, 0.05),
+                rgba(236, 72, 153, 0.03));
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        [data-theme="dark"] .modal-footer {
+            border-top-color: rgba(129, 140, 248, 0.3) !important;
+            background: linear-gradient(135deg,
+                rgba(129, 140, 248, 0.08),
+                rgba(244, 114, 182, 0.05));
+        }
+
+        .modal-footer .btn {
+            border-radius: 14px !important;
+            padding: 0.75rem 1.5rem !important;
+            font-weight: 700 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .modal-footer .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .modal-footer .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .modal-footer .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .modal-footer .btn-outline-secondary {
+            border: 2px solid rgba(99, 102, 241, 0.4) !important;
+            color: var(--text-color) !important;
+        }
+
+        .modal-footer .btn-outline-primary {
+            border: 2px solid rgba(99, 102, 241, 0.6) !important;
+            color: var(--color-primary) !important;
+            background: rgba(99, 102, 241, 0.1) !important;
+        }
+
+        .modal-footer .btn-outline-danger {
+            border: 2px solid rgba(239, 68, 68, 0.6) !important;
+            color: var(--danger-color) !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+        }
+
+        .modal-footer .btn-outline-success {
+            border: 2px solid rgba(16, 185, 129, 0.6) !important;
+            color: var(--success-color) !important;
+            background: rgba(16, 185, 129, 0.1) !important;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Modal backdrop enhancement */
+        .modal-backdrop {
+            backdrop-filter: blur(8px);
+            background-color: rgba(15, 23, 42, 0.7) !important;
+        }
+
+        [data-theme="dark"] .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.85) !important;
         }
     </style>
 </head>
@@ -1812,44 +1994,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
     </script>
     {%else%}
-    <!-- Hero Section -->
-    <div class="tests-hero">
-      <div class="tests-hero-content">
-        {% if type == 'type' %}
-          {% if request.LANGUAGE_CODE == 'uz' %}
-          <h1 class="tests-hero-title">Testlar</h1>
-          <p class="tests-hero-subtitle">Bilimingizni sinab ko'ring va yangi ko'nikmalar oling</p>
-          {% else %}
-          {% if request.LANGUAGE_CODE == 'ru' %}
-          <h1 class="tests-hero-title">Тесты</h1>
-          <p class="tests-hero-subtitle">Проверьте свои знания и получите новые навыки</p>
-          {% else %}
-          <h1 class="tests-hero-title">Tests</h1>
-          <p class="tests-hero-subtitle">Test your knowledge and gain new skills</p>
-          {% endif %}
-          {% endif %}
-        {%else%}
-          {% if request.LANGUAGE_CODE == 'uz' %}
-          {% verbatim %}
-          <h1 class="tests-hero-title">{{type_data.name_uz_uz}}</h1>
-          <p class="tests-hero-subtitle">Bilimingizni sinab ko'ring</p>
-          {% endverbatim %}
-          {% else %}
-          {% if request.LANGUAGE_CODE == 'ru' %}
-          {% verbatim %}
-          <h1 class="tests-hero-title">{{type_data.name_ru_ru}}</h1>
-          <p class="tests-hero-subtitle">Проверьте свои знания</p>
-          {% endverbatim %}
-          {% else %}
-          {% verbatim %}
-          <h1 class="tests-hero-title">{{type_data.name_en_us}}</h1>
-          <p class="tests-hero-subtitle">Test your knowledge</p>
-          {% endverbatim %}
-          {% endif %}
-          {% endif %}
-        {%endif%}
-      </div>
-    </div>
 
     <section id="services">
       <div class="services container">
