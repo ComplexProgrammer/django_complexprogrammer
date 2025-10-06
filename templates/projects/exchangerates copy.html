@@ -109,179 +109,97 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   const analytics = getAnalytics(app);
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
-<link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">    
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+            :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
 
-    :root {
-        --bg-color: #0a0a0f;
-        --text-color: #ffffff;
-        --card-bg: rgba(255, 255, 255, 0.05);
-        --border-color: rgba(255, 255, 255, 0.1);
-        --accent-color: #00ffff;
-        --accent-secondary: #ffd700;
-        --accent-glow: rgba(0, 255, 255, 0.3);
-    }
+        [data-theme="dark"] {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
+        }
 
-    [data-theme="light"] {
-        --bg-color: #f0f4f8;
-        --text-color: #1a1a2e;
-        --card-bg: rgba(255, 255, 255, 0.7);
-        --border-color: rgba(0, 0, 0, 0.1);
-        --accent-color: #667eea;
-        --accent-secondary: #f59e0b;
-        --accent-glow: rgba(102, 126, 234, 0.3);
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
 
-    body {
-        font-family: 'Poppins', sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        transition: all 0.5s ease;
-        overflow-x: hidden;
-        position: relative;
-        min-height: 100vh;
-    }
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
 
-    #threejs-canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        opacity: 0.7;
-    }
+        /* Add table styles for dark mode */
+        [data-theme="dark"] .table {
+            color: var(--text-color);
+        }
 
-    h2 {
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-align: center;
-        margin: 2rem 0;
-        animation: float 3s ease-in-out infinite;
-        font-size: 2rem;
-        padding: 1rem;
-        position: relative;
-        z-index: 10;
-    }
+        [data-theme="dark"] .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.075);
+            color: var(--text-color);
+        }
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
+        [data-theme="dark"] .table thead th {
+            color: var(--text-color);
+            border-bottom-color: var(--border-color);
+        }
 
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        [data-theme="dark"] .table td {
+            border-color: var(--border-color);
+        }
 
-    .table {
-        background: var(--card-bg);
-        backdrop-filter: blur(20px);
-        border-radius: 15px;
-        overflow: hidden;
-        border: 1px solid var(--border-color);
-        animation: fadeInUp 0.8s ease;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    }
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            cursor: pointer;
+            z-index: 1000;
+        }
+    </style>
+    <script>
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        });
 
-    .table thead th {
-        background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-        color: white;
-        font-weight: 600;
-        padding: 1.5rem 1rem;
-        border: none;
-        font-family: 'Orbitron', sans-serif;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
+        function toggleTheme() {
+            const body = document.documentElement;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            updateThemeButton(newTheme);
+        }
 
-    .table tbody tr {
-        border-bottom: 1px solid var(--border-color);
-        transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.02);
-    }
-
-    .table tbody tr:hover {
-        background: rgba(0, 255, 255, 0.1);
-        transform: scale(1.01);
-        box-shadow: 0 4px 15px var(--accent-glow);
-    }
-
-    .table tbody td {
-        padding: 1.2rem 1rem;
-        color: var(--text-color);
-        border: none;
-        vertical-align: middle;
-    }
-
-    .table tbody td:first-child {
-        font-weight: 600;
-        color: var(--accent-color);
-        font-family: 'Orbitron', monospace;
-    }
-
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 1000;
-        background: var(--card-bg);
-        backdrop-filter: blur(10px);
-        border: 2px solid var(--accent-color);
-        color: var(--text-color);
-        padding: 12px 24px;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 500;
-        box-shadow: 0 4px 15px var(--accent-glow);
-    }
-
-    .theme-toggle:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 25px var(--accent-glow);
-    }
-
-    .C0mplexButton { animation: fadeInUp 1s ease; }
-    .fixed-top { z-index: 100; }
-
-    @media (max-width: 768px) {
-        h2 { font-size: 1.3rem; }
-        .table thead th { padding: 1rem 0.5rem; font-size: 0.75rem; }
-        .table tbody td { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
-    }
-
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-        border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, var(--accent-secondary), var(--accent-color));
-    }
-</style>
-<canvas id="threejs-canvas"></canvas>
-
+        function updateThemeButton(theme) {
+            const button = document.getElementById('themeButton');
+            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
+            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+        }
+    </script>
 <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-    <i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>
+    <i class="fas fa-sun"></i> Dark Mode
 </button>
-
 <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
     <img src="/static/img/buffering.gif" />
 </div>
@@ -464,189 +382,4 @@ data-ad-slot="4679993061"></ins>
      data-full-width-responsive="true"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-<script>
-// Three.js 3D Currency Animation with Coins
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('threejs-canvas'),
-    alpha: true,
-    antialias: true
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-
-// Create floating coins (representing currencies)
-const coinGroup = new THREE.Group();
-
-for(let i = 0; i < 20; i++) {
-    const coinGeometry = new THREE.CylinderGeometry(2, 2, 0.3, 32);
-    const coinMaterial = new THREE.MeshBasicMaterial({
-        color: i % 2 === 0 ? 0x00ffff : 0xffd700,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.4
-    });
-    const coin = new THREE.Mesh(coinGeometry, coinMaterial);
-
-    coin.position.x = (Math.random() - 0.5) * 60;
-    coin.position.y = (Math.random() - 0.5) * 60;
-    coin.position.z = (Math.random() - 0.5) * 60;
-    coin.rotation.x = Math.random() * Math.PI;
-    coin.rotation.z = Math.random() * Math.PI;
-
-    coinGroup.add(coin);
-}
-
-scene.add(coinGroup);
-
-// Create particles
-const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 3000;
-const posArray = new Float32Array(particlesCount * 3);
-
-for(let i = 0; i < particlesCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 100;
-}
-
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.05,
-    color: 0x00ffff,
-    transparent: true,
-    opacity: 0.5,
-    blending: THREE.AdditiveBlending
-});
-
-const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particlesMesh);
-
-// Add currency symbol shapes
-const currencyLines = new THREE.Group();
-for(let i = 0; i < 30; i++) {
-    const geometry = new THREE.BufferGeometry();
-    const positions = [];
-
-    const x1 = (Math.random() - 0.5) * 50;
-    const y1 = (Math.random() - 0.5) * 50;
-    const z1 = (Math.random() - 0.5) * 50;
-    const x2 = (Math.random() - 0.5) * 50;
-    const y2 = (Math.random() - 0.5) * 50;
-    const z2 = (Math.random() - 0.5) * 50;
-
-    positions.push(x1, y1, z1, x2, y2, z2);
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-
-    const material = new THREE.LineBasicMaterial({
-        color: 0xffd700,
-        transparent: true,
-        opacity: 0.3
-    });
-
-    const line = new THREE.Line(geometry, material);
-    currencyLines.add(line);
-}
-
-scene.add(currencyLines);
-
-camera.position.z = 50;
-
-let mouseX = 0;
-let mouseY = 0;
-
-document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-});
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    // Rotate coins
-    coinGroup.rotation.y += 0.002;
-    coinGroup.children.forEach((coin, index) => {
-        coin.rotation.y += 0.01 + index * 0.001;
-        coin.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
-    });
-
-    // Rotate particles
-    particlesMesh.rotation.y += 0.0005;
-    particlesMesh.rotation.x += 0.0003;
-
-    // Rotate currency lines
-    currencyLines.rotation.x += 0.0003;
-    currencyLines.rotation.y += 0.0005;
-
-    // Interactive camera
-    camera.position.x += (mouseX * 15 - camera.position.x) * 0.05;
-    camera.position.y += (mouseY * 15 - camera.position.y) * 0.05;
-    camera.lookAt(scene.position);
-
-    renderer.render(scene, camera);
-}
-
-animate();
-
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Theme Toggle Function
-function toggleTheme() {
-    const body = document.documentElement;
-    const currentTheme = body.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-    body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    const themeButton = document.getElementById('themeButton');
-
-    if (newTheme === 'light') {
-        themeButton.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Dark Mode</span>';
-        particlesMaterial.color.setHex(0x667eea);
-        coinGroup.children.forEach((coin, i) => {
-            coin.material.color.setHex(i % 2 === 0 ? 0x667eea : 0xf59e0b);
-        });
-        currencyLines.children.forEach(line => {
-            line.material.color.setHex(0xf59e0b);
-        });
-    } else {
-        themeButton.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>';
-        particlesMaterial.color.setHex(0x00ffff);
-        coinGroup.children.forEach((coin, i) => {
-            coin.material.color.setHex(i % 2 === 0 ? 0x00ffff : 0xffd700);
-        });
-        currencyLines.children.forEach(line => {
-            line.material.color.setHex(0xffd700);
-        });
-    }
-}
-
-// Set initial theme
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
-    const themeButton = document.getElementById('themeButton');
-
-    if (savedTheme === 'light') {
-        themeButton.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Dark Mode</span>';
-        particlesMaterial.color.setHex(0x667eea);
-        coinGroup.children.forEach((coin, i) => {
-            coin.material.color.setHex(i % 2 === 0 ? 0x667eea : 0xf59e0b);
-        });
-        currencyLines.children.forEach(line => {
-            line.material.color.setHex(0xf59e0b);
-        });
-    } else {
-        themeButton.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>';
-    }
-});
 </script>

@@ -1,23 +1,31 @@
 ﻿.C0mplexButton{
-   
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 1001 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-direction: column !important;
+    float: none !important;
+    margin: 0 !important;
 }
 .C0mplexButton a {
     position: relative;
     display: inline-block;
-    padding: 25px 30px;
-    margin: 40px 0;
+    padding: 15px 20px;
+    margin: 0;
     color: red;
-    font-size: 14px;
-    overflow:hidden;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: hidden;
     text-decoration: none;
     text-transform: uppercase;
     transition: 0.5s;
-    letter-spacing: 4px;
-    -webkit-box-reflect: below 1px linear-gradient(transparent,#0005);
+    letter-spacing: 2px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
 }
 .Default {
     filter: hue-rotate(0deg);
