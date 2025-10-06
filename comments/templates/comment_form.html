@@ -74,9 +74,10 @@
               <textarea
                 name="text"
                 class="form-control"
-                rows="3"
+                rows="4"
                 required
-                placeholder="Izohingizni yozing..."
+                placeholder="Izohingizni kiriting..."
+                style="resize: vertical; min-height: 100px;"
               ></textarea>
             </div>
             <div class="text-center">
@@ -175,9 +176,10 @@
           <textarea
             name="text"
             class="form-control form-control-sm"
-            rows="2"
+            rows="3"
             required
-            placeholder="Javobingizni yozing..."
+            placeholder="Javobingizni kiriting..."
+            style="resize: vertical; min-height: 80px; padding: 0.75rem;"
           ></textarea>
         </div>
         <div class="text-end">
@@ -198,6 +200,20 @@
 </div>
 
 <style>
+  .form-control {
+    padding: 0.75rem 1rem;
+  }
+
+  textarea.form-control {
+    min-height: 120px;
+    padding: 1rem;
+    line-height: 1.6;
+  }
+
+  textarea.form-control::placeholder {
+    opacity: 0.6;
+  }
+
   .reply-form-template {
     display: none;
   }
@@ -220,21 +236,34 @@
   }
   /* Dark mode styles */
 
+  [data-theme="dark"] .card {
+    background-color: #1a1a1a !important;
+    border-color: #404040 !important;
+  }
+
+  [data-theme="dark"] .card-body {
+    background-color: #1a1a1a !important;
+  }
+
   [data-theme="dark"] .reply-form-active {
-    background-color: var(--bs-dark);
+    background-color: #1a1a1a !important;
   }
 
-  [data-theme="dark"] .form-control {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-border-color-translucent);
-    color: var(--bs-light);
+  [data-theme="dark"] .form-control,
+  [data-theme="dark"] textarea.form-control,
+  [data-theme="dark"] input.form-control {
+    background-color: #1a1a1a !important;
+    border-color: #404040 !important;
+    color: #ffffff !important;
   }
 
-  [data-theme="dark"] .form-control:focus {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-primary);
-    color: var(--bs-light);
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  [data-theme="dark"] .form-control:focus,
+  [data-theme="dark"] textarea.form-control:focus,
+  [data-theme="dark"] input.form-control:focus {
+    background-color: #222222 !important;
+    border-color: var(--bs-primary) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
   }
 
   [data-theme="dark"] .form-label {
@@ -272,8 +301,16 @@
     border-color: var(--bs-gray-600);
   }
 
-  [data-theme="dark"] .card-title {
-    color: var(--bs-light);
+  [data-theme="dark"] .card-title,
+  [data-theme="dark"] h4,
+  [data-theme="dark"] h5,
+  [data-theme="dark"] h6 {
+    color: #ffffff !important;
+  }
+
+  [data-theme="dark"] .card-text,
+  [data-theme="dark"] p {
+    color: #e0e0e0 !important;
   }
 
   [data-theme="dark"] .reply-btn {
