@@ -1,0 +1,149 @@
+<!-- Scroll Buttons Component -->
+<style>
+/* Scroll buttons */
+.scroll-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.scroll-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(102, 126, 234, 0.5);
+    color: #667eea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: scale(0);
+    pointer-events: none;
+}
+.scroll-btn.show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: all;
+    animation: bounceIn 0.5s ease;
+}
+@keyframes bounceIn {
+    0% { transform: scale(0); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+.scroll-btn i {
+    transition: transform 0.3s ease;
+}
+.scroll-btn:hover i {
+    transform: translateY(-3px);
+}
+#scrollToBottom:hover i {
+    transform: translateY(3px);
+}
+.scroll-btn:hover {
+    background: rgba(102, 126, 234, 0.4);
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+body.light-mode .scroll-btn {
+    background: rgba(102, 126, 234, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+    color: #667eea;
+}
+body.light-mode .scroll-btn:hover {
+    background: rgba(102, 126, 234, 0.25);
+}
+@media (max-width: 768px) {
+    .scroll-buttons {
+        right: 10px;
+        bottom: 10px;
+    }
+    .scroll-btn {
+        width: 45px;
+        height: 45px;
+    }
+}
+</style>
+
+<!-- Scroll Buttons -->
+<div class="scroll-buttons">
+    <button id="scrollToTop" class="scroll-btn" title="Yuqoriga">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <button id="scrollToBottom" class="scroll-btn" title="Pastga">
+        <i class="fas fa-arrow-down"></i>
+    </button>
+</div>
+
+<script>
+// Scroll Functions
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+function scrollToBottom() {
+    window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+    });
+}
+
+// Show/Hide scroll buttons based on scroll position
+function handleScrollButtons() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    const scrollToBottomBtn = document.getElementById('scrollToBottom');
+
+    if (!scrollToTopBtn || !scrollToBottomBtn) return;
+
+    // Always show both buttons if page is scrollable
+    const isPageScrollable = scrollHeight > clientHeight + 100;
+
+    if (!isPageScrollable) {
+        // Hide both if page is too short
+        scrollToTopBtn.classList.remove('show');
+        scrollToBottomBtn.classList.remove('show');
+        return;
+    }
+
+    // Show "scroll to top" button after scrolling down 300px
+    if (scrollTop > 300) {
+        scrollToTopBtn.classList.add('show');
+    } else {
+        scrollToTopBtn.classList.remove('show');
+    }
+
+    // Always show "scroll to bottom" button if not at very bottom
+    if (scrollTop + clientHeight < scrollHeight - 50) {
+        scrollToBottomBtn.classList.add('show');
+    } else {
+        scrollToBottomBtn.classList.remove('show');
+    }
+}
+
+// Initialize scroll buttons
+(function initScrollButtons() {
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    const scrollToBottomBtn = document.getElementById('scrollToBottom');
+
+    if (scrollToTopBtn && scrollToBottomBtn) {
+        scrollToTopBtn.addEventListener('click', scrollToTop);
+        scrollToBottomBtn.addEventListener('click', scrollToBottom);
+        window.addEventListener('scroll', handleScrollButtons);
+        handleScrollButtons();
+    }
+})();
+</script>

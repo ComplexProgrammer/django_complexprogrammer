@@ -2382,6 +2382,5 @@ data-full-width-responsive="true"></ins>
     </div>
 </div>
 
-{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

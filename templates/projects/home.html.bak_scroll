@@ -858,6 +858,5 @@
         }, 16)
       ); // ~60fps
     </script>
-  {% include "includes/scroll_buttons.html" %}
-</body>
+  </body>
 </html>

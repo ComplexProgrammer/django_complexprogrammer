@@ -123,50 +123,194 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
-            --bg-color: #ffffff;
-            --text-color: #212121;
-            --card-bg: #ffffff;
-            --border-color: #e0e0e0;
+            --bg-color: #0a0e27;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-color: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.3);
             transition: all 0.3s ease;
         }
 
         [data-theme="dark"] {
-            --bg-color: #212121;
+            --bg-color: #0a0e27;
             --text-color: #ffffff;
-            --card-bg: #2d2d2d;
-            --border-color: #444;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f5f7fa;
+            --text-color: #212121;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: #e0e0e0;
+            --accent-color: #0066ff;
+            --accent-glow: rgba(0, 102, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #threejs-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            margin-top: 100px;
+            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--accent-color), #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+            display: inline-block;
+            width: 100%;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px var(--accent-glow)); }
+            50% { filter: drop-shadow(0 0 40px var(--accent-glow)); }
         }
 
         .card {
             background-color: var(--card-bg);
             border-color: var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--accent-glow);
         }
 
         .theme-toggle {
             position: fixed;
-            inset-block-start: 20px;
-            inset-inline-end: 20px;
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: 1px solid var(--border-color);
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 2px solid var(--accent-color);
             background: var(--card-bg);
             color: var(--text-color);
             cursor: pointer;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 5px 20px var(--accent-glow);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        .dropify-wrapper {
+            border: 2px dashed var(--accent-color) !important;
+            border-radius: 15px !important;
+            background: var(--card-bg) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .dropify-wrapper:hover {
+            border-color: #ff00ff !important;
+            box-shadow: 0 0 30px var(--accent-glow) !important;
+            transform: scale(1.02);
+        }
+
+        .text-info {
+            color: var(--accent-color) !important;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .text-danger {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .C0mplexButton a {
+            background: linear-gradient(135deg, var(--accent-color), #ff00ff) !important;
+            border-radius: 15px !important;
+            padding: 15px 30px !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 10px 30px var(--accent-glow) !important;
+        }
+
+        .C0mplexButton a:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 15px 40px var(--accent-glow) !important;
+        }
+
+        .row {
+            margin-bottom: 30px;
+        }
+
+        img {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .fixed-top {
+            z-index: 1001;
         }
     </style>
     <script>
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'light';
+            const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButton(savedTheme);
         });
@@ -175,11 +319,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const body = document.documentElement;
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
-            
+
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            
+
             updateThemeButton(newTheme);
         }
 
@@ -191,7 +334,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
     </script>
     <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-sun"></i> Dark Mode
+        <i class="fas fa-moon"></i> Light Mode
     </button>
     <title>
         {% if request.LANGUAGE_CODE == 'uz' %}
@@ -206,6 +349,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </title>
 </head>
 <body ng-app="App" ng-controller="ImageCompare">
+    <canvas id="threejs-bg"></canvas>
+
     <ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-layout="in-article"
@@ -323,6 +468,141 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
     {% endverbatim %}
 </div>
+
+<script>
+    // Three.js Background Animation
+    const canvas = document.getElementById('threejs-bg');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    camera.position.z = 50;
+
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 3000;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for(let i = 0; i < particlesCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 200;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.3,
+        color: 0x00d4ff,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    // Create geometric shapes
+    const geometries = [];
+    const materials = [];
+
+    // Add Torus
+    const torusGeometry = new THREE.TorusGeometry(10, 3, 16, 100);
+    const torusMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00d4ff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3
+    });
+    const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+    torus.position.set(-30, 20, -20);
+    scene.add(torus);
+    geometries.push(torus);
+
+    // Add Icosahedron
+    const icoGeometry = new THREE.IcosahedronGeometry(8, 0);
+    const icoMaterial = new THREE.MeshBasicMaterial({
+        color: 0xff00ff,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3
+    });
+    const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
+    icosahedron.position.set(30, -20, -30);
+    scene.add(icosahedron);
+    geometries.push(icosahedron);
+
+    // Add Octahedron
+    const octGeometry = new THREE.OctahedronGeometry(7);
+    const octMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00ff88,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.3
+    });
+    const octahedron = new THREE.Mesh(octGeometry, octMaterial);
+    octahedron.position.set(0, -30, -25);
+    scene.add(octahedron);
+    geometries.push(octahedron);
+
+    // Mouse interaction
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Rotate particles
+        particlesMesh.rotation.x += 0.0005;
+        particlesMesh.rotation.y += 0.0005;
+
+        // Rotate geometric shapes
+        geometries.forEach((geo, index) => {
+            geo.rotation.x += 0.01 * (index + 1) * 0.3;
+            geo.rotation.y += 0.01 * (index + 1) * 0.3;
+            geo.position.y += Math.sin(Date.now() * 0.001 + index) * 0.05;
+        });
+
+        // Mouse interaction
+        camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+        camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Update theme-based colors
+    function updateThreeJSTheme() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        if (theme === 'light') {
+            particlesMaterial.color.setHex(0x0066ff);
+            torusMaterial.color.setHex(0x0066ff);
+        } else {
+            particlesMaterial.color.setHex(0x00d4ff);
+            torusMaterial.color.setHex(0x00d4ff);
+        }
+    }
+
+    // Listen for theme changes
+    const observer = new MutationObserver(updateThreeJSTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+
 <script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
 <script>$('.dropify').dropify();</script>
 <ins class="adsbygoogle"
@@ -379,5 +659,6 @@ data-ad-slot="4679993061"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

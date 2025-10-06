@@ -105,6 +105,5 @@
 </div>
 
  
-{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

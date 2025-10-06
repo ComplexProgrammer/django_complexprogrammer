@@ -45,6 +45,5 @@
         <div id="app"></div>
         {% comment %} <script src="https://postda.uz//js/chunk-vendors.5acb604a.js"></script> {% endcomment %}
         {% comment %} <script src="https://postda.uz//js/app.3abb9f7c.js"></script> {% endcomment %}
-    {% include "includes/scroll_buttons.html" %}
-</body>
+    </body>
 </html>

@@ -446,6 +446,5 @@ data-ad-slot="4679993061"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

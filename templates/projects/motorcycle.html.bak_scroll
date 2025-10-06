@@ -86,4 +86,4 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
 </div>
 {% include 'comment_form.html' %}
-<script src="/static/Games/Motorcycle/js.js"></script>{% include "includes/scroll_buttons.html" %}
+<script src="/static/Games/Motorcycle/js.js"></script>

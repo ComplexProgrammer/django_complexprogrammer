@@ -123,7 +123,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
     <script src="https://kit.fontawesome.com/391652c176.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <title>
         {% if request.LANGUAGE_CODE == 'uz' %}
         Instagram yuklab olish dasturi
@@ -137,255 +136,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </title>
     <style>
         :root {
-            --bg-color: #0a0a1f;
-            --text-color: #ffffff;
-            --card-bg: rgba(45, 45, 80, 0.7);
-            --border-color: rgba(138, 58, 185, 0.3);
-            --instagram-gradient: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
-            --accent-purple: #8a3ab9;
-            --accent-pink: #e1306c;
-            --accent-orange: #fd1d1d;
-            --glow-color: rgba(225, 48, 108, 0.4);
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
             transition: all 0.3s ease;
         }
 
         [data-theme="dark"] {
-            --bg-color: #0a0a1f;
+            --bg-color: #212121;
             --text-color: #ffffff;
-            --card-bg: rgba(45, 45, 80, 0.7);
-            --border-color: rgba(138, 58, 185, 0.3);
-        }
-
-        [data-theme="light"] {
-            --bg-color: #fafafa;
-            --text-color: #262626;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --border-color: rgba(219, 219, 219, 0.5);
-            --glow-color: rgba(225, 48, 108, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --card-bg: #2d2d2d;
+            --border-color: #444;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        #threejs-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            padding-top: 20px;
         }
 
         .card {
-            background: var(--card-bg) !important;
-            border: 2px solid var(--border-color) !important;
-            backdrop-filter: blur(20px);
-            border-radius: 20px !important;
-            box-shadow: 0 15px 40px var(--glow-color);
-            transition: all 0.4s ease;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--instagram-gradient);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px var(--glow-color);
-            border-color: var(--accent-pink);
-        }
-
-        .card-header {
-            background: var(--instagram-gradient) !important;
-            font-weight: 700 !important;
-            font-size: 1.5rem !important;
-            padding: 20px !important;
-            border: none !important;
-            animation: gradientShift 5s ease infinite;
-            background-size: 200% 200% !important;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .card-title {
-            background: var(--instagram-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            background-size: 200% 200%;
-            animation: gradientShift 5s ease infinite;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 2px solid var(--border-color) !important;
-            color: var(--text-color) !important;
-            border-radius: 15px !important;
-            padding: 15px !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.15) !important;
-            border-color: var(--accent-pink) !important;
-            box-shadow: 0 0 30px var(--glow-color) !important;
-            color: var(--text-color) !important;
-        }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .btn {
-            border-radius: 15px !important;
-            padding: 12px 25px !important;
-            font-weight: 600 !important;
-            transition: all 0.3s ease !important;
-            border: 2px solid !important;
-        }
-
-        .btn-outline-success {
-            border-color: #00d4aa !important;
-            color: #00d4aa !important;
-        }
-
-        .btn-outline-success:hover {
-            background: #00d4aa !important;
-            color: white !important;
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0, 212, 170, 0.4);
-        }
-
-        .btn-outline-warning {
-            background: var(--instagram-gradient) !important;
-            border: none !important;
-            color: white !important;
-            background-size: 200% 200% !important;
-        }
-
-        .btn-outline-warning:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px var(--glow-color) !important;
-            animation: gradientShift 2s ease infinite;
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
         }
 
         .theme-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: 2px solid var(--accent-purple);
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
             background: var(--card-bg);
             color: var(--text-color);
             cursor: pointer;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 5px 20px var(--glow-color);
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px var(--glow-color);
-            background: var(--instagram-gradient);
-            border: none;
-        }
-
-        .img-fluid {
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s ease;
-        }
-
-        .img-fluid:hover {
-            transform: scale(1.05) rotate(2deg);
-            box-shadow: 0 15px 40px var(--glow-color);
-        }
-
-        .C0mplexButton a {
-            background: var(--instagram-gradient) !important;
-            border-radius: 15px !important;
-            transition: all 0.3s ease !important;
-            box-shadow: 0 10px 30px var(--glow-color) !important;
-        }
-
-        .C0mplexButton a:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 15px 40px var(--glow-color) !important;
-        }
-
-        .fixed-top {
-            z-index: 1001;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .row {
-            margin-bottom: 30px;
-        }
-
-        [data-theme="light"] .card {
-            color: #262626;
-        }
-
-        [data-theme="light"] .form-control {
-            background: rgba(0, 0, 0, 0.05) !important;
-        }
-
-        [data-theme="light"] .form-control::placeholder {
-            color: rgba(0, 0, 0, 0.4);
         }
     </style>
     <script>
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButton(savedTheme);
         });
@@ -394,10 +186,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const body = document.documentElement;
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
+            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
+            
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-
+            
             updateThemeButton(newTheme);
         }
 
@@ -411,12 +204,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
     <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i> Light Mode
+        <i class="fas fa-sun"></i> Dark Mode
     </button>
 </head>
 <body ng-app="App" ng-controller="InstagramDownloader" class="modal-open">
-  <canvas id="threejs-bg"></canvas>
-
   <ins class="adsbygoogle"
   style="display:block; text-align:center;"
   data-ad-layout="in-article"
@@ -589,189 +380,5 @@ data-ad-slot="4679993061"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
-  {% include "includes/scroll_buttons.html" %}
-
-  <script>
-    // Three.js Instagram-themed Background Animation
-    const canvas = document.getElementById('threejs-bg');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    camera.position.z = 50;
-
-    // Create Instagram-themed particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 2500;
-    const posArray = new Float32Array(particlesCount * 3);
-    const colorArray = new Float32Array(particlesCount * 3);
-
-    // Instagram gradient colors
-    const colors = [
-        new THREE.Color(0xf09433), // Orange
-        new THREE.Color(0xe6683c), // Red-orange
-        new THREE.Color(0xdc2743), // Red
-        new THREE.Color(0xcc2366), // Pink-red
-        new THREE.Color(0xbc1888), // Purple
-    ];
-
-    for(let i = 0; i < particlesCount * 3; i += 3) {
-        posArray[i] = (Math.random() - 0.5) * 200;
-        posArray[i + 1] = (Math.random() - 0.5) * 200;
-        posArray[i + 2] = (Math.random() - 0.5) * 200;
-
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        colorArray[i] = color.r;
-        colorArray[i + 1] = color.g;
-        colorArray[i + 2] = color.b;
-    }
-
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-
-    const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.4,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending
-    });
-
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
-
-    // Create Instagram camera-like geometric shapes
-    const geometries = [];
-
-    // Add Torus (like camera lens)
-    const torusGeometry = new THREE.TorusGeometry(12, 3, 16, 100);
-    const torusMaterial = new THREE.MeshBasicMaterial({
-        color: 0xe1306c,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.4
-    });
-    const torus = new THREE.Mesh(torusGeometry, torusMaterial);
-    torus.position.set(-35, 25, -30);
-    scene.add(torus);
-    geometries.push(torus);
-
-    // Add Sphere (camera body)
-    const sphereGeometry = new THREE.SphereGeometry(8, 32, 32);
-    const sphereMaterial = new THREE.MeshBasicMaterial({
-        color: 0xf09433,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3
-    });
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    sphere.position.set(35, -25, -35);
-    scene.add(sphere);
-    geometries.push(sphere);
-
-    // Add Icosahedron
-    const icoGeometry = new THREE.IcosahedronGeometry(10, 0);
-    const icoMaterial = new THREE.MeshBasicMaterial({
-        color: 0xbc1888,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.35
-    });
-    const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
-    icosahedron.position.set(0, -35, -25);
-    scene.add(icosahedron);
-    geometries.push(icosahedron);
-
-    // Add Dodecahedron
-    const dodecaGeometry = new THREE.DodecahedronGeometry(7);
-    const dodecaMaterial = new THREE.MeshBasicMaterial({
-        color: 0xdc2743,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.35
-    });
-    const dodecahedron = new THREE.Mesh(dodecaGeometry, dodecaMaterial);
-    dodecahedron.position.set(-25, -15, -40);
-    scene.add(dodecahedron);
-    geometries.push(dodecahedron);
-
-    // Mouse interaction
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-    });
-
-    // Animation loop
-    let time = 0;
-    function animate() {
-        requestAnimationFrame(animate);
-        time += 0.001;
-
-        // Rotate particles with wave effect
-        particlesMesh.rotation.x += 0.0003;
-        particlesMesh.rotation.y += 0.0005;
-
-        // Animate particle positions
-        const positions = particlesMesh.geometry.attributes.position.array;
-        for(let i = 0; i < positions.length; i += 3) {
-            positions[i + 1] += Math.sin(time + positions[i]) * 0.02;
-        }
-        particlesMesh.geometry.attributes.position.needsUpdate = true;
-
-        // Rotate geometric shapes with different speeds
-        geometries.forEach((geo, index) => {
-            geo.rotation.x += 0.005 * (index + 1) * 0.4;
-            geo.rotation.y += 0.008 * (index + 1) * 0.4;
-            geo.position.y += Math.sin(time * 2 + index) * 0.08;
-
-            // Pulsating effect
-            const scale = 1 + Math.sin(time * 3 + index) * 0.1;
-            geo.scale.set(scale, scale, scale);
-        });
-
-        // Mouse interaction
-        camera.position.x += (mouseX * 8 - camera.position.x) * 0.05;
-        camera.position.y += (mouseY * 8 - camera.position.y) * 0.05;
-        camera.lookAt(scene.position);
-
-        renderer.render(scene, camera);
-    }
-
-    animate();
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Update theme-based colors
-    function updateThreeJSTheme() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'light') {
-            particlesMaterial.opacity = 0.6;
-            torusMaterial.opacity = 0.3;
-            sphereMaterial.opacity = 0.25;
-            icoMaterial.opacity = 0.25;
-            dodecaMaterial.opacity = 0.25;
-        } else {
-            particlesMaterial.opacity = 0.8;
-            torusMaterial.opacity = 0.4;
-            sphereMaterial.opacity = 0.3;
-            icoMaterial.opacity = 0.35;
-            dodecaMaterial.opacity = 0.35;
-        }
-    }
-
-    // Listen for theme changes
-    const observer = new MutationObserver(updateThreeJSTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-</script>
-</body>
+  </body>
   </html>

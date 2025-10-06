@@ -805,6 +805,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
     });
     </script>
-{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

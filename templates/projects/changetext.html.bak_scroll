@@ -755,4 +755,4 @@ document.addEventListener('DOMContentLoaded', () => {
         themeButton.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>';
     }
 });
-</script>{% include "includes/scroll_buttons.html" %}
+</script>
