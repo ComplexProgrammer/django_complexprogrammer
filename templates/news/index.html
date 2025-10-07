@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-{% load i18n %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load i18n %}
 {% load static %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
-<div class="fixed-top">
     <div class="position-relative" style="margin-top:50px;">
       <div class="position-absolute top-0 end-0 translate-middle">
         <div class="container">
@@ -667,14 +670,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   `;
   document.head.appendChild(style);
 </script>
-
-<html>
-<head>
+</head>
+<body>
   <button onclick="toggleTheme()" class="theme-switch">
     <i class="bi bi-brightness-high"></i>
   </button>
-</head>
-<body>
+<div class="fixed-top">
     <ins class="adsbygoogle"
         style="display:block; text-align:center;"
         data-ad-layout="in-article"
@@ -846,10 +847,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     {% endif %}
     {% if id != 0 %}
-    {% include 'comment_form.html' with comments=comments %} 
+    {% include 'comment_form.html' with comments=comments %}
     {% endif %}
-
-</div>
     <ins class="adsbygoogle"
         style="display:block; text-align:center;"
         data-ad-format="autorelaxed"

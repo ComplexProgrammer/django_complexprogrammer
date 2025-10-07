@@ -1,4 +1,9 @@
-{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
@@ -73,6 +78,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 <link href="/static/Games/DuckHunt/css/Style.css" rel="stylesheet" />
  <link rel="stylesheet" href="/static/C0mplexButtonStyle.css">
+</head>
+<body>
 <span style="position:absolute;visibility:hidden">
     <audio id="shoot_sound" controls="controls">
         <source src="/static/Games/DuckHunt/Sounds/shoot.mp3" type="audio/mpeg" />
@@ -116,3 +123,4 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="score"></div>
     {% include 'comment_form.html' %}
 </body>
+</html>

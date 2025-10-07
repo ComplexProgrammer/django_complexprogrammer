@@ -1,4 +1,9 @@
-{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
@@ -72,6 +77,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 </script>
+</head>
+<body>
 <div id="MotorcycleBody">
     <canvas id="MotorcycleCanvas">
     </canvas>
@@ -87,3 +94,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 {% include 'comment_form.html' %}
 <script src="/static/Games/Motorcycle/js.js"></script>{% include "includes/scroll_buttons.html" %}
+</body>
+</html>
