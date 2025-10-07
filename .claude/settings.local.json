@@ -33,7 +33,9 @@
       "Bash(do echo \"   ✗ $file\")",
       "Bash(if grep -q \"scroll_buttons\" \"$file\")",
       "Bash(do echo \"=== $file ===\" grep -A 2 -B 2 \"scroll_buttons\" \"$file\")",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
