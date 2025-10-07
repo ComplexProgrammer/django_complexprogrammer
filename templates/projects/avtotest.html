@@ -114,7 +114,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    <style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* Three.js Canvas Background - Avto Test Theme */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        [data-theme="dark"] #threejs-canvas {
+            opacity: 0.4;
+        }
+
+        @media (max-width: 768px) {
+            #threejs-canvas {
+                opacity: 0.2;
+            }
+        }
+    </style>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         /* Core styles with logical properties */
@@ -1740,6 +1764,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </button>
 </head>
 <body ng-app="App" ng-controller="avtotest">
+  <!-- Three.js Background Canvas - Avto Test Theme -->
+  <canvas id="threejs-canvas"></canvas>
+
   <ins class="adsbygoogle"
       style="display:block; text-align:center;"
       data-ad-layout="in-article"
@@ -2383,5 +2410,321 @@ data-full-width-responsive="true"></ins>
 </div>
 
 {% include "includes/scroll_buttons.html" %}
+
+<script>
+// Three.js Scene Setup for Avto Test - Road/Driving Theme
+let scene, camera, renderer, particles, cars = [], roadLines = [], trafficLights = [];
+let mouseX = 0, mouseY = 0;
+
+function initThreeJS() {
+    const canvas = document.getElementById('threejs-canvas');
+    if (!canvas) return;
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
+    camera.position.y = 5;
+
+    renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Create road-themed particles (asphalt texture effect)
+    createRoadParticles();
+
+    // Create 3D cars
+    createCars();
+
+    // Create road lines
+    createRoadLines();
+
+    // Create traffic lights
+    createTrafficLights();
+
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffa500, 0.8);
+    directionalLight.position.set(10, 20, 10);
+    scene.add(directionalLight);
+
+    const pointLight1 = new THREE.PointLight(0xff0000, 2, 50);
+    pointLight1.position.set(-20, 10, 0);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0x00ff00, 2, 50);
+    pointLight2.position.set(20, 10, 0);
+    scene.add(pointLight2);
+
+    // Mouse movement listener
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Window resize handler
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+}
+
+function createRoadParticles() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const colors = [];
+
+    for (let i = 0; i < 1500; i++) {
+        vertices.push(
+            Math.random() * 200 - 100,
+            Math.random() * 100 - 50,
+            Math.random() * 200 - 100
+        );
+
+        // Road colors: dark gray, yellow, white
+        const colorOptions = [
+            new THREE.Color(0x2c2c2c), // Dark asphalt
+            new THREE.Color(0xffd700), // Yellow lines
+            new THREE.Color(0xffffff), // White lines
+            new THREE.Color(0x444444)  // Gray
+        ];
+        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        colors.push(color.r, color.g, color.b);
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.6,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+}
+
+function createCars() {
+    // Create simple 3D car shapes
+    const carConfigs = [
+        { color: 0xff0000, position: { x: -25, y: 0, z: -20 }, speed: 0.02 },
+        { color: 0x0000ff, position: { x: 25, y: 0, z: -15 }, speed: 0.015 },
+        { color: 0x00ff00, position: { x: -20, y: 0, z: -25 }, speed: 0.018 },
+        { color: 0xffff00, position: { x: 15, y: 0, z: -10 }, speed: 0.022 }
+    ];
+
+    carConfigs.forEach((config) => {
+        const carGroup = new THREE.Group();
+
+        // Car body
+        const bodyGeometry = new THREE.BoxGeometry(2, 1, 3);
+        const bodyMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.4,
+            shininess: 100
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        carGroup.add(body);
+
+        // Car top (cabin)
+        const topGeometry = new THREE.BoxGeometry(1.5, 0.8, 2);
+        const topMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.3,
+            shininess: 80
+        });
+        const top = new THREE.Mesh(topGeometry, topMaterial);
+        top.position.y = 0.9;
+        carGroup.add(top);
+
+        // Wheels (simple circles)
+        const wheelGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.2, 16);
+        const wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x111111 });
+
+        const wheel1 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+        wheel1.position.set(-0.8, -0.5, 1);
+        wheel1.rotation.z = Math.PI / 2;
+        carGroup.add(wheel1);
+
+        const wheel2 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+        wheel2.position.set(0.8, -0.5, 1);
+        wheel2.rotation.z = Math.PI / 2;
+        carGroup.add(wheel2);
+
+        const wheel3 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+        wheel3.position.set(-0.8, -0.5, -1);
+        wheel3.rotation.z = Math.PI / 2;
+        carGroup.add(wheel3);
+
+        const wheel4 = new THREE.Mesh(wheelGeometry, wheelMaterial);
+        wheel4.position.set(0.8, -0.5, -1);
+        wheel4.rotation.z = Math.PI / 2;
+        carGroup.add(wheel4);
+
+        carGroup.position.set(config.position.x, config.position.y, config.position.z);
+        carGroup.userData = { speed: config.speed, initialZ: config.position.z };
+
+        cars.push(carGroup);
+        scene.add(carGroup);
+    });
+}
+
+function createRoadLines() {
+    // Create yellow road dividing lines
+    for (let i = 0; i < 10; i++) {
+        const lineGeometry = new THREE.BoxGeometry(0.3, 0.1, 3);
+        const lineMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffd700,
+            transparent: true,
+            opacity: 0.5
+        });
+        const line = new THREE.Mesh(lineGeometry, lineMaterial);
+
+        line.position.set(0, -2, -30 + i * 8);
+        line.userData = { speed: 0.1 };
+
+        roadLines.push(line);
+        scene.add(line);
+    }
+}
+
+function createTrafficLights() {
+    // Create traffic light poles
+    const lightConfigs = [
+        { position: { x: -30, y: 5, z: -20 }, color: 0xff0000 },
+        { position: { x: 30, y: 5, z: -15 }, color: 0xffff00 },
+        { position: { x: -25, y: 5, z: -30 }, color: 0x00ff00 }
+    ];
+
+    lightConfigs.forEach((config) => {
+        const lightGeometry = new THREE.SphereGeometry(0.8, 16, 16);
+        const lightMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            emissive: config.color,
+            emissiveIntensity: 0.5,
+            transparent: true,
+            opacity: 0.6
+        });
+        const light = new THREE.Mesh(lightGeometry, lightMaterial);
+
+        light.position.set(config.position.x, config.position.y, config.position.z);
+        light.userData = {
+            pulseSpeed: Math.random() * 0.02 + 0.01,
+            pulsePhase: Math.random() * Math.PI * 2
+        };
+
+        trafficLights.push(light);
+        scene.add(light);
+    });
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    const time = Date.now() * 0.001;
+
+    // Rotate particles slowly
+    if (particles) {
+        particles.rotation.y += 0.0005;
+    }
+
+    // Animate cars moving along the road
+    cars.forEach((car) => {
+        car.position.z += car.userData.speed;
+        car.rotation.y += 0.005;
+
+        // Loop cars when they go off screen
+        if (car.position.z > 50) {
+            car.position.z = car.userData.initialZ;
+        }
+    });
+
+    // Animate road lines moving
+    roadLines.forEach((line) => {
+        line.position.z += line.userData.speed;
+
+        // Loop lines
+        if (line.position.z > 50) {
+            line.position.z = -50;
+        }
+    });
+
+    // Animate traffic lights pulsing
+    trafficLights.forEach((light) => {
+        const pulse = Math.sin(time * light.userData.pulseSpeed + light.userData.pulsePhase) * 0.3 + 0.7;
+        light.material.emissiveIntensity = pulse;
+        light.scale.setScalar(0.8 + pulse * 0.2);
+    });
+
+    // Gentle camera movement based on mouse
+    camera.position.x += (mouseX * 3 - camera.position.x) * 0.02;
+    camera.position.y += (mouseY * 2 + 5 - camera.position.y) * 0.02;
+    camera.lookAt(0, 0, 0);
+
+    renderer.render(scene, camera);
+}
+
+// Initialize Three.js when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThreeJS);
+} else {
+    initThreeJS();
+}
+
+// Update Three.js theme based on dark/light mode
+function updateThreeJSTheme(theme) {
+    if (!particles || !cars.length) return;
+
+    if (theme === 'dark') {
+        particles.material.opacity = 0.5;
+        cars.forEach(car => {
+            car.children.forEach(child => {
+                if (child.material && child.material.transparent) {
+                    child.material.opacity *= 0.8;
+                }
+            });
+        });
+        trafficLights.forEach(light => {
+            light.material.emissiveIntensity *= 1.2;
+        });
+    } else {
+        particles.material.opacity = 0.6;
+        cars.forEach(car => {
+            car.children.forEach(child => {
+                if (child.material && child.material.transparent) {
+                    child.material.opacity = 0.4;
+                }
+            });
+        });
+    }
+}
+
+// Hook into existing theme toggle
+const originalToggleTheme = window.toggleTheme;
+if (originalToggleTheme) {
+    window.toggleTheme = function() {
+        originalToggleTheme();
+        setTimeout(() => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            updateThreeJSTheme(currentTheme);
+        }, 100);
+    };
+}
+</script>
+
 </body>
 </html>

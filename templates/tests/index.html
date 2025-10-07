@@ -230,7 +230,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
+        /* Three.js Canvas Background */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        [data-theme="dark"] #threejs-canvas {
+            opacity: 0.35;
+        }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         :root {
@@ -1813,6 +1828,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 </head>
 <body ng-app="App" ng-controller="tests">
+  <!-- Three.js Background Canvas -->
+  <canvas id="threejs-canvas"></canvas>
+
   <ins class="adsbygoogle"
      style="display:block; text-align:center;"
      data-ad-layout="in-article"
@@ -2623,6 +2641,202 @@ document.addEventListener('keydown', function(e) {
         closeImageModal();
     }
 });
+</script>
+
+<script>
+// Three.js Scene Setup for Test Page
+let scene, camera, renderer, particles, geometricShapes = [];
+let mouseX = 0, mouseY = 0;
+
+function initThreeJS() {
+    const canvas = document.getElementById('threejs-canvas');
+    if (!canvas) return;
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
+
+    renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Create floating particles with educational theme colors
+    createParticles();
+
+    // Create geometric shapes representing knowledge and learning
+    createEducationalShapes();
+
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+
+    const pointLight1 = new THREE.PointLight(0x6366f1, 1.5, 100);
+    pointLight1.position.set(15, 15, 15);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0xec4899, 1.5, 100);
+    pointLight2.position.set(-15, -15, 15);
+    scene.add(pointLight2);
+
+    const pointLight3 = new THREE.PointLight(0x06b6d4, 1.5, 100);
+    pointLight3.position.set(0, 0, -20);
+    scene.add(pointLight3);
+
+    // Mouse movement listener
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Window resize handler
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+}
+
+function createParticles() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const colors = [];
+
+    // Create fewer but larger particles for better visibility
+    for (let i = 0; i < 2000; i++) {
+        vertices.push(
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100
+        );
+
+        // Educational theme colors: blue, purple, pink, cyan
+        const colorOptions = [
+            new THREE.Color(0x6366f1), // Indigo
+            new THREE.Color(0x8b5cf6), // Purple
+            new THREE.Color(0xec4899), // Pink
+            new THREE.Color(0x06b6d4), // Cyan
+            new THREE.Color(0xf59e0b)  // Amber
+        ];
+        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        colors.push(color.r, color.g, color.b);
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.8,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+}
+
+function createEducationalShapes() {
+    // Create shapes representing different aspects of learning
+    const shapes = [
+        { geometry: new THREE.OctahedronGeometry(3.5), color: 0x6366f1, position: { x: 25, y: 15, z: -15 } },
+        { geometry: new THREE.IcosahedronGeometry(3), color: 0xec4899, position: { x: -25, y: -15, z: -10 } },
+        { geometry: new THREE.TorusGeometry(2.5, 0.6, 16, 100), color: 0x06b6d4, position: { x: 20, y: -20, z: -20 } },
+        { geometry: new THREE.TetrahedronGeometry(3), color: 0x8b5cf6, position: { x: -20, y: 20, z: -25 } },
+        { geometry: new THREE.DodecahedronGeometry(2.5), color: 0xf59e0b, position: { x: 0, y: 25, z: -15 } }
+    ];
+
+    shapes.forEach((shape) => {
+        const material = new THREE.MeshPhongMaterial({
+            color: shape.color,
+            transparent: true,
+            opacity: 0.25,
+            wireframe: true,
+            shininess: 100
+        });
+
+        const mesh = new THREE.Mesh(shape.geometry, material);
+        mesh.position.set(shape.position.x, shape.position.y, shape.position.z);
+
+        mesh.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.015 + 0.005,
+                y: Math.random() * 0.015 + 0.005,
+                z: Math.random() * 0.01
+            }
+        };
+
+        geometricShapes.push(mesh);
+        scene.add(mesh);
+    });
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate particles slowly
+    if (particles) {
+        particles.rotation.y += 0.0008;
+        particles.rotation.x += 0.0004;
+    }
+
+    // Animate geometric shapes
+    geometricShapes.forEach((shape) => {
+        shape.rotation.x += shape.userData.rotationSpeed.x;
+        shape.rotation.y += shape.userData.rotationSpeed.y;
+        shape.rotation.z += shape.userData.rotationSpeed.z;
+    });
+
+    // Gentle camera movement based on mouse
+    camera.position.x += (mouseX * 3 - camera.position.x) * 0.03;
+    camera.position.y += (mouseY * 3 - camera.position.y) * 0.03;
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+}
+
+// Initialize Three.js when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThreeJS);
+} else {
+    initThreeJS();
+}
+
+// Update Three.js theme based on dark/light mode
+function updateThreeJSTheme(theme) {
+    if (!particles || !geometricShapes.length) return;
+
+    if (theme === 'dark') {
+        particles.material.opacity = 0.6;
+        geometricShapes.forEach(shape => {
+            shape.material.opacity = 0.35;
+        });
+    } else {
+        particles.material.opacity = 0.7;
+        geometricShapes.forEach(shape => {
+            shape.material.opacity = 0.25;
+        });
+    }
+}
+
+// Hook into existing theme toggle
+const originalToggleTheme = window.toggleTheme;
+if (originalToggleTheme) {
+    window.toggleTheme = function() {
+        originalToggleTheme();
+        setTimeout(() => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            updateThreeJSTheme(currentTheme);
+        }, 100);
+    };
+}
 </script>
 
 </body>

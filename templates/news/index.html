@@ -161,7 +161,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+        /* Three.js Canvas Background - News Theme */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        .dark-mode #threejs-canvas {
+            opacity: 0.35;
+        }
+
+        @media (max-width: 768px) {
+            #threejs-canvas {
+                opacity: 0.18;
+            }
+        }
+    </style>
+
 <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -662,6 +686,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 </head>
 <body>
+  <!-- Three.js Background Canvas - News Theme -->
+  <canvas id="threejs-canvas"></canvas>
+
   <button onclick="toggleTheme()" class="theme-switch">
     <i class="bi bi-brightness-high"></i>
   </button>
@@ -685,24 +712,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     {% if id == 0 %}
-      <!-- Hero Section -->
-      <div class="hero-section">
-        <div class="hero-content">
-          {% if request.LANGUAGE_CODE == 'uz' %}
-          <h1 class="hero-title">Yangiliklar</h1>
-          <p class="hero-subtitle">Eng so'nggi yangiliklar va texnologiya xabarlari</p>
-          {% else %}
-          {% if request.LANGUAGE_CODE == 'ru' %}
-          <h1 class="hero-title">Новости</h1>
-          <p class="hero-subtitle">Последние новости и технологические обновления</p>
-          {% else %}
-          <h1 class="hero-title">News</h1>
-          <p class="hero-subtitle">Latest news and technology updates</p>
-          {% endif %}
-          {% endif %}
-        </div>
-      </div>
-
       <!-- Projects Section -->
         <section id="projects">
             <div class="projects container">
@@ -893,5 +902,311 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
+
+<script>
+// Three.js Scene Setup for News Page - Information/Media Theme
+let scene, camera, renderer, particles, newspaperPages = [], infoSpheres = [], mediaIcons = [];
+let mouseX = 0, mouseY = 0;
+
+function initThreeJS() {
+    const canvas = document.getElementById('threejs-canvas');
+    if (!canvas) return;
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
+
+    renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Create particles (news dots/pixels)
+    createNewsParticles();
+
+    // Create newspaper pages
+    createNewspaperPages();
+
+    // Create info spheres (news bubbles)
+    createInfoSpheres();
+
+    // Create media icons
+    createMediaIcons();
+
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const pointLight1 = new THREE.PointLight(0x667eea, 1.5, 100);
+    pointLight1.position.set(20, 20, 20);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0xf093fb, 1.5, 100);
+    pointLight2.position.set(-20, -20, 10);
+    scene.add(pointLight2);
+
+    const pointLight3 = new THREE.PointLight(0x4facfe, 1.5, 100);
+    pointLight3.position.set(0, 15, -15);
+    scene.add(pointLight3);
+
+    // Mouse movement listener
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Window resize handler
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+}
+
+function createNewsParticles() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const colors = [];
+
+    for (let i = 0; i < 2500; i++) {
+        vertices.push(
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100
+        );
+
+        // News/Media colors: blue, purple, pink, cyan
+        const colorOptions = [
+            new THREE.Color(0x667eea), // Deep blue
+            new THREE.Color(0xf093fb), // Pink
+            new THREE.Color(0x4facfe), // Cyan
+            new THREE.Color(0x764ba2), // Purple
+            new THREE.Color(0xf5576c)  // Red
+        ];
+        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        colors.push(color.r, color.g, color.b);
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.7,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+}
+
+function createNewspaperPages() {
+    // Create floating newspaper page shapes
+    const pageConfigs = [
+        { position: { x: -25, y: 15, z: -20 }, color: 0x667eea },
+        { position: { x: 25, y: -15, z: -15 }, color: 0xf093fb },
+        { position: { x: -20, y: -20, z: -25 }, color: 0x4facfe },
+        { position: { x: 15, y: 20, z: -18 }, color: 0x764ba2 }
+    ];
+
+    pageConfigs.forEach((config) => {
+        const pageGeometry = new THREE.PlaneGeometry(4, 5.5);
+        const pageMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.25,
+            side: THREE.DoubleSide,
+            shininess: 100
+        });
+        const page = new THREE.Mesh(pageGeometry, pageMaterial);
+
+        page.position.set(config.position.x, config.position.y, config.position.z);
+        page.rotation.x = Math.random() * Math.PI;
+        page.rotation.y = Math.random() * Math.PI;
+
+        page.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.01 + 0.002,
+                y: Math.random() * 0.01 + 0.002,
+                z: Math.random() * 0.008
+            }
+        };
+
+        newspaperPages.push(page);
+        scene.add(page);
+    });
+}
+
+function createInfoSpheres() {
+    // Create news bubble spheres
+    const sphereConfigs = [
+        { position: { x: -30, y: 10, z: -15 }, color: 0x667eea, size: 2 },
+        { position: { x: 30, y: -10, z: -20 }, color: 0xf093fb, size: 1.5 },
+        { position: { x: 0, y: 25, z: -25 }, color: 0x4facfe, size: 1.8 },
+        { position: { x: -15, y: -25, z: -18 }, color: 0xf5576c, size: 1.6 }
+    ];
+
+    sphereConfigs.forEach((config) => {
+        const sphereGeometry = new THREE.SphereGeometry(config.size, 32, 32);
+        const sphereMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.3,
+            wireframe: true,
+            shininess: 100
+        });
+        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+
+        sphere.position.set(config.position.x, config.position.y, config.position.z);
+
+        sphere.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.015 + 0.005,
+                y: Math.random() * 0.015 + 0.005
+            },
+            pulseSpeed: Math.random() * 0.02 + 0.01,
+            pulsePhase: Math.random() * Math.PI * 2
+        };
+
+        infoSpheres.push(sphere);
+        scene.add(sphere);
+    });
+}
+
+function createMediaIcons() {
+    // Create torus shapes representing media/broadcast
+    const iconConfigs = [
+        { position: { x: 22, y: 18, z: -22 }, color: 0x667eea },
+        { position: { x: -22, y: -18, z: -15 }, color: 0xf093fb },
+        { position: { x: 18, y: -22, z: -28 }, color: 0x4facfe }
+    ];
+
+    iconConfigs.forEach((config) => {
+        const torusGeometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
+        const torusMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.35,
+            wireframe: true,
+            shininess: 120
+        });
+        const torus = new THREE.Mesh(torusGeometry, torusMaterial);
+
+        torus.position.set(config.position.x, config.position.y, config.position.z);
+
+        torus.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.02,
+                y: Math.random() * 0.02,
+                z: Math.random() * 0.015
+            }
+        };
+
+        mediaIcons.push(torus);
+        scene.add(torus);
+    });
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    const time = Date.now() * 0.001;
+
+    // Rotate particles
+    if (particles) {
+        particles.rotation.y += 0.0008;
+        particles.rotation.x += 0.0004;
+    }
+
+    // Animate newspaper pages
+    newspaperPages.forEach((page) => {
+        page.rotation.x += page.userData.rotationSpeed.x;
+        page.rotation.y += page.userData.rotationSpeed.y;
+        page.rotation.z += page.userData.rotationSpeed.z;
+    });
+
+    // Animate info spheres with pulse effect
+    infoSpheres.forEach((sphere) => {
+        sphere.rotation.x += sphere.userData.rotationSpeed.x;
+        sphere.rotation.y += sphere.userData.rotationSpeed.y;
+
+        const pulse = Math.sin(time * sphere.userData.pulseSpeed + sphere.userData.pulsePhase) * 0.2 + 1;
+        sphere.scale.setScalar(pulse);
+    });
+
+    // Animate media icons
+    mediaIcons.forEach((icon) => {
+        icon.rotation.x += icon.userData.rotationSpeed.x;
+        icon.rotation.y += icon.userData.rotationSpeed.y;
+        icon.rotation.z += icon.userData.rotationSpeed.z;
+    });
+
+    // Gentle camera movement based on mouse
+    camera.position.x += (mouseX * 3 - camera.position.x) * 0.03;
+    camera.position.y += (mouseY * 3 - camera.position.y) * 0.03;
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+}
+
+// Initialize Three.js when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThreeJS);
+} else {
+    initThreeJS();
+}
+
+// Update Three.js theme based on dark/light mode
+function updateThreeJSTheme(theme) {
+    if (!particles || !newspaperPages.length) return;
+
+    if (theme === 'dark-mode') {
+        particles.material.opacity = 0.6;
+        newspaperPages.forEach(page => {
+            page.material.opacity = 0.35;
+        });
+        infoSpheres.forEach(sphere => {
+            sphere.material.opacity = 0.4;
+        });
+        mediaIcons.forEach(icon => {
+            icon.material.opacity = 0.45;
+        });
+    } else {
+        particles.material.opacity = 0.7;
+        newspaperPages.forEach(page => {
+            page.material.opacity = 0.25;
+        });
+        infoSpheres.forEach(sphere => {
+            sphere.material.opacity = 0.3;
+        });
+        mediaIcons.forEach(icon => {
+            icon.material.opacity = 0.35;
+        });
+    }
+}
+
+// Hook into existing theme toggle
+const originalToggleTheme = window.toggleTheme;
+if (originalToggleTheme) {
+    window.toggleTheme = function() {
+        originalToggleTheme();
+        setTimeout(() => {
+            const theme = document.body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
+            updateThreeJSTheme(theme);
+        }, 100);
+    };
+}
+</script>
+
+{% include "includes/scroll_buttons.html" %}
+
 </body>
 </html>
