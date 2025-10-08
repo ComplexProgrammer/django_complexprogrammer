@@ -75,6 +75,32 @@
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
       crossorigin="anonymous"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+      <style>
+        /* Three.js Canvas Background - Blog Theme */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        [data-theme="dark"] #threejs-canvas {
+            opacity: 0.35;
+        }
+
+        @media (max-width: 768px) {
+            #threejs-canvas {
+                opacity: 0.18;
+            }
+        }
+      </style>
+
       <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
 <script>
@@ -821,6 +847,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <title>My Blog</title>
     </head>
     <body>
+      <!-- Three.js Background Canvas - Blog Theme -->
+      <canvas id="threejs-canvas"></canvas>
+
       <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
           <i class="fas fa-sun"></i> Dark Mode
       </button>
@@ -1078,5 +1107,349 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
       </script>
+
+<script>
+// Three.js Scene Setup for Blog - Writing/Reading Theme
+let scene, camera, renderer, particles, books = [], pens = [], papers = [];
+let mouseX = 0, mouseY = 0;
+
+function initThreeJS() {
+    const canvas = document.getElementById('threejs-canvas');
+    if (!canvas) return;
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
+
+    renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Create particles (text/ink effect)
+    createBlogParticles();
+
+    // Create floating books
+    createBooks();
+
+    // Create pen shapes
+    createPens();
+
+    // Create paper sheets
+    createPapers();
+
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const pointLight1 = new THREE.PointLight(0x667eea, 1.5, 100);
+    pointLight1.position.set(20, 20, 20);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0xf093fb, 1.5, 100);
+    pointLight2.position.set(-20, -20, 10);
+    scene.add(pointLight2);
+
+    const pointLight3 = new THREE.PointLight(0x4facfe, 1, 80);
+    pointLight3.position.set(0, 15, -15);
+    scene.add(pointLight3);
+
+    // Mouse movement listener
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Window resize handler
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+}
+
+function createBlogParticles() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const colors = [];
+
+    for (let i = 0; i < 2000; i++) {
+        vertices.push(
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100
+        );
+
+        // Blog/writing colors
+        const colorOptions = [
+            new THREE.Color(0x667eea), // Purple
+            new THREE.Color(0xf093fb), // Pink
+            new THREE.Color(0x4facfe), // Cyan
+            new THREE.Color(0x764ba2), // Dark purple
+            new THREE.Color(0x000000)  // Black (ink)
+        ];
+        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        colors.push(color.r, color.g, color.b);
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.6,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+}
+
+function createBooks() {
+    // Create book shapes
+    const bookConfigs = [
+        { position: { x: -25, y: 15, z: -20 }, color: 0x667eea, size: { w: 3, h: 4, d: 0.5 } },
+        { position: { x: 25, y: -15, z: -15 }, color: 0xf093fb, size: { w: 2.5, h: 3.5, d: 0.4 } },
+        { position: { x: -20, y: -20, z: -25 }, color: 0x4facfe, size: { w: 3.2, h: 4.2, d: 0.6 } },
+        { position: { x: 15, y: 20, z: -18 }, color: 0x764ba2, size: { w: 2.8, h: 3.8, d: 0.5 } }
+    ];
+
+    bookConfigs.forEach((config) => {
+        const bookGroup = new THREE.Group();
+
+        // Book cover
+        const coverGeometry = new THREE.BoxGeometry(config.size.w, config.size.h, config.size.d);
+        const coverMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.3,
+            shininess: 100
+        });
+        const cover = new THREE.Mesh(coverGeometry, coverMaterial);
+        bookGroup.add(cover);
+
+        // Book pages (white edge)
+        const pagesGeometry = new THREE.BoxGeometry(config.size.w * 0.95, config.size.h * 0.95, config.size.d * 0.8);
+        const pagesMaterial = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4
+        });
+        const pages = new THREE.Mesh(pagesGeometry, pagesMaterial);
+        bookGroup.add(pages);
+
+        bookGroup.position.set(config.position.x, config.position.y, config.position.z);
+        bookGroup.rotation.x = Math.random() * Math.PI * 0.5;
+        bookGroup.rotation.y = Math.random() * Math.PI;
+
+        bookGroup.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.008 + 0.002,
+                y: Math.random() * 0.008 + 0.002,
+                z: Math.random() * 0.006
+            }
+        };
+
+        books.push(bookGroup);
+        scene.add(bookGroup);
+    });
+}
+
+function createPens() {
+    // Create pen/pencil shapes
+    const penConfigs = [
+        { position: { x: -30, y: 10, z: -15 }, color: 0x333333 },
+        { position: { x: 30, y: -10, z: -20 }, color: 0x0066cc },
+        { position: { x: 0, y: 25, z: -25 }, color: 0xff0000 }
+    ];
+
+    penConfigs.forEach((config) => {
+        const penGroup = new THREE.Group();
+
+        // Pen body (cylinder)
+        const bodyGeometry = new THREE.CylinderGeometry(0.15, 0.15, 4, 16);
+        const bodyMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.5,
+            shininess: 100
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        penGroup.add(body);
+
+        // Pen tip (cone)
+        const tipGeometry = new THREE.ConeGeometry(0.15, 0.5, 16);
+        const tipMaterial = new THREE.MeshPhongMaterial({
+            color: 0x000000,
+            transparent: true,
+            opacity: 0.6
+        });
+        const tip = new THREE.Mesh(tipGeometry, tipMaterial);
+        tip.position.y = -2.25;
+        penGroup.add(tip);
+
+        penGroup.position.set(config.position.x, config.position.y, config.position.z);
+        penGroup.rotation.z = Math.PI / 4;
+
+        penGroup.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.015,
+                y: Math.random() * 0.015,
+                z: Math.random() * 0.01
+            }
+        };
+
+        pens.push(penGroup);
+        scene.add(penGroup);
+    });
+}
+
+function createPapers() {
+    // Create floating paper sheets
+    const paperConfigs = [
+        { position: { x: 22, y: 18, z: -22 }, color: 0xffffff },
+        { position: { x: -22, y: -18, z: -15 }, color: 0xf5f5f5 },
+        { position: { x: 18, y: -22, z: -28 }, color: 0xfafafa }
+    ];
+
+    paperConfigs.forEach((config) => {
+        const paperGeometry = new THREE.PlaneGeometry(3.5, 4.5);
+        const paperMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.25,
+            side: THREE.DoubleSide,
+            shininess: 50
+        });
+        const paper = new THREE.Mesh(paperGeometry, paperMaterial);
+
+        paper.position.set(config.position.x, config.position.y, config.position.z);
+        paper.rotation.x = Math.random() * Math.PI;
+        paper.rotation.y = Math.random() * Math.PI;
+
+        paper.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.01,
+                y: Math.random() * 0.01,
+                z: Math.random() * 0.008
+            },
+            floatSpeed: Math.random() * 0.5 + 0.3,
+            floatPhase: Math.random() * Math.PI * 2
+        };
+
+        papers.push(paper);
+        scene.add(paper);
+    });
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    const time = Date.now() * 0.001;
+
+    // Rotate particles
+    if (particles) {
+        particles.rotation.y += 0.0006;
+        particles.rotation.x += 0.0003;
+    }
+
+    // Animate books
+    books.forEach((book) => {
+        book.rotation.x += book.userData.rotationSpeed.x;
+        book.rotation.y += book.userData.rotationSpeed.y;
+        book.rotation.z += book.userData.rotationSpeed.z;
+    });
+
+    // Animate pens
+    pens.forEach((pen) => {
+        pen.rotation.x += pen.userData.rotationSpeed.x;
+        pen.rotation.y += pen.userData.rotationSpeed.y;
+        pen.rotation.z += pen.userData.rotationSpeed.z;
+    });
+
+    // Animate papers with floating effect
+    papers.forEach((paper) => {
+        paper.rotation.x += paper.userData.rotationSpeed.x;
+        paper.rotation.y += paper.userData.rotationSpeed.y;
+        paper.rotation.z += paper.userData.rotationSpeed.z;
+
+        // Floating motion
+        const float = Math.sin(time * paper.userData.floatSpeed + paper.userData.floatPhase) * 2;
+        paper.position.y += float * 0.01;
+    });
+
+    // Gentle camera movement based on mouse
+    camera.position.x += (mouseX * 3 - camera.position.x) * 0.025;
+    camera.position.y += (mouseY * 3 - camera.position.y) * 0.025;
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+}
+
+// Initialize Three.js when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThreeJS);
+} else {
+    initThreeJS();
+}
+
+// Update Three.js theme
+function updateThreeJSTheme(theme) {
+    if (!particles || !books.length) return;
+
+    if (theme === 'dark') {
+        particles.material.opacity = 0.6;
+        books.forEach(book => {
+            book.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.4;
+            });
+        });
+        pens.forEach(pen => {
+            pen.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.6;
+            });
+        });
+        papers.forEach(paper => {
+            paper.material.opacity = 0.35;
+        });
+    } else {
+        particles.material.opacity = 0.7;
+        books.forEach(book => {
+            book.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.3;
+            });
+        });
+        pens.forEach(pen => {
+            pen.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.5;
+            });
+        });
+        papers.forEach(paper => {
+            paper.material.opacity = 0.25;
+        });
+    }
+}
+
+// Hook into theme toggle
+const originalToggleThemeFunc = window.toggleTheme;
+window.toggleTheme = function() {
+    if (originalToggleThemeFunc) originalToggleThemeFunc();
+    setTimeout(() => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        updateThreeJSTheme(currentTheme);
+    }, 100);
+};
+</script>
+
+{% include "includes/scroll_buttons.html" %}
+
   </body>
 </html>
