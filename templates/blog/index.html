@@ -178,6 +178,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Override Bootstrap nav-link for blog cards */
+        .blog-card .nav-link {
+            color: var(--text-color) !important;
+            padding: 0 !important;
+        }
+
+        .blog-card .card-title .nav-link,
+        .blog-card .card-text .nav-link {
+            color: var(--text-color) !important;
+        }
+
+        .blog-card:hover .card-title .nav-link,
+        .blog-card:hover .card-text .nav-link {
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+
         body::before {
             content: '';
             position: fixed;
@@ -349,12 +365,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* Dark mode card hover fixes */
         [data-theme="dark"] .card:hover .card-title {
-            color: #ffffff;
+            
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         [data-theme="dark"] .card:hover .card-title a {
-            color: #ffffff !important;
+            
         }
 
         [data-theme="dark"] .card:hover .card-text {
@@ -409,13 +425,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .theme-toggle:hover {
             transform: translateY(-2px) translateZ(0);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            background: var(--primary-gradient);
             color: white;
         }
 
         /* Hero Section */
         .hero-section {
-            background: var(--primary-gradient);
             padding: 80px 0 60px;
             margin-bottom: 50px;
             text-align: center;
@@ -490,46 +504,88 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         .card-title {
             color: var(--text-color);
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
             line-height: 1.3;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             z-index: 3;
+            letter-spacing: -0.02em;
+            background: none !important;
+            background-image: none !important;
+            -webkit-background-clip: unset !important;
+            background-clip: unset !important;
+            -webkit-text-fill-color: currentColor !important;
+        }
+
+        /* Card title link styles */
+        .card-title a.nav-link,
+        .card-title a {
+            color: var(--text-color) !important;
+            text-decoration: none !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1 !important;
+            display: inline-block;
+            position: relative;
+        }
+
+        .card-title a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card:hover .card-title {
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
 
+        .card:hover .card-title a::after {
+            width: 100%;
+        }
+
+        .card:hover .card-title a.nav-link,
         .card:hover .card-title a {
-            color: #ffffff !important;
-            text-decoration: none;
+            color: rgba(255, 255, 255, 0.98) !important;
+            text-decoration: none !important;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
         }
 
         .card-text {
             color: var(--text-color);
-            opacity: 0.7;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            opacity: 0.8;
+            font-size: 1rem;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             z-index: 3;
         }
 
-        .card:hover .card-text {
-            color: rgba(255, 255, 255, 0.9);
-            opacity: 1;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        /* Card text link styles */
+        .card-text a.nav-link,
+        .card-text a {
+            color: var(--text-color) !important;
+            opacity: 0.8 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none !important;
         }
 
+        .card:hover .card-text {
+            color: rgba(255, 255, 255, 0.95);
+            opacity: 1;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .card:hover .card-text a.nav-link,
         .card:hover .card-text a {
-            color: rgba(255, 255, 255, 0.9) !important;
-            text-decoration: none;
+            color: rgba(255, 255, 255, 0.95) !important;
+            opacity: 1 !important;
+            text-decoration: none !important;
         }
 
         /* Sidebar */
@@ -671,10 +727,204 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 transform: translateZ(0);
                 will-change: transform;
             }
-            
+
             .theme-toggle:hover {
                 transform: translateY(-2px) translateZ(0);
             }
+        }
+
+        /* CRITICAL FIX: Force nav-link colors in blog cards */
+        .blog-card h5.card-title a.nav-link,
+        .blog-card p.card-text a.nav-link {
+            color: var(--text-color) !important;
+        }
+
+        .blog-card:hover h5.card-title a.nav-link,
+        .blog-card:hover p.card-text a.nav-link {
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        /* Specific fix for blog title and text links */
+        .blog-title-link,
+        .blog-text-link {
+            color: var(--text-color) !important;
+            opacity: 1 !important;
+            -webkit-text-fill-color: currentColor !important;
+            text-fill-color: currentColor !important;
+            background-clip: unset !important;
+            -webkit-background-clip: unset !important;
+        }
+
+        [data-theme="dark"] .blog-title-link,
+        [data-theme="dark"] .blog-text-link {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        [data-theme="light"] .blog-title-link,
+        [data-theme="light"] .blog-text-link {
+            color: #1a1a1a !important;
+            -webkit-text-fill-color: #1a1a1a !important;
+        }
+
+        .blog-card:hover .blog-title-link,
+        .blog-card:hover .blog-text-link {
+            color: rgba(255, 255, 255, 0.98) !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.98) !important;
+        }
+
+        /* Override any card-title webkit properties */
+        .blog-card .card-title,
+        .blog-card .card-text {
+            -webkit-text-fill-color: currentColor !important;
+            background-clip: unset !important;
+            -webkit-background-clip: unset !important;
+        }
+
+        /* Modern Blog Card Body Styles */
+        .blog-post-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 3;
+        }
+
+        [data-theme="dark"] .blog-post-header {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] .blog-post-header {
+            border-bottom-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .blog-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 3;
+        }
+
+        .blog-date i {
+            font-size: 0.9rem;
+        }
+
+        .blog-card:hover .blog-date {
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .blog-excerpt {
+            margin-bottom: 1.5rem;
+            min-height: 3.5rem;
+        }
+
+        /* Modern Read More Button */
+        .blog-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .blog-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff !important;
+            border-radius: 12px;
+            text-decoration: none !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-read-more::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .blog-read-more:hover::before {
+            left: 100%;
+        }
+
+        .blog-read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .read-more-icon {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.1rem;
+        }
+
+        .blog-read-more:hover .read-more-icon {
+            transform: translateX(5px);
+        }
+
+        [data-theme="light"] .blog-read-more {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+        }
+
+        [data-theme="light"] .blog-read-more:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Active Category Styles */
+        .category-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+
+        .category-active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            border-color: #10b981 !important;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4) !important;
+            transform: scale(1.05);
+            font-weight: 700;
+        }
+
+        .category-active:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important;
+        }
+
+        .category-btn:not(.category-active):hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] .category-active {
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.6) !important;
+        }
+
+        [data-theme="light"] .category-active {
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important;
         }
     </style>    
       <script>
@@ -951,20 +1201,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </div>
                     <div class="col-md-8">
                       <div class="card-body">
-                        <h5 class="card-title"><a class="nav-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">{{item.name_uz_uz}}</a></h5>
-                        <p class="card-text"><a class="nav-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">{{item.title_uz_uz}}</a></p>
-                        <div class="C0mplexButton Success">
-                          <a href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <div class="spinner-grow spinner-grow-sm" role="status"></div>
-                              Kirish
-                              <div class="spinner-border spinner-grow-sm" role="status"></div>
+                        <div class="blog-post-header">
+                          <h5 class="card-title">
+                            <a class="nav-link blog-title-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
+                              {{item.name_uz_uz}}
+                            </a>
+                          </h5>
+                          <div class="blog-meta">
+                            <span class="blog-date">
+                              <i class="bi bi-calendar3"></i>
+                              {{item.created_at|date:"d M, Y"}}
+                            </span>
+                          </div>
+                        </div>
+
+                        <p class="card-text blog-excerpt">
+                          <a class="nav-link blog-text-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
+                            {{item.title_uz_uz|truncatewords:20}}
+                          </a>
+                        </p>
+
+                        <div class="blog-actions">
+                          <a href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}" class="blog-read-more">
+                            <span class="read-more-text">Batafsil o'qish</span>
+                            <i class="bi bi-arrow-right read-more-icon"></i>
                           </a>
                         </div>
-                        <p class="card-text"><small class="text-muted">{{item.created_at}}</small></p>
                       </div>
                     </div>
                   </div>
@@ -1036,12 +1298,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   <ul class="list-group">
                     {%for item in categories%}
                     <li class="list-group-item">
-                      <a href="/blog?categorie_id={{item.id}}" class="btn btn-primary position-relative">
+                      {% if request.GET.id and post.categorie.id == item.id %}
+                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn category-active">
+                        {{item.name_uz_uz}}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                          {{item.total}}
+                        </span>
+                      </a>
+                      {% elif request.GET.categorie_id == item.id|stringformat:'s' %}
+                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn category-active">
+                        {{item.name_uz_uz}}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                          {{item.total}}
+                        </span>
+                      </a>
+                      {% else %}
+                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn btn-primary">
                         {{item.name_uz_uz}}
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                           {{item.total}}
                         </span>
                       </a>
+                      {% endif %}
                     </li>
                     {%endfor%}
                   </ul>
