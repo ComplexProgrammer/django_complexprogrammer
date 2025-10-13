@@ -297,7 +297,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1;
-            border-radius: 24px;
         }
 
         .card:hover {
@@ -926,18 +925,302 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         [data-theme="light"] .category-active {
             box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important;
         }
-    </style>    
+
+        /* Modern Breadcrumb Styles */
+        .modern-breadcrumb {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breadcrumb-link i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .breadcrumb-link:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .breadcrumb-link:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .breadcrumb-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .breadcrumb-separator {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            opacity: 0.5;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] .breadcrumb-link {
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .breadcrumb-link:hover {
+            color: white;
+        }
+
+        [data-theme="dark"] .breadcrumb-link.active {
+            color: white;
+        }
+
+        /* Responsive breadcrumb */
+        @media (max-width: 768px) {
+            .modern-breadcrumb {
+                padding: 0.75rem 1rem;
+            }
+
+            .breadcrumb-list {
+                gap: 0.5rem;
+            }
+
+            .breadcrumb-link {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .breadcrumb-link span {
+                display: none;
+            }
+
+            .breadcrumb-link i {
+                font-size: 1rem;
+            }
+
+            .breadcrumb-separator {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Breadcrumb animation */
+        @keyframes breadcrumbSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .breadcrumb-item {
+            animation: breadcrumbSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .breadcrumb-item:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
+        .breadcrumb-item:nth-child(2) { animation-delay: 0.15s; opacity: 0; }
+        .breadcrumb-item:nth-child(3) { animation-delay: 0.2s; opacity: 0; }
+        .breadcrumb-item:nth-child(4) { animation-delay: 0.25s; opacity: 0; }
+        .breadcrumb-item:nth-child(5) { animation-delay: 0.3s; opacity: 0; }
+        .breadcrumb-item:nth-child(6) { animation-delay: 0.35s; opacity: 0; }
+        .breadcrumb-item:nth-child(7) { animation-delay: 0.4s; opacity: 0; }
+
+        /* Copy Protection Styles */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Visual feedback for copy attempt */
+        .copy-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 59, 48, 0.95);
+            color: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            z-index: 10000;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: warningPulse 0.5s ease;
+            pointer-events: none;
+        }
+
+        @keyframes warningPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* Watermark overlay */
+        .content-watermark {
+            position: relative;
+        }
+
+        .content-watermark::before {
+            content: 'Complex Programmer';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-color);
+            opacity: 0.03;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 1;
+        }
+    </style>
       <script>
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButton(savedTheme);
-            
+
             // Initialize animations
             initializeAnimations();
             initializeScrollEffects();
+
+            // Initialize copy protection
+            initCopyProtection();
         });
+
+        // Copy Protection Functions
+        function initCopyProtection() {
+            // Add no-select class to content areas
+            const contentAreas = document.querySelectorAll('.card-body, .card-text, .card-title');
+            contentAreas.forEach(el => el.classList.add('no-select'));
+
+            // Prevent right-click on content
+            document.addEventListener('contextmenu', function(e) {
+                if (e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.preventDefault();
+                    showCopyWarning('Matnni nusxalash taqiqlangan!');
+                    return false;
+                }
+            });
+
+            // Prevent copy via Ctrl+C / Cmd+C
+            document.addEventListener('copy', function(e) {
+                const selection = window.getSelection().toString();
+                if (selection.length > 0 && e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.preventDefault();
+                    showCopyWarning('Matn nusxalash cheklangan!');
+                    return false;
+                }
+            });
+
+            // Prevent cut
+            document.addEventListener('cut', function(e) {
+                if (e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.preventDefault();
+                    showCopyWarning('Matnni kesish mumkin emas!');
+                    return false;
+                }
+            });
+
+            // Prevent keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+U (view source), F12 (dev tools)
+                if ((e.ctrlKey || e.metaKey) &&
+                    (e.key === 'c' || e.key === 'C' ||
+                     e.key === 'x' || e.key === 'X' ||
+                     e.key === 'a' || e.key === 'A' ||
+                     e.key === 'u' || e.key === 'U')) {
+                    if (e.target.closest('.card-body, .card-text, .card-title')) {
+                        e.preventDefault();
+                        showCopyWarning('Bu amal cheklangan!');
+                        return false;
+                    }
+                }
+
+                // Prevent F12 and Ctrl+Shift+I (dev tools)
+                if (e.key === 'F12' ||
+                    ((e.ctrlKey || e.metaKey) && e.shiftKey &&
+                     (e.key === 'I' || e.key === 'i' ||
+                      e.key === 'J' || e.key === 'j' ||
+                      e.key === 'C' || e.key === 'c'))) {
+                    e.preventDefault();
+                    showCopyWarning('Developer tools ochish taqiqlangan!');
+                    return false;
+                }
+            });
+
+            // Prevent drag selection
+            document.addEventListener('mousedown', function(e) {
+                if (e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.target.addEventListener('dragstart', function(event) {
+                        event.preventDefault();
+                        return false;
+                    });
+                }
+            });
+        }
+
+        // Show copy warning message
+        function showCopyWarning(message) {
+            const warning = document.createElement('div');
+            warning.className = 'copy-warning';
+            warning.innerHTML = `<i class="bi bi-shield-x"></i> ${message}`;
+            document.body.appendChild(warning);
+
+            setTimeout(() => {
+                warning.style.opacity = '0';
+                warning.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                warning.style.transition = 'all 0.3s ease';
+
+                setTimeout(() => {
+                    warning.remove();
+                }, 300);
+            }, 2000);
+        }
 
         function toggleTheme() {
             const body = document.documentElement;
@@ -1140,14 +1423,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="container" style="margin-block-end:100px">
           <div class="row">
               <div class="col-md-8">
-                <div class="card mb-4">
-                  <div class="card-body">
-                    <a class="btn btn-outline-primary position-relative" href='/blog'><div class="spinner-grow spinner-grow-sm" role="status"></div> Maqolalar</a>
-                    {%if categorie%}
-                    <a class="btn btn-outline-primary position-relative" href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}'><div class="spinner-grow spinner-grow-sm" role="status"></div> {{categorie.name_uz_uz}}</a>
-                    {%endif%}
+                <!-- Modern Breadcrumb Navigation -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                  <div class="modern-breadcrumb">
+                    <ol class="breadcrumb-list">
+                      <li class="breadcrumb-item">
+                        <a href='/blog' class="breadcrumb-link">
+                          <i class="bi bi-house-door"></i>
+                          <span>Bosh sahifa</span>
+                        </a>
+                      </li>
+                      <li class="breadcrumb-separator">
+                        <i class="bi bi-chevron-right"></i>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a href='/blog' class="breadcrumb-link {% if not categorie %}active{% endif %}">
+                          <i class="bi bi-journal-text"></i>
+                          <span>Barcha maqolalar</span>
+                        </a>
+                      </li>
+                      {%if categorie%}
+                      <li class="breadcrumb-separator">
+                        <i class="bi bi-chevron-right"></i>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}' class="breadcrumb-link active">
+                          <i class="bi bi-tag"></i>
+                          <span>{{categorie.name_uz_uz}}</span>
+                        </a>
+                      </li>
+                      {%endif%}
+                    </ol>
                   </div>
-                </div>
+                </nav>
                 {% if id == 0 %}
                 {% if posts.paginator.num_pages > 1 %}
                 <nav aria-label="Page navigation">
