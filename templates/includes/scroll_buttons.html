@@ -5,27 +5,29 @@
     position: fixed;
     right: 20px;
     bottom: 20px;
-    z-index: 10000;
+    z-index: 9998;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 .scroll-btn {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
-    background: rgba(102, 126, 234, 0.2);
-    border: 1px solid rgba(102, 126, 234, 0.5);
+    background: rgba(102, 126, 234, 0.3);
+    border: 2px solid rgba(102, 126, 234, 0.6);
     color: #667eea;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     opacity: 0;
     transform: scale(0);
     pointer-events: none;
+    font-size: 1.2rem;
 }
 .scroll-btn.show {
     opacity: 1;
@@ -52,13 +54,25 @@
     transform: scale(1.1) translateY(-2px);
     box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
 }
+[data-theme="light"] .scroll-btn,
 body.light-mode .scroll-btn {
-    background: rgba(102, 126, 234, 0.15);
-    border-color: rgba(102, 126, 234, 0.3);
+    background: rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.4);
     color: #667eea;
 }
+[data-theme="light"] .scroll-btn:hover,
 body.light-mode .scroll-btn:hover {
-    background: rgba(102, 126, 234, 0.25);
+    background: rgba(102, 126, 234, 0.35);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+[data-theme="dark"] .scroll-btn {
+    background: rgba(129, 140, 248, 0.25);
+    border-color: rgba(129, 140, 248, 0.5);
+    color: #818cf8;
+}
+[data-theme="dark"] .scroll-btn:hover {
+    background: rgba(129, 140, 248, 0.45);
+    box-shadow: 0 5px 20px rgba(129, 140, 248, 0.5);
 }
 @media (max-width: 768px) {
     .scroll-buttons {
@@ -107,10 +121,13 @@ function handleScrollButtons() {
     const scrollToTopBtn = document.getElementById('scrollToTop');
     const scrollToBottomBtn = document.getElementById('scrollToBottom');
 
-    if (!scrollToTopBtn || !scrollToBottomBtn) return;
+    if (!scrollToTopBtn || !scrollToBottomBtn) {
+        console.log('Scroll buttons not found in DOM');
+        return;
+    }
 
-    // Always show both buttons if page is scrollable
-    const isPageScrollable = scrollHeight > clientHeight + 100;
+    // Check if page is scrollable
+    const isPageScrollable = scrollHeight > clientHeight + 50;
 
     if (!isPageScrollable) {
         // Hide both if page is too short
@@ -119,15 +136,15 @@ function handleScrollButtons() {
         return;
     }
 
-    // Show "scroll to top" button after scrolling down 300px
-    if (scrollTop > 300) {
+    // Show "scroll to top" button after scrolling down 200px
+    if (scrollTop > 200) {
         scrollToTopBtn.classList.add('show');
     } else {
         scrollToTopBtn.classList.remove('show');
     }
 
-    // Always show "scroll to bottom" button if not at very bottom
-    if (scrollTop + clientHeight < scrollHeight - 50) {
+    // Show "scroll to bottom" button if not at very bottom
+    if (scrollTop + clientHeight < scrollHeight - 100) {
         scrollToBottomBtn.classList.add('show');
     } else {
         scrollToBottomBtn.classList.remove('show');
@@ -135,15 +152,37 @@ function handleScrollButtons() {
 }
 
 // Initialize scroll buttons
-(function initScrollButtons() {
+function initScrollButtons() {
+    console.log('Initializing scroll buttons...');
     const scrollToTopBtn = document.getElementById('scrollToTop');
     const scrollToBottomBtn = document.getElementById('scrollToBottom');
 
     if (scrollToTopBtn && scrollToBottomBtn) {
+        console.log('Scroll buttons found in DOM');
         scrollToTopBtn.addEventListener('click', scrollToTop);
         scrollToBottomBtn.addEventListener('click', scrollToBottom);
         window.addEventListener('scroll', handleScrollButtons);
+
+        // Initial check
         handleScrollButtons();
+
+        // Check again after delays to ensure page is fully loaded
+        setTimeout(handleScrollButtons, 300);
+        setTimeout(handleScrollButtons, 1000);
+
+        console.log('Scroll buttons initialized successfully');
+    } else {
+        console.error('Scroll buttons not found in DOM!');
     }
-})();
+}
+
+// Run initialization when DOM is ready
+if (document.readyState === 'loading') {
+    console.log('DOM is loading, waiting for DOMContentLoaded...');
+    document.addEventListener('DOMContentLoaded', initScrollButtons);
+} else {
+    // DOM already loaded, initialize immediately
+    console.log('DOM already loaded, initializing immediately...');
+    initScrollButtons();
+}
 </script>
