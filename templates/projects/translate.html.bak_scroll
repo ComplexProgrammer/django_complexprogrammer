@@ -224,12 +224,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <script>
       (adsbygoogle = window.adsbygoogle || []).push({});
   </script> --> -->
-<!-- Yandex.RTB R-A-1963742-1 -->
-<div id="yandex_rtb_R-A-1963742-1"></div>
+<!-- Yandex.RTB R-A-18353650-1 -->
+<div id="yandex_rtb_R-A-18353650-1"></div>
 <script>window.yaContextCb.push(()=>{
   Ya.Context.AdvManager.render({
-    renderTo: 'yandex_rtb_R-A-1963742-1',
-    blockId: 'R-A-1963742-1'
+    renderTo: 'yandex_rtb_R-A-18353650-1',
+    blockId: 'R-A-18353650-1'
   })
 })</script>
 <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">

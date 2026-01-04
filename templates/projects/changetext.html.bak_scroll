@@ -394,12 +394,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script async src="https://ad.mail.ru/static/ads-async.js"></script>
 <ins class="mrg-tag" data-ad-client="ad-1128075" data-ad-slot="1128075"></ins>
 <script>(MRGtag = window.MRGtag || []).push({})</script>
-    <!-- Yandex.RTB R-A-1963742-1 -->
-<div id="yandex_rtb_R-A-1963742-1"></div>
+    <!-- Yandex.RTB R-A-18353650-1 -->
+<div id="yandex_rtb_R-A-18353650-1"></div>
 <script>window.yaContextCb.push(()=>{
   Ya.Context.AdvManager.render({
-    renderTo: 'yandex_rtb_R-A-1963742-1',
-    blockId: 'R-A-1963742-1'
+    renderTo: 'yandex_rtb_R-A-18353650-1',
+    blockId: 'R-A-18353650-1'
   })
 })</script>
 <marquee>
