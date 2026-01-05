@@ -2,6 +2,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,7 +84,9 @@
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-        }        /* Dark mode */
+        }
+
+        /* Dark mode */
         [data-theme="dark"] {
             --color-surface: var(--color-surface-dark);
             --color-surface-2: var(--color-surface-2-dark);
@@ -93,7 +96,7 @@
             --color-primary: var(--color-primary-dark);
             --color-primary-darker: var(--color-primary-darker-dark);
             --color-primary-rgb: var(--color-primary-rgb-dark);
-            
+
             /* Enhanced shadows for dark mode */
             --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
             --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.5);
@@ -247,8 +250,8 @@
             position: absolute;
             inset: 0;
             background: linear-gradient(135deg,
-                rgba(var(--color-primary-rgb), 0.12),
-                rgba(var(--color-accent-rgb), 0.08));
+                    rgba(var(--color-primary-rgb), 0.12),
+                    rgba(var(--color-accent-rgb), 0.08));
             opacity: 0;
             transition: opacity 0.4s ease;
             border-radius: var(--radius-lg);
@@ -302,7 +305,9 @@
 
         .navbar-nav .nav-link:hover i {
             transform: scale(1.15) rotate(5deg);
-        }        /* Navbar container */
+        }
+
+        /* Navbar container */
         .container {
             inline-size: 100%;
             max-inline-size: var(--container-max);
@@ -346,7 +351,9 @@
 
         .language-selector select:hover {
             background: var(--color-surface-2);
-        }        /* Modern Button styles with Enhanced Effects */
+        }
+
+        /* Modern Button styles with Enhanced Effects */
         .btn {
             padding: var(--spacing-sm) var(--spacing-lg);
             border-radius: var(--radius-md);
@@ -433,8 +440,8 @@
             right: 0;
             bottom: 0;
             background: linear-gradient(135deg,
-                rgba(var(--color-primary-rgb), 0.08) 0%,
-                rgba(var(--color-accent-rgb), 0.05) 100%);
+                    rgba(var(--color-primary-rgb), 0.08) 0%,
+                    rgba(var(--color-accent-rgb), 0.05) 100%);
             opacity: 0;
             transition: opacity 0.5s ease;
             border-radius: var(--radius-lg);
@@ -449,9 +456,9 @@
             width: 200%;
             height: 200%;
             background: linear-gradient(45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 70%);
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.1) 50%,
+                    transparent 70%);
             transform: translateX(-100%) translateY(-100%) rotate(45deg);
             transition: transform 0.8s ease;
         }
@@ -587,9 +594,9 @@
         /* Modern Footer with Enhanced Gradient */
         footer {
             background: linear-gradient(135deg,
-                #0f172a 0%,
-                #1e293b 50%,
-                #334155 100%);
+                    #0f172a 0%,
+                    #1e293b 50%,
+                    #334155 100%);
             color: white;
             padding: var(--spacing-xl) 0;
             position: relative;
@@ -623,13 +630,13 @@
             right: 0;
             height: 1px;
             background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(99, 102, 241, 0.5) 50%,
-                transparent 100%);
+                    transparent 0%,
+                    rgba(99, 102, 241, 0.5) 50%,
+                    transparent 100%);
             z-index: 1;
         }
 
-        footer > * {
+        footer>* {
             position: relative;
             z-index: 2;
         }
@@ -800,7 +807,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
             transform: translateX(-100%);
             transition: transform 0.6s ease;
         }
@@ -880,12 +887,15 @@
                 transform: translateY(100vh) translateX(0) rotate(0deg);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.6;
             }
+
             90% {
                 opacity: 0.6;
             }
+
             100% {
                 transform: translateY(-100px) translateX(100px) rotate(360deg);
                 opacity: 0;
@@ -917,16 +927,38 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        .loading-cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(25px); }
-        .loading-cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(25px); }
-        .loading-cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(25px); }
-        .loading-cube-face:nth-child(4) { transform: rotateY(270deg) translateZ(25px); }
-        .loading-cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(25px); }
-        .loading-cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(25px); }
+        .loading-cube-face:nth-child(1) {
+            transform: rotateY(0deg) translateZ(25px);
+        }
+
+        .loading-cube-face:nth-child(2) {
+            transform: rotateY(90deg) translateZ(25px);
+        }
+
+        .loading-cube-face:nth-child(3) {
+            transform: rotateY(180deg) translateZ(25px);
+        }
+
+        .loading-cube-face:nth-child(4) {
+            transform: rotateY(270deg) translateZ(25px);
+        }
+
+        .loading-cube-face:nth-child(5) {
+            transform: rotateX(90deg) translateZ(25px);
+        }
+
+        .loading-cube-face:nth-child(6) {
+            transform: rotateX(-90deg) translateZ(25px);
+        }
 
         @keyframes rotate3d {
-            0% { transform: rotateX(0deg) rotateY(0deg); }
-            100% { transform: rotateX(360deg) rotateY(360deg); }
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
         }
 
         /* Background animation */
@@ -945,7 +977,9 @@
             border-radius: var(--radius-full);
             filter: blur(60px);
             animation: float 20s ease-in-out infinite;
-        }        /* Code animation background with optimized performance */
+        }
+
+        /* Code animation background with optimized performance */
         .code-rain {
             position: fixed;
             opacity: 0.1;
@@ -977,15 +1011,33 @@
 
         /* Animations */
         @keyframes code-fall {
-            from { transform: translateY(-50vh); }
-            to { transform: translateY(200vh); }
+            from {
+                transform: translateY(-50vh);
+            }
+
+            to {
+                transform: translateY(200vh);
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            25% { transform: translate(-50px, -50px) rotate(-45deg) scale(1.1); }
-            50% { transform: translate(50px, 100px) rotate(90deg) scale(0.9); }
-            75% { transform: translate(-50px, 50px) rotate(45deg) scale(1.2); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+
+            25% {
+                transform: translate(-50px, -50px) rotate(-45deg) scale(1.1);
+            }
+
+            50% {
+                transform: translate(50px, 100px) rotate(90deg) scale(0.9);
+            }
+
+            75% {
+                transform: translate(-50px, 50px) rotate(45deg) scale(1.2);
+            }
         }
 
         /* Modern Animations */
@@ -998,6 +1050,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -1009,6 +1062,7 @@
                 opacity: 0;
                 transform: translateX(-50px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -1020,6 +1074,7 @@
                 opacity: 0;
                 transform: translateX(50px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -1027,18 +1082,24 @@
         }
 
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: scale(1);
             }
+
             50% {
                 transform: scale(1.05);
             }
         }
 
         @keyframes glow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 5px rgba(var(--color-primary-rgb), 0.3);
             }
+
             50% {
                 box-shadow: 0 0 20px rgba(var(--color-primary-rgb), 0.6);
             }
@@ -1046,17 +1107,22 @@
 
         /* Loading animations */
         .loading-shimmer {
-            background: linear-gradient(90deg, 
-                rgba(255, 255, 255, 0.1) 25%, 
-                rgba(255, 255, 255, 0.2) 50%, 
-                rgba(255, 255, 255, 0.1) 75%);
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.1) 25%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(255, 255, 255, 0.1) 75%);
             background-size: 200% 100%;
             animation: shimmer 2s infinite;
         }
 
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         /* Hover animations */
@@ -1071,24 +1137,26 @@
 
         .hover-glow:hover {
             animation: glow 2s infinite;
-        }        /* Hide code rain and reduce 3D effects on small screens */
+        }
+
+        /* Hide code rain and reduce 3D effects on small screens */
         @media (max-inline-size: 768px) {
             .code-rain {
                 display: none;
             }
-            
+
             #threejs-container {
                 opacity: 0.3;
             }
-            
+
             .card:hover {
                 transform: translateY(-2px) translateZ(5px);
             }
-            
+
             .btn-3d:hover {
                 transform: translateY(-1px) translateZ(5px);
             }
-            
+
             .nav-link-3d:hover {
                 transform: translateY(-1px) translateZ(3px);
             }
@@ -1099,15 +1167,15 @@
             #threejs-container {
                 display: none;
             }
-            
+
             .card {
                 transform-style: flat;
             }
-            
+
             .btn-3d {
                 transform-style: flat;
             }
-            
+
             .nav-link-3d {
                 transform-style: flat;
             }
@@ -1308,7 +1376,203 @@
             footer {
                 min-height: 140px;
             }
-        }        /* Advertisement styles */
+        }
+
+        /* Menu Cards Grid */
+        .menu-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl) 0;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .menu-card {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.08), rgba(var(--color-accent-rgb), 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .menu-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            transition: transform 0.8s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(var(--color-primary-rgb), 0.2), 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-color: rgba(var(--color-primary-rgb), 0.4);
+        }
+
+        .menu-card:hover::before {
+            opacity: 1;
+        }
+
+        .menu-card:hover::after {
+            transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+
+        .menu-card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(var(--color-primary-rgb), 0.3);
+        }
+
+        .menu-card:hover .menu-card-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(var(--color-primary-rgb), 0.4);
+        }
+
+        .menu-card-content {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0 0 var(--spacing-xs) 0;
+            color: var(--color-text);
+            transition: color 0.3s ease;
+        }
+
+        .menu-card:hover .menu-card-title {
+            color: var(--color-primary);
+        }
+
+        .menu-card-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-2);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .menu-card-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--color-surface-2);
+            border-radius: var(--radius-full);
+            color: var(--color-text-3);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.4s ease;
+        }
+
+        .menu-card:hover .menu-card-arrow {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: white;
+            transform: translateX(5px);
+        }
+
+        [data-theme="dark"] .menu-card {
+            background: var(--color-surface-2);
+            border-color: var(--color-border-dark);
+        }
+
+        [data-theme="dark"] .menu-card:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(var(--color-primary-rgb-dark), 0.2);
+        }
+
+        /* Ad Card Styles */
+        .ad-card {
+            margin: var(--spacing-xl) 0;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s ease;
+        }
+
+        .ad-card:hover {
+            box-shadow: 0 16px 32px rgba(var(--color-primary-rgb), 0.1), 0 6px 12px rgba(0, 0, 0, 0.08);
+            border-color: rgba(var(--color-primary-rgb), 0.2);
+        }
+
+        .ad-card-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.1), rgba(var(--color-accent-rgb), 0.05));
+            color: var(--color-text-2);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .ad-card-label i {
+            color: var(--color-primary);
+            font-size: 0.85rem;
+        }
+
+        .ad-card-content {
+            padding: var(--spacing-md);
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        [data-theme="dark"] .ad-card {
+            background: var(--color-surface-2);
+            border-color: var(--color-border-dark);
+        }
+
+        [data-theme="dark"] .ad-card:hover {
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3), 0 6px 12px rgba(var(--color-primary-rgb-dark), 0.15);
+        }
+
+        [data-theme="dark"] .ad-card-label {
+            border-bottom-color: var(--color-border-dark);
+        }
+
+        /* Advertisement styles */
         .ad-container {
             margin: 2rem 0;
             inline-size: 100%;
@@ -1332,12 +1596,14 @@
         }
 
         @media (max-inline-size: 768px) {
-              .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
+            .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
                 display: block !important;
-            } 
+            }
+
             .adsbygoogle[data-ad-client="ca-pub-7773722896374259"] {
                 display: none !important;
             }
+
             .ad-container {
                 margin: 1rem 0;
                 min-block-size: 100px;
@@ -1345,26 +1611,80 @@
         }
 
         @media (min-inline-size: 769px) {
-             .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
+            .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
                 display: none !important;
-            } 
+            }
+
             .adsbygoogle[data-ad-client="ca-pub-7773722896374259"] {
                 display: block !important;
             }
-        }</style>    <script>
+        }
+
+        @media (max-inline-size: 768px) {
+            .menu-cards-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+                padding: var(--spacing-md) 0;
+            }
+
+            .menu-card {
+                padding: var(--spacing-md);
+            }
+
+            .menu-card-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.25rem;
+            }
+
+            .ad-card-content {
+                min-height: 100px;
+                padding: var(--spacing-sm);
+            }
+        }
+
+        @media (min-inline-size: 992px) {
+            .menu-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-inline-size: 1440px) {
+            .menu-cards-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .menu-card {
+                flex-direction: column;
+                text-align: center;
+                padding: var(--spacing-xl) var(--spacing-lg);
+            }
+
+            .menu-card-arrow {
+                display: none;
+            }
+
+            .menu-card-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 1.75rem;
+            }
+        }
+    </style>
+    <script>
         // Theme button update function
         function updateThemeButton(theme) {
             const button = document.getElementById('themeButton');
             if (button) {
-                button.innerHTML = theme === 'light' 
-                    ? '<i class="fas fa-moon"></i>' 
+                button.innerHTML = theme === 'light'
+                    ? '<i class="fas fa-moon"></i>'
                     : '<i class="fas fa-sun"></i>';
             }
         }
 
         // Theme initialization and handling
         const initTheme = () => {
-            const savedTheme = localStorage.getItem('theme') || 
+            const savedTheme = localStorage.getItem('theme') ||
                 (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButton(savedTheme);
@@ -1414,10 +1734,10 @@
 
             // Create particle system
             createParticleSystem();
-            
+
             // Create floating cubes
             createFloatingCubes();
-            
+
             // Create geometric shapes
             createGeometricShapes();
 
@@ -1433,7 +1753,7 @@
             // Reduce particle count on mobile devices
             const isMobile = window.innerWidth < 768;
             const particleCount = isMobile ? 300 : 1000;
-            
+
             particleGeometry = new THREE.BufferGeometry();
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
@@ -1475,7 +1795,7 @@
                     Math.random() * 20 + 5,
                     Math.random() * 20 + 5
                 );
-                
+
                 const material = new THREE.MeshPhongMaterial({
                     color: new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 0.8, 0.5),
                     transparent: true,
@@ -1514,7 +1834,7 @@
         function createGeometricShapes() {
             const shapes = [];
             const isMobile = window.innerWidth < 768;
-            
+
             // Create torus shapes
             const torusCount = isMobile ? 2 : 5;
             for (let i = 0; i < torusCount; i++) {
@@ -1525,14 +1845,14 @@
                     opacity: 0.2,
                     wireframe: true
                 });
-                
+
                 const torus = new THREE.Mesh(geometry, material);
                 torus.position.set(
                     (Math.random() - 0.5) * 800,
                     (Math.random() - 0.5) * 800,
                     (Math.random() - 0.5) * 800
                 );
-                
+
                 torus.userData = {
                     rotationSpeed: {
                         x: (Math.random() - 0.5) * 0.01,
@@ -1540,7 +1860,7 @@
                         z: (Math.random() - 0.5) * 0.01
                     }
                 };
-                
+
                 scene.add(torus);
                 shapes.push(torus);
             }
@@ -1555,14 +1875,14 @@
                     opacity: 0.1,
                     wireframe: true
                 });
-                
+
                 const sphere = new THREE.Mesh(geometry, material);
                 sphere.position.set(
                     (Math.random() - 0.5) * 600,
                     (Math.random() - 0.5) * 600,
                     (Math.random() - 0.5) * 600
                 );
-                
+
                 sphere.userData = {
                     rotationSpeed: {
                         x: (Math.random() - 0.5) * 0.005,
@@ -1570,7 +1890,7 @@
                         z: (Math.random() - 0.5) * 0.005
                     }
                 };
-                
+
                 scene.add(sphere);
                 shapes.push(sphere);
             }
@@ -1606,7 +1926,7 @@
                 cube.rotation.x += cube.userData.rotationSpeed.x;
                 cube.rotation.y += cube.userData.rotationSpeed.y;
                 cube.rotation.z += cube.userData.rotationSpeed.z;
-                
+
                 cube.position.y = cube.userData.originalY + Math.sin(Date.now() * cube.userData.speed) * 50;
             });
 
@@ -1653,7 +1973,7 @@
                     scene.fog = new THREE.Fog(0x000000, 1, 1000);
                     particleMaterial.opacity = 0.8;
                     particleMaterial.size = 3;
-                    
+
                     // Update cube materials for dark theme
                     cubes.forEach(cube => {
                         if (cube.material) {
@@ -1661,7 +1981,7 @@
                             cube.material.opacity = 0.5;
                         }
                     });
-                    
+
                     // Update lighting for dark theme
                     if (scene.children) {
                         scene.children.forEach(child => {
@@ -1675,7 +1995,7 @@
                     scene.fog = new THREE.Fog(0xffffff, 1, 1000);
                     particleMaterial.opacity = 0.4;
                     particleMaterial.size = 2;
-                    
+
                     // Update cube materials for light theme
                     cubes.forEach(cube => {
                         if (cube.material) {
@@ -1683,7 +2003,7 @@
                             cube.material.opacity = 0.3;
                         }
                     });
-                    
+
                     // Update lighting for light theme
                     if (scene.children) {
                         scene.children.forEach(child => {
@@ -1709,7 +2029,7 @@
             setTimeout(() => {
                 initThreeJS();
                 hideLoadingAnimation();
-                
+
                 // Set initial theme
                 const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
                 updateThreeJSTheme(currentTheme);
@@ -1721,20 +2041,20 @@
 
         // Shared symbols for code rain
         const symbols = [
-                '{', '}', '()', '[]', ';', '==',
-                'function', 'class', 'def', 'var',
-                'if', 'else', 'return',
-                'for', 'while', '</>',
-                'import', 'from', '+=',
-                '===', '=>', 'async',
-                'try', 'catch', '#',
-                'pip', 'npm', 'git',
-                'python', 'django', 'react'            ];        // Code rain initialization with performance optimizations
+            '{', '}', '()', '[]', ';', '==',
+            'function', 'class', 'def', 'var',
+            'if', 'else', 'return',
+            'for', 'while', '</>',
+            'import', 'from', '+=',
+            '===', '=>', 'async',
+            'try', 'catch', '#',
+            'pip', 'npm', 'git',
+            'python', 'django', 'react'];        // Code rain initialization with performance optimizations
         const initCodeRain = () => {
             const container = document.createElement('div');
             container.id = 'codeRain';
             container.className = 'code-rain';
-            
+
             const width = window.innerWidth;
             const columns = Math.floor(width / 30); // Reduced column density
             const fragment = document.createDocumentFragment();
@@ -1770,23 +2090,26 @@
                 initCodeRain();
             }
         });
-    </script>    <!-- Google Analytics -->
+    </script> <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-8DHWL20H58');
     </script>
 
     <!-- Google Ads -->
-     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814" crossorigin="anonymous"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
+        crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
+        crossorigin="anonymous"></script>
 
     <!-- Google Funding Choices -->
-     <script async src="https://fundingchoicesmessages.google.com/i/pub-4137874891184814?ers=1" nonce="d9aDtkYHWiyzXi90igUlvg"></script>
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-4137874891184814?ers=1"
+        nonce="d9aDtkYHWiyzXi90igUlvg"></script>
     <script nonce="d9aDtkYHWiyzXi90igUlvg">
-        (function() {
+        (function () {
             function signalGooglefcPresent() {
                 if (!window.frames['googlefcPresent']) {
                     if (document.body) {
@@ -1803,15 +2126,19 @@
             signalGooglefcPresent();
         })();
     </script>
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-7773722896374259?ers=1" nonce="sGG5LwmtfkrIyGTmOqNI6w"></script><script nonce="sGG5LwmtfkrIyGTmOqNI6w">(function() {function signalGooglefcPresent2() {if (!window.frames['googlefcPresent2']) {if (document.body) {const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent2'; document.body.appendChild(iframe);} else {setTimeout(signalGooglefcPresent2, 0);}}}signalGooglefcPresent2();})();</script>
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-7773722896374259?ers=1"
+        nonce="sGG5LwmtfkrIyGTmOqNI6w"></script>
+    <script
+        nonce="sGG5LwmtfkrIyGTmOqNI6w">(function () { function signalGooglefcPresent2() { if (!window.frames['googlefcPresent2']) { if (document.body) { const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent2'; document.body.appendChild(iframe); } else { setTimeout(signalGooglefcPresent2, 0); } } } signalGooglefcPresent2(); })();</script>
 
     {% block extra_head %}{% endblock %}
     <title>{% block title %}Complex Programmer{% endblock %}</title>
 </head>
+
 <body>
     <!-- Three.js 3D Background Container -->
     <div id="threejs-container"></div>
-    
+
     <!-- 3D Loading Animation -->
     <div class="loading-3d" id="loading3d">
         <div class="loading-cube">
@@ -1830,16 +2157,18 @@
             <a class="navbar-brand btn-3d" href="/">
                 <i class="fas fa-code"></i> Complex Programmer
             </a>
-            <button class="navbar-toggler btn-3d" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler btn-3d" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
-            </button>            <div class="collapse navbar-collapse" id="navbarNav">
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/blog/">
                             <i class="fas fa-blog"></i> Blog
                         </a>
-                    </li>                    <li class="nav-item">
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/projects/">
                             <i class="fas fa-project-diagram"></i> Projects
                         </a>
@@ -1874,9 +2203,9 @@
                         {% get_available_languages as LANGUAGES %}
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for language in languages %}
-                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                                {{ language.name_local }}
-                            </option>
+                        <option value="{{ language.code }}" {% if language.code==LANGUAGE_CODE %} selected{% endif %}>
+                            {{ language.name_local }}
+                        </option>
                         {% endfor %}
                     </select>
                 </form>
@@ -1885,83 +2214,151 @@
             <button class="theme-toggle btn-3d ms-3" onclick="toggleTheme()" id="themeButton" aria-label="Toggle theme">
                 <i class="fas fa-sun"></i>
             </button>
+        </div>
+        </div>
+    </nav> <!-- Main Content -->
+    <main role="main" class="fade-in">
+        <!-- Menu Cards Section -->
+        <div class="container">
+            <div class="menu-cards-grid">
+                <a href="/blog/" class="menu-card">
+                    <div class="menu-card-icon">
+                        <i class="fas fa-blog"></i>
+                    </div>
+                    <div class="menu-card-content">
+                        <h3 class="menu-card-title">Blog</h3>
+                        <p class="menu-card-desc">Maqolalar va darsliklar</p>
+                    </div>
+                    <div class="menu-card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                <a href="/projects/" class="menu-card">
+                    <div class="menu-card-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="menu-card-content">
+                        <h3 class="menu-card-title">Projects</h3>
+                        <p class="menu-card-desc">Loyihalar to'plami</p>
+                    </div>
+                    <div class="menu-card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                <a href="/markets/" class="menu-card">
+                    <div class="menu-card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="menu-card-content">
+                        <h3 class="menu-card-title">Markets</h3>
+                        <p class="menu-card-desc">Bozor ma'lumotlari</p>
+                    </div>
+                    <div class="menu-card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                <a href="/tests/" class="menu-card">
+                    <div class="menu-card-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="menu-card-content">
+                        <h3 class="menu-card-title">Tests</h3>
+                        <p class="menu-card-desc">Test sinovlari</p>
+                    </div>
+                    <div class="menu-card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                <a href="/avtotest/" class="menu-card">
+                    <div class="menu-card-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="menu-card-content">
+                        <h3 class="menu-card-title">Avtotest</h3>
+                        <p class="menu-card-desc">Avtomobil testlari</p>
+                    </div>
+                    <div class="menu-card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                <a href="/arxiv/" target="_blank" class="menu-card">
+                    <div class="menu-card-icon">
+                        <i class="fas fa-archive"></i>
+                    </div>
+                    <div class="menu-card-content">
+                        <h3 class="menu-card-title">Arxiv</h3>
+                        <p class="menu-card-desc">Arxiv materiallari</p>
+                    </div>
+                    <div class="menu-card-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
             </div>
         </div>
-    </nav>    <!-- Main Content -->    
-    <main role="main" class="fade-in">
-        <!-- Main Top Ad -->
-        <div class="ad-container">
-            <!-- Display Ad for Desktop -->
-            <ins class="adsbygoogle"
-                 style="min-block-size:250px;"
-                 data-ad-client="ca-pub-7773722896374259"
-                 data-ad-slot="3869366477"
-                 data-ad-format="horizontal"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
 
-            <!-- Mobile Ad -->
-              <ins class="adsbygoogle"
-                 style="min-block-size:100px;"
-                data-ad-client="ca-pub-4137874891184814"
-                data-ad-slot="2799587029"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script> 
+        <!-- Main Top Ad Card -->
+        <div class="container">
+            <div class="ad-card">
+                <div class="ad-card-label">
+                    <i class="fas fa-bullhorn"></i> Reklama
+                </div>
+                <div class="ad-card-content">
+                    <!-- Display Ad for Desktop -->
+                    <ins class="adsbygoogle" style="min-block-size:250px;" data-ad-client="ca-pub-7773722896374259"
+                        data-ad-slot="3869366477" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+
+                    <!-- Mobile Ad -->
+                    <ins class="adsbygoogle" style="min-block-size:100px;" data-ad-client="ca-pub-4137874891184814"
+                        data-ad-slot="2799587029" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
         </div>
 
         <div class="container">
             {% block content %}{% endblock %}
         </div>
 
-        <!-- Main Bottom Ad -->
-        <div class="ad-container">
-            <!-- Display Ad for Desktop -->
-            <ins class="adsbygoogle"
-                style="min-block-size:250px;"
-                data-ad-client="ca-pub-7773722896374259"
-                data-ad-slot="9722986318"
-                data-ad-format="horizontal"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <!-- Main Bottom Ad Card -->
+        <div class="container">
+            <div class="ad-card">
+                <div class="ad-card-label">
+                    <i class="fas fa-bullhorn"></i> Reklama
+                </div>
+                <div class="ad-card-content">
+                    <!-- Display Ad for Desktop -->
+                    <ins class="adsbygoogle" style="min-block-size:250px;" data-ad-client="ca-pub-7773722896374259"
+                        data-ad-slot="9722986318" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
 
-            <!-- Desktop Ad -->
-              <ins class="adsbygoogle"
-                style="min-block-size:250px;"
-                data-ad-client="ca-pub-4137874891184814"
-                data-ad-slot="4986766667"
-                data-ad-format="horizontal"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script> 
+                    <!-- Desktop Ad -->
+                    <ins class="adsbygoogle" style="min-block-size:250px;" data-ad-client="ca-pub-4137874891184814"
+                        data-ad-slot="4986766667" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
         </div>
-    </main>    <!-- Footer -->
+    </main> <!-- Footer -->
     <footer>
         <!-- Display Ad 3 -->
-        <ins class="adsbygoogle"
-            style="display:block; text-align:center;"
-            data-ad-client="ca-pub-7773722896374259"
-            data-ad-slot="8855222233"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
+        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
+            data-ad-slot="8855222233" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
 
         <!-- Mobile Ad 2 -->
-         <ins class="adsbygoogle"
-           style="display:block; text-align:center;"
-            data-ad-client="ca-pub-4137874891184814"
-            data-ad-slot="1305745791"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
+        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-4137874891184814"
+            data-ad-slot="1305745791" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
@@ -1970,9 +2367,11 @@
             <div class="footer-copyright">
                 <p class="copyright-text">&copy; {% now "Y" %} Complex Programmer. Barcha huquqlar himoyalangan.</p>
                 <div>
-                    <a href="/terms" class="footer-social-link" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">Terms</a>
+                    <a href="/terms" class="footer-social-link"
+                        style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">Terms</a>
                     <span style="color: rgba(255,255,255,0.5); margin: 0 0.5rem;">|</span>
-                    <a href="/privacy" class="footer-social-link" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">Privacy</a>
+                    <a href="/privacy" class="footer-social-link"
+                        style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">Privacy</a>
                 </div>
             </div>
             <div class="footer-social-links">
@@ -1993,17 +2392,18 @@
                 </a>
             </div>
         </div>
-    </footer>    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>    <script>
+    </footer> <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
         function toggleTheme() {
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
+
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeButton(newTheme);
-            
+
             // Update Three.js scene theme
             updateThreeJSTheme(newTheme);
         }
@@ -2054,13 +2454,13 @@
 
             // Add ripple effect to buttons
             document.querySelectorAll('.btn, .theme-toggle, .footer-social-link').forEach(button => {
-                button.addEventListener('click', function(e) {
+                button.addEventListener('click', function (e) {
                     const ripple = document.createElement('span');
                     const rect = this.getBoundingClientRect();
                     const size = Math.max(rect.width, rect.height);
                     const x = e.clientX - rect.left - size / 2;
                     const y = e.clientY - rect.top - size / 2;
-                    
+
                     ripple.style.cssText = `
                         position: absolute;
                         width: ${size}px;
@@ -2074,10 +2474,10 @@
                         pointer-events: none;
                         z-index: 10;
                     `;
-                    
+
                     this.style.position = 'relative';
                     this.appendChild(ripple);
-                    
+
                     setTimeout(() => {
                         ripple.remove();
                     }, 600);
@@ -2099,4 +2499,5 @@
     </script>
     {% block extra_js %}{% endblock %}
 </body>
+
 </html>
