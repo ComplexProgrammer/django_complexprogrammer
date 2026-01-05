@@ -29,7 +29,7 @@ from projects.models import AvtoTest, IsService, Project
 # import skvideo
 # import skvideo.io
 from PIL import Image
-import pyttsx3
+# import pyttsx3
 from django.contrib import messages
 from django.core import serializers
 from projects import youtube_downloader
@@ -359,9 +359,9 @@ def GetTranslateLanguages(request):
  
 def TextToSpeech(request):
     text = request.GET.get('text', None)
-    text_speech = pyttsx3.init()
-    text_speech.say(text)
-    text_speech.runAndWait()
+    # text_speech = pyttsx3.init()
+    # text_speech.say(text)
+    # text_speech.runAndWait()
     return HttpResponse(text)
 
 def GetTranslateResult(request):
