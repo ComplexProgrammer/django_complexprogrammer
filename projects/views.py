@@ -16,7 +16,7 @@ from django.db.models import Max
 from comments.models import Comment
 # import googletrans
 # from googletrans import Translator
-from instaloader import Instaloader, Profile
+# from instaloader import Instaloader, Profile
 # from decouple import config
 # from pysitemap import crawler
 # import numpy as np
@@ -227,41 +227,25 @@ def convert_bytes_to_image(img_bytes):
         return render(request, "projects/cartoonize.html")
 def save_insta_collection(user_name):
     print("start...")
-    L = Instaloader(dirname_pattern='media/instagram_downloader/{target}')
     PROFILE = user_name
-    profile = Profile.from_username(
-        L.context,
-        PROFILE
-    )
-    uploaded_posts = profile.get_posts()
-    # if not(os.path.isdir(save_folder)):
-    #     os.makedirs(save_folder)
-
-    # Start Saving posts with a count
-    count = 1
-    for post in uploaded_posts:
-        print(count)
-        L.download_post(
-            post,
-            PROFILE
-        )
-    save_folder = os.path.join(
-        'media',
-        'instagram_downloader',
-        PROFILE
-    )
-    # profile = Profile.from_username(L.context, PROFILE)
-    # posts_sorted_by_likes = sorted(profile.get_posts(), key=lambda post: post.likes, reverse=True)
-
-    # try:
-    #     for post in posts_sorted_by_likes:
-    #         print(post)
-    #         print(post.profile)
-    #         print(post.url)
-    #         L.download_post(post, target=save_folder)
-    # except IndexError:
-    #     print("You have no saved posts yet.")
-    #     return 'IndexError'
+    # L = Instaloader(dirname_pattern='media/instagram_downloader/{target}')
+    # profile = Profile.from_username(
+    #     L.context,
+    #     PROFILE
+    # )
+    # uploaded_posts = profile.get_posts()
+    # count = 1
+    # for post in uploaded_posts:
+    #     print(count)
+    #     L.download_post(
+    #         post,
+    #         PROFILE
+    #     )
+    # save_folder = os.path.join(
+    #     'media',
+    #     'instagram_downloader',
+    #     PROFILE
+    # )
     print("end...")
     return PROFILE
 def instagram_downloader_(request):
