@@ -14,8 +14,8 @@ from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Max
 from comments.models import Comment
-import googletrans
-from googletrans import Translator
+# import googletrans
+# from googletrans import Translator
 from instaloader import Instaloader, Profile
 # from decouple import config
 # from pysitemap import crawler
@@ -370,7 +370,8 @@ def hash(h, key):
     return h[key]
 
 def GetTranslateLanguages(request):
-    return JsonResponse({'data': googletrans.LANGUAGES}, safe=False) 
+    # return JsonResponse({'data': googletrans.LANGUAGES}, safe=False) 
+    return JsonResponse({'data': ''}, safe=False) 
  
 def TextToSpeech(request):
     text = request.GET.get('text', None)
