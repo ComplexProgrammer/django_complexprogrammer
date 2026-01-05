@@ -52,6 +52,7 @@ def input_links():
     return links
 
 def convert_to_mp3(filename):
+    return filename[:-4] + ".mp3"
     # clip = VideoFileClip(filename)
     # clip.audio.write_audiofile(filename[:-4] + ".mp3")
     # clip.close()
