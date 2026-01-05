@@ -1,5 +1,5 @@
 import pytube
-from moviepy.editor import VideoFileClip
+# from moviepy.editor import VideoFileClip
 
 
 def download_video(url, resolution):
@@ -52,6 +52,6 @@ def input_links():
     return links
 
 def convert_to_mp3(filename):
-    clip = VideoFileClip(filename)
-    clip.audio.write_audiofile(filename[:-4] + ".mp3")
-    clip.close()
+    # clip = VideoFileClip(filename)
+    # clip.audio.write_audiofile(filename[:-4] + ".mp3")
+    # clip.close()
