@@ -4,81 +4,90 @@
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
 <div class="fixed-top">
-  <div class="position-relative" style="margin-block-start:50px;">
-    <div class="position-absolute top-0 end-0 translate-middle">
-      <div class="container">
-        <div class="row">
-          <div class="col">
-            <form action="{% url 'set_language' %}" method="POST">
-              {% csrf_token %}
-              <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
-                {% for language in languages %}
-                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                  {{ language.name_local }}
-                  {% if LANGUAGE_CODE == 'en' %}
-                  <img src="https://ipapi.co/static/images/flags/us.png" />
-                  {% else %}
-                  <img src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
-                  {% endif %}
-                </option>
-                {% endfor %}
-              </select>
-            </form>
-          </div>
-          <div class="col-1">
-            {% if LANGUAGE_CODE == 'en' %}
-            <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/us.png" />
-            {% else %}
-            <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
-            {% endif %}
-          </div>
+    <div class="position-relative" style="margin-block-start:50px;">
+        <div class="position-absolute top-0 end-0 translate-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <form action="{% url 'set_language' %}" method="POST">
+                            {% csrf_token %}
+                            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                                name="language" onchange="this.form.submit()">
+                                {% for language in languages %}
+                                <option value="{{ language.code }}" {% if language.code==LANGUAGE_CODE %} selected{%
+                                    endif %}>
+                                    {{ language.name_local }}
+                                    {% if LANGUAGE_CODE == 'en' %}
+                                    <img src="https://ipapi.co/static/images/flags/us.png" />
+                                    {% else %}
+                                    <img src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
+                                    {% endif %}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                    <div class="col-1">
+                        {% if LANGUAGE_CODE == 'en' %}
+                        <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/us.png" />
+                        {% else %}
+                        <img style="object-fit: cover;"
+                            src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="fixed-top">
-  <div class="position-relative">
-      <div class="position-absolute end-0">
-          <div class="C0mplexButton float-end">
-            <a href="#" onclick="window.history.back(); return false;">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                X
-              </a>
-          </div>
-      </div>
-  </div>
+    <div class="position-relative">
+        <div class="position-absolute end-0">
+            <div class="C0mplexButton float-end">
+                <a href="#" onclick="window.history.back(); return false;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    X
+                </a>
+            </div>
+        </div>
+    </div>
 </div> {% endcomment %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="theme-color" content="#317EFB"/>
-      {% if request.GET.id %}
-      <meta name="description" content="{{post.name_uz_uz}}"/>
-      <meta property="og:image" content="/media/{{post.image}}"/>
-      {% else %}
-      <meta name="description" content="Complex Programmer - Online services (Tests, IP search, Latin - Cyrillic text translate, instagram downloader, youtube downloader, complex password generator, online games, ...)"/>
-      <meta property="og:image" content="/static/img/hero-bg.png"/>
-      {% endif %}
-      <link rel="icon" sizes="16x16" href="https://complexprogrammer.uz/static/img/favicon.ico">
-      <link rel="manifest" href="/static/manifest.json">
-      {% comment %} <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> {% endcomment %}
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-      <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-      <link rel="stylesheet" href="/static/css/blog/style.css">
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
-      crossorigin="anonymous"></script>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-      <style>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#317EFB" />
+    {% if request.GET.id %}
+    <meta name="description" content="{{post.name_uz_uz}}" />
+    <meta property="og:image" content="/media/{{post.image}}" />
+    {% else %}
+    <meta name="description"
+        content="Complex Programmer - Online services (Tests, IP search, Latin - Cyrillic text translate, instagram downloader, youtube downloader, complex password generator, online games, ...)" />
+    <meta property="og:image" content="/static/img/hero-bg.png" />
+    {% endif %}
+    <link rel="icon" sizes="16x16" href="https://complexprogrammer.uz/static/img/favicon.ico">
+    <link rel="manifest" href="/static/manifest.json">
+    {% comment %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
+    <link rel="stylesheet" href="/static/css/blog/style.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
         /* Three.js Canvas Background - Blog Theme */
         #threejs-canvas {
             position: fixed;
@@ -99,41 +108,29 @@
                 opacity: 0.18;
             }
         }
-      </style>
+    </style>
 
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-8DHWL20H58');
-</script>
-        <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NW763C2');</script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
-    authDomain: "c0mplex.firebaseapp.com",
-    projectId: "c0mplex",
-    storageBucket: "c0mplex.appspot.com",
-    messagingSenderId: "755681568857",
-    appId: "1:755681568857:web:102b1b733df55baefe2948",
-    measurementId: "G-H8XGTS4B9J"
-  };
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-      <style>
+        gtag('config', 'G-8DHWL20H58');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NW763C2');</script>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         :root {
             --bg-color: #fafbfc;
             --text-color: #1a1a1a;
@@ -201,7 +198,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
                 radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
@@ -221,7 +218,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         /* Ensure comment forms are clickable */
-        .form-control, .btn, input, textarea, button {
+        .form-control,
+        .btn,
+        input,
+        textarea,
+        button {
             pointer-events: auto !important;
             position: relative;
             z-index: 10;
@@ -255,7 +256,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         /* Ensure all interactive elements are clickable */
-        input, textarea, button, select, a {
+        input,
+        textarea,
+        button,
+        select,
+        a {
             pointer-events: auto !important;
             position: relative;
             z-index: 10;
@@ -364,12 +369,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* Dark mode card hover fixes */
         [data-theme="dark"] .card:hover .card-title {
-            
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         [data-theme="dark"] .card:hover .card-title a {
-            
+            color: rgba(255, 255, 255, 0.98) !important;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         [data-theme="dark"] .card:hover .card-text {
@@ -443,7 +448,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
+            background:
                 radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
             z-index: 0;
@@ -484,11 +489,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        .blog-card:nth-child(1) { animation-delay: 0.1s; }
-        .blog-card:nth-child(2) { animation-delay: 0.2s; }
-        .blog-card:nth-child(3) { animation-delay: 0.3s; }
-        .blog-card:nth-child(4) { animation-delay: 0.4s; }
-        .blog-card:nth-child(5) { animation-delay: 0.5s; }
+        .blog-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .blog-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .blog-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .blog-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .blog-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
 
         .card-img {
             height: 200px;
@@ -671,6 +690,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -682,6 +702,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 opacity: 0;
                 transform: translateX(-50px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -693,6 +714,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 opacity: 0;
                 transform: translateX(50px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -712,23 +734,220 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             .hero-section {
                 padding: 60px 0 40px;
             }
-            
+
             .sidebar {
                 position: static;
                 margin-top: 2rem;
+                padding: 1.5rem;
+                border-radius: 16px;
             }
-            
+
+            .sidebar h2 {
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+            }
+
             .theme-toggle {
-                top: 20px;
-                right: 20px;
-                padding: 10px 16px;
-                font-size: 13px;
+                top: 15px;
+                right: 15px;
+                padding: 8px 14px;
+                font-size: 12px;
                 transform: translateZ(0);
                 will-change: transform;
             }
 
             .theme-toggle:hover {
                 transform: translateY(-2px) translateZ(0);
+            }
+
+            /* Card responsive styles */
+            .card {
+                border-radius: 16px;
+                margin-bottom: 1.5rem;
+            }
+
+            .card-img {
+                height: 150px;
+                border-radius: 16px 16px 0 0;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .card-text {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 1rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .card:hover {
+                transform: translateY(-4px) scale(1.01);
+            }
+
+            /* Blog post header responsive */
+            .blog-post-header {
+                margin-bottom: 0.75rem;
+                padding-bottom: 0.5rem;
+            }
+
+            .blog-meta {
+                font-size: 0.8rem;
+            }
+
+            .blog-actions {
+                margin-top: 0.75rem;
+            }
+
+            .blog-read-more {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            /* Pagination responsive */
+            .pagination {
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+
+            .page-link {
+                padding: 0.4rem 0.7rem;
+                font-size: 0.85rem;
+                border-radius: 8px;
+            }
+
+            /* Hide extra pagination items on mobile - show only 3 nearby pages */
+            .pagination .page-num-item {
+                display: none;
+            }
+
+            /* Show only pages very close to current (within 1) */
+            .pagination .page-num-item:nth-child(-n+5),
+            .pagination .page-num-item:nth-last-child(-n+5) {
+                display: none;
+            }
+
+            /* Always show active page and immediate neighbors */
+            .pagination .page-item.active,
+            .pagination .page-item.active~.page-num-item:first-of-type,
+            .pagination .page-num-item:has(~ .page-item.active) {
+                display: list-item;
+            }
+
+            /* Container padding */
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            /* Breadcrumb responsive */
+            .modern-breadcrumb {
+                padding: 0.75rem 1rem;
+            }
+
+            .breadcrumb-list {
+                gap: 0.5rem;
+            }
+
+            .breadcrumb-link {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            /* Category buttons */
+            .category-btn {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            /* List group items */
+            .list-group-item {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-text {
+                font-size: 0.85rem;
+            }
+
+            .card-img {
+                height: 120px;
+            }
+
+            .sidebar {
+                padding: 1rem;
+            }
+
+            .sidebar h2 {
+                font-size: 1.1rem;
+            }
+
+            .page-link {
+                padding: 0.3rem 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            .breadcrumb-link span {
+                display: none;
+            }
+
+            .breadcrumb-link i {
+                font-size: 1rem;
+            }
+
+            /* Hide pagination first/last text on very small screens */
+            .pagination .page-link[aria-label="First"] span,
+            .pagination .page-link[aria-label="Last"] span {
+                font-size: 0.7rem;
+            }
+
+            /* Blog card row layout */
+            .blog-card .row {
+                flex-direction: column;
+            }
+
+            .blog-card .col-md-4,
+            .blog-card .col-md-8 {
+                width: 100%;
+            }
+
+            .blog-card .card-img {
+                height: 180px;
+                border-radius: 16px 16px 0 0;
+            }
+        }
+
+        /* Tablet landscape */
+        @media (min-width: 769px) and (max-width: 991px) {
+            .card-img {
+                height: 180px;
+            }
+
+            .sidebar {
+                padding: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
             }
         }
 
@@ -1046,6 +1265,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 opacity: 0;
                 transform: translateX(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -1056,13 +1276,40 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             animation: breadcrumbSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        .breadcrumb-item:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
-        .breadcrumb-item:nth-child(2) { animation-delay: 0.15s; opacity: 0; }
-        .breadcrumb-item:nth-child(3) { animation-delay: 0.2s; opacity: 0; }
-        .breadcrumb-item:nth-child(4) { animation-delay: 0.25s; opacity: 0; }
-        .breadcrumb-item:nth-child(5) { animation-delay: 0.3s; opacity: 0; }
-        .breadcrumb-item:nth-child(6) { animation-delay: 0.35s; opacity: 0; }
-        .breadcrumb-item:nth-child(7) { animation-delay: 0.4s; opacity: 0; }
+        .breadcrumb-item:nth-child(1) {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .breadcrumb-item:nth-child(2) {
+            animation-delay: 0.15s;
+            opacity: 0;
+        }
+
+        .breadcrumb-item:nth-child(3) {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .breadcrumb-item:nth-child(4) {
+            animation-delay: 0.25s;
+            opacity: 0;
+        }
+
+        .breadcrumb-item:nth-child(5) {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        .breadcrumb-item:nth-child(6) {
+            animation-delay: 0.35s;
+            opacity: 0;
+        }
+
+        .breadcrumb-item:nth-child(7) {
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
 
         /* Copy Protection Styles */
         .no-select {
@@ -1093,8 +1340,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         @keyframes warningPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
         }
 
         /* Watermark overlay */
@@ -1117,7 +1371,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             z-index: 1;
         }
     </style>
-      <script>
+    <script>
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme') || 'light';
@@ -1139,7 +1393,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             contentAreas.forEach(el => el.classList.add('no-select'));
 
             // Prevent right-click on content
-            document.addEventListener('contextmenu', function(e) {
+            document.addEventListener('contextmenu', function (e) {
                 if (e.target.closest('.card-body, .card-text, .card-title')) {
                     e.preventDefault();
                     showCopyWarning('Matnni nusxalash taqiqlangan!');
@@ -1148,7 +1402,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
 
             // Prevent copy via Ctrl+C / Cmd+C
-            document.addEventListener('copy', function(e) {
+            document.addEventListener('copy', function (e) {
                 const selection = window.getSelection().toString();
                 if (selection.length > 0 && e.target.closest('.card-body, .card-text, .card-title')) {
                     e.preventDefault();
@@ -1158,7 +1412,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
 
             // Prevent cut
-            document.addEventListener('cut', function(e) {
+            document.addEventListener('cut', function (e) {
                 if (e.target.closest('.card-body, .card-text, .card-title')) {
                     e.preventDefault();
                     showCopyWarning('Matnni kesish mumkin emas!');
@@ -1167,13 +1421,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
 
             // Prevent keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 // Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+U (view source), F12 (dev tools)
                 if ((e.ctrlKey || e.metaKey) &&
                     (e.key === 'c' || e.key === 'C' ||
-                     e.key === 'x' || e.key === 'X' ||
-                     e.key === 'a' || e.key === 'A' ||
-                     e.key === 'u' || e.key === 'U')) {
+                        e.key === 'x' || e.key === 'X' ||
+                        e.key === 'a' || e.key === 'A' ||
+                        e.key === 'u' || e.key === 'U')) {
                     if (e.target.closest('.card-body, .card-text, .card-title')) {
                         e.preventDefault();
                         showCopyWarning('Bu amal cheklangan!');
@@ -1184,9 +1438,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 // Prevent F12 and Ctrl+Shift+I (dev tools)
                 if (e.key === 'F12' ||
                     ((e.ctrlKey || e.metaKey) && e.shiftKey &&
-                     (e.key === 'I' || e.key === 'i' ||
-                      e.key === 'J' || e.key === 'j' ||
-                      e.key === 'C' || e.key === 'c'))) {
+                        (e.key === 'I' || e.key === 'i' ||
+                            e.key === 'J' || e.key === 'j' ||
+                            e.key === 'C' || e.key === 'c'))) {
                     e.preventDefault();
                     showCopyWarning('Developer tools ochish taqiqlangan!');
                     return false;
@@ -1194,9 +1448,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             });
 
             // Prevent drag selection
-            document.addEventListener('mousedown', function(e) {
+            document.addEventListener('mousedown', function (e) {
                 if (e.target.closest('.card-body, .card-text, .card-title')) {
-                    e.target.addEventListener('dragstart', function(event) {
+                    e.target.addEventListener('dragstart', function (event) {
                         event.preventDefault();
                         return false;
                     });
@@ -1226,16 +1480,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const body = document.documentElement;
             const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
+
             // Add smooth transition
             body.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            
+
             setTimeout(() => {
                 body.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 updateThemeButton(newTheme);
             }, 100);
-            
+
             setTimeout(() => {
                 body.style.transition = '';
             }, 600);
@@ -1245,16 +1499,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             const button = document.getElementById('themeButton');
             const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
             const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
-            
+
             // Smooth button animation without position change
             button.style.transform = 'scale(0.95) translateZ(0)';
             button.style.transition = 'transform 0.15s ease';
-            
+
             setTimeout(() => {
                 button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
                 button.style.transform = 'scale(1) translateZ(0)';
             }, 150);
-            
+
             setTimeout(() => {
                 button.style.transition = '';
             }, 300);
@@ -1290,12 +1544,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             function updateScrollEffects() {
                 const scrolled = window.pageYOffset;
                 const parallax = document.querySelector('.hero-section');
-                
+
                 if (parallax) {
                     const speed = scrolled * 0.5;
                     parallax.style.transform = `translateY(${speed}px)`;
                 }
-                
+
                 ticking = false;
             }
 
@@ -1310,19 +1564,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         // Add ripple effect to buttons (excluding form elements)
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             // Skip ripple effect for form elements to avoid interference
             if (e.target.matches('input, textarea, select, button[type="submit"], .form-control')) {
                 return;
             }
-            
+
             if (e.target.matches('.btn:not([type="submit"]), .theme-toggle, .card:not(.reply-form-active)')) {
                 const ripple = document.createElement('span');
                 const rect = e.target.getBoundingClientRect();
                 const size = Math.max(rect.width, rect.height);
                 const x = e.clientX - rect.left - size / 2;
                 const y = e.clientY - rect.top - size / 2;
-                
+
                 ripple.style.cssText = `
                     position: absolute;
                     width: ${size}px;
@@ -1336,14 +1590,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     pointer-events: none;
                     z-index: 5;
                 `;
-                
+
                 // Ensure parent has relative positioning
                 if (getComputedStyle(e.target).position === 'static') {
                     e.target.style.position = 'relative';
                 }
-                
+
                 e.target.appendChild(ripple);
-                
+
                 setTimeout(() => {
                     ripple.remove();
                 }, 600);
@@ -1377,665 +1631,724 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         `;
         document.head.appendChild(style);
     </script>
-      <title>My Blog</title>
-    </head>
-    <body>
-      <!-- Three.js Background Canvas - Blog Theme -->
-      <canvas id="threejs-canvas"></canvas>
+    <title>My Blog</title>
+</head>
 
-      <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-          <i class="fas fa-sun"></i> Dark Mode
-      </button>
-      <ins class="adsbygoogle"
-        style="display:block; text-align:center;"
-        data-ad-layout="in-article"
-        data-ad-format="fluid"
-        data-ad-client="ca-pub-7773722896374259"
-        data-ad-slot="2303661293"></ins>
-      <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-      <!-- Navbar -->
-      {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="container">
-              <a class="navbar-brand" href="#">My Blog</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                  <ul class="navbar-nav ml-auto">
-                      <li class="nav-item">
-                          <a class="nav-link" href="#">Bosh Sahifa</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="#">Maqolalar</a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="#">Biz haqimizda</a>
-                      </li>
-                      <!-- Boshqa bo'limlar qo'shishingiz mumkin -->
-                  </ul>
-              </div>
-          </div>
-      </nav> {% endcomment %}
+<body>
+    <!-- Three.js Background Canvas - Blog Theme -->
+    <canvas id="threejs-canvas"></canvas>
 
-      <!-- Maqolalar sehnasi -->
-      <div class="container" style="margin-block-end:100px">
-          <div class="row">
-              <div class="col-md-8">
+    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i> Dark Mode
+    </button>
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article"
+        data-ad-format="fluid" data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <!-- Navbar -->
+    {% comment %} <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">My Blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Bosh Sahifa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Maqolalar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Biz haqimizda</a>
+                    </li>
+                    <!-- Boshqa bo'limlar qo'shishingiz mumkin -->
+                </ul>
+            </div>
+        </div>
+    </nav> {% endcomment %}
+
+    <!-- Maqolalar sehnasi -->
+    <div class="container" style="margin-block-end:100px">
+        <div class="row">
+            <div class="col-md-8">
                 <!-- Modern Breadcrumb Navigation -->
                 <nav aria-label="breadcrumb" class="mb-4">
-                  <div class="modern-breadcrumb">
-                    <ol class="breadcrumb-list">
-                      <li class="breadcrumb-item">
-                        <a href='/blog' class="breadcrumb-link">
-                          <i class="bi bi-house-door"></i>
-                          <span>Bosh sahifa</span>
-                        </a>
-                      </li>
-                      <li class="breadcrumb-separator">
-                        <i class="bi bi-chevron-right"></i>
-                      </li>
-                      <li class="breadcrumb-item">
-                        <a href='/blog' class="breadcrumb-link {% if not categorie %}active{% endif %}">
-                          <i class="bi bi-journal-text"></i>
-                          <span>Barcha maqolalar</span>
-                        </a>
-                      </li>
-                      {%if categorie%}
-                      <li class="breadcrumb-separator">
-                        <i class="bi bi-chevron-right"></i>
-                      </li>
-                      <li class="breadcrumb-item">
-                        <a href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}' class="breadcrumb-link active">
-                          <i class="bi bi-tag"></i>
-                          <span>{{categorie.name_uz_uz}}</span>
-                        </a>
-                      </li>
-                      {%endif%}
-                    </ol>
-                  </div>
+                    <div class="modern-breadcrumb">
+                        <ol class="breadcrumb-list">
+                            <li class="breadcrumb-item">
+                                <a href='/blog' class="breadcrumb-link">
+                                    <i class="bi bi-house-door"></i>
+                                    <span>Bosh sahifa</span>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-separator">
+                                <i class="bi bi-chevron-right"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href='/blog' class="breadcrumb-link {% if not categorie %}active{% endif %}">
+                                    <i class="bi bi-journal-text"></i>
+                                    <span>Barcha maqolalar</span>
+                                </a>
+                            </li>
+                            {%if categorie%}
+                            <li class="breadcrumb-separator">
+                                <i class="bi bi-chevron-right"></i>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}'
+                                    class="breadcrumb-link active">
+                                    <i class="bi bi-tag"></i>
+                                    <span>{{categorie.name_uz_uz}}</span>
+                                </a>
+                            </li>
+                            {%endif%}
+                        </ol>
+                    </div>
                 </nav>
                 {% if id == 0 %}
                 {% if posts.paginator.num_pages > 1 %}
                 <nav aria-label="Page navigation">
-                  <ul class="pagination">
-                      {% if posts.has_previous %}
-                          <li class="page-item">
-                              <a class="page-link" href="?page=1{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="First">
-                                  <span aria-hidden="true">&laquo; First</span>
-                              </a>
-                          </li>
-                          <li class="page-item">
-                              <a class="page-link" href="?page={{ posts.previous_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Previous</a>
-                          </li>
-                      {% endif %}
-  
-                      {% for num in posts.paginator.page_range %}
-                          {% if posts.number == num %}
-                              <li class="page-item active" aria-current="page">
-                                  <span class="page-link">{{ num }}</span>
-                              </li>
-                          {% else %}
-                              <li class="page-item">
-                                  <a class="page-link" href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">{{ num }}</a>
-                              </li>
-                          {% endif %}
-                      {% endfor %}
-  
-                      {% if posts.has_next %}
-                          <li class="page-item">
-                              <a class="page-link" href="?page={{ posts.next_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Next</a>
-                          </li>
-                          <li class="page-item">
-                              <a class="page-link" href="?page={{ posts.paginator.num_pages }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="Last">
-                                  <span aria-hidden="true">Last &raquo;</span>
-                              </a>
-                          </li>
-                      {% endif %}
-                  </ul>
+                    <ul class="pagination">
+                        {% if posts.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page=1{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}"
+                                aria-label="First">
+                                <span aria-hidden="true">&laquo; First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page={{ posts.previous_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Previous</a>
+                        </li>
+                        {% endif %}
+
+                        {% with page_range=3 %}
+                        {% for num in posts.paginator.page_range %}
+                        {% if num == 1 or num == posts.paginator.num_pages %}
+                        {# Always show first and last page #}
+                        {% if posts.number == num %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">
+                                {{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% elif num >= posts.number|add:"-3" and num <= posts.number|add:"3" %} {# Show pages within range of current page #} {% if posts.number == num %} <li class="page-item active"
+                            aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item page-num-item" data-page="{{ num }}">
+                                <a class="page-link"
+                                    href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">
+                                    {{ num }}</a>
+                            </li>
+                            {% endif %}
+                            {% elif num == posts.number|add:"-4" or num == posts.number|add:"4" %}
+                            {# Show ellipsis #}
+                            <li class="page-item disabled page-ellipsis">
+                                <span class="page-link">...</span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            {% endwith %}
+
+                            {% if posts.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ posts.next_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ posts.paginator.num_pages }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}"
+                                    aria-label="Last">
+                                    <span aria-hidden="true">Last &raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                    </ul>
                 </nav>
                 {% endif %}
                 {%for item in posts%}
                 <div class="card mb-3 blog-card">
-                  <div class="row g-0">
-                    <div class="col-md-4">
-                      <picture>
-                        <source type="image/webp" srcset="/media/{{item.image}}">
-                        <source type="image/jpeg" srcset="/media/{{item.image}}">
-                        <source type="image/png" srcset="/media/{{item.image}}">
-                        <img src="/media/{{item.image}}" class="img-fluid card-img" alt="{{item.image}}">
-                      </picture>
-                    </div>
-                    <div class="col-md-8">
-                      <div class="card-body">
-                        <div class="blog-post-header">
-                          <h5 class="card-title">
-                            <a class="nav-link blog-title-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
-                              {{item.name_uz_uz}}
-                            </a>
-                          </h5>
-                          <div class="blog-meta">
-                            <span class="blog-date">
-                              <i class="bi bi-calendar3"></i>
-                              {{item.created_at|date:"d M, Y"}}
-                            </span>
-                          </div>
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <picture>
+                                <source type="image/webp" srcset="/media/{{item.image}}">
+                                <source type="image/jpeg" srcset="/media/{{item.image}}">
+                                <source type="image/png" srcset="/media/{{item.image}}">
+                                <img src="/media/{{item.image}}" class="img-fluid card-img" alt="{{item.image}}">
+                            </picture>
                         </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <div class="blog-post-header">
+                                    <h5 class="card-title">
+                                        <a class="nav-link blog-title-link"
+                                            href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
+                                            {{item.name_uz_uz}}
+                                        </a>
+                                    </h5>
+                                    <div class="blog-meta">
+                                        <span class="blog-date">
+                                            <i class="bi bi-calendar3"></i>
+                                            {{item.created_at|date:"d M, Y"}}
+                                        </span>
+                                    </div>
+                                </div>
 
-                        <p class="card-text blog-excerpt">
-                          <a class="nav-link blog-text-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
-                            {{item.title_uz_uz|truncatewords:20}}
-                          </a>
-                        </p>
+                                <p class="card-text blog-excerpt">
+                                    <a class="nav-link blog-text-link"
+                                        href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
+                                        {{item.title_uz_uz|truncatewords:20}}
+                                    </a>
+                                </p>
 
-                        <div class="blog-actions">
-                          <a href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}" class="blog-read-more">
-                            <span class="read-more-text">Batafsil o'qish</span>
-                            <i class="bi bi-arrow-right read-more-icon"></i>
-                          </a>
+                                <div class="blog-actions">
+                                    <a href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}"
+                                        class="blog-read-more">
+                                        <span class="read-more-text">Batafsil o'qish</span>
+                                        <i class="bi bi-arrow-right read-more-icon"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
                 {%endfor%}
                 {% if posts.paginator.num_pages > 1 %}
                 <nav aria-label="Page navigation">
-                  <ul class="pagination">
-                      {% if posts.has_previous %}
-                          <li class="page-item">
-                              <a class="page-link" href="?page=1{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="First">
-                                  <span aria-hidden="true">&laquo; First</span>
-                              </a>
-                          </li>
-                          <li class="page-item">
-                              <a class="page-link" href="?page={{ posts.previous_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Previous</a>
-                          </li>
-                      {% endif %}
-  
-                      {% for num in posts.paginator.page_range %}
-                          {% if posts.number == num %}
-                              <li class="page-item active" aria-current="page">
-                                  <span class="page-link">{{ num }}</span>
-                              </li>
-                          {% else %}
-                              <li class="page-item">
-                                  <a class="page-link" href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">{{ num }}</a>
-                              </li>
-                          {% endif %}
-                      {% endfor %}
-  
-                      {% if posts.has_next %}
-                          <li class="page-item">
-                              <a class="page-link" href="?page={{ posts.next_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Next</a>
-                          </li>
-                          <li class="page-item">
-                              <a class="page-link" href="?page={{ posts.paginator.num_pages }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}" aria-label="Last">
-                                  <span aria-hidden="true">Last &raquo;</span>
-                              </a>
-                          </li>
-                      {% endif %}
-                  </ul>
+                    <ul class="pagination">
+                        {% if posts.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page=1{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}"
+                                aria-label="First">
+                                <span aria-hidden="true">&laquo; First</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page={{ posts.previous_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Previous</a>
+                        </li>
+                        {% endif %}
+                        {% with page_range=3 %}
+                        {% for num in posts.paginator.page_range %}
+                        {% if num == 1 or num == posts.paginator.num_pages %}
+                        {# Always show first and last page #}
+                        {% if posts.number == num %}
+                        <li class="page-item active" aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link"
+                                href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                        {% elif num >= posts.number|add:"-3" and num <= posts.number|add:"3" %} {# Show pages within range of current page #} {% if posts.number == num %} <li class="page-item active"
+                            aria-current="page">
+                            <span class="page-link">{{ num }}</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item page-num-item" data-page="{{ num }}">
+                                <a class="page-link"
+                                    href="?page={{ num }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">
+                                    {{ num }}</a>
+                            </li>
+                            {% endif %}
+                            {% elif num == posts.number|add:"-4" or num == posts.number|add:"4" %}
+                            {# Show ellipsis #}
+                            <li class="page-item disabled page-ellipsis">
+                                <span class="page-link">...</span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            {% endwith %}
+
+                            {% if posts.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ posts.next_page_number }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?page={{ posts.paginator.num_pages }}{% if request.GET.categorie_id %}&categorie_id={{ request.GET.categorie_id }}{% endif %}"
+                                    aria-label="Last">
+                                    <span aria-hidden="true">Last &raquo;</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                    </ul>
                 </nav>
                 {% endif %}
                 {% else %}
                 <div class="d-flex align-items-center">
-                  <strong>{{post.name_uz_uz}}</strong>
-                  <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                    <strong>{{post.name_uz_uz}}</strong>
+                    <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
                 </div>
                 <div class="card mb-3">
-                  <picture>
-                    <source type="image/webp" srcset="/media/{{post.image}}">
-                    <source type="image/jpeg" srcset="/media/{{post.image}}">
-                    <source type="image/png" srcset="/media/{{post.image}}">
-                    <img src="/media/{{post.image}}" class="card-img-top" alt="{{post.image}}">
-                  </picture>
-                  <div class="card-body">
-                    <h5 class="card-title">{{post.name_uz_uz}}</h5>
-                    <p class="card-text">{{post.title_uz_uz}}</p>
-                    <p class="card-text">{{post.body_uz_uz|safe}}</p>
-                    <p class="card-text"><small class="text-muted">{{post.created_at}}</small></p>
-                  </div>
+                    <picture>
+                        <source type="image/webp" srcset="/media/{{post.image}}">
+                        <source type="image/jpeg" srcset="/media/{{post.image}}">
+                        <source type="image/png" srcset="/media/{{post.image}}">
+                        <img src="/media/{{post.image}}" class="card-img-top" alt="{{post.image}}">
+                    </picture>
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.name_uz_uz}}</h5>
+                        <p class="card-text">{{post.title_uz_uz}}</p>
+                        <p class="card-text">{{post.body_uz_uz|safe}}</p>
+                        <p class="card-text"><small class="text-muted">{{post.created_at}}</small></p>
+                    </div>
                 </div>
                 {% endif %}
-              </div>
-              <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
                 <div class="sidebar slide-in-right">
-                  <h2>Kategoriyalar</h2>
-                  <ul class="list-group">
-                    {%for item in categories%}
-                    <li class="list-group-item">
-                      {% if request.GET.id and post.categorie.id == item.id %}
-                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn category-active">
-                        {{item.name_uz_uz}}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                          {{item.total}}
-                        </span>
-                      </a>
-                      {% elif request.GET.categorie_id == item.id|stringformat:'s' %}
-                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn category-active">
-                        {{item.name_uz_uz}}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                          {{item.total}}
-                        </span>
-                      </a>
-                      {% else %}
-                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn btn-primary">
-                        {{item.name_uz_uz}}
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {{item.total}}
-                        </span>
-                      </a>
-                      {% endif %}
-                    </li>
-                    {%endfor%}
-                  </ul>
-                  <br />
-                  <h2>So'nggi Maqolalar</h2>
+                    <h2>Kategoriyalar</h2>
                     <ul class="list-group">
-                      {%for item in posts%}
-                        <li class="list-group-item"><a class="link-info" href="/blog?id={{item.id}}">{{item.name_uz_uz}}</a></li>
-                      {%endfor%}
+                        {%for item in categories%}
+                        <li class="list-group-item">
+                            {% if request.GET.id and post.categorie.id == item.id %}
+                            <a href="/blog?categorie_id={{item.id}}"
+                                class="btn position-relative category-btn category-active">
+                                {{item.name_uz_uz}}
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                    {{item.total}}
+                                </span>
+                            </a>
+                            {% elif request.GET.categorie_id == item.id|stringformat:'s' %}
+                            <a href="/blog?categorie_id={{item.id}}"
+                                class="btn position-relative category-btn category-active">
+                                {{item.name_uz_uz}}
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                    {{item.total}}
+                                </span>
+                            </a>
+                            {% else %}
+                            <a href="/blog?categorie_id={{item.id}}"
+                                class="btn position-relative category-btn btn-primary">
+                                {{item.name_uz_uz}}
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{item.total}}
+                                </span>
+                            </a>
+                            {% endif %}
+                        </li>
+                        {%endfor%}
+                    </ul>
+                    <br />
+                    <h2>So'nggi Maqolalar</h2>
+                    <ul class="list-group">
+                        {%for item in posts%}
+                        <li class="list-group-item"><a class="link-info"
+                                href="/blog?id={{item.id}}">{{item.name_uz_uz}}</a></li>
+                        {%endfor%}
                     </ul>
                 </div>
-              </div>
-          </div>
-      </div>
-      {% include 'comment_form.html' %}
-      <ins class="adsbygoogle"
-        style="display:block; text-align:center;"
-        data-ad-format="autorelaxed"
-        data-ad-client="ca-pub-7773722896374259"
-        data-ad-slot="2479701367"></ins>
-      <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-      <ins class="adsbygoogle"
-        style="display:block; text-align:center;"
-        data-ad-format="fluid"
-        data-ad-layout-key="-an-4i-cp+a2+21k"
-        data-ad-client="ca-pub-7773722896374259"
-        data-ad-slot="4679993061"></ins>
-      <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-      <ins class="adsbygoogle"
-        style="display:block; text-align:center;"
-        data-ad-client="ca-pub-7773722896374259"
-        data-ad-slot="3869366477"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-      <script>
+            </div>
+        </div>
+    </div>
+    {% include 'comment_form.html' %}
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
+        data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
+    <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>      <!-- Comments Section -->
+    </script>
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid"
+        data-ad-layout-key="-an-4i-cp+a2+21k" data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
+        data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script> <!-- Comments Section -->
 
-      <!-- Footer -->
-      <footer class="bg-dark text-light text-center py-3" style="z-index: 1000;">
-          <p>&copy; 2024 Complex Programmer Blog Sayti. Barcha huquqlar himoyalangan.</p>
-      </footer>
-      <!-- Bootstrap JavaScript fayllari (Popper.js va Bootstrap JS ni o'z ichiga oladi) -->
-      {% comment %} <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script> {% endcomment %}
-      {% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script> {% endcomment %}
-      <script type="module">
+    <!-- Footer -->
+    <footer class="bg-dark text-light text-center py-3" style="z-index: 1000;">
+        <p>&copy; 2024 Complex Programmer Blog Sayti. Barcha huquqlar himoyalangan.</p>
+    </footer>
+    <!-- Bootstrap JavaScript fayllari (Popper.js va Bootstrap JS ni o'z ichiga oladi) -->
+    {% comment %}
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    {% endcomment %}
+    {% comment %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    {% endcomment %}
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
         const firebaseConfig = {
-          apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
-          authDomain: "c0mplex.firebaseapp.com",
-          databaseURL: "https://c0mplex-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "c0mplex",
-          storageBucket: "c0mplex.appspot.com",
-          messagingSenderId: "755681568857",
-          appId: "1:755681568857:web:102b1b733df55baefe2948",
-          measurementId: "G-H8XGTS4B9J"
+            apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
+            authDomain: "c0mplex.firebaseapp.com",
+            databaseURL: "https://c0mplex-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "c0mplex",
+            storageBucket: "c0mplex.appspot.com",
+            messagingSenderId: "755681568857",
+            appId: "1:755681568857:web:102b1b733df55baefe2948",
+            measurementId: "G-H8XGTS4B9J"
         };
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-      </script>
+    </script>
 
-<script>
-// Three.js Scene Setup for Blog - Writing/Reading Theme
-let scene, camera, renderer, particles, books = [], pens = [], papers = [];
-let mouseX = 0, mouseY = 0;
+    <script>
+        // Three.js Scene Setup for Blog - Writing/Reading Theme
+        let scene, camera, renderer, particles, books = [], pens = [], papers = [];
+        let mouseX = 0, mouseY = 0;
 
-function initThreeJS() {
-    const canvas = document.getElementById('threejs-canvas');
-    if (!canvas) return;
+        function initThreeJS() {
+            const canvas = document.getElementById('threejs-canvas');
+            if (!canvas) return;
 
-    scene = new THREE.Scene();
+            scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 50;
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
 
-    renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: true
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+            renderer = new THREE.WebGLRenderer({
+                canvas,
+                alpha: true,
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
 
-    // Create particles (text/ink effect)
-    createBlogParticles();
+            // Create particles (text/ink effect)
+            createBlogParticles();
 
-    // Create floating books
-    createBooks();
+            // Create floating books
+            createBooks();
 
-    // Create pen shapes
-    createPens();
+            // Create pen shapes
+            createPens();
 
-    // Create paper sheets
-    createPapers();
+            // Create paper sheets
+            createPapers();
 
-    // Add lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
+            // Add lights
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
 
-    const pointLight1 = new THREE.PointLight(0x667eea, 1.5, 100);
-    pointLight1.position.set(20, 20, 20);
-    scene.add(pointLight1);
+            const pointLight1 = new THREE.PointLight(0x667eea, 1.5, 100);
+            pointLight1.position.set(20, 20, 20);
+            scene.add(pointLight1);
 
-    const pointLight2 = new THREE.PointLight(0xf093fb, 1.5, 100);
-    pointLight2.position.set(-20, -20, 10);
-    scene.add(pointLight2);
+            const pointLight2 = new THREE.PointLight(0xf093fb, 1.5, 100);
+            pointLight2.position.set(-20, -20, 10);
+            scene.add(pointLight2);
 
-    const pointLight3 = new THREE.PointLight(0x4facfe, 1, 80);
-    pointLight3.position.set(0, 15, -15);
-    scene.add(pointLight3);
+            const pointLight3 = new THREE.PointLight(0x4facfe, 1, 80);
+            pointLight3.position.set(0, 15, -15);
+            scene.add(pointLight3);
 
-    // Mouse movement listener
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-    });
+            // Mouse movement listener
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
 
-    // Window resize handler
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+            // Window resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
 
-    animate();
-}
+            animate();
+        }
 
-function createBlogParticles() {
-    const geometry = new THREE.BufferGeometry();
-    const vertices = [];
-    const colors = [];
+        function createBlogParticles() {
+            const geometry = new THREE.BufferGeometry();
+            const vertices = [];
+            const colors = [];
 
-    for (let i = 0; i < 2000; i++) {
-        vertices.push(
-            Math.random() * 200 - 100,
-            Math.random() * 200 - 100,
-            Math.random() * 200 - 100
-        );
+            for (let i = 0; i < 2000; i++) {
+                vertices.push(
+                    Math.random() * 200 - 100,
+                    Math.random() * 200 - 100,
+                    Math.random() * 200 - 100
+                );
 
-        // Blog/writing colors
-        const colorOptions = [
-            new THREE.Color(0x667eea), // Purple
-            new THREE.Color(0xf093fb), // Pink
-            new THREE.Color(0x4facfe), // Cyan
-            new THREE.Color(0x764ba2), // Dark purple
-            new THREE.Color(0x000000)  // Black (ink)
-        ];
-        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
-        colors.push(color.r, color.g, color.b);
-    }
-
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-        size: 0.6,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.7,
-        blending: THREE.AdditiveBlending
-    });
-
-    particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-}
-
-function createBooks() {
-    // Create book shapes
-    const bookConfigs = [
-        { position: { x: -25, y: 15, z: -20 }, color: 0x667eea, size: { w: 3, h: 4, d: 0.5 } },
-        { position: { x: 25, y: -15, z: -15 }, color: 0xf093fb, size: { w: 2.5, h: 3.5, d: 0.4 } },
-        { position: { x: -20, y: -20, z: -25 }, color: 0x4facfe, size: { w: 3.2, h: 4.2, d: 0.6 } },
-        { position: { x: 15, y: 20, z: -18 }, color: 0x764ba2, size: { w: 2.8, h: 3.8, d: 0.5 } }
-    ];
-
-    bookConfigs.forEach((config) => {
-        const bookGroup = new THREE.Group();
-
-        // Book cover
-        const coverGeometry = new THREE.BoxGeometry(config.size.w, config.size.h, config.size.d);
-        const coverMaterial = new THREE.MeshPhongMaterial({
-            color: config.color,
-            transparent: true,
-            opacity: 0.3,
-            shininess: 100
-        });
-        const cover = new THREE.Mesh(coverGeometry, coverMaterial);
-        bookGroup.add(cover);
-
-        // Book pages (white edge)
-        const pagesGeometry = new THREE.BoxGeometry(config.size.w * 0.95, config.size.h * 0.95, config.size.d * 0.8);
-        const pagesMaterial = new THREE.MeshPhongMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.4
-        });
-        const pages = new THREE.Mesh(pagesGeometry, pagesMaterial);
-        bookGroup.add(pages);
-
-        bookGroup.position.set(config.position.x, config.position.y, config.position.z);
-        bookGroup.rotation.x = Math.random() * Math.PI * 0.5;
-        bookGroup.rotation.y = Math.random() * Math.PI;
-
-        bookGroup.userData = {
-            rotationSpeed: {
-                x: Math.random() * 0.008 + 0.002,
-                y: Math.random() * 0.008 + 0.002,
-                z: Math.random() * 0.006
+                // Blog/writing colors
+                const colorOptions = [
+                    new THREE.Color(0x667eea), // Purple
+                    new THREE.Color(0xf093fb), // Pink
+                    new THREE.Color(0x4facfe), // Cyan
+                    new THREE.Color(0x764ba2), // Dark purple
+                    new THREE.Color(0x000000)  // Black (ink)
+                ];
+                const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+                colors.push(color.r, color.g, color.b);
             }
-        };
 
-        books.push(bookGroup);
-        scene.add(bookGroup);
-    });
-}
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
-function createPens() {
-    // Create pen/pencil shapes
-    const penConfigs = [
-        { position: { x: -30, y: 10, z: -15 }, color: 0x333333 },
-        { position: { x: 30, y: -10, z: -20 }, color: 0x0066cc },
-        { position: { x: 0, y: 25, z: -25 }, color: 0xff0000 }
-    ];
+            const material = new THREE.PointsMaterial({
+                size: 0.6,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.7,
+                blending: THREE.AdditiveBlending
+            });
 
-    penConfigs.forEach((config) => {
-        const penGroup = new THREE.Group();
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
 
-        // Pen body (cylinder)
-        const bodyGeometry = new THREE.CylinderGeometry(0.15, 0.15, 4, 16);
-        const bodyMaterial = new THREE.MeshPhongMaterial({
-            color: config.color,
-            transparent: true,
-            opacity: 0.5,
-            shininess: 100
-        });
-        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-        penGroup.add(body);
+        function createBooks() {
+            // Create book shapes
+            const bookConfigs = [
+                { position: { x: -25, y: 15, z: -20 }, color: 0x667eea, size: { w: 3, h: 4, d: 0.5 } },
+                { position: { x: 25, y: -15, z: -15 }, color: 0xf093fb, size: { w: 2.5, h: 3.5, d: 0.4 } },
+                { position: { x: -20, y: -20, z: -25 }, color: 0x4facfe, size: { w: 3.2, h: 4.2, d: 0.6 } },
+                { position: { x: 15, y: 20, z: -18 }, color: 0x764ba2, size: { w: 2.8, h: 3.8, d: 0.5 } }
+            ];
 
-        // Pen tip (cone)
-        const tipGeometry = new THREE.ConeGeometry(0.15, 0.5, 16);
-        const tipMaterial = new THREE.MeshPhongMaterial({
-            color: 0x000000,
-            transparent: true,
-            opacity: 0.6
-        });
-        const tip = new THREE.Mesh(tipGeometry, tipMaterial);
-        tip.position.y = -2.25;
-        penGroup.add(tip);
+            bookConfigs.forEach((config) => {
+                const bookGroup = new THREE.Group();
 
-        penGroup.position.set(config.position.x, config.position.y, config.position.z);
-        penGroup.rotation.z = Math.PI / 4;
+                // Book cover
+                const coverGeometry = new THREE.BoxGeometry(config.size.w, config.size.h, config.size.d);
+                const coverMaterial = new THREE.MeshPhongMaterial({
+                    color: config.color,
+                    transparent: true,
+                    opacity: 0.3,
+                    shininess: 100
+                });
+                const cover = new THREE.Mesh(coverGeometry, coverMaterial);
+                bookGroup.add(cover);
 
-        penGroup.userData = {
-            rotationSpeed: {
-                x: Math.random() * 0.015,
-                y: Math.random() * 0.015,
-                z: Math.random() * 0.01
+                // Book pages (white edge)
+                const pagesGeometry = new THREE.BoxGeometry(config.size.w * 0.95, config.size.h * 0.95, config.size.d * 0.8);
+                const pagesMaterial = new THREE.MeshPhongMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.4
+                });
+                const pages = new THREE.Mesh(pagesGeometry, pagesMaterial);
+                bookGroup.add(pages);
+
+                bookGroup.position.set(config.position.x, config.position.y, config.position.z);
+                bookGroup.rotation.x = Math.random() * Math.PI * 0.5;
+                bookGroup.rotation.y = Math.random() * Math.PI;
+
+                bookGroup.userData = {
+                    rotationSpeed: {
+                        x: Math.random() * 0.008 + 0.002,
+                        y: Math.random() * 0.008 + 0.002,
+                        z: Math.random() * 0.006
+                    }
+                };
+
+                books.push(bookGroup);
+                scene.add(bookGroup);
+            });
+        }
+
+        function createPens() {
+            // Create pen/pencil shapes
+            const penConfigs = [
+                { position: { x: -30, y: 10, z: -15 }, color: 0x333333 },
+                { position: { x: 30, y: -10, z: -20 }, color: 0x0066cc },
+                { position: { x: 0, y: 25, z: -25 }, color: 0xff0000 }
+            ];
+
+            penConfigs.forEach((config) => {
+                const penGroup = new THREE.Group();
+
+                // Pen body (cylinder)
+                const bodyGeometry = new THREE.CylinderGeometry(0.15, 0.15, 4, 16);
+                const bodyMaterial = new THREE.MeshPhongMaterial({
+                    color: config.color,
+                    transparent: true,
+                    opacity: 0.5,
+                    shininess: 100
+                });
+                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+                penGroup.add(body);
+
+                // Pen tip (cone)
+                const tipGeometry = new THREE.ConeGeometry(0.15, 0.5, 16);
+                const tipMaterial = new THREE.MeshPhongMaterial({
+                    color: 0x000000,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const tip = new THREE.Mesh(tipGeometry, tipMaterial);
+                tip.position.y = -2.25;
+                penGroup.add(tip);
+
+                penGroup.position.set(config.position.x, config.position.y, config.position.z);
+                penGroup.rotation.z = Math.PI / 4;
+
+                penGroup.userData = {
+                    rotationSpeed: {
+                        x: Math.random() * 0.015,
+                        y: Math.random() * 0.015,
+                        z: Math.random() * 0.01
+                    }
+                };
+
+                pens.push(penGroup);
+                scene.add(penGroup);
+            });
+        }
+
+        function createPapers() {
+            // Create floating paper sheets
+            const paperConfigs = [
+                { position: { x: 22, y: 18, z: -22 }, color: 0xffffff },
+                { position: { x: -22, y: -18, z: -15 }, color: 0xf5f5f5 },
+                { position: { x: 18, y: -22, z: -28 }, color: 0xfafafa }
+            ];
+
+            paperConfigs.forEach((config) => {
+                const paperGeometry = new THREE.PlaneGeometry(3.5, 4.5);
+                const paperMaterial = new THREE.MeshPhongMaterial({
+                    color: config.color,
+                    transparent: true,
+                    opacity: 0.25,
+                    side: THREE.DoubleSide,
+                    shininess: 50
+                });
+                const paper = new THREE.Mesh(paperGeometry, paperMaterial);
+
+                paper.position.set(config.position.x, config.position.y, config.position.z);
+                paper.rotation.x = Math.random() * Math.PI;
+                paper.rotation.y = Math.random() * Math.PI;
+
+                paper.userData = {
+                    rotationSpeed: {
+                        x: Math.random() * 0.01,
+                        y: Math.random() * 0.01,
+                        z: Math.random() * 0.008
+                    },
+                    floatSpeed: Math.random() * 0.5 + 0.3,
+                    floatPhase: Math.random() * Math.PI * 2
+                };
+
+                papers.push(paper);
+                scene.add(paper);
+            });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.001;
+
+            // Rotate particles
+            if (particles) {
+                particles.rotation.y += 0.0006;
+                particles.rotation.x += 0.0003;
             }
+
+            // Animate books
+            books.forEach((book) => {
+                book.rotation.x += book.userData.rotationSpeed.x;
+                book.rotation.y += book.userData.rotationSpeed.y;
+                book.rotation.z += book.userData.rotationSpeed.z;
+            });
+
+            // Animate pens
+            pens.forEach((pen) => {
+                pen.rotation.x += pen.userData.rotationSpeed.x;
+                pen.rotation.y += pen.userData.rotationSpeed.y;
+                pen.rotation.z += pen.userData.rotationSpeed.z;
+            });
+
+            // Animate papers with floating effect
+            papers.forEach((paper) => {
+                paper.rotation.x += paper.userData.rotationSpeed.x;
+                paper.rotation.y += paper.userData.rotationSpeed.y;
+                paper.rotation.z += paper.userData.rotationSpeed.z;
+
+                // Floating motion
+                const float = Math.sin(time * paper.userData.floatSpeed + paper.userData.floatPhase) * 2;
+                paper.position.y += float * 0.01;
+            });
+
+            // Gentle camera movement based on mouse
+            camera.position.x += (mouseX * 3 - camera.position.x) * 0.025;
+            camera.position.y += (mouseY * 3 - camera.position.y) * 0.025;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize Three.js when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initThreeJS);
+        } else {
+            initThreeJS();
+        }
+
+        // Update Three.js theme
+        function updateThreeJSTheme(theme) {
+            if (!particles || !books.length) return;
+
+            if (theme === 'dark') {
+                particles.material.opacity = 0.6;
+                books.forEach(book => {
+                    book.children.forEach(child => {
+                        if (child.material) child.material.opacity = 0.4;
+                    });
+                });
+                pens.forEach(pen => {
+                    pen.children.forEach(child => {
+                        if (child.material) child.material.opacity = 0.6;
+                    });
+                });
+                papers.forEach(paper => {
+                    paper.material.opacity = 0.35;
+                });
+            } else {
+                particles.material.opacity = 0.7;
+                books.forEach(book => {
+                    book.children.forEach(child => {
+                        if (child.material) child.material.opacity = 0.3;
+                    });
+                });
+                pens.forEach(pen => {
+                    pen.children.forEach(child => {
+                        if (child.material) child.material.opacity = 0.5;
+                    });
+                });
+                papers.forEach(paper => {
+                    paper.material.opacity = 0.25;
+                });
+            }
+        }
+
+        // Hook into theme toggle
+        const originalToggleThemeFunc = window.toggleTheme;
+        window.toggleTheme = function () {
+            if (originalToggleThemeFunc) originalToggleThemeFunc();
+            setTimeout(() => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                updateThreeJSTheme(currentTheme);
+            }, 100);
         };
+    </script>
 
-        pens.push(penGroup);
-        scene.add(penGroup);
-    });
-}
+    {% include "includes/scroll_buttons.html" %}
 
-function createPapers() {
-    // Create floating paper sheets
-    const paperConfigs = [
-        { position: { x: 22, y: 18, z: -22 }, color: 0xffffff },
-        { position: { x: -22, y: -18, z: -15 }, color: 0xf5f5f5 },
-        { position: { x: 18, y: -22, z: -28 }, color: 0xfafafa }
-    ];
+</body>
 
-    paperConfigs.forEach((config) => {
-        const paperGeometry = new THREE.PlaneGeometry(3.5, 4.5);
-        const paperMaterial = new THREE.MeshPhongMaterial({
-            color: config.color,
-            transparent: true,
-            opacity: 0.25,
-            side: THREE.DoubleSide,
-            shininess: 50
-        });
-        const paper = new THREE.Mesh(paperGeometry, paperMaterial);
-
-        paper.position.set(config.position.x, config.position.y, config.position.z);
-        paper.rotation.x = Math.random() * Math.PI;
-        paper.rotation.y = Math.random() * Math.PI;
-
-        paper.userData = {
-            rotationSpeed: {
-                x: Math.random() * 0.01,
-                y: Math.random() * 0.01,
-                z: Math.random() * 0.008
-            },
-            floatSpeed: Math.random() * 0.5 + 0.3,
-            floatPhase: Math.random() * Math.PI * 2
-        };
-
-        papers.push(paper);
-        scene.add(paper);
-    });
-}
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    const time = Date.now() * 0.001;
-
-    // Rotate particles
-    if (particles) {
-        particles.rotation.y += 0.0006;
-        particles.rotation.x += 0.0003;
-    }
-
-    // Animate books
-    books.forEach((book) => {
-        book.rotation.x += book.userData.rotationSpeed.x;
-        book.rotation.y += book.userData.rotationSpeed.y;
-        book.rotation.z += book.userData.rotationSpeed.z;
-    });
-
-    // Animate pens
-    pens.forEach((pen) => {
-        pen.rotation.x += pen.userData.rotationSpeed.x;
-        pen.rotation.y += pen.userData.rotationSpeed.y;
-        pen.rotation.z += pen.userData.rotationSpeed.z;
-    });
-
-    // Animate papers with floating effect
-    papers.forEach((paper) => {
-        paper.rotation.x += paper.userData.rotationSpeed.x;
-        paper.rotation.y += paper.userData.rotationSpeed.y;
-        paper.rotation.z += paper.userData.rotationSpeed.z;
-
-        // Floating motion
-        const float = Math.sin(time * paper.userData.floatSpeed + paper.userData.floatPhase) * 2;
-        paper.position.y += float * 0.01;
-    });
-
-    // Gentle camera movement based on mouse
-    camera.position.x += (mouseX * 3 - camera.position.x) * 0.025;
-    camera.position.y += (mouseY * 3 - camera.position.y) * 0.025;
-    camera.lookAt(scene.position);
-
-    renderer.render(scene, camera);
-}
-
-// Initialize Three.js when DOM is loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initThreeJS);
-} else {
-    initThreeJS();
-}
-
-// Update Three.js theme
-function updateThreeJSTheme(theme) {
-    if (!particles || !books.length) return;
-
-    if (theme === 'dark') {
-        particles.material.opacity = 0.6;
-        books.forEach(book => {
-            book.children.forEach(child => {
-                if (child.material) child.material.opacity = 0.4;
-            });
-        });
-        pens.forEach(pen => {
-            pen.children.forEach(child => {
-                if (child.material) child.material.opacity = 0.6;
-            });
-        });
-        papers.forEach(paper => {
-            paper.material.opacity = 0.35;
-        });
-    } else {
-        particles.material.opacity = 0.7;
-        books.forEach(book => {
-            book.children.forEach(child => {
-                if (child.material) child.material.opacity = 0.3;
-            });
-        });
-        pens.forEach(pen => {
-            pen.children.forEach(child => {
-                if (child.material) child.material.opacity = 0.5;
-            });
-        });
-        papers.forEach(paper => {
-            paper.material.opacity = 0.25;
-        });
-    }
-}
-
-// Hook into theme toggle
-const originalToggleThemeFunc = window.toggleTheme;
-window.toggleTheme = function() {
-    if (originalToggleThemeFunc) originalToggleThemeFunc();
-    setTimeout(() => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        updateThreeJSTheme(currentTheme);
-    }, 100);
-};
-</script>
-
-{% include "includes/scroll_buttons.html" %}
-
-  </body>
 </html>

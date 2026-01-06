@@ -75,6 +75,32 @@
       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
       crossorigin="anonymous"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+      <style>
+        /* Three.js Canvas Background - Blog Theme */
+        #threejs-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        [data-theme="dark"] #threejs-canvas {
+            opacity: 0.35;
+        }
+
+        @media (max-width: 768px) {
+            #threejs-canvas {
+                opacity: 0.18;
+            }
+        }
+      </style>
+
       <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
 <script>
@@ -150,6 +176,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             line-height: 1.6;
             overflow-x: hidden;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Override Bootstrap nav-link for blog cards */
+        .blog-card .nav-link {
+            color: var(--text-color) !important;
+            padding: 0 !important;
+        }
+
+        .blog-card .card-title .nav-link,
+        .blog-card .card-text .nav-link {
+            color: var(--text-color) !important;
+        }
+
+        .blog-card:hover .card-title .nav-link,
+        .blog-card:hover .card-text .nav-link {
+            color: rgba(255, 255, 255, 0.95) !important;
         }
 
         body::before {
@@ -255,7 +297,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 1;
-            border-radius: 24px;
         }
 
         .card:hover {
@@ -323,12 +364,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         /* Dark mode card hover fixes */
         [data-theme="dark"] .card:hover .card-title {
-            color: #ffffff;
+            
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         [data-theme="dark"] .card:hover .card-title a {
-            color: #ffffff !important;
+            
         }
 
         [data-theme="dark"] .card:hover .card-text {
@@ -383,13 +424,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .theme-toggle:hover {
             transform: translateY(-2px) translateZ(0);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            background: var(--primary-gradient);
             color: white;
         }
 
         /* Hero Section */
         .hero-section {
-            background: var(--primary-gradient);
             padding: 80px 0 60px;
             margin-bottom: 50px;
             text-align: center;
@@ -464,46 +503,88 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         .card-title {
             color: var(--text-color);
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
             line-height: 1.3;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             z-index: 3;
+            letter-spacing: -0.02em;
+            background: none !important;
+            background-image: none !important;
+            -webkit-background-clip: unset !important;
+            background-clip: unset !important;
+            -webkit-text-fill-color: currentColor !important;
+        }
+
+        /* Card title link styles */
+        .card-title a.nav-link,
+        .card-title a {
+            color: var(--text-color) !important;
+            text-decoration: none !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1 !important;
+            display: inline-block;
+            position: relative;
+        }
+
+        .card-title a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .card:hover .card-title {
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
 
+        .card:hover .card-title a::after {
+            width: 100%;
+        }
+
+        .card:hover .card-title a.nav-link,
         .card:hover .card-title a {
-            color: #ffffff !important;
-            text-decoration: none;
+            color: rgba(255, 255, 255, 0.98) !important;
+            text-decoration: none !important;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
         }
 
         .card-text {
             color: var(--text-color);
-            opacity: 0.7;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            opacity: 0.8;
+            font-size: 1rem;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             z-index: 3;
         }
 
-        .card:hover .card-text {
-            color: rgba(255, 255, 255, 0.9);
-            opacity: 1;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        /* Card text link styles */
+        .card-text a.nav-link,
+        .card-text a {
+            color: var(--text-color) !important;
+            opacity: 0.8 !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none !important;
         }
 
+        .card:hover .card-text {
+            color: rgba(255, 255, 255, 0.95);
+            opacity: 1;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .card:hover .card-text a.nav-link,
         .card:hover .card-text a {
-            color: rgba(255, 255, 255, 0.9) !important;
-            text-decoration: none;
+            color: rgba(255, 255, 255, 0.95) !important;
+            opacity: 1 !important;
+            text-decoration: none !important;
         }
 
         /* Sidebar */
@@ -645,23 +726,501 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 transform: translateZ(0);
                 will-change: transform;
             }
-            
+
             .theme-toggle:hover {
                 transform: translateY(-2px) translateZ(0);
             }
         }
-    </style>    
+
+        /* CRITICAL FIX: Force nav-link colors in blog cards */
+        .blog-card h5.card-title a.nav-link,
+        .blog-card p.card-text a.nav-link {
+            color: var(--text-color) !important;
+        }
+
+        .blog-card:hover h5.card-title a.nav-link,
+        .blog-card:hover p.card-text a.nav-link {
+            color: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        /* Specific fix for blog title and text links */
+        .blog-title-link,
+        .blog-text-link {
+            color: var(--text-color) !important;
+            opacity: 1 !important;
+            -webkit-text-fill-color: currentColor !important;
+            text-fill-color: currentColor !important;
+            background-clip: unset !important;
+            -webkit-background-clip: unset !important;
+        }
+
+        [data-theme="dark"] .blog-title-link,
+        [data-theme="dark"] .blog-text-link {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        [data-theme="light"] .blog-title-link,
+        [data-theme="light"] .blog-text-link {
+            color: #1a1a1a !important;
+            -webkit-text-fill-color: #1a1a1a !important;
+        }
+
+        .blog-card:hover .blog-title-link,
+        .blog-card:hover .blog-text-link {
+            color: rgba(255, 255, 255, 0.98) !important;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.98) !important;
+        }
+
+        /* Override any card-title webkit properties */
+        .blog-card .card-title,
+        .blog-card .card-text {
+            -webkit-text-fill-color: currentColor !important;
+            background-clip: unset !important;
+            -webkit-background-clip: unset !important;
+        }
+
+        /* Modern Blog Card Body Styles */
+        .blog-post-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 3;
+        }
+
+        [data-theme="dark"] .blog-post-header {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] .blog-post-header {
+            border-bottom-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .blog-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 3;
+        }
+
+        .blog-date i {
+            font-size: 0.9rem;
+        }
+
+        .blog-card:hover .blog-date {
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .blog-excerpt {
+            margin-bottom: 1.5rem;
+            min-height: 3.5rem;
+        }
+
+        /* Modern Read More Button */
+        .blog-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .blog-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff !important;
+            border-radius: 12px;
+            text-decoration: none !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-read-more::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .blog-read-more:hover::before {
+            left: 100%;
+        }
+
+        .blog-read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .read-more-icon {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.1rem;
+        }
+
+        .blog-read-more:hover .read-more-icon {
+            transform: translateX(5px);
+        }
+
+        [data-theme="light"] .blog-read-more {
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
+        }
+
+        [data-theme="light"] .blog-read-more:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Active Category Styles */
+        .category-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+
+        .category-active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            border-color: #10b981 !important;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4) !important;
+            transform: scale(1.05);
+            font-weight: 700;
+        }
+
+        .category-active:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5) !important;
+        }
+
+        .category-btn:not(.category-active):hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] .category-active {
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.6) !important;
+        }
+
+        [data-theme="light"] .category-active {
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3) !important;
+        }
+
+        /* Modern Breadcrumb Styles */
+        .modern-breadcrumb {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .breadcrumb-list {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumb-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breadcrumb-link i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .breadcrumb-link:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .breadcrumb-link:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .breadcrumb-link.active {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .breadcrumb-separator {
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            opacity: 0.5;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="dark"] .breadcrumb-link {
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] .breadcrumb-link:hover {
+            color: white;
+        }
+
+        [data-theme="dark"] .breadcrumb-link.active {
+            color: white;
+        }
+
+        /* Responsive breadcrumb */
+        @media (max-width: 768px) {
+            .modern-breadcrumb {
+                padding: 0.75rem 1rem;
+            }
+
+            .breadcrumb-list {
+                gap: 0.5rem;
+            }
+
+            .breadcrumb-link {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .breadcrumb-link span {
+                display: none;
+            }
+
+            .breadcrumb-link i {
+                font-size: 1rem;
+            }
+
+            .breadcrumb-separator {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Breadcrumb animation */
+        @keyframes breadcrumbSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .breadcrumb-item {
+            animation: breadcrumbSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .breadcrumb-item:nth-child(1) { animation-delay: 0.1s; opacity: 0; }
+        .breadcrumb-item:nth-child(2) { animation-delay: 0.15s; opacity: 0; }
+        .breadcrumb-item:nth-child(3) { animation-delay: 0.2s; opacity: 0; }
+        .breadcrumb-item:nth-child(4) { animation-delay: 0.25s; opacity: 0; }
+        .breadcrumb-item:nth-child(5) { animation-delay: 0.3s; opacity: 0; }
+        .breadcrumb-item:nth-child(6) { animation-delay: 0.35s; opacity: 0; }
+        .breadcrumb-item:nth-child(7) { animation-delay: 0.4s; opacity: 0; }
+
+        /* Copy Protection Styles */
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Visual feedback for copy attempt */
+        .copy-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 59, 48, 0.95);
+            color: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            z-index: 10000;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: warningPulse 0.5s ease;
+            pointer-events: none;
+        }
+
+        @keyframes warningPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* Watermark overlay */
+        .content-watermark {
+            position: relative;
+        }
+
+        .content-watermark::before {
+            content: 'Complex Programmer';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-color);
+            opacity: 0.03;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 1;
+        }
+    </style>
       <script>
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButton(savedTheme);
-            
+
             // Initialize animations
             initializeAnimations();
             initializeScrollEffects();
+
+            // Initialize copy protection
+            initCopyProtection();
         });
+
+        // Copy Protection Functions
+        function initCopyProtection() {
+            // Add no-select class to content areas
+            const contentAreas = document.querySelectorAll('.card-body, .card-text, .card-title');
+            contentAreas.forEach(el => el.classList.add('no-select'));
+
+            // Prevent right-click on content
+            document.addEventListener('contextmenu', function(e) {
+                if (e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.preventDefault();
+                    showCopyWarning('Matnni nusxalash taqiqlangan!');
+                    return false;
+                }
+            });
+
+            // Prevent copy via Ctrl+C / Cmd+C
+            document.addEventListener('copy', function(e) {
+                const selection = window.getSelection().toString();
+                if (selection.length > 0 && e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.preventDefault();
+                    showCopyWarning('Matn nusxalash cheklangan!');
+                    return false;
+                }
+            });
+
+            // Prevent cut
+            document.addEventListener('cut', function(e) {
+                if (e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.preventDefault();
+                    showCopyWarning('Matnni kesish mumkin emas!');
+                    return false;
+                }
+            });
+
+            // Prevent keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+C, Ctrl+X, Ctrl+A, Ctrl+U (view source), F12 (dev tools)
+                if ((e.ctrlKey || e.metaKey) &&
+                    (e.key === 'c' || e.key === 'C' ||
+                     e.key === 'x' || e.key === 'X' ||
+                     e.key === 'a' || e.key === 'A' ||
+                     e.key === 'u' || e.key === 'U')) {
+                    if (e.target.closest('.card-body, .card-text, .card-title')) {
+                        e.preventDefault();
+                        showCopyWarning('Bu amal cheklangan!');
+                        return false;
+                    }
+                }
+
+                // Prevent F12 and Ctrl+Shift+I (dev tools)
+                if (e.key === 'F12' ||
+                    ((e.ctrlKey || e.metaKey) && e.shiftKey &&
+                     (e.key === 'I' || e.key === 'i' ||
+                      e.key === 'J' || e.key === 'j' ||
+                      e.key === 'C' || e.key === 'c'))) {
+                    e.preventDefault();
+                    showCopyWarning('Developer tools ochish taqiqlangan!');
+                    return false;
+                }
+            });
+
+            // Prevent drag selection
+            document.addEventListener('mousedown', function(e) {
+                if (e.target.closest('.card-body, .card-text, .card-title')) {
+                    e.target.addEventListener('dragstart', function(event) {
+                        event.preventDefault();
+                        return false;
+                    });
+                }
+            });
+        }
+
+        // Show copy warning message
+        function showCopyWarning(message) {
+            const warning = document.createElement('div');
+            warning.className = 'copy-warning';
+            warning.innerHTML = `<i class="bi bi-shield-x"></i> ${message}`;
+            document.body.appendChild(warning);
+
+            setTimeout(() => {
+                warning.style.opacity = '0';
+                warning.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                warning.style.transition = 'all 0.3s ease';
+
+                setTimeout(() => {
+                    warning.remove();
+                }, 300);
+            }, 2000);
+        }
 
         function toggleTheme() {
             const body = document.documentElement;
@@ -821,6 +1380,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <title>My Blog</title>
     </head>
     <body>
+      <!-- Three.js Background Canvas - Blog Theme -->
+      <canvas id="threejs-canvas"></canvas>
+
       <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
           <i class="fas fa-sun"></i> Dark Mode
       </button>
@@ -861,14 +1423,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="container" style="margin-block-end:100px">
           <div class="row">
               <div class="col-md-8">
-                <div class="card mb-4">
-                  <div class="card-body">
-                    <a class="btn btn-outline-primary position-relative" href='/blog'><div class="spinner-grow spinner-grow-sm" role="status"></div> Maqolalar</a>
-                    {%if categorie%}
-                    <a class="btn btn-outline-primary position-relative" href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}'><div class="spinner-grow spinner-grow-sm" role="status"></div> {{categorie.name_uz_uz}}</a>
-                    {%endif%}
+                <!-- Modern Breadcrumb Navigation -->
+                <nav aria-label="breadcrumb" class="mb-4">
+                  <div class="modern-breadcrumb">
+                    <ol class="breadcrumb-list">
+                      <li class="breadcrumb-item">
+                        <a href='/blog' class="breadcrumb-link">
+                          <i class="bi bi-house-door"></i>
+                          <span>Bosh sahifa</span>
+                        </a>
+                      </li>
+                      <li class="breadcrumb-separator">
+                        <i class="bi bi-chevron-right"></i>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a href='/blog' class="breadcrumb-link {% if not categorie %}active{% endif %}">
+                          <i class="bi bi-journal-text"></i>
+                          <span>Barcha maqolalar</span>
+                        </a>
+                      </li>
+                      {%if categorie%}
+                      <li class="breadcrumb-separator">
+                        <i class="bi bi-chevron-right"></i>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <a href='/blog?categorie_id={{categorie.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}' class="breadcrumb-link active">
+                          <i class="bi bi-tag"></i>
+                          <span>{{categorie.name_uz_uz}}</span>
+                        </a>
+                      </li>
+                      {%endif%}
+                    </ol>
                   </div>
-                </div>
+                </nav>
                 {% if id == 0 %}
                 {% if posts.paginator.num_pages > 1 %}
                 <nav aria-label="Page navigation">
@@ -922,20 +1509,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </div>
                     <div class="col-md-8">
                       <div class="card-body">
-                        <h5 class="card-title"><a class="nav-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">{{item.name_uz_uz}}</a></h5>
-                        <p class="card-text"><a class="nav-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">{{item.title_uz_uz}}</a></p>
-                        <div class="C0mplexButton Success">
-                          <a href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <span></span>
-                              <div class="spinner-grow spinner-grow-sm" role="status"></div>
-                              Kirish
-                              <div class="spinner-border spinner-grow-sm" role="status"></div>
+                        <div class="blog-post-header">
+                          <h5 class="card-title">
+                            <a class="nav-link blog-title-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
+                              {{item.name_uz_uz}}
+                            </a>
+                          </h5>
+                          <div class="blog-meta">
+                            <span class="blog-date">
+                              <i class="bi bi-calendar3"></i>
+                              {{item.created_at|date:"d M, Y"}}
+                            </span>
+                          </div>
+                        </div>
+
+                        <p class="card-text blog-excerpt">
+                          <a class="nav-link blog-text-link" href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}">
+                            {{item.title_uz_uz|truncatewords:20}}
+                          </a>
+                        </p>
+
+                        <div class="blog-actions">
+                          <a href="/blog?id={{item.id}}{% if request.GET.page %}&page={{ request.GET.page }}{% endif %}" class="blog-read-more">
+                            <span class="read-more-text">Batafsil o'qish</span>
+                            <i class="bi bi-arrow-right read-more-icon"></i>
                           </a>
                         </div>
-                        <p class="card-text"><small class="text-muted">{{item.created_at}}</small></p>
                       </div>
                     </div>
                   </div>
@@ -1007,12 +1606,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   <ul class="list-group">
                     {%for item in categories%}
                     <li class="list-group-item">
-                      <a href="/blog?categorie_id={{item.id}}" class="btn btn-primary position-relative">
+                      {% if request.GET.id and post.categorie.id == item.id %}
+                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn category-active">
+                        {{item.name_uz_uz}}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                          {{item.total}}
+                        </span>
+                      </a>
+                      {% elif request.GET.categorie_id == item.id|stringformat:'s' %}
+                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn category-active">
+                        {{item.name_uz_uz}}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                          {{item.total}}
+                        </span>
+                      </a>
+                      {% else %}
+                      <a href="/blog?categorie_id={{item.id}}" class="btn position-relative category-btn btn-primary">
                         {{item.name_uz_uz}}
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                           {{item.total}}
                         </span>
                       </a>
+                      {% endif %}
                     </li>
                     {%endfor%}
                   </ul>
@@ -1078,5 +1693,349 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
       </script>
+
+<script>
+// Three.js Scene Setup for Blog - Writing/Reading Theme
+let scene, camera, renderer, particles, books = [], pens = [], papers = [];
+let mouseX = 0, mouseY = 0;
+
+function initThreeJS() {
+    const canvas = document.getElementById('threejs-canvas');
+    if (!canvas) return;
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 50;
+
+    renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    // Create particles (text/ink effect)
+    createBlogParticles();
+
+    // Create floating books
+    createBooks();
+
+    // Create pen shapes
+    createPens();
+
+    // Create paper sheets
+    createPapers();
+
+    // Add lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const pointLight1 = new THREE.PointLight(0x667eea, 1.5, 100);
+    pointLight1.position.set(20, 20, 20);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0xf093fb, 1.5, 100);
+    pointLight2.position.set(-20, -20, 10);
+    scene.add(pointLight2);
+
+    const pointLight3 = new THREE.PointLight(0x4facfe, 1, 80);
+    pointLight3.position.set(0, 15, -15);
+    scene.add(pointLight3);
+
+    // Mouse movement listener
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    // Window resize handler
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+}
+
+function createBlogParticles() {
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [];
+    const colors = [];
+
+    for (let i = 0; i < 2000; i++) {
+        vertices.push(
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100,
+            Math.random() * 200 - 100
+        );
+
+        // Blog/writing colors
+        const colorOptions = [
+            new THREE.Color(0x667eea), // Purple
+            new THREE.Color(0xf093fb), // Pink
+            new THREE.Color(0x4facfe), // Cyan
+            new THREE.Color(0x764ba2), // Dark purple
+            new THREE.Color(0x000000)  // Black (ink)
+        ];
+        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        colors.push(color.r, color.g, color.b);
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+        size: 0.6,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+}
+
+function createBooks() {
+    // Create book shapes
+    const bookConfigs = [
+        { position: { x: -25, y: 15, z: -20 }, color: 0x667eea, size: { w: 3, h: 4, d: 0.5 } },
+        { position: { x: 25, y: -15, z: -15 }, color: 0xf093fb, size: { w: 2.5, h: 3.5, d: 0.4 } },
+        { position: { x: -20, y: -20, z: -25 }, color: 0x4facfe, size: { w: 3.2, h: 4.2, d: 0.6 } },
+        { position: { x: 15, y: 20, z: -18 }, color: 0x764ba2, size: { w: 2.8, h: 3.8, d: 0.5 } }
+    ];
+
+    bookConfigs.forEach((config) => {
+        const bookGroup = new THREE.Group();
+
+        // Book cover
+        const coverGeometry = new THREE.BoxGeometry(config.size.w, config.size.h, config.size.d);
+        const coverMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.3,
+            shininess: 100
+        });
+        const cover = new THREE.Mesh(coverGeometry, coverMaterial);
+        bookGroup.add(cover);
+
+        // Book pages (white edge)
+        const pagesGeometry = new THREE.BoxGeometry(config.size.w * 0.95, config.size.h * 0.95, config.size.d * 0.8);
+        const pagesMaterial = new THREE.MeshPhongMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4
+        });
+        const pages = new THREE.Mesh(pagesGeometry, pagesMaterial);
+        bookGroup.add(pages);
+
+        bookGroup.position.set(config.position.x, config.position.y, config.position.z);
+        bookGroup.rotation.x = Math.random() * Math.PI * 0.5;
+        bookGroup.rotation.y = Math.random() * Math.PI;
+
+        bookGroup.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.008 + 0.002,
+                y: Math.random() * 0.008 + 0.002,
+                z: Math.random() * 0.006
+            }
+        };
+
+        books.push(bookGroup);
+        scene.add(bookGroup);
+    });
+}
+
+function createPens() {
+    // Create pen/pencil shapes
+    const penConfigs = [
+        { position: { x: -30, y: 10, z: -15 }, color: 0x333333 },
+        { position: { x: 30, y: -10, z: -20 }, color: 0x0066cc },
+        { position: { x: 0, y: 25, z: -25 }, color: 0xff0000 }
+    ];
+
+    penConfigs.forEach((config) => {
+        const penGroup = new THREE.Group();
+
+        // Pen body (cylinder)
+        const bodyGeometry = new THREE.CylinderGeometry(0.15, 0.15, 4, 16);
+        const bodyMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.5,
+            shininess: 100
+        });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        penGroup.add(body);
+
+        // Pen tip (cone)
+        const tipGeometry = new THREE.ConeGeometry(0.15, 0.5, 16);
+        const tipMaterial = new THREE.MeshPhongMaterial({
+            color: 0x000000,
+            transparent: true,
+            opacity: 0.6
+        });
+        const tip = new THREE.Mesh(tipGeometry, tipMaterial);
+        tip.position.y = -2.25;
+        penGroup.add(tip);
+
+        penGroup.position.set(config.position.x, config.position.y, config.position.z);
+        penGroup.rotation.z = Math.PI / 4;
+
+        penGroup.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.015,
+                y: Math.random() * 0.015,
+                z: Math.random() * 0.01
+            }
+        };
+
+        pens.push(penGroup);
+        scene.add(penGroup);
+    });
+}
+
+function createPapers() {
+    // Create floating paper sheets
+    const paperConfigs = [
+        { position: { x: 22, y: 18, z: -22 }, color: 0xffffff },
+        { position: { x: -22, y: -18, z: -15 }, color: 0xf5f5f5 },
+        { position: { x: 18, y: -22, z: -28 }, color: 0xfafafa }
+    ];
+
+    paperConfigs.forEach((config) => {
+        const paperGeometry = new THREE.PlaneGeometry(3.5, 4.5);
+        const paperMaterial = new THREE.MeshPhongMaterial({
+            color: config.color,
+            transparent: true,
+            opacity: 0.25,
+            side: THREE.DoubleSide,
+            shininess: 50
+        });
+        const paper = new THREE.Mesh(paperGeometry, paperMaterial);
+
+        paper.position.set(config.position.x, config.position.y, config.position.z);
+        paper.rotation.x = Math.random() * Math.PI;
+        paper.rotation.y = Math.random() * Math.PI;
+
+        paper.userData = {
+            rotationSpeed: {
+                x: Math.random() * 0.01,
+                y: Math.random() * 0.01,
+                z: Math.random() * 0.008
+            },
+            floatSpeed: Math.random() * 0.5 + 0.3,
+            floatPhase: Math.random() * Math.PI * 2
+        };
+
+        papers.push(paper);
+        scene.add(paper);
+    });
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    const time = Date.now() * 0.001;
+
+    // Rotate particles
+    if (particles) {
+        particles.rotation.y += 0.0006;
+        particles.rotation.x += 0.0003;
+    }
+
+    // Animate books
+    books.forEach((book) => {
+        book.rotation.x += book.userData.rotationSpeed.x;
+        book.rotation.y += book.userData.rotationSpeed.y;
+        book.rotation.z += book.userData.rotationSpeed.z;
+    });
+
+    // Animate pens
+    pens.forEach((pen) => {
+        pen.rotation.x += pen.userData.rotationSpeed.x;
+        pen.rotation.y += pen.userData.rotationSpeed.y;
+        pen.rotation.z += pen.userData.rotationSpeed.z;
+    });
+
+    // Animate papers with floating effect
+    papers.forEach((paper) => {
+        paper.rotation.x += paper.userData.rotationSpeed.x;
+        paper.rotation.y += paper.userData.rotationSpeed.y;
+        paper.rotation.z += paper.userData.rotationSpeed.z;
+
+        // Floating motion
+        const float = Math.sin(time * paper.userData.floatSpeed + paper.userData.floatPhase) * 2;
+        paper.position.y += float * 0.01;
+    });
+
+    // Gentle camera movement based on mouse
+    camera.position.x += (mouseX * 3 - camera.position.x) * 0.025;
+    camera.position.y += (mouseY * 3 - camera.position.y) * 0.025;
+    camera.lookAt(scene.position);
+
+    renderer.render(scene, camera);
+}
+
+// Initialize Three.js when DOM is loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThreeJS);
+} else {
+    initThreeJS();
+}
+
+// Update Three.js theme
+function updateThreeJSTheme(theme) {
+    if (!particles || !books.length) return;
+
+    if (theme === 'dark') {
+        particles.material.opacity = 0.6;
+        books.forEach(book => {
+            book.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.4;
+            });
+        });
+        pens.forEach(pen => {
+            pen.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.6;
+            });
+        });
+        papers.forEach(paper => {
+            paper.material.opacity = 0.35;
+        });
+    } else {
+        particles.material.opacity = 0.7;
+        books.forEach(book => {
+            book.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.3;
+            });
+        });
+        pens.forEach(pen => {
+            pen.children.forEach(child => {
+                if (child.material) child.material.opacity = 0.5;
+            });
+        });
+        papers.forEach(paper => {
+            paper.material.opacity = 0.25;
+        });
+    }
+}
+
+// Hook into theme toggle
+const originalToggleThemeFunc = window.toggleTheme;
+window.toggleTheme = function() {
+    if (originalToggleThemeFunc) originalToggleThemeFunc();
+    setTimeout(() => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        updateThreeJSTheme(currentTheme);
+    }, 100);
+};
+</script>
+
+{% include "includes/scroll_buttons.html" %}
+
   </body>
 </html>
