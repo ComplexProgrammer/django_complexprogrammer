@@ -16,7 +16,7 @@
               <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language"
                 onchange="this.form.submit()">
                 {% for language in languages %}
-                <option value="{{ language.code }}" {% if language.code==LANGUAGE_CODE %} selected{% endif %}>
+                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
                   {{ language.name_local }}
                   {% if LANGUAGE_CODE == 'en' %}
                   <img src="https://ipapi.co/static/images/flags/us.png" />
