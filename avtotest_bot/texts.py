@@ -9,6 +9,9 @@ TEXTS = {
             "Bu bot orqali siz O'zbekiston YHXBB rasmiy imtihon bazasidagi "
             "<b>108 ta bilet (1080 ta savol)</b> bo'yicha to'liq tayyorgarlik ko'rishingiz, "
             "haqiqiy imtihon rejimida o'zingizni sinab ko'rishingiz va xatolaringiz ustida ishlashingiz mumkin.\n\n"
+            "📱 <b>Bizning mobil ilova:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Google Play'da Avto Test Uzb</a>\n"
+            "🌐 <b>Rasmiy veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n"
+            "📢 <b>Rasmiy kanalimiz:</b> @complexprogrammeruzchannel\n\n"
             "Quyidagi menyudan kerakli bo'limni tanlang 👇"
         ),
         "lang_chosen": "✅ Til muvaffaqiyatli tanlandi: <b>O'zbek tili 🇺🇿</b>",
@@ -92,6 +95,9 @@ TEXTS = {
             "Здесь вы можете подготовиться к сдаче экзамена в ГАИ (СБДД) Узбекистана "
             "по официальной базе из <b>108 билетов (1080 вопросов)</b>, "
             "сдать случайный экзамен и провести работу над ошибками.\n\n"
+            "📱 <b>Наше приложение:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Avto Test Uzb в Google Play</a>\n"
+            "🌐 <b>Наш сайт:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n"
+            "📢 <b>Наш канал:</b> @complexprogrammeruzchannel\n\n"
             "Выберите нужный раздел в меню ниже 👇"
         ),
         "lang_chosen": "✅ Язык успешно выбран: <b>Русский 🇷🇺</b>",

@@ -24,7 +24,8 @@ async def cmd_start(message: Message):
     await message.answer(
         welcome_text,
         reply_markup=get_main_reply_keyboard(lang),
-        parse_mode="HTML"
+        parse_mode="HTML",
+        disable_web_page_preview=True
     )
 
 @router.message(Command("lang"))
@@ -69,7 +70,8 @@ async def cb_to_main_menu(callback: CallbackQuery):
     await callback.message.answer(
         welcome_text,
         reply_markup=get_main_reply_keyboard(lang),
-        parse_mode="HTML"
+        parse_mode="HTML",
+        disable_web_page_preview=True
     )
     await callback.answer()
 
