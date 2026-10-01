@@ -1,7 +1,8 @@
 import json
 import logging
+from contextlib import asynccontextmanager
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 import aiosqlite
 
 from .config import DB_PATH, UZB_AVTOTEST_BOOK_ID, CDL_USA_BOOK_ID
@@ -12,14 +13,16 @@ class Database:
     def __init__(self, db_path=DB_PATH):
         self.db_path = str(db_path)
 
-    async def connect(self) -> aiosqlite.Connection:
-        conn = await aiosqlite.connect(self.db_path)
-        conn.row_factory = aiosqlite.Row
-        return conn
+    @asynccontextmanager
+    async def connect(self):
+        """aiosqlite xavfsiz asinxron ulanish kontekst menejeri."""
+        async with aiosqlite.connect(self.db_path) as conn:
+            conn.row_factory = aiosqlite.Row
+            yield conn
 
     async def init_db(self):
         """Bot jadvallarini ma'lumotlar bazasida yaratish (mavjud bo'lmasa)."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             # Foydalanuvchilar jadvali
             await db.execute("""
                 CREATE TABLE IF NOT EXISTS avtotest_bot_users (
@@ -70,11 +73,10 @@ class Database:
     # ==================== FOYDALANUVCHILAR ====================
 
     async def get_or_create_user(self, user_id: int, username: Optional[str], full_name: str) -> Dict[str, Any]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT * FROM avtotest_bot_users WHERE user_id = ?", (user_id,)) as cur:
                 row = await cur.fetchone()
                 if row:
-                    # Oxirgi faollikni yangilaymiz
                     await db.execute(
                         "UPDATE avtotest_bot_users SET username = ?, full_name = ?, last_active = ? WHERE user_id = ?",
                         (username, full_name, datetime.now().isoformat(), user_id)
@@ -82,7 +84,6 @@ class Database:
                     await db.commit()
                     return dict(row)
 
-            # Yangi foydalanuvchi
             now = datetime.now().isoformat()
             await db.execute("""
                 INSERT INTO avtotest_bot_users (user_id, username, full_name, lang, created_at, last_active)
@@ -104,7 +105,7 @@ class Database:
             }
 
     async def update_user_lang(self, user_id: int, lang: str):
-        async with await self.connect() as db:
+        async with self.connect() as db:
             await db.execute(
                 "UPDATE avtotest_bot_users SET lang = ? WHERE user_id = ?",
                 (lang, user_id)
@@ -112,19 +113,19 @@ class Database:
             await db.commit()
 
     async def get_user_lang(self, user_id: int) -> str:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT lang FROM avtotest_bot_users WHERE user_id = ?", (user_id,)) as cur:
                 row = await cur.fetchone()
                 return row["lang"] if row and row["lang"] else "uz"
 
     async def get_user_stats(self, user_id: int) -> Optional[Dict[str, Any]]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT * FROM avtotest_bot_users WHERE user_id = ?", (user_id,)) as cur:
                 row = await cur.fetchone()
                 return dict(row) if row else None
 
     async def get_total_stats(self) -> Dict[str, Any]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT COUNT(*) as total_users FROM avtotest_bot_users") as cur:
                 total_users = (await cur.fetchone())["total_users"]
             
@@ -140,7 +141,7 @@ class Database:
             }
 
     async def get_all_user_ids(self) -> List[int]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT user_id FROM avtotest_bot_users") as cur:
                 rows = await cur.fetchall()
                 return [r["user_id"] for r in rows]
@@ -149,7 +150,7 @@ class Database:
 
     async def get_topics(self, book_id: int = UZB_AVTOTEST_BOOK_ID) -> List[Dict[str, Any]]:
         """Biletlar ro'yxatini olish (masalan, 1-bilet, 2-bilet, ..., 108-bilet)."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id, number, name_uz_uz, name_ru_ru, book_id
                 FROM tests_topics
@@ -160,7 +161,7 @@ class Database:
                 return [dict(r) for r in rows]
 
     async def get_topic_by_id(self, topic_id: int) -> Optional[Dict[str, Any]]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id, number, name_uz_uz, name_ru_ru, book_id
                 FROM tests_topics
@@ -170,7 +171,7 @@ class Database:
                 return dict(row) if row else None
 
     async def get_next_topic(self, current_topic_number: int, book_id: int = UZB_AVTOTEST_BOOK_ID) -> Optional[Dict[str, Any]]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id, number, name_uz_uz, name_ru_ru, book_id
                 FROM tests_topics
@@ -182,7 +183,7 @@ class Database:
 
     async def get_bilet_question_ids(self, topic_id: int) -> List[int]:
         """Berilgan biletning savollar ID larini olish."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id FROM tests_questions
                 WHERE topic_id = ? AND (is_deleted = 0 OR is_deleted IS NULL)
@@ -193,7 +194,7 @@ class Database:
 
     async def get_random_exam_question_ids(self, book_id: int = UZB_AVTOTEST_BOOK_ID, count: int = 20) -> List[int]:
         """Tasodifiy imtihon uchun 20 ta savol ID lari."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id FROM tests_questions
                 WHERE book_id = ? AND (is_deleted = 0 OR is_deleted IS NULL)
@@ -204,7 +205,7 @@ class Database:
 
     async def get_cdl_question_ids(self, count: int = 20) -> List[int]:
         """AQSh CDL testi savollari ID lari."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id FROM tests_questions
                 WHERE book_id = ? AND (is_deleted = 0 OR is_deleted IS NULL)
@@ -215,7 +216,7 @@ class Database:
 
     async def get_user_mistake_question_ids(self, user_id: int, count: int = 20) -> List[int]:
         """Foydalanuvchi oldin xato qilgan savollari ID lari."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT q.id FROM avtotest_bot_mistakes m
                 JOIN tests_questions q ON m.question_id = q.id
@@ -228,7 +229,7 @@ class Database:
 
     async def get_question(self, question_id: int) -> Optional[Dict[str, Any]]:
         """Savol ma'lumotlarini olish (rasm va matn)."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id, number, name_uz_uz, name_ru_ru, name_en_us, image, topic_id, book_id
                 FROM tests_questions
@@ -239,7 +240,7 @@ class Database:
 
     async def get_answers(self, question_id: int) -> List[Dict[str, Any]]:
         """Savolning javob variantlarini olish."""
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("""
                 SELECT id, number, name_uz_uz, name_ru_ru, name_en_us, image, "right"
                 FROM tests_answers
@@ -252,7 +253,7 @@ class Database:
     # ==================== SESSIYALAR (FAOL TESTLAR) ====================
 
     async def create_session(self, user_id: int, mode: str, title: str, question_ids: List[int], topic_id: Optional[int] = None):
-        async with await self.connect() as db:
+        async with self.connect() as db:
             q_ids_str = ",".join(str(i) for i in question_ids)
             await db.execute("""
                 INSERT OR REPLACE INTO avtotest_bot_sessions 
@@ -262,7 +263,7 @@ class Database:
             await db.commit()
 
     async def get_session(self, user_id: int) -> Optional[Dict[str, Any]]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT * FROM avtotest_bot_sessions WHERE user_id = ?", (user_id,)) as cur:
                 row = await cur.fetchone()
                 if not row:
@@ -273,7 +274,7 @@ class Database:
                 return data
 
     async def update_session_answer(self, user_id: int, q_id: int, answer_id: int, is_correct: bool):
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT * FROM avtotest_bot_sessions WHERE user_id = ?", (user_id,)) as cur:
                 row = await cur.fetchone()
                 if not row:
@@ -293,7 +294,6 @@ class Database:
                 WHERE user_id = ?
             """, (score, mistakes, json.dumps(history), user_id))
 
-            # Agar xato bo'lsa, xatolar jadvaliga kiritamiz
             if not is_correct:
                 await db.execute("""
                     INSERT INTO avtotest_bot_mistakes (user_id, question_id, mistake_count, last_mistake_at)
@@ -302,7 +302,6 @@ class Database:
                     DO UPDATE SET mistake_count = mistake_count + 1, last_mistake_at = ?
                 """, (user_id, q_id, datetime.now().isoformat(), datetime.now().isoformat()))
             else:
-                # To'g'ri topsa, xatolar sonini kamaytirish yoki tozalash
                 await db.execute("""
                     DELETE FROM avtotest_bot_mistakes
                     WHERE user_id = ? AND question_id = ?
@@ -311,7 +310,7 @@ class Database:
             await db.commit()
 
     async def advance_session_index(self, user_id: int) -> int:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT current_index FROM avtotest_bot_sessions WHERE user_id = ?", (user_id,)) as cur:
                 row = await cur.fetchone()
                 if not row:
@@ -323,12 +322,12 @@ class Database:
             return new_idx
 
     async def update_last_message_id(self, user_id: int, message_id: int):
-        async with await self.connect() as db:
+        async with self.connect() as db:
             await db.execute("UPDATE avtotest_bot_sessions SET last_message_id = ? WHERE user_id = ?", (message_id, user_id))
             await db.commit()
 
     async def finish_session(self, user_id: int) -> Optional[Dict[str, Any]]:
-        async with await self.connect() as db:
+        async with self.connect() as db:
             async with db.execute("SELECT * FROM avtotest_bot_sessions WHERE user_id = ?", (user_id,)) as cur:
                 row = await cur.fetchone()
                 if not row:
@@ -337,7 +336,6 @@ class Database:
                 session_data["question_ids"] = [int(i) for i in session_data["question_ids"].split(",") if i]
                 session_data["answers_history"] = json.loads(session_data["answers_history"] or "{}")
 
-            # Foydalanuvchining umumiy statistikasini yangilash
             total_answered = len(session_data["answers_history"])
             correct = session_data["score"]
             wrong = session_data["mistakes"]
@@ -352,14 +350,13 @@ class Database:
                 WHERE user_id = ?
             """, (total_answered, correct, wrong, datetime.now().isoformat(), user_id))
 
-            # Sessiyani o'chirish
             await db.execute("DELETE FROM avtotest_bot_sessions WHERE user_id = ?", (user_id,))
             await db.commit()
 
             return session_data
 
     async def cancel_session(self, user_id: int):
-        async with await self.connect() as db:
+        async with self.connect() as db:
             await db.execute("DELETE FROM avtotest_bot_sessions WHERE user_id = ?", (user_id,))
             await db.commit()
 
