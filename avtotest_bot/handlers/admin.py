@@ -1,11 +1,12 @@
-# avtotest_bot/handlers/admin.py
 import asyncio
 import logging
+from datetime import datetime
 from aiogram import Router, F, Bot
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.exceptions import TelegramBadRequest
 
 from ..config import ADMIN_IDS
 from ..database import db
@@ -29,11 +30,13 @@ async def cmd_admin(message: Message):
         return
 
     stats = await db.get_total_stats()
+    now_time = datetime.now().strftime("%H:%M:%S")
     text = (
         "🔐 <b>@AvtoTestUzbBot Admin Paneli</b>\n\n"
         f"👥 <b>Jami foydalanuvchilar:</b> {stats['total_users']} ta\n"
         f"🚗 <b>Ishlangan testlar:</b> {stats['total_tests']} ta\n"
         f"❓ <b>Yechilgan savollar:</b> {stats['total_questions']} ta\n\n"
+        f"🕒 <i>Vaqt: {now_time}</i>\n\n"
         "Quyidagi amallardan birini tanlang 👇"
     )
     await message.answer(text, reply_markup=get_admin_keyboard(), parse_mode="HTML")
@@ -45,14 +48,19 @@ async def cb_admin_stats(callback: CallbackQuery):
         return
 
     stats = await db.get_total_stats()
+    now_time = datetime.now().strftime("%H:%M:%S")
     text = (
         "📊 <b>Botning umumiy ko'rsatkichlari:</b>\n\n"
         f"👥 <b>Foydalanuvchilar:</b> {stats['total_users']} ta\n"
         f"🚗 <b>Test sessiyalari:</b> {stats['total_tests']} ta\n"
-        f"❓ <b>Yechilgan savollar:</b> {stats['total_questions']} ta\n"
+        f"❓ <b>Yechilgan savollar:</b> {stats['total_questions']} ta\n\n"
+        f"🕒 <i>Oxirgi yangilanish: {now_time}</i>"
     )
-    await callback.message.edit_text(text, reply_markup=get_admin_keyboard(), parse_mode="HTML")
-    await callback.answer()
+    try:
+        await callback.message.edit_text(text, reply_markup=get_admin_keyboard(), parse_mode="HTML")
+    except TelegramBadRequest:
+        pass
+    await callback.answer("Statistika yangilandi 🔄")
 
 @router.callback_query(F.data == "admin_broadcast")
 async def cb_admin_broadcast(callback: CallbackQuery, state: FSMContext):
