@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 from contextlib import asynccontextmanager
@@ -12,13 +13,38 @@ logger = logging.getLogger(__name__)
 class Database:
     def __init__(self, db_path=DB_PATH):
         self.db_path = str(db_path)
+        self._conn: Optional[aiosqlite.Connection] = None
+        self._lock: Optional[asyncio.Lock] = None
+
+    def _get_lock(self) -> asyncio.Lock:
+        if self._lock is None:
+            self._lock = asyncio.Lock()
+        return self._lock
+
+    async def get_connection(self) -> aiosqlite.Connection:
+        """Bitta doimiy ulanish (har bir so'rovda yangi thread ochilishini to'xtatadi)."""
+        if self._conn is None:
+            self._conn = await aiosqlite.connect(self.db_path, timeout=30.0)
+            self._conn.row_factory = aiosqlite.Row
+            await self._conn.execute("PRAGMA journal_mode = WAL;")
+            await self._conn.execute("PRAGMA busy_timeout = 5000;")
+        return self._conn
 
     @asynccontextmanager
     async def connect(self):
-        """aiosqlite xavfsiz asinxron ulanish kontekst menejeri."""
-        async with aiosqlite.connect(self.db_path) as conn:
-            conn.row_factory = aiosqlite.Row
+        """Doimiy ulanishni xavfsiz lock orqali ishlatish."""
+        async with self._get_lock():
+            conn = await self.get_connection()
             yield conn
+
+    async def close(self):
+        """Bot to'xtatilganda ulanishni toza yopish."""
+        if self._conn is not None:
+            try:
+                await self._conn.close()
+            except Exception:
+                pass
+            self._conn = None
 
     async def init_db(self):
         """Bot jadvallarini ma'lumotlar bazasida yaratish (mavjud bo'lmasa)."""

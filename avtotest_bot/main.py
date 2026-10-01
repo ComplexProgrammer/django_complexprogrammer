@@ -71,6 +71,7 @@ async def start_bot():
     try:
         await dp.start_polling(bot)
     finally:
+        await db.close()
         await bot.session.close()
         logger.info("Bot to'xtatildi.")
 
