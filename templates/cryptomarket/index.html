@@ -26,57 +26,9 @@
 </head>
 <body>
 {% include "includes/site_header.html" %}
-<div class="fixed-top">
-    <div class="position-relative" style="margin-top:50px;">
-      <div class="position-absolute top-0 end-0 translate-middle">
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <form action="{% url 'set_language' %}" method="POST">
-                {% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="language" onchange="this.form.submit()">
-                  {% for language in languages %}
-                  <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                    {{ language.name_local }}
-                    {% if LANGUAGE_CODE == 'en' %}
-                    <img src="https://ipapi.co/static/images/flags/us.png" />
-                    {% else %}
-                    <img src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
-                    {% endif %}
-                  </option>
-                  {% endfor %}
-                </select>
-              </form>
-            </div>
-            <div class="col-1">
-              {% if LANGUAGE_CODE == 'en' %}
-              <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/us.png" />
-              {% else %}
-              <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-<div class="fixed-top">
-    <div class="position-relative">
-        <div class="position-absolute end-0">
-            <div class="C0mplexButton float-end">
-                <a href="#" onclick="window.history.back(); return false;">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    X
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
+
+
 
 <title>BTC Markets</title>
 <!--  -->
