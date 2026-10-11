@@ -304,7 +304,6 @@
 </style>
 <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-<title>Ip Finder</title>
 <!--  -->
 
 <script>
@@ -322,6 +321,7 @@
 </head>
 <body>
 {% include "includes/site_header.html" %}
+{% include "includes/seo_intro.html" %}
     <canvas id="threejs-canvas"></canvas>
 
     <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
@@ -497,6 +497,7 @@
             </div>
         </div>
     </div>
+{% include "includes/seo_text.html" %}
     {% include 'comment_form.html' %}
     <ins class="adsbygoogle"
     style="display:block; text-align:center;"

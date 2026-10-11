@@ -1,0 +1,16 @@
+{# Sahifaning asosiy sarlavhasi (H1) va qisqa tavsifi — o'z <h1>'i bo'lmagan sahifalar uchun. Matn: core/seo_pages.py #}
+{% if seo_h1 %}
+<style>
+  .cp-seo-intro{position:relative;z-index:1;max-width:1100px;margin:20px auto 8px;padding:0 16px;text-align:center;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:inherit}
+  /* !important — ba'zi sahifalarda global "h1 {...}" qoidasi bor (90px, gradient matn) */
+  .cp-seo-intro h1{font-family:inherit!important;font-size:clamp(1.5rem,3.2vw,2.1rem)!important;font-weight:700!important;
+    line-height:1.2!important;margin:0 0 6px!important;padding:0!important;color:inherit!important;background:none!important;
+    -webkit-text-fill-color:currentColor!important;filter:none!important;text-align:center!important}
+  .cp-seo-intro p{margin:0;font-size:1rem;opacity:.75}
+</style>
+<div class="cp-seo-intro">
+  <h1>{{ seo_h1 }}</h1>
+  {% if seo_lead %}<p>{{ seo_lead }}</p>{% endif %}
+</div>
+{% endif %}

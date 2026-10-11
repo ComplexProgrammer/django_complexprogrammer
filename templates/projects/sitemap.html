@@ -97,20 +97,10 @@
     <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-sun"></i> Dark Mode
     </button>
-    <title>
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        Bepul onlayn XML sayt xaritasi generatori
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        Бесплатный онлайн-генератор XML-карты сайта
-        {% else %}
-        Free Online XML Sitemap Generator
-        {% endif %}
-        {% endif %}
-    </title>
 </head>
 <body ng-app="App" ng-controller="SitemapGenerator">
 {% include "includes/site_header.html" %}
+{% include "includes/seo_intro.html" %}
     <ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-layout="in-article"
@@ -302,6 +292,7 @@
   <textarea class="form-control font-monospace" rows="14" readonly ng-model="xml"></textarea>
 </div>
 {% endverbatim %}
+{% include "includes/seo_text.html" %}
 {% include 'comment_form.html' %}
 <ins class="adsbygoogle"
     style="display:block; text-align:center;"

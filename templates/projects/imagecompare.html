@@ -235,20 +235,10 @@
     <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
         <i class="fas fa-moon"></i> Light Mode
     </button>
-    <title>
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        Rasm solishtirish
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        Сравнение изображений
-        {% else %}
-        Image Compare
-        {% endif %}
-        {% endif %}
-    </title>
 </head>
 <body ng-app="App" ng-controller="ImageCompare">
 {% include "includes/site_header.html" %}
+{% include "includes/seo_intro.html" %}
     <canvas id="threejs-bg"></canvas>
 
     <ins class="adsbygoogle"
@@ -634,5 +624,6 @@ angular.module("App", [])
     };
   }]);
 </script>
+{% include "includes/seo_text.html" %}
 </body>
 </html>

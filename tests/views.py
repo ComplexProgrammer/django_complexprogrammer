@@ -1,6 +1,7 @@
 import datetime
 import json
 from django.shortcuts import render
+from django.utils import translation
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.db.models.functions import Concat
@@ -176,6 +177,15 @@ def tests(request):
         "type_data": json.dumps(type_data, default=serialize_datetime),
         "comments": comments,
     }
+    # Har bir kitob sahifasi qidiruvda o'z sarlavhasi bilan chiqsin (sitemap'da ?book_id= bilan)
+    if book_id and str(book_id).isdigit():
+        book = Books.objects.filter(id=book_id, is_deleted=False).select_related("book_type").first()
+        if book and book.book_type:
+            lang = (translation.get_language() or "uz")[:2]
+            field = {"ru": "name_ru_ru", "en": "name_en_us"}.get(lang, "name_uz_uz")
+            name = getattr(book.book_type, field, "") or book.book_type.name_uz_uz
+            label = {"ru": "онлайн-тест", "en": "online test"}.get(lang, "onlayn test")
+            context["seo_title"] = f"{name} — {label} | Complex Programmer"
     return render(request, "tests/index.html", context=context)
 
 

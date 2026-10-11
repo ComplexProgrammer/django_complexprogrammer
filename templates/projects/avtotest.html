@@ -10,17 +10,6 @@
 
     <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-    <title>
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        Avto Test 1000+
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        Авто Тест 1000+
-        {% else %}
-        Auto Test 1000+
-        {% endif %}
-        {% endif %}
-    </title>
     {% if request.LANGUAGE_CODE == 'uz' %}
     
     {% else %}
@@ -1290,7 +1279,7 @@
             justify-content: center;
         }
 
-        h1 {
+        h1, .cp-h1 {
             font-family: "Montserrat";
             font-size: 90px;
         }
@@ -1747,6 +1736,7 @@
 
 <body ng-app="App" ng-controller="avtotest">
 {% include "includes/site_header.html" %}
+{% include "includes/seo_intro.html" %}
     <!-- Three.js Background Canvas - Avto Test Theme -->
     <canvas id="threejs-canvas"></canvas>
 
@@ -1918,7 +1908,7 @@
                     X
                 </a>
             </div>
-            <h1 class="slide-in-left" style="margin-block-end: 3rem;">
+            <div class="cp-h1 h1 slide-in-left" style="margin-block-end: 3rem;">
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                     {% if request.LANGUAGE_CODE == 'uz' %}
                     Avto Test 1000+
@@ -1933,7 +1923,7 @@
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                     <img src="/static/img/google-play.svg" />
                 </a>
-            </h1>
+            </div>
 
             <div class="at-stats" id="atStats" hidden>
                 <div><b id="atDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yechilgan{% else %}completed{% endif %}</span></div>
@@ -2058,7 +2048,7 @@
                     X
                 </a>
             </div>
-            <h1 class="slide-in-left" style="color:green">
+            <div class="cp-h1 h1 slide-in-left" style="color:green">
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                     {% if request.LANGUAGE_CODE == 'uz' %}
                     Avto Test 1000+
@@ -2073,8 +2063,8 @@
                 <a href="https://play.google.com/store/apps/details?id=avtotest.complexprogrammer.uz" target="_blank">
                     <img src="/static/img/google-play.svg" />
                 </a>
-            </h1>
-            <h1 id="timer" class="fade-in" ng-click="f()">00:00</h1>
+            </div>
+            <div class="cp-h1 h1 fade-in" id="timer" ng-click="f()">00:00</div>
             <input type="hidden" id="t" value="0" />
             <ul class="pagination pagination-lg">
                 <li class="page-item" id="savol1" ng-click="b(1)"><a class="page-link" id="ab1" href="#">1</a></li>
@@ -2194,6 +2184,7 @@
     </script>
     {% endif %}
     <hr />
+{% include "includes/seo_text.html" %}
     {% include 'comment_form.html' %}
     <script>
         var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {

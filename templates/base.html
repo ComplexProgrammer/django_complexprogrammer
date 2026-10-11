@@ -18,8 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Three.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <style>
         /* Modern design system */
         :root {
@@ -2217,7 +2217,6 @@
         nonce="sGG5LwmtfkrIyGTmOqNI6w">(function () { function signalGooglefcPresent2() { if (!window.frames['googlefcPresent2']) { if (document.body) { const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent2'; document.body.appendChild(iframe); } else { setTimeout(signalGooglefcPresent2, 0); } } } signalGooglefcPresent2(); })();</script>
 
     {% block extra_head %}{% endblock %}
-    <title>{% block title %}Complex Programmer{% endblock %}</title>
 </head>
 
 <body>
@@ -2282,7 +2281,7 @@
                 <!-- Language Selector -->
                 <form action="{% url 'set_language' %}" method="post" class="language-selector ms-auto">
                     {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                    <input name="next" type="hidden" value="{{ request.get_full_path_info }}">
                     <select name="language" onchange="this.form.submit()" aria-label="{{ ui.language }}">
                         {% get_current_language as LANGUAGE_CODE %}
                         {% get_available_languages as LANGUAGES %}
@@ -2304,6 +2303,7 @@
     </nav> <!-- Main Content -->
     <main role="main" class="fade-in">
         <div class="container"><div class="cp-home">
+            {% include "includes/seo_intro.html" %}
             <form class="cp-home-search" action="/search/" method="get" role="search">
                 <i class="fas fa-search"></i>
                 <input type="search" name="q" placeholder="{{ ui.search_placeholder }}" aria-label="{{ ui.search }}">
@@ -2452,6 +2452,7 @@
                 </div>
             </div>
         </div>
+    {% include "includes/seo_text.html" %}
     </main> <!-- Footer -->
     <footer>
         <!-- Display Ad 3 -->

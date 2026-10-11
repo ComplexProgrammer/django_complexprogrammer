@@ -71,6 +71,8 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    # /ru/..., /en/... manzillari (hreflang) — LocaleMiddleware'dan keyin turishi shart
+    "core.middleware.LanguagePrefixMiddleware",
     # 'mobiledetect.middleware.DetectMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
