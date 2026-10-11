@@ -4,19 +4,22 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('news', '0003_alter_posts_sort_number'),
+        ("news", "0003_alter_posts_sort_number"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='posts',
-            options={'ordering': ['sort_order'], 'verbose_name': 'Post', 'verbose_name_plural': 'Posts'},
+            name="posts",
+            options={
+                "ordering": ["sort_order"],
+                "verbose_name": "Post",
+                "verbose_name_plural": "Posts",
+            },
         ),
         migrations.RenameField(
-            model_name='posts',
-            old_name='sort_number',
-            new_name='sort_order',
+            model_name="posts",
+            old_name="sort_number",
+            new_name="sort_order",
         ),
     ]

@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('news', '0004_alter_posts_options_and_more'),
+        ("news", "0004_alter_posts_options_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='posts',
-            name='view_count',
+            model_name="posts",
+            name="view_count",
         ),
     ]

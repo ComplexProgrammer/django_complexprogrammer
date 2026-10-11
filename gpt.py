@@ -15,6 +15,8 @@ chat_completion = client.chat.completions.create(
     ],
     model="gpt-3.5-turbo",
 )
+
+
 async def main() -> None:
     chat_completion = await client.chat.completions.create(
         messages=[
@@ -24,7 +26,7 @@ async def main() -> None:
             }
         ],
         model="gpt-3.5-turbo",
-    ) # type: ignore
+    )  # type: ignore
 
 
 asyncio.run(main())
@@ -38,7 +40,7 @@ asyncio.run(main())
 #         max_tokens = 150
 #     )
 #     return print(response.choices[0].text)
-  
+
 # def main():
 #     while True:
 #         print('GPT: Ask me a question\n')

@@ -5,20 +5,43 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0007_rename_name_en_us_type_description_and_more'),
-        ('markets', '0001_initial'),
+        ("core", "0007_rename_name_en_us_type_description_and_more"),
+        ("markets", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ProductImage',
+            name="ProductImage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(blank=True, upload_to='markets/stores/products/images')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='markets.product')),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.type')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, upload_to="markets/stores/products/images"
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="markets.product",
+                    ),
+                ),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="core.type"
+                    ),
+                ),
             ],
         ),
     ]

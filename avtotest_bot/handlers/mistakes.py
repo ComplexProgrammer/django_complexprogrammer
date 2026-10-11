@@ -11,6 +11,7 @@ from .quiz import start_quiz_session
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 @router.message(Command("mistakes"))
 @router.message(F.text.in_(["❌ Xatolar ustida ishlash", "❌ Работа над ошибками"]))
 async def cmd_mistakes(message: Message, bot: Bot):
@@ -32,8 +33,9 @@ async def cmd_mistakes(message: Message, bot: Bot):
         user_id=user_id,
         mode="mistakes",
         title=title,
-        question_ids=mistake_q_ids
+        question_ids=mistake_q_ids,
     )
+
 
 @router.callback_query(F.data == "practice_mistakes")
 async def cb_practice_mistakes(callback: CallbackQuery, bot: Bot):
@@ -61,6 +63,6 @@ async def cb_practice_mistakes(callback: CallbackQuery, bot: Bot):
         user_id=user_id,
         mode="mistakes",
         title=title,
-        question_ids=mistake_q_ids
+        question_ids=mistake_q_ids,
     )
     await callback.answer()

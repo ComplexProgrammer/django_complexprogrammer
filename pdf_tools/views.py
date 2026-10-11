@@ -2,21 +2,23 @@ from django.shortcuts import render
 from django.http import FileResponse, HttpResponse, JsonResponse
 from pdf_tools.forms import PdfForm
 from pdf_tools.models import File
+
 # from pdf_tools.my_function import convert_pdf2excel, convert_pdf2docs, handle_uploaded_file
 from projects.views import send_file_
 
+
 def index(request):
-    if request.method == 'POST':  
-        type= request.POST['type']
-        file = request.FILES['file'].read()
-        fileName= request.POST['filename']
-        end = request.POST['end']
-        path = '' + fileName
-        if file=="" or fileName=="" or end=="":
-            res = JsonResponse({'data':'Invalid Request'})
+    if request.method == "POST":
+        type = request.POST["type"]
+        file = request.FILES["file"].read()
+        fileName = request.POST["filename"]
+        end = request.POST["end"]
+        path = "" + fileName
+        if file == "" or fileName == "" or end == "":
+            res = JsonResponse({"data": "Invalid Request"})
             return res
         else:
-            with open(path, 'wb+') as destination: 
+            with open(path, "wb+") as destination:
                 destination.write(file)
             FileFolder = File()
             FileFolder.existingPath = fileName
@@ -38,7 +40,6 @@ def index(request):
             #     print(result)
             #     res = JsonResponse({'data':'Uploaded Successfully','existingPath': fileName, 'result': result})
             #     return res
-
 
     else:
         return render(request, "pdf_tools/index.html")

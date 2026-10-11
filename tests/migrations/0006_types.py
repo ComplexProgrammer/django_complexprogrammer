@@ -4,28 +4,35 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0005_alter_answers_question_alter_books_group_and_more'),
+        ("tests", "0005_alter_answers_question_alter_books_group_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Types',
+            name="Types",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('name_en_us', models.TextField()),
-                ('name_ru_ru', models.TextField()),
-                ('name_uz_crl', models.TextField()),
-                ('name_uz_uz', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("name_en_us", models.TextField()),
+                ("name_ru_ru", models.TextField()),
+                ("name_uz_crl", models.TextField()),
+                ("name_uz_uz", models.TextField()),
             ],
             options={
-                'verbose_name': 'Type',
-                'verbose_name_plural': 'Types',
-                'ordering': ['id'],
+                "verbose_name": "Type",
+                "verbose_name_plural": "Types",
+                "ordering": ["id"],
             },
         ),
     ]

@@ -38,7 +38,7 @@ def choose_resolution(resolution):
 
 
 def input_links():
-    print("Videolarning havolalarini kiriting (""STOP"" ni kiritish bilan yakunlang):")
+    print("Videolarning havolalarini kiriting (STOP ni kiritish bilan yakunlang):")
 
     links = []
     link = ""
@@ -50,6 +50,7 @@ def input_links():
     links.pop()
 
     return links
+
 
 def convert_to_mp3(filename):
     return filename[:-4] + ".mp3"

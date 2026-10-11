@@ -4,15 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0002_alter_books_book_type'),
+        ("tests", "0002_alter_books_book_type"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='books',
-            name='book_type',
-            field=models.CharField(choices=[('usa_avto_test', 'None')], default='usa_avto_test', max_length=20),
+            model_name="books",
+            name="book_type",
+            field=models.CharField(
+                choices=[("usa_avto_test", "None")],
+                default="usa_avto_test",
+                max_length=20,
+            ),
         ),
     ]

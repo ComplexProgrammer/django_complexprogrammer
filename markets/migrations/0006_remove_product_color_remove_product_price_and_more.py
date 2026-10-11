@@ -7,59 +7,122 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0007_rename_name_en_us_type_description_and_more'),
-        ('markets', '0005_product_color'),
+        ("core", "0007_rename_name_en_us_type_description_and_more"),
+        ("markets", "0005_product_color"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='product',
-            name='color',
+            model_name="product",
+            name="color",
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='price',
+            model_name="product",
+            name="price",
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='quantity',
+            model_name="product",
+            name="quantity",
         ),
         migrations.CreateModel(
-            name='ProductDetail',
+            name="ProductDetail",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('sort_order', models.IntegerField(default=0)),
-                ('color', colorfield.fields.ColorField(default='#000000', image_field=None, max_length=25, samples=[('#FFFFFF', 'white'), ('#FF0000', 'red'), ('#FFFF00', 'yellow'), ('#0000FF', 'blue'), ('#000000', 'black')])),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('quantity', models.IntegerField(default=1)),
-                ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='markets.product')),
-                ('size', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.type')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("sort_order", models.IntegerField(default=0)),
+                (
+                    "color",
+                    colorfield.fields.ColorField(
+                        default="#000000",
+                        image_field=None,
+                        max_length=25,
+                        samples=[
+                            ("#FFFFFF", "white"),
+                            ("#FF0000", "red"),
+                            ("#FFFF00", "yellow"),
+                            ("#0000FF", "blue"),
+                            ("#000000", "black"),
+                        ],
+                    ),
+                ),
+                ("price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("quantity", models.IntegerField(default=1)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="markets.product",
+                    ),
+                ),
+                (
+                    "size",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="core.type"
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='ProductDetailImage',
+            name="ProductDetailImage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('sort_order', models.IntegerField(default=0)),
-                ('image', models.ImageField(blank=True, upload_to='markets/stores/products/sizes/images')),
-                ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
-                ('product_detail', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='markets.productdetail')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("sort_order", models.IntegerField(default=0)),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, upload_to="markets/stores/products/sizes/images"
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "product_detail",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="markets.productdetail",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

@@ -10,10 +10,15 @@ from aiogram.exceptions import TelegramBadRequest
 from ..config import MEDIA_DIR, PASSING_PERCENTAGE
 from ..database import db
 from ..texts import get_text
-from ..keyboards import get_question_keyboard, get_finish_keyboard, get_main_reply_keyboard
+from ..keyboards import (
+    get_question_keyboard,
+    get_finish_keyboard,
+    get_main_reply_keyboard,
+)
 
 logger = logging.getLogger(__name__)
 router = Router()
+
 
 async def start_quiz_session(
     bot: Bot,
@@ -22,12 +27,14 @@ async def start_quiz_session(
     mode: str,
     title: str,
     question_ids: List[int],
-    topic_id: Optional[int] = None
+    topic_id: Optional[int] = None,
 ):
     """Yangi test sessiyasini boshlash."""
     if not question_ids:
         lang = await db.get_user_lang(user_id)
-        await bot.send_message(chat_id, "Savollar topilmadi.", reply_markup=get_main_reply_keyboard(lang))
+        await bot.send_message(
+            chat_id, "Savollar topilmadi.", reply_markup=get_main_reply_keyboard(lang)
+        )
         return
 
     await db.create_session(
@@ -35,18 +42,19 @@ async def start_quiz_session(
         mode=mode,
         title=title,
         question_ids=question_ids,
-        topic_id=topic_id
+        topic_id=topic_id,
     )
 
     session = await db.get_session(user_id)
     await render_question(bot, chat_id, user_id, session)
+
 
 async def render_question(
     bot: Bot,
     chat_id: int,
     user_id: int,
     session: Dict[str, Any],
-    old_message_id: Optional[int] = None
+    old_message_id: Optional[int] = None,
 ):
     """Joriy savolni ekranga chiqarish (rasm va matn bilan)."""
     lang = await db.get_user_lang(user_id)
@@ -78,7 +86,7 @@ async def render_question(
         lang,
         title=session["title"],
         current=current_idx + 1,
-        total=len(question_ids)
+        total=len(question_ids),
     )
 
     caption_lines = [header, f"<b>{q_name}</b>\n"]
@@ -99,8 +107,10 @@ async def render_question(
         if img_full_path.exists() and img_full_path.is_file():
             image_file = FSInputFile(str(img_full_path))
 
-    is_last = (current_idx == len(question_ids) - 1)
-    reply_markup = get_question_keyboard(answers, is_answered=False, is_last=is_last, lang=lang)
+    is_last = current_idx == len(question_ids) - 1
+    reply_markup = get_question_keyboard(
+        answers, is_answered=False, is_last=is_last, lang=lang
+    )
 
     # Eski xabarni o'chirish (tozalik uchun)
     if old_message_id:
@@ -119,13 +129,13 @@ async def render_question(
                     chat_id=chat_id,
                     photo=image_file,
                     caption=short_caption,
-                    parse_mode="HTML"
+                    parse_mode="HTML",
                 )
                 sent_msg = await bot.send_message(
                     chat_id=chat_id,
                     text=full_text,
                     reply_markup=reply_markup,
-                    parse_mode="HTML"
+                    parse_mode="HTML",
                 )
             else:
                 sent_msg = await bot.send_photo(
@@ -133,14 +143,14 @@ async def render_question(
                     photo=image_file,
                     caption=full_text,
                     reply_markup=reply_markup,
-                    parse_mode="HTML"
+                    parse_mode="HTML",
                 )
         else:
             sent_msg = await bot.send_message(
                 chat_id=chat_id,
                 text=full_text,
                 reply_markup=reply_markup,
-                parse_mode="HTML"
+                parse_mode="HTML",
             )
     except Exception as e:
         logger.error(f"Savol yuborishda xatolik: {e}")
@@ -148,11 +158,12 @@ async def render_question(
             chat_id=chat_id,
             text=full_text,
             reply_markup=reply_markup,
-            parse_mode="HTML"
+            parse_mode="HTML",
         )
 
     if sent_msg:
         await db.update_last_message_id(user_id, sent_msg.message_id)
+
 
 @router.callback_query(F.data.startswith("ans:"))
 async def cb_answer_chosen(callback: CallbackQuery, bot: Bot):
@@ -205,44 +216,41 @@ async def cb_answer_chosen(callback: CallbackQuery, bot: Bot):
     else:
         feedback = get_text("wrong_answer_feedback", lang, correct_text=correct_text)
 
-    is_last = (current_idx == len(question_ids) - 1)
+    is_last = current_idx == len(question_ids) - 1
     new_kb = get_question_keyboard(
         answers,
         selected_answer_id=selected_ans_id,
         is_answered=True,
         is_last=is_last,
-        lang=lang
+        lang=lang,
     )
 
     # Xabarga javob natijasini qo'shamiz
     orig_text = callback.message.caption or callback.message.text or ""
     separator = "\n\n────────────────\n"
-    
+
     if callback.message.photo:
         # Telegram photo caption limiti 1024 belgi
         max_orig_len = 1020 - len(separator) - len(feedback)
         if len(orig_text) > max_orig_len and max_orig_len > 50:
             orig_text = orig_text[:max_orig_len] + "..."
-    
+
     updated_text = f"{orig_text}{separator}{feedback}"
 
     try:
         if callback.message.photo:
             await callback.message.edit_caption(
-                caption=updated_text,
-                reply_markup=new_kb,
-                parse_mode="HTML"
+                caption=updated_text, reply_markup=new_kb, parse_mode="HTML"
             )
         else:
             await callback.message.edit_text(
-                text=updated_text,
-                reply_markup=new_kb,
-                parse_mode="HTML"
+                text=updated_text, reply_markup=new_kb, parse_mode="HTML"
             )
     except TelegramBadRequest as e:
         logger.warning(f"Xabarni tahrirlashda ogohlantirish: {e}")
 
     await callback.answer("✅ To'g'ri!" if is_correct else "❌ Noto'g'ri!")
+
 
 @router.callback_query(F.data == "next_q")
 async def cb_next_question(callback: CallbackQuery, bot: Bot):
@@ -262,6 +270,7 @@ async def cb_next_question(callback: CallbackQuery, bot: Bot):
     await render_question(bot, chat_id, user_id, session, old_message_id=old_msg_id)
     await callback.answer()
 
+
 @router.callback_query(F.data == "cancel_quiz")
 async def cb_cancel_quiz(callback: CallbackQuery, bot: Bot):
     """Testni to'xtatish."""
@@ -276,13 +285,14 @@ async def cb_cancel_quiz(callback: CallbackQuery, bot: Bot):
 
     text = get_text("quiz_cancelled", lang)
     await callback.message.answer(
-        text,
-        reply_markup=get_main_reply_keyboard(lang),
-        parse_mode="HTML"
+        text, reply_markup=get_main_reply_keyboard(lang), parse_mode="HTML"
     )
     await callback.answer()
 
-async def finish_quiz(bot: Bot, chat_id: int, user_id: int, old_msg_id: Optional[int] = None):
+
+async def finish_quiz(
+    bot: Bot, chat_id: int, user_id: int, old_msg_id: Optional[int] = None
+):
     """Testni yakunlash va natijalarni ko'rsatish."""
     session = await db.finish_session(user_id)
     if not session:
@@ -302,10 +312,10 @@ async def finish_quiz(bot: Bot, chat_id: int, user_id: int, old_msg_id: Optional
         total=total,
         score=score,
         mistakes=mistakes,
-        percentage=percentage
+        percentage=percentage,
     )
 
-    passed = (percentage >= PASSING_PERCENTAGE)
+    passed = percentage >= PASSING_PERCENTAGE
     status_text = get_text("result_passed" if passed else "result_failed", lang)
     final_text = f"{header}{info}{status_text}"
 
@@ -317,19 +327,21 @@ async def finish_quiz(bot: Bot, chat_id: int, user_id: int, old_msg_id: Optional
     if session["mode"] == "bilet" and session.get("topic_id"):
         topic = await db.get_topic_by_id(session["topic_id"])
         if topic and topic.get("number"):
-            next_topic = await db.get_next_topic(topic["number"], topic.get("book_id", 49))
+            next_topic = await db.get_next_topic(
+                topic["number"], topic.get("book_id", 49)
+            )
             if next_topic:
                 has_next_bilet = True
                 next_topic_id = next_topic["id"]
                 next_bilet_num = next_topic["number"]
 
-    has_mistakes = (mistakes > 0)
+    has_mistakes = mistakes > 0
     finish_kb = get_finish_keyboard(
         has_next_bilet=has_next_bilet,
         next_topic_id=next_topic_id,
         next_bilet_num=next_bilet_num,
         has_mistakes=has_mistakes,
-        lang=lang
+        lang=lang,
     )
 
     if old_msg_id:
@@ -339,11 +351,9 @@ async def finish_quiz(bot: Bot, chat_id: int, user_id: int, old_msg_id: Optional
             pass
 
     await bot.send_message(
-        chat_id=chat_id,
-        text=final_text,
-        reply_markup=finish_kb,
-        parse_mode="HTML"
+        chat_id=chat_id, text=final_text, reply_markup=finish_kb, parse_mode="HTML"
     )
+
 
 @router.callback_query(F.data == "retry_quiz")
 async def cb_retry_quiz(callback: CallbackQuery, bot: Bot):
@@ -361,5 +371,7 @@ async def cb_retry_quiz(callback: CallbackQuery, bot: Bot):
         q_ids = await db.get_bilet_question_ids(first_topic["id"])
         title = first_topic["name_uz_uz"] if lang == "uz" else first_topic["name_ru_ru"]
         await callback.message.delete()
-        await start_quiz_session(bot, chat_id, user_id, "bilet", title, q_ids, topic_id=first_topic["id"])
+        await start_quiz_session(
+            bot, chat_id, user_id, "bilet", title, q_ids, topic_id=first_topic["id"]
+        )
     await callback.answer()

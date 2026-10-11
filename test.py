@@ -1,7 +1,9 @@
 import subprocess
 
 # Kutubxonalar ro'yxatini olish
-installed_packages = subprocess.check_output(['pip', 'list']).decode('utf-8').split('\n')[2:]
+installed_packages = (
+    subprocess.check_output(["pip", "list"]).decode("utf-8").split("\n")[2:]
+)
 # Har bir kutubxonani hajmini aniqlash
 package_sizes = {}
 for package in installed_packages:

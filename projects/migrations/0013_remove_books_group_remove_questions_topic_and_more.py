@@ -4,37 +4,36 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0012_alter_answers_image_alter_questions_image'),
+        ("projects", "0012_alter_answers_image_alter_questions_image"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='books',
-            name='group',
+            model_name="books",
+            name="group",
         ),
         migrations.RemoveField(
-            model_name='questions',
-            name='topic',
+            model_name="questions",
+            name="topic",
         ),
         migrations.RemoveField(
-            model_name='topics',
-            name='book',
+            model_name="topics",
+            name="book",
         ),
         migrations.DeleteModel(
-            name='Answers',
+            name="Answers",
         ),
         migrations.DeleteModel(
-            name='Books',
+            name="Books",
         ),
         migrations.DeleteModel(
-            name='Groups',
+            name="Groups",
         ),
         migrations.DeleteModel(
-            name='Questions',
+            name="Questions",
         ),
         migrations.DeleteModel(
-            name='Topics',
+            name="Topics",
         ),
     ]

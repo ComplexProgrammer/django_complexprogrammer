@@ -4,18 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0003_remove_image_code_remove_image_parent_and_more'),
+        ("core", "0003_remove_image_code_remove_image_parent_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='image',
-            name='created_by',
+            model_name="image",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='type',
-            name='created_by',
+            model_name="type",
+            name="created_by",
         ),
     ]

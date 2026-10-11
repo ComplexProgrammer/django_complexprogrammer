@@ -5,22 +5,25 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('core', '0005_image_created_by_type_created_by'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("core", "0005_image_created_by_type_created_by"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='image',
-            name='content_type',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.contenttype'),
+            model_name="image",
+            name="content_type",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="contenttypes.contenttype",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='image',
-            name='object_id',
+            model_name="image",
+            name="object_id",
             field=models.PositiveIntegerField(default=1),
             preserve_default=False,
         ),

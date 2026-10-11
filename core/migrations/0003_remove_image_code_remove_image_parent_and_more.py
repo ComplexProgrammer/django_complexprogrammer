@@ -4,27 +4,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0002_type_created_by_image'),
+        ("core", "0002_type_created_by_image"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='image',
-            name='code',
+            model_name="image",
+            name="code",
         ),
         migrations.RemoveField(
-            model_name='image',
-            name='parent',
+            model_name="image",
+            name="parent",
         ),
         migrations.RemoveField(
-            model_name='image',
-            name='value',
+            model_name="image",
+            name="value",
         ),
         migrations.AddField(
-            model_name='image',
-            name='image',
-            field=models.ImageField(blank=True, upload_to='core/images'),
+            model_name="image",
+            name="image",
+            field=models.ImageField(blank=True, upload_to="core/images"),
         ),
     ]

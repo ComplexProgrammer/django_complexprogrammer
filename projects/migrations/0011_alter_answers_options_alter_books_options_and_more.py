@@ -4,110 +4,133 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0010_books_alter_topics_book_id'),
+        ("projects", "0010_books_alter_topics_book_id"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='answers',
-            options={'ordering': ['number'], 'verbose_name': 'Answer', 'verbose_name_plural': 'Answers'},
+            name="answers",
+            options={
+                "ordering": ["number"],
+                "verbose_name": "Answer",
+                "verbose_name_plural": "Answers",
+            },
         ),
         migrations.AlterModelOptions(
-            name='books',
-            options={'ordering': ['id'], 'verbose_name': 'Book', 'verbose_name_plural': 'Books'},
+            name="books",
+            options={
+                "ordering": ["id"],
+                "verbose_name": "Book",
+                "verbose_name_plural": "Books",
+            },
         ),
         migrations.AlterModelOptions(
-            name='groups',
-            options={'ordering': ['number'], 'verbose_name': 'Group', 'verbose_name_plural': 'Groups'},
+            name="groups",
+            options={
+                "ordering": ["number"],
+                "verbose_name": "Group",
+                "verbose_name_plural": "Groups",
+            },
         ),
         migrations.AlterModelOptions(
-            name='questions',
-            options={'ordering': ['number'], 'verbose_name': 'Question', 'verbose_name_plural': 'Questions'},
+            name="questions",
+            options={
+                "ordering": ["number"],
+                "verbose_name": "Question",
+                "verbose_name_plural": "Questions",
+            },
         ),
         migrations.AlterModelOptions(
-            name='topics',
-            options={'ordering': ['number'], 'verbose_name': 'Topic', 'verbose_name_plural': 'Topics'},
+            name="topics",
+            options={
+                "ordering": ["number"],
+                "verbose_name": "Topic",
+                "verbose_name_plural": "Topics",
+            },
         ),
         migrations.RenameField(
-            model_name='answers',
-            old_name='question_id',
-            new_name='question',
+            model_name="answers",
+            old_name="question_id",
+            new_name="question",
         ),
         migrations.RenameField(
-            model_name='books',
-            old_name='group_id',
-            new_name='group',
+            model_name="books",
+            old_name="group_id",
+            new_name="group",
         ),
         migrations.RenameField(
-            model_name='questions',
-            old_name='topic_id',
-            new_name='topic',
+            model_name="questions",
+            old_name="topic_id",
+            new_name="topic",
         ),
         migrations.RenameField(
-            model_name='topics',
-            old_name='book_id',
-            new_name='book',
+            model_name="topics",
+            old_name="book_id",
+            new_name="book",
         ),
         migrations.RemoveField(
-            model_name='answers',
-            name='created_by',
+            model_name="answers",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='answers',
-            name='photo',
+            model_name="answers",
+            name="photo",
         ),
         migrations.RemoveField(
-            model_name='answers',
-            name='updated_by',
+            model_name="answers",
+            name="updated_by",
         ),
         migrations.RemoveField(
-            model_name='books',
-            name='created_by',
+            model_name="books",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='books',
-            name='updated_by',
+            model_name="books",
+            name="updated_by",
         ),
         migrations.RemoveField(
-            model_name='groups',
-            name='created_by',
+            model_name="groups",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='groups',
-            name='updated_by',
+            model_name="groups",
+            name="updated_by",
         ),
         migrations.RemoveField(
-            model_name='questions',
-            name='created_by',
+            model_name="questions",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='questions',
-            name='photo',
+            model_name="questions",
+            name="photo",
         ),
         migrations.RemoveField(
-            model_name='questions',
-            name='updated_by',
+            model_name="questions",
+            name="updated_by",
         ),
         migrations.RemoveField(
-            model_name='topics',
-            name='created_by',
+            model_name="topics",
+            name="created_by",
         ),
         migrations.RemoveField(
-            model_name='topics',
-            name='updated_by',
+            model_name="topics",
+            name="updated_by",
         ),
         migrations.AddField(
-            model_name='answers',
-            name='image',
-            field=models.ImageField(default=1, upload_to='projects/tests/answers/images'),
+            model_name="answers",
+            name="image",
+            field=models.ImageField(
+                default=1, upload_to="projects/tests/answers/images"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='questions',
-            name='image',
-            field=models.ImageField(default=1, upload_to='projects/tests/questions/images'),
+            model_name="questions",
+            name="image",
+            field=models.ImageField(
+                default=1, upload_to="projects/tests/questions/images"
+            ),
             preserve_default=False,
         ),
     ]

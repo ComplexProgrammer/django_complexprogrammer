@@ -5,12 +5,13 @@ from .forms import CommentForm
 from .models import Comment
 from django.http import HttpResponseRedirect
 
+
 def add_comment(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            parent_id = request.POST.get('parent_id')
+            parent_id = request.POST.get("parent_id")
             if parent_id:
                 parent = Comment.objects.get(id=parent_id)
                 comment.parent = parent
@@ -19,17 +20,21 @@ def add_comment(request):
                 send_comment_notification(comment)
             else:
                 send_reply_notification(comment, parent)
-            return HttpResponseRedirect(request.POST.get('page_url'))
+            return HttpResponseRedirect(request.POST.get("page_url"))
     else:
-        form = CommentForm()      # Get comments for the current page
+        form = CommentForm()  # Get comments for the current page
     current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(
-        page_url=request.POST.get('page_url', current_url),
-        parent=None  # Only get top-level comments
-    ).prefetch_related(
-        'replies',
-        'replies__replies',  # Get replies of replies
-        'replies__replies__replies'  # Get even deeper replies
-    ).order_by('-created_at')
-    
-    return render(request, 'comment_form.html', {'form': form, 'comments': comments})
+    comments = (
+        Comment.objects.filter(
+            page_url=request.POST.get("page_url", current_url),
+            parent=None,  # Only get top-level comments
+        )
+        .prefetch_related(
+            "replies",
+            "replies__replies",  # Get replies of replies
+            "replies__replies__replies",  # Get even deeper replies
+        )
+        .order_by("-created_at")
+    )
+
+    return render(request, "comment_form.html", {"form": form, "comments": comments})

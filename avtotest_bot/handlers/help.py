@@ -8,6 +8,7 @@ from ..texts import get_text
 
 router = Router()
 
+
 @router.message(Command("help"))
 @router.message(F.text.in_(["ℹ️ Bot haqida", "ℹ️ О боте"]))
 async def cmd_help(message: Message):

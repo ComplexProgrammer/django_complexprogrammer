@@ -10,6 +10,7 @@ from .quiz import start_quiz_session
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 @router.message(Command("cdl"))
 @router.message(F.text.in_(["🇺🇸 AQSh CDL testi", "🇺🇸 Тест США CDL"]))
 async def cmd_cdl(message: Message, bot: Bot):
@@ -23,7 +24,11 @@ async def cmd_cdl(message: Message, bot: Bot):
         await message.answer("AQSh CDL test savollari topilmadi.")
         return
 
-    title = "🇺🇸 AQSh CDL haydovchilik testi" if lang == "uz" else "🇺🇸 Тест США CDL (водительское)"
+    title = (
+        "🇺🇸 AQSh CDL haydovchilik testi"
+        if lang == "uz"
+        else "🇺🇸 Тест США CDL (водительское)"
+    )
 
     await start_quiz_session(
         bot=bot,
@@ -31,5 +36,5 @@ async def cmd_cdl(message: Message, bot: Bot):
         user_id=user_id,
         mode="cdl",
         title=title,
-        question_ids=question_ids
+        question_ids=question_ids,
     )

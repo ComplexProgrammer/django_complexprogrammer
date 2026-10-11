@@ -5,30 +5,45 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0004_alter_books_book_type'),
+        ("tests", "0004_alter_books_book_type"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='answers',
-            name='question',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='answers', to='tests.questions'),
+            model_name="answers",
+            name="question",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="answers",
+                to="tests.questions",
+            ),
         ),
         migrations.AlterField(
-            model_name='books',
-            name='group',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='books', to='tests.groups'),
+            model_name="books",
+            name="group",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="books",
+                to="tests.groups",
+            ),
         ),
         migrations.AlterField(
-            model_name='questions',
-            name='topic',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='questions', to='tests.topics'),
+            model_name="questions",
+            name="topic",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="questions",
+                to="tests.topics",
+            ),
         ),
         migrations.AlterField(
-            model_name='topics',
-            name='book',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='topics', to='tests.books'),
+            model_name="topics",
+            name="book",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="topics",
+                to="tests.books",
+            ),
         ),
     ]

@@ -4,35 +4,50 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0009_alter_answers_sort_order_alter_books_sort_order_and_more'),
+        ("tests", "0009_alter_answers_sort_order_alter_books_sort_order_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BookTypes',
+            name="BookTypes",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('sort_order', models.IntegerField(default=0)),
-                ('code', models.TextField()),
-                ('description', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("sort_order", models.IntegerField(default=0)),
+                ("code", models.TextField()),
+                ("description", models.TextField()),
             ],
             options={
-                'verbose_name': 'BookType',
-                'verbose_name_plural': 'BookTypes',
-                'ordering': ['sort_order'],
+                "verbose_name": "BookType",
+                "verbose_name_plural": "BookTypes",
+                "ordering": ["sort_order"],
             },
         ),
         migrations.AlterModelOptions(
-            name='books',
-            options={'ordering': ['sort_order'], 'verbose_name': 'Book', 'verbose_name_plural': 'Books'},
+            name="books",
+            options={
+                "ordering": ["sort_order"],
+                "verbose_name": "Book",
+                "verbose_name_plural": "Books",
+            },
         ),
         migrations.AlterModelOptions(
-            name='types',
-            options={'ordering': ['sort_order'], 'verbose_name': 'Type', 'verbose_name_plural': 'Types'},
+            name="types",
+            options={
+                "ordering": ["sort_order"],
+                "verbose_name": "Type",
+                "verbose_name_plural": "Types",
+            },
         ),
     ]

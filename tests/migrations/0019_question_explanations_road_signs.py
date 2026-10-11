@@ -5,74 +5,104 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0018_answers_created_by_books_created_by_and_more'),
+        ("tests", "0018_answers_created_by_books_created_by_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='RoadSignCategories',
+            name="RoadSignCategories",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=32, unique=True)),
-                ('name_en_us', models.TextField(blank=True, default='')),
-                ('name_ru_ru', models.TextField(blank=True, default='')),
-                ('name_uz_crl', models.TextField(blank=True, default='')),
-                ('name_uz_uz', models.TextField()),
-                ('image', models.ImageField(blank=True, upload_to='tests/road_sign_categories/images')),
-                ('sort_order', models.IntegerField(default=0)),
-                ('is_deleted', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("code", models.CharField(max_length=32, unique=True)),
+                ("name_en_us", models.TextField(blank=True, default="")),
+                ("name_ru_ru", models.TextField(blank=True, default="")),
+                ("name_uz_crl", models.TextField(blank=True, default="")),
+                ("name_uz_uz", models.TextField()),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, upload_to="tests/road_sign_categories/images"
+                    ),
+                ),
+                ("sort_order", models.IntegerField(default=0)),
+                ("is_deleted", models.BooleanField(default=False)),
             ],
             options={
-                'verbose_name': 'Road sign category',
-                'verbose_name_plural': 'Road sign categories',
-                'ordering': ['sort_order'],
+                "verbose_name": "Road sign category",
+                "verbose_name_plural": "Road sign categories",
+                "ordering": ["sort_order"],
             },
         ),
         migrations.AddField(
-            model_name='questions',
-            name='explanation_en_us',
-            field=models.TextField(blank=True, default=''),
+            model_name="questions",
+            name="explanation_en_us",
+            field=models.TextField(blank=True, default=""),
         ),
         migrations.AddField(
-            model_name='questions',
-            name='explanation_ru_ru',
-            field=models.TextField(blank=True, default=''),
+            model_name="questions",
+            name="explanation_ru_ru",
+            field=models.TextField(blank=True, default=""),
         ),
         migrations.AddField(
-            model_name='questions',
-            name='explanation_uz_crl',
-            field=models.TextField(blank=True, default=''),
+            model_name="questions",
+            name="explanation_uz_crl",
+            field=models.TextField(blank=True, default=""),
         ),
         migrations.AddField(
-            model_name='questions',
-            name='explanation_uz_uz',
-            field=models.TextField(blank=True, default=''),
+            model_name="questions",
+            name="explanation_uz_uz",
+            field=models.TextField(blank=True, default=""),
         ),
         migrations.CreateModel(
-            name='RoadSigns',
+            name="RoadSigns",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.CharField(blank=True, default='', max_length=16)),
-                ('name_en_us', models.TextField(blank=True, default='')),
-                ('name_ru_ru', models.TextField(blank=True, default='')),
-                ('name_uz_crl', models.TextField(blank=True, default='')),
-                ('name_uz_uz', models.TextField()),
-                ('description_en_us', models.TextField(blank=True, default='')),
-                ('description_ru_ru', models.TextField(blank=True, default='')),
-                ('description_uz_crl', models.TextField(blank=True, default='')),
-                ('description_uz_uz', models.TextField(blank=True, default='')),
-                ('image', models.ImageField(blank=True, upload_to='tests/road_signs/images')),
-                ('sort_order', models.IntegerField(default=0)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='signs', to='tests.roadsigncategories')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("number", models.CharField(blank=True, default="", max_length=16)),
+                ("name_en_us", models.TextField(blank=True, default="")),
+                ("name_ru_ru", models.TextField(blank=True, default="")),
+                ("name_uz_crl", models.TextField(blank=True, default="")),
+                ("name_uz_uz", models.TextField()),
+                ("description_en_us", models.TextField(blank=True, default="")),
+                ("description_ru_ru", models.TextField(blank=True, default="")),
+                ("description_uz_crl", models.TextField(blank=True, default="")),
+                ("description_uz_uz", models.TextField(blank=True, default="")),
+                (
+                    "image",
+                    models.ImageField(blank=True, upload_to="tests/road_signs/images"),
+                ),
+                ("sort_order", models.IntegerField(default=0)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="signs",
+                        to="tests.roadsigncategories",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Road sign',
-                'verbose_name_plural': 'Road signs',
-                'ordering': ['category__sort_order', 'sort_order'],
+                "verbose_name": "Road sign",
+                "verbose_name_plural": "Road signs",
+                "ordering": ["category__sort_order", "sort_order"],
             },
         ),
     ]
