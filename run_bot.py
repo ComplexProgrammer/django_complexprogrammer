@@ -3,8 +3,16 @@
 Loyihaning asosiy papkasidan to'g'ridan-to'g'ri ishga tushirish uchun:
 python run_bot.py
 """
+import os
 import sys
 from pathlib import Path
+
+# Thread limitlarini cheklash (CloudLinux / cPanel nproc limiti uchun)
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
 
 # Loyiha papkasini sys.path ga qo'shamiz
 BASE_DIR = Path(__file__).resolve().parent
