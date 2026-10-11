@@ -1,13 +1,14 @@
 {% comment %} {{data|safe }} {% endcomment %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ ui_lang }}">
     <head>
         <meta charset="utf-8">
+{% include "includes/head_common.html" %}
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv="Cache-Control" content="no-cache">
         <meta http-equiv="Pragma" content="no-cache">
         <meta http-equiv="Expires" content="0">
-        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+        
         <link rel="apple-touch-icon" sizes="76x76" href="https://complexprogrammer.uz/static/img/C0mplex.png">
         <link rel="icon" type="image/png" sizes="32x32" href="https://complexprogrammer.uz/static/img/favicon.ico">
         <link rel="icon" type="image/png" sizes="16x16" href="https://complexprogrammer.uz/static/img/favicon.ico">
@@ -39,6 +40,7 @@
         <link href="https://postda.uz//css/app.a176b459.css" rel="stylesheet">
     </head>
     <body>
+{% include "includes/site_header.html" %}
         <noscript>
             <strong>We're sorry but postda.uz doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
         </noscript>

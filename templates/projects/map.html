@@ -1,13 +1,13 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ ui_lang }}">
 <head>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
+{% include "includes/head_common.html" %}
+
     {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'project_content/main.css'%}"> {% endcomment %}
     <script src=""></script>
 
@@ -25,6 +25,7 @@
 </head>
 
 <body>
+{% include "includes/site_header.html" %}
 
 <div class="topnav">
     
@@ -81,7 +82,6 @@
         
     </div>
 
-
     <div class="linkholder">
         <div class="mapholder"> 
             <div id="map"> </div>
@@ -94,17 +94,13 @@
         
      </div>
 
-
     {% comment %} <div class="linkholder">  
         <a href="{% url 'my_home_view' %}"> Go to our homepage</a> 
 
     </div> {% endcomment %}
 
-
-
 </div>
 
- 
 {% include "includes/scroll_buttons.html" %}
 </body>
 </html>
