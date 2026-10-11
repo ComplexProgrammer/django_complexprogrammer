@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.db.models.functions import Concat
 from django.db.models import F
-from tests.models import Answers, Books, Groups, Questions, Topics, Types
+from tests.models import Answers, Books, Groups, Questions, Topics, Types, RoadSignCategories, RoadSigns
 from comments.models import Comment
 
 def index(request):
@@ -280,3 +280,15 @@ def GetAllData(request):
         'answers':list(answers),
     }
     return JsonResponse(context, safe=False) 
+
+def GetRoadSigns(request):
+    categories=RoadSignCategories.objects.filter(is_deleted=False).order_by('sort_order').values(
+        'id', 'code', 'name_en_us', 'name_ru_ru', 'name_uz_crl', 'name_uz_uz', 'image', 'sort_order')
+    signs=RoadSigns.objects.filter(is_deleted=False, category__is_deleted=False).order_by('category__sort_order', 'sort_order').values(
+        'id', 'category_id', 'number', 'name_en_us', 'name_ru_ru', 'name_uz_crl', 'name_uz_uz',
+        'description_en_us', 'description_ru_ru', 'description_uz_crl', 'description_uz_uz', 'image', 'sort_order')
+    context={
+        'categories': list(categories),
+        'signs': list(signs),
+    }
+    return JsonResponse(context, safe=False)

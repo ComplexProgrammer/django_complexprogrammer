@@ -103,6 +103,11 @@ class Questions(Translatable):
     topic = models.ForeignKey(Topics,
                                   related_name='questions',
                                   on_delete=models.DO_NOTHING)
+    # Javob izohi: nima uchun aynan shu javob to'g'ri (YHQ bandi va h.k.)
+    explanation_en_us = models.TextField(blank=True, default='')
+    explanation_ru_ru = models.TextField(blank=True, default='')
+    explanation_uz_crl = models.TextField(blank=True, default='')
+    explanation_uz_uz = models.TextField(blank=True, default='')
     class Meta:
         verbose_name = "Question"
         verbose_name_plural = "Questions"
@@ -143,3 +148,46 @@ class Answers(Translatable):
         ordering=['number']
     def __str__(self):
         return f"{self.name_uz_uz}"
+
+
+class RoadSignCategories(models.Model):
+    """Yo'l belgilari toifalari (ogohlantiruvchi, taqiqlovchi va h.k.)."""
+    code = models.CharField(max_length=32, unique=True)
+    name_en_us = models.TextField(blank=True, default='')
+    name_ru_ru = models.TextField(blank=True, default='')
+    name_uz_crl = models.TextField(blank=True, default='')
+    name_uz_uz = models.TextField()
+    image = models.ImageField(upload_to='tests/road_sign_categories/images', blank=True)
+    sort_order = models.IntegerField(default=0)
+    is_deleted = models.BooleanField(default=False)
+    class Meta:
+        verbose_name = "Road sign category"
+        verbose_name_plural = "Road sign categories"
+        ordering=['sort_order']
+    def __str__(self):
+        return f"{self.name_uz_uz}"
+
+class RoadSigns(models.Model):
+    """Yo'l belgisi: raqami (masalan 1.1), nomi, rasmi va ma'nosi."""
+    category = models.ForeignKey(RoadSignCategories,
+                                 related_name='signs',
+                                 on_delete=models.CASCADE)
+    number = models.CharField(max_length=16, blank=True, default='')
+    name_en_us = models.TextField(blank=True, default='')
+    name_ru_ru = models.TextField(blank=True, default='')
+    name_uz_crl = models.TextField(blank=True, default='')
+    name_uz_uz = models.TextField()
+    description_en_us = models.TextField(blank=True, default='')
+    description_ru_ru = models.TextField(blank=True, default='')
+    description_uz_crl = models.TextField(blank=True, default='')
+    description_uz_uz = models.TextField(blank=True, default='')
+    image = models.ImageField(upload_to='tests/road_signs/images', blank=True)
+    sort_order = models.IntegerField(default=0)
+    is_deleted = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name = "Road sign"
+        verbose_name_plural = "Road signs"
+        ordering=['category__sort_order', 'sort_order']
+    def __str__(self):
+        return f"{self.number} {self.name_uz_uz}"
