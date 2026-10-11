@@ -1967,6 +1967,8 @@
               type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}"
               value="answer{{answer.id}}"> {{answer.name_uz_uz}}</a>
         </div>
+        <div class="alert alert-info mt-3" ng-show="question.selected_answer && question.explanation_uz_uz">💡 {{question.explanation_uz_uz}}</div>
+        <small class="d-block mt-2 text-muted ts-kbd-hint">Klaviatura: 1–{{answers.length}} — javob, ←/→ — savollar</small>
       </div>
       {% endverbatim %}
       {% else %}
@@ -1984,6 +1986,8 @@
               type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}"
               value="answer{{answer.id}}"> {{answer.name_ru_ru}}</a>
         </div>
+        <div class="alert alert-info mt-3" ng-show="question.selected_answer && question.explanation_ru_ru">💡 {{question.explanation_ru_ru}}</div>
+        <small class="d-block mt-2 text-muted ts-kbd-hint">Клавиатура: 1–{{answers.length}} — ответ, ←/→ — вопросы</small>
       </div>
       {% endverbatim %}
       {% else %}
@@ -2000,6 +2004,8 @@
               type="radio" ng-model='mValue' ng-checked='mValue === {{answer.id}}' name="answer{{question_number}}"
               value="answer{{answer.id}}"> {{answer.name_en_us}}</a>
         </div>
+        <div class="alert alert-info mt-3" ng-show="question.selected_answer && question.explanation_en_us">💡 {{question.explanation_en_us}}</div>
+        <small class="d-block mt-2 text-muted ts-kbd-hint">Keyboard: 1–{{answers.length}} to answer, ←/→ to navigate</small>
       </div>
       {% endverbatim %}
       {% endif %}
@@ -2061,15 +2067,29 @@
           </a>
         </h2>
       </div>
+      {% if type == 'topic' %}
+      <div class="ts-stats" id="tsStats" data-book="{{ request.GET.book_id|default:'' }}" hidden>
+        <div><b id="tsDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yechilgan{% else %}completed{% endif %}</span></div>
+        <div><b id="tsPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}o'tilgan{% else %}passed{% endif %}</span></div>
+        <div><b id="tsAccuracy">—</b><span>{% if request.LANGUAGE_CODE == 'ru' %}точность{% elif request.LANGUAGE_CODE == 'uz' %}aniqlik{% else %}accuracy{% endif %}</span></div>
+        <a href="/tests/xatolar/" class="ts-btn ts-mistakes" id="tsMistakes">❌ {% if request.LANGUAGE_CODE == 'ru' %}Мои ошибки{% elif request.LANGUAGE_CODE == 'uz' %}Xatolarim{% else %}My mistakes{% endif %} <b id="tsMistakesCount">0</b></a>
+        <a href="#" class="ts-btn ts-random" id="tsRandom">🎲 {% if request.LANGUAGE_CODE == 'ru' %}Случайный билет{% elif request.LANGUAGE_CODE == 'uz' %}Tasodifiy bilet{% else %}Random ticket{% endif %}</a>
+      </div>
+      <p class="ts-legend">
+        <span class="ts-dot ts-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≥80%){% elif request.LANGUAGE_CODE == 'uz' %}o'tdi (≥80%){% else %}passed (≥80%){% endif %}
+        <span class="ts-dot ts-fail"></span> {% if request.LANGUAGE_CODE == 'ru' %}не сдан{% elif request.LANGUAGE_CODE == 'uz' %}yiqildi{% else %}failed{% endif %}
+        <span class="ts-dot ts-progress"></span> {% if request.LANGUAGE_CODE == 'ru' %}в процессе{% elif request.LANGUAGE_CODE == 'uz' %}davom etmoqda{% else %}in progress{% endif %}
+      </p>
+      {% endif %}
       <div class="service-bottom">
         {%for item in data%}
         {% if item.image != '' %}
-        <div class="service-item">
+        <div class="service-item"{% if type == 'topic' %} data-topic="{{ item.id }}"{% endif %}>
           <div class="icon">
             <img style="block-size: 100%;inline-size: 100%;object-fit: cover;" src="/media/{{item.image}}" />
           </div>
           {% else %}
-          <div class="service-item">
+          <div class="service-item"{% if type == 'topic' %} data-topic="{{ item.id }}"{% endif %}>
             <div class="icon">
               <img style="block-size: 100%;inline-size: 100%;object-fit: cover;"
                 src="/media/projects/images/avtotest.jpg" />
@@ -2135,6 +2155,76 @@
         </div>
       </div>
   </section>
+  {% if type == 'topic' %}
+  <style>
+    .ts-stats{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;max-width:1100px;margin:24px auto 10px;padding:0 16px}
+    .ts-stats>div{flex:1 1 110px;padding:12px 16px;border-radius:14px;background:rgba(255,255,255,.7);border:1px solid rgba(99,102,241,.2);text-align:center}
+    [data-theme="dark"] .ts-stats>div{background:rgba(30,41,59,.8)}
+    .ts-stats b{display:block;font-size:1.6rem;line-height:1.2}
+    .ts-stats span{font-size:.85rem;opacity:.75}
+    .ts-btn{flex:1 1 160px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;
+      font-weight:600;text-decoration:none!important;color:#fff!important;background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+    .ts-mistakes{background:linear-gradient(135deg,#ef4444,#f97316)}
+    .ts-mistakes b{background:rgba(255,255,255,.25);border-radius:999px;padding:0 9px}
+    .ts-legend{font-size:.85rem;opacity:.8;margin:0;text-align:center}
+    .ts-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
+    .ts-pass{background:#22c55e}.ts-fail{background:#ef4444}.ts-progress{background:#f59e0b}
+    #services .service-item.is-pass{box-shadow:inset 0 0 0 3px #22c55e}
+    #services .service-item.is-fail{box-shadow:inset 0 0 0 3px #ef4444}
+    #services .service-item.is-progress{box-shadow:inset 0 0 0 3px #f59e0b}
+    .ts-score{position:absolute;top:14px;right:16px;z-index:3;font-size:.8rem;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff}
+    .is-pass .ts-score{background:#22c55e}.is-fail .ts-score{background:#ef4444}.is-progress .ts-score{background:#f59e0b}
+  </style>
+  <script>
+    // Bilet kartalarini localStorage'dagi natijalar bo'yicha bo'yash va statistika
+    (function () {
+      function load(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch (e) { return def; } }
+      var box = document.getElementById("tsStats");
+      var bookId = box.getAttribute("data-book");
+      var results = load("testsResults", {});
+      var answers = load("testsAnswers", []);
+      var mistakes = load("testsMistakes", {});
+      var inProgress = {};
+      answers.forEach(function (a) { inProgress[a.topic_id] = (inProgress[a.topic_id] || 0) + 1; });
+
+      var done = 0, passed = 0, correct = 0, total = 0, unsolved = [], all = [];
+      document.querySelectorAll("#services .service-item[data-topic]").forEach(function (card) {
+        var id = card.getAttribute("data-topic");
+        var r = results[id];
+        all.push(id);
+        var badge = document.createElement("span");
+        badge.className = "ts-score";
+        if (r) {
+          done++; correct += r.correct; total += r.total;
+          var ok = r.total && r.correct / r.total >= 0.8;
+          if (ok) passed++;
+          card.classList.add(ok ? "is-pass" : "is-fail");
+          badge.textContent = r.correct + "/" + r.total;
+        } else if (inProgress[id]) {
+          card.classList.add("is-progress");
+          badge.textContent = inProgress[id];
+        } else {
+          unsolved.push(id);
+          return;
+        }
+        card.appendChild(badge);
+      });
+      if (!all.length) return;
+
+      var nMistakes = Object.keys(mistakes).filter(function (k) { return !bookId || String(mistakes[k].book_id) === bookId; }).length;
+      document.getElementById("tsDone").textContent = done + "/" + all.length;
+      document.getElementById("tsPassed").textContent = passed;
+      document.getElementById("tsAccuracy").textContent = total ? Math.round(correct / total * 100) + "%" : "—";
+      document.getElementById("tsMistakesCount").textContent = nMistakes;
+      var link = document.getElementById("tsMistakes");
+      if (nMistakes) link.href = "/tests/xatolar/" + (bookId ? "?book_id=" + encodeURIComponent(bookId) : "");
+      else link.style.display = "none";
+      var pool = unsolved.length ? unsolved : all;
+      document.getElementById("tsRandom").href = "/tests?topic_id=" + pool[Math.floor(Math.random() * pool.length)];
+      box.hidden = false;
+    })();
+  </script>
+  {% endif %}
   {% endif %}
   <hr />
   {% include "comment_form.html" %}
@@ -2222,7 +2312,8 @@
           if (value <= $scope.topics.length) {
             $scope.topic = $scope.topics.find(word => word.number == value)
             if ($scope.topic.number == value) {
-              setCookie("selected_answers", JSON.stringify($scope.selected_answers.filter(word => word.topic_id != $scope.topic.id)), 365);
+              $scope.selected_answers = $scope.selected_answers.filter(word => word.topic_id != $scope.topic.id);
+              saveAnswers();
             }
             window.location.href = "/tests?topic_id=" + $scope.topic.id;
           }
@@ -2269,6 +2360,79 @@
           timeH.innerHTML = "Vaqt tugadi";
           myModal.show();
         }
+        // Javoblar localStorage'da: cookie ~4 KB bilan cheklangani uchun
+        // bir necha biletdan keyin progress jimgina yo'qolardi.
+        function loadObj(key, def) {
+          try { return JSON.parse(localStorage.getItem(key)) || def; } catch (e) { return def; }
+        }
+        function saveObj(key, value) {
+          try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+        }
+        function saveAnswers() { saveObj("testsAnswers", $scope.selected_answers); }
+        function loadAnswers() {
+          try {
+            if (localStorage.getItem("testsAnswers")) return loadObj("testsAnswers", []);
+            // Eski cookie'dagi ma'lumotni bir marta ko'chiramiz
+            var old = getCookie("selected_answers");
+            if (old) {
+              var parsed = JSON.parse(old);
+              saveObj("testsAnswers", parsed);
+              document.cookie = "selected_answers=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+              return parsed;
+            }
+          } catch (e) {}
+          return [];
+        }
+        function rememberAnswer(question, right) {
+          var mistakes = loadObj("testsMistakes", {});
+          if (right) delete mistakes[question.id];
+          else mistakes[question.id] = { topic_id: $scope.topic_id, book_id: $scope.topic.book_id, t: Date.now() };
+          saveObj("testsMistakes", mistakes);
+        }
+        function saveResult() {
+          var results = loadObj("testsResults", {});
+          var mine = $scope.selected_answers.filter(function (w) { return w.topic_id == $scope.topic_id; });
+          var correct = mine.filter(function (w) { return w.right; }).length;
+          var prev = results[$scope.topic_id] || {};
+          results[$scope.topic_id] = {
+            correct: correct,
+            wrong: mine.length - correct,
+            total: $scope.questions.length,
+            attempts: (prev.attempts || 0) + 1,
+            best: Math.max(prev.best || 0, correct),
+            book_id: $scope.topic.book_id,
+            date: Date.now()
+          };
+          saveObj("testsResults", results);
+        }
+        function goNextUnanswered() {
+          var n = $scope.questions.length;
+          for (var step = 1; step <= n; step++) {
+            var num = (($scope.question_number - 1 + step) % n) + 1;
+            var q = $scope.questions.find(function (e) { return e.number == num; });
+            if (q && !q.selected_answer) { myFunction(num); set_color(); return; }
+          }
+        }
+        // Klaviatura: 1-9 — javob, ←/→ — oldingi/keyingi savol
+        var NAME_FIELD = "{% if request.LANGUAGE_CODE == 'uz' %}name_uz_uz{% elif request.LANGUAGE_CODE == 'ru' %}name_ru_ru{% else %}name_en_us{% endif %}";
+        document.addEventListener("keydown", function (e) {
+          if (!$scope.question || e.ctrlKey || e.metaKey || e.altKey) return;
+          var tag = (e.target.tagName || "").toLowerCase();
+          if (tag === "input" || tag === "textarea" || tag === "select") return;
+          if (document.querySelector(".modal.show")) return;
+          if (/^[1-9]$/.test(e.key)) {
+            var visible = ($scope.answers || []).filter(function (a) { return a[NAME_FIELD]; });
+            var a = visible[parseInt(e.key, 10) - 1];
+            if (a && !$scope.question.selected_answer) {
+              e.preventDefault();
+              $scope.$apply(function () { $scope.ok(a); });
+            }
+          } else if (e.key === "ArrowRight" && $scope.question_number < $scope.questions.length) {
+            $scope.$apply($scope.next);
+          } else if (e.key === "ArrowLeft" && $scope.question_number > 1) {
+            $scope.$apply($scope.prev);
+          }
+        });
         function setCookie(cname, cvalue, exdays) {
           const d = new Date();
           d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -2291,9 +2455,7 @@
           return "";
         }
         function checkJavoblar() {
-          if (getCookie("selected_answers")) {
-            $scope.selected_answers = JSON.parse(getCookie("selected_answers"));
-          }
+          $scope.selected_answers = loadAnswers();
           $scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).forEach((element) => {
             if (element.time < $scope.time) {
               $scope.time = element.time;
@@ -2321,7 +2483,7 @@
           if ($scope.selected_answers.find(element => element.question_id == $scope.question.id)) {
             $scope.question.selected_answer = $scope.selected_answers.find(element => element.question_id == $scope.question.id);
           }
-          $scope.mValue = $scope.question.selected_answer.id;
+          $scope.mValue = $scope.question.selected_answer ? $scope.question.selected_answer.id : null;
           document.getElementById('click').play();
           {% comment %} var element = document.getElementsByClassName('page-item');
           for (var i = 0; i < element.length; i++) {
@@ -2338,10 +2500,13 @@
             time: $scope.time,
           };
 
-          if (!$scope.selected_answers.find(element => element.question_id == obj.question_id)) {
-            $scope.selected_answers.push(obj);
-            setCookie("selected_answers", JSON.stringify($scope.selected_answers), 365);
+          if ($scope.selected_answers.find(element => element.question_id == obj.question_id)) {
+            return; // bu savolga allaqachon javob berilgan
           }
+          $scope.selected_answers.push(obj);
+          saveAnswers();
+          $scope.question.selected_answer = obj;
+          rememberAnswer($scope.question, answer.right);
 
           $scope.mValue = answer.id;
           if (answer.right) {
@@ -2367,7 +2532,14 @@
           if ($scope.selected_answers.filter(word => word.topic_id == $scope.topic_id).length == $scope.questions.length) {
             $scope.isPaused = true;
             $scope.timeout = false;
+            saveResult();
             myModal.show();
+          } else if (answer.right) {
+            // To'g'ri javobdan keyin keyingi javobsiz savolga avtomatik o'tamiz
+            var current = $scope.question_number;
+            setTimeout(function () {
+              if ($scope.question_number === current) $scope.$apply(goNextUnanswered);
+            }, 900);
           }
         }
         $scope.ok = function (answer) {

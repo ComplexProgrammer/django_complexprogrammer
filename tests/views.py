@@ -555,3 +555,45 @@ def GetRoadSigns(request):
         "signs": list(signs),
     }
     return JsonResponse(context, safe=False)
+
+
+def tests_mistakes(request):
+    """Foydalanuvchi xato qilgan savollar — ro'yxat brauzer localStorage'ida saqlanadi."""
+    return render(request, "tests/mistakes.html", {"comments": page_comments(request)})
+
+
+def GetQuestionsByIds(request):
+    """?ids=1,2,3 — savollarni javoblari bilan birga qaytaradi (xatolar ustida ishlash uchun)."""
+    raw = request.GET.get("ids", "")
+    ids = [int(x) for x in raw.split(",") if x.strip().isdigit()][:200]
+    if not ids:
+        return JsonResponse([], safe=False)
+    questions = list(
+        Questions.objects.filter(is_deleted=False, id__in=ids).values(
+            "id",
+            "number",
+            "image",
+            "book_id",
+            "topic_id",
+            "topic__number",
+            "topic__name_uz_uz",
+            "topic__name_ru_ru",
+            "topic__name_en_us",
+            "name_uz_uz",
+            "name_ru_ru",
+            "name_en_us",
+            "explanation_uz_uz",
+            "explanation_ru_ru",
+            "explanation_en_us",
+        )
+    )
+    answers = {}
+    for a in (
+        Answers.objects.filter(is_deleted=False, question_id__in=ids)
+        .order_by("sort_order", "number")
+        .values("id", "question_id", "right", "image", "name_uz_uz", "name_ru_ru", "name_en_us")
+    ):
+        answers.setdefault(a["question_id"], []).append(a)
+    for q in questions:
+        q["answers"] = answers.get(q["id"], [])
+    return JsonResponse(questions, safe=False)

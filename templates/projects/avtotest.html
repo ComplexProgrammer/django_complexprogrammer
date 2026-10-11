@@ -2266,19 +2266,18 @@
         }
         // Javoblar localStorage'da saqlanadi: cookie ~4 KB bilan cheklangani sababli
         // 8-10 biletdan keyin progress yo'qolib qolardi.
-        var STORE_KEY = "avtotestJavoblar";
         function saveJavoblar() {
-            try { localStorage.setItem(STORE_KEY, JSON.stringify($scope.javoblar)); } catch (e) {}
+            try { localStorage.setItem("avtotestJavoblar", JSON.stringify($scope.javoblar)); } catch (e) {}
         }
         function loadJavoblar() {
             try {
-                var raw = localStorage.getItem(STORE_KEY);
+                var raw = localStorage.getItem("avtotestJavoblar");
                 if (raw) return JSON.parse(raw);
                 // Eski cookie'dagi ma'lumotni bir marta ko'chiramiz
                 var old = getCookie("javoblar");
                 if (old) {
                     var parsed = JSON.parse(old);
-                    localStorage.setItem(STORE_KEY, old);
+                    localStorage.setItem("avtotestJavoblar", old);
                     document.cookie = "javoblar=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
                     return parsed;
                 }

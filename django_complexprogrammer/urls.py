@@ -23,6 +23,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import RedirectView
 
 from core import views as core_views
+from tests import views as tests_views
 
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
@@ -66,6 +67,7 @@ urlpatterns += [
     path("", include("projects.urls")),
     # path('avtotest/', views.tests),
     # path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
+    path("tests/xatolar/", tests_views.tests_mistakes, name="tests_mistakes"),
     path("", include("tests.urls")),
     path("tests/", include("tests.urls")),
     path("pdf_tools/", include("pdf_tools.urls")),
