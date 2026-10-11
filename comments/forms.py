@@ -14,3 +14,9 @@ class CommentForm(forms.ModelForm):
             "page_url": forms.HiddenInput(),
             "text": forms.Textarea(attrs={"class": "form-control", "rows": 3}),
         }
+
+    def clean_text(self):
+        text = self.cleaned_data["text"].strip()
+        if len(text) > 3000:
+            raise forms.ValidationError("Izoh 3000 belgidan oshmasin")
+        return text

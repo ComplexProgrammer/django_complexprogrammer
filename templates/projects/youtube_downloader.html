@@ -304,27 +304,27 @@ body.light-mode .theme-toggle {
                     dataType: "json"
                 }).then(function (d) {
                   console.log(d.data)
-                    if(d.data.result=="0"){
-                        alertify.error("Youtube video url manzili kiritilmagan");
+                    if(!d.data.result || d.data.result=="0"){
+                        alertify.error(d.data.error || "Youtube video url manzili kiritilmagan");
                         document.getElementById('hh').className= "fade hide";
                         document.getElementById('conn').style.visibility = "hidden";
                     }
                     else{
-                        window.location.href = "/send_file?filename="+d.data.result;
+                        var fname = encodeURIComponent(d.data.result);
+                        window.location.href = "/send_file/?filename=" + fname;
+                        // Fayl yuklanib bo'lgach serverdan o'chiramiz (server ham 1 soatdan keyin o'zi tozalaydi)
                         setTimeout(function() {
                             $http({
                                 method: 'POST',
-                                url: "/remove_file?filename="+d.data.result,
-                            }).then(function (d) {
-                                console.log(d.data);
+                                url: "/remove_file/?filename=" + fname,
+                                headers: {'X-CSRFToken': csrftoken}
+                            }).finally(function () {
                                 document.getElementById('hh').className= "fade hide";
                                 document.getElementById('conn').style.visibility = "hidden";
-                            }, function (error) {
-                                document.getElementById('hh').className= "fade hide";
-                                document.getElementById('conn').style.visibility = "hidden";
-                                console.log("error in remove_file -> ", error);
                             });
-                        }, 3000);
+                        }, 60000);
+                        document.getElementById('hh').className= "fade hide";
+                        document.getElementById('conn').style.visibility = "hidden";
                         alertify.success("Fayl yuklanmoqda...");
                     }
                 }, function (error) {
@@ -337,7 +337,7 @@ body.light-mode .theme-toggle {
       }]);
     </script>
 </head>
-<body ng-app="App" ng-controller="YoutubeDownloader" class="modal-open">
+<body ng-app="App" ng-controller="YoutubeDownloader">
 <!-- Three.js Background Canvas -->
 <canvas id="threejs-canvas"></canvas>
     <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">

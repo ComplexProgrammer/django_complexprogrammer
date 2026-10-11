@@ -492,14 +492,14 @@
         <div class="row text-center">
             <div class="col">
                 <select class="form-select" ng-change="getResult()" required name="src" ng-model="src"
-                    ng-options="item for item in Languages"></select>
+                    ng-options="code as name for (code, name) in Languages"></select>
             </div>
             <!--        <div class="col-1">-->
             <!--                <button class="btn btn-light" ng-click="replace()"><img src="/static/icons/left-right.svg"></button>-->
             <!--        </div>-->
             <div class="col">
                 <select class="form-select" ng-change="getResult()" required name="dest" ng-model="dest"
-                    ng-options="item for item in Languages"></select>
+                    ng-options="code as name for (code, name) in Languages | omitAuto"></select>
             </div>
         </div>
         <div class="row">
@@ -1747,6 +1747,71 @@ data-full-width-responsive="true"></ins>
         const observer = new MutationObserver(updateThreeJSTheme);
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     </script>
+<script>
+angular.module("App", [])
+  .filter("omitAuto", function () {
+    return function (langs) {
+      var out = {};
+      angular.forEach(langs, function (name, code) { if (code !== "auto") out[code] = name; });
+      return out;
+    };
+  })
+  .controller("Translate", ["$scope", "$http", function ($scope, $http) {
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem("translatePrefs") || "{}"); } catch (e) {}
+    $scope.Languages = {};
+    $scope.src = saved.src || "auto";
+    $scope.dest = saved.dest || "{{ request.LANGUAGE_CODE|default:'uz' }}";
+    $scope.text = "";
+    $scope.result = "";
+    var busy = document.getElementById("conn");
+
+    $http.get("/GetTranslateLanguages/").then(function (r) { $scope.Languages = r.data.data; });
+
+    $scope.getResult = function () {
+      try { localStorage.setItem("translatePrefs", JSON.stringify({ src: $scope.src, dest: $scope.dest })); } catch (e) {}
+      if (!$scope.text || !$scope.text.trim()) { $scope.result = ""; return; }
+      if (busy) busy.style.visibility = "visible";
+      $http.post("/GetTranslateResult/?" + new URLSearchParams({ src: $scope.src, dest: $scope.dest }),
+        new URLSearchParams({ text: $scope.text }).toString(),
+        { headers: { "Content-Type": "application/x-www-form-urlencoded", "X-CSRFToken": getCsrf() } }
+      ).then(function (r) {
+        $scope.result = r.data.data;
+      }, function (err) {
+        alertify.error((err.data && err.data.error) || "Tarjima qilib bo'lmadi");
+      }).finally(function () { if (busy) busy.style.visibility = "hidden"; });
+    };
+
+    $scope.replace = function () {
+      if ($scope.src === "auto") { alertify.message("Avval manba tilini tanlang"); return; }
+      var t = $scope.src; $scope.src = $scope.dest; $scope.dest = t;
+      $scope.text = $scope.result || $scope.text;
+      $scope.getResult();
+    };
+
+    $scope.copy = function () {
+      navigator.clipboard.writeText($scope.result).then(function () { alertify.success("Nusxa olindi"); });
+    };
+
+    $scope.speech = function (text) {
+      if (!text || !window.speechSynthesis) return;
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      var lang = text === $scope.result ? $scope.dest : $scope.src;
+      if (lang && lang !== "auto") u.lang = lang;
+      speechSynthesis.speak(u);
+    };
+
+    document.getElementById("text").addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { $scope.$apply($scope.getResult); }
+    });
+
+    function getCsrf() {
+      var m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
+      return m ? decodeURIComponent(m[1]) : "";
+    }
+  }]);
+</script>
 </body>
 
 </html>

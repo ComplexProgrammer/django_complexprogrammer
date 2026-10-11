@@ -179,8 +179,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             document.getElementById(type).classList.add('active');
           }
           $scope.uploadFile = function() {
-            var fileInput = document.querySelector('#fileupload');
-            var file = fileInput.files[0];
+            // Sahifada bir nechta #fileupload bor — fayl tanlangan birini olamiz
+            var file = Array.from(document.querySelectorAll('#fileupload'))
+                .map(function (el) { return el.files[0]; })
+                .filter(Boolean)[0];
             var formData = new FormData();
             var end=1;
             document.getElementById('hh').className= "modal-backdrop fade show";
@@ -204,14 +206,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     headers: { "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,'Content-Type': undefined },
                     transformRequest: angular.identity
                 }).then(function(response) {
-                    console.dir(response.data)
-                    window.location.href = "/send_file?filename="+response.data.result;
+                    if (!response.data.result || response.data.result === "0") {
+                        alertify.error(response.data.data || "Xatolik yuz berdi");
+                    } else {
+                        window.location.href = "/send_file/?filename=" + encodeURIComponent(response.data.result);
+                        alertify.success(response.data.data);
+                    }
                     $('.textbox').text(response.data.data);
-                    alertify.success(response.data.data);
                     document.getElementById('hh').className= "fade hide";
                     document.getElementById('conn').style.visibility = "hidden";
                 }, function(error) {
-                    alertify.error(error);
+                    alertify.error((error.data && error.data.data) || "Xatolik yuz berdi");
                     console.error(error);
                     document.getElementById('hh').className= "fade hide";
                     document.getElementById('conn').style.visibility = "hidden";

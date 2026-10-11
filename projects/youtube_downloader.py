@@ -1,21 +1,49 @@
 import pytube
-# from moviepy.editor import VideoFileClip
+
+from core import downloads
+
+
+class DownloadError(Exception):
+    """Foydalanuvchiga ko'rsatiladigan tushunarli xato."""
+
+
+def _youtube(url):
+    try:
+        return pytube.YouTube(url)
+    except Exception as exc:  # pytube har xil ichki xatolar tashlaydi
+        raise DownloadError("Video topilmadi yoki havola noto'g'ri") from exc
+
+
+def _save(stream, title, ext=None):
+    if stream is None:
+        raise DownloadError("Bu sifatdagi video mavjud emas, boshqa sifatni tanlang")
+    name = downloads.new_name(title or "video", ext or "." + stream.subtype)
+    try:
+        stream.download(output_path=downloads.ensure_dir(), filename=name)
+    except Exception as exc:
+        raise DownloadError("YouTube'dan yuklab bo'lmadi, birozdan so'ng urinib ko'ring") from exc
+    return name
 
 
 def download_video(url, resolution):
-    itag = choose_resolution(resolution)
-    video = pytube.YouTube(url)
-    stream = video.streams.get_by_itag(itag)
-    stream.download()
-    return stream.default_filename
+    """Videoni media/downloads ga saqlaydi va fayl nomini qaytaradi."""
+    video = _youtube(url)
+    stream = video.streams.get_by_itag(choose_resolution(resolution))
+    if stream is None:
+        # So'ralgan sifat bo'lmasa — ovoz+video birga bo'lgan eng yaxshi oqim
+        stream = video.streams.filter(progressive=True, file_extension="mp4").get_highest_resolution()
+    return _save(stream, video.title)
+
+
+def download_audio(url):
+    """Faqat audio oqimini (m4a) yuklaydi — mp3 o'rniga, konvertatsiyasiz."""
+    video = _youtube(url)
+    stream = video.streams.get_audio_only()
+    return _save(stream, video.title, ".m4a")
 
 
 def download_videos(urls, resolution):
-    filenames = []
-    for url in urls:
-        filename = download_video(url, resolution)
-        filenames.append(filename)
-    return filenames
+    return [download_video(url, resolution) for url in urls]
 
 
 def download_playlist(url, resolution):
@@ -37,23 +65,8 @@ def choose_resolution(resolution):
     return itag
 
 
-def input_links():
-    print("Videolarning havolalarini kiriting (STOP ni kiritish bilan yakunlang):")
+def is_youtube_url(link):
+    return isinstance(link, str) and link.startswith(
+        ("https://www.youtube.com/", "https://youtube.com/", "https://youtu.be/", "https://m.youtube.com/")
+    )
 
-    links = []
-    link = ""
-
-    while link != "STOP" and link != "stop":
-        link = input()
-        links.append(link)
-
-    links.pop()
-
-    return links
-
-
-def convert_to_mp3(filename):
-    return filename[:-4] + ".mp3"
-    # clip = VideoFileClip(filename)
-    # clip.audio.write_audiofile(filename[:-4] + ".mp3")
-    # clip.close()

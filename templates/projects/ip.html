@@ -410,11 +410,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 <script>
  function IpFinder(){
-    window.location.href='/ip?ip='+document.getElementById('ip').value
+    window.location.href='/ip/?ip='+encodeURIComponent(document.getElementById('ip').value.trim())
  }
  function MyIP(){
-    window.location.href='/ip'
+    window.location.href='/ip/'
  }
+ document.addEventListener('DOMContentLoaded', function () {
+    var input = document.getElementById('ip');
+    if (input) input.addEventListener('keydown', function (e) { if (e.key === 'Enter') IpFinder(); });
+ });
 </script>
 </head>
 <body>
@@ -469,6 +473,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </a>
                     </div>
                     </div>
+                {% if data.error %}
+                <div class="alert alert-warning">{{ data.reason }}</div>
+                {% endif %}
                 <table class="table table-hover">
                     <thead>
                         <tr>

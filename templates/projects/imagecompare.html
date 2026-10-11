@@ -464,7 +464,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {% endif %}
     {% verbatim %}
     <div class="row text-center" ng-show="Data!=0&&ShowData">
-        <div class="col"><img ng-src="{{img_result}}" /></div>
+        <div class="col"><img ng-src="{{img_result}}" style="max-width:100%;height:auto" alt="Farqlar" /></div>
     </div>
     {% endverbatim %}
 </div>
@@ -660,5 +660,79 @@ data-ad-slot="4679993061"></ins>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script> -->
 {% include "includes/scroll_buttons.html" %}
+<script>
+// Rasmlar serverga yuborilmaydi — solishtirish to'liq brauzerda (canvas) bajariladi
+angular.module("App", [])
+  .directive("ngFiles", ["$parse", function ($parse) {
+    return {
+      link: function (scope, element, attrs) {
+        var onChange = $parse(attrs.ngFiles);
+        element.on("change", function (event) {
+          scope.$apply(function () { onChange(scope, { $files: event.target.files }); });
+        });
+      }
+    };
+  }])
+  .controller("ImageCompare", ["$scope", function ($scope) {
+    var files = [null, null];
+    $scope.ShowData = false;
+    $scope.getTheFiles1 = function ($files) { files[0] = $files[0]; };
+    $scope.getTheFiles2 = function ($files) { files[1] = $files[0]; };
+
+    function loadImage(file) {
+      return new Promise(function (resolve, reject) {
+        var img = new Image();
+        img.onload = function () { resolve(img); };
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    $scope.getResult = function () {
+      if (!files[0] || !files[1]) {
+        alertify.error("Ikkala rasmni ham tanlang");
+        return;
+      }
+      Promise.all([loadImage(files[0]), loadImage(files[1])]).then(function (imgs) {
+        // Ikkinchi rasm birinchisining o'lchamiga keltiriladi (o'lcham har xil bo'lsa ham ishlaydi)
+        var w = Math.min(imgs[0].naturalWidth, 1600);
+        var h = Math.round(imgs[0].naturalHeight * w / imgs[0].naturalWidth);
+        var data = imgs.map(function (img) {
+          var c = document.createElement("canvas");
+          c.width = w; c.height = h;
+          var ctx = c.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          return ctx.getImageData(0, 0, w, h);
+        });
+        var out = document.createElement("canvas");
+        out.width = w; out.height = h;
+        var octx = out.getContext("2d");
+        var result = octx.createImageData(w, h);
+        var a = data[0].data, b = data[1].data, r = result.data, diffCount = 0;
+        for (var i = 0; i < a.length; i += 4) {
+          var d = Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]);
+          var gray = (a[i] + a[i + 1] + a[i + 2]) / 3 * 0.5;
+          if (d > 60) {
+            diffCount++;
+            r[i] = 255; r[i + 1] = 0; r[i + 2] = 0;
+          } else {
+            r[i] = r[i + 1] = r[i + 2] = gray;
+          }
+          r[i + 3] = 255;
+        }
+        octx.putImageData(result, 0, 0);
+        var similarity = (100 - diffCount / (w * h) * 100).toFixed(2);
+        $scope.$apply(function () {
+          $scope.img_result = out.toDataURL("image/png");
+          $scope.Data = 1;
+          $scope.ShowData = true;
+        });
+        alertify.success("O'xshashlik: " + similarity + "% (farqlar qizil rangda)");
+      }).catch(function () {
+        alertify.error("Rasmni o'qib bo'lmadi");
+      });
+    };
+  }]);
+</script>
 </body>
 </html>

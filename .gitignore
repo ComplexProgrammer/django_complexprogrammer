@@ -91,3 +91,15 @@ local_settings.py
 logs/
 django_complexprogrammer/__pycache__/
 projects/__pycache__/
+# Vaqtinchalik fayllar
+tmp/django_cache/
+media/downloads/
+
+# Maxfiy fayllar va ma'lumotlar bazasi nusxalari — git'ga tushmasin
+*.key
+*.pem
+*.sqlite3
+*.sqlite3.bak
+*.sqlite3-shm
+*.sqlite3-wal
+db_backup/

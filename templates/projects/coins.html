@@ -508,12 +508,14 @@ body.light-mode .scroll-btn:hover {
 <script>
     var app = angular.module("App", []);
     app.controller("Coins", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
+        $scope.limit = 60;
+        $scope.$watch("q", function () { $scope.limit = 60; });
         LoadData();
         function LoadData() {
             document.getElementById('conn').style.visibility = "visible";
             $http({
                 method: 'GET',
-                url: "/GetCoins",
+                url: "/GetCoins/",
                 dataType: "json"
             }).then(function (d) {
                 $scope.Data = d.data.data;
@@ -521,7 +523,7 @@ body.light-mode .scroll-btn:hover {
                 document.getElementById('conn').style.visibility = "hidden";
                 if($scope.ShowData) setTimeout(() => animateCards(), 100);
             }, function (error) {
-                console.log("error in GetCoins -> ", error);
+                $scope.ApiError = (error.data && error.data.error) || "Ma'lumotni yuklab bo'lmadi";
                 document.getElementById('conn').style.visibility = "hidden";
                 $scope.ShowData = false;
             });
@@ -584,40 +586,46 @@ data-ad-slot="6832564320"></ins>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script> -->
 <div class="coins-container" ng-app="App" ng-controller="Coins">
+    <div class="alert alert-warning text-center" ng-show="ApiError" ng-bind="ApiError"></div>
+    {% verbatim %}
+    <div class="mb-3" ng-show="ShowData" style="max-width:420px;margin:0 auto">
+        <input type="search" class="form-control" ng-model="q" placeholder="Qidirish: BTC, Ethereum..." aria-label="Qidirish">
+        <small class="text-muted">{{ (Data | filter:{type:'coin'} | filter:q).length }} ta natija</small>
+    </div>
     <div class="coins-grid" ng-show="ShowData">
-        {% for item in data %}
-            {% if item.type == 'coin' %}
-            <div class="coin-card">
-                <div class="coin-number">#{{ forloop.counter }}</div>
-                <div class="coin-header">
-                    <div class="coin-icon">
-                        <img src="https://static-ssl.minerstat.farm/96/{{item.coin|lower}}.png"
-                             alt="{{item.coin}}"
-                             onerror="this.style.display='none'">
-                    </div>
-                    <div class="coin-info">
-                        <h3>{{item.name}}</h3>
-                        <div class="coin-ticker">{{item.coin}}</div>
-                    </div>
+        <div class="coin-card" ng-repeat="item in Data | filter:{type:'coin'} | filter:q | limitTo:limit">
+            <div class="coin-number">#{{ item.rank || ($index + 1) }}</div>
+            <div class="coin-header">
+                <div class="coin-icon">
+                    <img ng-src="{{item.image}}"
+                         alt="{{item.coin}}" loading="lazy"
+                         onerror="this.style.display='none'">
                 </div>
-                <div class="coin-details">
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-fingerprint"></i> ID</span>
-                        <span class="detail-value">{{item.id}}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-tag"></i> Type</span>
-                        <span class="detail-value">{{item.type}}</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label"><i class="fas fa-calculator"></i> Algorithm</span>
-                        <span class="detail-value">{{item.algorithm}}</span>
-                    </div>
+                <div class="coin-info">
+                    <h3>{{item.name}}</h3>
+                    <div class="coin-ticker">{{item.coin}}</div>
                 </div>
             </div>
-            {% endif %}
-        {% endfor %}
+            <div class="coin-details">
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-dollar-sign"></i> Price</span>
+                    <span class="detail-value">{{ item.price > 0 ? ('$' + (item.price | number:4)) : '—' }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-chart-line"></i> 24h</span>
+                    <span class="detail-value" ng-class="item.change24h >= 0 ? 'text-success' : 'text-danger'">{{ item.change24h | number:2 }}%</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label"><i class="fas fa-landmark"></i> Market cap</span>
+                    <span class="detail-value">${{ item.market_cap | number:0 }}</span>
+                </div>
+            </div>
+        </div>
     </div>
+    <div class="text-center my-3" ng-show="ShowData && (Data | filter:{type:'coin'} | filter:q).length > limit">
+        <button class="btn btn-outline-primary" ng-click="limit = limit + 60">Yana ko'rsatish</button>
+    </div>
+    {% endverbatim %}
 </div>
 {% include 'comment_form.html' %}
 <ins class="adsbygoogle"

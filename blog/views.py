@@ -1,9 +1,11 @@
+from django.core.exceptions import ValidationError
+from django.http import Http404
 from django.shortcuts import render
 from django.db.models import Count
 from django.db.models import F
 from blog.models import Categories, Posts
 from django.core.paginator import Paginator
-from comments.models import Comment
+from comments.pages import page_comments
 
 
 def index(request):
@@ -15,7 +17,7 @@ def index(request):
         posts = Posts.objects.filter(is_deleted=False).values()
     else:
         categorie = Categories.objects.filter(id=categorie_id).values().first()
-        posts = Posts.objects.filter(categorie_id=categorie_id).values()
+        posts = Posts.objects.filter(categorie_id=categorie_id, is_deleted=False).values()
     categories = (
         Posts.objects.filter(is_deleted=False)
         .values(
@@ -46,21 +48,20 @@ def index(request):
         )
     )
     if id != 0:
-        post = Posts.objects.filter(id=id).values().first()
-        categorie_id = Posts.objects.filter(id=id).values_list("categorie_id")[0][0]
-        print(categorie_id)
+        try:
+            post = Posts.objects.filter(id=id, is_deleted=False).values().first()
+        except (ValueError, ValidationError):
+            post = None
+        if post is None:
+            raise Http404("Maqola topilmadi")
+        categorie_id = post["categorie_id"]
         categorie = Categories.objects.filter(id=categorie_id).values().first()
     paginator = Paginator(posts, 3)  # Har sahifada 10 ta post ko'rsatish
     page_number = request.GET.get("page")  # URL dan sahifa raqamini olish
     posts = paginator.get_page(
         page_number
     )  # Sahifani olish    # Get comments for the current page
-    current_url = request.build_absolute_uri()
-    comments = (
-        Comment.objects.filter(page_url=current_url, parent=None)
-        .prefetch_related("replies", "replies__replies", "replies__replies__replies")
-        .order_by("-created_at")
-    )
+    comments = page_comments(request)
 
     context = {
         "id": id,

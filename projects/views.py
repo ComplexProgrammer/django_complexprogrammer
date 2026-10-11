@@ -1,8 +1,10 @@
 from atexit import register
+import hashlib
 import io
+import ipaddress
 import json
+import re
 import os
-import random
 import shutil
 import string
 import time
@@ -11,10 +13,12 @@ import uuid
 
 # import cv2
 from django.conf import settings
-from django.http import FileResponse, HttpResponse, JsonResponse
+from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.http import require_POST
+from core import downloads
 from django.db.models import Max
-from comments.models import Comment
+from comments.pages import page_comments
 
 # import googletrans
 # from googletrans import Translator
@@ -22,12 +26,12 @@ from comments.models import Comment
 # from decouple import config
 # from pysitemap import crawler
 # import numpy as np
-import urllib3
+import requests
+from django.core.cache import cache
 
 # import yaml
 from django_complexprogrammer.settings import (
     CARTOONIZED_FOLDER,
-    GET_FILE_FORMATS,
     MEDIA_URL,
     STATIC_URL,
     WRITE_BOX_CARTOONIZER,
@@ -45,8 +49,8 @@ from PIL import Image
 # import pyttsx3
 from django.contrib import messages
 from django.core import serializers
-from projects import youtube_downloader
-from django.views.decorators.csrf import csrf_exempt
+from projects import sitemap_crawler, youtube_downloader
+from django.views.decorators.csrf import ensure_csrf_cookie
 # from projects.cartoonize.video_api import api_request
 
 # skvideo.setFFmpegPath(r'C:\Python310\Lib\site-packages\ffmpeg')
@@ -272,247 +276,203 @@ def convert_bytes_to_image(img_bytes):
         return render(request, "projects/cartoonize.html")
 
 
-def save_insta_collection(user_name):
-    print("start...")
-    PROFILE = user_name
-    # L = Instaloader(dirname_pattern='media/instagram_downloader/{target}')
-    # profile = Profile.from_username(
-    #     L.context,
-    #     PROFILE
-    # )
-    # uploaded_posts = profile.get_posts()
-    # count = 1
-    # for post in uploaded_posts:
-    #     print(count)
-    #     L.download_post(
-    #         post,
-    #         PROFILE
-    #     )
-    # save_folder = os.path.join(
-    #     'media',
-    #     'instagram_downloader',
-    #     PROFILE
-    # )
-    print("end...")
-    return PROFILE
+INSTAGRAM_UNAVAILABLE = (
+    "Instagram yuklab olish xizmati vaqtincha ishlamayapti. "
+    "Instagram himoyasi kuchaygani sababli ustida ishlayapmiz."
+)
 
 
 def instagram_downloader_(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
-    if request.method == "GET":
-        return render(request, "projects/instagram_downloader.html")
     if request.method == "POST":
-        json_data = json.loads(request.body)
-        user_name = json_data["user_name"]
-        if user_name is None:
-            context = {"result": "0", "comments": comments}
-        else:
-            result = save_insta_collection(user_name)
-            file_path = os.path.join(settings.MEDIA_ROOT, "instagram_downloader")
-            print(file_path)
-            if result == user_name and os.path.exists(file_path):
-                shutil.make_archive(result, "zip", root_dir=file_path)
-                file_path = str(settings.BASE_DIR)
-                print(file_path)
-                now = time.time()
-                future = now + 3
-                while True:
-                    print(future)
-                    if time.time() > future:
-                        context = {
-                            "result": file_path + "\\" + result + ".zip",
-                            "comments": comments,
-                        }
-                        return JsonResponse(context, safe=False)
-                        # rr=file_path+'\\'+result + '.zip'
-                        # print(rr)
-                        # time.sleep(3)
-                        # send_file_(rr)
-                        # time.sleep(3)
-                        # remove_file_(rr)
-                        # return FileResponse(open(rr, 'rb'), as_attachment=True)
-                        # return render(request, 'projects/instagram_downloader.html', context=context)
-            else:
-                context = {"result": "0", "comments": comments}
-        return render(request, "projects/instagram_downloader.html", context=context)
+        return JsonResponse({"result": "0", "error": INSTAGRAM_UNAVAILABLE}, status=503)
+    context = {"comments": page_comments(request), "unavailable": INSTAGRAM_UNAVAILABLE}
+    return render(request, "projects/instagram_downloader.html", context=context)
 
 
-@csrf_exempt
 def youtube_downloader_(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
-    if request.method == "GET":
+    if request.method != "POST":
         return render(request, "projects/youtube_downloader.html", context=context)
 
-    if request.method == "POST":
+    try:
         json_data = json.loads(request.body)
-        choice = json_data["choice"]
-        quality = json_data["quality"]  # low, medium, high, very high
-        link = json_data["link"]
-        if (
-            link[0:23] == "https://www.youtube.com"
-            or link[0:19] == "https://youtube.com"
-            or link[0:16] == "https://youtu.be"
-        ):
-            if choice == 1 or choice == 2:
-                if choice == 2:
-                    print("Pleylist yuklab olinmoqda...")
-                    filenames = youtube_downloader.download_playlist(link, quality)
-                    print("Yuklab olish tugadi!")
-                    print(filenames)
-                if choice == 1:
-                    filename = youtube_downloader.download_video(link, quality)
-                    # result = app.root_path.replace('website', '') + filename
-                    # print(result)
-                    return JsonResponse({"result": filename}, safe=False)
-            elif choice == 3:
-                print("Yuklab olinmoqda...")
-                filename = youtube_downloader.download_video(link, "low")
-                print("Oʻzgartirilmoqda...")
-                youtube_downloader.convert_to_mp3(filename)
-                # result = app.root_path.replace('website', '') + filename.replace('.mp4', '.mp3')
-                # send_file_(filename)
-                # time.sleep(3)
-                # remove_file_(filename)
-                return JsonResponse(
-                    {"result": filename.replace(".mp4", ".mp3")}, safe=False
-                )
-            else:
-                print("Yaroqsiz kiritish! Tugatilmoqda...")
+        choice = int(json_data.get("choice", 1))
+        quality = json_data.get("quality", "low")  # low, medium, high, very high
+        link = (json_data.get("link") or "").strip()
+    except (ValueError, TypeError):
+        return JsonResponse({"result": "0", "error": "Noto'g'ri so'rov"}, status=400)
+
+    if not youtube_downloader.is_youtube_url(link):
+        return JsonResponse({"result": "0", "error": "YouTube havolasini kiriting"})
+
+    downloads.cleanup_old()
+    try:
+        if choice == 3:
+            filename = youtube_downloader.download_audio(link)
+        elif choice == 2:
+            # Pleylist uchun birinchi videoni qaytaramiz, qolganlari ro'yxatda
+            filenames = youtube_downloader.download_playlist(link, quality)
+            if not filenames:
+                return JsonResponse({"result": "0", "error": "Pleylist bo'sh"})
+            return JsonResponse({"result": filenames[0], "files": filenames})
         else:
-            return JsonResponse({"result": "0"}, safe=False)
+            filename = youtube_downloader.download_video(link, quality)
+    except youtube_downloader.DownloadError as exc:
+        return JsonResponse({"result": "0", "error": str(exc)})
+    return JsonResponse({"result": filename})
+
+
+def fetch_json(url, cache_key, timeout=5, ttl=600, params=None):
+    """Tashqi API'dan JSON oladi: natija keshlanadi, API ishlamasa None qaytaradi."""
+    data = cache.get(cache_key)
+    if data is not None:
+        return data
+    try:
+        resp = requests.get(url, params=params, timeout=timeout)
+        resp.raise_for_status()
+        data = resp.json()
+    except (requests.RequestException, ValueError):
+        return None
+    cache.set(cache_key, data, ttl)
+    return data
 
 
 def coins(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
-    url = "https://api.minerstat.com/v2/coins"
-    http = urllib3.PoolManager()
-    r = http.request("GET", url)
-    htmlSource = r.data
-    context = {"data": json.loads(htmlSource), "comments": comments}
-    return render(request, "projects/coins.html", context=context)
+    # Ma'lumot sahifa ochilgach /GetCoins/ orqali yuklanadi — sahifa tez ochiladi
+    return render(request, "projects/coins.html", {"comments": page_comments(request)})
 
 
-def hash(h, key):
-    return h[key]
+def GetCoins(request):
+    # minerstat endi API kalit talab qiladi — CoinGecko'ning bepul API'si ishlatiladi
+    data = fetch_json(
+        "https://api.coingecko.com/api/v3/coins/markets",
+        "api:coingecko",
+        ttl=300,
+        params={"vs_currency": "usd", "order": "market_cap_desc", "per_page": 250, "page": 1},
+    )
+    if data is None:
+        return JsonResponse({"data": [], "error": "Kripto narxlar xizmati javob bermayapti"}, status=503)
+    coins = [
+        {
+            "type": "coin",
+            "rank": c.get("market_cap_rank"),
+            "name": c.get("name"),
+            "coin": (c.get("symbol") or "").upper(),
+            "image": c.get("image"),
+            "price": c.get("current_price"),
+            "change24h": c.get("price_change_percentage_24h"),
+            "market_cap": c.get("market_cap"),
+        }
+        for c in data
+    ]
+    return JsonResponse({"data": coins})
+
+
+TRANSLATE_LANGUAGES = {
+    "auto": "Auto", "uz": "O'zbek", "ru": "Русский", "en": "English", "tr": "Türkçe",
+    "kk": "Қазақ", "ky": "Кыргыз", "tg": "Тоҷикӣ", "tk": "Türkmen", "az": "Azərbaycan",
+    "de": "Deutsch", "fr": "Français", "es": "Español", "it": "Italiano", "ar": "العربية",
+    "fa": "فارسی", "zh-CN": "中文", "ja": "日本語", "ko": "한국어", "hi": "हिन्दी",
+    "uk": "Українська", "pl": "Polski", "pt": "Português",
+}
+MAX_TRANSLATE_CHARS = 5000
 
 
 def GetTranslateLanguages(request):
-    # return JsonResponse({'data': googletrans.LANGUAGES}, safe=False)
-    return JsonResponse({"data": ""}, safe=False)
+    return JsonResponse({"data": TRANSLATE_LANGUAGES})
 
 
 def TextToSpeech(request):
-    text = request.GET.get("text", None)
-    # text_speech = pyttsx3.init()
-    # text_speech.say(text)
-    # text_speech.runAndWait()
-    return HttpResponse(text)
+    # Ovozli o'qish brauzerning speechSynthesis API'si orqali bajariladi
+    return HttpResponse(request.GET.get("text", ""))
 
 
 def GetTranslateResult(request):
-    # text = request.GET.get('text', None)
-    # src = request.GET.get('src', None)
-    # dest = request.GET.get('dest', None)
-    # print(src)
-    # print(dest)
-    # print(text)
-    # translator = Translator()
+    text = (request.GET.get("text") or request.POST.get("text") or "").strip()
+    src = request.GET.get("src") or request.POST.get("src") or "auto"
+    dest = request.GET.get("dest") or request.POST.get("dest") or "uz"
+    if not text:
+        return JsonResponse({"data": ""})
+    if len(text) > MAX_TRANSLATE_CHARS:
+        return JsonResponse({"data": "", "error": f"Matn {MAX_TRANSLATE_CHARS} belgidan oshmasin"}, status=400)
+    if src not in TRANSLATE_LANGUAGES or dest not in TRANSLATE_LANGUAGES or dest == "auto":
+        return JsonResponse({"data": "", "error": "Noto'g'ri til"}, status=400)
 
-    # # result = translator.translate(text)
-    # result = translator.translate(text, src=src, dest=dest)
-    # print(result.src) # type: ignore
-    # print(result.dest)
-    # print(result.origin)
-    # print(result.text)
-    # print(result.pronunciation)
-    # return JsonResponse({'data': result.text}, safe=False)
-    return JsonResponse({"data": "result.text"}, safe=False)
+    cache_key = "tr:" + hashlib.sha1(f"{src}|{dest}|{text}".encode()).hexdigest()
+    result = cache.get(cache_key)
+    if result is None:
+        result = _translate_google(text, src, dest) or _translate_mymemory(text, src, dest)
+        if result is None:
+            return JsonResponse({"data": "", "error": "Tarjima xizmati vaqtincha ishlamayapti"}, status=503)
+        cache.set(cache_key, result, 60 * 60 * 24)
+    return JsonResponse({"data": result})
 
 
+def _translate_google(text, src, dest):
+    try:
+        resp = requests.post(
+            "https://translate.googleapis.com/translate_a/single",
+            params={"client": "gtx", "sl": src, "tl": dest, "dt": "t"},
+            data={"q": text},
+            timeout=6,
+        )
+        resp.raise_for_status()
+        return "".join(part[0] for part in resp.json()[0] if part and part[0])
+    except (requests.RequestException, ValueError, TypeError, IndexError):
+        return None
+
+
+def _split_chunks(text, size=450):
+    """MyMemory 500 belgidan uzun matnni qabul qilmaydi — gaplar bo'yicha bo'lamiz."""
+    chunks, current = [], ""
+    for sentence in re.split(r"(?<=[.!?\n])\s*", text):
+        while len(sentence) > size:
+            chunks.append(sentence[:size])
+            sentence = sentence[size:]
+        if len(current) + len(sentence) + 1 > size and current:
+            chunks.append(current)
+            current = ""
+        current = (current + " " + sentence).strip() if current else sentence
+    if current:
+        chunks.append(current)
+    return chunks
+
+
+def _translate_mymemory(text, src, dest):
+    pair = f"{'Autodetect' if src == 'auto' else src}|{dest}"
+    parts = []
+    try:
+        for chunk in _split_chunks(text):
+            resp = requests.get(
+                "https://api.mymemory.translated.net/get",
+                params={"q": chunk, "langpair": pair, "de": settings.DEFAULT_FROM_EMAIL},
+                timeout=6,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            if data.get("responseStatus") != 200:
+                return None
+            parts.append(data["responseData"]["translatedText"])
+    except (requests.RequestException, ValueError, KeyError):
+        return None
+    return " ".join(parts)
+
+
+@ensure_csrf_cookie
 def C0mplexTranslate(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/translate.html", context=context)
 
 
 def ImageCompare(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
-    context = {"comments": comments}
-    if request.method == "GET":
-        return render(request, "projects/imagecompare.html", context=context)
-    # if request.method == 'POST':
-    #     if 'img1' not in request.files or 'img2' not in request.files:
-    #         print('No file part')
-    #         context = {"data": ''}
-    # else:
-    # img1_model = request.files['img1']
-    # img2_model = request.files['img2']
-    # print(img1_model)
-    # print(img2_model)
-    # image1 = np.asarray(bytearray(img1_model.read()), dtype="uint8")
-    # image1 = cv2.imdecode(image1, cv2.IMREAD_COLOR)
-    # image2 = np.asarray(bytearray(img2_model.read()), dtype="uint8")
-    # image2 = cv2.imdecode(image2, cv2.IMREAD_COLOR)
-    # # grayA = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
-    # # grayB = cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
-    # grayA = cv2.cvtColor(image1, cv2.COLOR_BGRA2GRAY)
-    # grayB = cv2.cvtColor(image2, cv2.COLOR_BGRA2GRAY)
-    # height1, width1, channels1 = image1.shape
-    # height2, width2, channels2 = image2.shape
-    # print(height1, width1, channels1)
-    # print(height2, width2, channels2)
-    # if width1 == width2 and height1 == height2:
-    #     context = GetImageCompareResult(image1, image2, grayA, grayB)
-    # else:
-    #     dim = (512, 512)
-    #     resized_image1 = cv2.resize(grayA, dim, interpolation=cv2.INTER_AREA)
-    #     resized_image2 = cv2.resize(grayB, dim, interpolation=cv2.INTER_AREA)
-    #     context = GetImageCompareResult(image1, image2, grayA, resized_image1)
-    # ImageFile.LOAD_TRUNCATED_IMAGES = True
-    # img1 = Image.open(img1_model)
-    # img2 = Image.open(img2_model)
-    #
-    # diff = ImageChops.difference(img1, img2)
-    # print(diff.getbbox())
-    # with io.BytesIO() as output:
-    #     diff.save(output, format="png")
-    #     contents = output.getvalue()
-    #     result = "data:image/png;base64," + base64.b64encode(contents).decode('utf-8')
-    #     # print(result)
-    #     return {"data": result}
-    # return render(request, 'projects/imagecompare.html', context=context)
-
-
-def GetImageCompareResult(image1, image2, grayA, grayB):
-    # (score, diff0) = compare_ssim(grayA, grayB, full=True)
-    # diff0 = (diff0 * 255).astype("uint8")
-    # print("SSIM: {}".format(score))
-    # thresh = cv2.threshold(diff0, 0, 255,
-    #                     cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-    # cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-    #                         cv2.CHAIN_APPROX_SIMPLE)
-    # cnts = imutils.grab_contours(cnts)
-    # for c in cnts:
-    #     (x, y, w, h) = cv2.boundingRect(c)
-    #     cv2.rectangle(image1, (x, y), (x + w, y + h), (0, 0, 255), 2)
-    #     cv2.rectangle(image2, (x, y), (x + w, y + h), (0, 0, 255), 2)
-    # im_arr = cv2.imencode('.jpg', thresh)[1].tostring()  # im_arr: image in Numpy one-dim array format.
-    # base64_str = "data:image/png;base64," + base64.b64encode(im_arr).decode('utf-8')
-    # im_bytes = im_arr.tobytes()
-    # im_b64 = base64.b64encode(im_bytes)
-    context = {"data": "base64_str"}
-    return context
+    # Solishtirish brauzerda (canvas) bajariladi, server faqat sahifani beradi
+    return render(request, "projects/imagecompare.html", {"comments": page_comments(request)})
 
 
 def avtotest(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
 
     # Get max bilet value and add 1
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"]
@@ -523,8 +483,7 @@ def avtotest(request):
 
 
 def avtotest_item(request, bilet):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"]
     total_bilets = max_bilet + 1 if max_bilet else 1
     context = {"comments": comments, "row": range(1, total_bilets), "bilet": bilet}
@@ -553,31 +512,28 @@ def GetBilet(request):
     return JsonResponse(list(arr), safe=False)
 
 
+CBU_RATES_URL = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
+
+
 def exchangerates(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
-    url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
-    http = urllib3.PoolManager()
-    r = http.request("GET", url)
-    # r = urllib3.request.urlopen(url)
-    # data = r.read()
-    context = {"data": json.loads(r.data), "comments": comments}
+    data = fetch_json(CBU_RATES_URL, "api:cbu", ttl=1800)
+    context = {
+        "data": data or [],
+        "api_error": data is None,
+        "comments": page_comments(request),
+    }
     return render(request, "projects/exchangerates.html", context=context)
 
 
 def GetExchangeRates(request):
-    url = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
-    http = urllib3.PoolManager()
-    r = http.request("GET", url)
-    # r = urllib3.request.urlopen(url)
-    # data = r.read()
-    context = {"data": json.loads(r.data)}
-    return JsonResponse(context, safe=False)
+    data = fetch_json(CBU_RATES_URL, "api:cbu", ttl=1800)
+    if data is None:
+        return JsonResponse({"data": [], "error": "Markaziy bank sayti javob bermayapti"}, status=503)
+    return JsonResponse({"data": data})
 
 
 def changetext(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     if request.method == "POST":
         text = request.POST["text"]
@@ -927,23 +883,36 @@ def GetChangeTextData(request):
     return HttpResponse(text)
 
 
+def client_ip(request):
+    forwarded = request.META.get("HTTP_X_FORWARDED_FOR")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.META.get("REMOTE_ADDR", "")
+
+
 def ip(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
-    ip = request.GET.get("ip", False)
-    if ip == False:
-        url = "https://ipapi.co/json"
+    comments = page_comments(request)
+    # Parametr berilmasa — serverning emas, foydalanuvchining o'z IP manzili
+    raw_ip = request.GET.get("ip") or client_ip(request)
+    try:
+        ip_obj = ipaddress.ip_address(raw_ip.strip())
+    except ValueError:
+        return render(
+            request,
+            "projects/ip.html",
+            {"data": {"error": True, "reason": "Noto'g'ri IP manzil"}, "comments": comments},
+        )
+    if ip_obj.is_private or ip_obj.is_loopback:
+        data = {"ip": str(ip_obj), "error": True, "reason": "Lokal (xususiy) IP manzil"}
     else:
-        url = "https://ipapi.co/" + ip + "/json"
-    http = urllib3.PoolManager()
-    r = http.request("GET", url)
-    context = {"data": json.loads(r.data), "comments": comments}
-    return render(request, "projects/ip.html", context=context)
+        data = fetch_json(f"https://ipapi.co/{ip_obj}/json/", f"api:ip:{ip_obj}", ttl=3600)
+        if data is None:
+            data = {"ip": str(ip_obj), "error": True, "reason": "Xizmat vaqtincha ishlamayapti"}
+    return render(request, "projects/ip.html", {"data": data, "comments": comments})
 
 
 def map(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     # key = config('GOOGLE_MAP_API_KEY')
     # eligable_locations = Locations.objects.filter(place_id__isnull=False)
     locations = []
@@ -965,116 +934,75 @@ def map(request):
 
 
 def password_generator(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
-    context = {"comments": comments}
-    if request.method == "POST":
-        characterList = ""
-        json_data = json.loads(request.body)
-        PasswordLength = int(json_data["PasswordLength"])
-        Uppercase = json_data["Uppercase"]
-        Lowercase = json_data["Lowercase"]
-        Numbers = json_data["Numbers"]
-        Symbols = json_data["Symbols"]
-        if Uppercase:
-            characterList += string.ascii_uppercase
-        if Lowercase:
-            characterList += string.ascii_lowercase
-        if Numbers:
-            characterList += string.digits
-        if Symbols:
-            characterList += string.punctuation
-        password = []
-
-        for i in range(PasswordLength):
-            # Picking a random character from our
-            # character list
-            randomchar = random.choice(characterList)
-
-            # appending a random character to password
-            password.append(randomchar)
-        return HttpResponse({"".join(password)})
-    return render(request, "projects/password_generator.html", context=context)
+    # Parol brauzerda (crypto.getRandomValues) yaratiladi va serverga umuman yuborilmaydi
+    return render(request, "projects/password_generator.html", {"comments": page_comments(request)})
 
 
+@ensure_csrf_cookie
 def sitemap(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
-    context = {"comments": comments}
-    if request.method == "POST":
-        url = request.args.get("url")
-        from asyncio import events, windows_events
-
-        el = windows_events.ProactorEventLoop()
-        events.set_event_loop(el)
-        # crawler(url, out_file='sitemap.xml', exclude_urls=[".ico", ".css", ".pdf", ".jpg", ".zip", ".png", ".svg"])
-        basedir = os.path.abspath(os.path.dirname(__file__))
-        time.sleep(10)
-        send_file_(str(settings.BASE_DIR) + "\\sitemap.xml")
-        time.sleep(3)
-        remove_file_(str(settings.BASE_DIR) + "\\sitemap.xml")
-    return render(request, "projects/sitemap.html", context=context)
+    if request.method != "POST":
+        return render(request, "projects/sitemap.html", {"comments": page_comments(request)})
+    try:
+        url = json.loads(request.body or b"{}").get("url", "")
+    except ValueError:
+        url = ""
+    try:
+        urls = sitemap_crawler.crawl(url)
+    except sitemap_crawler.CrawlError as exc:
+        return JsonResponse({"error": str(exc)}, status=400)
+    return JsonResponse({"xml": sitemap_crawler.build_xml(urls), "count": len(urls), "urls": urls})
 
 
 def snake(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/snake.html", context=context)
 
 
 def snake2(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/snake2.html", context=context)
 
 
 def car(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/car.html", context=context)
 
 
 def duckhunt(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/duckhunt.html", context=context)
 
 
 def motorcycle(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/motorcycle.html", context=context)
 
 
 def bubbleshooter(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/bubbleshooter.html", context=context)
 
 
 def pingpong(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/pingpong.html", context=context)
 
 
 def tictactoe(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/tictactoe.html", context=context)
 
 
 def tetris(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
     return render(request, "projects/tetris.html", context=context)
 
@@ -1151,8 +1079,7 @@ def assetlinks(request):
 
 
 def projects(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
 
     projects = Project.actives.all()
@@ -1167,8 +1094,7 @@ def services(request):
 
 
 def project_item(request, id):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     context = {"comments": comments}
 
     item = get_object_or_404(Project, id=id)
@@ -1180,45 +1106,23 @@ def project_item(request, id):
 
 
 def send_file(request):
-    filename = request.GET.get("filename", None)
-    if filename is not None:
-        return send_file_(filename)
-    else:
-        return HttpResponse(filename)
+    """Faqat media/downloads ichidagi faylni nomi bo'yicha beradi."""
+    downloads.cleanup_old()
+    path = downloads.resolve(request.GET.get("filename"))
+    if path is None:
+        raise Http404("Fayl topilmadi yoki muddati o'tgan")
+    # Fayl nomidagi uuid prefiksini foydalanuvchiga ko'rsatmaymiz
+    nice_name = os.path.basename(path).split("_", 1)[-1]
+    return FileResponse(open(path, "rb"), as_attachment=True, filename=nice_name)
 
 
+@require_POST
 def remove_file(request):
-    filename = request.GET.get("filename", None)
-    if filename is not None:
-        return remove_file_(filename)
-    else:
-        return HttpResponse(filename)
-
-
-def send_file_(request):
-    if request[-4:] in GET_FILE_FORMATS:
-        # global data
-        # headers = open("C:\\Users\\sazug\\OneDrive\\Desktop\\DDOS\\hammer\\headers\\headers.txt", "r")
-        # headers = open(request, 'rb')
-        # data = headers.read()
-        # headers.close
-        return FileResponse(open(request, "rb"), as_attachment=True)
-    else:
-        return FileResponse(STATIC_URL + "img/fuck.jpg", as_attachment=True)
-
-
-def remove_file_(request):
-    if request and os.path.exists(request) and request[-4:] in GET_FILE_FORMATS:
-        os.remove(request)
-        if request[-4:] == ".mp3":
-            filename_ = request[:-4] + ".mp4"
-            if os.path.exists(filename_):
-                os.remove(filename_)
-
-            # for file_name in os.listdir(path):
-            #     print(file_name)
-            #     file = path + file_name
-            #     print(file)
-            #     if os.path.isfile(file):
-            #         print('Deleting file:', file)
-            #         os.remove(file)
+    path = downloads.resolve(request.GET.get("filename"))
+    if path is not None:
+        try:
+            os.remove(path)
+        except OSError:
+            # Windows'da fayl hali uzatilayotgan bo'lishi mumkin — cleanup_old keyin o'chiradi
+            pass
+    return JsonResponse({"ok": True})

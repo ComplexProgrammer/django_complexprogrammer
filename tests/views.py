@@ -15,12 +15,11 @@ from tests.models import (
     RoadSignCategories,
     RoadSigns,
 )
-from comments.models import Comment
+from comments.pages import page_comments
 
 
 def index(request):
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     _type = "type"
     type_id = request.GET.get("type_id", False)
     group_id = request.GET.get("group_id", False)
@@ -88,8 +87,7 @@ def index(request):
 def tests(request):
     data = []
     _type = "type"
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(page_url=current_url).order_by("-created_at")
+    comments = page_comments(request)
     type_data = []
     type_id = request.GET.get("type_id", 0)
     group_id = request.GET.get("group_id", 0)

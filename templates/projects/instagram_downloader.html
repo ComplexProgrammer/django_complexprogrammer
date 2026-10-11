@@ -414,7 +414,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <i class="fas fa-moon"></i> Light Mode
     </button>
 </head>
-<body ng-app="App" ng-controller="InstagramDownloader" class="modal-open">
+<body ng-app="App" ng-controller="InstagramDownloader">
+<div class="alert alert-warning text-center m-2" role="status">{{ unavailable }}</div>
   <canvas id="threejs-bg"></canvas>
 
   <ins class="adsbygoogle"
@@ -772,6 +773,16 @@ data-ad-slot="4679993061"></ins>
     // Listen for theme changes
     const observer = new MutationObserver(updateThreeJSTheme);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+<script>
+angular.module("App", []).controller("InstagramDownloader", ["$scope", function ($scope) {
+  $scope.Paste = function () {
+    navigator.clipboard.readText().then(function (t) { $scope.$apply(function () { $scope.link = t.trim(); }); });
+  };
+  $scope.instagram_downloader = function () {
+    alertify.warning("{{ unavailable|escapejs }}");
+  };
+}]);
 </script>
 </body>
   </html>

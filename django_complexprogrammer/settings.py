@@ -113,26 +113,17 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-# DATABASES = {
-#     "default": {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': '*24-Cf6ee13fBf-cda1ad3gFFgEdf4dd',
-#         'HOST': 'monorail.proxy.rlwy.net',
-#         'PORT': '49677',
-#     }
-# }
-# DATABASES = {
-#     "default": {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'complex1_complexprogrammer',
-#         'USER': 'complex1_C0mplex',
-#         'PASSWORD': 'P@$$p0rtP@$$c0de',
-#         'HOST': '127.0.0.200',
-#         'PORT': '5432',
-#     }
-# }
+# Kesh: fayl asosida, shuning uchun Passenger'ning barcha jarayonlari uchun umumiy
+# (API javoblari, tarjimalar, izohlar uchun rate-limit)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": BASE_DIR / "tmp" / "django_cache",
+        "TIMEOUT": 600,
+        "OPTIONS": {"MAX_ENTRIES": 5000},
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -352,17 +343,21 @@ CKEDITOR_CONFIGS = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # APPEND_SLASH=False
+# Foydalanuvchiga yuklab berilishi mumkin bo'lgan kengaytmalar (core/downloads.py)
 GET_FILE_FORMATS = {
     ".mp3",
+    ".m4a",
     ".mp4",
     ".zip",
-    ".xml",
-    "docx",
+    ".docx",
     ".jpg",
-    "jpeg",
+    ".jpeg",
     ".csv",
-    "xlsx",
+    ".xlsx",
 }
+# Yuklanadigan faylning maksimal hajmi (PDF va h.k.)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 20 * 1024 * 1024
 UPLOAD_FOLDER_VIDEOS = STATIC_URL + "uploaded_videos/"
 CARTOONIZED_FOLDER = STATIC_URL + "cartoonized_images/"
 WRITE_BOX_CARTOONIZER = STATIC_URL + "white_box_cartoonizer/"
@@ -370,12 +365,14 @@ WRITE_BOX_CARTOONIZER = STATIC_URL + "white_box_cartoonizer/"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# SESSION_COOKIE_SECURE = False
-# CSRF_COOKIE_SECURE = False
 if DEBUG:
     SECURE_SSL_REDIRECT = False
 else:
     SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 COLOR_PALETTE = [
     (

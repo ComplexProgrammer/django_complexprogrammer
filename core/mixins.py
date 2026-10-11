@@ -1,4 +1,4 @@
-from comments.models import Comment
+from comments.pages import page_comments
 
 
 class CommentsMixin:
@@ -8,13 +8,5 @@ class CommentsMixin:
             if hasattr(super(), "get_context_data")
             else {}
         )
-        current_url = self.request.build_absolute_uri()
-        comments = (
-            Comment.objects.filter(page_url=current_url, parent=None)
-            .prefetch_related(
-                "replies", "replies__replies", "replies__replies__replies"
-            )
-            .order_by("-created_at")
-        )
-        context["comments"] = comments
+        context["comments"] = page_comments(self.request)
         return context

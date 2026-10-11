@@ -274,20 +274,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <br>
             {% if request.LANGUAGE_CODE == 'uz' %}
             <div class="input-group">
-                <input type="text" class="form-control" ng-model="url" placeholder="Veb-saytingiz URL manzili" id="url">
+                <input type="text" class="form-control" ng-model="url" ng-keyup="$event.key==='Enter' && Generator()" placeholder="Veb-saytingiz URL manzili" id="url">
                 <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Joylashtirish</button>
                 <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Generator sayt xaritasi</button>
               </div>
             {% else %}
             {% if request.LANGUAGE_CODE == 'ru' %}
             <div class="input-group">
-                <input type="text" class="form-control" ng-model="url" placeholder="URL-адрес вашего веб-сайта" id="url">
+                <input type="text" class="form-control" ng-model="url" ng-keyup="$event.key==='Enter' && Generator()" placeholder="URL-адрес вашего веб-сайта" id="url">
                 <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Вставить</button>
                 <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Карта сайта генератора</button>
               </div>
             {% else %}
             <div class="input-group">
-                <input type="text" class="form-control" ng-model="url" placeholder="Your Website URL" id="url">
+                <input type="text" class="form-control" ng-model="url" ng-keyup="$event.key==='Enter' && Generator()" placeholder="Your Website URL" id="url">
                 <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
                 <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Generator Sitemap</button>
               </div>
@@ -391,6 +391,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {% endif %}
     {% endif %}
 </div>
+{% verbatim %}
+<div class="container my-3" ng-show="xml">
+  <div class="d-flex gap-2 mb-2 flex-wrap">
+    <span class="badge bg-success align-self-center">{{count}} ta sahifa</span>
+    <button class="btn btn-primary btn-sm" ng-click="Download()"><i class="fa fa-download"></i> sitemap.xml yuklab olish</button>
+    <button class="btn btn-outline-secondary btn-sm" ng-click="Copy()"><i class="fa fa-copy"></i> Nusxa olish</button>
+  </div>
+  <textarea class="form-control font-monospace" rows="14" readonly ng-model="xml"></textarea>
+</div>
+{% endverbatim %}
 {% include 'comment_form.html' %}
 <ins class="adsbygoogle"
     style="display:block; text-align:center;"
@@ -447,5 +457,43 @@ data-ad-slot="4679993061"></ins>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script> -->
 {% include "includes/scroll_buttons.html" %}
+<script>
+angular.module("App", []).controller("SitemapGenerator", ["$scope", "$http", function ($scope, $http) {
+  $scope.url = "";
+  $scope.xml = "";
+  var busy = document.getElementById("conn");
+  function csrf() {
+    var m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
+    return m ? decodeURIComponent(m[1]) : "";
+  }
+  $scope.Paste = function () {
+    navigator.clipboard.readText().then(function (t) { $scope.$apply(function () { $scope.url = t.trim(); }); });
+  };
+  $scope.Generator = function () {
+    if (!$scope.url) { alertify.error("Sayt manzilini kiriting"); return; }
+    if (busy) busy.style.visibility = "visible";
+    alertify.message("Sayt tekshirilmoqda, bu 30 soniyagacha davom etishi mumkin...");
+    $http.post("/sitemap/", { url: $scope.url }, { headers: { "X-CSRFToken": csrf() } })
+      .then(function (r) {
+        $scope.xml = r.data.xml;
+        $scope.count = r.data.count;
+        alertify.success(r.data.count + " ta sahifa topildi");
+      }, function (err) {
+        alertify.error((err.data && err.data.error) || "Xatolik yuz berdi");
+      }).finally(function () { if (busy) busy.style.visibility = "hidden"; });
+  };
+  $scope.Download = function () {
+    var blob = new Blob([$scope.xml], { type: "application/xml" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "sitemap.xml";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+  $scope.Copy = function () {
+    navigator.clipboard.writeText($scope.xml).then(function () { alertify.success("Nusxa olindi"); });
+  };
+}]);
+</script>
 </body>
 </html>

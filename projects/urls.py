@@ -15,6 +15,7 @@ urlpatterns = [
     ),  # type: ignore
     path("youtube_downloader/", views.youtube_downloader_, name="youtube_downloader"),  # type: ignore
     path("coins/", views.coins, name="coins"),
+    path("GetCoins/", views.GetCoins, name="GetCoins"),
     path(
         "GetTranslateLanguages/",
         views.GetTranslateLanguages,
