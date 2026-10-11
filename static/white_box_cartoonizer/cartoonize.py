@@ -1,7 +1,7 @@
 # """
 # Internal code snippets were obtained from https://github.com/SystemErrorWang/White-box-Cartoonization/
 
-# For it to work tensorflow version 2.x changes were obtained from https://github.com/steubk/White-box-Cartoonization 
+# For it to work tensorflow version 2.x changes were obtained from https://github.com/steubk/White-box-Cartoonization
 # """
 # import atexit
 # import os

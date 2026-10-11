@@ -6,63 +6,71 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('blog', '0003_alter_categories_options_alter_posts_options'),
+        ("blog", "0003_alter_categories_options_alter_posts_options"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='categories',
-            name='created_by',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL),
+            model_name="categories",
+            name="created_by",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                to=settings.AUTH_USER_MODEL,
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='posts',
-            name='created_by',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.PROTECT, related_name='blog_posts', to=settings.AUTH_USER_MODEL),
+            model_name="posts",
+            name="created_by",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="blog_posts",
+                to=settings.AUTH_USER_MODEL,
+            ),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='categories',
-            name='name_en_us',
+            model_name="categories",
+            name="name_en_us",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='categories',
-            name='name_ru_ru',
+            model_name="categories",
+            name="name_ru_ru",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='categories',
-            name='name_uz_crl',
+            model_name="categories",
+            name="name_uz_crl",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='categories',
-            name='name_uz_uz',
+            model_name="categories",
+            name="name_uz_uz",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='posts',
-            name='name_en_us',
+            model_name="posts",
+            name="name_en_us",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='posts',
-            name='name_ru_ru',
+            model_name="posts",
+            name="name_ru_ru",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='posts',
-            name='name_uz_crl',
+            model_name="posts",
+            name="name_uz_crl",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='posts',
-            name='name_uz_uz',
+            model_name="posts",
+            name="name_uz_uz",
             field=models.TextField(),
         ),
     ]

@@ -5,19 +5,24 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0012_alter_booktypes_options'),
+        ("tests", "0012_alter_booktypes_options"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='books',
-            name='book_type',
+            model_name="books",
+            name="book_type",
         ),
         migrations.AddField(
-            model_name='books',
-            name='type',
-            field=models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='books', to='tests.booktypes'),
+            model_name="books",
+            name="type",
+            field=models.ForeignKey(
+                default=None,
+                null=True,
+                on_delete=django.db.models.deletion.DO_NOTHING,
+                related_name="books",
+                to="tests.booktypes",
+            ),
         ),
     ]

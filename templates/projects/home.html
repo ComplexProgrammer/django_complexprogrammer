@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ ui_lang }}">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% include "includes/head_common.html" %}
+    
     <title>Complex Programmer - Projects</title>
     <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
@@ -419,6 +420,7 @@
     </style>
   </head>
   <body>
+{% include "includes/site_header.html" %}
     <!-- Three.js Background Canvas -->
     <canvas id="threejs-canvas"></canvas>
 

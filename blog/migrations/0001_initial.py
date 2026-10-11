@@ -8,62 +8,88 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Categories',
+            name="Categories",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('sort_order', models.IntegerField(default=0)),
-                ('name_en_us', models.CharField(max_length=255)),
-                ('name_ru_ru', models.CharField(max_length=255)),
-                ('name_uz_crl', models.CharField(max_length=255)),
-                ('name_uz_uz', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("sort_order", models.IntegerField(default=0)),
+                ("name_en_us", models.CharField(max_length=255)),
+                ("name_ru_ru", models.CharField(max_length=255)),
+                ("name_uz_crl", models.CharField(max_length=255)),
+                ("name_uz_uz", models.CharField(max_length=255)),
             ],
             options={
-                'verbose_name': 'Categorie',
-                'verbose_name_plural': 'Categories',
-                'ordering': ['-created_at', 'sort_order'],
+                "verbose_name": "Categorie",
+                "verbose_name_plural": "Categories",
+                "ordering": ["-created_at", "sort_order"],
             },
         ),
         migrations.CreateModel(
-            name='Posts',
+            name="Posts",
             fields=[
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('sort_order', models.IntegerField(default=0)),
-                ('name_en_us', models.CharField(max_length=255)),
-                ('name_ru_ru', models.CharField(max_length=255)),
-                ('name_uz_crl', models.CharField(max_length=255)),
-                ('name_uz_uz', models.CharField(max_length=255)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('title_en_us', models.TextField()),
-                ('title_ru_ru', models.TextField()),
-                ('title_uz_crl', models.TextField()),
-                ('title_uz_uz', models.TextField()),
-                ('body_en_us', ckeditor_uploader.fields.RichTextUploadingField()),
-                ('body_ru_ru', ckeditor_uploader.fields.RichTextUploadingField()),
-                ('body_uz_crl', ckeditor_uploader.fields.RichTextUploadingField()),
-                ('body_uz_uz', ckeditor_uploader.fields.RichTextUploadingField()),
-                ('image', models.ImageField(blank=True, upload_to='post/images')),
-                ('sort_number', models.IntegerField(default=0)),
-                ('view_count', models.IntegerField()),
-                ('publish_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('categorie', models.ForeignKey(default=None, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='categories', to='blog.categories')),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("sort_order", models.IntegerField(default=0)),
+                ("name_en_us", models.CharField(max_length=255)),
+                ("name_ru_ru", models.CharField(max_length=255)),
+                ("name_uz_crl", models.CharField(max_length=255)),
+                ("name_uz_uz", models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("title_en_us", models.TextField()),
+                ("title_ru_ru", models.TextField()),
+                ("title_uz_crl", models.TextField()),
+                ("title_uz_uz", models.TextField()),
+                ("body_en_us", ckeditor_uploader.fields.RichTextUploadingField()),
+                ("body_ru_ru", ckeditor_uploader.fields.RichTextUploadingField()),
+                ("body_uz_crl", ckeditor_uploader.fields.RichTextUploadingField()),
+                ("body_uz_uz", ckeditor_uploader.fields.RichTextUploadingField()),
+                ("image", models.ImageField(blank=True, upload_to="post/images")),
+                ("sort_number", models.IntegerField(default=0)),
+                ("view_count", models.IntegerField()),
+                (
+                    "publish_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                (
+                    "categorie",
+                    models.ForeignKey(
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="categories",
+                        to="blog.categories",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Post',
-                'verbose_name_plural': 'Posts',
-                'ordering': ['-publish_time'],
+                "verbose_name": "Post",
+                "verbose_name_plural": "Posts",
+                "ordering": ["-publish_time"],
             },
         ),
     ]

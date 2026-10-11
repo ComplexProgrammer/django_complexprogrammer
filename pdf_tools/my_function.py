@@ -29,7 +29,7 @@
 # # def convert_pdf2image(input_file):
 # #     pages = convert_from_path(input_file, 500, poppler_path=r'C:\poppler-23.11.0\Library\bin')
 # #     i=0
-# #     for page in pages:                    
+# #     for page in pages:
 # #         i=i+1
 # #         page.save(i.__str__() +'-'+input_file.lower().replace(".pdf",".jpg"),'JPEG')
 # #     return '1-'+input_file.lower().replace(".pdf",".jpg")
@@ -42,10 +42,10 @@
 # #     #rm.from_localFile('html/test.html','2.pdf')
 # #     print('start.')
 # #     rm.waitFinish()
-# #     print('finish all.')		
+# #     print('finish all.')
 # #     return '0.pdf'
 
-# def handle_uploaded_file(f):  
-#     with open('static/upload/'+f.name, 'wb+') as destination:  
-#         for chunk in f.chunks():  
-#             destination.write(chunk)  
+# def handle_uploaded_file(f):
+#     with open('static/upload/'+f.name, 'wb+') as destination:
+#         for chunk in f.chunks():
+#             destination.write(chunk)

@@ -3,6 +3,7 @@
 Loyihaning asosiy papkasidan to'g'ridan-to'g'ri ishga tushirish uchun:
 python run_bot.py
 """
+
 import os
 import sys
 from pathlib import Path

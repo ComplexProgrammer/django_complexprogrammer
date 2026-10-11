@@ -18,6 +18,6 @@ os.environ.setdefault("VECLIB_MAXIMUM_THREADS", "1")
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_complexprogrammer.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_complexprogrammer.settings")
 
 application = get_wsgi_application()

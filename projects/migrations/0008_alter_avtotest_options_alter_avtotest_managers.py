@@ -4,19 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0007_alter_avtotest_managers'),
+        ("projects", "0007_alter_avtotest_managers"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='avtotest',
-            options={'ordering': ['raqam']},
+            name="avtotest",
+            options={"ordering": ["raqam"]},
         ),
         migrations.AlterModelManagers(
-            name='avtotest',
-            managers=[
-            ],
+            name="avtotest",
+            managers=[],
         ),
     ]

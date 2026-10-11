@@ -4,45 +4,44 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0007_groups_type'),
+        ("tests", "0007_groups_type"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='answers',
-            name='sort_order',
+            model_name="answers",
+            name="sort_order",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='books',
-            name='sort_order',
+            model_name="books",
+            name="sort_order",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='groups',
-            name='sort_order',
+            model_name="groups",
+            name="sort_order",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='questions',
-            name='sort_order',
+            model_name="questions",
+            name="sort_order",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='topics',
-            name='sort_order',
+            model_name="topics",
+            name="sort_order",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='types',
-            name='sort_order',
+            model_name="types",
+            name="sort_order",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),

@@ -5,16 +5,15 @@ import django.db.models.manager
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0006_avtotest_alter_project_options'),
+        ("projects", "0006_avtotest_alter_project_options"),
     ]
 
     operations = [
         migrations.AlterModelManagers(
-            name='avtotest',
+            name="avtotest",
             managers=[
-                ('all', django.db.models.manager.Manager()),
+                ("all", django.db.models.manager.Manager()),
             ],
         ),
     ]

@@ -11,6 +11,7 @@ from ..keyboards import get_main_reply_keyboard, get_language_keyboard
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 @router.message(CommandStart())
 async def cmd_start(message: Message):
     user_id = message.from_user.id
@@ -25,8 +26,9 @@ async def cmd_start(message: Message):
         welcome_text,
         reply_markup=get_main_reply_keyboard(lang),
         parse_mode="HTML",
-        disable_web_page_preview=True
+        disable_web_page_preview=True,
     )
+
 
 @router.message(Command("lang"))
 @router.message(F.text.in_(["🌐 Tilni o'zgartirish", "🌐 Сменить язык"]))
@@ -35,6 +37,7 @@ async def cmd_select_language(message: Message):
     lang = await db.get_user_lang(user_id)
     text = get_text("select_lang", lang)
     await message.answer(text, reply_markup=get_language_keyboard(), parse_mode="HTML")
+
 
 @router.callback_query(F.data.startswith("set_lang:"))
 async def cb_set_language(callback: CallbackQuery):
@@ -48,11 +51,10 @@ async def cb_set_language(callback: CallbackQuery):
     confirm_text = get_text("lang_chosen", lang_code)
     await callback.message.delete()
     await callback.message.answer(
-        confirm_text,
-        reply_markup=get_main_reply_keyboard(lang_code),
-        parse_mode="HTML"
+        confirm_text, reply_markup=get_main_reply_keyboard(lang_code), parse_mode="HTML"
     )
     await callback.answer()
+
 
 @router.callback_query(F.data == "to_main_menu")
 async def cb_to_main_menu(callback: CallbackQuery):
@@ -71,9 +73,10 @@ async def cb_to_main_menu(callback: CallbackQuery):
         welcome_text,
         reply_markup=get_main_reply_keyboard(lang),
         parse_mode="HTML",
-        disable_web_page_preview=True
+        disable_web_page_preview=True,
     )
     await callback.answer()
+
 
 @router.callback_query(F.data == "noop")
 async def cb_noop(callback: CallbackQuery):

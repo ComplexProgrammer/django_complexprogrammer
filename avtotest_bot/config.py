@@ -4,6 +4,7 @@ from pathlib import Path
 # Loyihaning asosiy papkasi (django_complexprogrammer)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # .env faylini xavfsiz o'qish funksiyasi
 def load_env_file(env_path: Path):
     if not env_path.exists():
@@ -22,6 +23,7 @@ def load_env_file(env_path: Path):
     except Exception as e:
         print(f"[Config] .env yuklashda ogohlantirish: {e}")
 
+
 # .env ni yuklash
 load_env_file(BASE_DIR / ".env")
 
@@ -37,12 +39,12 @@ DB_PATH = BASE_DIR / "db.sqlite3"
 MEDIA_DIR = BASE_DIR / "media"
 
 # Test kitoblari ID lari
-UZB_AVTOTEST_BOOK_ID = 49   # Avto Test 2025 (108 bilet, 1080 savol)
-E_AVTOMAKTAB_BOOK_ID = 50   # e-avtomaktab (305 savol)
-CDL_USA_BOOK_ID = 1         # AQSh CDL testi (191 savol)
+UZB_AVTOTEST_BOOK_ID = 49  # Avto Test 2025 (108 bilet, 1080 savol)
+E_AVTOMAKTAB_BOOK_ID = 50  # e-avtomaktab (305 savol)
+CDL_USA_BOOK_ID = 1  # AQSh CDL testi (191 savol)
 
 # Test rejimlari
 BILET_QUESTIONS_COUNT = 10  # Har bir biletda 10 ta savol
-EXAM_QUESTIONS_COUNT = 20   # Imtihonda 20 ta savol
-PASSING_PERCENTAGE = 90     # O'tish bali (90%)
-DEFAULT_LANG = "uz"         # Asosiy til
+EXAM_QUESTIONS_COUNT = 20  # Imtihonda 20 ta savol
+PASSING_PERCENTAGE = 90  # O'tish bali (90%)
+DEFAULT_LANG = "uz"  # Asosiy til

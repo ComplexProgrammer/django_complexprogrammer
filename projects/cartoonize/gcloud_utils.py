@@ -4,16 +4,24 @@ Google Cloud Util Functions:
 - Delete from Google Storage Bucket
 - Generate signed URL
 """
+
 import os
 import datetime
 
-from google.cloud import storage # type: ignore
+from google.cloud import storage  # type: ignore
 from google.cloud.storage.blob import Blob
 
 ## Google Storage Client
 client = storage.Client()
 
-def upload_blob(bucket_name, source_file_name, destination_blob_name, content_type='', algo_unique_key=''):
+
+def upload_blob(
+    bucket_name,
+    source_file_name,
+    destination_blob_name,
+    content_type="",
+    algo_unique_key="",
+):
     """Uploading File to Google Storage Bucket
 
     Args:
@@ -26,17 +34,20 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name, content_ty
     Returns:
         [str]: Google Storage Object URI, if algorithmia key is given the same is modified.
     """
-    
+
     bucket = client.get_bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
     blob.upload_from_filename(source_file_name, content_type=content_type)
 
     data_uri = blob.self_link
-    
-    if algo_unique_key!="":
-        return os.path.join("gs+{}://{}".format(algo_unique_key, bucket_name), data_uri.split("/")[-1])
-    
+
+    if algo_unique_key != "":
+        return os.path.join(
+            "gs+{}://{}".format(algo_unique_key, bucket_name), data_uri.split("/")[-1]
+        )
+
     return os.path.join("gs://{}".format(bucket_name), data_uri.split("/")[-1])
+
 
 def delete_blob(bucket_name, blob_name):
     """Deletes a blob from the bucket."""
@@ -49,6 +60,7 @@ def delete_blob(bucket_name, blob_name):
 
     print("Blob {} deleted.".format(blob_name))
 
+
 def download_video(bucket_name, filename, output_filename):
     bucket = client.get_bucket(bucket_name)
     # Create a blob object from the filepath
@@ -58,11 +70,14 @@ def download_video(bucket_name, filename, output_filename):
 
     return output_filename
 
+
 def generate_signed_url(output_uri):
     expiration_time = datetime.timedelta(minutes=5)
 
     blob = Blob.from_string(output_uri, client=client)
-    
-    signed_url = blob.generate_signed_url(expiration=expiration_time, version='v4', response_disposition='attachment')
 
-    return signed_url            
+    signed_url = blob.generate_signed_url(
+        expiration=expiration_time, version="v4", response_disposition="attachment"
+    )
+
+    return signed_url

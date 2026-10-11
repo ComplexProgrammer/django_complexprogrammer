@@ -4,21 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0001_initial'),
+        ("projects", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='project',
-            name='application_id',
+            model_name="project",
+            name="application_id",
             field=models.CharField(default=1, max_length=255),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='project',
-            name='url',
+            model_name="project",
+            name="url",
             field=models.CharField(default=1, max_length=255),
             preserve_default=False,
         ),

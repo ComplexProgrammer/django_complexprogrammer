@@ -5,29 +5,43 @@ import django.utils.timezone
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Project',
+            name="Project",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.CharField(max_length=255)),
-                ('title', models.CharField(max_length=255)),
-                ('sub_title', models.CharField(max_length=255)),
-                ('image', models.ImageField(upload_to='projects/images')),
-                ('publish_time', models.DateTimeField(default=django.utils.timezone.now)),
-                ('created_time', models.DateTimeField(auto_now_add=True)),
-                ('updated_time', models.DateTimeField(auto_now=True)),
-                ('status', models.BooleanField(choices=[(0, 'Draft'), (1, 'Active')], default=0)),
-                ('is_service', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("category", models.CharField(max_length=255)),
+                ("title", models.CharField(max_length=255)),
+                ("sub_title", models.CharField(max_length=255)),
+                ("image", models.ImageField(upload_to="projects/images")),
+                (
+                    "publish_time",
+                    models.DateTimeField(default=django.utils.timezone.now),
+                ),
+                ("created_time", models.DateTimeField(auto_now_add=True)),
+                ("updated_time", models.DateTimeField(auto_now=True)),
+                (
+                    "status",
+                    models.BooleanField(
+                        choices=[(0, "Draft"), (1, "Active")], default=0
+                    ),
+                ),
+                ("is_service", models.BooleanField(default=False)),
             ],
             options={
-                'ordering': ['-publish_time'],
+                "ordering": ["-publish_time"],
             },
         ),
     ]

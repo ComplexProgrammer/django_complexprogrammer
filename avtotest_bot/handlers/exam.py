@@ -11,6 +11,7 @@ from .quiz import start_quiz_session
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 @router.message(Command("exam"))
 @router.message(F.text.in_(["🎲 Imtihon (20 savol)", "🎲 Экзамен (20 вопросов)"]))
 async def cmd_exam(message: Message, bot: Bot):
@@ -20,8 +21,7 @@ async def cmd_exam(message: Message, bot: Bot):
     lang = await db.get_user_lang(user_id)
 
     question_ids = await db.get_random_exam_question_ids(
-        book_id=UZB_AVTOTEST_BOOK_ID,
-        count=EXAM_QUESTIONS_COUNT
+        book_id=UZB_AVTOTEST_BOOK_ID, count=EXAM_QUESTIONS_COUNT
     )
 
     if not question_ids:
@@ -36,5 +36,5 @@ async def cmd_exam(message: Message, bot: Bot):
         user_id=user_id,
         mode="exam",
         title=title,
-        question_ids=question_ids
+        question_ids=question_ids,
     )

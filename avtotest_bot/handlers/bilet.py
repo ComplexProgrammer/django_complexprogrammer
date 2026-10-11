@@ -12,6 +12,7 @@ from .quiz import start_quiz_session
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 @router.message(Command("bilets"))
 @router.message(F.text.in_(["🚗 Biletlar (1-108)", "🚗 Билеты (1-108)"]))
 async def cmd_bilets(message: Message):
@@ -27,6 +28,7 @@ async def cmd_bilets(message: Message):
     text = get_text("bilet_title", lang)
     kb = get_bilet_list_keyboard(topics, current_page=1, per_page=15, lang=lang)
     await message.answer(text, reply_markup=kb, parse_mode="HTML")
+
 
 @router.callback_query(F.data.startswith("bilet_page:"))
 async def cb_bilet_page(callback: CallbackQuery):
@@ -44,6 +46,7 @@ async def cb_bilet_page(callback: CallbackQuery):
     except Exception:
         pass
     await callback.answer()
+
 
 @router.callback_query(F.data.startswith("bilet:"))
 async def cb_select_bilet(callback: CallbackQuery, bot: Bot):
@@ -79,6 +82,6 @@ async def cb_select_bilet(callback: CallbackQuery, bot: Bot):
         mode="bilet",
         title=title,
         question_ids=question_ids,
-        topic_id=topic_id
+        topic_id=topic_id,
     )
     await callback.answer()

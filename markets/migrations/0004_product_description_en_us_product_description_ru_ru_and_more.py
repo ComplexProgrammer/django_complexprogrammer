@@ -5,35 +5,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('markets', '0003_remove_category_name_remove_market_name_and_more'),
+        ("markets", "0003_remove_category_name_remove_market_name_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='description_en_us',
+            model_name="product",
+            name="description_en_us",
             field=ckeditor_uploader.fields.RichTextUploadingField(null=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='description_ru_ru',
+            model_name="product",
+            name="description_ru_ru",
             field=ckeditor_uploader.fields.RichTextUploadingField(null=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='description_uz_crl',
+            model_name="product",
+            name="description_uz_crl",
             field=ckeditor_uploader.fields.RichTextUploadingField(null=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='description_uz_uz',
+            model_name="product",
+            name="description_uz_uz",
             field=ckeditor_uploader.fields.RichTextUploadingField(null=True),
         ),
         migrations.AddField(
-            model_name='product',
-            name='quantity',
+            model_name="product",
+            name="quantity",
             field=models.IntegerField(default=1),
         ),
     ]

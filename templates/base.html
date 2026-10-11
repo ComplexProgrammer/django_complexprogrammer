@@ -1,12 +1,12 @@
 {% load i18n %}
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="{{ ui_lang }}" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Complex Programmer - Professional programming solutions">
+{% include "includes/head_common.html" %}
+
     <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
     <link rel="manifest" href="/static/manifest.json">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -1752,6 +1752,20 @@
                 font-size: 1.75rem;
             }
         }
+            /* Bosh sahifa: qidiruv va mashhur vositalar */
+        .cp-home{display:block;width:100%;position:relative;z-index:2}
+        .cp-home-search{display:flex;align-items:center;gap:10px;max-width:720px;margin:32px auto 8px;padding:8px 8px 8px 18px;
+            border-radius:16px;background:var(--color-surface-2,#fff);border:1px solid var(--color-border,#e2e8f0);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+        .cp-home-search input{flex:1;border:0;background:transparent;color:var(--color-text,#0f172a);font-size:17px;outline:none;min-width:0}
+        .cp-home-search button{border:0;border-radius:11px;padding:10px 18px;background:var(--color-primary,#6366f1);color:#fff;font-weight:600}
+        .cp-home-search .fa-search{color:var(--color-text-3,#94a3b8)}
+        .cp-home-h{font-size:1.15rem;font-weight:700;margin:24px 0 12px;color:var(--color-text,#0f172a)}
+        .cp-tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:28px}
+        .cp-tools-grid a{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:14px;text-decoration:none;font-weight:600;
+            color:var(--color-text,#0f172a);background:var(--color-surface-2,#fff);border:1px solid var(--color-border,#e2e8f0);
+            transition:transform .15s,box-shadow .15s,border-color .15s}
+        .cp-tools-grid a:hover{transform:translateY(-2px);border-color:var(--color-primary,#6366f1);box-shadow:0 8px 20px rgba(99,102,241,.15)}
+        .cp-tools-grid span{font-size:1.4rem}
     </style>
     <script>
         // Theme button update function
@@ -2172,20 +2186,9 @@
                 initCodeRain();
             }
         });
-    </script> <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-8DHWL20H58');
-    </script>
+    </script> 
 
     <!-- Google Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814"
-        crossorigin="anonymous"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
-        crossorigin="anonymous"></script>
 
     <!-- Google Funding Choices -->
     <script async src="https://fundingchoicesmessages.google.com/i/pub-4137874891184814?ers=1"
@@ -2247,46 +2250,45 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/blog/">
-                            <i class="fas fa-blog"></i> Blog
+                            <i class="fas fa-blog"></i> {{ ui.blog }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/projects/">
-                            <i class="fas fa-project-diagram"></i> Projects
+                            <i class="fas fa-project-diagram"></i> {{ ui.projects }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/markets/">
-                            <i class="fas fa-chart-line"></i> Markets
+                            <i class="fas fa-chart-line"></i> {{ ui.markets }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/tests/">
-                            <i class="fas fa-tasks"></i> Tests
+                            <i class="fas fa-tasks"></i> {{ ui.tests }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/avtotest/">
-                            <i class="fas fa-car"></i> Avtotest
+                            <i class="fas fa-car"></i> {{ ui.avtotest }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link nav-link-3d" href="/arxiv/" target="_blank">
-                            <i class="fas fa-archive"></i> Arxiv
+                            <i class="fas fa-archive"></i> {{ ui.archive }}
                         </a>
                     </li>
                 </ul>
-                <!-- {% if language.code == LANGUAGE_CODE %} selected {% endif %} -->
                 <!-- Language Selector -->
                 <form action="{% url 'set_language' %}" method="post" class="language-selector ms-auto">
                     {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}">
-                    <select name="language" onchange="this.form.submit()" aria-label="Select language">
+                    <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                    <select name="language" onchange="this.form.submit()" aria-label="{{ ui.language }}">
                         {% get_current_language as LANGUAGE_CODE %}
                         {% get_available_languages as LANGUAGES %}
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for language in languages %}
-                        <option value="{{ language.code }}">
+                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE|slice:":2" %}selected{% endif %}>
                             {{ language.name_local }}
                         </option>
                         {% endfor %}
@@ -2301,6 +2303,26 @@
         </div>
     </nav> <!-- Main Content -->
     <main role="main" class="fade-in">
+        <div class="container"><div class="cp-home">
+            <form class="cp-home-search" action="/search/" method="get" role="search">
+                <i class="fas fa-search"></i>
+                <input type="search" name="q" placeholder="{{ ui.search_placeholder }}" aria-label="{{ ui.search }}">
+                <button type="submit">{{ ui.search }}</button>
+            </form>
+            <h2 class="cp-home-h">{{ ui.popular_tools }}</h2>
+            <div class="cp-tools-grid">
+                <a href="/avtotest/"><span>🚗</span>{{ ui.avtotest }}</a>
+                <a href="/translate/"><span>🌐</span>{{ ui.translate }}</a>
+                <a href="/changetext/"><span>🔤</span>{{ ui.latin }}</a>
+                <a href="/pdf_tools/"><span>📄</span>{{ ui.pdf }}</a>
+                <a href="/password_generator/"><span>🔐</span>{{ ui.password }}</a>
+                <a href="/exchangerates/"><span>💱</span>{{ ui.rates }}</a>
+                <a href="/coins/"><span>🪙</span>{{ ui.coins }}</a>
+                <a href="/ip/"><span>📍</span>{{ ui.ip }}</a>
+                <a href="/imagecompare/"><span>🖼️</span>{{ ui.imagecompare }}</a>
+                <a href="/sitemap/"><span>🗺️</span>{{ ui.sitemap }}</a>
+            </div>
+        </div></div>
         <!-- Menu Cards Section -->
         <div class="container">
             <div class="menu-cards-grid">
@@ -2309,8 +2331,8 @@
                         <i class="fas fa-blog"></i>
                     </div>
                     <div class="menu-card-content">
-                        <h3 class="menu-card-title">Blog</h3>
-                        <p class="menu-card-desc">Maqolalar va darsliklar</p>
+                        <h3 class="menu-card-title">{{ ui.blog }}</h3>
+                        <p class="menu-card-desc">{{ ui.blog_desc }}</p>
                     </div>
                     <div class="menu-card-arrow">
                         <i class="fas fa-arrow-right"></i>
@@ -2321,8 +2343,8 @@
                         <i class="fas fa-project-diagram"></i>
                     </div>
                     <div class="menu-card-content">
-                        <h3 class="menu-card-title">Projects</h3>
-                        <p class="menu-card-desc">Loyihalar to'plami</p>
+                        <h3 class="menu-card-title">{{ ui.projects }}</h3>
+                        <p class="menu-card-desc">{{ ui.projects_desc }}</p>
                     </div>
                     <div class="menu-card-arrow">
                         <i class="fas fa-arrow-right"></i>
@@ -2333,8 +2355,8 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="menu-card-content">
-                        <h3 class="menu-card-title">Markets</h3>
-                        <p class="menu-card-desc">Bozor ma'lumotlari</p>
+                        <h3 class="menu-card-title">{{ ui.markets }}</h3>
+                        <p class="menu-card-desc">{{ ui.markets_desc }}</p>
                     </div>
                     <div class="menu-card-arrow">
                         <i class="fas fa-arrow-right"></i>
@@ -2345,8 +2367,8 @@
                         <i class="fas fa-tasks"></i>
                     </div>
                     <div class="menu-card-content">
-                        <h3 class="menu-card-title">Tests</h3>
-                        <p class="menu-card-desc">Test sinovlari</p>
+                        <h3 class="menu-card-title">{{ ui.tests }}</h3>
+                        <p class="menu-card-desc">{{ ui.tests_desc }}</p>
                     </div>
                     <div class="menu-card-arrow">
                         <i class="fas fa-arrow-right"></i>
@@ -2357,8 +2379,8 @@
                         <i class="fas fa-car"></i>
                     </div>
                     <div class="menu-card-content">
-                        <h3 class="menu-card-title">Avtotest</h3>
-                        <p class="menu-card-desc">Avtomobil testlari</p>
+                        <h3 class="menu-card-title">{{ ui.avtotest }}</h3>
+                        <p class="menu-card-desc">{{ ui.avtotest_desc }}</p>
                     </div>
                     <div class="menu-card-arrow">
                         <i class="fas fa-arrow-right"></i>
@@ -2369,8 +2391,8 @@
                         <i class="fas fa-archive"></i>
                     </div>
                     <div class="menu-card-content">
-                        <h3 class="menu-card-title">Arxiv</h3>
-                        <p class="menu-card-desc">Arxiv materiallari</p>
+                        <h3 class="menu-card-title">{{ ui.archive }}</h3>
+                        <p class="menu-card-desc">{{ ui.archive_desc }}</p>
                     </div>
                     <div class="menu-card-arrow">
                         <i class="fas fa-arrow-right"></i>

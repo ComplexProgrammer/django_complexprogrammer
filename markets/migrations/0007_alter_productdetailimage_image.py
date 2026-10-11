@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('markets', '0006_remove_product_color_remove_product_price_and_more'),
+        ("markets", "0006_remove_product_color_remove_product_price_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='productdetailimage',
-            name='image',
-            field=models.ImageField(blank=True, upload_to='markets/stores/products/details/images'),
+            model_name="productdetailimage",
+            name="image",
+            field=models.ImageField(
+                blank=True, upload_to="markets/stores/products/details/images"
+            ),
         ),
     ]

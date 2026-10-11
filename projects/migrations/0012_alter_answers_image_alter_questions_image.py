@@ -4,20 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('projects', '0011_alter_answers_options_alter_books_options_and_more'),
+        ("projects", "0011_alter_answers_options_alter_books_options_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='answers',
-            name='image',
-            field=models.ImageField(blank=True, upload_to='projects/tests/answers/images'),
+            model_name="answers",
+            name="image",
+            field=models.ImageField(
+                blank=True, upload_to="projects/tests/answers/images"
+            ),
         ),
         migrations.AlterField(
-            model_name='questions',
-            name='image',
-            field=models.ImageField(blank=True, upload_to='projects/tests/questions/images'),
+            model_name="questions",
+            name="image",
+            field=models.ImageField(
+                blank=True, upload_to="projects/tests/questions/images"
+            ),
         ),
     ]

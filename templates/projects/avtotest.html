@@ -4,41 +4,12 @@
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ ui_lang }}">
 
 <head>
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "e815a36ng3");
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function (m, e, t, r, i, k, a) {
-            m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments) };
-            m[i].l = 1 * new Date();
-            for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
-            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-        })
-            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-        ym(90624869, "init", {
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true
-        });
-    </script>
-    <noscript>
-        <div><img src="https://mc.yandex.ru/watch/90624869" style="position:absolute; left:-9999px;" alt="" /></div>
-    </noscript>
-    <!-- /Yandex.Metrika counter -->
-    <!-- Yandex.RTB -->
-    <script>window.yaContextCb = window.yaContextCb || []</script>
-    <script src="https://yandex.ru/ads/system/context.js" async></script>
-    <meta name="yandex-verification" content="6bd5e2cc7d84e7b1" />
     <meta charset="UTF-8">
+{% include "includes/head_common.html" %}
     <title>
         {% if request.LANGUAGE_CODE == 'uz' %}
         Avto Test 1000+
@@ -51,60 +22,17 @@
         {% endif %}
     </title>
     {% if request.LANGUAGE_CODE == 'uz' %}
-    <meta name="description" content="Avto Test 1000+" />
+    
     {% else %}
     {% if request.LANGUAGE_CODE == 'ru' %}
-    <meta name="description" content="Авто Тест 1000+" />
+    
     {% else %}
-    <meta name="description" content="Auto Test 1000+" />
+    
     {% endif %}
     {% endif %}
     <meta property="og:image" content="/media/projects/images/avtotest.png" />
-    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4137874891184814" crossorigin="anonymous"></script> -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259"
-        crossorigin="anonymous"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+    <!--  -->
 
-        gtag('config', 'G-8DHWL20H58');
-    </script>
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-NW763C2');</script>
-    <!-- End Google Tag Manager -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-            apiKey: "AIzaSyDpWaFi5QLTNc-yY0ieMKJtGOmbm2ofBm4",
-            authDomain: "c0mplex.firebaseapp.com",
-            projectId: "c0mplex",
-            storageBucket: "c0mplex.appspot.com",
-            messagingSenderId: "755681568857",
-            appId: "1:755681568857:web:102b1b733df55baefe2948",
-            measurementId: "G-H8XGTS4B9J"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-    </script>
     <link rel="icon" sizes="16x16" href="/static/img/avtotest.png">
     <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
@@ -1818,6 +1746,7 @@
 </head>
 
 <body ng-app="App" ng-controller="avtotest">
+{% include "includes/site_header.html" %}
     <!-- Three.js Background Canvas - Avto Test Theme -->
     <canvas id="threejs-canvas"></canvas>
 
@@ -1835,45 +1764,7 @@
   <script>
       (adsbygoogle = window.adsbygoogle || []).push({});
   </script> -->
-    <div class="fixed-top">
-        <div class="position-relative" style="margin-block-start:50px;">
-            <div class="position-absolute top-0 end-0 translate-middle">
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <form action="{% url 'set_language' %}" method="POST">
-                                {% csrf_token %}
-                                {% comment %}
-                                <input name="next" type="hidden" value="{{ redirect_to }}">
-                                {% endcomment %}
-                                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                                    name="language" onchange="this.form.submit()">
-                                    {% for language in languages %}
-                                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                                        {{ language.name_local }}
-                                        {% if LANGUAGE_CODE == 'en' %}
-                                        <img src="https://ipapi.co/static/images/flags/us.png" />
-                                        {% else %}
-                                        <img src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
-                                        {% endif %}
-                                    </option>
-                                    {% endfor %}
-                                </select>
-                            </form>
-                        </div>
-                        <div class="col-1">
-                            {% if LANGUAGE_CODE == 'en' %}
-                            <img style="object-fit: cover;" src="https://ipapi.co/static/images/flags/us.png" />
-                            {% else %}
-                            <img style="object-fit: cover;"
-                                src="https://ipapi.co/static/images/flags/{{LANGUAGE_CODE}}.png" />
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Yandex.RTB R-A-1963742-5 -->
     <script>window.yaContextCb.push(() => {
             Ya.Context.AdvManager.render({
@@ -2044,9 +1935,26 @@
                 </a>
             </h1>
 
+            <div class="at-stats" id="atStats" hidden>
+                <div><b id="atDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yechilgan{% else %}completed{% endif %}</span></div>
+                <div><b id="atPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}o'tilgan{% else %}passed{% endif %}</span></div>
+                <div><b id="atAccuracy">0%</b><span>{% if request.LANGUAGE_CODE == 'ru' %}точность{% elif request.LANGUAGE_CODE == 'uz' %}aniqlik{% else %}accuracy{% endif %}</span></div>
+                <a href="/avtotest/xatolar/" class="at-mistakes-btn" id="atMistakes">
+                    ❌ {% if request.LANGUAGE_CODE == 'ru' %}Мои ошибки{% elif request.LANGUAGE_CODE == 'uz' %}Xatolarim{% else %}My mistakes{% endif %}
+                    <b id="atMistakesCount">0</b>
+                </a>
+                <a href="/avtotest/{{ row|length|add:0 }}" class="at-random-btn" id="atRandom">
+                    🎲 {% if request.LANGUAGE_CODE == 'ru' %}Случайный билет{% elif request.LANGUAGE_CODE == 'uz' %}Tasodifiy bilet{% else %}Random ticket{% endif %}
+                </a>
+            </div>
+            <p class="at-legend">
+                <span class="at-dot at-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≤2 ошибки){% elif request.LANGUAGE_CODE == 'uz' %}o'tdi (≤2 xato){% else %}passed (≤2 mistakes){% endif %}
+                <span class="at-dot at-fail"></span> {% if request.LANGUAGE_CODE == 'ru' %}не сдан{% elif request.LANGUAGE_CODE == 'uz' %}yiqildi{% else %}failed{% endif %}
+                <span class="at-dot at-progress"></span> {% if request.LANGUAGE_CODE == 'ru' %}в процессе{% elif request.LANGUAGE_CODE == 'uz' %}davom etmoqda{% else %}in progress{% endif %}
+            </p>
             <div class="tickets-grid">
                 {% for i in row %}
-                <div class="ticket-card-3d">
+                <div class="ticket-card-3d" data-bilet="{{ i }}">
                     <a href="/avtotest/{{ i }}" class="ticket-link">
                         <div class="ticket-card-inner">
                             <div class="ticket-number">{{ i }}</div>
@@ -2071,6 +1979,73 @@
             </div>
         </div>
     </div>
+
+    <style>
+        .at-stats{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;margin:0 0 12px}
+        .at-stats>div{flex:1 1 110px;padding:12px 16px;border-radius:14px;background:rgba(255,255,255,.7);border:1px solid rgba(99,102,241,.2);text-align:center}
+        [data-theme="dark"] .at-stats>div{background:rgba(30,41,59,.8)}
+        .at-stats b{display:block;font-size:1.6rem;line-height:1.2}
+        .at-stats span{font-size:.85rem;opacity:.75}
+        .at-mistakes-btn,.at-random-btn{flex:1 1 160px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;
+            font-weight:600;text-decoration:none!important;color:#fff!important;background:linear-gradient(135deg,#ef4444,#f97316)}
+        .at-random-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+        .at-mistakes-btn b{background:rgba(255,255,255,.25);border-radius:999px;padding:0 9px}
+        .at-legend{font-size:.85rem;opacity:.8;margin-bottom:16px}
+        .at-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
+        .at-pass{background:#22c55e}.at-fail{background:#ef4444}.at-progress{background:#f59e0b}
+        .ticket-card-3d.is-pass .ticket-card-inner{box-shadow:inset 0 0 0 3px #22c55e}
+        .ticket-card-3d.is-fail .ticket-card-inner{box-shadow:inset 0 0 0 3px #ef4444}
+        .ticket-card-3d.is-progress .ticket-card-inner{box-shadow:inset 0 0 0 3px #f59e0b}
+        .ticket-score{position:absolute;top:10px;right:12px;font-size:.8rem;font-weight:700;padding:2px 8px;border-radius:999px;color:#fff}
+        .is-pass .ticket-score{background:#22c55e}.is-fail .ticket-score{background:#ef4444}.is-progress .ticket-score{background:#f59e0b}
+    </style>
+    <script>
+        // Bilet kartalarini localStorage'dagi natijalar bo'yicha bo'yash va statistika
+        (function () {
+            function load(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch (e) { return def; } }
+            var results = load("avtotestResults", {});
+            var javoblar = load("avtotestJavoblar", []);
+            var mistakes = load("avtotestMistakes", {});
+            var inProgress = {};
+            javoblar.forEach(function (j) { inProgress[j.bilet] = (inProgress[j.bilet] || 0) + 1; });
+
+            var done = 0, passed = 0, correct = 0, total = 0;
+            var cards = document.querySelectorAll(".ticket-card-3d[data-bilet]");
+            var unsolved = [];
+            cards.forEach(function (card) {
+                var b = card.getAttribute("data-bilet");
+                var r = results[b];
+                var badge = document.createElement("span");
+                badge.className = "ticket-score";
+                if (r) {
+                    done++; correct += r.correct; total += r.correct + r.wrong;
+                    var ok = r.wrong <= 2;
+                    if (ok) passed++;
+                    card.classList.add(ok ? "is-pass" : "is-fail");
+                    badge.textContent = r.correct + "/10";
+                } else if (inProgress[b]) {
+                    card.classList.add("is-progress");
+                    badge.textContent = inProgress[b] + "/10";
+                } else {
+                    unsolved.push(b);
+                    return;
+                }
+                var inner = card.querySelector(".ticket-card-inner");
+                inner.style.position = "relative";
+                inner.appendChild(badge);
+            });
+
+            var nMistakes = Object.keys(mistakes).length;
+            document.getElementById("atDone").textContent = done + "/" + cards.length;
+            document.getElementById("atPassed").textContent = passed;
+            document.getElementById("atAccuracy").textContent = total ? Math.round(correct / total * 100) + "%" : "—";
+            document.getElementById("atMistakesCount").textContent = nMistakes;
+            if (!nMistakes) document.getElementById("atMistakes").style.display = "none";
+            var pool = unsolved.length ? unsolved : Array.from(cards).map(function (c) { return c.getAttribute("data-bilet"); });
+            document.getElementById("atRandom").href = "/avtotest/" + pool[Math.floor(Math.random() * pool.length)] + "/";
+            document.getElementById("atStats").hidden = false;
+        })();
+    </script>
     {% else %}
     <div class="wrapper fade-in-up">
         <div class="container">
@@ -2230,8 +2205,7 @@
             $scope.isPaused = false;
             $scope.timeout = false;
             $scope.savol_raqami = 1;
-            $scope.bilet = {{ bilet }
-        };
+            $scope.bilet = {{ bilet|default:0 }};
         $scope.time = 900;
         $scope.togri_javob_soni = 0;
         $scope.notogri_javob_soni = 0;
@@ -2248,7 +2222,8 @@
         }
         $scope.nextbilet = function (value) {
             if ($scope.bilet == value) {
-                setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.bilet != $scope.bilet)), 365);
+                $scope.javoblar = $scope.javoblar.filter(word => word.bilet != $scope.bilet);
+                saveJavoblar();
             }
             window.location.href = "/avtotest/" + value;
         }
@@ -2289,6 +2264,58 @@
             timeH.innerHTML = "Vaqt tugadi";
             myModal.show();
         }
+        // Javoblar localStorage'da saqlanadi: cookie ~4 KB bilan cheklangani sababli
+        // 8-10 biletdan keyin progress yo'qolib qolardi.
+        var STORE_KEY = "avtotestJavoblar";
+        function saveJavoblar() {
+            try { localStorage.setItem(STORE_KEY, JSON.stringify($scope.javoblar)); } catch (e) {}
+        }
+        function loadJavoblar() {
+            try {
+                var raw = localStorage.getItem(STORE_KEY);
+                if (raw) return JSON.parse(raw);
+                // Eski cookie'dagi ma'lumotni bir marta ko'chiramiz
+                var old = getCookie("javoblar");
+                if (old) {
+                    var parsed = JSON.parse(old);
+                    localStorage.setItem(STORE_KEY, old);
+                    document.cookie = "javoblar=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                    return parsed;
+                }
+            } catch (e) {}
+            return [];
+        }
+        // Yakunlangan biletlar natijasi va xato savollar — bilet qayta boshlansa ham saqlanib qoladi
+        function loadObj(key) {
+            try { return JSON.parse(localStorage.getItem(key) || "{}"); } catch (e) { return {}; }
+        }
+        function saveObj(key, value) {
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+        }
+        function rememberAnswer(questionId, correct) {
+            var mistakes = loadObj("avtotestMistakes");
+            if (correct) delete mistakes[questionId];
+            else mistakes[questionId] = { bilet: $scope.bilet, t: Date.now() };
+            saveObj("avtotestMistakes", mistakes);
+        }
+        function saveResult() {
+            var results = loadObj("avtotestResults");
+            var mine = $scope.javoblar.filter(function (w) { return w.bilet == $scope.bilet; });
+            var correct = mine.filter(function (w) {
+                var q = $scope.data.find(function (d) { return d.id == w.id; });
+                return q && q.javob === w.javob;
+            }).length;
+            var prev = results[$scope.bilet] || { attempts: 0 };
+            results[$scope.bilet] = {
+                correct: correct,
+                wrong: mine.length - correct,
+                attempts: (prev.attempts || 0) + 1,
+                best: Math.max(prev.best || 0, correct),
+                time: 900 - $scope.time,
+                date: Date.now()
+            };
+            saveObj("avtotestResults", results);
+        }
         function setCookie(cname, cvalue, exdays) {
             const d = new Date();
             d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -2311,18 +2338,14 @@
             return "";
         }
         function checkJavoblar() {
-            if (getCookie("javoblar")) {
-                $scope.javoblar = JSON.parse(getCookie("javoblar"));
-            }
+            $scope.javoblar = loadJavoblar();
             if ($scope.javoblar.filter(word => word.bilet == $scope.bilet).length == 10) {
-                setCookie("javoblar", JSON.stringify($scope.javoblar.filter(word => word.bilet != $scope.bilet)), 365);
-                $scope.javoblar = JSON.parse(getCookie("javoblar"));
+                $scope.javoblar = $scope.javoblar.filter(word => word.bilet != $scope.bilet);
+                saveJavoblar();
             }
             else {
                 if ($scope.javoblar.filter(word => word.bilet == $scope.bilet).length != 0) {
-<!--                            $scope.isPaused = true;-->
-< !--$scope.timeout = true; -->
-< !--myModal.show(); -->
+                            // $scope.isPaused = true; $scope.timeout = true; myModal.show();
                         }
             }
             $scope.javoblar.filter(word => word.bilet == $scope.bilet).forEach((element) => {
@@ -2356,10 +2379,13 @@
                 javob: javob,
             };
 
-            if (!$scope.javoblar.find(element => element.id == obj.id)) {
-                $scope.javoblar.push(obj);
-                setCookie("javoblar", JSON.stringify($scope.javoblar), 365);
+            if ($scope.javoblar.find(element => element.id == obj.id)) {
+                return; // bu savolga allaqachon javob berilgan
             }
+            $scope.javoblar.push(obj);
+            saveJavoblar();
+            $scope.savol.berilgan_javob = javob;
+            rememberAnswer($scope.savol.id, javob === $scope.savol.javob);
 
             $scope.mValue = javob + $scope.id;
             if (javob === $scope.savol.javob) {
@@ -2383,9 +2409,39 @@
             if ($scope.javoblar.filter(word => word.bilet == $scope.bilet).length == 10) {
                 $scope.isPaused = true;
                 $scope.timeout = false;
+                saveResult();
                 myModal.show();
+            } else if (javob === $scope.savol.javob) {
+                // To'g'ri javobdan keyin keyingi javobsiz savolga avtomatik o'tamiz
+                setTimeout(function () { $scope.$apply(goNextUnanswered); }, 900);
             }
         }
+        function goNextUnanswered() {
+            for (var step = 1; step <= $scope.data.length; step++) {
+                var n = (($scope.savol_raqami - 1 + step) % $scope.data.length) + 1;
+                if (!$scope.data[n - 1].berilgan_javob) { myFunction(n); return; }
+            }
+        }
+        // Klaviatura: 1-4 yoki A-D — javob, ←/→ — oldingi/keyingi savol
+        document.addEventListener("keydown", function (e) {
+            if (!$scope.data.length || e.ctrlKey || e.metaKey || e.altKey) return;
+            var tag = (e.target.tagName || "").toLowerCase();
+            if (tag === "input" || tag === "textarea" || tag === "select") return;
+            var key = e.key.toUpperCase();
+            var map = { "1": "A", "2": "B", "3": "C", "4": "D", "A": "A", "B": "B", "C": "C", "D": "D" };
+            if (map[key]) {
+                var letter = map[key];
+                var field = "javob_" + letter.toLowerCase();
+                if ($scope.savol && $scope.savol[field] && !$scope.savol.berilgan_javob) {
+                    e.preventDefault();
+                    $scope.$apply(function () { $scope.ok(letter); });
+                }
+            } else if (e.key === "ArrowRight" && $scope.savol_raqami < $scope.data.length) {
+                $scope.$apply(function () { myFunction($scope.savol_raqami + 1); });
+            } else if (e.key === "ArrowLeft" && $scope.savol_raqami > 1) {
+                $scope.$apply(function () { myFunction($scope.savol_raqami - 1); });
+            }
+        });
         $scope.ok = function (javob) {
             setJavob(javob);
             //setTimeout(myFunction, 3000, $scope.savol_raqami+1);
@@ -2453,7 +2509,6 @@
                 $scope.id = $scope.savol.id;
                 $scope.savol_raqami = raqam + 1;
                 document.getElementById('savol' + $scope.savol_raqami).classList.add('active');
-
 
                 $("#hh").modal('hide');
                 document.getElementById('conn').style.visibility = "hidden";

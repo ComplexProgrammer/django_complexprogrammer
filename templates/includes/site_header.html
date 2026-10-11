@@ -1,0 +1,89 @@
+{# Barcha sahifalarda bir xil yuqori panel: navigatsiya, qidiruv, til, mavzu. #}
+{# Stillar "cp-" prefiksi bilan — sahifalarning o'z CSS'i bilan to'qnashmaydi. #}
+{% load i18n %}{% get_current_language as CP_LANG %}
+<style>
+  .cp-header{position:sticky;top:0;z-index:1040;display:flex;align-items:center;gap:12px;
+    padding:8px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(15,23,42,.08);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:15px;line-height:1.2;color:#0f172a;box-sizing:border-box;width:100%}
+  [data-theme="dark"] .cp-header{background:rgba(15,23,42,.88);border-bottom-color:rgba(148,163,184,.18);color:#f1f5f9}
+  .cp-header *{box-sizing:border-box}
+  .cp-brand{display:flex;align-items:center;gap:8px;font-weight:700;color:inherit!important;text-decoration:none!important;white-space:nowrap}
+  .cp-brand img{width:28px;height:28px;border-radius:8px}
+  .cp-nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0}
+  .cp-nav::-webkit-scrollbar{display:none}
+  .cp-nav a{padding:7px 11px;border-radius:9px;color:inherit!important;text-decoration:none!important;white-space:nowrap;opacity:.85}
+  .cp-nav a:hover,.cp-nav a[aria-current="page"]{background:rgba(99,102,241,.12);opacity:1;color:#4f46e5!important}
+  [data-theme="dark"] .cp-nav a:hover,[data-theme="dark"] .cp-nav a[aria-current="page"]{color:#a5b4fc!important}
+  .cp-tools{display:flex;align-items:center;gap:6px;margin-left:auto}
+  .cp-search{display:flex;align-items:center}
+  .cp-search input{width:180px;padding:7px 10px;border-radius:9px;border:1px solid rgba(100,116,139,.35);
+    background:transparent;color:inherit;font-size:14px;outline:none}
+  .cp-search input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.2)}
+  .cp-btn,.cp-lang select{height:34px;min-width:34px;padding:0 8px;border-radius:9px;border:1px solid rgba(100,116,139,.35);
+    background:transparent;color:inherit;font-size:14px;cursor:pointer}
+  .cp-lang select option{color:#0f172a}
+  /* Sahifalarning global input/select stillari headerga ta'sir qilmasin */
+  .cp-header .cp-search input,.cp-header .cp-lang select,.cp-header .cp-btn{color:#0f172a!important;background:#fff!important;
+    box-shadow:none;margin:0;height:34px;line-height:normal;font-family:inherit;backdrop-filter:none}
+  .cp-header .cp-search input::placeholder{color:#64748b!important;opacity:1}
+  [data-theme="dark"] .cp-header .cp-search input,[data-theme="dark"] .cp-header .cp-lang select,[data-theme="dark"] .cp-header .cp-btn{
+    color:#f1f5f9!important;background:#1e293b!important}
+  [data-theme="dark"] .cp-header .cp-search input::placeholder{color:#94a3b8!important}
+  .cp-btn:hover{border-color:#6366f1}
+  .cp-header .cp-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  /* Sahifalarning eski suzuvchi mavzu tugmasi endi kerak emas — headerdagi tugma ishlatiladi */
+  body.cp-has-header > #themeButton, body.cp-has-header > .theme-toggle{display:none!important}
+  @media (max-width:820px){
+    .cp-header{flex-wrap:wrap;padding:8px 12px;gap:8px}
+    .cp-nav{order:3;flex-basis:100%}
+    .cp-search input{width:130px}
+  }
+  @media (max-width:560px){
+    .cp-brand span{display:none}
+    .cp-tools{flex:1;justify-content:flex-end}
+    .cp-search{flex:1}
+    .cp-search input{width:100%}
+  }
+</style>
+<header class="cp-header" role="banner">
+  <a class="cp-brand" href="/" aria-label="{{ ui.home }}">
+    <img src="/static/img/C0mplex.png" alt="" width="28" height="28">
+    <span>Complex Programmer</span>
+  </a>
+  <nav class="cp-nav" aria-label="{{ ui.menu }}">
+    <a href="/avtotest/" {% if request.path|slice:":10" == "/avtotest/" %}aria-current="page"{% endif %}>🚗 {{ ui.avtotest }}</a>
+    <a href="/tests/" {% if request.path|slice:":7" == "/tests/" %}aria-current="page"{% endif %}>📝 {{ ui.tests }}</a>
+    <a href="/projects/" {% if request.path == "/projects/" %}aria-current="page"{% endif %}>🧰 {{ ui.projects }}</a>
+    <a href="/blog/" {% if request.path|slice:":6" == "/blog/" %}aria-current="page"{% endif %}>📰 {{ ui.blog }}</a>
+    <a href="/news/" {% if request.path|slice:":6" == "/news/" %}aria-current="page"{% endif %}>🗞️ {{ ui.news }}</a>
+  </nav>
+  <div class="cp-tools">
+    <form class="cp-search" action="/search/" method="get" role="search">
+      <label class="cp-sr" for="cp-q">{{ ui.search }}</label>
+      <input id="cp-q" type="search" name="q" placeholder="{{ ui.search_placeholder }}" value="{{ request.GET.q|default:'' }}">
+    </form>
+    <form class="cp-lang" action="{% url 'set_language' %}" method="post">
+      {% csrf_token %}
+      <input name="next" type="hidden" value="{{ request.get_full_path }}">
+      <label class="cp-sr" for="cp-lang">{{ ui.language }}</label>
+      <select id="cp-lang" name="language" onchange="this.form.submit()">
+        {% for code, name in available_languages %}
+        <option value="{{ code }}" {% if code == CP_LANG|slice:":2" %}selected{% endif %}>{{ code|upper }}</option>
+        {% endfor %}
+      </select>
+    </form>
+    <button type="button" class="cp-btn" id="cp-theme" aria-label="{{ ui.theme }}" title="{{ ui.theme }}">🌓</button>
+  </div>
+</header>
+<script>
+  document.body.classList.add("cp-has-header");
+  document.getElementById("cp-theme").addEventListener("click", function () {
+    // Sahifaning o'z toggleTheme() funksiyasi bo'lsa — o'shani chaqiramiz (ikonkalar va h.k. yangilanadi)
+    if (typeof window.toggleTheme === "function") { window.toggleTheme(); return; }
+    var html = document.documentElement;
+    var next = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    html.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+  });
+</script>

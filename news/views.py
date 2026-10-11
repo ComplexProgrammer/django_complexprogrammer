@@ -1,29 +1,30 @@
+from django.core.exceptions import ValidationError
+from django.http import Http404
 from django.shortcuts import render
-from comments.models import Comment
+from comments.pages import page_comments
 from news.models import Posts
+
 
 def index(request):
     news = []
-    current_url = request.build_absolute_uri()
-    comments = Comment.objects.filter(
-        page_url=current_url,
-        parent=None  # Only get top-level comments
-    ).prefetch_related(
-        'replies',  # First level replies
-        'replies__replies',  # Second level replies
-        'replies__replies__replies',  # Third level replies
-        'replies__replies__replies__replies'  # Fourth level replies
-    ).order_by('-created_at')
-    
-    id = request.GET.get('id', 0)
+    comments = page_comments(request)
+
+    id = request.GET.get("id", 0)
     if id == 0:
         news = Posts.objects.filter(is_deleted=False).values()
     else:
-        news = Posts.objects.filter(id=id).first()
-    
+        try:
+            news = Posts.objects.filter(id=id, is_deleted=False).first()
+        except (ValueError, ValidationError):
+            news = None
+        if news is None:
+            raise Http404("Yangilik topilmadi")
+
     context = {
-        'id': id,
-        'news': news,
-        'comments': comments,
+        "id": id,
+        "news": news,
+        "comments": comments,
     }
+    if id != 0 and news:
+        context["seo_description"] = getattr(news, "title_uz_uz", "") or ""
     return render(request, "news/index.html", context=context)

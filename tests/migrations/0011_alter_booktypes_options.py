@@ -4,14 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tests', '0010_booktypes_alter_books_options_alter_types_options'),
+        ("tests", "0010_booktypes_alter_books_options_alter_types_options"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='booktypes',
-            options={'ordering': ['sort_order'], 'verbose_name': 'BookType', 'verbose_name_plural': 'Book_Types'},
+            name="booktypes",
+            options={
+                "ordering": ["sort_order"],
+                "verbose_name": "BookType",
+                "verbose_name_plural": "Book_Types",
+            },
         ),
     ]

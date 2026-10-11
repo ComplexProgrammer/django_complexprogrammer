@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -20,6 +21,9 @@ from django.urls import include, path, re_path
 from django.views.static import serve
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import RedirectView
+
+from core import views as core_views
+
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
 #     path('', include('projects.urls')),
@@ -30,30 +34,47 @@ from django.views.generic import RedirectView
 #     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 # ]
 urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += [path('i18n/', include('django.conf.urls.i18n')),]
+urlpatterns += [
+    path("i18n/", include("django.conf.urls.i18n")),
+]
 urlpatterns = [
-	*i18n_patterns(*urlpatterns, prefix_default_language=False),
-	]
-urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }), ]
+    *i18n_patterns(*urlpatterns, prefix_default_language=False),
+]
+urlpatterns += [
+    re_path(
+        r"^media/(?P<path>.*)$",
+        serve,
+        {
+            "document_root": settings.MEDIA_ROOT,
+        },
+    ),
+]
 if settings.DEBUG:
-	urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-	# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 urlpatterns += [
-	path('admin/', admin.site.urls),
-	path('', include('projects.urls')),
-	#path('avtotest/', views.tests),
-	# path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
-	path('', include('tests.urls')),
-	path('tests/', include('tests.urls')),
-	path('pdf_tools', include('pdf_tools.urls')),
-	path('markets/', include('markets.urls')),
-	path('news/', include('news.urls')),
-	path('blog/', include('blog.urls')),
-	path('', include('comments.urls')),
-	path('cryptomarket/', include('cryptomarket.urls')),
-	path('site_clones/', include('site_clones.urls')),
-	path('', include('arxiv.urls')),
-	re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    path("admin/", admin.site.urls),
+    path("sitemap.xml", core_views.sitemap_xml, name="sitemap_xml"),
+    path("sitemap.xml/", core_views.sitemap_xml),
+    path("robots.txt", core_views.robots_txt, name="robots_txt"),
+    path("robots.txt/", core_views.robots_txt),
+    path("search/", core_views.search, name="search"),
+    path("sw.js", core_views.service_worker, name="service_worker"),
+    path("offline/", core_views.offline, name="offline"),
+    path("", include("projects.urls")),
+    # path('avtotest/', views.tests),
+    # path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),
+    path("", include("tests.urls")),
+    path("tests/", include("tests.urls")),
+    path("pdf_tools/", include("pdf_tools.urls")),
+    path("markets/", include("markets.urls")),
+    path("news/", include("news.urls")),
+    path("blog/", include("blog.urls")),
+    path("", include("comments.urls")),
+    path("cryptomarket/", include("cryptomarket.urls")),
+    path("site_clones/", include("site_clones.urls")),
+    path("", include("arxiv.urls")),
+    re_path(r"^ckeditor/", include("ckeditor_uploader.urls")),
 ]

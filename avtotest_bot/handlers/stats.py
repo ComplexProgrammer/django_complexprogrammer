@@ -10,6 +10,7 @@ from ..texts import get_text
 logger = logging.getLogger(__name__)
 router = Router()
 
+
 @router.message(Command("stats"))
 @router.message(F.text.in_(["📊 Mening natijalarim", "📊 Моя статистика"]))
 async def cmd_stats(message: Message):
@@ -35,7 +36,9 @@ async def cmd_stats(message: Message):
         total_questions = user.get("total_questions", 0)
         correct_answers = user.get("correct_answers", 0)
         wrong_answers = user.get("wrong_answers", 0)
-        accuracy = round((correct_answers / total_questions * 100) if total_questions > 0 else 0)
+        accuracy = round(
+            (correct_answers / total_questions * 100) if total_questions > 0 else 0
+        )
 
     stats_text = get_text(
         "stats_title",
@@ -46,7 +49,7 @@ async def cmd_stats(message: Message):
         total_questions=total_questions,
         correct_answers=correct_answers,
         wrong_answers=wrong_answers,
-        accuracy=accuracy
+        accuracy=accuracy,
     )
 
     await message.answer(stats_text, parse_mode="HTML")
