@@ -213,17 +213,6 @@
           };
         }]);
     </script>
-    <title>
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        PDF onlayn vositalari
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        Онлайн-инструменты PDF
-        {% else %}
-        PDF online tools
-        {% endif %}
-        {% endif %}
-    </title>
     <script>
         var scope = angular.element(document.getElementById("MainWrap")).scope(); 
         console.dir(scope)
@@ -231,6 +220,7 @@
 </head>
 <body ng-app="App" ng-controller="PDF" id="MainWrap">
 {% include "includes/site_header.html" %}
+{% include "includes/seo_intro.html" %}
 <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
     <img src="http://complexprogrammer.uz/static/img/buffering.gif" />
 </div>
@@ -611,5 +601,6 @@ data-full-width-responsive="true"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script> -->
+{% include "includes/seo_text.html" %}
 </body>
 </html>

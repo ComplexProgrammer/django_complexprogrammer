@@ -876,6 +876,8 @@ def project_item(request, id):
     context = {
         "item": item,
         "comments": comments,
+        "seo_title": f"{item.title} — Complex Programmer",
+        "seo_description": item.sub_title or item.title,
     }
     return render(request, "projects/item.html", context=context)
 

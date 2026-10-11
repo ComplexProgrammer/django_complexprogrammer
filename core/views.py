@@ -6,7 +6,8 @@ from django.utils.html import strip_tags
 from django.views.decorators.cache import cache_control
 
 from blog.models import Posts as BlogPost
-from core.context_processors import PAGE_META, SITE_URL, UI, _lang_key
+from core.context_processors import SITE_URL, UI, _lang_key
+from core.seo import SEO_LANGS, alternates, lang_url, page_meta
 from django.utils import translation
 from news.models import Posts as NewsPost
 from projects.models import AvtoTest, Project
@@ -46,10 +47,9 @@ def search(request):
 
     if len(q) >= 2:
         ql = q.lower()
-        idx = {"uz": 0, "ru": 1}.get(lang, 2)
         for url, key, keywords in TOOLS:
             title = ui.get(key, key)
-            desc = PAGE_META.get(url, ("", "", ""))[idx]
+            desc = (page_meta(url, lang) or {}).get("desc", "")
             haystack = " ".join([title, desc, keywords] + [u.get(key, "") for u in UI.values()]).lower()
             if ql in haystack:
                 results["tools"].append({"url": url, "title": title, "desc": desc})
@@ -115,31 +115,41 @@ STATIC_SITEMAP_PATHS = [
 
 
 def sitemap_xml(request):
-    """Avtomatik sitemap: yangi blog/yangilik/bilet qo'shilsa, o'zi paydo bo'ladi."""
+    """Avtomatik sitemap: yangi blog/yangilik/bilet qo'shilsa, o'zi paydo bo'ladi.
+
+    Har bir sahifa barcha til versiyalari (uz — prefikssiz, /ru/, /en/) bilan, hreflang havolalari bilan beriladi.
+    """
     from xml.sax.saxutils import escape
 
     from django.db.models import Max
 
-    base = SITE_URL
-    rows = [(base + path, None, freq, prio) for path, freq, prio in STATIC_SITEMAP_PATHS]
+    rows = [(path, None, freq, prio) for path, freq, prio in STATIC_SITEMAP_PATHS]
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"] or 0
-    rows += [(f"{base}/avtotest/{i}/", None, "monthly", "0.6") for i in range(1, max_bilet + 1)]
+    rows += [(f"/avtotest/{i}/", None, "monthly", "0.6") for i in range(1, max_bilet + 1)]
     for post in BlogPost.published().values("slug", "updated_at"):
-        rows.append((f"{base}/blog/{post['slug']}/", post["updated_at"], "monthly", "0.7"))
-    for post in NewsPost.objects.filter(is_deleted=False).values("id", "updated_at"):
-        rows.append((f"{base}/news/?id={post['id']}", post["updated_at"], "monthly", "0.5"))
+        rows.append((f"/blog/{post['slug']}/", post["updated_at"], "monthly", "0.7"))
+    for post in NewsPost.objects.filter(is_deleted=False).values("slug", "updated_at"):
+        rows.append((f"/news/{post['slug']}/", post["updated_at"], "monthly", "0.5"))
     for book in Books.objects.filter(is_deleted=False).values("id", "updated_at"):
-        rows.append((f"{base}/tests/?book_id={book['id']}", book["updated_at"], "monthly", "0.6"))
+        rows.append((f"/tests/?book_id={book['id']}", book["updated_at"], "monthly", "0.6"))
     for project in Project.actives.values("id", "updated_time"):
-        rows.append((f"{base}/project/{project['id']}/", project["updated_time"], "monthly", "0.4"))
+        rows.append((f"/project/{project['id']}/", project["updated_time"], "monthly", "0.4"))
 
     items = []
-    for loc, lastmod, freq, prio in rows:
+    for path, lastmod, freq, prio in rows:
         lm = f"<lastmod>{lastmod.date().isoformat()}</lastmod>" if lastmod else ""
-        items.append(f"<url><loc>{escape(loc)}</loc>{lm}<changefreq>{freq}</changefreq><priority>{prio}</priority></url>")
+        links = "".join(
+            f'<xhtml:link rel="alternate" hreflang="{code}" href="{escape(href)}"/>'
+            for code, href in alternates(path)
+        )
+        for lang in SEO_LANGS:
+            loc = escape(lang_url(path, lang))
+            items.append(f"<url><loc>{loc}</loc>{lm}<changefreq>{freq}</changefreq><priority>{prio}</priority>{links}</url>")
     xml = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(items) + "\n</urlset>\n"
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
+        + "\n".join(items)
+        + "\n</urlset>\n"
     )
     return HttpResponse(xml, content_type="application/xml")
 

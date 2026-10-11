@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 {% include "includes/head_common.html" %}
-<title>{{ page_title }} | Complex Programmer</title>
 <link rel="alternate" type="application/rss+xml" title="Complex Programmer — Blog" href="/blog/rss/">
 {% if page.has_previous %}<link rel="prev" href="?{% if query_prefix %}{{ query_prefix }}&{% endif %}page={{ page.previous_page_number }}">{% endif %}
 {% if page.has_next %}<link rel="next" href="?{% if query_prefix %}{{ query_prefix }}&{% endif %}page={{ page.next_page_number }}">{% endif %}

@@ -1,0 +1,28 @@
+{# Sahifa pastidagi tushuntirish matni va FAQ (FAQPage JSON-LD bilan bir xil). Matn: core/seo_pages.py #}
+{% if seo_text or seo_faq %}
+<style>
+  .cp-seo-text{max-width:900px;margin:32px auto;padding:24px 20px;border-radius:16px;box-sizing:border-box;
+    background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.15);text-align:left;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.65;color:#1e293b}
+  [data-theme="dark"] .cp-seo-text{background:rgba(30,41,59,.6);border-color:rgba(148,163,184,.2);color:#e2e8f0}
+  .cp-seo-text h2{font-size:1.2rem;font-weight:700;margin:0 0 8px;color:inherit}
+  .cp-seo-text h2:not(:first-child){margin-top:20px}
+  .cp-seo-text p{margin:0 0 10px;color:inherit}
+  .cp-seo-text details{border-top:1px solid rgba(100,116,139,.2);padding:10px 0}
+  .cp-seo-text summary{cursor:pointer;font-weight:600}
+  .cp-seo-text details p{margin:8px 0 0;opacity:.9}
+  @media (max-width:560px){.cp-seo-text{margin:24px 12px;padding:18px 16px}}
+</style>
+<section class="cp-seo-text" aria-label="{{ seo_h1|default:seo_title }}">
+  {% for heading, paragraph in seo_text %}
+  <h2>{{ heading }}</h2>
+  <p>{{ paragraph }}</p>
+  {% endfor %}
+  {% if seo_faq %}
+  <h2>{{ seo_labels.faq }}</h2>
+  {% for question, answer in seo_faq %}
+  <details><summary>{{ question }}</summary><p>{{ answer }}</p></details>
+  {% endfor %}
+  {% endif %}
+</section>
+{% endif %}

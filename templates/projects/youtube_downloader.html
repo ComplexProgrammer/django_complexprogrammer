@@ -27,17 +27,6 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://kit.fontawesome.com/391652c176.js" crossorigin="anonymous"></script>
-    <title>
-      {% if request.LANGUAGE_CODE == 'uz' %}
-      Youtube yuklab olish dasturi
-      {% else %}
-      {% if request.LANGUAGE_CODE == 'ru' %}
-      Загрузчик YouTube
-      {% else %}
-      Youtube Downloader
-      {% endif %}
-      {% endif %}
-    </title>
     <style>
 /* Three.js Canvas */
 #threejs-canvas {
@@ -237,6 +226,7 @@ body.light-mode .theme-toggle {
 </head>
 <body ng-app="App" ng-controller="YoutubeDownloader">
 {% include "includes/site_header.html" %}
+{% include "includes/seo_intro.html" %}
 <!-- Three.js Background Canvas -->
 <canvas id="threejs-canvas"></canvas>
     <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
@@ -409,6 +399,7 @@ body.light-mode .theme-toggle {
           </div>
       </div>
   </div>
+{% include "includes/seo_text.html" %}
   {% include 'comment_form.html' %}
 
   <div class="row">

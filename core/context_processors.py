@@ -1,9 +1,14 @@
-"""Barcha shablonlarga umumiy ma'lumot: UI matnlari (4 tilda), SEO meta va canonical URL."""
+"""Barcha shablonlarga umumiy ma'lumot: UI matnlari (4 tilda), SEO meta, canonical va hreflang.
+
+Sahifalar SEO matnlari — ``core/seo_pages.py``da.
+"""
 
 from django.conf import settings
 from django.utils import translation
 
-SITE_URL = "https://complexprogrammer.uz"
+from core import seo
+
+SITE_URL = seo.SITE_URL
 
 UI = {
     "uz": {
@@ -64,74 +69,6 @@ UI = {
     },
 }
 
-# Sahifa bo'yicha SEO sarlavha va tavsif: (uz, ru, en)
-PAGE_META = {
-    "/": (
-        "Complex Programmer — onlayn vositalar, testlar va o'yinlar",
-        "Бесплатные онлайн-инструменты, тесты ПДД и игры",
-        "Free online tools, driving tests and games",
-    ),
-    "/avtotest/": (
-        "Avtotest 2026 — YHQ imtihon biletlari onlayn",
-        "Автотест — экзаменационные билеты ПДД Узбекистана онлайн",
-        "Uzbekistan driving test tickets online",
-    ),
-    "/tests/": (
-        "Onlayn testlar — avtotest, mavzular bo'yicha savollar",
-        "Онлайн тесты по темам ПДД",
-        "Online tests by topic",
-    ),
-    "/translate/": (
-        "Onlayn tarjimon — o'zbek, rus, ingliz va 20+ til",
-        "Онлайн переводчик — узбекский, русский, английский",
-        "Free online translator — Uzbek, Russian, English and 20+ languages",
-    ),
-    "/password_generator/": (
-        "Kuchli parol generatori — xavfsiz parol yaratish",
-        "Генератор надёжных паролей",
-        "Strong password generator",
-    ),
-    "/changetext/": (
-        "Lotin-kirill o'girgich — o'zbek matnini lotin/kirillga o'tkazish",
-        "Конвертер узбекского текста латиница — кириллица",
-        "Uzbek Latin–Cyrillic text converter",
-    ),
-    "/exchangerates/": (
-        "Valyuta kurslari — O'zbekiston Markaziy banki",
-        "Курсы валют ЦБ Узбекистана",
-        "Central Bank of Uzbekistan exchange rates",
-    ),
-    "/coins/": (
-        "Kriptovalyuta narxlari onlayn",
-        "Курсы криптовалют онлайн",
-        "Cryptocurrency prices",
-    ),
-    "/ip/": ("IP manzilni aniqlash", "Узнать IP адрес", "IP address lookup"),
-    "/sitemap/": (
-        "Sitemap generator — sayt xaritasini yaratish",
-        "Генератор карты сайта (sitemap.xml)",
-        "XML sitemap generator",
-    ),
-    "/pdf_tools/": (
-        "PDF ni Word, Excel va rasmga o'tkazish",
-        "Конвертер PDF в Word, Excel и изображения",
-        "Convert PDF to Word, Excel and images",
-    ),
-    "/imagecompare/": (
-        "Ikki rasmni solishtirish — farqlarni topish",
-        "Сравнение двух изображений",
-        "Compare two images and find differences",
-    ),
-    "/youtube_downloader/": (
-        "YouTube video yuklab olish",
-        "Скачать видео с YouTube",
-        "YouTube video downloader",
-    ),
-    "/blog/": ("Blog — dasturlash bo'yicha maqolalar", "Блог о программировании", "Programming blog"),
-    "/projects/": ("Loyihalar va o'yinlar", "Проекты и игры", "Projects and games"),
-}
-
-
 def _lang_key(code):
     code = (code or "uz").split("-")[0]
     return code if code in UI else "en"
@@ -139,16 +76,30 @@ def _lang_key(code):
 
 def site(request):
     lang = _lang_key(translation.get_language())
-    meta = PAGE_META.get(request.path)
-    idx = {"uz": 0, "ru": 1}.get(lang, 2)
+    path = request.path_info  # /ru/ prefiksisiz
+    prefix = getattr(request, "lang_prefix", "")
+    url_lang = prefix.strip("/") or seo.DEFAULT_LANG
+    query = seo.canonical_query(request.GET)
+    canonical = SITE_URL + prefix + path + query
+    meta = seo.page_meta(path, lang) or {}
+    noindex = path in seo.NOINDEX_PATHS
     return {
         "ui": UI[lang],
         "ui_lang": lang,
         "site_url": SITE_URL,
-        # canonical: query parametrlarsiz, faqat sahifani aniqlovchi ?id= saqlanadi
-        "canonical_url": SITE_URL + request.path + (
-            f"?id={request.GET['id']}" if request.GET.get("id") else ""
-        ),
-        "seo_description": meta[idx] if meta else PAGE_META["/"][idx],
+        # canonical: query parametrlarsiz, faqat sahifani aniqlovchi (?id=, ?book_id=) saqlanadi
+        "canonical_url": canonical,
+        "seo_title": meta.get("title", ""),
+        "seo_description": meta.get("desc") or seo.page_meta("/", lang)["desc"],
+        "seo_h1": meta.get("h1", ""),
+        "seo_lead": meta.get("lead", ""),
+        "seo_text": meta.get("text", []),
+        "seo_faq": meta.get("faq", []),
+        "seo_labels": seo.LABELS[seo.meta_lang(lang)],
+        "seo_json_ld": seo.json_ld(lang, meta, canonical, url_lang) if meta and not noindex else "",
+        "hreflang_links": [] if noindex else seo.alternates(path + query),
+        "og_locale": seo.OG_LOCALES.get(lang, "uz_UZ"),
+        "noindex": noindex,
+        "lang_prefix": prefix,
         "available_languages": settings.LANGUAGES,
     }

@@ -72,7 +72,7 @@ def index(request):
             post = None
         if post is None:
             raise Http404("Maqola topilmadi")
-        return redirect(post.get_absolute_url(), permanent=True)
+        return redirect(getattr(request, "lang_prefix", "") + post.get_absolute_url(), permanent=True)
 
     lang = lang_key(translation.get_language())
     t = UI[lang]
@@ -107,7 +107,7 @@ def index(request):
         params.append(f"q={quote(q)}")
     query_prefix = "&".join(params)
 
-    canonical = f"{SITE_URL}/blog/"
+    canonical = f"{SITE_URL}{getattr(request, 'lang_prefix', '')}/blog/"
     canonical_params = ([f"categorie_id={category.id}"] if category else []) + (
         [f"page={page.number}"] if page.number > 1 else []
     )
@@ -130,6 +130,7 @@ def index(request):
             "q": q,
             "query_prefix": query_prefix,
             "page_title": title,
+            "seo_title": f"{title} | Complex Programmer",
             "canonical_url": canonical,
             "seo_description": (
                 f"{category_name}: " if category else ""
@@ -171,7 +172,7 @@ def detail(request, slug):
         exclude = [post.pk] + [p.pk for p in related]
         related += list(published.exclude(pk__in=exclude).order_by("-view_count")[: 3 - len(related)])
 
-    canonical = f"{SITE_URL}{post.get_absolute_url()}"
+    canonical = f"{SITE_URL}{getattr(request, 'lang_prefix', '')}{post.get_absolute_url()}"
     image = f"{SITE_URL}{post.image.url}" if post.image else f"{SITE_URL}/static/img/C0mplex.png"
     description = excerpt(lead or body, 160)
     category_name = pick(post.categorie, "name", lang)[0] if post.categorie else ""
@@ -213,6 +214,7 @@ def detail(request, slug):
             "older": _card(older, lang) if older else None,
             "related": [_card(p, lang) for p in related],
             "page_title": f"{name} — {t['blog']}",
+            "seo_title": f"{name} — {t['blog']} | Complex Programmer",
             "canonical_url": canonical,
             "seo_description": description,
             "og_type": "article",

@@ -13,33 +13,6 @@
 
   <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-  <title>
-    {% if request.LANGUAGE_CODE == 'uz' %}
-    Testlar {{type}}>
-    {% else %}
-    {% if request.LANGUAGE_CODE == 'ru' %}
-    Тесты {{type}}
-    {% else %}
-    Tests {{type}}
-    {% endif %}
-    {% endif %}
-    {% if request.LANGUAGE_CODE == 'uz' %}
-    {% verbatim %}
-    {{type_data.name_uz_uz}}
-    {% endverbatim %}
-    {% else %}
-    {% if request.LANGUAGE_CODE == 'ru' %}
-    {% verbatim %}
-    {{type_data.name_ru_ru}}
-    {% endverbatim %}
-    {% else %}
-    {% verbatim %}
-    {{type_data.id}}
-    {{type_data.name_en_us}}
-    {% endverbatim %}
-    {% endif %}
-    {% endif %}
-  </title>
   {% if request.LANGUAGE_CODE == 'uz' %}
   
   {% else %}
@@ -353,7 +326,7 @@
       padding: 2rem 0;
     }
 
-    h1 {
+    h1, .cp-h1 {
       font-family: 'Inter', sans-serif;
       font-size: clamp(2rem, 5vw, 4rem);
       font-weight: 800;
@@ -366,7 +339,7 @@
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
-    [data-theme="dark"] h1 {
+    [data-theme="dark"] h1, [data-theme="dark"] .cp-h1 {
       filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
     }
 
@@ -1714,6 +1687,7 @@
 
 <body ng-app="App" ng-controller="tests">
 {% include "includes/site_header.html" %}
+{% include "includes/seo_intro.html" %}
   <!-- Three.js Background Canvas -->
   <canvas id="threejs-canvas"></canvas>
 
@@ -1888,8 +1862,8 @@
           X
         </a>
       </div>
-      <h1 style="color:green">
-        {% comment %} <h1 id="list"> {{data}}</h1> {% endcomment %}
+      <div class="cp-h1 h1" style="color:green">
+        {% comment %} <div class="cp-h1 h1" id="list"> {{data}}</div> {% endcomment %}
         <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
           {% if request.LANGUAGE_CODE == 'uz' %}
           {% verbatim %}
@@ -1910,8 +1884,8 @@
         <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
           <img src="/static/img/google-play.svg" />
         </a>
-      </h1>
-      <h1 id="timer" ng-click="f()">00:00</h1>
+      </div>
+      <div class="cp-h1 h1" id="timer" ng-click="f()">00:00</div>
       <input type="hidden" id="t" value="0" />
       {% verbatim %}
       <nav aria-label="Page navigation example">
@@ -2227,6 +2201,7 @@
   {% endif %}
   {% endif %}
   <hr />
+{% include "includes/seo_text.html" %}
   {% include "comment_form.html" %}
   <script>
     var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {

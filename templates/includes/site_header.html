@@ -52,11 +52,11 @@
     <span>Complex Programmer</span>
   </a>
   <nav class="cp-nav" aria-label="{{ ui.menu }}">
-    <a href="/avtotest/" {% if request.path|slice:":10" == "/avtotest/" %}aria-current="page"{% endif %}>🚗 {{ ui.avtotest }}</a>
-    <a href="/tests/" {% if request.path|slice:":7" == "/tests/" %}aria-current="page"{% endif %}>📝 {{ ui.tests }}</a>
-    <a href="/projects/" {% if request.path == "/projects/" %}aria-current="page"{% endif %}>🧰 {{ ui.projects }}</a>
-    <a href="/blog/" {% if request.path|slice:":6" == "/blog/" %}aria-current="page"{% endif %}>📰 {{ ui.blog }}</a>
-    <a href="/news/" {% if request.path|slice:":6" == "/news/" %}aria-current="page"{% endif %}>🗞️ {{ ui.news }}</a>
+    <a href="/avtotest/" {% if request.path_info|slice:":10" == "/avtotest/" %}aria-current="page"{% endif %}>🚗 {{ ui.avtotest }}</a>
+    <a href="/tests/" {% if request.path_info|slice:":7" == "/tests/" %}aria-current="page"{% endif %}>📝 {{ ui.tests }}</a>
+    <a href="/projects/" {% if request.path_info == "/projects/" %}aria-current="page"{% endif %}>🧰 {{ ui.projects }}</a>
+    <a href="/blog/" {% if request.path_info|slice:":6" == "/blog/" %}aria-current="page"{% endif %}>📰 {{ ui.blog }}</a>
+    <a href="/news/" {% if request.path_info|slice:":6" == "/news/" %}aria-current="page"{% endif %}>🗞️ {{ ui.news }}</a>
   </nav>
   <div class="cp-tools">
     <form class="cp-search" action="/search/" method="get" role="search">
@@ -65,7 +65,7 @@
     </form>
     <form class="cp-lang" action="{% url 'set_language' %}" method="post">
       {% csrf_token %}
-      <input name="next" type="hidden" value="{{ request.get_full_path }}">
+      <input name="next" type="hidden" value="{{ request.get_full_path_info }}">
       <label class="cp-sr" for="cp-lang">{{ ui.language }}</label>
       <select id="cp-lang" name="language" onchange="this.form.submit()">
         {% for code, name in available_languages %}
