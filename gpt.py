@@ -1,9 +1,10 @@
+import os
 from openai import OpenAI
 import asyncio
 
 client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
-    api_key="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",
+    api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
 chat_completion = client.chat.completions.create(
@@ -32,7 +33,7 @@ async def main() -> None:
 asyncio.run(main())
 
 # def askGPT(text):
-#     openai.api_key = "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"
+#     openai.api_key = os.environ.get("OPENAI_API_KEY")
 #     response = openai.Completion.create( # type: ignore
 #         engine = "text-davinci-003",
 #         prompt = text,

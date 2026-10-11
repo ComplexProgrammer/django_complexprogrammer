@@ -1,18 +1,15 @@
-import json
 from django.shortcuts import render
-import urllib3
+
+from projects.views import fetch_json
 
 
 def index(request):
-    url = "https://tradeogre.com/api/v1/markets"
-    http = urllib3.PoolManager()
-    r = http.request("GET", url)
-    htmlSource = r.data
+    data = fetch_json("https://tradeogre.com/api/v1/markets", "api:tradeogre", ttl=300)
     btc_markets = []
     usdt_markets = []
     ltc_markets = []
     market_type = ""
-    for i in json.loads(htmlSource):
+    for i in data or []:
         python_obj = {}
         python_obj["coin"] = str(list(i)[0]).split("-")[0]
         python_obj["market"] = list(i)[0]
@@ -35,5 +32,6 @@ def index(request):
         "btc_markets": btc_markets,
         "usdt_markets": usdt_markets,
         "ltc_markets": ltc_markets,
+        "api_error": data is None,
     }
     return render(request, "cryptomarket/index.html", context=context)

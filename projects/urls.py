@@ -27,6 +27,7 @@ urlpatterns = [
     path("imagecompare/", views.ImageCompare, name="imagecompare"),  # type: ignore
     path("avtotest/", views.avtotest, name="avtotest"),
     path("avtotest/<int:bilet>/", views.avtotest_item, name="avtotest"),
+    path("avtotest/xatolar/", views.avtotest_mistakes, name="avtotest_mistakes"),
     path("GetSavol/", views.GetSavol, name="GetSavol"),
     path("GetBilet/", views.GetBilet, name="GetBilet"),
     path("exchangerates/", views.exchangerates, name="exchangerates"),

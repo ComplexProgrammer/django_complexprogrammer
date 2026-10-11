@@ -22,6 +22,8 @@ from django.views.static import serve
 from django.conf.urls.i18n import i18n_patterns
 from django.views.generic import RedirectView
 
+from core import views as core_views
+
 # urlpatterns = [
 #     path('admin/', admin.site.urls),
 #     path('', include('projects.urls')),
@@ -54,6 +56,13 @@ if settings.DEBUG:
 
 urlpatterns += [
     path("admin/", admin.site.urls),
+    path("sitemap.xml", core_views.sitemap_xml, name="sitemap_xml"),
+    path("sitemap.xml/", core_views.sitemap_xml),
+    path("robots.txt", core_views.robots_txt, name="robots_txt"),
+    path("robots.txt/", core_views.robots_txt),
+    path("search/", core_views.search, name="search"),
+    path("sw.js", core_views.service_worker, name="service_worker"),
+    path("offline/", core_views.offline, name="offline"),
     path("", include("projects.urls")),
     # path('avtotest/', views.tests),
     # path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),

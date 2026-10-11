@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+<meta name="robots" content="noindex">
+<title>{% if q %}{{ q }} — {% endif %}{{ ui.search }} | Complex Programmer</title>
+<style>
+  :root{--bg:#f8fafc;--card:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--accent:#4f46e5}
+  [data-theme="dark"]{--bg:#0f172a;--card:#1e293b;--text:#f1f5f9;--muted:#94a3b8;--border:#334155;--accent:#a5b4fc}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  main{max-width:820px;margin:0 auto;padding:24px 16px 64px}
+  .s-form{display:flex;gap:8px;margin-bottom:20px}
+  .s-form input{flex:1;min-width:0;padding:12px 14px;font-size:17px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text)}
+  .s-form button{padding:0 20px;border:0;border-radius:12px;background:var(--accent);color:#fff;font-weight:600;font-size:15px;cursor:pointer}
+  [data-theme="dark"] .s-form button{color:#0f172a}
+  .s-meta{color:var(--muted);margin:0 0 16px}
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:28px 0 10px}
+  .s-item{display:block;padding:14px 16px;margin-bottom:8px;border-radius:12px;background:var(--card);border:1px solid var(--border);
+    color:var(--text);text-decoration:none;transition:border-color .15s}
+  .s-item:hover{border-color:var(--accent)}
+  .s-item strong{display:block;font-weight:600}
+  .s-item span{display:block;color:var(--muted);font-size:14px;margin-top:3px}
+  .s-empty{padding:40px 16px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main>
+  <form class="s-form" action="/search/" method="get" role="search">
+    <input type="search" name="q" value="{{ q }}" placeholder="{{ ui.search_placeholder }}" aria-label="{{ ui.search }}" autofocus>
+    <button type="submit">{{ ui.search }}</button>
+  </form>
+
+  {% if q %}
+    {% if total %}
+      <p class="s-meta">«{{ q }}» — {{ total }}</p>
+      {% for title, items in sections %}
+        <h2>{{ title }}</h2>
+        {% for item in items %}
+          <a class="s-item" href="{{ item.url }}">
+            <strong>{{ item.title }}</strong>
+            {% if item.desc %}<span>{{ item.desc }}</span>{% endif %}
+          </a>
+        {% endfor %}
+      {% endfor %}
+    {% else %}
+      <div class="s-empty">«{{ q }}» — 0 😕</div>
+    {% endif %}
+  {% else %}
+    <div class="s-empty">🔎</div>
+  {% endif %}
+</main>
+</body>
+</html>

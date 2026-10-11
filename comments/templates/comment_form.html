@@ -30,7 +30,17 @@
   });
 </script>
 
-<div class="container mt-5">
+<div class="container mt-5" id="comments">
+  {% if messages %}
+  <div class="row justify-content-center"><div class="col-md-8">
+    {% for message in messages %}
+    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div></div>
+  {% endif %}
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card shadow-sm" id="comment-form-main">
@@ -44,6 +54,11 @@
               value="{{ request.build_absolute_uri }}"
             />
             <input type="hidden" name="parent_id" id="parent_id" value="" />
+            <!-- Honeypot: odamlar ko'rmaydi, spam-botlar to'ldiradi -->
+            <div style="position:absolute;left:-10000px" aria-hidden="true">
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </div>
+
             <div class="mb-3">
               <label for="username" class="form-label">
                 <i class="fas fa-user me-2"></i>Ismingiz
@@ -146,6 +161,7 @@
           value="{{ request.build_absolute_uri }}"
         />
         <input type="hidden" name="parent_id" value="" />
+        <div style="position:absolute;left:-10000px" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" /></div>
         <div class="mb-2">
           <label for="username" class="form-label small">
             <i class="fas fa-user me-1"></i>Ismingiz

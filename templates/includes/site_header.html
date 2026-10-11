@@ -23,6 +23,13 @@
   .cp-btn,.cp-lang select{height:34px;min-width:34px;padding:0 8px;border-radius:9px;border:1px solid rgba(100,116,139,.35);
     background:transparent;color:inherit;font-size:14px;cursor:pointer}
   .cp-lang select option{color:#0f172a}
+  /* Sahifalarning global input/select stillari headerga ta'sir qilmasin */
+  .cp-header .cp-search input,.cp-header .cp-lang select,.cp-header .cp-btn{color:#0f172a!important;background:#fff!important;
+    box-shadow:none;margin:0;height:34px;line-height:normal;font-family:inherit;backdrop-filter:none}
+  .cp-header .cp-search input::placeholder{color:#64748b!important;opacity:1}
+  [data-theme="dark"] .cp-header .cp-search input,[data-theme="dark"] .cp-header .cp-lang select,[data-theme="dark"] .cp-header .cp-btn{
+    color:#f1f5f9!important;background:#1e293b!important}
+  [data-theme="dark"] .cp-header .cp-search input::placeholder{color:#94a3b8!important}
   .cp-btn:hover{border-color:#6366f1}
   .cp-header .cp-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   /* Sahifalarning eski suzuvchi mavzu tugmasi endi kerak emas — headerdagi tugma ishlatiladi */

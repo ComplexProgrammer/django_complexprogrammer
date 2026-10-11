@@ -71,4 +71,7 @@ def index(request):
         "categories": categories.order_by("-sort_order"),
         "comments": comments,
     }
+    if post:
+        # SEO: maqola sahifasi uchun o'z tavsifi (Google va Telegram preview'da ko'rinadi)
+        context["seo_description"] = post.get("title_uz_uz") or post.get("title_en_us")
     return render(request, "blog/index.html", context=context)
