@@ -11,5 +11,6 @@ urlpatterns = [
     path('GetAnswers/', views.GetAnswers, name='GetAnswers'),
     path('GetCounts/', views.GetCounts, name='GetCounts'),
     path('GetAllData/', views.GetAllData, name='GetAllData'),
+    path('GetRoadSigns/', views.GetRoadSigns, name='GetRoadSigns'),
     # path('tests/<int:bilet>/', views.test_item, name='tests'),
 ]

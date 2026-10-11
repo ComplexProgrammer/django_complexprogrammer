@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Answers, Books, Groups, Questions, Topics, Types, BookTypes
+from . models import Answers, Books, Groups, Questions, Topics, Types, BookTypes, RoadSignCategories, RoadSigns
 # Register your models here.
 # admin.site.register(Project)
 
@@ -50,3 +50,18 @@ class AnswersAdmin(admin.ModelAdmin):
     list_filter=['name_uz_uz', 'number', 'type', 'group', 'book', 'topic', 'question', 'image', 'right']
     search_fields=['name_uz_uz', 'number', 'type', 'group', 'book', 'topic', 'question', 'image', 'right']
     ordering=['sort_order']
+
+
+@admin.register(RoadSignCategories)
+class RoadSignCategoriesAdmin(admin.ModelAdmin):
+    list_display=['name_uz_uz', 'code', 'sort_order', 'is_deleted']
+    list_editable=['sort_order', 'is_deleted']
+    search_fields=['name_uz_uz', 'name_ru_ru', 'code']
+    ordering=['sort_order']
+
+@admin.register(RoadSigns)
+class RoadSignsAdmin(admin.ModelAdmin):
+    list_display=['number', 'name_uz_uz', 'category', 'sort_order', 'is_deleted']
+    list_filter=['category', 'is_deleted']
+    search_fields=['number', 'name_uz_uz', 'name_ru_ru', 'description_uz_uz']
+    ordering=['category__sort_order', 'sort_order']
