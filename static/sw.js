@@ -3,7 +3,7 @@
  *   (bir marta ochilgan avtotest biletlari internetsiz ham ishlaydi).
  * - /static/ fayllari: avval kesh (tez yuklanadi).
  */
-const VERSION = "cp-v1";
+const VERSION = "cp-v2";
 const PAGES = VERSION + "-pages";
 const ASSETS = VERSION + "-assets";
 const PRECACHE = ["/", "/avtotest/", "/offline/"];
@@ -33,7 +33,7 @@ async function networkFirst(request) {
   const cache = await caches.open(PAGES);
   try {
     const response = await fetch(request);
-    if (response.ok && response.type === "basic") {
+    if (response.status === 200 && response.type === "basic") {
       cache.put(request, response.clone());
       trim(PAGES, MAX_PAGE_ENTRIES);
     }
@@ -51,7 +51,7 @@ async function cacheFirst(request) {
   const cached = await cache.match(request);
   if (cached) return cached;
   const response = await fetch(request);
-  if (response.ok) cache.put(request, response.clone());
+  if (response.status === 200 && !request.headers.has("range")) cache.put(request, response.clone()).catch(function () {});
   return response;
 }
 
