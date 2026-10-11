@@ -1,0 +1,31 @@
+<aside class="b-side">
+  {% if categories and not hide_categories %}
+  <section class="b-box">
+    <h2>{{ t.categories }}</h2>
+    <div class="b-chips">
+      {% for c in categories %}
+      <a class="b-chip{% if c.id == active_category %} is-active{% endif %}" href="/blog/?categorie_id={{ c.id }}">{{ c.name }}<small>{{ c.total }}</small></a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  {% if popular %}
+  <section class="b-box">
+    <h2>🔥 {{ t.popular }}</h2>
+    <ul>
+      {% for c in popular %}
+      <li><a href="{{ c.url }}"><span class="b-num">{{ forloop.counter }}</span><span>{{ c.name }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+  <section class="b-box">
+    <h2>🆕 {{ t.latest }}</h2>
+    <ul>
+      {% for c in latest %}
+      <li><a href="{{ c.url }}">{% if c.image %}<img src="{{ c.image }}" alt="" loading="lazy" width="56" height="40">{% endif %}<span>{{ c.name }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  <a class="b-rss" href="/blog/rss/">📡 {{ t.rss }}</a>
+</aside>

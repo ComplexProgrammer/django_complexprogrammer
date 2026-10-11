@@ -66,8 +66,14 @@ def search(request):
 
         tf = _title_field(lang)
         title_q = Q(title_uz_uz__icontains=q) | Q(title_ru_ru__icontains=q) | Q(title_en_us__icontains=q) | Q(title_uz_crl__icontains=q)
-        for post in BlogPost.objects.filter(title_q, is_deleted=False).values("id", tf, "title_uz_uz")[:MAX_RESULTS]:
-            results["blog"].append({"url": f"/blog/?id={post['id']}", "title": post[tf] or post["title_uz_uz"], "desc": ""})
+        nf = tf.replace("title_", "name_")
+        name_q = Q(name_uz_uz__icontains=q) | Q(name_ru_ru__icontains=q) | Q(name_en_us__icontains=q)
+        for post in BlogPost.published().filter(title_q | name_q).values("slug", nf, "name_uz_uz", tf, "title_uz_uz")[:MAX_RESULTS]:
+            results["blog"].append({
+                "url": f"/blog/{post['slug']}/",
+                "title": post[nf] or post["name_uz_uz"],
+                "desc": strip_tags(post[tf] or post["title_uz_uz"])[:160],
+            })
         for post in NewsPost.objects.filter(title_q, is_deleted=False).values("id", tf, "title_uz_uz")[:MAX_RESULTS]:
             results["news"].append({"url": f"/news/?id={post['id']}", "title": post[tf] or post["title_uz_uz"], "desc": ""})
 
@@ -118,8 +124,8 @@ def sitemap_xml(request):
     rows = [(base + path, None, freq, prio) for path, freq, prio in STATIC_SITEMAP_PATHS]
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"] or 0
     rows += [(f"{base}/avtotest/{i}/", None, "monthly", "0.6") for i in range(1, max_bilet + 1)]
-    for post in BlogPost.objects.filter(is_deleted=False).values("id", "updated_at"):
-        rows.append((f"{base}/blog/?id={post['id']}", post["updated_at"], "monthly", "0.7"))
+    for post in BlogPost.published().values("slug", "updated_at"):
+        rows.append((f"{base}/blog/{post['slug']}/", post["updated_at"], "monthly", "0.7"))
     for post in NewsPost.objects.filter(is_deleted=False).values("id", "updated_at"):
         rows.append((f"{base}/news/?id={post['id']}", post["updated_at"], "monthly", "0.5"))
     for book in Books.objects.filter(is_deleted=False).values("id", "updated_at"):

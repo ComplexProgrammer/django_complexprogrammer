@@ -3,11 +3,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{ seo_description }}">
 <link rel="canonical" href="{{ canonical_url }}">
-<meta property="og:type" content="website">
+{% if noindex %}<meta name="robots" content="noindex,follow">
+{% endif %}
+<meta property="og:type" content="{{ og_type|default:'website' }}">
 <meta property="og:site_name" content="Complex Programmer">
 <meta property="og:url" content="{{ canonical_url }}">
 <meta property="og:description" content="{{ seo_description }}">
-<meta property="og:image" content="{{ site_url }}/static/img/C0mplex.png">
+{% if og_title %}<meta property="og:title" content="{{ og_title }}">
+{% endif %}<meta property="og:image" content="{{ og_image|default:'https://complexprogrammer.uz/static/img/C0mplex.png' }}">
 <meta property="og:locale" content="{{ ui_lang }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#4f46e5">

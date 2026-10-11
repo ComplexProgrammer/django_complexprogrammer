@@ -51,7 +51,7 @@
             <input
               type="hidden"
               name="page_url"
-              value="{{ request.build_absolute_uri }}"
+              value="{{ comment_page_url|default:request.build_absolute_uri }}"
             />
             <input type="hidden" name="parent_id" id="parent_id" value="" />
             <!-- Honeypot: odamlar ko'rmaydi, spam-botlar to'ldiradi -->
@@ -158,7 +158,7 @@
         <input
           type="hidden"
           name="page_url"
-          value="{{ request.build_absolute_uri }}"
+          value="{{ comment_page_url|default:request.build_absolute_uri }}"
         />
         <input type="hidden" name="parent_id" value="" />
         <div style="position:absolute;left:-10000px" aria-hidden="true"><input type="text" name="website" tabindex="-1" autocomplete="off" /></div>

@@ -34,12 +34,12 @@ def page_url_for(request):
     return normalize_page_url(request.build_absolute_uri())
 
 
-def page_comments(request):
-    """Joriy sahifaning yuqori darajadagi izohlari (javoblari bilan)."""
+def page_comments(request, page_url=None):
+    """Joriy sahifaning (yoki berilgan ``page_url``ning) yuqori darajadagi izohlari, javoblari bilan."""
     from comments.models import Comment
 
     return (
-        Comment.objects.filter(page_url=page_url_for(request), parent=None)
+        Comment.objects.filter(page_url=page_url or page_url_for(request), parent=None)
         .prefetch_related("replies", "replies__replies", "replies__replies__replies")
         .order_by("-created_at")
     )

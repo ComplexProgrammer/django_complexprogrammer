@@ -1,0 +1,13 @@
+<a class="b-card" href="{{ c.url }}">
+  {% if c.image %}<img src="{{ c.image }}" alt="{{ c.name }}" loading="lazy" decoding="async" width="400" height="225">{% endif %}
+  <div class="b-card-body">
+    {% if c.category %}<span class="b-badge">{{ c.category }}</span>{% endif %}
+    <h2>{{ c.name }}</h2>
+    {% if c.lead %}<p>{{ c.lead }}</p>{% endif %}
+    <div class="b-meta">
+      <time datetime="{{ c.date|date:'c' }}">{{ c.date|date:"j E Y" }}</time>
+      <span>⏱ {{ c.minutes }} {{ t.min_read }}</span>
+      {% if c.views %}<span>👁 {{ c.views }}</span>{% endif %}
+    </div>
+  </div>
+</a>
