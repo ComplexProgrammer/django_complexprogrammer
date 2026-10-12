@@ -114,10 +114,11 @@ STATIC_SITEMAP_PATHS = [
 ]
 
 
-def sitemap_xml(request):
-    """Avtomatik sitemap: yangi blog/yangilik/bilet qo'shilsa, o'zi paydo bo'ladi.
+def build_sitemap():
+    """Sitemap XML matni: yangi blog/yangilik/bilet qo'shilsa, o'zi paydo bo'ladi.
 
     Har bir sahifa barcha til versiyalari (uz — prefikssiz, /ru/, /en/) bilan, hreflang havolalari bilan beriladi.
+    ``/sitemap.xml`` va ``manage.py write_sitemap`` (static/sitemap.xml) shu funksiyadan foydalanadi.
     """
     from xml.sax.saxutils import escape
 
@@ -151,7 +152,11 @@ def sitemap_xml(request):
         + "\n".join(items)
         + "\n</urlset>\n"
     )
-    return HttpResponse(xml, content_type="application/xml")
+    return xml
+
+
+def sitemap_xml(request):
+    return HttpResponse(build_sitemap(), content_type="application/xml")
 
 
 def robots_txt(request):
