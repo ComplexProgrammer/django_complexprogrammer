@@ -100,17 +100,29 @@ def offline(request):
     return render(request, "offline.html")
 
 
-STATIC_SITEMAP_PATHS = [
-    ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/tests/", "weekly", "0.8"),
-    ("/blog/", "daily", "0.8"), ("/news/", "daily", "0.7"), ("/projects/", "weekly", "0.7"),
-    ("/translate/", "monthly", "0.7"), ("/changetext/", "monthly", "0.7"), ("/pdf_tools/", "monthly", "0.7"),
-    ("/password_generator/", "monthly", "0.6"), ("/exchangerates/", "daily", "0.6"), ("/coins/", "daily", "0.5"),
-    ("/ip/", "monthly", "0.5"), ("/imagecompare/", "monthly", "0.5"), ("/sitemap/", "monthly", "0.5"),
-    ("/youtube_downloader/", "monthly", "0.4"), ("/snake/", "yearly", "0.3"), ("/tetris/", "yearly", "0.3"),
-    ("/tictactoe/", "yearly", "0.3"), ("/pingpong/", "yearly", "0.3"), ("/terms/", "yearly", "0.1"),
-    ("/privacy/", "yearly", "0.1"), ("/snake2/", "yearly", "0.3"), ("/car/", "yearly", "0.3"),
-    ("/duckhunt/", "yearly", "0.3"), ("/motorcycle/", "yearly", "0.3"), ("/bubbleshooter/", "yearly", "0.3"),
-    ("/markets/", "weekly", "0.4"), ("/arxiv/", "weekly", "0.4"), ("/cryptomarket/", "daily", "0.4"),
+# Sitemap'dagi doimiy sahifalar bo'limlar bo'yicha: (bo'lim nomi, [(manzil, changefreq, priority), ...])
+STATIC_SITEMAP_SECTIONS = [
+    ("Asosiy sahifalar", [
+        ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/tests/", "weekly", "0.8"),
+        ("/blog/", "daily", "0.8"), ("/news/", "daily", "0.7"), ("/projects/", "weekly", "0.7"),
+    ]),
+    ("Onlayn vositalar", [
+        ("/translate/", "monthly", "0.7"), ("/changetext/", "monthly", "0.7"), ("/pdf_tools/", "monthly", "0.7"),
+        ("/password_generator/", "monthly", "0.6"), ("/exchangerates/", "daily", "0.6"), ("/coins/", "daily", "0.5"),
+        ("/ip/", "monthly", "0.5"), ("/imagecompare/", "monthly", "0.5"), ("/sitemap/", "monthly", "0.5"),
+        ("/youtube_downloader/", "monthly", "0.4"),
+    ]),
+    ("Boshqa bo'limlar", [
+        ("/markets/", "weekly", "0.4"), ("/arxiv/", "weekly", "0.4"), ("/cryptomarket/", "daily", "0.4"),
+    ]),
+    ("O'yinlar", [
+        ("/snake/", "yearly", "0.3"), ("/snake2/", "yearly", "0.3"), ("/tetris/", "yearly", "0.3"),
+        ("/tictactoe/", "yearly", "0.3"), ("/pingpong/", "yearly", "0.3"), ("/car/", "yearly", "0.3"),
+        ("/duckhunt/", "yearly", "0.3"), ("/motorcycle/", "yearly", "0.3"), ("/bubbleshooter/", "yearly", "0.3"),
+    ]),
+    ("Huquqiy sahifalar", [
+        ("/terms/", "yearly", "0.1"), ("/privacy/", "yearly", "0.1"),
+    ]),
 ]
 
 
@@ -124,35 +136,60 @@ def build_sitemap():
 
     from django.db.models import Max
 
-    rows = [(path, None, freq, prio) for path, freq, prio in STATIC_SITEMAP_PATHS]
+    # Bo'limlar: (sarlavha, [(manzil, lastmod, changefreq, priority), ...])
+    sections = [
+        (title, [(path, None, freq, prio) for path, freq, prio in paths])
+        for title, paths in STATIC_SITEMAP_SECTIONS
+    ]
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"] or 0
-    rows += [(f"/avtotest/{i}/", None, "monthly", "0.6") for i in range(1, max_bilet + 1)]
-    for post in BlogPost.published().values("slug", "updated_at"):
-        rows.append((f"/blog/{post['slug']}/", post["updated_at"], "monthly", "0.7"))
-    for post in NewsPost.objects.filter(is_deleted=False).values("slug", "updated_at"):
-        rows.append((f"/news/{post['slug']}/", post["updated_at"], "monthly", "0.5"))
-    for book in Books.objects.filter(is_deleted=False).values("id", "updated_at"):
-        rows.append((f"/tests/?book_id={book['id']}", book["updated_at"], "monthly", "0.6"))
-    for project in Project.actives.values("id", "updated_time"):
-        rows.append((f"/project/{project['id']}/", project["updated_time"], "monthly", "0.4"))
+    sections.append(("Avtotest biletlari", [
+        (f"/avtotest/{i}/", None, "monthly", "0.6") for i in range(1, max_bilet + 1)
+    ]))
+    sections.append(("Testlar (kitoblar bo'yicha)", [
+        (f"/tests/?book_id={b['id']}", b["updated_at"], "monthly", "0.6")
+        for b in Books.objects.filter(is_deleted=False).order_by("id").values("id", "updated_at")
+    ]))
+    sections.append(("Blog maqolalari", [
+        (f"/blog/{p['slug']}/", p["updated_at"], "monthly", "0.7")
+        for p in BlogPost.published().order_by("-publish_time").values("slug", "updated_at")
+    ]))
+    sections.append(("Yangiliklar", [
+        (f"/news/{p['slug']}/", p["updated_at"], "monthly", "0.5")
+        for p in NewsPost.objects.filter(is_deleted=False).order_by("-publish_time").values("slug", "updated_at")
+    ]))
+    sections.append(("Loyihalar", [
+        (f"/project/{p['id']}/", p["updated_time"], "monthly", "0.4")
+        for p in Project.actives.order_by("id").values("id", "updated_time")
+    ]))
 
-    items = []
-    for path, lastmod, freq, prio in rows:
-        lm = f"<lastmod>{lastmod.date().isoformat()}</lastmod>" if lastmod else ""
-        links = "".join(
-            f'<xhtml:link rel="alternate" hreflang="{code}" href="{escape(href)}"/>'
-            for code, href in alternates(path)
-        )
-        for lang in SEO_LANGS:
-            loc = escape(lang_url(path, lang))
-            items.append(f"<url><loc>{loc}</loc>{lm}<changefreq>{freq}</changefreq><priority>{prio}</priority>{links}</url>")
-    xml = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
-        + "\n".join(items)
-        + "\n</urlset>\n"
-    )
-    return xml
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        "<!-- complexprogrammer.uz sitemap — avtomatik yaratiladi (core/views.py: build_sitemap). Qo'lda tahrirlamang:",
+        "     static/sitemap.xml nusxasi `python manage.py write_sitemap` bilan yangilanadi.",
+        "     Har bir sahifa 3 tilda: uz (prefikssiz), /ru/, /en/ — hreflang havolalari bilan. -->",
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
+        '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ]
+    for title, rows in sections:
+        if not rows:
+            continue
+        lines += ["", f"  <!-- {title} ({len(rows)} ta sahifa × {len(SEO_LANGS)} til) -->"]
+        for path, lastmod, freq, prio in rows:
+            links = [
+                f'    <xhtml:link rel="alternate" hreflang="{code}" href="{escape(href)}"/>'
+                for code, href in alternates(path)
+            ]
+            for lang in SEO_LANGS:
+                lines.append("  <url>")
+                lines.append(f"    <loc>{escape(lang_url(path, lang))}</loc>")
+                if lastmod:
+                    lines.append(f"    <lastmod>{lastmod.date().isoformat()}</lastmod>")
+                lines.append(f"    <changefreq>{freq}</changefreq>")
+                lines.append(f"    <priority>{prio}</priority>")
+                lines += links
+                lines.append("  </url>")
+    lines += ["", "</urlset>", ""]
+    return "\n".join(lines)
 
 
 def sitemap_xml(request):
