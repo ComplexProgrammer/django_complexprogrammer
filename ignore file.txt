@@ -1,3 +1,0 @@
-git stash push db.sqlite3
-git pull
-git stash pop
