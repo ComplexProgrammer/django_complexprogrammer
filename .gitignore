@@ -103,3 +103,43 @@ media/downloads/
 *.sqlite3-shm
 *.sqlite3-wal
 db_backup/
+
+# =====================================================================
+# Deploy'da ishlatilmaydigan fayllar — serverga (git pull) yuborilmasin
+# Eslatma: db.sqlite3, media/ va tmp/restart.txt ataylab kuzatiladi (deploy'da kerak)
+# =====================================================================
+
+# Ma'lumotlar bazasi nusxalari (sozlamalarda faqat db.sqlite3 ishlatiladi)
+db.sqlite3.bak
+db2.sqlite3
+db_backup/
+
+# SSL sertifikat/kalitlar — server SSL'ni cPanel orqali boshqaradi, kodda ishlatilmaydi
+*.crt
+
+# Muharrir sozlamalari
+.vscode/
+.idea/
+
+# Bir martalik lokal skriptlar va ularning ma'lumotlari
+test.py
+gpt.py
+C0mplex.py
+migrate.py
+migrate2.py
+migrate_missing_answers.py
+javoblar.txt
+question.docx
+ignore file.txt
+
+# Zaxira nusxalar
+*.backup
+*.bak
+
+# O'chirilgan "cartoonize" funksiyasi (URL izohga olingan) — ~10 MB model va rasmlar
+static/white_box_cartoonizer/
+static/sample_images/
+
+# Foydalanuvchi yuklagan vaqtinchalik fayllar va eski sitemap
+static/upload/
+static/sitemap2.xml
