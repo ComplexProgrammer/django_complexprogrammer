@@ -32,7 +32,8 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 ALLOWED_HOSTS = [
     "complexprogrammer.uz",
     "www.complexprogrammer.uz",
-    "mail.complexprogrammer.uz10.0.2.2",
+    "mail.complexprogrammer.uz",
+    "10.0.2.2",
     "www.complexprogrammer-dev.uz",
     "127.0.0.1",
     "localhost",
@@ -80,7 +81,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "middleware.StaticFileMiddleware",
+    # "middleware.StaticFileMiddleware",
 ]
 
 ROOT_URLCONF = "django_complexprogrammer.urls"
