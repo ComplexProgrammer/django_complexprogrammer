@@ -485,3 +485,4 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_flat_style": True,
     "sidebar_nav_compact_style": True,
 }
+WHITENOISE_USE_FINDERS = True
