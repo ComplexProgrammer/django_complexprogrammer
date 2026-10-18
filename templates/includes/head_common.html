@@ -35,6 +35,21 @@
   gtag("config", "G-8DHWL20H58");
   // GA4 hodisalari (imtihon tugatildi, natija ulashildi, PDF yuklandi...) — qaysi o'zgarish ishlayotganini o'lchash uchun
   window.cpTrack = function (name, params) { try { gtag("event", name, params || {}); } catch (e) {} };
+
+  // Analitika darhol (async) ulanadi: kechiktirilsa, tez chiqib ketgan tashriflar umuman hisoblanmaydi.
+  // Ilova ichidagi brauzerlar (Android WebView, Telegram) referrer bermaydi va "to'g'ridan-to'g'ri" bo'lib
+  // ko'rinadi — ularni alohida belgilaymiz (Metrika: "Parametry vizitov" -> client).
+  (function () {
+    var ua = navigator.userAgent || "";
+    var client = /Telegram/i.test(ua) ? "telegram" : (/; wv\)/.test(ua) ? "android_webview" : "browser");
+    function add(src) { var s = document.createElement("script"); s.async = true; s.src = src; document.head.appendChild(s); }
+    gtag("set", "user_properties", { client: client });
+    add("https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58");
+    window.ym = window.ym || function () { (ym.a = ym.a || []).push(arguments); };
+    ym.l = 1 * new Date();
+    ym(90624869, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, params: { client: client } });
+    add("https://mc.yandex.ru/metrika/tag.js");
+  })();
 </script>
 <!-- Yandex Autoplacement 20240413 -->
 <script src="https://yandex.ru/ads/system/context.js" async></script>
@@ -61,18 +76,12 @@
       }
       // Google AdSense (reklama bloklari window.adsbygoogle navbatida kutib turadi)
       add("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259", { crossorigin: "anonymous" });
-      // Google Analytics + Tag Manager
-      add("https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58");
+      // Tag Manager (GA4 va Metrika yuqorida darhol ulangan)
       dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
       add("https://www.googletagmanager.com/gtm.js?id=GTM-NW763C2");
       // Microsoft Clarity
       window.clarity = window.clarity || function () { (clarity.q = clarity.q || []).push(arguments); };
       add("https://www.clarity.ms/tag/e815a36ng3");
-      // Yandex.Metrika
-      window.ym = window.ym || function () { (ym.a = ym.a || []).push(arguments); };
-      ym.l = 1 * new Date();
-      ym(90624869, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true });
-      add("https://mc.yandex.ru/metrika/tag.js");
     });
   });
   // PWA: offline ishlash va "ilova sifatida o'rnatish"
