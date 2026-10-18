@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>PDF</span>
+  </nav>
+  <h1 class="d-h1">📄 {{ t.pdf_h1 }}</h1>
+  <p>{{ t.pdf_lead }}</p>
+  <div class="d-card d-cta">
+    {% for f in files %}
+    <div class="d-between" style="margin-bottom:10px">
+      <div><b>{{ f.label }}</b><br><span class="d-meta">{{ f.facts }}</span></div>
+      <a class="d-btn green" href="{{ f.url }}" download data-pdf-lang="{{ f.lang }}">⬇️ {{ t.pdf_download }}</a>
+    </div>
+    {% empty %}
+    <p style="margin:0">{{ t.pdf_missing }}</p>
+    {% endfor %}
+  </div>
+  <section class="d-card">
+    <h2 class="d-h2">🎯 {{ t.pdf_online }}</h2>
+    <p>{{ t.pdf_online_text }}</p>
+    <div class="d-row">
+      <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">{{ t.start_exam }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/">🚗 {{ t.all_tickets }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzular/">📚 {{ t.topics }}</a>
+    </div>
+  </section>
+  <div class="d-card d-between">
+    <span>📢 {{ t.channel_cta }}</span>
+    <a class="d-btn" href="https://t.me/complexprogrammeruzchannel" target="_blank" rel="noopener">Telegram</a>
+  </div>
+</main>
+<script>
+  document.querySelectorAll("[data-pdf-lang]").forEach(function (a) {
+    a.addEventListener("click", function () { window.cpTrack("file_download", { file_name: "avtotest-pdf", language: a.getAttribute("data-pdf-lang") }); });
+  });
+</script>
+</body>
+</html>

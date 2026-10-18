@@ -49,3 +49,7 @@ urllib3==2.2.3
 whitenoise==6.7.0
 aiogram>=3.14.0
 aiosqlite>=0.20.0
+
+# Ixtiyoriy (faqat management buyruqlari uchun):
+#   pip install anthropic        — draft_explanations (savol izohlari AI qoralamasi)
+#   pip install imageio-ffmpeg   — make_question_videos (Shorts/Reels videolari)

@@ -86,6 +86,12 @@ TEXTS = {
             "O'chirish uchun yana /eslatma yuboring."
         ),
         "remind_off": "🔕 Kunlik eslatma o'chirildi. Qayta yoqish uchun /eslatma yuboring.",
+        "ref_info": (
+            "🤝 <b>Do'stlaringizni taklif qiling!</b>\n\n"
+            "Imtihonga tayyorlanayotgan do'stlaringizga shu havolani yuboring:\n{link}\n\n"
+            "👥 Siz taklif qilganlar: <b>{count}</b> ta"
+        ),
+        "ref_joined": "🎉 <b>{name}</b> sizning havolangiz orqali qo'shildi! Jami taklif qilganlaringiz: <b>{count}</b> ta.",
         "remind_daily": (
             "🚗 <b>Bugungi mashg'ulot vaqti keldi!</b>\n\n"
             "Imtihonga tayyorgarlikni to'xtatmang — kuniga 10 ta savol ham katta natija beradi.\n\n"
@@ -178,6 +184,12 @@ TEXTS = {
             "Чтобы отключить, снова отправьте /eslatma."
         ),
         "remind_off": "🔕 Ежедневное напоминание отключено. Чтобы включить, отправьте /eslatma.",
+        "ref_info": (
+            "🤝 <b>Пригласите друзей!</b>\n\n"
+            "Отправьте эту ссылку друзьям, которые готовятся к экзамену:\n{link}\n\n"
+            "👥 Вы пригласили: <b>{count}</b>"
+        ),
+        "ref_joined": "🎉 <b>{name}</b> присоединился по вашей ссылке! Всего приглашено: <b>{count}</b>.",
         "remind_daily": (
             "🚗 <b>Время для сегодняшней тренировки!</b>\n\n"
             "Не прерывайте подготовку — даже 10 вопросов в день дают большой результат.\n\n"

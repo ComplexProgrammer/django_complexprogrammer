@@ -54,6 +54,14 @@ class Posts(Translatable):
         blank=True, default="", help_text="Maqola boshqa saytdan olingan bo'lsa — manba havolasi."
     )
     telegram_posted_at = models.DateTimeField(null=True, blank=True, editable=False)
+    seo_title = models.CharField(
+        max_length=70, blank=True, default="",
+        help_text="Qidiruvdagi sarlavha (o'zbekcha, ≈60 belgi). Bo'sh bo'lsa maqola nomi ishlatiladi.",
+    )
+    seo_description = models.CharField(
+        max_length=200, blank=True, default="",
+        help_text="Qidiruvda sarlavha ostidagi matn (o'zbekcha, ≈150 belgi). Bo'sh bo'lsa kirish matnidan olinadi.",
+    )
 
     class Meta:
         verbose_name = "Post"

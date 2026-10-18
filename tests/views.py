@@ -1,7 +1,7 @@
 import datetime
 import json
 from django.shortcuts import render
-from django.utils import translation
+from django.utils import timezone, translation
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.db.models.functions import Concat
@@ -188,8 +188,17 @@ def tests(request):
             lang = (translation.get_language() or "uz")[:2]
             field = {"ru": "name_ru_ru", "en": "name_en_us"}.get(lang, "name_uz_uz")
             name = getattr(book.book_type, field, "") or book.book_type.name_uz_uz
-            label = {"ru": "онлайн-тест", "en": "online test"}.get(lang, "onlayn test")
-            context["seo_title"] = f"{name} — {label} | Complex Programmer"
+            # Search Console: "e avtomaktab test savollari" kabi so'rovlar — sarlavhada "savollari va javoblari" bo'lsin
+            year = timezone.localdate().year
+            context["seo_title"] = {
+                "ru": f"{name} — вопросы и ответы теста {year}, онлайн",
+                "en": f"{name} — test questions and answers {year}, online",
+            }.get(lang, f"{name} test savollari va javoblari {year} — onlayn")
+            questions = book.questions.filter(is_deleted=False).count()
+            context["seo_description"] = {
+                "ru": f"{name}: {questions} вопросов с правильными ответами. Решайте тест онлайн бесплатно, без регистрации.",
+                "en": f"{name}: {questions} questions with correct answers. Take the test online for free, no sign-up.",
+            }.get(lang, f"{name}: {questions} ta savol va to'g'ri javoblari. Testni onlayn, bepul va ro'yxatdan o'tmasdan yeching.")
         if book is None or not book.questions.filter(is_deleted=False).exists():
             context["noindex"] = True  # o'chirilgan yoki savolsiz kitob — bo'sh sahifa qidiruvga chiqmasin
             context["hreflang_links"] = []

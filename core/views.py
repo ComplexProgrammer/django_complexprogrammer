@@ -21,6 +21,7 @@ TOOLS = [
     ("/avtotest/", "avtotest", "yhq imtihon bilet prava haydovchilik пдд экзамен driving"),
     ("/avtotest/imtihon/", "exam", "imtihon simulyator sinov экзамен симулятор exam simulator"),
     ("/yol-belgilari/", "signs", "yo'l belgilari belgi знаки дорожные road signs"),
+    ("/yhq/", "yhq", "yhq yo'l harakati qoidalari qoida пдд правила traffic rules"),
     ("/avtotest/reyting/", "leaderboard", "reyting top рейтинг leaderboard"),
     ("/tests/", "tests", "test savol maktab тест"),
     ("/translate/", "translate", "tarjima перевод translate"),
@@ -108,7 +109,7 @@ def offline(request):
 STATIC_SITEMAP_SECTIONS = [
     ("Asosiy sahifalar", [
         ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/avtotest/imtihon/", "weekly", "0.9"),
-        ("/avtotest/reyting/", "daily", "0.5"), ("/avtotest/kun-savoli/", "daily", "0.7"), ("/tests/", "weekly", "0.8"),
+        ("/avtotest/reyting/", "daily", "0.5"), ("/avtotest/kun-savoli/", "daily", "0.7"), ("/avtotest/pdf/", "monthly", "0.8"), ("/tests/", "weekly", "0.8"),
         ("/blog/", "daily", "0.8"), ("/projects/", "weekly", "0.7"),
     ]),
     ("Onlayn vositalar", [
@@ -129,6 +130,10 @@ STATIC_SITEMAP_SECTIONS = [
         ("/terms/", "yearly", "0.1"), ("/privacy/", "yearly", "0.1"),
     ]),
 ]
+
+
+# Faqat o'zbekcha mavjud sahifalar (rasmiy matn) — /ru/, /en/ versiyalari sitemap'ga kirmaydi
+UZ_ONLY_PREFIXES = ("/yhq/",)
 
 
 def build_sitemap():
@@ -152,6 +157,11 @@ def build_sitemap():
     ]))
     from driving.topics import TOPICS
 
+    from driving import yhq
+
+    sections.append(("Yo'l harakati qoidalari", [("/yhq/", None, "monthly", "0.8")] + [
+        (f"/yhq/{c['slug']}-bob/", None, "monthly", "0.6") for c in yhq.load()["chapters"]
+    ]))
     sections.append(("Avtotest mavzulari", [("/avtotest/mavzular/", None, "weekly", "0.8")] + [
         (f"/avtotest/mavzu/{slug}/", None, "weekly", "0.7") for slug, _, _ in TOPICS
     ]))
@@ -196,11 +206,12 @@ def build_sitemap():
             continue
         lines += ["", f"  <!-- {title} ({len(rows)} ta sahifa × {len(SEO_LANGS)} til) -->"]
         for path, lastmod, freq, prio in rows:
-            links = [
+            uz_only = path.startswith(UZ_ONLY_PREFIXES)
+            links = [] if uz_only else [
                 f'    <xhtml:link rel="alternate" hreflang="{code}" href="{escape(href)}"/>'
                 for code, href in alternates(path)
             ]
-            for lang in SEO_LANGS:
+            for lang in (("uz",) if uz_only else SEO_LANGS):
                 lines.append("  <url>")
                 lines.append(f"    <loc>{escape(lang_url(path, lang))}</loc>")
                 if lastmod:

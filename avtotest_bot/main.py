@@ -32,6 +32,7 @@ async def set_bot_commands(bot: Bot):
         BotCommand(command="mistakes", description="Xatolar ustida ishlash ❌"),
         BotCommand(command="stats", description="Mening natijalarim 📊"),
         BotCommand(command="eslatma", description="Kunlik eslatma ⏰"),
+        BotCommand(command="taklif", description="Do'stlarni taklif qilish 🤝"),
         BotCommand(command="lang", description="Tilni o'zgartirish 🌐"),
         BotCommand(command="help", description="Yordam va ma'lumot ℹ️"),
     ]

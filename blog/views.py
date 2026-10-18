@@ -175,6 +175,12 @@ def detail(request, slug):
     canonical = f"{SITE_URL}{getattr(request, 'lang_prefix', '')}{post.get_absolute_url()}"
     image = f"{SITE_URL}{post.image.url}" if post.image else f"{SITE_URL}/static/img/C0mplex.png"
     description = excerpt(lead or body, 160)
+    # Admin'da qidiruv uchun alohida yozilgan sarlavha/tavsif (faqat o'zbekcha sahifada)
+    seo_title = f"{name} — {t['blog']} | Complex Programmer"
+    if lang == "uz" and post.seo_title:
+        seo_title = post.seo_title
+    if lang == "uz" and post.seo_description:
+        description = post.seo_description
     category_name = pick(post.categorie, "name", lang)[0] if post.categorie else ""
     json_ld = {
         "@context": "https://schema.org",
@@ -214,7 +220,7 @@ def detail(request, slug):
             "older": _card(older, lang) if older else None,
             "related": [_card(p, lang) for p in related],
             "page_title": f"{name} — {t['blog']}",
-            "seo_title": f"{name} — {t['blog']} | Complex Programmer",
+            "seo_title": seo_title,
             "canonical_url": canonical,
             "seo_description": description,
             "og_type": "article",

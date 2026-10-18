@@ -44,6 +44,9 @@ class Project(models.Model):
         return self.title
 
 
+EXPLANATION_STATUS = [("", "Yo'q"), ("draft", "Qoralama"), ("approved", "Tasdiqlangan")]
+
+
 class AvtoTest(models.Model):
     savol = models.TextField()
     savol_en = models.TextField()
@@ -64,6 +67,19 @@ class AvtoTest(models.Model):
     bilet = models.IntegerField()
     raqam = models.IntegerField()
     rasm = models.CharField(max_length=255, blank=True)
+    # "Nima uchun bu javob to'g'ri?" izohi. AI qoralama yozadi (manage.py draft_explanations),
+    # saytda faqat admin tasdiqlagani ko'rinadi.
+    izoh = models.TextField(blank=True, default="")
+    izoh_ru = models.TextField(blank=True, default="")
+    izoh_en = models.TextField(blank=True, default="")
+    izoh_holati = models.CharField(
+        max_length=10, blank=True, default="", choices=EXPLANATION_STATUS, db_index=True,
+        help_text="Saytda faqat «Tasdiqlangan» izoh ko'rsatiladi.",
+    )
+    izoh_ishonch = models.CharField(
+        max_length=10, blank=True, default="",
+        help_text="AI qoralamaning o'z bahosi (high/medium/low) — past bo'lsa diqqat bilan tekshiring.",
+    )
     objects = models.Manager()
 
     class Meta:

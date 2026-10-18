@@ -1933,6 +1933,8 @@
             </div>
             <div class="at-links">
                 <a href="{{ lang_prefix }}/avtotest/imtihon/" class="at-exam">🎯 {% if request.LANGUAGE_CODE == 'ru' %}Симулятор экзамена{% elif request.LANGUAGE_CODE == 'uz' %}Imtihon simulyatori{% else %}Exam simulator{% endif %}</a>
+                <a href="/yhq/">📖 {% if request.LANGUAGE_CODE == 'ru' %}ПДД (текст){% elif request.LANGUAGE_CODE == 'uz' %}YHQ matni{% else %}Traffic rules{% endif %}</a>
+                <a href="{{ lang_prefix }}/avtotest/pdf/">📄 {% if request.LANGUAGE_CODE == 'ru' %}Скачать PDF{% elif request.LANGUAGE_CODE == 'uz' %}PDF yuklab olish{% else %}Download PDF{% endif %}</a>
                 <a href="{{ lang_prefix }}/avtotest/kun-savoli/">📅 {% if request.LANGUAGE_CODE == 'ru' %}Вопрос дня{% elif request.LANGUAGE_CODE == 'uz' %}Kun savoli{% else %}Question of the day{% endif %}</a>
                 <a href="{{ lang_prefix }}/avtotest/mavzular/">📚 {% if request.LANGUAGE_CODE == 'ru' %}Вопросы по темам{% elif request.LANGUAGE_CODE == 'uz' %}Mavzular bo'yicha{% else %}By topic{% endif %}</a>
                 <a href="{{ lang_prefix }}/yol-belgilari/">🚸 {% if request.LANGUAGE_CODE == 'ru' %}Дорожные знаки{% elif request.LANGUAGE_CODE == 'uz' %}Yo'l belgilari{% else %}Road signs{% endif %}</a>

@@ -62,3 +62,17 @@ async def reminder_loop(bot: Bot):
         except Exception as e:
             logger.exception(f"Eslatma siklida xatolik: {e}")
         await asyncio.sleep(CHECK_INTERVAL)
+
+
+@router.message(Command("taklif", "invite"))
+async def cmd_invite(message: Message):
+    """Shaxsiy taklif havolasi va taklif qilinganlar soni."""
+    user_id = message.from_user.id
+    await db.get_or_create_user(user_id, message.from_user.username, message.from_user.full_name or "")
+    lang = await db.get_user_lang(user_id)
+    me = await message.bot.get_me()
+    link = f"https://t.me/{me.username}?start=ref_{user_id}"
+    count = await db.count_referrals(user_id)
+    await message.answer(
+        get_text("ref_info", lang, link=link, count=count), parse_mode="HTML", disable_web_page_preview=True
+    )

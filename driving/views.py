@@ -100,10 +100,19 @@ def question(request, bilet, raqam):
         if value:
             answers.append({"letter": letter, "text": value, "right": letter == q.javob})
     right = next((a["text"] for a in answers if a["right"]), "")
+    explanation = _pick(q, "izoh", sfx) if q.izoh_holati == "approved" else ""
     q_topics = [
         {"slug": slug, "name": topics.topic_name(slug, lang)}
         for slug, ids in topics.topic_map().items() if q.id in ids
     ]
+    from driving import yhq
+
+    rule_chapters = []
+    for item in q_topics:
+        for chapter_slug in yhq.TOPIC_CHAPTERS.get(item["slug"], []):
+            chapter = yhq.chapter(chapter_slug)
+            if chapter and chapter not in rule_chapters:
+                rule_chapters.append(chapter)
 
     siblings = list(AvtoTest.objects.filter(bilet=bilet).order_by("raqam").values("raqam", "savol" + sfx, "savol"))
     for s in siblings:
@@ -145,7 +154,7 @@ def question(request, bilet, raqam):
                     {"@type": "Answer", "position": i, "text": a["text"]}
                     for i, a in enumerate(answers) if not a["right"]
                 ],
-                "acceptedAnswer": {"@type": "Answer", "text": right},
+                "acceptedAnswer": {"@type": "Answer", "text": right, **({"comment": {"@type": "Comment", "text": explanation}} if explanation else {})},
             }],
         },
     ]
@@ -154,7 +163,8 @@ def question(request, bilet, raqam):
     context = {
         "t": t, "q": q, "text": text, "answers": answers, "bilet": bilet, "raqam": raqam,
         "siblings": siblings, "prev_url": prev_url, "next_url": next_url,
-        "ticket_name": ticket_name, "question_name": question_name, "comments": page_comments(request), "topics": q_topics,
+        "ticket_name": ticket_name, "question_name": question_name, "comments": page_comments(request), "topics": q_topics, "explanation": explanation,
+        "rule_chapters": rule_chapters[:3],
         **_seo(title, desc, graph, image),
     }
     return render(request, "driving/question.html", context)
@@ -451,7 +461,8 @@ def telegram_login(request):
     if data is None:
         return redirect("/profil/?login=failed")
     _login_telegram(request, data)
-    return redirect(_safe_next(request))
+    target = _safe_next(request)
+    return redirect(target + ("&" if "?" in target else "?") + "welcome=1")
 
 
 @require_POST
@@ -599,8 +610,11 @@ def topic(request, slug):
     ]
     title = t["topic_title"].format(name=name, year=timezone.localdate().year)
     desc = t["topic_desc"].format(name=name, n=len(questions))
+    from driving import yhq
+
+    rule_chapters = [c for c in (yhq.chapter(x) for x in yhq.TOPIC_CHAPTERS.get(slug, [])) if c]
     context = {
-        "t": t, "slug": slug, "name": name, "questions": questions, "others": others,
+        "t": t, "slug": slug, "name": name, "questions": questions, "others": others, "rule_chapters": rule_chapters,
         "h1": t["topic_h1"].format(name=name), "count": t["topic_count"].format(n=len(questions)),
         **_seo(title, desc, graph),
     }
@@ -651,3 +665,116 @@ def daily_question(request):
             ],
         })
     return render(request, "driving/daily.html", context)
+
+
+# ==================== PDF ====================
+
+
+def avtotest_pdf(request):
+    """Search Console: "avto test 1000 savol javoblar pdf", "... скачать" — yuklab olish sahifasi."""
+    from driving import pdf
+
+    lang = _lang(request)
+    t = texts(lang)
+    total = AvtoTest.objects.filter(javob__in=LETTERS).count()
+    bilets = AvtoTest.objects.values("bilet").distinct().count()
+    files = []
+    for code in ("uz", "ru"):
+        path = pdf.pdf_path(code)
+        if path.is_file():
+            files.append({
+                "lang": code, "label": t["pdf_lang_" + code], "url": f"/media/avtotest/{path.name}",
+                "facts": t["pdf_facts"].format(n=total, b=bilets, mb=f"{path.stat().st_size / 1024 / 1024:.0f}"),
+            })
+    if lang == "ru":
+        files.sort(key=lambda f: f["lang"] != "ru")  # ruscha sahifada ruscha fayl birinchi
+    graph = [
+        _breadcrumbs(lang, _url_lang(request), [("Avtotest", "/avtotest/"), ("PDF", "/avtotest/pdf/")]),
+        {
+            "@type": "DigitalDocument", "name": t["pdf_h1"], "description": t["pdf_desc"].format(n=total),
+            "encodingFormat": "application/pdf", "inLanguage": [f["lang"] for f in files],
+            "url": lang_url("/avtotest/pdf/", _url_lang(request)),
+        },
+    ]
+    context = {
+        "t": t, "files": files, "total": total, "bilets": bilets,
+        **_seo(t["pdf_title"], t["pdf_desc"].format(n=total), graph),
+    }
+    return render(request, "driving/pdf.html", context)
+
+
+# ==================== YO'L HARAKATI QOIDALARI ====================
+
+
+def _yhq_lang_context(request, path):
+    """Rasmiy matn faqat o'zbekcha: /ru/, /en/ versiyalar o'zbekcha sahifaga canonical (dublikat bo'lmasin)."""
+    if getattr(request, "lang_prefix", ""):
+        return {"canonical_url": SITE_URL + path, "hreflang_links": [("uz", SITE_URL + path)]}
+    return {"hreflang_links": [("uz", SITE_URL + path), ("x-default", SITE_URL + path)]}
+
+
+def yhq_index(request):
+    from driving import yhq
+
+    lang = _lang(request)
+    t = texts(lang)
+    data = yhq.load()
+    chapters = data["chapters"]
+    points = sum(len(c["points"]) for c in chapters)
+    graph = [
+        _breadcrumbs(lang, _url_lang(request), [(t["yhq_h1"], "/yhq/")]),
+        {
+            "@type": "Legislation", "name": "Yo'l harakati qoidalari", "legislationIdentifier": "VM 172",
+            "legislationDate": "2022-04-12", "legislationType": "Qaror", "inLanguage": "uz",
+            "legislationJurisdiction": "UZ", "isBasedOn": yhq.SOURCE_URL, "url": SITE_URL + "/yhq/",
+        },
+    ]
+    context = {
+        "t": t, "chapters": chapters, "points": points, "source": yhq.SOURCE_URL, "fetched": data.get("fetched", ""),
+        **_seo(t["yhq_title"], t["yhq_desc"].format(n=len(chapters), p=points), graph),
+        **_yhq_lang_context(request, "/yhq/"),
+    }
+    return render(request, "driving/yhq_index.html", context)
+
+
+def yhq_chapter(request, slug):
+    from driving import yhq
+
+    chapter = yhq.chapter(slug)
+    if chapter is None:
+        raise Http404
+    lang = _lang(request)
+    t = texts(lang)
+    sfx = _sfx(lang)
+    chapters = yhq.load()["chapters"]
+    index = next(i for i, c in enumerate(chapters) if c["slug"] == slug)
+    prev_chapter = chapters[index - 1] if index > 0 else None
+    next_chapter = chapters[index + 1] if index < len(chapters) - 1 else None
+
+    # Shu bobga tegishli mavzulardagi avtotest savollari (ichki havolalar: qoida <-> savol)
+    related_topics = [topic for topic, slugs in yhq.TOPIC_CHAPTERS.items() if slug in slugs]
+    mapping = topics.topic_map()
+    ids = [i for topic in related_topics for i in mapping.get(topic, [])][:300]
+    questions = [
+        {"bilet": q["bilet"], "raqam": q["raqam"], "text": Truncator(q["savol" + sfx] or q["savol"]).chars(120)}
+        for q in AvtoTest.objects.filter(id__in=ids).order_by("bilet", "raqam").values("bilet", "raqam", "savol", "savol" + sfx)[:12]
+    ]
+    path = f"/yhq/{slug}-bob/"
+    name = f"{chapter['num']}-bob. {chapter['title']}"
+    first = chapter["points"][0]["paragraphs"][0] if chapter["points"] else " ".join(chapter.get("intro", []))
+    graph = [
+        _breadcrumbs(lang, _url_lang(request), [(t["yhq_h1"], "/yhq/"), (name, path)]),
+        {
+            "@type": "Legislation", "name": name, "inLanguage": "uz", "isPartOf": {"@type": "Legislation", "name": "Yo'l harakati qoidalari", "url": SITE_URL + "/yhq/"},
+            "isBasedOn": yhq.SOURCE_URL, "url": SITE_URL + path,
+        },
+    ]
+    context = {
+        "t": t, "chapter": chapter, "prev_chapter": prev_chapter, "next_chapter": next_chapter,
+        "questions": questions, "related_topics": [{"slug": tp, "name": topics.topic_name(tp, lang)} for tp in related_topics],
+        "source": yhq.SOURCE_URL,
+        **_seo(t["yhq_chapter_title"].format(num=chapter["num"], title=chapter["title"]),
+               Truncator(f"{name}: {first}").chars(160), graph),
+        **_yhq_lang_context(request, path),
+    }
+    return render(request, "driving/yhq_chapter.html", context)

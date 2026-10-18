@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+<style>
+  .yhq-point{padding:10px 0;border-top:1px solid var(--border);scroll-margin-top:70px}
+  .yhq-point:first-child{border-top:0}
+  .yhq-point p{margin:0 0 6px}
+  .yhq-point .n{font-weight:700;color:var(--accent);text-decoration:none}
+  .yhq-point:target{background:rgba(99,102,241,.08);border-radius:8px}
+</style>
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="/yhq/">{{ t.yhq_h1 }}</a> › <span>{{ chapter.num }}-bob</span>
+  </nav>
+  <h1 class="d-h1">{{ chapter.num }}-bob. {{ chapter.title }}</h1>
+  <article class="d-card" lang="uz">
+    {% for p in chapter.intro %}<p>{{ p }}</p>{% endfor %}
+    {% for point in chapter.points %}
+    <div class="yhq-point" id="b{{ point.num }}">
+      {% for paragraph in point.paragraphs %}
+      <p>{% if forloop.first %}<a class="n" href="#b{{ point.num }}">{{ point.num }}.</a> {% endif %}{{ paragraph|linebreaksbr }}</p>
+      {% endfor %}
+    </div>
+    {% endfor %}
+    <p class="d-meta" style="margin-top:12px">{{ t.yhq_source }}: <a href="{{ source }}" target="_blank" rel="noopener">lex.uz — VM 172-son qarori</a></p>
+  </article>
+  {% if questions %}
+  <section class="d-card">
+    <h2 class="d-h2">🚗 {{ t.yhq_related }}</h2>
+    <ul class="d-list">
+      {% for q in questions %}
+      <li><a href="{{ lang_prefix }}/avtotest/{{ q.bilet }}/{{ q.raqam }}/"><span style="flex:1">{{ q.text }}</span><span class="d-meta">{{ q.bilet }}/{{ q.raqam }}</span></a></li>
+      {% endfor %}
+    </ul>
+    <div class="d-row" style="margin-top:10px">
+      {% for tp in related_topics %}<a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzu/{{ tp.slug }}/">📚 {{ tp.name }}</a>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  <div class="d-between">
+    {% if prev_chapter %}<a class="d-btn alt" href="/yhq/{{ prev_chapter.slug }}-bob/" rel="prev">← {{ prev_chapter.num }}-bob</a>{% else %}<span></span>{% endif %}
+    {% if next_chapter %}<a class="d-btn" href="/yhq/{{ next_chapter.slug }}-bob/" rel="next">{{ next_chapter.num }}-bob →</a>{% endif %}
+  </div>
+</main>
+</body>
+</html>

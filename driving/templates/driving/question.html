@@ -24,6 +24,7 @@
     <details class="d-note" style="padding-left:0">
       <summary>{{ t.show_answer }}</summary>
       {% for a in answers %}{% if a.right %}<p><b>{{ t.correct_answer }}:</b> {{ a.text }}</p>{% endif %}{% endfor %}
+      {% if explanation %}<p><b>{{ t.why_correct }}</b> {{ explanation }}</p>{% endif %}
     </details>
   </article>
 
@@ -32,6 +33,14 @@
     {% if next_url %}<a class="d-btn" href="{{ lang_prefix }}{{ next_url }}" rel="next">{{ t.next }} →</a>{% endif %}
   </div>
 
+  {% if rule_chapters %}
+  <div class="d-card">
+    <h2 class="d-h2">📖 {{ t.yhq_rule }}</h2>
+    <ul class="d-list">
+      {% for c in rule_chapters %}<li><a href="/yhq/{{ c.slug }}-bob/"><b>{{ c.num }}</b><span>{{ c.title }}</span></a></li>{% endfor %}
+    </ul>
+  </div>
+  {% endif %}
   <div class="d-card d-cta">
     <h2 class="d-h2">🎯 {{ t.exam }}</h2>
     <p>{{ t.exam_cta }}</p>
