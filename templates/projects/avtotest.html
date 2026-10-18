@@ -1937,6 +1937,12 @@
                     🎲 {% if request.LANGUAGE_CODE == 'ru' %}Случайный билет{% elif request.LANGUAGE_CODE == 'uz' %}Tasodifiy bilet{% else %}Random ticket{% endif %}
                 </a>
             </div>
+            <div class="at-links">
+                <a href="{{ lang_prefix }}/avtotest/imtihon/" class="at-exam">🎯 {% if request.LANGUAGE_CODE == 'ru' %}Симулятор экзамена{% elif request.LANGUAGE_CODE == 'uz' %}Imtihon simulyatori{% else %}Exam simulator{% endif %}</a>
+                <a href="{{ lang_prefix }}/yol-belgilari/">🚸 {% if request.LANGUAGE_CODE == 'ru' %}Дорожные знаки{% elif request.LANGUAGE_CODE == 'uz' %}Yo'l belgilari{% else %}Road signs{% endif %}</a>
+                <a href="{{ lang_prefix }}/avtotest/reyting/">🏆 {% if request.LANGUAGE_CODE == 'ru' %}Рейтинг{% elif request.LANGUAGE_CODE == 'uz' %}Reyting{% else %}Leaderboard{% endif %}</a>
+                <a href="{{ lang_prefix }}/profil/">👤 {% if user.is_authenticated %}{% if request.LANGUAGE_CODE == 'ru' %}Мой профиль{% elif request.LANGUAGE_CODE == 'uz' %}Profilim{% else %}My profile{% endif %}{% else %}{% if request.LANGUAGE_CODE == 'ru' %}Войти через Telegram{% elif request.LANGUAGE_CODE == 'uz' %}Telegram orqali kirish{% else %}Log in with Telegram{% endif %}{% endif %}</a>
+            </div>
             <p class="at-legend">
                 <span class="at-dot at-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≤2 ошибки){% elif request.LANGUAGE_CODE == 'uz' %}o'tdi (≤2 xato){% else %}passed (≤2 mistakes){% endif %}
                 <span class="at-dot at-fail"></span> {% if request.LANGUAGE_CODE == 'ru' %}не сдан{% elif request.LANGUAGE_CODE == 'uz' %}yiqildi{% else %}failed{% endif %}
@@ -1981,6 +1987,11 @@
         .at-random-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6)}
         .at-mistakes-btn b{background:rgba(255,255,255,.25);border-radius:999px;padding:0 9px}
         .at-legend{font-size:.85rem;opacity:.8;margin-bottom:16px}
+        .at-links{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px}
+        .at-links a{flex:1 1 160px;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 14px;border-radius:14px;font-weight:600;
+            text-decoration:none!important;color:inherit!important;background:rgba(255,255,255,.7);border:1px solid rgba(99,102,241,.25)}
+        [data-theme="dark"] .at-links a{background:rgba(30,41,59,.8)}
+        .at-links a.at-exam{color:#fff!important;background:linear-gradient(135deg,#22c55e,#16a34a);border:0}
         .at-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
         .at-pass{background:#22c55e}.at-fail{background:#ef4444}.at-progress{background:#f59e0b}
         .ticket-card-3d.is-pass .ticket-card-inner{box-shadow:inset 0 0 0 3px #22c55e}
@@ -2182,9 +2193,20 @@
             }
         }
     </script>
+    {% if questions %}
+    <div class="container at-qlist">
+        <h2 class="h5">{% if request.LANGUAGE_CODE == 'ru' %}Вопросы билета {{ bilet }} с ответами{% elif request.LANGUAGE_CODE == 'uz' %}{{ bilet }}-bilet savollari va javoblari{% else %}Ticket {{ bilet }} questions with answers{% endif %}</h2>
+        <ol>
+            {% for q in questions %}<li><a href="{{ lang_prefix }}/avtotest/{{ bilet }}/{{ q.raqam }}/">{{ q.text }}</a></li>{% endfor %}
+        </ol>
+        <a href="{{ lang_prefix }}/avtotest/imtihon/" class="btn btn-success">🎯 {% if request.LANGUAGE_CODE == 'ru' %}Симулятор экзамена{% elif request.LANGUAGE_CODE == 'uz' %}Imtihon simulyatori{% else %}Exam simulator{% endif %}</a>
+    </div>
+    <style>.at-qlist{margin-top:24px}.at-qlist ol{padding-left:1.4em}.at-qlist li{margin-bottom:6px}</style>
+    {% endif %}
     {% endif %}
     <hr />
 {% include "includes/seo_text.html" %}
+{% include "driving/_sync.html" %}
     {% include 'comment_form.html' %}
     <script>
         var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
@@ -2281,6 +2303,7 @@
         }
         function saveObj(key, value) {
             try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+            if (window.cpSync) window.cpSync.schedule();
         }
         function rememberAnswer(questionId, correct) {
             var mistakes = loadObj("avtotestMistakes");
@@ -2376,6 +2399,7 @@
             saveJavoblar();
             $scope.savol.berilgan_javob = javob;
             rememberAnswer($scope.savol.id, javob === $scope.savol.javob);
+            if (window.cpSync) window.cpSync.answered(javob === $scope.savol.javob);
 
             $scope.mValue = javob + $scope.id;
             if (javob === $scope.savol.javob) {

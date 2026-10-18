@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>{{ t.lb_h1 }}</span>
+  </nav>
+  <h1 class="d-h1">🏆 {{ t.lb_h1 }}</h1>
+  <p class="d-meta">{{ t.lb_lead }}</p>
+  <div class="d-card">
+    {% if rows %}
+    <table class="d-table">
+      <thead><tr><th>#</th><th>{{ t.lb_name }}</th><th class="n">{{ t.lb_correct }}</th><th class="n">{{ t.lb_answered }}</th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr{% if r.me %} class="me"{% endif %}>
+          <td>{% if r.place == 1 %}🥇{% elif r.place == 2 %}🥈{% elif r.place == 3 %}🥉{% else %}{{ r.place }}{% endif %}</td>
+          <td>{{ r.account.display_name }}{% if r.me %} ({{ t.lb_you }}){% endif %}</td>
+          <td class="n">{{ r.correct_sum }}</td><td class="n d-meta">{{ r.answered_sum }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}<p style="margin:0">{{ t.lb_empty }}</p>{% endif %}
+  </div>
+  {% if not user.is_authenticated %}{% include "driving/_login.html" %}{% endif %}
+  <div class="d-row">
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+    <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/">🚗 {{ t.all_tickets }}</a>
+  </div>
+</main>
+</body>
+</html>

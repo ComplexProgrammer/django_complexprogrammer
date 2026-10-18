@@ -1,0 +1,16 @@
+from django.urls import path
+
+from driving import views
+
+urlpatterns = [
+    path("avtotest/<int:bilet>/<int:raqam>/", views.question, name="avtotest_question"),
+    path("avtotest/imtihon/", views.exam, name="avtotest_exam"),
+    path("avtotest/reyting/", views.leaderboard, name="avtotest_leaderboard"),
+    path("yol-belgilari/", views.signs, name="road_signs"),
+    path("yol-belgilari/<int:pk>/", views.sign, name="road_sign"),
+    path("profil/", views.profile, name="profile"),
+    path("auth/telegram/", views.telegram_login, name="telegram_login"),
+    path("auth/logout/", views.logout_view, name="logout"),
+    path("api/avtotest/progress/", views.api_progress, name="api_avtotest_progress"),
+    path("api/avtotest/exam/", views.api_exam, name="api_avtotest_exam"),
+]

@@ -1,19 +1,20 @@
 # avtotest_bot/handlers/start.py
 import logging
 from aiogram import Router, F
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import CommandStart, Command, CommandObject
 from aiogram.types import Message, CallbackQuery
 
 from ..database import db
 from ..texts import get_text
 from ..keyboards import get_main_reply_keyboard, get_language_keyboard
+from .reminder import enable_from_deeplink
 
 logger = logging.getLogger(__name__)
 router = Router()
 
 
 @router.message(CommandStart())
-async def cmd_start(message: Message):
+async def cmd_start(message: Message, command: CommandObject):
     user_id = message.from_user.id
     username = message.from_user.username
     full_name = message.from_user.full_name or "Foydalanuvchi"
@@ -28,6 +29,8 @@ async def cmd_start(message: Message):
         parse_mode="HTML",
         disable_web_page_preview=True,
     )
+    if command.args == "eslatma":
+        await enable_from_deeplink(message)
 
 
 @router.message(Command("lang"))

@@ -40,6 +40,11 @@ ALLOWED_HOSTS = [
 ]
 
 
+# Telegram orqali kirish (Login Widget). Bot domeni BotFather'da /setdomain bilan complexprogrammer.uz qilib o'rnatilishi shart.
+TELEGRAM_LOGIN_BOT_TOKEN = config("TELEGRAM_LOGIN_BOT_TOKEN", default=config("AVTOTEST_BOT_TOKEN", default=""))
+TELEGRAM_LOGIN_BOT_USERNAME = config("TELEGRAM_LOGIN_BOT_USERNAME", default="AvtoTestUzbBot")
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -66,6 +71,7 @@ INSTALLED_APPS = [
     "ckeditor_uploader",  # CKEditor media uploader
     "colorfield",
     "arxiv",
+    "driving",
 ]
 
 MIDDLEWARE = [

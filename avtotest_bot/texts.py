@@ -78,6 +78,21 @@ TEXTS = {
             "🌐 <b>Veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n\n"
             "❓ <b>Savollar va takliflar uchun:</b> @complexprogrammeruzchannel"
         ),
+        # Kunlik eslatma
+        "remind_on": (
+            "⏰ <b>Kunlik eslatma yoqildi!</b>\n\n"
+            "Har kuni kechqurun, agar o'sha kuni mashq qilmagan bo'lsangiz, eslatib turamiz. "
+            "O'chirish uchun yana /eslatma yuboring."
+        ),
+        "remind_off": "🔕 Kunlik eslatma o'chirildi. Qayta yoqish uchun /eslatma yuboring.",
+        "remind_daily": (
+            "🚗 <b>Bugungi mashg'ulot vaqti keldi!</b>\n\n"
+            "Imtihonga tayyorgarlikni to'xtatmang — kuniga 10 ta savol ham katta natija beradi.\n\n"
+            "🎲 /exam — 20 savollik imtihon\n"
+            "❌ /mistakes — xatolar ustida ishlash\n"
+            "🎯 <a href='https://complexprogrammer.uz/avtotest/imtihon/'>Saytdagi imtihon simulyatori</a>\n\n"
+            "<i>Eslatmani o'chirish: /eslatma</i>"
+        ),
     },
     "ru": {
         "welcome": (
@@ -154,6 +169,20 @@ TEXTS = {
             "📱 <b>Приложение Android:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Avto Test Uzb в Google Play</a>\n"
             "🌐 <b>Наш сайт:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n\n"
             "❓ <b>Вопросы и поддержка:</b> @complexprogrammeruzchannel"
+        ),
+        "remind_on": (
+            "⏰ <b>Ежедневное напоминание включено!</b>\n\n"
+            "Каждый вечер, если вы ещё не занимались в этот день, мы напомним. "
+            "Чтобы отключить, снова отправьте /eslatma."
+        ),
+        "remind_off": "🔕 Ежедневное напоминание отключено. Чтобы включить, отправьте /eslatma.",
+        "remind_daily": (
+            "🚗 <b>Время для сегодняшней тренировки!</b>\n\n"
+            "Не прерывайте подготовку — даже 10 вопросов в день дают большой результат.\n\n"
+            "🎲 /exam — экзамен из 20 вопросов\n"
+            "❌ /mistakes — работа над ошибками\n"
+            "🎯 <a href='https://complexprogrammer.uz/ru/avtotest/imtihon/'>Симулятор экзамена на сайте</a>\n\n"
+            "<i>Отключить напоминание: /eslatma</i>"
         ),
     },
 }

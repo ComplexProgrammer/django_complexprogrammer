@@ -31,6 +31,8 @@
     color:#f1f5f9!important;background:#1e293b!important}
   [data-theme="dark"] .cp-header .cp-search input::placeholder{color:#94a3b8!important}
   .cp-btn:hover{border-color:#6366f1}
+  .cp-user{display:inline-flex;align-items:center;justify-content:center;text-decoration:none!important}
+  .cp-user img{border-radius:50%}
   .cp-header .cp-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   /* Sahifalarning eski suzuvchi mavzu tugmasi endi kerak emas — headerdagi tugma ishlatiladi */
   body.cp-has-header > #themeButton, body.cp-has-header > .theme-toggle{display:none!important}
@@ -53,6 +55,8 @@
   </a>
   <nav class="cp-nav" aria-label="{{ ui.menu }}">
     <a href="/avtotest/" {% if request.path_info|slice:":10" == "/avtotest/" %}aria-current="page"{% endif %}>🚗 {{ ui.avtotest }}</a>
+    <a href="{{ lang_prefix }}/avtotest/imtihon/" {% if request.path_info == "/avtotest/imtihon/" %}aria-current="page"{% endif %}>🎯 {{ ui.exam }}</a>
+    <a href="{{ lang_prefix }}/yol-belgilari/" {% if request.path_info|slice:":15" == "/yol-belgilari/" %}aria-current="page"{% endif %}>🚸 {{ ui.signs }}</a>
     <a href="/tests/" {% if request.path_info|slice:":7" == "/tests/" %}aria-current="page"{% endif %}>📝 {{ ui.tests }}</a>
     <a href="/projects/" {% if request.path_info == "/projects/" %}aria-current="page"{% endif %}>🧰 {{ ui.projects }}</a>
     <a href="/blog/" {% if request.path_info|slice:":6" == "/blog/" %}aria-current="page"{% endif %}>📰 {{ ui.blog }}</a>
@@ -73,6 +77,7 @@
         {% endfor %}
       </select>
     </form>
+    <a class="cp-btn cp-user" href="{{ lang_prefix }}/profil/" aria-label="{{ ui.profile }}" title="{{ ui.profile }}">{% if user.is_authenticated %}{% with tg=user.telegram %}{% if tg.photo_url %}<img src="{{ tg.photo_url }}" alt="" width="22" height="22">{% else %}👤{% endif %}{% endwith %}{% else %}👤{% endif %}</a>
     <button type="button" class="cp-btn" id="cp-theme" aria-label="{{ ui.theme }}" title="{{ ui.theme }}">🌓</button>
   </div>
 </header>

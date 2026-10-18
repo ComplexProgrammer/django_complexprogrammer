@@ -2304,6 +2304,30 @@
     <main role="main" class="fade-in">
         <div class="container"><div class="cp-home">
             {% include "includes/seo_intro.html" %}
+            <section class="cp-hero" aria-labelledby="cp-hero-h">
+                <h2 id="cp-hero-h">🚗 {{ ui.hero_title }}</h2>
+                <p>{{ ui.hero_lead }}</p>
+                <div class="cp-hero-actions">
+                    <a class="cp-hero-main" href="{{ lang_prefix }}/avtotest/">📋 {{ ui.hero_tickets }}</a>
+                    <a class="cp-hero-exam" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ ui.exam }}<small>{{ ui.exam_desc }}</small></a>
+                    <a href="{{ lang_prefix }}/yol-belgilari/">🚸 {{ ui.signs }}</a>
+                    <a href="{{ lang_prefix }}/avtotest/reyting/">🏆 {{ ui.leaderboard }}</a>
+                    <a href="{{ lang_prefix }}/profil/">👤 {{ ui.profile }}</a>
+                </div>
+            </section>
+            <style>
+                .cp-hero{margin:8px auto 22px;padding:22px;border-radius:20px;text-align:left;color:#fff;
+                    background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#16a34a);box-shadow:0 12px 30px rgba(79,70,229,.25)}
+                .cp-hero h2{font-size:clamp(1.2rem,2.6vw,1.6rem);font-weight:800;margin:0 0 8px;color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important}
+                .cp-hero p{margin:0 0 16px;opacity:.92}
+                .cp-hero-actions{display:flex;flex-wrap:wrap;gap:10px}
+                .cp-hero-actions a{flex:1 1 150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:12px 14px;
+                    border-radius:14px;font-weight:700;text-decoration:none!important;color:#fff!important;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
+                .cp-hero-actions a:hover{background:rgba(255,255,255,.26)}
+                .cp-hero-actions a.cp-hero-main{background:#fff;color:#4f46e5!important}
+                .cp-hero-actions a.cp-hero-exam{background:#22c55e;border-color:#22c55e}
+                .cp-hero-actions small{font-weight:500;font-size:.75rem;opacity:.9}
+            </style>
             <form class="cp-home-search" action="/search/" method="get" role="search">
                 <i class="fas fa-search"></i>
                 <input type="search" name="q" placeholder="{{ ui.search_placeholder }}" aria-label="{{ ui.search }}">

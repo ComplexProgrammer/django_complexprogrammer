@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/yol-belgilari/">{{ t.signs_h1 }}</a> › <span>{{ sign.number }}</span>
+  </nav>
+  <article class="d-card">
+    <p class="d-meta">{{ t.category }}: <a href="{{ lang_prefix }}/yol-belgilari/#{{ sign.category.code }}">{{ category }}</a></p>
+    <h1 class="d-h1">{{ sign.number }} «{{ name }}»</h1>
+    {% if sign.image %}<img class="d-img" src="{{ sign.image.url }}" alt="{{ sign.number }} {{ name }}" style="max-width:260px">{% endif %}
+    {% if description %}<div>{{ description|linebreaks }}</div>{% endif %}
+  </article>
+  {% if others %}
+  <section class="d-card">
+    <h2 class="d-h2">{{ category }}</h2>
+    <div class="d-grid">
+      {% for s in others %}
+      <a class="d-tile" href="{{ lang_prefix }}/yol-belgilari/{{ s.id }}/">
+        {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.number }} {{ s.name }}" loading="lazy" decoding="async">{% endif %}
+        <b>{{ s.number }}</b><span>{{ s.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+  <div class="d-row">
+    <a class="d-btn alt" href="{{ lang_prefix }}/yol-belgilari/">← {{ t.back_signs }}</a>
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+  </div>
+</main>
+</body>
+</html>

@@ -32,6 +32,7 @@
 <main>
   <div id="app"></div>
 </main>
+{% include "driving/_sync.html" %}
 <script>
 (function () {
   var LANG = "{{ LANGUAGE_CODE|slice:':2' }}";
@@ -51,7 +52,7 @@
   var app = document.getElementById("app");
 
   function load() { try { return JSON.parse(localStorage.getItem("avtotestMistakes")) || {}; } catch (e) { return {}; } }
-  function save(m) { try { localStorage.setItem("avtotestMistakes", JSON.stringify(m)); } catch (e) {} }
+  function save(m) { try { localStorage.setItem("avtotestMistakes", JSON.stringify(m)); } catch (e) {} window.cpSync.schedule(); }
   function esc(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
   function pick(q, field) { return q[field + sfx] || q[field] || ""; }
 
@@ -121,6 +122,7 @@
     });
     var m = load();
     if (ok) { delete m[q.id]; save(m); }
+    window.cpSync.answered(ok);
     document.getElementById("feedback").innerHTML = '<div class="alert alert-' + (ok ? "success" : "danger") + ' py-2 m-0">' + esc(ok ? T.correct : T.wrong) + '</div>';
     document.getElementById("next").disabled = false;
     document.getElementById("next").focus();

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main" style="max-width:1100px">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <span>{{ t.signs_h1 }}</span>
+  </nav>
+  <h1 class="d-h1">🚸 {{ t.signs_h1 }}</h1>
+  <p class="d-meta">{{ t.signs_lead }}</p>
+  {% if not total %}<div class="d-card"><p style="margin:0">{{ t.signs_empty }}</p></div>{% endif %}
+  {% for c in categories %}{% if c.signs %}
+  <section class="d-card" id="{{ c.code }}">
+    <h2 class="d-h2">{{ c.name }} <span class="d-meta">· {{ c.signs|length }}</span></h2>
+    <div class="d-grid">
+      {% for s in c.signs %}
+      <a class="d-tile" href="{{ lang_prefix }}/yol-belgilari/{{ s.id }}/">
+        {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.number }} {{ s.name }}" loading="lazy" decoding="async">{% endif %}
+        <b>{{ s.number }}</b><span>{{ s.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}{% endfor %}
+  <div class="d-card d-cta">
+    <h2 class="d-h2">🎯 {{ t.exam }}</h2>
+    <p>{{ t.exam_cta }}</p>
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">{{ t.start_exam }}</a>
+  </div>
+</main>
+</body>
+</html>

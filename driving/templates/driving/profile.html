@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  {% if user.is_authenticated %}
+  <div class="d-between" style="margin-bottom:14px">
+    <div class="d-row">
+      {% if account.photo_url %}<img src="{{ account.photo_url }}" alt="" width="48" height="48" style="border-radius:50%">{% endif %}
+      <div>
+        <h1 class="d-h1" style="margin:0">{{ account.display_name|default:user.username }}</h1>
+        {% if account.username %}<span class="d-meta">@{{ account.username }}</span>{% endif %}
+      </div>
+    </div>
+    <form method="post" action="/auth/logout/">{% csrf_token %}<button type="submit" class="d-btn alt">{{ t.logout }}</button></form>
+  </div>
+
+  <div class="d-card">
+    <div class="d-between"><h2 class="d-h2" style="margin:0">{{ t.readiness }}</h2><b style="font-size:1.4rem">{{ readiness }}%</b></div>
+    <div class="d-bar" style="margin:10px 0 6px"><div style="width:{{ readiness }}%"></div></div>
+    <p class="d-meta" style="margin:0">{{ t.readiness_hint }}</p>
+  </div>
+
+  <div class="d-stats">
+    <div><b>🔥 {{ streak }}</b><span>{{ t.streak }}</span></div>
+    <div><b>{{ solved }}/{{ total_bilets }}</b><span>{{ t.solved }}</span></div>
+    <div><b>{{ passed }}</b><span>{{ t.passed_tickets }}</span></div>
+    <div><b>{% if accuracy is None %}—{% else %}{{ accuracy }}%{% endif %}</b><span>{{ t.accuracy }}</span></div>
+    <div><b>{{ exams_passed }}/{{ exam_count }}</b><span>{{ t.exams_passed }}</span></div>
+    <div><b>{{ mistakes_count }}</b><span>{{ t.mistakes }}</span></div>
+  </div>
+
+  <div class="d-row" style="margin-bottom:16px">
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+    {% if mistakes_count %}<a class="d-btn alt" href="{{ lang_prefix }}/avtotest/xatolar/">❌ {{ t.my_mistakes }}</a>{% endif %}
+    <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/reyting/">🏆 {{ t.leaderboard }}</a>
+  </div>
+
+  {% if weak %}
+  <section class="d-card">
+    <h2 class="d-h2">{{ t.weak_tickets }}</h2>
+    <div class="d-row">
+      {% for b, r in weak %}<a class="d-btn alt" href="{{ lang_prefix }}/avtotest/{{ b }}/">{{ b }} <span class="d-meta">({{ r.correct }}/10)</span></a>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="d-card">
+    <h2 class="d-h2">{{ t.recent_exams }}</h2>
+    {% if exams %}
+    <table class="d-table">
+      {% for e in exams %}
+      <tr><td>{% if e.passed %}✅{% else %}❌{% endif %} {{ e.correct }}/{{ e.total }}</td>
+        <td class="n d-meta">⏱ {{ e.duration }}</td><td class="n d-meta">{{ e.created_at|date:"d.m.Y H:i" }}</td></tr>
+      {% endfor %}
+    </table>
+    {% else %}<p class="d-meta" style="margin:0">{{ t.no_exams }}</p>{% endif %}
+  </section>
+
+  <section class="d-card">
+    <h2 class="d-h2">⏰ {{ t.reminder }}</h2>
+    <p>{{ t.reminder_text }}</p>
+    <a class="d-btn" href="https://t.me/AvtoTestUzbBot?start=eslatma" target="_blank" rel="noopener">{{ t.open_bot }}</a>
+  </section>
+  {% else %}
+  <h1 class="d-h1">👤 {{ t.profile }}</h1>
+  {% include "driving/_login.html" %}
+  <div class="d-row">
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/">🚗 {{ t.all_tickets }}</a>
+    <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+  </div>
+  {% endif %}
+</main>
+{% include "driving/_sync.html" %}
+</body>
+</html>

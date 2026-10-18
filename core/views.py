@@ -11,13 +11,16 @@ from core.seo import SEO_LANGS, alternates, lang_url, page_meta
 from django.utils import translation
 from news.models import Posts as NewsPost
 from projects.models import AvtoTest, Project
-from tests.models import Books
+from tests.models import Books, RoadSigns
 
 MAX_RESULTS = 20
 
 # Qidiruvda ko'rinadigan vositalar: (url, UI kaliti, qo'shimcha kalit so'zlar)
 TOOLS = [
     ("/avtotest/", "avtotest", "yhq imtihon bilet prava haydovchilik пдд экзамен driving"),
+    ("/avtotest/imtihon/", "exam", "imtihon simulyator sinov экзамен симулятор exam simulator"),
+    ("/yol-belgilari/", "signs", "yo'l belgilari belgi знаки дорожные road signs"),
+    ("/avtotest/reyting/", "leaderboard", "reyting top рейтинг leaderboard"),
     ("/tests/", "tests", "test savol maktab тест"),
     ("/translate/", "translate", "tarjima перевод translate"),
     ("/changetext/", "latin", "lotin kirill krill латиница кириллица"),
@@ -49,7 +52,7 @@ def search(request):
         ql = q.lower()
         for url, key, keywords in TOOLS:
             title = ui.get(key, key)
-            desc = (page_meta(url, lang) or {}).get("desc", "")
+            desc = (page_meta(url, lang) or {}).get("desc", "") or ui.get(key + "_desc", "")
             haystack = " ".join([title, desc, keywords] + [u.get(key, "") for u in UI.values()]).lower()
             if ql in haystack:
                 results["tools"].append({"url": url, "title": title, "desc": desc})
@@ -59,7 +62,7 @@ def search(request):
             Q(savol__icontains=q) | Q(savol_ru__icontains=q) | Q(savol_en__icontains=q)
         ).values("bilet", "raqam", "savol", savol_field)[:MAX_RESULTS]:
             results["avtotest"].append({
-                "url": f"/avtotest/{item['bilet']}/",
+                "url": f"/avtotest/{item['bilet']}/{item['raqam']}/",
                 "title": strip_tags(item[savol_field] or item["savol"])[:160],
                 "desc": f"{item['bilet']}-bilet, {item['raqam']}-savol",
             })
@@ -103,7 +106,8 @@ def offline(request):
 # Sitemap'dagi doimiy sahifalar bo'limlar bo'yicha: (bo'lim nomi, [(manzil, changefreq, priority), ...])
 STATIC_SITEMAP_SECTIONS = [
     ("Asosiy sahifalar", [
-        ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/tests/", "weekly", "0.8"),
+        ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/avtotest/imtihon/", "weekly", "0.9"),
+        ("/avtotest/reyting/", "daily", "0.5"), ("/tests/", "weekly", "0.8"),
         ("/blog/", "daily", "0.8"), ("/news/", "daily", "0.7"), ("/projects/", "weekly", "0.7"),
     ]),
     ("Onlayn vositalar", [
@@ -144,6 +148,15 @@ def build_sitemap():
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"] or 0
     sections.append(("Avtotest biletlari", [
         (f"/avtotest/{i}/", None, "monthly", "0.6") for i in range(1, max_bilet + 1)
+    ]))
+    sections.append(("Avtotest savollari", [
+        (f"/avtotest/{q['bilet']}/{q['raqam']}/", None, "monthly", "0.5")
+        for q in AvtoTest.objects.order_by("bilet", "raqam").values("bilet", "raqam")
+    ]))
+    # Yo'l belgilari bo'limi belgilar qo'shilgandan keyingina indekslanadi (bo'sh sahifa — noindex)
+    signs = list(RoadSigns.objects.filter(is_deleted=False).order_by("category__sort_order", "sort_order").values("id", "updated_at"))
+    sections.append(("Yo'l belgilari", ([("/yol-belgilari/", None, "monthly", "0.8")] if signs else []) + [
+        (f"/yol-belgilari/{s['id']}/", s["updated_at"], "monthly", "0.6") for s in signs
     ]))
     sections.append(("Testlar (kitoblar bo'yicha)", [
         (f"/tests/?book_id={b['id']}", b["updated_at"], "monthly", "0.6")

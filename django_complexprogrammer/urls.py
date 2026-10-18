@@ -63,6 +63,7 @@ urlpatterns += [
     path("search/", core_views.search, name="search"),
     path("sw.js", core_views.service_worker, name="service_worker"),
     path("offline/", core_views.offline, name="offline"),
+    path("", include("driving.urls")),
     path("", include("projects.urls")),
     # path('avtotest/', views.tests),
     # path('avtotest/', RedirectView.as_view(url='/tests/?book_id=49', permanent=True)),

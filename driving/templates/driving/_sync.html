@@ -1,0 +1,51 @@
+{# Natijalarni (avtotestResults, avtotestMistakes) server bilan sinxronlash — faqat Telegram orqali kirganlar uchun. #}
+{# Sahifalar javob berilganda cpSync.answered(to'g'rimi), localStorage o'zgarganda cpSync.schedule() chaqiradi. #}
+<script>
+{% if user.is_authenticated %}
+(function () {
+  var URL = "/api/avtotest/progress/", TOKEN = "{{ csrf_token }}";
+  var KR = "avtotestResults", KM = "avtotestMistakes", SNAP = "cpSyncSnap";
+  var pending = { answered: 0, correct: 0 }, timer = null, version = 0;
+  function load(k) { try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } }
+  function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function snapshot(m) { var s = {}; Object.keys(m).forEach(function (k) { s[k] = 1; }); save(SNAP, s); }
+  function push(final) {
+    clearTimeout(timer); timer = null;
+    var m = load(KM), snap = load(SNAP);
+    var body = {
+      results: load(KR), mistakes: m,
+      // Oxirgi sinxronlashdan keyin tuzatilgan (ro'yxatdan chiqqan) xatolar
+      removed: Object.keys(snap).filter(function (k) { return !(k in m); }),
+      answered: pending.answered, correct: pending.correct
+    };
+    pending = { answered: 0, correct: 0 };
+    var sent = version;
+    return fetch(URL, {
+      method: "POST", credentials: "same-origin", keepalive: !!final,
+      headers: { "Content-Type": "application/json", "X-CSRFToken": TOKEN },
+      body: JSON.stringify(body)
+    }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      // Javob kelguncha sahifada yangi javob berilgan bo'lsa — keyingi sinxronlashda birlashadi
+      if (!d || !d.ok || final || sent !== version) return false;
+      var changed = JSON.stringify(d.results) !== JSON.stringify(body.results) || JSON.stringify(d.mistakes) !== JSON.stringify(m);
+      save(KR, d.results); save(KM, d.mistakes); snapshot(d.mistakes);
+      return changed;
+    }).catch(function () { return false; });
+  }
+  window.cpSync = {
+    schedule: function () { version++; clearTimeout(timer); timer = setTimeout(push, 1500); },
+    answered: function (ok) { pending.answered++; if (ok) pending.correct++; this.schedule(); }
+  };
+  window.addEventListener("pagehide", function () { if (timer || pending.answered) push(true); });
+  // Boshqa qurilmadagi natijalar kelsa, ro'yxat sahifalari bir marta yangilanadi
+  push().then(function (changed) {
+    var listPage = /^\/((ru|en)\/)?(avtotest\/|avtotest\/xatolar\/|profil\/)$/.test(location.pathname);
+    try {
+      if (changed && listPage && !sessionStorage.getItem("cpSynced")) { sessionStorage.setItem("cpSynced", "1"); location.reload(); }
+    } catch (e) {}
+  });
+})();
+{% else %}
+window.cpSync = { schedule: function () {}, answered: function () {} };
+{% endif %}
+</script>

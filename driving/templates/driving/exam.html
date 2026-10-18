@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+<style>
+  .e-top{position:sticky;top:58px;z-index:5;background:var(--bg);padding:8px 0 10px}
+  .e-dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .e-dots button{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font:inherit;font-size:.8rem;cursor:pointer}
+  .e-dots button.cur{border-color:var(--accent);box-shadow:0 0 0 2px rgba(99,102,241,.35)}
+  .e-dots button.ok{background:#22c55e;border-color:#22c55e;color:#fff}
+  .e-dots button.bad{background:#ef4444;border-color:#ef4444;color:#fff}
+  .e-timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.2rem}
+  .e-timer.low{color:#ef4444}
+  .e-result{text-align:center}
+  .e-result .big{font-size:3rem;font-weight:800;line-height:1.1;margin:8px 0}
+</style>
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>{{ t.exam_h1 }}</span>
+  </nav>
+  <div id="intro" class="d-card d-cta">
+    <h1 class="d-h1">🎯 {{ t.exam_h1 }}</h1>
+    <p>{{ t.exam_desc }}</p>
+    <p class="d-meta">{{ t.exam_rules }}</p>
+    <button type="button" class="d-btn" id="start">{{ t.start_exam }} →</button>
+  </div>
+  <div id="exam" hidden>
+    <div class="e-top">
+      <div class="d-between">
+        <span class="d-meta"><span id="pos">1</span>/{{ total }} · {{ t.mistakes_left }}: <b id="left">{{ max_mistakes }}</b></span>
+        <span class="e-timer" id="timer">25:00</span>
+      </div>
+      <div class="e-dots" id="dots"></div>
+    </div>
+    <div class="d-card" id="card"></div>
+  </div>
+  <div id="result" class="d-card e-result" hidden></div>
+</main>
+{% include "driving/_sync.html" %}
+<script>
+(function () {
+  var Q = {{ questions_json|safe }};
+  var LIMIT = {{ exam_seconds }}, MAX_BAD = {{ max_mistakes }}, PREFIX = "{{ lang_prefix }}";
+  var T = {
+    ok: "{{ t.correct|escapejs }}", bad: "{{ t.wrong|escapejs }}", next: "{{ t.next|escapejs }}",
+    passed: "{{ t.passed|escapejs }}", failed: "{{ t.failed|escapejs }}", score: "{{ t.score|escapejs }}",
+    time: "{{ t.time|escapejs }}", again: "{{ t.again|escapejs }}", review: "{{ t.review|escapejs }}",
+    timeUp: "{{ t.time_up|escapejs }}", share: "{{ t.share|escapejs }}", shareText: "{{ t.share_text|escapejs }}",
+    ticket: "{{ t.ticket_n|escapejs }}", question: "{{ t.question_n|escapejs }}", login: "{{ t.login_text|escapejs }}",
+    profile: "{{ t.profile|escapejs }}", leaderboard: "{{ t.leaderboard|escapejs }}"
+  };
+  var LOGGED_IN = {{ user.is_authenticated|yesno:"true,false" }}, TOKEN = "{{ csrf_token }}";
+  var answers = {}, cur = 0, started = 0, timerId = null, finished = false;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
+  function fmt(s) { s = Math.max(0, s); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); }
+  function elapsed() { return Math.round((Date.now() - started) / 1000); }
+  function wrongCount() { return Object.keys(answers).filter(function (i) { return answers[i] !== Q[i].a; }).length; }
+
+  $("start").addEventListener("click", function () {
+    $("intro").hidden = true; $("exam").hidden = false;
+    started = Date.now();
+    $("dots").innerHTML = Q.map(function (_, i) { return '<button type="button" data-i="' + i + '">' + (i + 1) + "</button>"; }).join("");
+    $("dots").addEventListener("click", function (e) { var i = e.target.getAttribute("data-i"); if (i !== null) { cur = +i; render(); } });
+    timerId = setInterval(tick, 1000);
+    render();
+  });
+
+  function tick() {
+    var left = LIMIT - elapsed();
+    $("timer").textContent = fmt(left);
+    $("timer").classList.toggle("low", left <= 120);
+    if (left <= 0) finish(true);
+  }
+
+  function render() {
+    var q = Q[cur], given = answers[cur];
+    $("pos").textContent = cur + 1;
+    $("left").textContent = Math.max(0, MAX_BAD - wrongCount());
+    document.querySelectorAll("#dots button").forEach(function (b, i) {
+      b.className = (i === cur ? "cur " : "") + (i in answers ? (answers[i] === Q[i].a ? "ok" : "bad") : "");
+    });
+    var html = '<p class="d-meta"><a href="' + PREFIX + "/avtotest/" + q.bilet + "/" + q.raqam + '/" target="_blank" rel="noopener">' +
+      esc(T.ticket.replace("{n}", q.bilet)) + ", " + esc(T.question.replace("{n}", q.raqam)) + "</a></p>" +
+      '<h2 class="d-h2">' + esc(q.q) + "</h2>" +
+      (q.img ? '<img class="d-img" src="/static/avtotest/' + encodeURIComponent(q.img) + '" alt="">' : "") +
+      q.o.map(function (o, i) {
+        var cls = given ? (o.l === q.a ? " ok" : (o.l === given ? " bad" : "")) : "";
+        return '<button type="button" class="d-opt' + cls + '" data-l="' + o.l + '"' + (given ? " disabled" : "") + "><kbd>" + (i + 1) + "</kbd><span>" + esc(o.t) + "</span></button>";
+      }).join("") +
+      (given ? '<p class="d-note ' + (given === q.a ? "ok" : "bad") + '">' + esc(given === q.a ? T.ok : T.bad) + "</p>" : "") +
+      '<div class="d-row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="d-btn" id="next"' + (given ? "" : " disabled") + ">" + esc(T.next) + " →</button></div>";
+    $("card").innerHTML = html;
+    $("card").querySelectorAll(".d-opt").forEach(function (b) { b.addEventListener("click", function () { answer(b.getAttribute("data-l")); }); });
+    $("next").addEventListener("click", goNext);
+  }
+
+  function answer(letter) {
+    if (finished || cur in answers) return;
+    var q = Q[cur], ok = letter === q.a;
+    answers[cur] = letter;
+    try {
+      var m = JSON.parse(localStorage.getItem("avtotestMistakes") || "{}");
+      if (ok) delete m[q.id]; else m[q.id] = { bilet: q.bilet, t: Date.now() };
+      localStorage.setItem("avtotestMistakes", JSON.stringify(m));
+    } catch (e) {}
+    window.cpSync.answered(ok);
+    if (Object.keys(answers).length === Q.length) { render(); setTimeout(function () { finish(false); }, 700); return; }
+    render();
+  }
+
+  function goNext() {
+    for (var step = 1; step <= Q.length; step++) {
+      var i = (cur + step) % Q.length;
+      if (!(i in answers)) { cur = i; render(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    }
+    finish(false);
+  }
+
+  function finish(timeUp) {
+    if (finished) return;
+    finished = true;
+    clearInterval(timerId);
+    var seconds = Math.min(elapsed(), LIMIT);
+    var correct = Object.keys(answers).filter(function (i) { return answers[i] === Q[i].a; }).length;
+    var wrong = Q.length - correct; // javob berilmaganlar ham xato hisoblanadi
+    var passed = wrong <= MAX_BAD;
+    try {
+      var hist = JSON.parse(localStorage.getItem("avtotestExams") || "[]");
+      hist.unshift({ correct: correct, total: Q.length, seconds: seconds, date: Date.now() });
+      localStorage.setItem("avtotestExams", JSON.stringify(hist.slice(0, 50)));
+    } catch (e) {}
+    if (LOGGED_IN) {
+      fetch("/api/avtotest/exam/", {
+        method: "POST", credentials: "same-origin",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": TOKEN },
+        body: JSON.stringify({ correct: correct, total: Q.length, seconds: seconds })
+      }).catch(function () {});
+    }
+    $("exam").hidden = true;
+    var shareUrl = location.origin + PREFIX + "/avtotest/imtihon/";
+    var text = T.shareText.replace("{c}", correct).replace("{t}", Q.length);
+    $("result").innerHTML =
+      (timeUp ? '<p class="d-note bad">⏰ ' + esc(T.timeUp) + "</p>" : "") +
+      '<h1 class="d-h1">' + esc(passed ? T.passed : T.failed) + "</h1>" +
+      '<div class="big" style="color:' + (passed ? "#22c55e" : "#ef4444") + '">' + correct + "/" + Q.length + "</div>" +
+      '<p class="d-meta">' + esc(T.score) + " · " + esc(T.time) + ": " + fmt(seconds) + "</p>" +
+      '<div class="d-row" style="justify-content:center;margin:16px 0">' +
+      '<a class="d-btn" href="' + PREFIX + '/avtotest/imtihon/">🔁 ' + esc(T.again) + "</a>" +
+      (wrong ? '<a class="d-btn alt" href="' + PREFIX + '/avtotest/xatolar/">❌ ' + esc(T.review) + "</a>" : "") +
+      '<button type="button" class="d-btn green" id="share">📤 ' + esc(T.share) + "</button></div>" +
+      (LOGGED_IN
+        ? '<p><a href="' + PREFIX + '/profil/">' + esc(T.profile) + '</a> · <a href="' + PREFIX + '/avtotest/reyting/">' + esc(T.leaderboard) + "</a></p>"
+        : '<p class="d-meta">' + esc(T.login) + ' <a href="' + PREFIX + '/profil/">' + esc(T.profile) + " →</a></p>");
+    $("result").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    $("share").addEventListener("click", function () {
+      if (navigator.share) { navigator.share({ title: document.title, text: text, url: shareUrl }).catch(function () {}); return; }
+      window.open("https://t.me/share/url?url=" + encodeURIComponent(shareUrl) + "&text=" + encodeURIComponent(text), "_blank", "noopener");
+    });
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if ($("exam").hidden) return;
+    var i = "1234".indexOf(e.key), btns = $("card").querySelectorAll(".d-opt");
+    if (i >= 0 && btns[i]) answer(btns[i].getAttribute("data-l"));
+    else if (e.key === "Enter" && cur in answers) { e.preventDefault(); goNext(); }
+  });
+  window.addEventListener("beforeunload", function (e) {
+    if (!$("exam").hidden && !finished && Object.keys(answers).length) { e.preventDefault(); e.returnValue = ""; }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> ›
+    <a href="{{ lang_prefix }}/avtotest/{{ bilet }}/">{{ ticket_name }}</a> › <span>{{ question_name }}</span>
+  </nav>
+
+  <article class="d-card" id="quiz" data-right="{{ q.javob }}" data-id="{{ q.id }}" data-bilet="{{ bilet }}">
+    <p class="d-meta">{{ ticket_name }} · {{ question_name }}</p>
+    <h1 class="d-h1">{{ text }}</h1>
+    {% if q.rasm %}<img class="d-img" src="/static/avtotest/{{ q.rasm|urlencode }}" alt="{{ text|truncatechars:120 }}" loading="lazy" decoding="async">{% endif %}
+    {% for a in answers %}
+    <button type="button" class="d-opt" data-l="{{ a.letter }}"><kbd>{{ forloop.counter }}</kbd><span>{{ a.text }}</span></button>
+    {% endfor %}
+    <div id="feedback" aria-live="polite"></div>
+    <details class="d-note" style="padding-left:0">
+      <summary>{{ t.show_answer }}</summary>
+      {% for a in answers %}{% if a.right %}<p><b>{{ t.correct_answer }}:</b> {{ a.text }}</p>{% endif %}{% endfor %}
+    </details>
+  </article>
+
+  <div class="d-between" style="margin-bottom:16px">
+    {% if prev_url %}<a class="d-btn alt" href="{{ lang_prefix }}{{ prev_url }}" rel="prev">← {{ t.prev }}</a>{% else %}<span></span>{% endif %}
+    {% if next_url %}<a class="d-btn" href="{{ lang_prefix }}{{ next_url }}" rel="next">{{ t.next }} →</a>{% endif %}
+  </div>
+
+  <div class="d-card d-cta">
+    <h2 class="d-h2">🎯 {{ t.exam }}</h2>
+    <p>{{ t.exam_cta }}</p>
+    <div class="d-row">
+      <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">{{ t.start_exam }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/{{ bilet }}/">🚗 {{ t.solve_ticket }}</a>
+    </div>
+  </div>
+
+  <section class="d-card">
+    <h2 class="d-h2">{{ t.other_questions }}</h2>
+    <ul class="d-list">
+      {% for s in siblings %}
+      <li><a href="{{ lang_prefix }}/avtotest/{{ bilet }}/{{ s.raqam }}/" {% if s.raqam == raqam %}aria-current="page"{% endif %}><b>{{ s.raqam }}.</b><span>{{ s.text }}</span></a></li>
+      {% endfor %}
+    </ul>
+    <p style="margin:12px 0 0"><a href="{{ lang_prefix }}/avtotest/">← {{ t.all_tickets }}</a></p>
+  </section>
+</main>
+{% include "driving/_sync.html" %}
+<script>
+(function () {
+  var box = document.getElementById("quiz");
+  var right = box.getAttribute("data-right"), id = box.getAttribute("data-id"), bilet = +box.getAttribute("data-bilet");
+  var done = false, T = { ok: "{{ t.correct|escapejs }}", bad: "{{ t.wrong|escapejs }}" };
+  var buttons = box.querySelectorAll(".d-opt");
+  function remember(ok) {
+    try {
+      var m = JSON.parse(localStorage.getItem("avtotestMistakes") || "{}");
+      if (ok) delete m[id]; else m[id] = { bilet: bilet, t: Date.now() };
+      localStorage.setItem("avtotestMistakes", JSON.stringify(m));
+    } catch (e) {}
+  }
+  function answer(letter) {
+    if (done) return;
+    done = true;
+    var ok = letter === right;
+    buttons.forEach(function (b) {
+      b.disabled = true;
+      var l = b.getAttribute("data-l");
+      if (l === right) b.classList.add("ok"); else if (l === letter) b.classList.add("bad");
+    });
+    var fb = document.getElementById("feedback");
+    fb.className = "d-note " + (ok ? "ok" : "bad");
+    fb.textContent = ok ? T.ok : T.bad;
+    remember(ok);
+    window.cpSync.answered(ok);
+  }
+  buttons.forEach(function (b) { b.addEventListener("click", function () { answer(b.getAttribute("data-l")); }); });
+  document.addEventListener("keydown", function (e) {
+    var i = "1234".indexOf(e.key);
+    if (i >= 0 && buttons[i]) answer(buttons[i].getAttribute("data-l"));
+    var next = document.querySelector("a[rel=next]");
+    if (e.key === "Enter" && done && next) location.href = next.href;
+  });
+})();
+</script>
+</body>
+</html>

@@ -10,6 +10,7 @@ from django.core.cache import cache
 from django.db.models import Max
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.utils.text import Truncator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST
 
@@ -248,7 +249,13 @@ def avtotest_item(request, bilet):
     comments = page_comments(request)
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"]
     total_bilets = max_bilet + 1 if max_bilet else 1
-    context = {"comments": comments, "row": range(1, total_bilets), "bilet": bilet}
+    # Har bir savolning alohida sahifasiga havolalar (/avtotest/<bilet>/<raqam>/)
+    field = {"uz": "savol", "ru": "savol_ru"}.get((request.LANGUAGE_CODE or "uz")[:2], "savol_en")
+    questions = [
+        {"raqam": q["raqam"], "text": Truncator(q[field] or q["savol"]).chars(120)}
+        for q in AvtoTest.objects.filter(bilet=bilet).order_by("raqam").values("raqam", "savol", field)
+    ]
+    context = {"comments": comments, "row": range(1, total_bilets), "bilet": bilet, "questions": questions}
     return render(request, "projects/avtotest.html", context=context)
 
 

@@ -16,7 +16,7 @@ SEO_LANGS = ("uz", "ru", "en")
 PREFIX_LANGS = ("ru", "en")
 OG_LOCALES = {"uz": "uz_UZ", "ru": "ru_RU", "en": "en_US", "tr": "tr_TR"}
 # Indekslanmaydigan sahifalar (shaxsiy natijalar, qidiruv)
-NOINDEX_PATHS = {"/search/", "/avtotest/xatolar/", "/tests/xatolar/", "/offline/"}
+NOINDEX_PATHS = {"/search/", "/avtotest/xatolar/", "/tests/xatolar/", "/offline/", "/profil/", "/auth/telegram/"}
 # canonical/hreflang'da saqlanadigan (sahifa mazmunini o'zgartiradigan) parametrlar
 CANONICAL_PARAMS = ("id", "book_id", "categorie_id", "page")
 
@@ -136,6 +136,10 @@ def json_ld(lang, meta, canonical, url_lang=DEFAULT_LANG):
             ],
         })
 
+    return json_ld_dump(graph)
+
+
+def json_ld_dump(graph):
     if not graph:
         return ""
     data = {"@context": "https://schema.org", "@graph": graph}

@@ -94,6 +94,14 @@ class Database:
                 )
             """)
 
+            # Kunlik eslatma ustunlari (eski bazalarga qo'shiladi)
+            async with db.execute("PRAGMA table_info(avtotest_bot_users)") as cur:
+                columns = {row["name"] for row in await cur.fetchall()}
+            if "remind" not in columns:
+                await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN remind INTEGER DEFAULT 0")
+            if "last_reminded" not in columns:
+                await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN last_reminded TEXT")
+
             await db.commit()
             logger.info("Bot ma'lumotlar bazasi jadvallari muvaffaqiyatli tekshirildi.")
 
@@ -181,6 +189,46 @@ class Database:
                 "total_tests": total_tests,
                 "total_questions": total_q,
             }
+
+    # ==================== KUNLIK ESLATMA ====================
+
+    async def toggle_remind(self, user_id: int, enable: Optional[bool] = None) -> bool:
+        """Eslatmani yoqish/o'chirish (``enable=None`` — holatni almashtirish). Yangi holatni qaytaradi."""
+        async with self.connect() as db:
+            if enable is None:
+                async with db.execute(
+                    "SELECT remind FROM avtotest_bot_users WHERE user_id = ?", (user_id,)
+                ) as cur:
+                    row = await cur.fetchone()
+                enable = not (row and row["remind"])
+            await db.execute(
+                "UPDATE avtotest_bot_users SET remind = ? WHERE user_id = ?",
+                (1 if enable else 0, user_id),
+            )
+            await db.commit()
+            return enable
+
+    async def get_users_to_remind(self, today: str) -> List[Dict[str, Any]]:
+        """Eslatma yoqilgan, bugun botda faol bo'lmagan va bugun eslatma olmaganlar."""
+        async with self.connect() as db:
+            async with db.execute(
+                """
+                SELECT user_id, lang FROM avtotest_bot_users
+                WHERE remind = 1
+                  AND substr(COALESCE(last_active, ''), 1, 10) < ?
+                  AND COALESCE(last_reminded, '') < ?
+            """,
+                (today, today),
+            ) as cur:
+                return [dict(r) for r in await cur.fetchall()]
+
+    async def mark_reminded(self, user_id: int, today: str, disable: bool = False):
+        async with self.connect() as db:
+            await db.execute(
+                "UPDATE avtotest_bot_users SET last_reminded = ?, remind = CASE WHEN ? THEN 0 ELSE remind END WHERE user_id = ?",
+                (today, 1 if disable else 0, user_id),
+            )
+            await db.commit()
 
     async def get_all_user_ids(self) -> List[int]:
         async with self.connect() as db:
