@@ -56,6 +56,7 @@
   <nav class="cp-nav" aria-label="{{ ui.menu }}">
     <a href="/avtotest/" {% if request.path_info|slice:":10" == "/avtotest/" %}aria-current="page"{% endif %}>🚗 {{ ui.avtotest }}</a>
     <a href="{{ lang_prefix }}/avtotest/imtihon/" {% if request.path_info == "/avtotest/imtihon/" %}aria-current="page"{% endif %}>🎯 {{ ui.exam }}</a>
+    <a href="/yhq/" {% if request.path_info|slice:":5" == "/yhq/" %}aria-current="page"{% endif %}>📖 {{ ui.yhq }}</a>
     <a href="{{ lang_prefix }}/yol-belgilari/" {% if request.path_info|slice:":15" == "/yol-belgilari/" %}aria-current="page"{% endif %}>🚸 {{ ui.signs }}</a>
     <a href="/tests/" {% if request.path_info|slice:":7" == "/tests/" %}aria-current="page"{% endif %}>📝 {{ ui.tests }}</a>
     <a href="/projects/" {% if request.path_info == "/projects/" %}aria-current="page"{% endif %}>🧰 {{ ui.projects }}</a>
@@ -98,13 +99,18 @@
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
         body: JSON.stringify({ init_data: app.initData })
-      }).then(function (r) { if (r.ok) location.reload(); }).catch(function () {});
+      }).then(function (r) {
+        if (!r.ok) return;
+        window.cpTrack && window.cpTrack("login", { method: "telegram_webapp" });
+        setTimeout(function () { location.reload(); }, 300);
+      }).catch(function () {});
     };
     document.head.appendChild(s);
   })();
 </script>
 {% endif %}
 {% include "includes/pwa_install.html" %}
+{% if request.GET.welcome and user.is_authenticated %}<script>window.cpTrack && window.cpTrack("login", { method: "telegram" });</script>{% endif %}
 <script>
   document.body.classList.add("cp-has-header");
   document.getElementById("cp-theme").addEventListener("click", function () {

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <span>{{ t.yhq_h1 }}</span>
+  </nav>
+  <h1 class="d-h1">📖 {{ t.yhq_h1 }}</h1>
+  <p>{{ t.yhq_lead }}</p>
+  <p class="d-meta">{{ t.yhq_source }}: <a href="{{ source }}" target="_blank" rel="noopener">lex.uz</a>{% if fetched %} · {{ t.yhq_fetched }}: {{ fetched }}{% endif %}</p>
+  <div class="d-card">
+    <ol class="d-list">
+      {% for c in chapters %}
+      <li><a href="/yhq/{{ c.slug }}-bob/"><b>{{ c.num }}</b><span style="flex:1">{{ c.title }}</span><span class="d-meta" style="white-space:nowrap">{{ c.points|length }}</span></a></li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="d-row">
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+    <a class="d-btn alt" href="{{ lang_prefix }}/yol-belgilari/">🚸 {{ t.signs_h1 }}</a>
+    <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzular/">📚 {{ t.topics }}</a>
+  </div>
+</main>
+</body>
+</html>

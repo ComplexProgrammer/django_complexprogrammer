@@ -146,3 +146,8 @@ static/sitemap2.xml
 
 # restart_bot.sh yozadigan bot jarayoni PID fayli
 tmp/bot.pid
+
+# make_question_videos natijalari (serverda yasaladi, repo og'irlashmasin)
+media/videos/
+# build_avtotest_pdf natijasi (serverda yasaladi: python manage.py build_avtotest_pdf)
+media/avtotest/*.pdf

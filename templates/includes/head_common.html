@@ -33,11 +33,13 @@
   function gtag() { dataLayer.push(arguments); }
   gtag("js", new Date());
   gtag("config", "G-8DHWL20H58");
+  // GA4 hodisalari (imtihon tugatildi, natija ulashildi, PDF yuklandi...) — qaysi o'zgarish ishlayotganini o'lchash uchun
+  window.cpTrack = function (name, params) { try { gtag("event", name, params || {}); } catch (e) {} };
 </script>
 <!-- Yandex Autoplacement 20240413 -->
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 <script data-page-id="20240413" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
-<!-- Yandex Floor Ad (Desktop: R-A-20240413-8, Mobile: R-A-20240413-9) -->
+{% if not no_floor_ad %}<!-- Yandex Floor Ad (Desktop: R-A-20240413-8, Mobile: R-A-20240413-9) -->
 <script>
   window.yaContextCb.push(() => {
     Ya.Context.AdvManager.render({
@@ -45,7 +47,7 @@
       blockId: window.matchMedia('(max-width: 768px)').matches ? 'R-A-20240413-9' : 'R-A-20240413-8'
     });
   });
-</script>
+</script>{% endif %}
 <script>
   window.addEventListener("load", function () {
     var later = window.requestIdleCallback || function (cb) { setTimeout(cb, 1500); };

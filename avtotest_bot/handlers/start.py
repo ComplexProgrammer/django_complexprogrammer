@@ -19,8 +19,23 @@ async def cmd_start(message: Message, command: CommandObject):
     username = message.from_user.username
     full_name = message.from_user.full_name or "Foydalanuvchi"
 
+    is_new = not await db.user_exists(user_id)
     user = await db.get_or_create_user(user_id, username, full_name)
     lang = user.get("lang", "uz")
+
+    # Taklif havolasi: t.me/<bot>?start=ref_<taklif qilgan odam ID si> — faqat yangi foydalanuvchiga hisoblanadi
+    args = command.args or ""
+    if is_new and args.startswith("ref_") and args[4:].isdigit():
+        referrer_id = int(args[4:])
+        if await db.set_referrer(user_id, referrer_id):
+            try:
+                referrer_lang = await db.get_user_lang(referrer_id)
+                count = await db.count_referrals(referrer_id)
+                await message.bot.send_message(
+                    referrer_id, get_text("ref_joined", referrer_lang, name=full_name, count=count), parse_mode="HTML"
+                )
+            except Exception:
+                pass  # taklif qilgan odam botni bloklagan bo'lishi mumkin
 
     welcome_text = get_text("welcome", lang, name=full_name)
     await message.answer(

@@ -38,4 +38,6 @@ if [ "$BEFORE" != "$(git rev-parse HEAD)" ]; then
     echo "  touch tmp/restart.txt            # saytni qayta ishga tushirish (Passenger)"
     echo "  botni qayta ishga tushiring      # bot kodi o'zgargan bo'lsa"
 fi
+# Asosiy sahifalar ishlayaptimi (2026-10-10..12 dagi kabi uzilish sezilmay qolmasin)
+"$PYTHON" manage.py smoke_check > /tmp/smoke_check.log 2>&1 && echo "Saytni tekshirish: hammasi joyida."     || { echo "⚠️  Ba'zi sahifalar xato bermoqda:"; grep -v "^OK" /tmp/smoke_check.log; }
 echo "Tayyor."

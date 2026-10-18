@@ -46,14 +46,14 @@
 <script>
 (function () {
   var Q = {{ questions_json|safe }};
-  var LIMIT = {{ exam_seconds }}, MAX_BAD = {{ max_mistakes }}, PREFIX = "{{ lang_prefix }}";
+  var LIMIT = {{ exam_seconds }}, MAX_BAD = {{ max_mistakes }}, PREFIX = "{{ lang_prefix }}", TOPIC = "{{ request.GET.mavzu|default:''|escapejs }}";
   var T = {
     ok: "{{ t.correct|escapejs }}", bad: "{{ t.wrong|escapejs }}", next: "{{ t.next|escapejs }}",
     passed: "{{ t.passed|escapejs }}", failed: "{{ t.failed|escapejs }}", score: "{{ t.score|escapejs }}",
     time: "{{ t.time|escapejs }}", again: "{{ t.again|escapejs }}", review: "{{ t.review|escapejs }}",
     timeUp: "{{ t.time_up|escapejs }}", share: "{{ t.share|escapejs }}", shareText: "{{ t.share_text|escapejs }}",
     ticket: "{{ t.ticket_n|escapejs }}", question: "{{ t.question_n|escapejs }}", login: "{{ t.login_text|escapejs }}",
-    profile: "{{ t.profile|escapejs }}", leaderboard: "{{ t.leaderboard|escapejs }}"
+    profile: "{{ t.profile|escapejs }}", leaderboard: "{{ t.leaderboard|escapejs }}", channel: "{{ t.channel_cta|escapejs }}"
   };
   var LOGGED_IN = {{ user.is_authenticated|yesno:"true,false" }}, TOKEN = "{{ csrf_token }}";
   var answers = {}, cur = 0, started = 0, timerId = null, finished = false;
@@ -136,6 +136,7 @@
       hist.unshift({ correct: correct, total: Q.length, seconds: seconds, date: Date.now() });
       localStorage.setItem("avtotestExams", JSON.stringify(hist.slice(0, 50)));
     } catch (e) {}
+    window.cpTrack("exam_complete", { score: correct, total: Q.length, passed: passed, seconds: seconds, topic: TOPIC });
     if (LOGGED_IN) {
       fetch("/api/avtotest/exam/", {
         method: "POST", credentials: "same-origin",
@@ -157,10 +158,12 @@
       '<button type="button" class="d-btn green" id="share">📤 ' + esc(T.share) + "</button></div>" +
       (LOGGED_IN
         ? '<p><a href="' + PREFIX + '/profil/">' + esc(T.profile) + '</a> · <a href="' + PREFIX + '/avtotest/reyting/">' + esc(T.leaderboard) + "</a></p>"
-        : '<p class="d-meta">' + esc(T.login) + ' <a href="' + PREFIX + '/profil/">' + esc(T.profile) + " →</a></p>");
+        : '<p class="d-meta">' + esc(T.login) + ' <a href="' + PREFIX + '/profil/">' + esc(T.profile) + " →</a></p>") +
+      '<p style="margin-top:12px"><a class="d-btn alt" href="https://t.me/complexprogrammeruzchannel" target="_blank" rel="noopener">📢 ' + esc(T.channel) + "</a></p>";
     $("result").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });
     $("share").addEventListener("click", function () {
+      window.cpTrack("share", { content_type: "exam_result", item_id: correct + "/" + Q.length });
       if (navigator.share) { navigator.share({ title: document.title, text: text, url: shareUrl }).catch(function () {}); return; }
       window.open("https://t.me/share/url?url=" + encodeURIComponent(shareUrl) + "&text=" + encodeURIComponent(text), "_blank", "noopener");
     });

@@ -110,6 +110,8 @@ class Database:
                 await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN remind INTEGER DEFAULT 0")
             if "last_reminded" not in columns:
                 await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN last_reminded TEXT")
+            if "referred_by" not in columns:
+                await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN referred_by INTEGER")
 
             await db.commit()
             logger.info("Bot ma'lumotlar bazasi jadvallari muvaffaqiyatli tekshirildi.")
@@ -198,6 +200,47 @@ class Database:
                 "total_tests": total_tests,
                 "total_questions": total_q,
             }
+
+    # ==================== TAKLIF QILISH (REFERAL) ====================
+
+    async def user_exists(self, user_id: int) -> bool:
+        async with self.connect() as db:
+            async with db.execute("SELECT 1 FROM avtotest_bot_users WHERE user_id = ?", (user_id,)) as cur:
+                return await cur.fetchone() is not None
+
+    async def set_referrer(self, user_id: int, referrer_id: int) -> bool:
+        """Yangi foydalanuvchini taklif qilgan odamni yozadi (bir marta, o'zini o'zi taklif qila olmaydi)."""
+        if user_id == referrer_id:
+            return False
+        async with self.connect() as db:
+            async with db.execute("SELECT 1 FROM avtotest_bot_users WHERE user_id = ?", (referrer_id,)) as cur:
+                if await cur.fetchone() is None:
+                    return False
+            cur = await db.execute(
+                "UPDATE avtotest_bot_users SET referred_by = ? WHERE user_id = ? AND referred_by IS NULL",
+                (referrer_id, user_id),
+            )
+            await db.commit()
+            return cur.rowcount > 0
+
+    async def count_referrals(self, user_id: int) -> int:
+        async with self.connect() as db:
+            async with db.execute(
+                "SELECT COUNT(*) AS n FROM avtotest_bot_users WHERE referred_by = ?", (user_id,)
+            ) as cur:
+                return (await cur.fetchone())["n"]
+
+    async def top_referrers(self, limit: int = 10) -> List[Dict[str, Any]]:
+        async with self.connect() as db:
+            async with db.execute(
+                """
+                SELECT r.user_id, r.full_name, COUNT(*) AS n FROM avtotest_bot_users u
+                JOIN avtotest_bot_users r ON r.user_id = u.referred_by
+                GROUP BY r.user_id ORDER BY n DESC LIMIT ?
+            """,
+                (limit,),
+            ) as cur:
+                return [dict(row) for row in await cur.fetchall()]
 
     # ==================== KUNLIK ESLATMA ====================
 

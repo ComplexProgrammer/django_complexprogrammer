@@ -29,7 +29,7 @@ UI = {
         "home": "Bosh sahifa", "blog": "Blog", "projects": "Loyihalar", "tests": "Testlar",
         "avtotest": "Avtotest", "news": "Yangiliklar", "search": "Qidiruv",
         "search_placeholder": "Sayt bo'yicha qidirish...", "theme": "Mavzu", "language": "Til",
-        "menu": "Menyu", "exam": "Imtihon", "signs": "Yo'l belgilari", "profile": "Profil",
+        "menu": "Menyu", "yhq": "YHQ", "yhq_desc": "Yo'l harakati qoidalari", "exam": "Imtihon", "signs": "Yo'l belgilari", "profile": "Profil",
         "leaderboard": "Reyting", "exam_desc": "20 savol, 25 daqiqa — haqiqiy imtihon kabi",
         "hero_title": f"Avtotest {YEAR} — haydovchilik imtihoniga bepul tayyorlaning",
         "hero_lead": "YHXBB biletlari, imtihon simulyatori, xatolar ustida ishlash va yo'l belgilari. Natijalaringiz Telegram orqali saqlanadi.",
@@ -47,7 +47,7 @@ UI = {
         "home": "Главная", "blog": "Блог", "projects": "Проекты", "tests": "Тесты",
         "avtotest": "Автотест", "news": "Новости", "search": "Поиск",
         "search_placeholder": "Поиск по сайту...", "theme": "Тема", "language": "Язык",
-        "menu": "Меню", "exam": "Экзамен", "signs": "Дорожные знаки", "profile": "Профиль",
+        "menu": "Меню", "yhq": "ПДД", "yhq_desc": "Правила дорожного движения", "exam": "Экзамен", "signs": "Дорожные знаки", "profile": "Профиль",
         "leaderboard": "Рейтинг", "exam_desc": "20 вопросов, 25 минут — как на настоящем экзамене",
         "hero_title": f"Автотест {YEAR} — бесплатная подготовка к экзамену на права",
         "hero_lead": "Билеты ГУБДД, симулятор экзамена, работа над ошибками и дорожные знаки. Результаты сохраняются через Telegram.",
@@ -65,7 +65,7 @@ UI = {
         "home": "Home", "blog": "Blog", "projects": "Projects", "tests": "Tests",
         "avtotest": "Driving test", "news": "News", "search": "Search",
         "search_placeholder": "Search the site...", "theme": "Theme", "language": "Language",
-        "menu": "Menu", "exam": "Exam", "signs": "Road signs", "profile": "Profile",
+        "menu": "Menu", "yhq": "Rules", "yhq_desc": "Traffic rules", "exam": "Exam", "signs": "Road signs", "profile": "Profile",
         "leaderboard": "Leaderboard", "exam_desc": "20 questions, 25 minutes — just like the real exam",
         "hero_title": f"Driving test {YEAR} — prepare for the licence exam for free",
         "hero_lead": "Official exam tickets, an exam simulator, mistake review and road signs. Your progress is saved via Telegram.",
@@ -83,7 +83,7 @@ UI = {
         "home": "Ana sayfa", "blog": "Blog", "projects": "Projeler", "tests": "Testler",
         "avtotest": "Ehliyet testi", "news": "Haberler", "search": "Ara",
         "search_placeholder": "Sitede ara...", "theme": "Tema", "language": "Dil",
-        "menu": "Menü", "exam": "Sınav", "signs": "Trafik işaretleri", "profile": "Profil",
+        "menu": "Menü", "yhq": "Kurallar", "yhq_desc": "Trafik kuralları", "exam": "Sınav", "signs": "Trafik işaretleri", "profile": "Profil",
         "leaderboard": "Sıralama", "exam_desc": "20 soru, 25 dakika — gerçek sınav gibi",
         "hero_title": f"Ehliyet testi {YEAR} — sınava ücretsiz hazırlanın",
         "hero_lead": "Sınav biletleri, sınav simülatörü, hata çalışması ve trafik işaretleri. İlerlemeniz Telegram ile kaydedilir.",
@@ -94,6 +94,9 @@ UI = {
 # Shuncha kun yangi post chiqmasa, "Yangiliklar" bo'limi menyudan yashiriladi va qidiruvdan chiqariladi
 # (tashlab qo'yilgan bo'lim saytning umumiy sifat bahosini tushiradi). Yangi post chiqishi bilan o'zi qaytadi.
 NEWS_STALE_DAYS = 180
+
+
+NO_FLOOR_AD_PREFIXES = ("/avtotest/", "/yol-belgilari/", "/profil/")
 
 
 def news_active():
@@ -140,6 +143,8 @@ def site(request):
         "og_locale": seo.OG_LOCALES.get(lang, "uz_UZ"),
         "noindex": noindex,
         "news_active": is_news_active,
+        # O'quv sahifalarida pastki "yopishqoq" reklama yo'q: javob tugmalarini to'sadi, telefonda sahifani sekinlashtiradi
+        "no_floor_ad": path.startswith(NO_FLOOR_AD_PREFIXES),
         "lang_prefix": prefix,
         "available_languages": settings.LANGUAGES,
     }

@@ -67,40 +67,42 @@ PAGES = {
     "/avtotest/": {
         "kind": "tool",
         "uz": {
-            "title": f"Avtotest {YEAR} — YHQ imtihon biletlari onlayn, bepul",
-            "desc": "Haydovchilik guvohnomasi imtihoniga tayyorlaning: 139 ta rasmiy bilet, 1385 savol, rasmli izohlar, taymer va xatolar ustida ishlash. Bepul, ro'yxatdan o'tmasdan.",
-            "h1": "Avtotest — YHQ imtihon biletlari",
+            "title": f"Avto test 1000+ savol javoblari {YEAR} — onlayn va PDF",
+            "desc": f"Avto test {YEAR}: 1385 ta savol va to'g'ri javoblar, 139 bilet, 20 savollik imtihon simulyatori va PDF yuklab olish. Bepul, ro'yxatdan o'tmasdan.",
+            "h1": f"Avto test 1000+ savol javoblari {YEAR}",
             "lead": "Biletni tanlang va haqiqiy imtihondagidek savollarga javob bering.",
             "text": [
                 ("Avtotest nima?", "Avtotest — O'zbekistonda haydovchilik guvohnomasi olish uchun topshiriladigan nazariy imtihon. Unda yo'l harakati qoidalari, yo'l belgilari, chorrahalardan o'tish, birinchi tibbiy yordam va xavfsiz haydash bo'yicha savollar beriladi. Bu sahifada 139 ta bilet va 1385 ta savol jamlangan, har bir biletda 10 ta savol bor."),
                 ("Qanday tayyorlanish kerak?", "Har kuni bir nechta biletni ishlang va xato qilgan savollaringizni \"Xatolar\" bo'limida qayta ko'rib chiqing. Javob belgilangach, to'g'ri variant darhol ko'rsatiladi. Taymer haqiqiy imtihon sharoitiga ko'nikishga yordam beradi. Savollar o'zbek (lotin), rus va ingliz tillarida mavjud."),
             ],
             "faq": [
-                ("Avtotest imtihonida nechta savol beriladi?", "Imtihonda bitta bilet — 10 ta savol beriladi. Ularga ajratilgan vaqt ichida javob berish kerak."),
+                ("Avtotest imtihonida nechta savol beriladi?", "Imtihonda 20 ta savol beriladi, 25 daqiqa vaqt ajratiladi va ko'pi bilan 2 ta xato qilish mumkin. Saytdagi imtihon simulyatori aynan shu formatda ishlaydi; biletlarda esa 10 tadan savol bor."),
+                ("Avto test savollari va javoblarini PDF'da yuklab olsa bo'ladimi?", "Ha, barcha savollar to'g'ri javoblari va rasmlari bilan bitta PDF faylda — \"PDF yuklab olish\" havolasi orqali bepul yuklab olinadi."),
                 ("Biletlar rasmiy imtihondagi savollarga mosmi?", "Biletlar YHQ imtihon savollari asosida tuzilgan va rasmlar bilan birga beriladi."),
                 ("Xato qilgan savollarimni qayerda ko'raman?", "Xatolaringiz brauzerda saqlanadi va \"Xatolar\" sahifasida ularni qayta ishlash mumkin."),
                 ("Avtotest ilovasi bormi?", "Ha, Google Play'da \"Avtotest\" ilovasini yuklab olishingiz mumkin."),
             ],
         },
         "ru": {
-            "title": f"Автотест {YEAR} — билеты ПДД Узбекистана онлайн, бесплатно",
-            "desc": "Подготовка к экзамену на права в Узбекистане: 139 билетов, 1385 вопросов ПДД с картинками, таймер и работа над ошибками. Бесплатно и без регистрации.",
-            "h1": "Автотест — экзаменационные билеты ПДД",
+            "title": f"Автотест 1000+ вопросов и ответов {YEAR} — онлайн и PDF",
+            "desc": f"Автотест {YEAR}: 1385 вопросов ПДД Узбекистана с ответами, 139 билетов, симулятор экзамена на 20 вопросов и PDF для скачивания. Бесплатно.",
+            "h1": f"Автотест 1000+ вопросов и ответов {YEAR}",
             "lead": "Выберите билет и отвечайте на вопросы как на настоящем экзамене.",
             "text": [
                 ("Что такое автотест?", "Автотест — теоретический экзамен для получения водительского удостоверения в Узбекистане. В нём проверяется знание правил дорожного движения, дорожных знаков, проезда перекрёстков, первой помощи и безопасного вождения. Здесь собраны 139 билетов и 1385 вопросов, по 10 вопросов в каждом билете."),
                 ("Как готовиться?", "Решайте несколько билетов каждый день и повторяйте вопросы, в которых ошиблись, в разделе «Ошибки». После ответа сразу показывается правильный вариант, а таймер помогает привыкнуть к условиям настоящего экзамена. Вопросы доступны на узбекском, русском и английском языках."),
             ],
             "faq": [
-                ("Сколько вопросов на экзамене?", "На экзамене даётся один билет — 10 вопросов, на которые нужно ответить за отведённое время."),
+                ("Сколько вопросов на экзамене?", "На экзамене 20 вопросов, на них даётся 25 минут, допускается не более 2 ошибок. Симулятор экзамена на сайте работает в этом формате; в билетах — по 10 вопросов."),
+                ("Можно ли скачать вопросы и ответы в PDF?", "Да, все вопросы с правильными ответами и картинками собраны в одном PDF-файле — скачать бесплатно по ссылке «Скачать PDF»."),
                 ("Соответствуют ли билеты официальному экзамену?", "Билеты составлены на основе экзаменационных вопросов и сопровождаются иллюстрациями."),
                 ("Где посмотреть свои ошибки?", "Ошибки сохраняются в браузере, их можно прорешать заново на странице «Ошибки»."),
                 ("Есть ли приложение?", "Да, приложение «Avtotest» доступно в Google Play."),
             ],
         },
         "en": {
-            "title": f"Avtotest {YEAR} — Uzbekistan driving test tickets online",
-            "desc": "Prepare for the Uzbekistan driving licence exam: 139 tickets, 1385 questions with pictures, a timer and mistake review. Free, no registration.",
+            "title": f"Uzbekistan driving test {YEAR} — 1000+ questions and answers",
+            "desc": f"Uzbekistan driving test {YEAR}: 1385 questions with answers, 139 tickets, a 20-question exam simulator and a PDF download. Free, no registration.",
             "h1": "Avtotest — Uzbekistan driving exam tickets",
             "lead": "Pick a ticket and answer the questions just like in the real exam.",
             "text": [
@@ -108,7 +110,8 @@ PAGES = {
                 ("How to prepare", "Solve a few tickets every day and revisit the questions you got wrong in the Mistakes section. The correct answer is shown right after you choose, and the timer helps you get used to real exam conditions. Questions are available in Uzbek, Russian and English."),
             ],
             "faq": [
-                ("How many questions are in the exam?", "The exam consists of one ticket with 10 questions to be answered within the time limit."),
+                ("How many questions are in the exam?", "The exam has 20 questions, 25 minutes and at most 2 mistakes are allowed. The exam simulator on this site uses the same format; tickets have 10 questions each."),
+                ("Can I download the questions and answers as a PDF?", "Yes, all questions with correct answers and pictures are in a single free PDF — use the “Download PDF” link."),
                 ("Are the tickets based on the official exam?", "Yes, the tickets are based on the exam questions and include illustrations."),
                 ("Where can I review my mistakes?", "Your mistakes are saved in the browser and can be practised again on the Mistakes page."),
                 ("Is there a mobile app?", "Yes, the Avtotest app is available on Google Play."),
