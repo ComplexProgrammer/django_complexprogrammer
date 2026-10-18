@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 SITE_URL = "https://complexprogrammer.uz"
+# Telegram ichki brauzeri referrer bermaydi — UTM bo'lmasa Metrika/GA'da "to'g'ridan-to'g'ri" bo'lib ko'rinadi
+UTM = "?utm_source=telegram&utm_medium=channel&utm_campaign=kun_savoli"
 CHECK_INTERVAL = 60
 # Bot shu vaqtdan ko'proq o'chiq turgan bo'lsa, o'tib ketgan joylash qilinmaydi (kechasi ertalabki savol chiqmasin)
 MAX_DELAY = timedelta(hours=2)
@@ -50,7 +52,7 @@ async def post_random_question(bot: Bot, chat_id: str):
         if parts is None:
             continue
         text, options, correct = parts
-        url = f"{SITE_URL}/avtotest/{q['bilet']}/{q['raqam']}/"
+        url = f"{SITE_URL}/avtotest/{q['bilet']}/{q['raqam']}/{UTM}"
         header = f"🚗 <b>Kun savoli</b> · {q['bilet']}-bilet, {q['raqam']}-savol"
 
         image = BASE_DIR / "static" / "avtotest" / (q.get("rasm") or "")
@@ -61,7 +63,7 @@ async def post_random_question(bot: Bot, chat_id: str):
 
         keyboard = InlineKeyboardMarkup(inline_keyboard=[
             [InlineKeyboardButton(text="📖 Javob va izoh saytda", url=url)],
-            [InlineKeyboardButton(text="🎯 20 savollik imtihon", url=f"{SITE_URL}/avtotest/imtihon/")],
+            [InlineKeyboardButton(text="🎯 20 savollik imtihon", url=f"{SITE_URL}/avtotest/imtihon/{UTM}")],
         ])
         await bot.send_poll(
             chat_id,

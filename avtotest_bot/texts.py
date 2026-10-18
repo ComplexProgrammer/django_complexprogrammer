@@ -10,7 +10,7 @@ TEXTS = {
             "<b>108 ta bilet (1080 ta savol)</b> bo'yicha to'liq tayyorgarlik ko'rishingiz, "
             "haqiqiy imtihon rejimida o'zingizni sinab ko'rishingiz va xatolaringiz ustida ishlashingiz mumkin.\n\n"
             "📱 <b>Bizning mobil ilova:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Google Play'da Avto Test Uzb</a>\n"
-            "🌐 <b>Rasmiy veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n"
+            "🌐 <b>Rasmiy veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/?utm_source=telegram&utm_medium=bot&utm_campaign=info'>complexprogrammer.uz</a>\n"
             "📢 <b>Rasmiy kanalimiz:</b> @complexprogrammeruzchannel\n\n"
             "Quyidagi menyudan kerakli bo'limni tanlang 👇"
         ),
@@ -76,7 +76,7 @@ TEXTS = {
             "🚗 <b>Loyiha maqsadi:</b> O'zbekistonda haydovchilik guvohnomasini oluvchilar uchun "
             "YHXBB rasmiy imtihoniga mukammal tayyorlanish imkoniyatini taqdim etish.\n\n"
             "📱 <b>Mobil ilovamiz:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Google Play'da Avto Test Uzb</a>\n"
-            "🌐 <b>Veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n\n"
+            "🌐 <b>Veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/?utm_source=telegram&utm_medium=bot&utm_campaign=info'>complexprogrammer.uz</a>\n\n"
             "❓ <b>Savollar va takliflar uchun:</b> @complexprogrammeruzchannel"
         ),
         # Kunlik eslatma
@@ -97,7 +97,7 @@ TEXTS = {
             "Imtihonga tayyorgarlikni to'xtatmang — kuniga 10 ta savol ham katta natija beradi.\n\n"
             "🎲 /exam — 20 savollik imtihon\n"
             "❌ /mistakes — xatolar ustida ishlash\n"
-            "🎯 <a href='https://complexprogrammer.uz/avtotest/imtihon/'>Saytdagi imtihon simulyatori</a>\n\n"
+            "🎯 <a href='https://complexprogrammer.uz/avtotest/imtihon/?utm_source=telegram&utm_medium=bot&utm_campaign=eslatma'>Saytdagi imtihon simulyatori</a>\n\n"
             "<i>Eslatmani o'chirish: /eslatma</i>"
         ),
     },
@@ -109,7 +109,7 @@ TEXTS = {
             "по официальной базе из <b>108 билетов (1080 вопросов)</b>, "
             "сдать случайный экзамен и провести работу над ошибками.\n\n"
             "📱 <b>Наше приложение:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Avto Test Uzb в Google Play</a>\n"
-            "🌐 <b>Наш сайт:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n"
+            "🌐 <b>Наш сайт:</b> <a href='https://complexprogrammer.uz/avtotest/?utm_source=telegram&utm_medium=bot&utm_campaign=info'>complexprogrammer.uz</a>\n"
             "📢 <b>Наш канал:</b> @complexprogrammeruzchannel\n\n"
             "Выберите нужный раздел в меню ниже 👇"
         ),
@@ -175,7 +175,7 @@ TEXTS = {
             "🚗 <b>Цель проекта:</b> Предоставить кандидатам в водители качественный и удобный "
             "инструмент для сдачи официального экзамена СБДД Узбекистана.\n\n"
             "📱 <b>Приложение Android:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Avto Test Uzb в Google Play</a>\n"
-            "🌐 <b>Наш сайт:</b> <a href='https://complexprogrammer.uz/avtotest/'>complexprogrammer.uz</a>\n\n"
+            "🌐 <b>Наш сайт:</b> <a href='https://complexprogrammer.uz/avtotest/?utm_source=telegram&utm_medium=bot&utm_campaign=info'>complexprogrammer.uz</a>\n\n"
             "❓ <b>Вопросы и поддержка:</b> @complexprogrammeruzchannel"
         ),
         "remind_on": (
@@ -195,7 +195,7 @@ TEXTS = {
             "Не прерывайте подготовку — даже 10 вопросов в день дают большой результат.\n\n"
             "🎲 /exam — экзамен из 20 вопросов\n"
             "❌ /mistakes — работа над ошибками\n"
-            "🎯 <a href='https://complexprogrammer.uz/ru/avtotest/imtihon/'>Симулятор экзамена на сайте</a>\n\n"
+            "🎯 <a href='https://complexprogrammer.uz/ru/avtotest/imtihon/?utm_source=telegram&utm_medium=bot&utm_campaign=eslatma'>Симулятор экзамена на сайте</a>\n\n"
             "<i>Отключить напоминание: /eslatma</i>"
         ),
     },

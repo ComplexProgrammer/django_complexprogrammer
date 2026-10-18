@@ -35,7 +35,8 @@ def get_main_reply_keyboard(lang: str = "uz") -> ReplyKeyboardMarkup:
 
 def webapp_url(lang: str = "uz") -> str:
     """Saytdagi imtihon simulyatori — bot ichida Telegram Mini App sifatida ochiladi."""
-    return "https://complexprogrammer.uz" + ("/ru" if lang == "ru" else "") + "/avtotest/imtihon/"
+    return ("https://complexprogrammer.uz" + ("/ru" if lang == "ru" else "")
+            + "/avtotest/imtihon/?utm_source=telegram&utm_medium=miniapp&utm_campaign=exam")
 
 
 def get_language_keyboard() -> InlineKeyboardMarkup:
