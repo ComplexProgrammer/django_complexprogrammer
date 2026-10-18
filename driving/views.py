@@ -534,13 +534,23 @@ def sign(request, pk):
         for o in s.category.signs.filter(is_deleted=False).exclude(pk=s.pk)[:24]
     ]
     image = f"{SITE_URL}{s.image.url}" if s.image else None
+    # Shu belgi rasmi ishlatilgan avtotest savollari (belgilar avtotest rasmlaridan olingan — fayl nomi bir xil)
+    questions = []
+    if s.image:
+        sfx = _sfx(lang)
+        questions = [
+            {"bilet": q.bilet, "raqam": q.raqam, "text": Truncator(_pick(q, "savol", sfx)).chars(120)}
+            for q in AvtoTest.objects.filter(rasm=s.image.name.rsplit("/", 1)[-1]).order_by("bilet", "raqam")
+        ]
     graph = [_breadcrumbs(lang, _url_lang(request), [
         (t["signs_h1"], "/yol-belgilari/"), (f"{s.number} {name}".strip(), f"/yol-belgilari/{s.pk}/"),
     ])]
-    title = t["sign_title"].format(num=s.number, name=name).strip()
-    desc = Truncator(t["sign_desc"].format(num=s.number, name=name, text=strip_tags(description))).chars(160)
+    # Raqam bo'lmasa ortiqcha bo'sh joy qolmasin
+    title = " ".join(t["sign_title"].format(num=s.number, name=name).split())
+    desc = Truncator(" ".join(t["sign_desc"].format(num=s.number, name=name, text=strip_tags(description)).split())).chars(160)
     context = {
         "t": t, "sign": s, "name": name, "description": description, "category": category, "others": others,
+        "questions": questions,
         **_seo(title, desc, graph, image),
     }
     return render(request, "driving/sign.html", context)

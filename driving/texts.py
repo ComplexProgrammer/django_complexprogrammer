@@ -54,7 +54,7 @@ T = {
         "signs_empty": "Bu bo'lim to'ldirilmoqda — tez orada barcha belgilar shu yerda bo'ladi.",
         "signs_count": "{n} ta belgi", "sign_title": "{num} «{name}» yo'l belgisi — ma'nosi",
         "sign_desc": "{num} «{name}» yo'l belgisi: rasmi va ma'nosi. {text}", "category": "Toifa",
-        "back_signs": "Barcha yo'l belgilari",
+        "back_signs": "Barcha yo'l belgilari", "sign_questions": "Bu belgi haqidagi avtotest savollari",
     },
     "ru": {
         "share_title": "{c}/{t} — результат экзамена автотеста", "share_cta": "Проверьте и себя — бесплатно и без регистрации.",
@@ -107,7 +107,7 @@ T = {
         "signs_empty": "Раздел наполняется — скоро здесь будут все знаки.",
         "signs_count": "{n} знаков", "sign_title": "Знак {num} «{name}» — значение",
         "sign_desc": "Дорожный знак {num} «{name}»: картинка и значение. {text}", "category": "Категория",
-        "back_signs": "Все дорожные знаки",
+        "back_signs": "Все дорожные знаки", "sign_questions": "Вопросы автотеста об этом знаке",
     },
     "en": {
         "share_title": "{c}/{t} — driving exam result", "share_cta": "Test yourself too — free, no sign-up.",
@@ -160,7 +160,7 @@ T = {
         "signs_empty": "This section is being filled in — all signs will be here soon.",
         "signs_count": "{n} signs", "sign_title": "Road sign {num} “{name}” — meaning",
         "sign_desc": "Road sign {num} “{name}”: picture and meaning. {text}", "category": "Category",
-        "back_signs": "All road signs",
+        "back_signs": "All road signs", "sign_questions": "Driving test questions about this sign",
     },
 }
 

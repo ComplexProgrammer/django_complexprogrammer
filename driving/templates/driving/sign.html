@@ -9,14 +9,24 @@
 {% include "includes/site_header.html" %}
 <main class="d-main">
   <nav class="d-crumbs" aria-label="breadcrumb">
-    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/yol-belgilari/">{{ t.signs_h1 }}</a> › <span>{{ sign.number }}</span>
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/yol-belgilari/">{{ t.signs_h1 }}</a> › <span>{{ sign.number|default:name }}</span>
   </nav>
   <article class="d-card">
     <p class="d-meta">{{ t.category }}: <a href="{{ lang_prefix }}/yol-belgilari/#{{ sign.category.code }}">{{ category }}</a></p>
-    <h1 class="d-h1">{{ sign.number }} «{{ name }}»</h1>
+    <h1 class="d-h1">{% if sign.number %}{{ sign.number }} «{{ name }}»{% else %}{{ name }}{% endif %}</h1>
     {% if sign.image %}<img class="d-img" src="{{ sign.image.url }}" alt="{{ sign.number }} {{ name }}" style="max-width:260px">{% endif %}
     {% if description %}<div>{{ description|linebreaks }}</div>{% endif %}
   </article>
+  {% if questions %}
+  <section class="d-card">
+    <h2 class="d-h2">{{ t.sign_questions }}</h2>
+    <ul class="d-list">
+      {% for q in questions %}
+      <li><a href="{{ lang_prefix }}/avtotest/{{ q.bilet }}/{{ q.raqam }}/"><span style="flex:1">{{ q.text }}</span><span class="d-meta">{{ q.bilet }}/{{ q.raqam }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
   {% if others %}
   <section class="d-card">
     <h2 class="d-h2">{{ category }}</h2>
