@@ -1,2 +1,3 @@
 # Sitemap har doim LF bilan saqlansin (Windows va server orasida CRLF/LF konflikti bo'lmasin)
 static/sitemap.xml text eol=lf
+*.sh text eol=lf

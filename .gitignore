@@ -143,3 +143,6 @@ static/sample_images/
 # Foydalanuvchi yuklagan vaqtinchalik fayllar va eski sitemap
 static/upload/
 static/sitemap2.xml
+
+# restart_bot.sh yozadigan bot jarayoni PID fayli
+tmp/bot.pid
