@@ -5,19 +5,22 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.db import transaction
+from django.db import DatabaseError, connection, transaction
 from django.db.models import F, Max, Sum
-from django.http import Http404, JsonResponse
+from django.core.cache import cache
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone, translation
 from django.utils.html import strip_tags
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.text import Truncator
+from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
+from comments.pages import page_comments
 from core.context_processors import _lang_key
 from core.seo import LABELS, SITE_URL, json_ld_dump, lang_url, meta_lang
-from driving import telegram_auth
+from driving import telegram_auth, topics
 from driving.models import ActivityDay, ExamResult, Progress, TelegramAccount
 from driving.texts import texts
 from projects.models import AvtoTest
@@ -97,6 +100,10 @@ def question(request, bilet, raqam):
         if value:
             answers.append({"letter": letter, "text": value, "right": letter == q.javob})
     right = next((a["text"] for a in answers if a["right"]), "")
+    q_topics = [
+        {"slug": slug, "name": topics.topic_name(slug, lang)}
+        for slug, ids in topics.topic_map().items() if q.id in ids
+    ]
 
     siblings = list(AvtoTest.objects.filter(bilet=bilet).order_by("raqam").values("raqam", "savol" + sfx, "savol"))
     for s in siblings:
@@ -147,7 +154,7 @@ def question(request, bilet, raqam):
     context = {
         "t": t, "q": q, "text": text, "answers": answers, "bilet": bilet, "raqam": raqam,
         "siblings": siblings, "prev_url": prev_url, "next_url": next_url,
-        "ticket_name": ticket_name, "question_name": question_name,
+        "ticket_name": ticket_name, "question_name": question_name, "comments": page_comments(request), "topics": q_topics,
         **_seo(title, desc, graph, image),
     }
     return render(request, "driving/question.html", context)
@@ -160,7 +167,13 @@ def exam(request):
     lang = _lang(request)
     t = texts(lang)
     sfx = _sfx(lang)
-    rows = AvtoTest.objects.filter(javob__in=LETTERS).exclude(savol="").order_by("?")[:EXAM_QUESTIONS]
+    rows = AvtoTest.objects.filter(javob__in=LETTERS).exclude(savol="")
+    topic = request.GET.get("mavzu")
+    topic_title = ""
+    if topic in topics.TOPIC_BY_SLUG:  # mavzu bo'yicha mashq (canonical baribir /avtotest/imtihon/)
+        rows = rows.filter(id__in=topics.topic_map()[topic])
+        topic_title = t["practice_title"].format(name=topics.topic_name(topic, lang))
+    rows = rows.order_by("?")[:EXAM_QUESTIONS]
     questions = []
     for q in rows:
         options = [
@@ -183,9 +196,50 @@ def exam(request):
         "t": t,
         "questions_json": json.dumps(questions, ensure_ascii=False).replace("<", "\\u003c"),
         "exam_seconds": EXAM_SECONDS, "max_mistakes": EXAM_MAX_MISTAKES, "total": len(questions),
+        "topic_title": topic_title,
         **_seo(t["exam_title"], t["exam_desc"], graph),
     }
     return render(request, "driving/exam.html", context)
+
+
+def _score(request):
+    """``?c=19&t=20`` — tekshirilgan natija yoki ``None``."""
+    c, t = _int(request.GET.get("c"), -1), _int(request.GET.get("t"), -1)
+    return (c, t) if 0 < t <= 50 and 0 <= c <= t else None
+
+
+def exam_share(request):
+    """Ulashilgan natija sahifasi: preview'da natija rasmi, sahifada "siz ham sinab ko'ring" taklifi."""
+    score = _score(request)
+    if score is None:
+        return redirect("/avtotest/imtihon/")
+    lang = _lang(request)
+    t = texts(lang)
+    c, total = score
+    passed = total - c <= EXAM_MAX_MISTAKES
+    title = t["share_title"].format(c=c, t=total)
+    context = {
+        "t": t, "c": c, "total": total, "passed": passed,
+        **_seo(title, t["exam_desc"], None, f"{SITE_URL}/avtotest/imtihon/natija.png?c={c}&t={total}&l={lang}"),
+    }
+    return render(request, "driving/exam_share.html", context)
+
+
+@cache_control(public=True, max_age=7 * 24 * 3600)
+def exam_card(request):
+    from driving.cards import exam_card as draw_card
+
+    score = _score(request)
+    if score is None:
+        raise Http404
+    lang = request.GET.get("l") if request.GET.get("l") in ("uz", "ru", "en") else "uz"
+    c, total = score
+    key = f"exam_card:{c}:{total}:{lang}"
+    png = cache.get(key)
+    if png is None:
+        png = draw_card(c, total, total - c <= EXAM_MAX_MISTAKES, lang)
+        cache.set(key, png, 30 * 24 * 3600)
+    return HttpResponse(png, content_type="image/png")
 
 
 @require_POST
@@ -396,6 +450,25 @@ def telegram_login(request):
     data = telegram_auth.verify(request.GET.dict(), settings.TELEGRAM_LOGIN_BOT_TOKEN)
     if data is None:
         return redirect("/profil/?login=failed")
+    _login_telegram(request, data)
+    return redirect(_safe_next(request))
+
+
+@require_POST
+def telegram_webapp_login(request):
+    """Bot ichida ochilgan sayt (Telegram Mini App) — foydalanuvchi tugma bosmasdan avtomatik kiradi."""
+    try:
+        init_data = json.loads(request.body or b"{}").get("init_data", "")
+    except (ValueError, AttributeError):
+        return JsonResponse({"ok": False}, status=400)
+    data = telegram_auth.verify_webapp(init_data, settings.TELEGRAM_LOGIN_BOT_TOKEN)
+    if data is None:
+        return JsonResponse({"ok": False}, status=403)
+    _login_telegram(request, data)
+    return JsonResponse({"ok": True})
+
+
+def _login_telegram(request, data):
     telegram_id = int(data["id"])
     fields = {
         "username": data.get("username", "")[:64],
@@ -417,7 +490,6 @@ def telegram_login(request):
                 setattr(account, key, value)
             account.save()
     login(request, account.user, backend="django.contrib.auth.backends.ModelBackend")
-    return redirect(_safe_next(request))
 
 
 @require_POST
@@ -472,3 +544,100 @@ def sign(request, pk):
         **_seo(title, desc, graph, image),
     }
     return render(request, "driving/sign.html", context)
+
+
+# ==================== MAVZULAR ====================
+
+
+def topics_index(request):
+    lang = _lang(request)
+    t = texts(lang)
+    mapping = topics.topic_map()
+    items = [
+        {"slug": slug, "name": topics.topic_name(slug, lang), "count": len(mapping[slug])}
+        for slug, _, _ in topics.TOPICS if mapping[slug]
+    ]
+    graph = [_breadcrumbs(lang, _url_lang(request), [("Avtotest", "/avtotest/"), (t["topics_h1"], "/avtotest/mavzular/")])]
+    context = {"t": t, "items": items, **_seo(t["topics_title"], t["topics_desc"], graph)}
+    return render(request, "driving/topics.html", context)
+
+
+def topic(request, slug):
+    if slug not in topics.TOPIC_BY_SLUG:
+        raise Http404
+    lang = _lang(request)
+    t = texts(lang)
+    sfx = _sfx(lang)
+    ids = topics.topic_map()[slug]
+    name = topics.topic_name(slug, lang)
+    questions = [
+        {"bilet": q["bilet"], "raqam": q["raqam"], "text": Truncator(q["savol" + sfx] or q["savol"]).chars(140)}
+        for q in AvtoTest.objects.filter(id__in=ids).order_by("bilet", "raqam").values("bilet", "raqam", "savol", "savol" + sfx)
+    ]
+    others = [{"slug": s, "name": topics.topic_name(s, lang)} for s, _, _ in topics.TOPICS if s != slug]
+    path = f"/avtotest/mavzu/{slug}/"
+    url_lang = _url_lang(request)
+    graph = [
+        _breadcrumbs(lang, url_lang, [("Avtotest", "/avtotest/"), (t["topics"], "/avtotest/mavzular/"), (name, path)]),
+        {
+            "@type": "ItemList", "name": name, "numberOfItems": len(questions),
+            "itemListElement": [
+                {"@type": "ListItem", "position": i, "url": lang_url(f"/avtotest/{q['bilet']}/{q['raqam']}/", url_lang)}
+                for i, q in enumerate(questions[:100], 1)
+            ],
+        },
+    ]
+    title = t["topic_title"].format(name=name, year=timezone.localdate().year)
+    desc = t["topic_desc"].format(name=name, n=len(questions))
+    context = {
+        "t": t, "slug": slug, "name": name, "questions": questions, "others": others,
+        "h1": t["topic_h1"].format(name=name), "count": t["topic_count"].format(n=len(questions)),
+        **_seo(title, desc, graph),
+    }
+    return render(request, "driving/topic.html", context)
+
+
+# ==================== KUN SAVOLI ====================
+
+
+def _channel_posted_ids(limit=30):
+    """Bot kanalga joylagan savollar (yangilari birinchi). Jadvalni bot yaratadi — hali bo'lmasa bo'sh."""
+    try:
+        with connection.cursor() as cur:
+            cur.execute(
+                "SELECT avtotest_id FROM avtotest_bot_channel_posts WHERE avtotest_id IS NOT NULL "
+                "ORDER BY posted_at DESC LIMIT %s",
+                [limit],
+            )
+            return [row[0] for row in cur.fetchall()]
+    except DatabaseError:
+        return []
+
+
+def daily_question(request):
+    lang = _lang(request)
+    t = texts(lang)
+    sfx = _sfx(lang)
+    ids = list(dict.fromkeys(_channel_posted_ids()))
+    if not ids:  # bot hali joylamagan bo'lsa — kun bo'yi bir xil tasodifiy savol
+        pool = list(AvtoTest.objects.filter(javob__in=LETTERS).order_by("id").values_list("id", flat=True))
+        ids = [pool[timezone.localdate().toordinal() % len(pool)]] if pool else []
+    by_id = {q.id: q for q in AvtoTest.objects.filter(id__in=ids)}
+    items = [by_id[i] for i in ids if i in by_id]
+    today = items[0] if items else None
+    archive = [
+        {"bilet": q.bilet, "raqam": q.raqam, "text": Truncator(_pick(q, "savol", sfx)).chars(120)}
+        for q in items[1:]
+    ]
+    context = {"t": t, "today": today, "archive": archive, **_seo(t["daily_title"], t["daily_desc"], [
+        _breadcrumbs(lang, _url_lang(request), [("Avtotest", "/avtotest/"), (t["daily_h1"], "/avtotest/kun-savoli/")]),
+    ])}
+    if today:
+        context.update({
+            "today_text": _pick(today, "savol", sfx),
+            "today_answers": [
+                {"letter": letter, "text": _pick(today, "javob_" + letter.lower(), sfx)}
+                for letter in LETTERS if _pick(today, "javob_" + letter.lower(), sfx)
+            ],
+        })
+    return render(request, "driving/daily.html", context)

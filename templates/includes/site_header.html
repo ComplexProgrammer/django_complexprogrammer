@@ -60,7 +60,7 @@
     <a href="/tests/" {% if request.path_info|slice:":7" == "/tests/" %}aria-current="page"{% endif %}>📝 {{ ui.tests }}</a>
     <a href="/projects/" {% if request.path_info == "/projects/" %}aria-current="page"{% endif %}>🧰 {{ ui.projects }}</a>
     <a href="/blog/" {% if request.path_info|slice:":6" == "/blog/" %}aria-current="page"{% endif %}>📰 {{ ui.blog }}</a>
-    <a href="/news/" {% if request.path_info|slice:":6" == "/news/" %}aria-current="page"{% endif %}>🗞️ {{ ui.news }}</a>
+{% if news_active %}<a href="/news/" {% if request.path_info|slice:":6" == "/news/" %}aria-current="page"{% endif %}>🗞️ {{ ui.news }}</a>{% endif %}
   </nav>
   <div class="cp-tools">
     <form class="cp-search" action="/search/" method="get" role="search">
@@ -81,6 +81,30 @@
     <button type="button" class="cp-btn" id="cp-theme" aria-label="{{ ui.theme }}" title="{{ ui.theme }}">🌓</button>
   </div>
 </header>
+{% if not user.is_authenticated %}
+<script>
+  // Telegram Mini App (bot ichida ochilgan sayt): initData bilan avtomatik kirish
+  (function () {
+    var KEY = "cpTgWebApp";
+    try { if (/tgWebAppData=/.test(location.hash)) sessionStorage.setItem(KEY, "1"); } catch (e) {}
+    try { if (!sessionStorage.getItem(KEY) || sessionStorage.getItem(KEY + "Tried")) return; sessionStorage.setItem(KEY + "Tried", "1"); } catch (e) { return; }
+    var s = document.createElement("script");
+    s.src = "https://telegram.org/js/telegram-web-app.js";
+    s.onload = function () {
+      var app = window.Telegram && Telegram.WebApp;
+      if (!app || !app.initData) return;
+      app.ready(); app.expand();
+      fetch("/auth/telegram/webapp/", {
+        method: "POST", credentials: "same-origin",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
+        body: JSON.stringify({ init_data: app.initData })
+      }).then(function (r) { if (r.ok) location.reload(); }).catch(function () {});
+    };
+    document.head.appendChild(s);
+  })();
+</script>
+{% endif %}
+{% include "includes/pwa_install.html" %}
 <script>
   document.body.classList.add("cp-has-header");
   document.getElementById("cp-theme").addEventListener("click", function () {

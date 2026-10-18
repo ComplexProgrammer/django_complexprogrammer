@@ -59,6 +59,7 @@ urlpatterns += [
     path("sitemap.xml", core_views.sitemap_xml, name="sitemap_xml"),
     path("sitemap.xml/", core_views.sitemap_xml),
     path("robots.txt", core_views.robots_txt, name="robots_txt"),
+    re_path(r"^(?P<key>[0-9a-f]{32})\.txt$", core_views.indexnow_key, name="indexnow_key"),
     path("robots.txt/", core_views.robots_txt),
     path("search/", core_views.search, name="search"),
     path("sw.js", core_views.service_worker, name="service_worker"),

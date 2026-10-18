@@ -6,13 +6,14 @@ import sys
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram.types import BotCommand
+from aiogram.types import BotCommand, MenuButtonWebApp, WebAppInfo
 
 from .config import BOT_TOKEN
 from .database import db
 from .handlers import main_router
 from .handlers.channel_post import channel_post_loop
 from .handlers.reminder import reminder_loop
+from .keyboards import webapp_url
 
 logging.basicConfig(
     level=logging.INFO,
@@ -60,6 +61,13 @@ async def start_bot():
     dp.include_router(main_router)
 
     await set_bot_commands(bot)
+    try:
+        # Yozish maydoni yonidagi tugma — saytdagi imtihonni Telegram ichida ochadi
+        await bot.set_chat_menu_button(
+            menu_button=MenuButtonWebApp(text="🎯 Imtihon", web_app=WebAppInfo(url=webapp_url("uz")))
+        )
+    except Exception as e:
+        logger.warning(f"Menyu tugmasini o'rnatib bo'lmadi: {e}")
 
     bot_info = await bot.get_me()
     logger.info(

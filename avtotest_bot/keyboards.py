@@ -5,6 +5,7 @@ from aiogram.types import (
     KeyboardButton,
     InlineKeyboardMarkup,
     InlineKeyboardButton,
+    WebAppInfo,
 )
 from .texts import get_text
 
@@ -24,9 +25,17 @@ def get_main_reply_keyboard(lang: str = "uz") -> ReplyKeyboardMarkup:
             KeyboardButton(text=get_text("btn_cdl", lang)),
             KeyboardButton(text=get_text("btn_lang", lang)),
         ],
-        [KeyboardButton(text=get_text("btn_help", lang))],
+        [
+            KeyboardButton(text=get_text("btn_webapp", lang), web_app=WebAppInfo(url=webapp_url(lang))),
+            KeyboardButton(text=get_text("btn_help", lang)),
+        ],
     ]
     return ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
+
+
+def webapp_url(lang: str = "uz") -> str:
+    """Saytdagi imtihon simulyatori — bot ichida Telegram Mini App sifatida ochiladi."""
+    return "https://complexprogrammer.uz" + ("/ru" if lang == "ru" else "") + "/avtotest/imtihon/"
 
 
 def get_language_keyboard() -> InlineKeyboardMarkup:

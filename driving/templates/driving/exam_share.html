@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main" style="text-align:center">
+  <div class="d-card">
+    <img class="d-img" src="/avtotest/imtihon/natija.png?c={{ c }}&t={{ total }}&l={{ ui_lang }}" alt="{{ c }}/{{ total }}" width="1200" height="630" style="margin:0 auto 16px">
+    <h1 class="d-h1">{% if passed %}{{ t.passed }}{% else %}{{ t.failed }}{% endif %}</h1>
+    <p>{{ t.share_cta }}</p>
+    <p class="d-meta">{{ t.exam_rules }}</p>
+    <div class="d-row" style="justify-content:center">
+      <a class="d-btn green" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/">🚗 {{ t.all_tickets }}</a>
+    </div>
+  </div>
+</main>
+</body>
+</html>

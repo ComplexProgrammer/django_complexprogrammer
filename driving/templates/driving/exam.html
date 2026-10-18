@@ -25,6 +25,7 @@
   </nav>
   <div id="intro" class="d-card d-cta">
     <h1 class="d-h1">🎯 {{ t.exam_h1 }}</h1>
+    {% if topic_title %}<p><b>📚 {{ topic_title }}</b></p>{% endif %}
     <p>{{ t.exam_desc }}</p>
     <p class="d-meta">{{ t.exam_rules }}</p>
     <button type="button" class="d-btn" id="start">{{ t.start_exam }} →</button>
@@ -143,7 +144,7 @@
       }).catch(function () {});
     }
     $("exam").hidden = true;
-    var shareUrl = location.origin + PREFIX + "/avtotest/imtihon/";
+    var shareUrl = location.origin + PREFIX + "/avtotest/imtihon/natija/?c=" + correct + "&t=" + Q.length;
     var text = T.shareText.replace("{c}", correct).replace("{t}", Q.length);
     $("result").innerHTML =
       (timeUp ? '<p class="d-note bad">⏰ ' + esc(T.timeUp) + "</p>" : "") +

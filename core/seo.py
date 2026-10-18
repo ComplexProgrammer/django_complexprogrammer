@@ -16,7 +16,7 @@ SEO_LANGS = ("uz", "ru", "en")
 PREFIX_LANGS = ("ru", "en")
 OG_LOCALES = {"uz": "uz_UZ", "ru": "ru_RU", "en": "en_US", "tr": "tr_TR"}
 # Indekslanmaydigan sahifalar (shaxsiy natijalar, qidiruv)
-NOINDEX_PATHS = {"/search/", "/avtotest/xatolar/", "/tests/xatolar/", "/offline/", "/profil/", "/auth/telegram/"}
+NOINDEX_PATHS = {"/search/", "/avtotest/xatolar/", "/tests/xatolar/", "/offline/", "/profil/", "/auth/telegram/", "/avtotest/imtihon/natija/"}
 # canonical/hreflang'da saqlanadigan (sahifa mazmunini o'zgartiradigan) parametrlar
 CANONICAL_PARAMS = ("id", "book_id", "categorie_id", "page")
 

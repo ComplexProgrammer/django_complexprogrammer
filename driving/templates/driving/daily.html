@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>{{ t.daily_h1 }}</span>
+  </nav>
+  <h1 class="d-h1">📅 {{ t.daily_h1 }}</h1>
+  {% if today %}
+  <article class="d-card" id="quiz" data-right="{{ today.javob }}" data-id="{{ today.id }}" data-bilet="{{ today.bilet }}">
+    <p class="d-meta"><a href="{{ lang_prefix }}/avtotest/{{ today.bilet }}/{{ today.raqam }}/">{{ today.bilet }}-{{ t.bilet }}, {{ today.raqam }}-{{ t.savol }}</a></p>
+    <h2 class="d-h2">{{ today_text }}</h2>
+    {% if today.rasm %}<img class="d-img" src="/static/avtotest/{{ today.rasm|urlencode }}" alt="" loading="lazy" decoding="async">{% endif %}
+    {% for a in today_answers %}
+    <button type="button" class="d-opt" data-l="{{ a.letter }}"><kbd>{{ forloop.counter }}</kbd><span>{{ a.text }}</span></button>
+    {% endfor %}
+    <div id="feedback" aria-live="polite"></div>
+  </article>
+  {% endif %}
+  <div class="d-card d-cta d-between">
+    <span>📢 {{ t.daily_channel }}</span>
+    <a class="d-btn" href="https://t.me/complexprogrammeruzchannel" target="_blank" rel="noopener">Telegram</a>
+  </div>
+  {% if archive %}
+  <section class="d-card">
+    <h2 class="d-h2">{{ t.daily_archive }}</h2>
+    <ul class="d-list">
+      {% for q in archive %}
+      <li><a href="{{ lang_prefix }}/avtotest/{{ q.bilet }}/{{ q.raqam }}/"><span style="flex:1">{{ q.text }}</span><span class="d-meta">{{ q.bilet }}/{{ q.raqam }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+  <div class="d-row">
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+    <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzular/">📚 {{ t.topics }}</a>
+  </div>
+</main>
+{% include "driving/_sync.html" %}
+<script>
+(function () {
+  var box = document.getElementById("quiz");
+  if (!box) return;
+  var right = box.getAttribute("data-right"), done = false;
+  var T = { ok: "{{ t.correct|escapejs }}", bad: "{{ t.wrong|escapejs }}" };
+  box.querySelectorAll(".d-opt").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (done) return;
+      done = true;
+      var letter = b.getAttribute("data-l"), ok = letter === right;
+      box.querySelectorAll(".d-opt").forEach(function (x) {
+        x.disabled = true;
+        if (x.getAttribute("data-l") === right) x.classList.add("ok"); else if (x === b) x.classList.add("bad");
+      });
+      var fb = document.getElementById("feedback");
+      fb.className = "d-note " + (ok ? "ok" : "bad");
+      fb.textContent = ok ? T.ok : T.bad;
+      window.cpSync.answered(ok);
+    });
+  });
+})();
+</script>
+</body>
+</html>

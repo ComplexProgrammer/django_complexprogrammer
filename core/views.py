@@ -6,12 +6,13 @@ from django.utils.html import strip_tags
 from django.views.decorators.cache import cache_control
 
 from blog.models import Posts as BlogPost
-from core.context_processors import SITE_URL, UI, _lang_key
+from core.context_processors import SITE_URL, UI, _lang_key, news_active
 from core.seo import SEO_LANGS, alternates, lang_url, page_meta
 from django.utils import translation
 from news.models import Posts as NewsPost
 from projects.models import AvtoTest, Project
 from tests.models import Books, RoadSigns
+from tests.views import DUPLICATE_BOOKS
 
 MAX_RESULTS = 20
 
@@ -107,8 +108,8 @@ def offline(request):
 STATIC_SITEMAP_SECTIONS = [
     ("Asosiy sahifalar", [
         ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/avtotest/imtihon/", "weekly", "0.9"),
-        ("/avtotest/reyting/", "daily", "0.5"), ("/tests/", "weekly", "0.8"),
-        ("/blog/", "daily", "0.8"), ("/news/", "daily", "0.7"), ("/projects/", "weekly", "0.7"),
+        ("/avtotest/reyting/", "daily", "0.5"), ("/avtotest/kun-savoli/", "daily", "0.7"), ("/tests/", "weekly", "0.8"),
+        ("/blog/", "daily", "0.8"), ("/projects/", "weekly", "0.7"),
     ]),
     ("Onlayn vositalar", [
         ("/translate/", "monthly", "0.7"), ("/changetext/", "monthly", "0.7"), ("/pdf_tools/", "monthly", "0.7"),
@@ -149,6 +150,11 @@ def build_sitemap():
     sections.append(("Avtotest biletlari", [
         (f"/avtotest/{i}/", None, "monthly", "0.6") for i in range(1, max_bilet + 1)
     ]))
+    from driving.topics import TOPICS
+
+    sections.append(("Avtotest mavzulari", [("/avtotest/mavzular/", None, "weekly", "0.8")] + [
+        (f"/avtotest/mavzu/{slug}/", None, "weekly", "0.7") for slug, _, _ in TOPICS
+    ]))
     sections.append(("Avtotest savollari", [
         (f"/avtotest/{q['bilet']}/{q['raqam']}/", None, "monthly", "0.5")
         for q in AvtoTest.objects.order_by("bilet", "raqam").values("bilet", "raqam")
@@ -160,16 +166,18 @@ def build_sitemap():
     ]))
     sections.append(("Testlar (kitoblar bo'yicha)", [
         (f"/tests/?book_id={b['id']}", b["updated_at"], "monthly", "0.6")
-        for b in Books.objects.filter(is_deleted=False).order_by("id").values("id", "updated_at")
+        for b in Books.objects.filter(is_deleted=False, questions__is_deleted=False)  # savolsiz (bo'sh) kitoblar sitemap'ga kirmaydi
+        .exclude(id__in=DUPLICATE_BOOKS).distinct().order_by("id").values("id", "updated_at")
     ]))
     sections.append(("Blog maqolalari", [
         (f"/blog/{p['slug']}/", p["updated_at"], "monthly", "0.7")
         for p in BlogPost.published().order_by("-publish_time").values("slug", "updated_at")
     ]))
-    sections.append(("Yangiliklar", [
-        (f"/news/{p['slug']}/", p["updated_at"], "monthly", "0.5")
-        for p in NewsPost.objects.filter(is_deleted=False).order_by("-publish_time").values("slug", "updated_at")
-    ]))
+    if news_active():  # eskirgan bo'lim noindex — sitemap'ga ham kirmaydi
+        sections.append(("Yangiliklar", [("/news/", None, "daily", "0.7")] + [
+            (f"/news/{p['slug']}/", p["updated_at"], "monthly", "0.5")
+            for p in NewsPost.objects.filter(is_deleted=False).order_by("-publish_time").values("slug", "updated_at")
+        ]))
     sections.append(("Loyihalar", [
         (f"/project/{p['id']}/", p["updated_time"], "monthly", "0.4")
         for p in Project.actives.order_by("id").values("id", "updated_time")
@@ -207,6 +215,14 @@ def build_sitemap():
 
 def sitemap_xml(request):
     return HttpResponse(build_sitemap(), content_type="application/xml")
+
+
+def indexnow_key(request, key):
+    from django.http import Http404
+
+    if key != settings.INDEXNOW_KEY:
+        raise Http404
+    return HttpResponse(key, content_type="text/plain")
 
 
 def robots_txt(request):
