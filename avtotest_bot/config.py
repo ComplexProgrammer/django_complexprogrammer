@@ -34,6 +34,11 @@ BOT_TOKEN = os.getenv("AVTOTEST_BOT_TOKEN", "").strip()
 raw_admin_ids = os.getenv("AVTOTEST_ADMIN_IDS", "5656372773")
 ADMIN_IDS = [int(i.strip()) for i in raw_admin_ids.split(",") if i.strip().isdigit()]
 
+# Kanalga tasodifiy savol (viktorina) joylash: bot kanalda admin bo'lishi shart
+POST_CHANNEL = os.getenv("AVTOTEST_POST_CHANNEL", "@complexprogrammeruzchannel").strip()
+# Server vaqti bo'yicha, vergul bilan: "08:00,13:00,20:00". Bo'sh qoldirilsa joylash o'chadi
+POST_TIMES = [t.strip() for t in os.getenv("AVTOTEST_POST_TIMES", "08:00,13:00,20:00").split(",") if t.strip()]
+
 # Ma'lumotlar bazasi va media fayllar
 DB_PATH = BASE_DIR / "db.sqlite3"
 MEDIA_DIR = BASE_DIR / "media"

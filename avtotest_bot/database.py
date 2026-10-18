@@ -94,6 +94,15 @@ class Database:
                 )
             """)
 
+            # Kanalga joylangan savollar (takrorlanmasligi va har bir vaqt bir marta joylanishi uchun)
+            await db.execute("""
+                CREATE TABLE IF NOT EXISTS avtotest_bot_channel_posts (
+                    slot TEXT PRIMARY KEY,
+                    avtotest_id INTEGER,
+                    posted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+
             # Kunlik eslatma ustunlari (eski bazalarga qo'shiladi)
             async with db.execute("PRAGMA table_info(avtotest_bot_users)") as cur:
                 columns = {row["name"] for row in await cur.fetchall()}
@@ -227,6 +236,40 @@ class Database:
             await db.execute(
                 "UPDATE avtotest_bot_users SET last_reminded = ?, remind = CASE WHEN ? THEN 0 ELSE remind END WHERE user_id = ?",
                 (today, 1 if disable else 0, user_id),
+            )
+            await db.commit()
+
+    # ==================== KANALGA JOYLASH ====================
+
+    async def get_random_channel_questions(self, limit: int = 30) -> List[Dict[str, Any]]:
+        """Saytdagi avtotest (projects_avtotest) savollari — oxirgi 500 ta joylanganlardan tashqari."""
+        async with self.connect() as db:
+            async with db.execute(
+                """
+                SELECT * FROM projects_avtotest
+                WHERE javob IN ('A', 'B', 'C', 'D') AND savol <> ''
+                  AND id NOT IN (
+                      SELECT avtotest_id FROM avtotest_bot_channel_posts
+                      WHERE avtotest_id IS NOT NULL ORDER BY posted_at DESC LIMIT 500
+                  )
+                ORDER BY RANDOM() LIMIT ?
+            """,
+                (limit,),
+            ) as cur:
+                return [dict(r) for r in await cur.fetchall()]
+
+    async def is_slot_posted(self, slot: str) -> bool:
+        async with self.connect() as db:
+            async with db.execute(
+                "SELECT 1 FROM avtotest_bot_channel_posts WHERE slot = ?", (slot,)
+            ) as cur:
+                return await cur.fetchone() is not None
+
+    async def mark_slot_posted(self, slot: str, avtotest_id: Optional[int]):
+        async with self.connect() as db:
+            await db.execute(
+                "INSERT OR REPLACE INTO avtotest_bot_channel_posts (slot, avtotest_id, posted_at) VALUES (?, ?, ?)",
+                (slot, avtotest_id, datetime.now().isoformat()),
             )
             await db.commit()
 

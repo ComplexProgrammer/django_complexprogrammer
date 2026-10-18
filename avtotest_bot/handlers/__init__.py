@@ -11,11 +11,13 @@ from .stats import router as stats_router
 from .help import router as help_router
 from .admin import router as admin_router
 from .reminder import router as reminder_router
+from .channel_post import router as channel_post_router
 
 main_router = Router()
 
 main_router.include_router(start_router)
 main_router.include_router(reminder_router)
+main_router.include_router(channel_post_router)
 main_router.include_router(bilet_router)
 main_router.include_router(quiz_router)
 main_router.include_router(exam_router)

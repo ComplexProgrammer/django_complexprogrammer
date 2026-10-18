@@ -11,6 +11,7 @@ from aiogram.types import BotCommand
 from .config import BOT_TOKEN
 from .database import db
 from .handlers import main_router
+from .handlers.channel_post import channel_post_loop
 from .handlers.reminder import reminder_loop
 
 logging.basicConfig(
@@ -68,11 +69,12 @@ async def start_bot():
     # Eski kutilayotgan update larni tozalaymiz
     await bot.delete_webhook(drop_pending_updates=True)
 
-    reminder_task = asyncio.create_task(reminder_loop(bot))
+    background = [asyncio.create_task(reminder_loop(bot)), asyncio.create_task(channel_post_loop(bot))]
     try:
         await dp.start_polling(bot)
     finally:
-        reminder_task.cancel()
+        for task in background:
+            task.cancel()
         await db.close()
         await bot.session.close()
         logger.info("Bot to'xtatildi.")
