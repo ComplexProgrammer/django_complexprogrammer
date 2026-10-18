@@ -167,7 +167,7 @@ pubmatic.com, 156212, RESELLER, 5d62403b186f2ace
 rubiconproject.com, 17960, RESELLER, 0bfd66d529a55807
 appnexus.com, 1019, RESELLER, f5ab79cb980f11d1
 
-yandex.com, 100083356, DIRECT 		
+yandex.com, 100083356, DIRECT
 improvedigital.com, 2031, RESELLER
 mobupps.com, c74d97b01eae257e44aa9d5bade97baf8652, RESELLER
 152media.info, 152M241, RESELLER
