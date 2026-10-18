@@ -32,7 +32,10 @@
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   gtag("js", new Date());
-  gtag("config", "G-8DHWL20H58");
+  // Qidiruv so'zi analitikaga yuborilmaydi: foydalanuvchilar u yerga pasport/hujjat raqamlarini ham yozadi
+  // (GA hisobotida "AD2220620 — Qidiruv" kabi sahifalar chiqqan). Manzil so'rov qismisiz yuboriladi.
+  var cpPrivateUrl = /^\/((ru|en|tr)\/)?search\/$/.test(location.pathname) ? location.origin + location.pathname : "";
+  gtag("config", "G-8DHWL20H58", cpPrivateUrl ? { page_location: cpPrivateUrl } : {});
   // GA4 hodisalari (imtihon tugatildi, natija ulashildi, PDF yuklandi...) — qaysi o'zgarish ishlayotganini o'lchash uchun
   window.cpTrack = function (name, params) { try { gtag("event", name, params || {}); } catch (e) {} };
 
@@ -47,7 +50,9 @@
     add("https://www.googletagmanager.com/gtag/js?id=G-8DHWL20H58");
     window.ym = window.ym || function () { (ym.a = ym.a || []).push(arguments); };
     ym.l = 1 * new Date();
-    ym(90624869, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, params: { client: client } });
+    // Qidiruv sahifasida avtomatik "hit" o'chiriladi va manzil so'rov qismisiz yuboriladi (yuqoridagi izohga qarang)
+    ym(90624869, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, params: { client: client }, defer: !!cpPrivateUrl });
+    if (cpPrivateUrl) ym(90624869, "hit", cpPrivateUrl);
     add("https://mc.yandex.ru/metrika/tag.js");
   })();
 </script>
