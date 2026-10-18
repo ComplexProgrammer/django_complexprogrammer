@@ -37,6 +37,15 @@
 <!-- Yandex Autoplacement 20240413 -->
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 <script data-page-id="20240413" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
+<!-- Yandex Floor Ad (Desktop: R-A-20240413-8, Mobile: R-A-20240413-9) -->
+<script>
+  window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+      type: 'floorAd',
+      blockId: window.matchMedia('(max-width: 768px)').matches ? 'R-A-20240413-9' : 'R-A-20240413-8'
+    });
+  });
+</script>
 <script>
   window.addEventListener("load", function () {
     var later = window.requestIdleCallback || function (cb) { setTimeout(cb, 1500); };
