@@ -17,9 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Three.js CDN -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <!-- Three.js (3D fon) faqat katta ekranlarda, sahifa yuklangandan keyin ulanadi — pastdagi load3D() -->
     <style>
         /* Modern design system */
         :root {
@@ -2042,6 +2040,7 @@
 
         // Window resize handler
         function onWindowResize() {
+            if (!camera || !renderer) return;
             windowHalfX = window.innerWidth / 2;
             windowHalfY = window.innerHeight / 2;
 
@@ -2113,26 +2112,32 @@
             }
         }
 
-        // Initialize Three.js when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            // Show loading animation
-            const loadingElement = document.getElementById('loading3d');
-            if (loadingElement) {
-                loadingElement.style.display = 'block';
-            }
-
-            // Initialize Three.js with delay to show loading
-            setTimeout(() => {
+        // 3D fon — bezak: telefon, sekin internet va "kamroq animatsiya" sozlamasida yuklanmaydi.
+        // Kontent darhol ko'rinadi (avval 2 soniyalik yuklanish ekrani bor edi — LCP va Core Web Vitals'ni buzardi).
+        function want3D() {
+            const c = navigator.connection || {};
+            return window.innerWidth >= 1024 && !c.saveData && !/2g/.test(c.effectiveType || '') &&
+                !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+        function load3D() {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+            s.async = true;
+            s.onload = () => {
                 initThreeJS();
-                hideLoadingAnimation();
-
-                // Set initial theme
-                const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-                updateThreeJSTheme(currentTheme);
-            }, 2000);
-
-            document.addEventListener('mousemove', onMouseMove, false);
-            window.addEventListener('resize', onWindowResize, false);
+                updateThreeJSTheme(document.documentElement.getAttribute('data-theme') || 'light');
+                document.addEventListener('mousemove', onMouseMove, false);
+                window.addEventListener('resize', onWindowResize, false);
+            };
+            document.head.appendChild(s);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingElement = document.getElementById('loading3d');
+            if (loadingElement) loadingElement.style.display = 'none';
+        });
+        window.addEventListener('load', () => {
+            if (!want3D()) return;
+            (window.requestIdleCallback || ((cb) => setTimeout(cb, 1500)))(load3D);
         });
 
         // Shared symbols for code rain
@@ -2223,17 +2228,6 @@
     <!-- Three.js 3D Background Container -->
     <div id="threejs-container"></div>
 
-    <!-- 3D Loading Animation -->
-    <div class="loading-3d" id="loading3d">
-        <div class="loading-cube">
-            <div class="loading-cube-face"></div>
-            <div class="loading-cube-face"></div>
-            <div class="loading-cube-face"></div>
-            <div class="loading-cube-face"></div>
-            <div class="loading-cube-face"></div>
-            <div class="loading-cube-face"></div>
-        </div>
-    </div>
 
     <!-- 3D Navbar -->
     <nav class="navbar navbar-expand-lg navbar-3d">
@@ -2301,6 +2295,7 @@
         </div>
         </div>
     </nav> <!-- Main Content -->
+    {% include "includes/pwa_install.html" %}
     <main role="main" class="fade-in">
         <div class="container"><div class="cp-home">
             {% include "includes/seo_intro.html" %}

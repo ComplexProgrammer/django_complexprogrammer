@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>{{ t.topics }}</span>
+  </nav>
+  <h1 class="d-h1">📚 {{ t.topics_h1 }}</h1>
+  <p class="d-meta">{{ t.topics_lead }}</p>
+  <div class="d-card">
+    <ul class="d-list">
+      {% for item in items %}
+      <li><a href="{{ lang_prefix }}/avtotest/mavzu/{{ item.slug }}/"><span style="flex:1">{{ item.name }}</span><span class="d-meta">{{ item.count }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="d-row">
+    <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+    <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/">🚗 {{ t.all_tickets }}</a>
+  </div>
+</main>
+</body>
+</html>

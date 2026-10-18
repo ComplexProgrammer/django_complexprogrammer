@@ -45,6 +45,10 @@ TELEGRAM_LOGIN_BOT_TOKEN = config("TELEGRAM_LOGIN_BOT_TOKEN", default=config("AV
 TELEGRAM_LOGIN_BOT_USERNAME = config("TELEGRAM_LOGIN_BOT_USERNAME", default="AvtoTestUzbBot")
 
 
+# IndexNow (Yandex, Bing): kalit ochiq — /<kalit>.txt da turadi. O'zgartirilsa, eski kalit fayli ham kerak emas.
+INDEXNOW_KEY = config("INDEXNOW_KEY", default="48816631ea16ae79251e3dba4fdc5cbb")
+
+
 # Application definition
 
 INSTALLED_APPS = [

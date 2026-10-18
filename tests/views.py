@@ -17,6 +17,10 @@ from tests.models import (
     RoadSigns,
 )
 from comments.pages import page_comments
+from core.seo import SITE_URL, alternates
+
+# /tests/ dagi kitob -> xuddi shu savollar asosiy joylashgan sahifa (O'zbekiston avtotesti: 108 bilet)
+DUPLICATE_BOOKS = {49: "/avtotest/"}
 
 
 def index(request):
@@ -186,6 +190,15 @@ def tests(request):
             name = getattr(book.book_type, field, "") or book.book_type.name_uz_uz
             label = {"ru": "онлайн-тест", "en": "online test"}.get(lang, "onlayn test")
             context["seo_title"] = f"{name} — {label} | Complex Programmer"
+        if book is None or not book.questions.filter(is_deleted=False).exists():
+            context["noindex"] = True  # o'chirilgan yoki savolsiz kitob — bo'sh sahifa qidiruvga chiqmasin
+            context["hreflang_links"] = []
+        # Bir xil savollar /avtotest/ da ham bor — qidiruvda raqobatlashmasligi uchun asosiysiga canonical
+        main_path = DUPLICATE_BOOKS.get(int(book_id))
+        if main_path:
+            prefix = getattr(request, "lang_prefix", "")
+            context["canonical_url"] = SITE_URL + prefix + main_path
+            context["hreflang_links"] = alternates(main_path)
     return render(request, "tests/index.html", context=context)
 
 

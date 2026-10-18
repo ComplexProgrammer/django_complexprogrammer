@@ -3,10 +3,16 @@
 Sahifalar SEO matnlari — ``core/seo_pages.py``da.
 """
 
+from datetime import date, timedelta
+
 from django.conf import settings
-from django.utils import translation
+from django.core.cache import cache
+from django.utils import timezone, translation
 
 from core import seo
+
+# Sarlavhalardagi yil har yili o'zi yangilanadi ("avtotest 2027" kabi so'rovlar uchun)
+YEAR = date.today().year
 
 SITE_URL = seo.SITE_URL
 
@@ -25,9 +31,9 @@ UI = {
         "search_placeholder": "Sayt bo'yicha qidirish...", "theme": "Mavzu", "language": "Til",
         "menu": "Menyu", "exam": "Imtihon", "signs": "Yo'l belgilari", "profile": "Profil",
         "leaderboard": "Reyting", "exam_desc": "20 savol, 25 daqiqa — haqiqiy imtihon kabi",
-        "hero_title": "Avtotest 2026 — haydovchilik imtihoniga bepul tayyorlaning",
+        "hero_title": f"Avtotest {YEAR} — haydovchilik imtihoniga bepul tayyorlaning",
         "hero_lead": "YHXBB biletlari, imtihon simulyatori, xatolar ustida ishlash va yo'l belgilari. Natijalaringiz Telegram orqali saqlanadi.",
-        "hero_tickets": "Biletlarni yechish",
+        "hero_tickets": "Biletlarni yechish", "install": "Ilovani o'rnatish", "close": "Yopish",
     },
     "ru": {
         "markets": "Маркеты", "archive": "Архив", "popular_tools": "Популярные инструменты",
@@ -43,9 +49,9 @@ UI = {
         "search_placeholder": "Поиск по сайту...", "theme": "Тема", "language": "Язык",
         "menu": "Меню", "exam": "Экзамен", "signs": "Дорожные знаки", "profile": "Профиль",
         "leaderboard": "Рейтинг", "exam_desc": "20 вопросов, 25 минут — как на настоящем экзамене",
-        "hero_title": "Автотест 2026 — бесплатная подготовка к экзамену на права",
+        "hero_title": f"Автотест {YEAR} — бесплатная подготовка к экзамену на права",
         "hero_lead": "Билеты ГУБДД, симулятор экзамена, работа над ошибками и дорожные знаки. Результаты сохраняются через Telegram.",
-        "hero_tickets": "Решать билеты",
+        "hero_tickets": "Решать билеты", "install": "Установить приложение", "close": "Закрыть",
     },
     "en": {
         "markets": "Markets", "archive": "Archive", "popular_tools": "Popular tools",
@@ -61,9 +67,9 @@ UI = {
         "search_placeholder": "Search the site...", "theme": "Theme", "language": "Language",
         "menu": "Menu", "exam": "Exam", "signs": "Road signs", "profile": "Profile",
         "leaderboard": "Leaderboard", "exam_desc": "20 questions, 25 minutes — just like the real exam",
-        "hero_title": "Driving test 2026 — prepare for the licence exam for free",
+        "hero_title": f"Driving test {YEAR} — prepare for the licence exam for free",
         "hero_lead": "Official exam tickets, an exam simulator, mistake review and road signs. Your progress is saved via Telegram.",
-        "hero_tickets": "Solve tickets",
+        "hero_tickets": "Solve tickets", "install": "Install the app", "close": "Close",
     },
     "tr": {
         "markets": "Pazarlar", "archive": "Arşiv", "popular_tools": "Popüler araçlar",
@@ -79,11 +85,27 @@ UI = {
         "search_placeholder": "Sitede ara...", "theme": "Tema", "language": "Dil",
         "menu": "Menü", "exam": "Sınav", "signs": "Trafik işaretleri", "profile": "Profil",
         "leaderboard": "Sıralama", "exam_desc": "20 soru, 25 dakika — gerçek sınav gibi",
-        "hero_title": "Ehliyet testi 2026 — sınava ücretsiz hazırlanın",
+        "hero_title": f"Ehliyet testi {YEAR} — sınava ücretsiz hazırlanın",
         "hero_lead": "Sınav biletleri, sınav simülatörü, hata çalışması ve trafik işaretleri. İlerlemeniz Telegram ile kaydedilir.",
-        "hero_tickets": "Biletleri çöz",
+        "hero_tickets": "Biletleri çöz", "install": "Uygulamayı yükle", "close": "Kapat",
     },
 }
+
+# Shuncha kun yangi post chiqmasa, "Yangiliklar" bo'limi menyudan yashiriladi va qidiruvdan chiqariladi
+# (tashlab qo'yilgan bo'lim saytning umumiy sifat bahosini tushiradi). Yangi post chiqishi bilan o'zi qaytadi.
+NEWS_STALE_DAYS = 180
+
+
+def news_active():
+    active = cache.get("news_active")
+    if active is None:
+        from news.models import Posts
+
+        since = timezone.now() - timedelta(days=NEWS_STALE_DAYS)
+        active = Posts.objects.filter(is_deleted=False, publish_time__gte=since).exists()
+        cache.set("news_active", active, 3600)
+    return active
+
 
 def _lang_key(code):
     code = (code or "uz").split("-")[0]
@@ -98,7 +120,8 @@ def site(request):
     query = seo.canonical_query(request.GET)
     canonical = SITE_URL + prefix + path + query
     meta = seo.page_meta(path, lang) or {}
-    noindex = path in seo.NOINDEX_PATHS
+    is_news_active = news_active()
+    noindex = path in seo.NOINDEX_PATHS or (path.startswith("/news/") and not is_news_active)
     return {
         "ui": UI[lang],
         "ui_lang": lang,
@@ -116,6 +139,7 @@ def site(request):
         "hreflang_links": [] if noindex else seo.alternates(path + query),
         "og_locale": seo.OG_LOCALES.get(lang, "uz_UZ"),
         "noindex": noindex,
+        "news_active": is_news_active,
         "lang_prefix": prefix,
         "available_languages": settings.LANGUAGES,
     }

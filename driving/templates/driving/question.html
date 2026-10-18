@@ -14,7 +14,7 @@
   </nav>
 
   <article class="d-card" id="quiz" data-right="{{ q.javob }}" data-id="{{ q.id }}" data-bilet="{{ bilet }}">
-    <p class="d-meta">{{ ticket_name }} · {{ question_name }}</p>
+    <p class="d-meta">{{ ticket_name }} · {{ question_name }}{% for tp in topics %} · <a href="{{ lang_prefix }}/avtotest/mavzu/{{ tp.slug }}/">{{ tp.name }}</a>{% endfor %}</p>
     <h1 class="d-h1">{{ text }}</h1>
     {% if q.rasm %}<img class="d-img" src="/static/avtotest/{{ q.rasm|urlencode }}" alt="{{ text|truncatechars:120 }}" loading="lazy" decoding="async">{% endif %}
     {% for a in answers %}
@@ -51,6 +51,9 @@
     <p style="margin:12px 0 0"><a href="{{ lang_prefix }}/avtotest/">← {{ t.all_tickets }}</a></p>
   </section>
 </main>
+{# Izohlar: savol bo'yicha muhokama. Bootstrap faqat shu blok uchun, sahifa pastida ulanadi — yuqoridagi kontent kutmaydi #}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<section class="d-comments">{% include "comment_form.html" %}</section>
 {% include "driving/_sync.html" %}
 <script>
 (function () {

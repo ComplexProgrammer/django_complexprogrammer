@@ -10,12 +10,17 @@ Turk tili (tr) uchun inglizcha matn ishlatiladi.
 ``kind``: home | tool | game | page — JSON-LD turini tanlash uchun.
 """
 
+from datetime import date
+
+# Sarlavhalardagi yil har yili o'zi yangilanadi ("avtotest 2027" kabi so'rovlar uchun)
+YEAR = date.today().year
+
 PAGES = {
     "/": {
         "kind": "home",
         "uz": {
             "title": "Complex Programmer — avtotest, onlayn vositalar va o'yinlar",
-            "desc": "Avtotest 2026 biletlari, onlayn tarjimon, lotin-kirill o'girgich, PDF konvertor, valyuta kurslari va bepul o'yinlar — barchasi bitta saytda, ro'yxatdan o'tmasdan.",
+            "desc": f"Avtotest {YEAR} biletlari, onlayn tarjimon, lotin-kirill o'girgich, PDF konvertor, valyuta kurslari va bepul o'yinlar — barchasi bitta saytda, ro'yxatdan o'tmasdan.",
             "h1": "Complex Programmer — bepul onlayn vositalar",
             "lead": "Avtotest, tarjimon, PDF konvertor, valyuta kurslari va boshqa foydali xizmatlar.",
             "text": [
@@ -62,7 +67,7 @@ PAGES = {
     "/avtotest/": {
         "kind": "tool",
         "uz": {
-            "title": "Avtotest 2026 — YHQ imtihon biletlari onlayn, bepul",
+            "title": f"Avtotest {YEAR} — YHQ imtihon biletlari onlayn, bepul",
             "desc": "Haydovchilik guvohnomasi imtihoniga tayyorlaning: 139 ta rasmiy bilet, 1385 savol, rasmli izohlar, taymer va xatolar ustida ishlash. Bepul, ro'yxatdan o'tmasdan.",
             "h1": "Avtotest — YHQ imtihon biletlari",
             "lead": "Biletni tanlang va haqiqiy imtihondagidek savollarga javob bering.",
@@ -78,7 +83,7 @@ PAGES = {
             ],
         },
         "ru": {
-            "title": "Автотест 2026 — билеты ПДД Узбекистана онлайн, бесплатно",
+            "title": f"Автотест {YEAR} — билеты ПДД Узбекистана онлайн, бесплатно",
             "desc": "Подготовка к экзамену на права в Узбекистане: 139 билетов, 1385 вопросов ПДД с картинками, таймер и работа над ошибками. Бесплатно и без регистрации.",
             "h1": "Автотест — экзаменационные билеты ПДД",
             "lead": "Выберите билет и отвечайте на вопросы как на настоящем экзамене.",
@@ -94,7 +99,7 @@ PAGES = {
             ],
         },
         "en": {
-            "title": "Avtotest 2026 — Uzbekistan driving test tickets online",
+            "title": f"Avtotest {YEAR} — Uzbekistan driving test tickets online",
             "desc": "Prepare for the Uzbekistan driving licence exam: 139 tickets, 1385 questions with pictures, a timer and mistake review. Free, no registration.",
             "h1": "Avtotest — Uzbekistan driving exam tickets",
             "lead": "Pick a ticket and answer the questions just like in the real exam.",

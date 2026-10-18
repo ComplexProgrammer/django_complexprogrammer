@@ -1,0 +1,36 @@
+{# PWA "Ilovani o'rnatish" taklifi — site_header va bosh sahifada (base.html) ulanadi #}
+<div class="cp-install" id="cp-install" hidden>
+  <button type="button" class="cp-install-go" id="cp-install-go">📲 {{ ui.install }}</button>
+  <button type="button" class="cp-install-x" id="cp-install-x" aria-label="{{ ui.close }}">✕</button>
+</div>
+<style>
+  .cp-install{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:1050;display:flex;gap:4px;align-items:center;
+    padding:6px;border-radius:14px;background:#4f46e5;box-shadow:0 10px 30px rgba(15,23,42,.3);font-family:Inter,system-ui,sans-serif}
+  .cp-install[hidden]{display:none}
+  .cp-install button{border:0;background:transparent;color:#fff;font:600 15px/1 inherit;padding:10px 12px;border-radius:10px;cursor:pointer}
+  .cp-install button:hover{background:rgba(255,255,255,.15)}
+</style>
+<script>
+  // PWA: ikkinchi tashrifdan boshlab "Ilovani o'rnatish" taklifi (rad etilsa 30 kun ko'rsatilmaydi)
+  (function () {
+    var box = document.getElementById("cp-install"), prompt = null;
+    function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+    function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+    var visits = (+get("cpVisits") || 0) + 1;
+    set("cpVisits", visits);
+    window.addEventListener("beforeinstallprompt", function (e) {
+      e.preventDefault();
+      prompt = e;
+      if (visits >= 2 && Date.now() > (+get("cpInstallHideUntil") || 0)) box.hidden = false;
+    });
+    document.getElementById("cp-install-go").addEventListener("click", function () {
+      box.hidden = true;
+      if (prompt) { prompt.prompt(); prompt = null; }
+    });
+    document.getElementById("cp-install-x").addEventListener("click", function () {
+      box.hidden = true;
+      set("cpInstallHideUntil", Date.now() + 30 * 24 * 3600 * 1000);
+    });
+    window.addEventListener("appinstalled", function () { box.hidden = true; });
+  })();
+</script>

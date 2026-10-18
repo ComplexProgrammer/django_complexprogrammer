@@ -24,6 +24,7 @@ TEXTS = {
         "btn_stats": "📊 Mening natijalarim",
         "btn_lang": "🌐 Tilni o'zgartirish",
         "btn_help": "ℹ️ Bot haqida",
+        "btn_webapp": "📱 Saytda imtihon",
         # Biletlar bo'limi
         "bilet_title": "🚗 <b>Biletni tanlang:</b>\n<i>(Har bir biletda 10 tadan savol bor)</i>",
         "page_info": "Sahifa: {page}/{total_pages}",
@@ -116,6 +117,7 @@ TEXTS = {
         "btn_stats": "📊 Моя статистика",
         "btn_lang": "🌐 Сменить язык",
         "btn_help": "ℹ️ О боте",
+        "btn_webapp": "📱 Экзамен на сайте",
         # Билеты
         "bilet_title": "🚗 <b>Выберите билет:</b>\n<i>(В каждом билете по 10 вопросов)</i>",
         "page_info": "Страница: {page}/{total_pages}",

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> ›
+    <a href="{{ lang_prefix }}/avtotest/mavzular/">{{ t.topics }}</a> › <span>{{ name }}</span>
+  </nav>
+  <h1 class="d-h1">{{ h1 }}</h1>
+  <p class="d-meta">{{ count }}</p>
+  <div class="d-card d-cta">
+    <a class="d-btn green" href="{{ lang_prefix }}/avtotest/imtihon/?mavzu={{ slug }}">🎯 {{ t.practice_topic }}</a>
+  </div>
+  <section class="d-card">
+    <ol class="d-list">
+      {% for q in questions %}
+      <li><a href="{{ lang_prefix }}/avtotest/{{ q.bilet }}/{{ q.raqam }}/"><b>{{ forloop.counter }}.</b><span style="flex:1">{{ q.text }}</span><span class="d-meta" style="white-space:nowrap">{{ q.bilet }}/{{ q.raqam }}</span></a></li>
+      {% endfor %}
+    </ol>
+  </section>
+  <section class="d-card">
+    <h2 class="d-h2">{{ t.topics }}</h2>
+    <div class="d-row">
+      {% for o in others %}<a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzu/{{ o.slug }}/">{{ o.name }}</a>{% endfor %}
+    </div>
+  </section>
+</main>
+</body>
+</html>
