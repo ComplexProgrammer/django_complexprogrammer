@@ -1,5 +1,9 @@
-<a class="b-card" href="{{ c.url }}">
-  {% if c.image %}<img src="{{ c.image }}" alt="{{ c.name }}" loading="lazy" decoding="async" width="400" height="225">{% endif %}
+<a class="b-card{% if featured_card %} b-card--featured{% endif %}" href="{{ c.url }}">
+  <div class="b-card-media">
+    {% if c.image %}<img src="{{ c.image }}" alt="{{ c.name }}" {% if featured_card %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async" width="{% if featured_card %}800{% else %}400{% endif %}" height="{% if featured_card %}450{% else %}225{% endif %}">
+    {% else %}<span class="b-card-ph" aria-hidden="true">{{ c.name|first|upper }}</span>{% endif %}
+    {% if c.is_new %}<span class="b-new">{{ t.new }}</span>{% endif %}
+  </div>
   <div class="b-card-body">
     {% if c.category %}<span class="b-badge">{{ c.category }}</span>{% endif %}
     <h2>{{ c.name }}</h2>
@@ -9,5 +13,6 @@
       <span>⏱ {{ c.minutes }} {{ t.min_read }}</span>
       {% if c.views %}<span>👁 {{ c.views }}</span>{% endif %}
     </div>
+    {% if featured_card %}<span class="b-read">{{ t.read_more }} →</span>{% endif %}
   </div>
 </a>

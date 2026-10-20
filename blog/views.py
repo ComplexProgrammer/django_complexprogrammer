@@ -8,15 +8,18 @@ from django.core.paginator import Paginator
 from django.db.models import Count, F, Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import translation
+from django.utils import timezone, translation
 from django.utils.feedgenerator import Rss201rev2Feed
 
 from blog.models import Categories, Posts
-from blog.utils import UI, clean_html, excerpt, lang_key, pick, reading_minutes, split_for_ad
+from blog.utils import UI, add_toc, clean_html, excerpt, lang_key, pick, reading_minutes, split_for_ad
 from comments.pages import normalize_page_url, page_comments
 from core.context_processors import SITE_URL
 
 PER_PAGE = 9
+NEW_DAYS = 14  # shuncha kundan yangi maqolaga "Yangi" belgisi
+TESTS_CATEGORY = "Testlar"  # shu kategoriyadagi maqolalar oxirida avtotestga taklif chiqadi
+TELEGRAM_CHANNEL = "https://t.me/complexprogrammeruzchannel"
 VIEW_DEDUP_SECONDS = 6 * 3600
 
 
@@ -36,6 +39,7 @@ def _card(post, lang):
         "views": post.view_count,
         "category": cat_name,
         "category_id": post.categorie_id,
+        "is_new": (timezone.now() - post.publish_time).days < NEW_DAYS,
     }
 
 
@@ -59,7 +63,7 @@ def _client_ip(request):
 
 
 def _base_context(request, lang):
-    return {"t": UI[lang], "lang": lang, **_sidebar(lang)}
+    return {"t": UI[lang], "lang": lang, "telegram_channel": TELEGRAM_CHANNEL, **_sidebar(lang)}
 
 
 def index(request):
@@ -76,7 +80,7 @@ def index(request):
 
     lang = lang_key(translation.get_language())
     t = UI[lang]
-    posts = Posts.published().order_by("-sort_order", "-publish_time")
+    posts = Posts.published().order_by("-publish_time")
 
     category = None
     categorie_id = request.GET.get("categorie_id", "")
@@ -118,13 +122,17 @@ def index(request):
     if page.number > 1:
         title += f" ({page.number}-{t['page']})"
 
+    cards = [_card(p, lang) for p in page.object_list]
+    # Birinchi sahifada (filtr/qidiruvsiz) eng yangi maqola katta ko'rinishda
+    featured = cards.pop(0) if cards and page.number == 1 and not category and not q else None
     context.update(
         {
+            "featured": featured,
             "page": page,
             "page_range": list(paginator.get_elided_page_range(page.number, on_each_side=1, on_ends=1)),
             "ellipsis": Paginator.ELLIPSIS,
             "total": paginator.count,
-            "cards": [_card(p, lang) for p in page.object_list],
+            "cards": cards,
             "category": category,
             "category_name": category_name,
             "q": q,
@@ -159,7 +167,7 @@ def detail(request, slug):
     name, _ = pick(post, "name", lang)
     lead, _ = pick(post, "title", lang)
     body, is_native = pick(post, "body", lang, min_len=50)
-    body = clean_html(body)
+    body, toc = add_toc(clean_html(body))
     body_top, body_rest = split_for_ad(body)
 
     published = Posts.published()
@@ -212,6 +220,8 @@ def detail(request, slug):
             "lead": lead,
             "body_top": body_top,
             "body_rest": body_rest,
+            "toc": toc,
+            "is_tests": bool(post.categorie and post.categorie.name_uz_uz == TESTS_CATEGORY),
             "is_native": is_native,
             "minutes": reading_minutes(body),
             "category_name": category_name,

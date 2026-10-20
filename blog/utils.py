@@ -1,7 +1,7 @@
 """Blog uchun yordamchi funksiyalar: til tanlash, HTML tozalash, slug va o'qish vaqti."""
 
 import re
-from html import escape
+from html import escape, unescape
 from html.parser import HTMLParser
 from urllib.parse import urlsplit
 
@@ -29,6 +29,12 @@ UI = {
         "fallback": "Bu maqola hozircha faqat o'zbek tilida mavjud.", "page": "sahifa",
         "newer": "← Yangiroq", "older": "Eskiroq →", "rss": "RSS obuna",
         "title": "Blog — maqolalar va foydali ma'lumotlar",
+        "subtitle": "Avtotest, texnologiya, ta'lim va kundalik hayot uchun foydali maqolalar",
+        "articles": "ta maqola", "new": "Yangi", "toc": "Mundarija",
+        "tg_title": "Yangi maqolalarni o'tkazib yubormang", "tg_text": "Telegram kanalimizga obuna bo'ling — har bir yangi maqola birinchi bo'lib sizga keladi.",
+        "tg_btn": "Kanalga obuna bo'lish",
+        "test_title": "Bilimingizni sinab ko'ring", "test_text": "108 ta bilet, imtihon simulyatori (20 savol, 25 daqiqa) va xatolar ustida ishlash — bepul.",
+        "test_btn": "Avtotestni boshlash", "exam_btn": "Imtihon simulyatori",
     },
     "ru": {
         "blog": "Блог", "home": "Главная", "all": "Все статьи", "categories": "Категории",
@@ -40,6 +46,12 @@ UI = {
         "fallback": "Эта статья пока доступна только на узбекском языке.", "page": "страница",
         "newer": "← Новее", "older": "Старее →", "rss": "RSS-подписка",
         "title": "Блог — статьи и полезная информация",
+        "subtitle": "Полезные статьи об автотесте, технологиях, учёбе и жизни",
+        "articles": "статей", "new": "Новое", "toc": "Содержание",
+        "tg_title": "Не пропускайте новые статьи", "tg_text": "Подпишитесь на наш Telegram-канал — новые статьи придут к вам первыми.",
+        "tg_btn": "Подписаться на канал",
+        "test_title": "Проверьте свои знания", "test_text": "108 билетов, симулятор экзамена (20 вопросов, 25 минут) и работа над ошибками — бесплатно.",
+        "test_btn": "Начать автотест", "exam_btn": "Симулятор экзамена",
     },
     "en": {
         "blog": "Blog", "home": "Home", "all": "All articles", "categories": "Categories",
@@ -51,6 +63,12 @@ UI = {
         "fallback": "This article is currently available only in Uzbek.", "page": "page",
         "newer": "← Newer", "older": "Older →", "rss": "RSS feed",
         "title": "Blog — articles and useful information",
+        "subtitle": "Useful articles on the driving test, technology, learning and everyday life",
+        "articles": "articles", "new": "New", "toc": "Contents",
+        "tg_title": "Don't miss new articles", "tg_text": "Follow our Telegram channel and get every new article first.",
+        "tg_btn": "Join the channel",
+        "test_title": "Test your knowledge", "test_text": "108 tickets, an exam simulator (20 questions, 25 minutes) and mistake review — free.",
+        "test_btn": "Start the driving test", "exam_btn": "Exam simulator",
     },
 }
 UI["tr"] = dict(UI["en"], **{
@@ -62,6 +80,12 @@ UI["tr"] = dict(UI["en"], **{
     "fallback": "Bu makale şu anda yalnızca Özbekçe mevcuttur.", "page": "sayfa",
     "newer": "← Daha yeni", "older": "Daha eski →", "rss": "RSS aboneliği",
     "title": "Blog — makaleler ve faydalı bilgiler",
+    "subtitle": "Ehliyet sınavı, teknoloji, eğitim ve günlük yaşam üzerine faydalı makaleler",
+    "articles": "makale", "new": "Yeni", "toc": "İçindekiler",
+    "tg_title": "Yeni makaleleri kaçırmayın", "tg_text": "Telegram kanalımıza abone olun, her yeni makale önce size gelsin.",
+    "tg_btn": "Kanala abone ol",
+    "test_title": "Bilginizi test edin", "test_text": "108 bilet, sınav simülatörü (20 soru, 25 dakika) ve hata tekrarı — ücretsiz.",
+    "test_btn": "Teste başla", "exam_btn": "Sınav simülatörü",
 })
 
 
@@ -241,6 +265,29 @@ def clean_html(html):
     cleaner.feed(html or "")
     cleaner.close()
     return cleaner.result()
+
+
+_H2 = re.compile(r"<h2>(.*?)</h2>", re.S)
+
+
+def add_toc(html, min_items=3):
+    """Maqoladagi <h2> sarlavhalariga id qo'yadi va mundarija ro'yxatini qaytaradi: (html, [(id, matn), ...]).
+
+    Sarlavhalar min_items tadan kam bo'lsa mundarija bo'sh qaytadi (qisqa maqolada keraksiz).
+    """
+    toc = []
+
+    def anchor(match):
+        # shablon matnni o'zi escape qiladi — "&amp;" ikki marta escape bo'lmasin
+        text = re.sub(r"\s+", " ", unescape(strip_tags(match.group(1)))).strip()
+        if not text:
+            return match.group(0)
+        anchor_id = f"s{len(toc) + 1}"
+        toc.append((anchor_id, text))
+        return f'<h2 id="{anchor_id}">{match.group(1)}</h2>'
+
+    html = _H2.sub(anchor, html)
+    return html, (toc if len(toc) >= min_items else [])
 
 
 def split_for_ad(html, after_paragraphs=3):

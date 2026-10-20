@@ -1,4 +1,9 @@
 <aside class="b-side">
+  <section class="b-box b-tg">
+    <h2>✈️ {{ t.tg_title }}</h2>
+    <p>{{ t.tg_text }}</p>
+    <a class="b-btn b-btn--tg" href="{{ telegram_channel }}" target="_blank" rel="noopener">{{ t.tg_btn }}</a>
+  </section>
   {% if categories and not hide_categories %}
   <section class="b-box">
     <h2>{{ t.categories }}</h2>
