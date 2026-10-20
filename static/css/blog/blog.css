@@ -189,6 +189,8 @@ body.blog-page {
 .b-content code { font-size: .92em; }
 .b-content table { width: 100%; border-collapse: collapse; margin: 1em 0; display: block; overflow-x: auto; }
 .b-content th, .b-content td { border: 1px solid var(--b-border); padding: 8px 10px; text-align: left; }
+.b-content th { background: var(--b-accent-soft); }
+.b-content td code { white-space: nowrap; }
 .b-content iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; border-radius: 12px; }
 .b-content .b-ad { margin: 1.4em 0; }
 .b-source { padding: 0 28px 4px; color: var(--b-muted); font-size: .9rem; }
