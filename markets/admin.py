@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from core.admin import CoreModelAdmin
+from core.rich_text import RichTextAdminMixin
 
 # from markets.forms import ProductImageForm
 from .models import (
@@ -28,7 +29,7 @@ admin.site.register(Store)
 
 
 # admin.site.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(RichTextAdminMixin, admin.ModelAdmin):
     inlines = [ProductDetailInline]
     exclude = ("created_by",)
 

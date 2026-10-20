@@ -210,6 +210,39 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+# CKEditor 5 (admin muharriri) — `pip install django-ckeditor-5` qilinganda avtomatik yoqiladi, aks holda
+# eski CKEditor 4 ishlayveradi. Batafsil: core/rich_text.py
+try:
+    import django_ckeditor_5  # noqa: F401
+
+    CKEDITOR5_ENABLED = True
+except ImportError:
+    CKEDITOR5_ENABLED = False
+if CKEDITOR5_ENABLED:
+    INSTALLED_APPS.append("django_ckeditor_5")
+    CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"  # rasm yuklash faqat admin xodimlariga
+    CKEDITOR_5_CONFIGS = {
+        "default": {
+            "toolbar": [
+                "heading", "|", "bold", "italic", "underline", "link", "|",
+                "bulletedList", "numberedList", "blockQuote", "|",
+                "imageUpload", "insertTable", "mediaEmbed", "|",
+                "sourceEditing", "removeFormat", "|", "undo", "redo",
+            ],
+            "image": {
+                "toolbar": ["imageTextAlternative", "|", "imageStyle:alignLeft", "imageStyle:alignCenter", "imageStyle:alignRight"],
+            },
+            "table": {"contentToolbar": ["tableColumn", "tableRow", "mergeTableCells"]},
+            "heading": {
+                "options": [
+                    {"model": "paragraph", "title": "Paragraph", "class": "ck-heading_paragraph"},
+                    {"model": "heading2", "view": "h2", "title": "Heading 2", "class": "ck-heading_heading2"},
+                    {"model": "heading3", "view": "h3", "title": "Heading 3", "class": "ck-heading_heading3"},
+                ]
+            },
+        },
+    }
+
 CKEDITOR_CONFIGS = {
     "default": {
         "toolbar_Custom": [

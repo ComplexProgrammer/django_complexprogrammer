@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from core.models import Auditable, Translatable
 
+EXPLANATION_STATUS = [("", "Yo'q"), ("draft", "Qoralama"), ("approved", "Tasdiqlangan")]
+EXPLANATION_FIELDS = ("explanation_en_us", "explanation_ru_ru", "explanation_uz_crl", "explanation_uz_uz")
+
 
 class Types(Translatable):
     image = models.ImageField(upload_to="tests/types/images", blank=True)
@@ -139,6 +142,15 @@ class Questions(Translatable):
     explanation_ru_ru = models.TextField(blank=True, default="")
     explanation_uz_crl = models.TextField(blank=True, default="")
     explanation_uz_uz = models.TextField(blank=True, default="")
+    # AI qoralamasi (manage.py draft_explanations submit --source tests) tasdiqlanmaguncha saytda ko'rinmaydi
+    explanation_status = models.CharField(
+        max_length=10, blank=True, default="", choices=EXPLANATION_STATUS, db_index=True,
+        help_text="«Qoralama» izoh saytda ko'rinmaydi. Qo'lda yozilgan izoh uchun bo'sh yoki «Tasdiqlangan».",
+    )
+    explanation_confidence = models.CharField(
+        max_length=10, blank=True, default="",
+        help_text="AI qoralamaning o'z bahosi (high/medium/low) — past bo'lsa diqqat bilan tekshiring.",
+    )
 
     class Meta:
         verbose_name = "Question"

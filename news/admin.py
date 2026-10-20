@@ -1,9 +1,11 @@
 from django.contrib import admin
+from core.rich_text import RichTextAdminMixin
+
 from .models import Posts
 
 
 @admin.register(Posts)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(RichTextAdminMixin, admin.ModelAdmin):
     list_display = ["name_uz_uz", "title_uz_uz"]
     list_filter = [
         "name_en_us",
