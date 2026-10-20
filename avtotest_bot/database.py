@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import os
 from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import Any, Dict, List, Optional
@@ -16,15 +17,30 @@ class Database:
         self.db_path = str(db_path)
         self._conn: Optional[aiosqlite.Connection] = None
         self._lock: Optional[asyncio.Lock] = None
+        self._file_id = None  # ulanish ochilgan paytdagi (st_dev, st_ino)
 
     def _get_lock(self) -> asyncio.Lock:
         if self._lock is None:
             self._lock = asyncio.Lock()
         return self._lock
 
+    def _current_file_id(self):
+        try:
+            st = os.stat(self.db_path)
+        except OSError:
+            return None
+        return st.st_dev, st.st_ino
+
     async def get_connection(self) -> aiosqlite.Connection:
         """Bitta doimiy ulanish (har bir so'rovda yangi thread ochilishini to'xtatadi)."""
+        file_id = self._current_file_id()
+        if self._conn is not None and file_id != self._file_id:
+            # db.sqlite3 diskda yangi fayl bilan almashtirilgan (git reset/checkout/pull). Eski ulanish o'chirilgan
+            # faylga yozishda davom etadi, sayt esa yangisini o'qiydi — ma'lumot yo'qoladi (2026-10-20 dagi holat).
+            logger.warning("db.sqlite3 almashtirilgan — bazaga qayta ulanilmoqda.")
+            await self.close()
         if self._conn is None:
+            self._file_id = file_id
             self._conn = await aiosqlite.connect(self.db_path, timeout=30.0)
             self._conn.row_factory = aiosqlite.Row
             await self._conn.execute("PRAGMA journal_mode = WAL;")
