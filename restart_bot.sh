@@ -3,6 +3,13 @@
 # Ishlatish:  bash restart_bot.sh          (to'xtatish uchun: bash restart_bot.sh stop)
 cd "$(dirname "$0")"
 
+# CloudLinux / cPanel thread limitini saqlash
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+
 PYTHON="${PYTHON:-python3}"
 LOG="logs/bot.log"
 PIDFILE="tmp/bot.pid"

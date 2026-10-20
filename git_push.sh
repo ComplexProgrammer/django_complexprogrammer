@@ -5,6 +5,13 @@
 set -e
 cd "$(dirname "$0")"
 
+# CloudLinux / cPanel thread limitini saqlash (OpenBLAS 64 ta thread ochib NPROC limitiga urilmasligi uchun)
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+
 BRANCH="master"
 MSG="${1:-server: $(date '+%Y-%m-%d %H:%M')}"
 PYTHON="${PYTHON:-python3}"
