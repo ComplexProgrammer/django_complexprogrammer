@@ -86,6 +86,9 @@ async def channel_post_loop(bot: Bot):
         logger.info("Kanalga savol joylash o'chirilgan (AVTOTEST_POST_CHANNEL / AVTOTEST_POST_TIMES).")
         return
     logger.info(f"Kanalga savol joylash yoqildi: {POST_CHANNEL}, vaqtlar: {', '.join(POST_TIMES)}")
+    # Bazadagi belgi yetarli emas: db.sqlite3 git orqali eski nusxaga almashsa, yozuv yo'qoladi va bitta vaqt uchun
+    # savol qayta-qayta joylanadi (2026-10-20: 13:00 va 15:00 slotlari 4–5 martadan). Jarayon ichida ham eslab qolamiz.
+    posted = set()
     while True:
         try:
             now = datetime.now()
@@ -96,11 +99,16 @@ async def channel_post_loop(bot: Bot):
                     continue
                 planned = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
                 slot = planned.strftime("%Y-%m-%d %H:%M")
-                if planned <= now < planned + MAX_DELAY and not await db.is_slot_posted(slot):
-                    # Avval belgilaymiz: xatolikda ham shu vaqt uchun qayta-qayta urinib kanalni to'ldirib yubormaslik uchun
-                    await db.mark_slot_posted(slot, None)
-                    question_id = await post_random_question(bot, POST_CHANNEL)
-                    await db.mark_slot_posted(slot, question_id)
+                if slot in posted or not planned <= now < planned + MAX_DELAY:
+                    continue
+                if await db.is_slot_posted(slot):
+                    posted.add(slot)
+                    continue
+                # Avval belgilaymiz: xatolikda ham shu vaqt uchun qayta-qayta urinib kanalni to'ldirib yubormaslik uchun
+                posted.add(slot)
+                await db.mark_slot_posted(slot, None)
+                question_id = await post_random_question(bot, POST_CHANNEL)
+                await db.mark_slot_posted(slot, question_id)
         except Exception as e:
             logger.exception(f"Kanalga joylashda xatolik: {e}")
         await asyncio.sleep(CHECK_INTERVAL)
