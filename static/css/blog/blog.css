@@ -221,3 +221,19 @@ body.blog-page {
 .b-footer { text-align: center; color: var(--b-muted); font-size: .88rem; padding: 24px 16px 32px; }
 .b-footer a { color: var(--b-muted); }
 .b-comments { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+
+/* Maqola ichidagi skrinshotlar to'plami va ilovani yuklab olish bloki */
+.b-content .b-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 1.2em 0; }
+.b-content .b-shots figure { margin: 0; text-align: center; }
+.b-content .b-shots img { margin: 0 0 6px; border: 1px solid var(--b-border); border-radius: 14px; }
+.b-content .b-shots figcaption { font-size: .85rem; line-height: 1.35; color: var(--b-muted); }
+@media (max-width: 600px) { .b-content .b-shots { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
+.b-content .b-app {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin: 1.2em 0; padding: 14px 16px;
+  border: 1px solid var(--b-border); border-radius: var(--b-radius); background: var(--b-accent-soft);
+}
+.b-content .b-app img { width: 72px; height: 72px; margin: 0; border-radius: 16px; flex: 0 0 auto; }
+.b-content .b-app > div { flex: 1 1 180px; display: flex; flex-direction: column; line-height: 1.35; }
+.b-content .b-app > div > span { color: var(--b-muted); font-size: .9rem; }
+.b-content a.b-btn { text-decoration: none; }
+@media (max-width: 600px) { .b-content .b-app .b-btn { width: 100%; } }

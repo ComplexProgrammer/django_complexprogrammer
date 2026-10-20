@@ -152,6 +152,8 @@ ALLOWED_ATTRS = {
     "th": {"colspan", "rowspan"},
 }
 IFRAME_HOSTS = ("www.youtube.com", "youtube.com", "www.youtube-nocookie.com", "player.vimeo.com")
+# Begona klasslar olib tashlanadi, faqat blog.css dagi o'zimizning bloklar qoladi (skrinshotlar, ilova kartasi, tugma)
+SAFE_CLASSES = {"div": {"b-shots", "b-app"}, "a": {"b-btn"}}
 
 
 def _safe_url(url, *, image=False):
@@ -186,6 +188,10 @@ class _Cleaner(HTMLParser):
         for name, value in attrs:
             if name in allowed:
                 kept[name] = value if value is not None else ""
+            elif name == "class" and tag in SAFE_CLASSES:
+                classes = [c for c in (value or "").split() if c in SAFE_CLASSES[tag]]
+                if classes:
+                    kept["class"] = " ".join(classes)
         if tag == "a":
             href = _safe_url(kept.get("href"))
             if href is None:
