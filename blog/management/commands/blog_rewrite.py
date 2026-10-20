@@ -38,7 +38,8 @@ def _fields(article):
     for kind in ("name", "title", "body"):
         for lang, sfx in FIELD.items():
             data[f"{kind}_{sfx}"] = article[kind][lang]
-        data[f"{kind}_uz_crl"] = latin_to_cyrillic(article[kind]["uz"])
+        # Oddiy matnli maydonda (nom) translate="no" ishlatib bo'lmaydi — kerak bo'lsa kirillchasi qo'lda beriladi
+        data[f"{kind}_uz_crl"] = article[kind].get("uz_crl") or latin_to_cyrillic(article[kind]["uz"])
     return data
 
 
