@@ -7,13 +7,15 @@ reklama bor, «ma'lumot to'planmaydi», 3+. Skrinshotlar — media/post/images/s
 Maqola bazada yo'q bo'lsa, qoralama sifatida yaratiladi (manage.py blog_rewrite sudoku_app).
 """
 
+from ._apps import GP, SITE, TG_CHANNEL, app_box, ol as _ol, shots, ul as _ul
+
 LANGS = ("uz", "ru", "en")
 PLAY_URL = "https://play.google.com/store/apps/details?id=sudoku.complexprogrammer.uz"
-TG_CHANNEL = "https://t.me/complexprogrammeruzchannel"
 IMG = "/media/post/images/sudoku/"
 APP_NAME = '<span translate="no">Sudoku: Classic Puzzle Game</span>'
-GP = '<span translate="no">Google Play</span>'
-SITE = '<a href="/" translate="no">complexprogrammer.uz</a>'
+META = {"uz": "Android · bepul · internetsiz · o'zbek tilida",
+        "ru": "Android · бесплатно · без интернета",
+        "en": "Android · free · offline"}
 
 SHOTS = [
     ("oyin.jpg", {"uz": "O'yin maydoni", "ru": "Игровое поле", "en": "Game board"}),
@@ -26,32 +28,12 @@ SHOTS = [
 ]
 
 
-def _ul(items):
-    return "<ul>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>"
-
-
-def _ol(items):
-    return "<ol>" + "".join(f"<li>{i}</li>" for i in items) + "</ol>"
-
-
 def _shots(lang):
-    figs = "".join(
-        f'<figure><img src="{IMG}{f}" alt="{cap[lang]}" loading="lazy" decoding="async" width="480" height="1067">'
-        f"<figcaption>{cap[lang]}</figcaption></figure>"
-        for f, cap in SHOTS
-    )
-    return f'<div class="b-shots">{figs}</div>'
+    return shots(IMG, SHOTS, lang)
 
 
 def _app_box(lang):
-    # Ichida <p> yo'q: split_for_ad matnni 3-</p> dan keyin bo'ladi, blok o'rtasidan bo'linib qolmasin
-    meta = {"uz": "Android · bepul · internetsiz · o'zbek tilida",
-            "ru": "Android · бесплатно · без интернета",
-            "en": "Android · free · offline"}[lang]
-    btn = {"uz": f"{GP}dan yuklab olish", "ru": f"Скачать в {GP}", "en": f"Get it on {GP}"}[lang]
-    return (f'<div class="b-app"><img src="{IMG}icon.png" alt="" width="72" height="72">'
-            f"<div><strong>{APP_NAME}</strong><span>{meta}</span></div>"
-            f'<a class="b-btn" href="{PLAY_URL}" target="_blank" rel="noopener">{btn}</a></div>')
+    return app_box(APP_NAME, f"{IMG}icon.png", PLAY_URL, META, lang)
 
 
 def _body(lang):

@@ -188,7 +188,7 @@ body.blog-page {
 .b-content pre { background: #0f172a; color: #e2e8f0; padding: 14px 16px; border-radius: 12px; overflow-x: auto; font-size: .9rem; }
 .b-content code { font-size: .92em; }
 .b-content table { width: 100%; border-collapse: collapse; margin: 1em 0; display: block; overflow-x: auto; }
-.b-content th, .b-content td { border: 1px solid var(--b-border); padding: 8px 10px; text-align: left; }
+.b-content th, .b-content td { border: 1px solid var(--b-border); padding: 8px 10px; text-align: left; overflow-wrap: normal; }
 .b-content th { background: var(--b-accent-soft); }
 .b-content td code { white-space: nowrap; }
 .b-content iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; border-radius: 12px; }
