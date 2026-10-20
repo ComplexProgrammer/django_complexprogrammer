@@ -530,7 +530,7 @@ JAZZMIN_SETTINGS = {
 
 JAZZMIN_UI_TWEAKS = {
     "theme": "flatly",
-    "default_theme_mode": "auto",  # tizim sozlamasiga qarab yorug'/qorong'i (jazzmin 3.0.5+)
+    "dark_mode_theme": "darkly",
     "navbar": "navbar-light",
     "sidebar_nav_flat_style": True,
     "sidebar_nav_compact_style": True,

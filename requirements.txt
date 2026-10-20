@@ -6,7 +6,7 @@ comtypes==1.4.7
 decorator==4.4.2
 distro==1.9.0
 Django==5.2.18  # 5.2 LTS (2028-04 gacha xavfsizlik tuzatishlari)
-django-jazzmin==3.0.5
+django-jazzmin==3.0.0  # 3.0.2+ Bootstrap 5 ga o'tgan — static/css/admin-dark.css va admin-theme-toggle.js Bootstrap 4 uchun yozilgan
 django-ckeditor==6.7.3  # eski migratsiyalar shu paketni import qiladi — olib tashlanmasin
 django-ckeditor-5>=0.2.13,<0.3  # admin muharriri, core/rich_text.py
 django-colorfield==0.11.0
