@@ -15,6 +15,8 @@
   .e-timer.low{color:#ef4444}
   .e-result{text-align:center}
   .e-result .big{font-size:3rem;font-weight:800;line-height:1.1;margin:8px 0}
+  .e-save{margin:16px auto 0;max-width:480px;padding:14px 16px;border-radius:14px;border:2px solid var(--accent);background:rgba(99,102,241,.08)}
+  .e-save p{margin:6px 0 10px;font-size:.9rem;opacity:.9}
 </style>
 </head>
 <body>
@@ -53,7 +55,8 @@
     time: "{{ t.time|escapejs }}", again: "{{ t.again|escapejs }}", review: "{{ t.review|escapejs }}",
     timeUp: "{{ t.time_up|escapejs }}", share: "{{ t.share|escapejs }}", shareText: "{{ t.share_text|escapejs }}",
     ticket: "{{ t.ticket_n|escapejs }}", question: "{{ t.question_n|escapejs }}", login: "{{ t.login_text|escapejs }}",
-    profile: "{{ t.profile|escapejs }}", leaderboard: "{{ t.leaderboard|escapejs }}", channel: "{{ t.channel_cta|escapejs }}"
+    profile: "{{ t.profile|escapejs }}", leaderboard: "{{ t.leaderboard|escapejs }}", channel: "{{ t.channel_cta|escapejs }}",
+    loginTitle: "{{ t.login_title|escapejs }}"
   };
   var LOGGED_IN = {{ user.is_authenticated|yesno:"true,false" }}, TOKEN = "{{ csrf_token }}";
   var answers = {}, cur = 0, started = 0, timerId = null, finished = false;
@@ -143,6 +146,13 @@
         headers: { "Content-Type": "application/json", "X-CSRFToken": TOKEN },
         body: JSON.stringify({ correct: correct, total: Q.length, seconds: seconds })
       }).catch(function () {});
+    } else {
+      // Mehmon natijasi yo'qolmasin: Telegram orqali kirgach _sync.html uni profilga yuboradi
+      try {
+        var pend = JSON.parse(localStorage.getItem("cpPendingExams") || "[]");
+        pend.push({ correct: correct, total: Q.length, seconds: seconds });
+        localStorage.setItem("cpPendingExams", JSON.stringify(pend.slice(-5)));
+      } catch (e) {}
     }
     $("exam").hidden = true;
     var shareUrl = location.origin + PREFIX + "/avtotest/imtihon/natija/?c=" + correct + "&t=" + Q.length;
@@ -158,7 +168,8 @@
       '<button type="button" class="d-btn green" id="share">📤 ' + esc(T.share) + "</button></div>" +
       (LOGGED_IN
         ? '<p><a href="' + PREFIX + '/profil/">' + esc(T.profile) + '</a> · <a href="' + PREFIX + '/avtotest/reyting/">' + esc(T.leaderboard) + "</a></p>"
-        : '<p class="d-meta">' + esc(T.login) + ' <a href="' + PREFIX + '/profil/">' + esc(T.profile) + " →</a></p>") +
+        : '<div class="e-save"><b>💾 ' + esc(T.loginTitle) + "</b><p>" + esc(T.login) + "</p>" +
+          '<a class="d-btn" href="' + PREFIX + '/profil/">✈️ Telegram →</a></div>') +
       '<p style="margin-top:12px"><a class="d-btn alt" href="https://t.me/complexprogrammeruzchannel" target="_blank" rel="noopener">📢 ' + esc(T.channel) + "</a></p>";
     $("result").hidden = false;
     window.scrollTo({ top: 0, behavior: "smooth" });

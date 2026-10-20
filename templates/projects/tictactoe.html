@@ -61,6 +61,8 @@
     </div>
 </div>
 {% include 'comment_form.html' %}
+<script src="/static/js/game-kit.js"></script>
+<script>CPGame.init({ id: "tictactoe", title: "Tic Tac Toe", mode: "wins", before: document.querySelector(".TicTacToeBody") });</script>
 <script src="/static/Games/TicTacToe/script.js"></script>
 </body>
 </html>

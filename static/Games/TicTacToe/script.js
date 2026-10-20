@@ -101,6 +101,8 @@ function selectWinner(){ //if the one of following winning combination match the
             playBoard.classList.remove("show");
         }, 700); //1s = 1000ms
         wonText.innerHTML = `Player <p>${playerSign}</p> won the game!`; //displaying winning text with passing playerSign (X or O)
+        // Foydalanuvchi "O"ni tanlagan bo'lsa players'da "player" klassi bor
+        if (window.CPGame && playerSign === (players.classList.contains("player") ? "O" : "X")) CPGame.win();
     }else{ //if all boxes/element have id value and still no one win then draw the match
         if(getIdVal(1) != "" && getIdVal(2) != "" && getIdVal(3) != "" && getIdVal(4) != "" && getIdVal(5) != "" && getIdVal(6) != "" && getIdVal(7) != "" && getIdVal(8) != "" && getIdVal(9) != ""){
             runBot = false; //passing the false boolen value to runBot so bot won't run again

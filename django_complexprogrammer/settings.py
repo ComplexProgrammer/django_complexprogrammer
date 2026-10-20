@@ -427,6 +427,9 @@ EMAIL_HOST_USER = "complexprogrammer@mail.ru"
 EMAIL_HOST_PASSWORD = config("EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = "complexprogrammer@mail.ru"
 SERVER_EMAIL = "complexprogrammer@mail.ru"
+# Izohlarda shu email bilan yozilgan javob "✔ Complex Programmer" belgisi bilan chiqadi.
+# Bu emailni faqat admin panelga kirgan xodim ishlata oladi.
+COMMENTS_OFFICIAL_EMAIL = "complexprogrammer@mail.ru"
 
 
 JAZZMIN_SETTINGS = {

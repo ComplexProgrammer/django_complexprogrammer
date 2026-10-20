@@ -9,7 +9,7 @@
         </div>
         <div class="flex-grow-1">
           <div class="d-flex align-items-center justify-content-between">
-            <h6 class="mb-0 fw-semibold">{{ reply.username }}</h6>
+            <h6 class="mb-0 fw-semibold">{{ reply.username }}{% if reply.is_official %} <span class="badge bg-primary">✔ Complex Programmer</span>{% endif %}</h6>
             <small class="text-muted ms-2">
               <i class="far fa-clock me-1"></i>{{ reply.created_at|date:"d.m.Y H:i" }}
             </small>

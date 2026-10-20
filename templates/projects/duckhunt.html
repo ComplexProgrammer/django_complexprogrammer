@@ -28,7 +28,7 @@
     <a href="/" style="text-decoration:none;background-color:red;position:fixed;z-index:1">Go Back</a>
     <br />
     <br />
-    <a href="/DuckHunt" style="text-decoration:none;background-color:green;position:fixed;z-index:1">Refresh</a>
+    <a href="/duckhunt/" style="text-decoration:none;background-color:green;position:fixed;z-index:1">Refresh</a>
     <input type="checkbox" class="shoot_check" id="duck1" />
     <label for="duck1" class="duck"></label>
 
@@ -59,6 +59,26 @@
     <input type="checkbox" class="shoot_check" id="duck10" />
     <label for="duck10" class="duck"></label>
     <div class="score"></div>
+    <script src="/static/js/game-kit.js"></script>
+    <script>
+        // Rekord — 10 ta o'rdakning hammasini otish uchun ketgan eng qisqa vaqt
+        (function () {
+            var bar = document.createElement("div");
+            bar.style.cssText = "position:fixed;top:70px;right:10px;z-index:3;max-width:92vw";
+            var slot = bar.appendChild(document.createElement("span"));  // panel shu joyga (qotirilgan blok ichiga) qo'yiladi
+            document.body.appendChild(bar);
+            CPGame.init({ id: "duckhunt", title: "Duck Hunt", mode: "time", before: slot });
+            var ducks = document.querySelectorAll(".shoot_check"), started = 0;
+            ducks.forEach(function (d) {
+                d.addEventListener("change", function () {
+                    if (!started) started = Date.now();
+                    var shot = document.querySelectorAll(".shoot_check:checked").length;
+                    var sec = Math.round((Date.now() - started) / 1000);
+                    if (shot === ducks.length) CPGame.over(Math.max(1, sec)); else CPGame.score(sec);
+                });
+            });
+        })();
+    </script>
     {% include 'comment_form.html' %}
 </body>
 </html>

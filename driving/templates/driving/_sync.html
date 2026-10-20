@@ -37,6 +37,18 @@
     answered: function (ok) { pending.answered++; if (ok) pending.correct++; this.schedule(); }
   };
   window.addEventListener("pagehide", function () { if (timer || pending.answered) push(true); });
+  // Kirishdan oldin (mehmon sifatida) topshirilgan imtihonlar — exam.html cpPendingExams'ga yozadi
+  (function () {
+    var KP = "cpPendingExams", list;
+    try { list = JSON.parse(localStorage.getItem(KP) || "[]"); localStorage.removeItem(KP); } catch (e) { return; }
+    (list || []).forEach(function (r) {
+      fetch("/api/avtotest/exam/", {
+        method: "POST", credentials: "same-origin",
+        headers: { "Content-Type": "application/json", "X-CSRFToken": TOKEN },
+        body: JSON.stringify(r)
+      }).catch(function () {});
+    });
+  })();
   // Boshqa qurilmadagi natijalar kelsa, ro'yxat sahifalari bir marta yangilanadi
   push().then(function (changed) {
     var listPage = /^\/((ru|en)\/)?(avtotest\/|avtotest\/xatolar\/|profil\/)$/.test(location.pathname);

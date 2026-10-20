@@ -4,23 +4,35 @@
  *
  *   CPGame.init({ id: "snake", title: "Snake", mount: element })  // panel mount'dan keyin
  *   CPGame.init({ id: "car", title: "Car", before: element })     // yoki element'dan oldin
+ *   CPGame.init({ ..., mode: "wins" })  // kompyuterga qarshi: g'alabalar soni (CPGame.win())
+ *   CPGame.init({ ..., mode: "time" })  // eng tez vaqt, soniya (kamroq — yaxshiroq)
  *   CPGame.score(n)   — joriy hisobni ko'rsatish
  *   CPGame.over(n)    — o'yin tugadi: rekord bo'lsa saqlanadi
- *   CPGame.swipe(el, fn) — telefonda barmoq surish: fn("left"|"right"|"up"|"down")
+ *   CPGame.win()      — "wins" rejimida g'alabani qo'shish
+ *   CPGame.swipe(el, fn) — telefonda barmoq surish: fn("left"|"right"|"up"|"down"|"tap")
  */
 (function () {
   var T = {
-    uz: { score: "Hisob", best: "Rekord", record: "🎉 Yangi rekord!", share: "Ulashish",
-          msg: "{game} o'yinida {score} ball to'pladim! Rekordimni yangilab ko'r 👇" },
-    ru: { score: "Счёт", best: "Рекорд", record: "🎉 Новый рекорд!", share: "Поделиться",
-          msg: "Я набрал {score} очков в {game}! Попробуй побить мой рекорд 👇" },
-    en: { score: "Score", best: "Best", record: "🎉 New record!", share: "Share",
-          msg: "I scored {score} in {game}! Try to beat my record 👇" },
+    uz: { score: "Hisob", best: "Rekord", wins: "G'alabalar", time: "Vaqt", sec: "s",
+          record: "🎉 Yangi rekord!", won: "🎉 G'alaba!", share: "Ulashish",
+          msg: "{game} o'yinida {score} ball to'pladim! Rekordimni yangilab ko'r 👇",
+          msgWins: "{game} o'yinida kompyuterni {score} marta yutdim! Sen-chi? 👇",
+          msgTime: "{game} o'yinini {score} soniyada tugatdim! Tezroq qila olasanmi? 👇" },
+    ru: { score: "Счёт", best: "Рекорд", wins: "Победы", time: "Время", sec: "с",
+          record: "🎉 Новый рекорд!", won: "🎉 Победа!", share: "Поделиться",
+          msg: "Я набрал {score} очков в {game}! Попробуй побить мой рекорд 👇",
+          msgWins: "Я обыграл компьютер в {game} {score} раз! А ты? 👇",
+          msgTime: "Я прошёл {game} за {score} секунд! Сможешь быстрее? 👇" },
+    en: { score: "Score", best: "Best", wins: "Wins", time: "Time", sec: "s",
+          record: "🎉 New record!", won: "🎉 You won!", share: "Share",
+          msg: "I scored {score} in {game}! Try to beat my record 👇",
+          msgWins: "I beat the computer in {game} {score} times! Can you? 👇",
+          msgTime: "I finished {game} in {score} seconds! Can you do it faster? 👇" },
   };
   var lang = (document.documentElement.lang || "uz").slice(0, 2);
   var t = T[lang] || T.uz;
 
-  var state = { id: "", title: "", best: 0, last: 0, els: {} };
+  var state = { id: "", title: "", mode: "score", best: 0, last: 0, els: {} };
 
   function load(key) {
     try { return parseInt(localStorage.getItem(key), 10) || 0; } catch (e) { return 0; }
@@ -29,26 +41,38 @@
     try { localStorage.setItem(key, String(value)); } catch (e) {}
   }
   function key() { return "cpGameBest:" + state.id; }
+  function unit() { return state.mode === "time" ? " " + t.sec : ""; }
 
   function render() {
-    state.els.score.textContent = state.last;
-    state.els.best.textContent = state.best;
+    state.els.score.textContent = state.last + unit();
+    state.els.best.textContent = state.best ? state.best + unit() : "—";
     state.els.share.hidden = state.best <= 0;
+  }
+
+  function flash(text) {
+    if (!state.els.flash) return;
+    state.els.flash.textContent = text;
+    state.els.flash.hidden = false;
+    setTimeout(function () { state.els.flash.hidden = true; }, 4000);
   }
 
   function init(opts) {
     state.id = opts.id;
     state.title = opts.title || opts.id;
+    state.mode = opts.mode || "score";
     state.best = load(key());
 
+    var current = state.mode === "time" ? t.time : t.score;
+    var best = state.mode === "wins" ? t.wins : t.best;
     var box = document.createElement("div");
     box.className = "cp-game-bar";
     box.innerHTML =
-      '<span>' + t.score + ': <b data-k="score">0</b></span>' +
-      '<span>🏆 ' + t.best + ': <b data-k="best">0</b></span>' +
-      '<span class="cp-game-flash" data-k="flash" hidden>' + t.record + '</span>' +
+      (state.mode === "wins" ? "" : '<span>' + current + ': <b data-k="score">0</b></span>') +
+      '<span>🏆 ' + best + ': <b data-k="best">0</b></span>' +
+      '<span class="cp-game-flash" data-k="flash" hidden></span>' +
       '<button type="button" data-k="share">📤 ' + t.share + '</button>';
-    ["score", "best", "flash", "share"].forEach(function (k) {
+    state.els.score = box.querySelector('[data-k="score"]') || document.createElement("b");
+    ["best", "flash", "share"].forEach(function (k) {
       state.els[k] = box.querySelector('[data-k="' + k + '"]');
     });
     state.els.share.addEventListener("click", share);
@@ -56,7 +80,7 @@
     var style = document.createElement("style");
     style.textContent =
       ".cp-game-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:10px 0;padding:10px 14px;" +
-      "border-radius:12px;background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.25);font-size:1rem}" +
+      "border-radius:12px;background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.25);font-size:1rem;position:relative;z-index:2}" +
       ".cp-game-bar b{font-size:1.15rem}.cp-game-flash{color:#16a34a;font-weight:700}" +
       ".cp-game-bar button{margin-left:auto;border:0;border-radius:10px;padding:6px 12px;background:#4f46e5;color:#fff;font-weight:600}";
     document.head.appendChild(style);
@@ -74,25 +98,35 @@
 
   function score(n) {
     state.last = Math.max(0, n | 0);
-    if (state.els.score) state.els.score.textContent = state.last;
+    if (state.els.score) state.els.score.textContent = state.last + unit();
+  }
+
+  function isRecord(n) {
+    if (state.mode === "time") return n > 0 && (!state.best || n < state.best);
+    return n > state.best;
+  }
+
+  function newRecord(value, text) {
+    state.best = value;
+    save(key(), state.best);
+    flash(text);
+    if (window.gtag) window.gtag("event", "game_record", { game: state.id, score: state.best });
   }
 
   function over(n) {
     score(n);
-    if (state.last > state.best) {
-      state.best = state.last;
-      save(key(), state.best);
-      if (state.els.flash) {
-        state.els.flash.hidden = false;
-        setTimeout(function () { state.els.flash.hidden = true; }, 4000);
-      }
-      if (window.gtag) window.gtag("event", "game_record", { game: state.id, score: state.best });
-    }
+    if (isRecord(state.last)) newRecord(state.last, t.record);
+    if (state.els.best) render();
+  }
+
+  function win() {
+    newRecord(state.best + 1, t.won);
     if (state.els.best) render();
   }
 
   function share() {
-    var text = t.msg.replace("{game}", state.title).replace("{score}", state.best);
+    var tpl = state.mode === "wins" ? t.msgWins : state.mode === "time" ? t.msgTime : t.msg;
+    var text = tpl.replace("{game}", state.title).replace("{score}", state.best);
     var url = location.origin + location.pathname;
     if (navigator.share) {
       navigator.share({ title: state.title, text: text, url: url }).catch(function () {});
@@ -119,5 +153,5 @@
     });
   }
 
-  window.CPGame = { init: init, score: score, over: over, swipe: swipe };
+  window.CPGame = { init: init, score: score, over: over, win: win, swipe: swipe };
 })();

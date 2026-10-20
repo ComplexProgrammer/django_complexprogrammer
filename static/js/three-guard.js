@@ -16,8 +16,13 @@
     return !!(window.matchMedia && window.matchMedia(q).matches);
   }
 
+  // Ichki sahifalarda 3D fon o'chirilgan: u faqat bosh sahifada (base.html) va /avtotest/ da qoldi.
+  // Bu sahifalarda ham kompyuterda yoqish uchun true qiling.
+  var DESKTOP_3D = false;
+
   var conn = navigator.connection || {};
   var enabled =
+    DESKTOP_3D &&
     !media("(max-width: 991px)") &&
     !media("(pointer: coarse)") &&
     !media("(prefers-reduced-motion: reduce)") &&

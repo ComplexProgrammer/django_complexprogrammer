@@ -77,6 +77,9 @@ urlpatterns += [
     path("tests/", include("tests.urls")),
     path("pdf_tools/", include("pdf_tools.urls")),
     path("markets/", include("markets.urls")),
+    # "BTC Markets" loyihasining manzili (bazada url="market") — kripto bozorlar sahifasi
+    path("market", RedirectView.as_view(url="/cryptomarket/", permanent=True)),
+    path("market/", RedirectView.as_view(url="/cryptomarket/", permanent=True)),
     path("news/", include("news.urls")),
     path("blog/", include("blog.urls")),
     path("", include("comments.urls")),

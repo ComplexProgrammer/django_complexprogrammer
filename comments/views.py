@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.contrib import messages
+from django.utils import timezone
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -45,10 +48,15 @@ def add_comment(request):
 
     form = CommentForm(request.POST)
     if not form.is_valid():
-        messages.error(request, "Izoh yuborilmadi: maydonlarni to'g'ri to'ldiring.")
+        reason = form.errors.get("text")
+        messages.error(request, f"Izoh yuborilmadi: {reason[0] if reason else 'maydonlarni to‘g‘ri to‘ldiring.'}")
         return _safe_redirect(request, back_url)
 
     comment = form.save(commit=False)
+    # Rasmiy javob belgisi soxtalashtirilmasin: bu email faqat xodimlarga
+    if comment.is_official and not request.user.is_staff:
+        messages.error(request, "Bu email manzilidan foydalanib bo'lmaydi.")
+        return _safe_redirect(request, back_url)
     comment.page_url = normalize_page_url(back_url)
     parent = None
     parent_id = request.POST.get("parent_id")
@@ -58,6 +66,18 @@ def add_comment(request):
             return _safe_redirect(request, back_url)
         comment.parent = parent
         comment.page_url = parent.page_url
+
+    # Takror yuborish (ikki marta bosish, sahifani yangilash): bazadagi izohlarning ~44% shunday edi
+    duplicate = Comment.objects.filter(
+        page_url=comment.page_url,
+        email__iexact=comment.email,
+        text=comment.text,
+        parent=parent,
+        created_at__gte=timezone.now() - timedelta(hours=24),
+    ).exists()
+    if duplicate:
+        messages.info(request, "Bu izoh allaqachon qoldirilgan.")
+        return _safe_redirect(request, back_url)
     comment.save()
     cache.set(rate_key, sent + 1, RATE_LIMIT_SECONDS)
 

@@ -37,6 +37,7 @@
     }
     function stop() {
         playing = false;
+        if (window.CPGame) CPGame.over(score);
         startScreen.classList.remove('hide');
         startScreen.innerHTML = "<div class='Rasm'></div><br /> O'yin tugadi <br /> Sizning yakuniy hisobingiz " + score +
         "<br /> O'yinni qayta boshlash uchun shu yerni bosing.";

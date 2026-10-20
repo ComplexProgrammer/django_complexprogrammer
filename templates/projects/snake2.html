@@ -60,6 +60,8 @@
         </div>
 
         <canvas id="gameCanvas" width="800" height="400"></canvas>
+        <script src="/static/js/game-kit.js"></script>
+        <script>CPGame.init({ id: "snake2", title: "Snake 2", mode: "wins", before: document.getElementById("gameCanvas") });</script>
 
         {% include 'comment_form.html' %}
     </div>
@@ -124,6 +126,7 @@
             if(player1Score >= WINNING_SCORE ||
                 player2Score >= WINNING_SCORE) {
                 showingWinScreen = true;
+                if (player1Score >= WINNING_SCORE && window.CPGame) CPGame.win();  // kompyuterni yutdi
             }
             ballSpeedX = -ballSpeedX;
             ballX = canvas.width/2;

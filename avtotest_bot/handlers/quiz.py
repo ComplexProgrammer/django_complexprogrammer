@@ -14,6 +14,8 @@ from ..keyboards import (
     get_question_keyboard,
     get_finish_keyboard,
     get_main_reply_keyboard,
+    get_remind_ask_keyboard,
+    progress_bar,
 )
 
 logger = logging.getLogger(__name__)
@@ -87,6 +89,7 @@ async def render_question(
         title=session["title"],
         current=current_idx + 1,
         total=len(question_ids),
+        bar=progress_bar(current_idx, len(question_ids)),
     )
 
     caption_lines = [header, f"<b>{q_name}</b>\n"]
@@ -317,7 +320,7 @@ async def finish_quiz(
 
     passed = percentage >= PASSING_PERCENTAGE
     status_text = get_text("result_passed" if passed else "result_failed", lang)
-    final_text = f"{header}{info}{status_text}"
+    final_text = f"{header}{info}{status_text}" + (get_text("invite_hint", lang) if passed else "")
 
     # Keyingi bilet mavjudligini tekshirish (agar bilet rejimi bo'lsa)
     has_next_bilet = False
@@ -336,12 +339,22 @@ async def finish_quiz(
                 next_bilet_num = next_topic["number"]
 
     has_mistakes = mistakes > 0
+    # "Qaytadan ishlash" — avval doim 1-biletni ochardi; endi xuddi shu bilet / rejim qayta boshlanadi
+    if session["mode"] == "bilet" and session.get("topic_id"):
+        retry_data = f"bilet:{session['topic_id']}"
+    elif session["mode"] == "mistakes":
+        retry_data = "practice_mistakes"
+    elif session["mode"] in ("exam", "quick", "cdl"):
+        retry_data = f"retry:{session['mode']}"
+    else:
+        retry_data = "retry_quiz"
     finish_kb = get_finish_keyboard(
         has_next_bilet=has_next_bilet,
         next_topic_id=next_topic_id,
         next_bilet_num=next_bilet_num,
         has_mistakes=has_mistakes,
         lang=lang,
+        retry_data=retry_data,
     )
 
     if old_msg_id:
@@ -353,6 +366,47 @@ async def finish_quiz(
     await bot.send_message(
         chat_id=chat_id, text=final_text, reply_markup=finish_kb, parse_mode="HTML"
     )
+
+    # Birinchi tugatilgan testdan keyin — kunlik eslatma haqida bir marta so'raymiz
+    if await db.claim_remind_question(user_id):
+        await bot.send_message(
+            chat_id=chat_id,
+            text=get_text("remind_ask", lang),
+            reply_markup=get_remind_ask_keyboard(lang),
+            parse_mode="HTML",
+        )
+
+
+@router.callback_query(F.data.startswith("remind:"))
+async def cb_remind_answer(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    lang = await db.get_user_lang(user_id)
+    enabled = await db.toggle_remind(user_id, enable=callback.data == "remind:on")
+    try:
+        await callback.message.edit_text(
+            get_text("remind_on" if enabled else "remind_declined", lang), parse_mode="HTML"
+        )
+    except TelegramBadRequest:
+        pass
+    await callback.answer()
+
+
+@router.callback_query(F.data == "resume_quiz")
+async def cb_resume_quiz(callback: CallbackQuery, bot: Bot):
+    """"Davom ettirish" (eslatma xabaridan): to'xtatilgan testni o'sha savoldan davom ettiradi."""
+    user_id = callback.from_user.id
+    session = await db.get_session(user_id)
+    if not session:
+        lang = await db.get_user_lang(user_id)
+        await callback.answer(get_text("no_session", lang), show_alert=True)
+        return
+    idx = session["current_index"]
+    if idx < len(session["question_ids"]) and str(session["question_ids"][idx]) in session["answers_history"]:
+        # Javob berib, "Keyingi"ni bosmay chiqib ketgan — keyingi savoldan davom etamiz
+        await db.advance_session_index(user_id)
+        session = await db.get_session(user_id)
+    await render_question(bot, callback.message.chat.id, user_id, session, old_message_id=callback.message.message_id)
+    await callback.answer()
 
 
 @router.callback_query(F.data == "retry_quiz")

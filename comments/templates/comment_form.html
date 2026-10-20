@@ -28,6 +28,15 @@
         localStorage.setItem("commentEmail", email);
       });
   });
+
+  // Ikki marta bosilganda izoh ikki marta saqlanmasin (javob formalari keyin yaratiladi — shuning uchun document darajasida)
+  document.addEventListener("submit", function (e) {
+    var form = e.target;
+    if (!form.action || form.action.indexOf("/add-comment/") === -1) return;
+    if (form.dataset.sent) { e.preventDefault(); return; }
+    form.dataset.sent = "1";
+    form.querySelectorAll('button[type="submit"]').forEach(function (b) { b.disabled = true; });
+  });
 </script>
 
 <div class="container mt-4">
@@ -78,6 +87,42 @@
     </div>
     {% endfor %}
   </div></div>
+  {% endif %}
+  {% if request.path_info|slice:":10" == "/avtotest/" or request.path_info|slice:":7" == "/tests/" %}
+  {# Izohlarda eng ko'p so'raladigan savollar — ko'pchiligi bu saytga aloqasi yo'q xizmatlar haqida #}
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+      <div class="cp-faq">
+        <h5>❓ Ko'p so'raladigan savollar</h5>
+        <details>
+          <summary>Uy-joy navbati, "nechanchi o'rindaman" — qayerdan ko'raman?</summary>
+          <p>Bu sayt <b>uy-joy navbati yoki boshqa davlat xizmati emas</b> — bu yerda faqat haydovchilik imtihoniga tayyorlanish mumkin.
+            Navbat va arizalar holatini rasmiy davlat xizmatlari portalidan (<a href="https://my.gov.uz" target="_blank" rel="noopener">my.gov.uz</a>) yoki tegishli tashkilotdan bilib oling.</p>
+        </details>
+        <details>
+          <summary>Mobil ilova ochilmayapti / kirib bo'lmayapti</summary>
+          <p>Saytning o'zi telefonda ham to'liq ishlaydi va ilovasiz ham ishlatish mumkin. Brauzer menyusidagi
+            "Bosh ekranga qo'shish" tugmasi saytni ilova kabi o'rnatadi. Telegram'da: <a href="https://t.me/AvtoTestUzbBot" target="_blank" rel="noopener">@AvtoTestUzbBot</a>.</p>
+        </details>
+        <details>
+          <summary>Natijalarim qayerda saqlanadi?</summary>
+          <p>Yechgan biletlaringiz shu brauzerda saqlanadi. Telefon almashtirsangiz ham yo'qolmasligi uchun
+            <a href="{{ lang_prefix }}/profil/">Telegram orqali kiring</a> — natijalar akkauntingizga bog'lanadi.</p>
+        </details>
+        <details>
+          <summary>Haqiqiy imtihonga o'xshash test bormi?</summary>
+          <p>Ha — <a href="{{ lang_prefix }}/avtotest/imtihon/">imtihon simulyatori</a>: 20 ta tasodifiy savol, 25 daqiqa, 2 tadan ortiq xato — "yiqildingiz".</p>
+        </details>
+      </div>
+    </div>
+  </div>
+  <style>
+    .cp-faq{padding:16px 18px;border-radius:14px;border:1px solid rgba(79,70,229,.25);background:rgba(79,70,229,.05)}
+    .cp-faq h5{margin:0 0 10px;font-weight:700}
+    .cp-faq details{padding:8px 0;border-top:1px solid rgba(100,116,139,.2)}
+    .cp-faq summary{cursor:pointer;font-weight:600}
+    .cp-faq p{margin:8px 0 0;opacity:.9}
+  </style>
   {% endif %}
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -130,7 +175,8 @@
                 class="form-control"
                 rows="4"
                 required
-                placeholder="Izohingizni kiriting..."
+                placeholder="{% if request.path_info|slice:':10' == '/avtotest/' %}Bu savol yoki bilet haqida fikringiz, savolingiz...{% else %}Izohingizni kiriting...{% endif %}"
+                minlength="5"
                 style="resize: vertical; min-height: 100px"
               ></textarea>
             </div>
@@ -152,7 +198,7 @@
             <div class="d-flex align-items-center mb-2">
               <i class="fas fa-user-circle fs-4 me-2 text-primary"></i>
               <div>
-                <h6 class="mb-0">{{ comment.username }}</h6>
+                <h6 class="mb-0">{{ comment.username }}{% if comment.is_official %} <span class="badge bg-primary">✔ Complex Programmer</span>{% endif %}</h6>
                 <small class="text-muted"
                   >{{ comment.created_at|date:"d.m.Y H:i" }}</small
                 >

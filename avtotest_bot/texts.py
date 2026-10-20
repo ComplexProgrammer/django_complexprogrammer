@@ -25,11 +25,28 @@ TEXTS = {
         "btn_lang": "🌐 Tilni o'zgartirish",
         "btn_help": "ℹ️ Bot haqida",
         "btn_webapp": "📱 Saytda imtihon",
+        "btn_quick": "⚡ Tezkor mashq (5 savol)",
+        "quick_title": "⚡ Tezkor mashq (5 savol)",
+        "remind_ask": (
+            "⏰ <b>Har kuni eslatib turaymi?</b>\n\n"
+            "Kechqurun, agar o'sha kuni mashq qilmagan bo'lsangiz, bitta qisqa xabar yuboraman. "
+            "Kuniga 10 ta savol — imtihonga eng ishonchli tayyorgarlik."
+        ),
+        "btn_remind_yes": "✅ Ha, eslatib tur",
+        "btn_remind_no": "Kerak emas",
+        "remind_declined": "Yaxshi, eslatma yubormayman. Fikringiz o'zgarsa: /eslatma",
+        "resume_nudge": (
+            "📌 <b>{title}</b> testini {done}/{total} savolda to'xtatib qo'ygansiz.\n\n"
+            "Qolgan {left} ta savolni hozir tugatamizmi?"
+        ),
+        "btn_resume": "▶️ Davom ettirish",
+        "no_session": "Faol test topilmadi. Bosh menyudan yangisini boshlang.",
+        "invite_hint": "\n\n🤝 Imtihonga tayyorlanayotgan do'stingiz bormi? /taklif",
         # Biletlar bo'limi
         "bilet_title": "🚗 <b>Biletni tanlang:</b>\n<i>(Har bir biletda 10 tadan savol bor)</i>",
         "page_info": "Sahifa: {page}/{total_pages}",
         # Test jarayoni
-        "question_header": "🚗 <b>{title}</b>\n📌 <b>Savol {current}/{total}:</b>\n\n",
+        "question_header": "🚗 <b>{title}</b>\n📌 <b>Savol {current}/{total}</b>  {bar}\n\n",
         "correct_answer_feedback": "✅ <b>To'g'ri javob! Barakalla!</b>",
         "wrong_answer_feedback": "❌ <b>Noto'g'ri javob!</b>\n\nTo'g'ri javob: <b>{correct_text}</b>",
         "btn_next_question": "Keyingi savol ➡️",
@@ -124,11 +141,28 @@ TEXTS = {
         "btn_lang": "🌐 Сменить язык",
         "btn_help": "ℹ️ О боте",
         "btn_webapp": "📱 Экзамен на сайте",
+        "btn_quick": "⚡ Быстрая тренировка (5 вопросов)",
+        "quick_title": "⚡ Быстрая тренировка (5 вопросов)",
+        "remind_ask": (
+            "⏰ <b>Напоминать каждый день?</b>\n\n"
+            "Вечером, если вы ещё не занимались в этот день, я пришлю одно короткое сообщение. "
+            "10 вопросов в день — самая надёжная подготовка к экзамену."
+        ),
+        "btn_remind_yes": "✅ Да, напоминай",
+        "btn_remind_no": "Не нужно",
+        "remind_declined": "Хорошо, напоминаний не будет. Если передумаете: /eslatma",
+        "resume_nudge": (
+            "📌 Вы остановились на тесте <b>{title}</b> на вопросе {done}/{total}.\n\n"
+            "Закончим оставшиеся {left} вопросов?"
+        ),
+        "btn_resume": "▶️ Продолжить",
+        "no_session": "Активный тест не найден. Начните новый из главного меню.",
+        "invite_hint": "\n\n🤝 Есть друг, который готовится к экзамену? /taklif",
         # Билеты
         "bilet_title": "🚗 <b>Выберите билет:</b>\n<i>(В каждом билете по 10 вопросов)</i>",
         "page_info": "Страница: {page}/{total_pages}",
         # Процесс теста
-        "question_header": "🚗 <b>{title}</b>\n📌 <b>Вопрос {current}/{total}:</b>\n\n",
+        "question_header": "🚗 <b>{title}</b>\n📌 <b>Вопрос {current}/{total}</b>  {bar}\n\n",
         "correct_answer_feedback": "✅ <b>Правильный ответ! Отлично!</b>",
         "wrong_answer_feedback": "❌ <b>Неправильный ответ!</b>\n\nПравильный ответ: <b>{correct_text}</b>",
         "btn_next_question": "Следующий вопрос ➡️",

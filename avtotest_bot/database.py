@@ -112,6 +112,14 @@ class Database:
                 await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN last_reminded TEXT")
             if "referred_by" not in columns:
                 await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN referred_by INTEGER")
+            # Eslatma haqida bir marta so'raldimi (remind=0 bo'lsa: hali so'ralmagan yoki rad etgan)
+            if "remind_asked" not in columns:
+                await db.execute("ALTER TABLE avtotest_bot_users ADD COLUMN remind_asked INTEGER DEFAULT 0")
+            async with db.execute("PRAGMA table_info(avtotest_bot_sessions)") as cur:
+                session_columns = {row["name"] for row in await cur.fetchall()}
+            # Tugallanmagan test haqida "davom ettiramizmi?" xabari yuborildimi
+            if "nudged" not in session_columns:
+                await db.execute("ALTER TABLE avtotest_bot_sessions ADD COLUMN nudged INTEGER DEFAULT 0")
 
             await db.commit()
             logger.info("Bot ma'lumotlar bazasi jadvallari muvaffaqiyatli tekshirildi.")
@@ -254,11 +262,51 @@ class Database:
                     row = await cur.fetchone()
                 enable = not (row and row["remind"])
             await db.execute(
-                "UPDATE avtotest_bot_users SET remind = ? WHERE user_id = ?",
+                "UPDATE avtotest_bot_users SET remind = ?, remind_asked = 1 WHERE user_id = ?",
                 (1 if enable else 0, user_id),
             )
             await db.commit()
             return enable
+
+    async def claim_remind_question(self, user_id: int) -> bool:
+        """Eslatma hali yoqilmagan va bu haqda hali so'ralmagan bo'lsa — True (va "so'raldi" deb belgilaydi).
+
+        Avval eslatma faqat /eslatma bilan yoqilardi va 96 foydalanuvchidan hech biri yoqmagan edi.
+        """
+        async with self.connect() as db:
+            cur = await db.execute(
+                "UPDATE avtotest_bot_users SET remind_asked = 1 "
+                "WHERE user_id = ? AND COALESCE(remind, 0) = 0 AND COALESCE(remind_asked, 0) = 0",
+                (user_id,),
+            )
+            await db.commit()
+            return cur.rowcount == 1
+
+    async def get_unfinished_sessions(self, started_before: str, started_after: str) -> List[Dict[str, Any]]:
+        """Boshlangan, lekin oxiriga yetmagan va hali eslatilmagan testlar.
+
+        Eslatmani ochiq rad etganlar (remind_asked=1, remind=0) bezovta qilinmaydi.
+        """
+        async with self.connect() as db:
+            async with db.execute(
+                """
+                SELECT s.user_id, s.title, s.current_index, s.question_ids, u.lang
+                FROM avtotest_bot_sessions s
+                JOIN avtotest_bot_users u ON u.user_id = s.user_id
+                WHERE COALESCE(s.nudged, 0) = 0
+                  AND s.current_index > 0
+                  AND s.started_at < ?
+                  AND s.started_at > ?
+                  AND NOT (COALESCE(u.remind_asked, 0) = 1 AND COALESCE(u.remind, 0) = 0)
+            """,
+                (started_before, started_after),
+            ) as cur:
+                return [dict(r) for r in await cur.fetchall()]
+
+    async def mark_session_nudged(self, user_id: int):
+        async with self.connect() as db:
+            await db.execute("UPDATE avtotest_bot_sessions SET nudged = 1 WHERE user_id = ?", (user_id,))
+            await db.commit()
 
     async def get_users_to_remind(self, today: str) -> List[Dict[str, Any]]:
         """Eslatma yoqilgan, bugun botda faol bo'lmagan va bugun eslatma olmaganlar."""

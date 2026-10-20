@@ -28,6 +28,7 @@ async def set_bot_commands(bot: Bot):
     commands = [
         BotCommand(command="start", description="Botni qayta ishga tushirish 🔄"),
         BotCommand(command="bilets", description="Biletlar ro'yxati (1-108) 🚗"),
+        BotCommand(command="tezkor", description="Tezkor mashq (5 savol) ⚡"),
         BotCommand(command="exam", description="Tasodifiy imtihon (20 savol) 🎲"),
         BotCommand(command="mistakes", description="Xatolar ustida ishlash ❌"),
         BotCommand(command="stats", description="Mening natijalarim 📊"),

@@ -51,5 +51,6 @@ CDL_USA_BOOK_ID = 1  # AQSh CDL testi (191 savol)
 # Test rejimlari
 BILET_QUESTIONS_COUNT = 10  # Har bir biletda 10 ta savol
 EXAM_QUESTIONS_COUNT = 20  # Imtihonda 20 ta savol
+QUICK_QUESTIONS_COUNT = 5  # Tezkor mashqda 5 ta savol
 PASSING_PERCENTAGE = 90  # O'tish bali (90%)
 DEFAULT_LANG = "uz"  # Asosiy til

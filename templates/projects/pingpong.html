@@ -61,6 +61,8 @@
         </div>
 
         <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <script src="/static/js/game-kit.js"></script>
+        <script>CPGame.init({ id: "pingpong", title: "Ping Pong", mode: "wins", before: document.getElementById("gameCanvas") });</script>
         {% include 'comment_form.html' %}
     </div>
 
@@ -238,6 +240,7 @@
             if(player1Score >= WINNING_SCORE ||
                player2Score >= WINNING_SCORE) {
                 showingWinScreen = true;
+                if (player1Score >= WINNING_SCORE && window.CPGame) CPGame.win();  // kompyuterni yutdi
             }
             
             ballSpeedX = -ballSpeedX;

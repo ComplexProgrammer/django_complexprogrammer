@@ -8,9 +8,20 @@ class IsService(models.Manager):
         return super().get_queryset().filter(is_service=True)
 
 
+# Bazada Active bo'lsa ham ro'yxatda ko'rsatilmaydigan loyihalar: sahifasi o'chirilgan yoki ishlamaydi
+# (foydalanuvchi 404 yoki "ishlamayapti" sahifasiga tushib qolmasin). Qayta yoqish uchun shu yerdan olib tashlang.
+DISABLED_PROJECT_URLS = ("site_clones", "cartoonize", "instagram-downloader")
+
+
 class IsActive(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(status=1)
+        return (
+            super()
+            .get_queryset()
+            .filter(status=1)
+            .exclude(url="")  # manzilsiz loyiha bosh sahifaga olib borardi
+            .exclude(url__in=DISABLED_PROJECT_URLS)
+        )
 
 
 class Project(models.Model):

@@ -29,7 +29,7 @@ def base(request):
         Draft = 0, "Draft"
         Active = 1, "Active"
 
-    services = Project.objects.filter(status=1, is_service=True).values()
+    services = Project.actives.filter(is_service=True).values()
     projects = Project.actives.all()
     context = {
         "services": services,

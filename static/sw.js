@@ -3,7 +3,7 @@
  *   (bir marta ochilgan avtotest biletlari internetsiz ham ishlaydi).
  * - /static/ fayllari: avval kesh (tez yuklanadi).
  */
-const VERSION = "cp-v3";
+const VERSION = "cp-v4";
 const PAGES = VERSION + "-pages";
 const ASSETS = VERSION + "-assets";
 const PRECACHE = ["/", "/avtotest/", "/offline/"];

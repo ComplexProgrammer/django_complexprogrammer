@@ -18,3 +18,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.username} - {self.page_url} - {self.text}"
+
+    @property
+    def is_official(self):
+        """Sayt ma'muriyatining javobi (bu email bilan faqat xodim yoza oladi — comments.views)."""
+        return (self.email or "").lower() == settings.COMMENTS_OFFICIAL_EMAIL

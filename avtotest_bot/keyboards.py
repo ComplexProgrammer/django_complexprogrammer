@@ -13,6 +13,7 @@ from .texts import get_text
 def get_main_reply_keyboard(lang: str = "uz") -> ReplyKeyboardMarkup:
     """Asosiy menyu klaviaturasi (pastdagi panel)."""
     kb = [
+        [KeyboardButton(text=get_text("btn_quick", lang))],
         [
             KeyboardButton(text=get_text("btn_bilets", lang)),
             KeyboardButton(text=get_text("btn_exam", lang)),
@@ -169,15 +170,16 @@ def get_finish_keyboard(
     next_bilet_num: Optional[int] = None,
     has_mistakes: bool = False,
     lang: str = "uz",
+    retry_data: str = "retry_quiz",
 ) -> InlineKeyboardMarkup:
-    """Test yakunlanganidagi tugmalar."""
+    """Test yakunlanganidagi tugmalar. ``retry_data`` — xuddi shu rejimni qayta boshlash."""
     keyboard = []
 
     # Qayta topshirish
     keyboard.append(
         [
             InlineKeyboardButton(
-                text=get_text("btn_retry", lang), callback_data="retry_quiz"
+                text=get_text("btn_retry", lang), callback_data=retry_data
             )
         ]
     )
@@ -214,6 +216,28 @@ def get_finish_keyboard(
     )
 
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
+
+
+def get_remind_ask_keyboard(lang: str = "uz") -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text=get_text("btn_remind_yes", lang), callback_data="remind:on"),
+        InlineKeyboardButton(text=get_text("btn_remind_no", lang), callback_data="remind:off"),
+    ]])
+
+
+def get_resume_keyboard(lang: str = "uz") -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text=get_text("btn_resume", lang), callback_data="resume_quiz")],
+        [InlineKeyboardButton(text=get_text("btn_cancel_quiz", lang), callback_data="cancel_quiz")],
+    ])
+
+
+def progress_bar(done: int, total: int, width: int = 10) -> str:
+    """``▰▰▰▱▱▱▱▱▱▱`` — testning qancha qismi bajarilgani."""
+    if total <= 0:
+        return ""
+    filled = round(width * done / total)
+    return "▰" * filled + "▱" * (width - filled)
 
 
 def get_admin_keyboard() -> InlineKeyboardMarkup:

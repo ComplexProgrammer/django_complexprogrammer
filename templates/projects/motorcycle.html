@@ -31,6 +31,8 @@
     </div>
 </div>
 {% include 'comment_form.html' %}
+<script src="/static/js/game-kit.js"></script>
+<script>CPGame.init({ id: "motorcycle", title: "Motorcycle", before: document.getElementById("MotorcycleBody") });</script>
 <script src="/static/Games/Motorcycle/js.js"></script>{% include "includes/scroll_buttons.html" %}
 </body>
 </html>
