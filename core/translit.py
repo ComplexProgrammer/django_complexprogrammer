@@ -1,6 +1,8 @@
 """O'zbek lotin yozuvidan kirill yozuviga o'girish (``*_uz_crl`` maydonlari uchun).
 
-HTML teglari, ``&nbsp;`` kabi belgilar, havolalar va ``@username`` o'zgarmaydi — faqat matn qismi o'giriladi.
+HTML teglari, ``&nbsp;`` kabi belgilar, havolalar, ``@username`` va ``<code>`` ichidagi buyruqlar o'zgarmaydi.
+Inglizcha so'zlar ham lotincha qoladi: o'zbek lotin yozuvida yo'q ``c`` (``ch`` dan tashqari) yoki ``w`` harfi bor
+so'zlar (Counter-Strike, Workshop, VAC) va raqamli so'zlar (CS2, AK-47).
 """
 
 import re
@@ -15,8 +17,11 @@ _SINGLE = {
     "v": "в", "x": "х", "y": "й", "z": "з",
 }
 _VOWELS = set("aeiou")
-# HTML teglari, &...; belgilar, havolalar va @username o'girilmaydi
-_MARKUP = re.compile(r"(<[^>]*>|&#?\w+;|https?://\S+|@\w+)")
+# HTML teglari, <code>...</code>, &...; belgilar, havolalar va @username o'girilmaydi
+_MARKUP = re.compile(r"(<code>.*?</code>|<[^>]*>|&#?\w+;|https?://\S+|@\w+)", re.S)
+# Lotincha qoladigan so'z: c (ch emas) yoki w harfi yoki raqami bor
+_WORD = re.compile(r"[A-Za-z0-9'‘’ʻʼ`-]+")
+_FOREIGN = re.compile(r"[cC](?![hH])|[wW]|\d")
 
 
 def _convert(text):
@@ -56,4 +61,7 @@ def _convert(text):
 def latin_to_cyrillic(text):
     if not text:
         return text
-    return "".join(part if _MARKUP.fullmatch(part) else _convert(part) for part in _MARKUP.split(text))
+    def words(part):
+        return _WORD.sub(lambda m: m.group(0) if _FOREIGN.search(m.group(0)) else _convert(m.group(0)), part)
+
+    return "".join(part if _MARKUP.fullmatch(part) else words(part) for part in _MARKUP.split(text))
