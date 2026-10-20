@@ -56,10 +56,21 @@ class TopicsAdmin(admin.ModelAdmin):
 
 @admin.register(Questions)
 class QuestionsAdmin(admin.ModelAdmin):
-    list_display = ["name_uz_uz", "number", "type", "group", "book", "topic", "image"]
-    list_filter = ["name_uz_uz", "number", "type", "group", "book", "topic", "image"]
-    search_fields = ["name_uz_uz", "number", "type", "group", "book", "topic", "image"]
+    list_display = ["name_uz_uz", "number", "type", "group", "book", "topic", "image", "explanation_status", "explanation_confidence"]
+    list_filter = ["explanation_status", "explanation_confidence", "type", "group", "book", "topic"]
+    search_fields = ["name_uz_uz", "number", "type", "group", "book", "topic", "image", "explanation_uz_uz"]
     ordering = ["sort_order"]
+    actions = ["approve_explanations", "reset_explanations"]
+
+    @admin.action(description="Izohni tasdiqlash (saytda ko'rsatish)")
+    def approve_explanations(self, request, queryset):
+        n = queryset.exclude(explanation_uz_uz="").update(explanation_status="approved")
+        self.message_user(request, f"{n} ta izoh tasdiqlandi.")
+
+    @admin.action(description="Izohni qoralamaga qaytarish (saytdan yashirish)")
+    def reset_explanations(self, request, queryset):
+        n = queryset.exclude(explanation_uz_uz="").update(explanation_status="draft")
+        self.message_user(request, f"{n} ta izoh qoralamaga qaytarildi.")
 
 
 @admin.register(Answers)

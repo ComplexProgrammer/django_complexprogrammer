@@ -87,3 +87,5 @@ urlpatterns += [
     path("", include("arxiv.urls")),
     re_path(r"^ckeditor/", include("ckeditor_uploader.urls")),
 ]
+if getattr(settings, "CKEDITOR5_ENABLED", False):
+    urlpatterns.append(path("ckeditor5/", include("django_ckeditor_5.urls")))

@@ -15,6 +15,7 @@ from tests.models import (
     Types,
     RoadSignCategories,
     RoadSigns,
+    EXPLANATION_FIELDS,
 )
 from comments.pages import page_comments
 from core.seo import SITE_URL, alternates
@@ -113,6 +114,7 @@ def tests(request):
         "data": data,
         "type": _type,
         "type_data": json.dumps(type_data, default=serialize_datetime),
+        "type_obj": type_data or {},
         "comments": comments,
     }
     # Har bir kitob sahifasi qidiruvda o'z sarlavhasi bilan chiqsin (sitemap'da ?book_id= bilan)
@@ -143,6 +145,17 @@ def tests(request):
             context["canonical_url"] = SITE_URL + prefix + main_path
             context["hreflang_links"] = alternates(main_path)
     return render(request, "tests/index.html", context=context)
+
+
+def hide_draft_explanations(rows):
+    """AI qoralamasi (explanation_status="draft") admin tasdiqlamaguncha foydalanuvchiga ko'rsatilmaydi."""
+    for row in rows:
+        if row.pop("explanation_status", "") == "draft":
+            for field in EXPLANATION_FIELDS:
+                if field in row:
+                    row[field] = ""
+        row.pop("explanation_confidence", None)
+    return rows
 
 
 def serialize_datetime(obj):
@@ -297,7 +310,19 @@ def GetQuestions(request):
             .order_by("sort_order")
             .values()
         )
-    return JsonResponse(list(data), safe=False)
+    data = hide_draft_explanations(list(data))
+    # ?with_answers=1 — har savolga javoblari ham qo'shiladi (sahifa har savol uchun alohida so'rov yubormasin)
+    if request.GET.get("with_answers") and topic_id is not False:
+        answers = {}
+        for a in (
+            Answers.objects.filter(is_deleted=False, topic_id=topic_id)
+            .order_by("sort_order", "number")
+            .values("id", "question_id", "number", "right", "image", "name_uz_uz", "name_ru_ru", "name_en_us", "name_uz_crl")
+        ):
+            answers.setdefault(a["question_id"], []).append(a)
+        for q in data:
+            q["answers"] = answers.get(q["id"], [])
+    return JsonResponse(data, safe=False)
 
 
 def GetAnswers(request):
@@ -476,7 +501,7 @@ def GetAllData(request):
         "groups": list(groups),
         "books": list(books),
         "topics": list(topics),
-        "questions": list(questions),
+        "questions": hide_draft_explanations(list(questions)),
         "answers": list(answers),
     }
     return JsonResponse(context, safe=False)
@@ -551,8 +576,10 @@ def GetQuestionsByIds(request):
             "explanation_uz_uz",
             "explanation_ru_ru",
             "explanation_en_us",
+            "explanation_status",
         )
     )
+    hide_draft_explanations(questions)
     answers = {}
     for a in (
         Answers.objects.filter(is_deleted=False, question_id__in=ids)

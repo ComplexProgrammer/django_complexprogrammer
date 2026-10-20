@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 from blog.models import Categories, Posts
+from core.rich_text import RichTextAdminMixin
 
 
 @admin.register(Categories)
@@ -12,7 +13,7 @@ class CategoriesAdmin(admin.ModelAdmin):
 
 
 @admin.register(Posts)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(RichTextAdminMixin, admin.ModelAdmin):
     list_display = ["thumb", "name_uz_uz", "categorie", "publish_time", "view_count", "is_deleted", "open_link"]
     list_display_links = ["thumb", "name_uz_uz"]
     list_filter = ["categorie", "is_deleted", "publish_time"]

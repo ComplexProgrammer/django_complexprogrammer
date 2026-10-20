@@ -8,7 +8,8 @@ decorator==4.4.2
 distro==1.9.0
 Django==5.1.1
 django-jazzmin==3.0.0
-django-ckeditor==6.7.1
+django-ckeditor==6.7.1  # eski migratsiyalar shu paketni import qiladi — olib tashlanmasin
+django-ckeditor-5>=0.2.13,<0.3  # admin muharriri, core/rich_text.py
 django-colorfield==0.11.0
 django-extensions==3.2.3
 django-js-asset==2.2.0
