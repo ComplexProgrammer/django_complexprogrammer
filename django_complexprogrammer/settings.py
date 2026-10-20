@@ -220,6 +220,8 @@ except ImportError:
     CKEDITOR5_ENABLED = False
 if CKEDITOR5_ENABLED:
     INSTALLED_APPS.append("django_ckeditor_5")
+    # Admin endi CKEditor 5 ishlatadi; django-ckeditor (4) faqat eski migratsiyalar va model maydoni uchun qoldi
+    SILENCED_SYSTEM_CHECKS = ["ckeditor.W001"]
     CKEDITOR_5_FILE_UPLOAD_PERMISSION = "staff"  # rasm yuklash faqat admin xodimlariga
     CKEDITOR_5_CONFIGS = {
         "default": {
