@@ -5,7 +5,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from comments.pages import normalize_page_url
-from comments.utils import send_comment_notification, send_reply_notification
+from comments.utils import in_background, send_comment_notification, send_reply_notification
 from .forms import CommentForm
 from .models import Comment
 
@@ -62,8 +62,8 @@ def add_comment(request):
     cache.set(rate_key, sent + 1, RATE_LIMIT_SECONDS)
 
     if parent is None:
-        send_comment_notification(comment)
+        in_background(send_comment_notification, comment)
     else:
-        send_reply_notification(comment, parent)
+        in_background(send_reply_notification, comment, parent)
     messages.success(request, "Izohingiz qabul qilindi. Rahmat!")
     return _safe_redirect(request, back_url)

@@ -1,7 +1,26 @@
+import os
+
+from django.conf import settings
+from django.http import FileResponse, Http404
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from .models import ArchiveItem, Room, Cabinet, ArchiveType, ArchiveStatus
+
+
+def archive_document(request, path):
+    """/media/arxiv/documents/... — yopiq (is_public=False) hujjat faqat xodimlarga beriladi.
+
+    Avval bu fayllar umumiy /media/ orqali hammaga ochiq edi: shablon faqat havolani yashirardi.
+    """
+    name = "arxiv/documents/" + path
+    item = ArchiveItem.objects.filter(document=name).only("is_public").first()
+    if item is None or (not item.is_public and not request.user.is_staff):
+        raise Http404
+    full = os.path.realpath(os.path.join(settings.MEDIA_ROOT, name))
+    if not full.startswith(os.path.realpath(settings.MEDIA_ROOT) + os.sep) or not os.path.isfile(full):
+        raise Http404
+    return FileResponse(open(full, "rb"))
 
 
 def archive_list(request):

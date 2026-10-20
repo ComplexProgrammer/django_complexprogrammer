@@ -1,9 +1,11 @@
 from django.urls import path
+from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
     path("", views.tests, name="tests"),
-    path("index/", views.index, name="index"),
+    # Eski sahifa (tests/index3.html shabloni yo'q, doim 500 berardi)
+    path("index/", RedirectView.as_view(url="/tests/", permanent=True), name="index"),
     path("GetGroups/", views.GetGroups, name="GetGroups"),
     path("GetBooks/", views.GetBooks, name="GetBooks"),
     path("GetTopics/", views.GetTopics, name="GetTopics"),

@@ -33,7 +33,11 @@ from tests import views as tests_views
 #     path('news/', include('news.urls')),
 #     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
 # ]
-urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+from arxiv.views import archive_document
+
+# Arxiv hujjatlari umumiy /media/ dan oldin tekshiriladi (yopiq hujjatlar faqat xodimlarga)
+urlpatterns = [re_path(r"^media/arxiv/documents/(?P<path>.+)$", archive_document)]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [
     path("i18n/", include("django.conf.urls.i18n")),
 ]
@@ -77,7 +81,6 @@ urlpatterns += [
     path("blog/", include("blog.urls")),
     path("", include("comments.urls")),
     path("cryptomarket/", include("cryptomarket.urls")),
-    path("site_clones/", include("site_clones.urls")),
     path("", include("arxiv.urls")),
     re_path(r"^ckeditor/", include("ckeditor_uploader.urls")),
 ]

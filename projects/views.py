@@ -34,9 +34,45 @@ def base(request):
     context = {
         "services": services,
         "projects": projects,
+        "today": home_today(request),
         # 'is_mobile': is_mobile,
     }
     return render(request, "base.html", context=context)
+
+
+def home_today(request):
+    """Bosh sahifadagi "Bugun" bloki: dollar kursi va eng yangi maqola (har kuni yangilanadigan narsa)."""
+    from django.utils import translation
+
+    from blog.models import Posts
+    from blog.utils import lang_key, pick
+
+    usd = cache.get("home:usd")
+    if usd is None:
+        # Bosh sahifa CBU'ni kutib qolmasin: qisqa timeout, xato ham 10 daqiqaga keshlanadi
+        rates = fetch_json(CBU_RATES_URL, "api:cbu", timeout=3, ttl=1800)
+        row = next((r for r in rates or [] if r.get("Ccy") == "USD"), None)
+        usd = {"rate": row.get("Rate"), "diff": row.get("Diff", "")} if row else False
+        cache.set("home:usd", usd, 1800 if usd else 600)
+
+    post = cache.get("home:post")
+    if post is None:
+        latest = Posts.published().order_by("-publish_time").first()
+        post = False
+        if latest:
+            post = {f: getattr(latest, f) for f in ("name_uz_uz", "name_uz_crl", "name_ru_ru", "name_en_us")}
+            post["url"] = latest.get_absolute_url()
+        cache.set("home:post", post, 600)
+    post_title = ""
+    if post:
+        post_title = pick(post, "name", lang_key(translation.get_language()))[0]
+
+    return {
+        "usd": usd or None,
+        "usd_up": bool(usd) and not str(usd.get("diff", "")).startswith("-"),
+        "post": post or None,
+        "post_title": post_title,
+    }
 
 
 INSTAGRAM_UNAVAILABLE = (

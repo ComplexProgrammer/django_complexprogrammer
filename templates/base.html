@@ -2267,7 +2267,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link nav-link-3d" href="/arxiv/" target="_blank">
+                        <a class="nav-link nav-link-3d" href="/arxiv/">
                             <i class="fas fa-archive"></i> {{ ui.archive }}
                         </a>
                     </li>
@@ -2323,6 +2323,43 @@
                 .cp-hero-actions a.cp-hero-exam{background:#22c55e;border-color:#22c55e}
                 .cp-hero-actions small{font-weight:500;font-size:.75rem;opacity:.9}
             </style>
+            {% if today %}
+            <section class="cp-today" aria-labelledby="cp-today-h">
+                <h2 id="cp-today-h" class="cp-home-h">📅 {{ ui.today }}</h2>
+                <div class="cp-today-grid">
+                    <a href="{{ lang_prefix }}/avtotest/kun-savoli/">
+                        <span class="cp-today-ico">❓</span>
+                        <b>{{ ui.daily_q }}</b><small>{{ ui.daily_q_desc }}</small>
+                    </a>
+                    {% if today.usd %}
+                    <a href="/exchangerates/">
+                        <span class="cp-today-ico">💵</span>
+                        <b>{{ ui.usd_rate }}: {{ today.usd.rate }}</b>
+                        {% if today.usd.diff %}<small class="{% if today.usd_up %}cp-up{% else %}cp-down{% endif %}">{% if today.usd_up %}▲{% else %}▼{% endif %} {{ today.usd.diff }}</small>{% endif %}
+                    </a>
+                    {% endif %}
+                    {% if today.post %}
+                    <a href="{{ lang_prefix }}{{ today.post.url }}">
+                        <span class="cp-today-ico">✍️</span>
+                        <b>{{ ui.latest_post }}</b><small>{{ today.post_title|truncatechars:70 }}</small>
+                    </a>
+                    {% endif %}
+                    <a href="/projects/">
+                        <span class="cp-today-ico">🎮</span>
+                        <b>{{ ui.games }}</b><small>Snake · Tetris · Car · Bubble Shooter</small>
+                    </a>
+                </div>
+            </section>
+            <style>
+                .cp-today-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:22px}
+                .cp-today-grid a{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border-radius:14px;text-decoration:none!important;
+                    color:var(--color-text)!important;background:var(--color-surface-2);border:1px solid var(--color-border)}
+                .cp-today-grid a:hover{border-color:var(--color-primary)}
+                .cp-today-grid small{color:var(--color-text-2);font-size:.8rem}
+                .cp-today-ico{font-size:1.4rem}
+                .cp-today-grid .cp-up{color:#dc2626}.cp-today-grid .cp-down{color:#16a34a}
+            </style>
+            {% endif %}
             <form class="cp-home-search" action="/search/" method="get" role="search">
                 <i class="fas fa-search"></i>
                 <input type="search" name="q" placeholder="{{ ui.search_placeholder }}" aria-label="{{ ui.search }}">
@@ -2405,7 +2442,7 @@
                         <i class="fas fa-arrow-right"></i>
                     </div>
                 </a>
-                <a href="/arxiv/" target="_blank" class="menu-card">
+                <a href="/arxiv/" class="menu-card">
                     <div class="menu-card-icon">
                         <i class="fas fa-archive"></i>
                     </div>

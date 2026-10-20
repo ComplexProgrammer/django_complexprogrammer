@@ -70,7 +70,7 @@ INSTALLED_APPS = [
     "comments",  # Add comments app
     "blog",
     "cryptomarket",
-    "site_clones",
+    # "site_clones" — o'chirildi: begona saytlar nusxasi + AdSense ID almashtirish (mualliflik huquqi va AdSense qoidalari)
     "ckeditor",  # CKEditor config
     "ckeditor_uploader",  # CKEditor media uploader
     "colorfield",
@@ -81,6 +81,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    # /static/arxiv/ — yopiq arxiv hujjatlari WhiteNoise orqali chiqib ketmasin
+    "core.middleware.PrivateStaticMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     # /ru/..., /en/... manzillari (hreflang) — LocaleMiddleware'dan keyin turishi shart
     "core.middleware.LanguagePrefixMiddleware",
@@ -90,7 +92,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "core.middleware.FrameAncestorsMiddleware",
     # "middleware.StaticFileMiddleware",
 ]
 
@@ -412,7 +414,8 @@ COLOR_PALETTE = [
     ),
 ]
 
-X_FRAME_OPTIONS = "ALLOWALL"
+# Saytni iframe ichida faqat o'zimiz va Telegram (WebApp: web.telegram.org) ocha oladi
+FRAME_ANCESTORS = ["'self'", "https://web.telegram.org", "https://*.telegram.org"]
 
 # Email Configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -472,7 +475,6 @@ JAZZMIN_SETTINGS = {
         "pdf_tools": "fas fa-file-pdf",
         "tests": "fas fa-book-open",
         "cryptomarket": "fas fa-coins",
-        "site_clones": "fas fa-clone",
     },
     "order_with_respect_to": [
         "core",
@@ -485,7 +487,6 @@ JAZZMIN_SETTINGS = {
         "pdf_tools",
         "tests",
         "cryptomarket",
-        "site_clones",
     ],
 }
 

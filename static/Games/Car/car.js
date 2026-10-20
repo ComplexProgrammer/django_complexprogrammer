@@ -49,6 +49,7 @@
         }
         function endGame() {
         player.start = false;
+            if (window.CPGame) CPGame.over(player.score - 1);
             startScreen.classList.remove('hide');
             startScreen.innerHTML = "<div class='HalokatRasmi'></div><br /> O'yin tugadi <br /> Sizning yakuniy hisobingiz " + player.score +
             "<br /> O'yinni qayta boshlash uchun shu yerni bosing.";

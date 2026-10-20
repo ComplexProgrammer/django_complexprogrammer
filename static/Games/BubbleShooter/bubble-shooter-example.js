@@ -246,8 +246,11 @@ window.onload = function() {
     }
     
     function setGameState(newgamestate) {
+        if (newgamestate == gamestates.gameover && gamestate != gamestates.gameover && window.CPGame) {
+            CPGame.over(score);
+        }
         gamestate = newgamestate;
-        
+
         animationstate = 0;
         animationtime = 0;
     }

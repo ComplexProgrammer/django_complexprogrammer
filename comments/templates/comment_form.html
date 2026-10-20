@@ -30,6 +30,44 @@
   });
 </script>
 
+<div class="container mt-4">
+  <div class="cp-helpful" id="cp-helpful">
+    <span class="cp-helpful-q">{{ ui.helpful_q|default:"Bu sahifa foydali bo'ldimi?" }}</span>
+    <button type="button" data-v="yes">👍 {{ ui.helpful_yes|default:"Ha" }}</button>
+    <button type="button" data-v="no">👎 {{ ui.helpful_no|default:"Yo'q" }}</button>
+    <span class="cp-helpful-thanks" hidden>{{ ui.helpful_thanks|default:"Rahmat!" }}</span>
+  </div>
+</div>
+<style>
+  .cp-helpful{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin:0 auto;max-width:720px;
+    padding:12px 16px;border-radius:14px;border:1px solid rgba(79,70,229,.25);background:rgba(79,70,229,.06)}
+  .cp-helpful-q{font-weight:600}
+  .cp-helpful button{border:1px solid rgba(79,70,229,.35);background:transparent;color:inherit;border-radius:10px;padding:4px 14px;font-weight:600}
+  .cp-helpful button:hover{background:rgba(79,70,229,.12)}
+  .cp-helpful-thanks{color:#16a34a;font-weight:600}
+</style>
+<script>
+  // "Foydali bo'ldimi?" — javob Google Analytics'ga hodisa bo'lib boradi (sahifa bo'yicha hisobot),
+  // bir sahifada bir marta so'raladi
+  (function () {
+    var box = document.getElementById("cp-helpful");
+    if (!box) return;
+    var key = "cpHelpful:" + location.pathname;
+    function done() {
+      box.querySelectorAll("button").forEach(function (b) { b.hidden = true; });
+      box.querySelector(".cp-helpful-thanks").hidden = false;
+    }
+    try { if (localStorage.getItem(key)) return done(); } catch (e) {}
+    box.addEventListener("click", function (e) {
+      var v = e.target.closest("button") && e.target.closest("button").dataset.v;
+      if (!v) return;
+      if (window.gtag) window.gtag("event", "page_helpful", { helpful: v, page_path: location.pathname });
+      try { localStorage.setItem(key, v); } catch (err) {}
+      done();
+    });
+  })();
+</script>
+
 <div class="container mt-5" id="comments">
   {% if messages %}
   <div class="row justify-content-center"><div class="col-md-8">

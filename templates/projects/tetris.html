@@ -59,13 +59,15 @@
             </a>
         </div>
 
-        <div id="score"></div>
-        <canvas id="tetris" width="240" height="400"></canvas>
+        <canvas id="tetris" width="240" height="400" style="touch-action:none"></canvas>
+        <p class="text-muted small">← → siljitish · ↓ tushirish · Q / W aylantirish</p>
 
         {% include 'comment_form.html' %}
     </div>
-    
+
+    <script src="/static/js/game-kit.js"></script>
     <script>
+        CPGame.init({ id: "tetris", title: "Tetris" });
         function toggleReplyForm(formId) {
             const form = document.getElementById(formId);
             if (form.style.display === 'none' || !form.style.display) {
@@ -245,6 +247,7 @@
             player.pos.x = (arena[0].length / 2 | 0) -
                           (player.matrix[0].length / 2 | 0);
             if (collide(arena, player)) {
+                CPGame.over(player.score);  // maydon to'ldi — o'yin tugadi
                 arena.forEach(row => row.fill(0));
                 player.score = 0;
                 updateScore();
@@ -285,8 +288,16 @@
         }
 
         function updateScore() {
-            document.getElementById('score').innerText = player.score;
+            CPGame.score(player.score);
         }
+
+        // Telefonda: chapga/o'ngga surish — siljitish, pastga — tushirish, bosish — aylantirish
+        CPGame.swipe(canvas, dir => {
+            if (dir === 'left') playerMove(-1);
+            else if (dir === 'right') playerMove(1);
+            else if (dir === 'down') playerDrop();
+            else playerRotate(1);
+        });
 
         document.addEventListener('keydown', event => {
             if (event.keyCode === 37) {

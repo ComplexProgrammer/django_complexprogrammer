@@ -3,11 +3,11 @@
  *   (bir marta ochilgan avtotest biletlari internetsiz ham ishlaydi).
  * - /static/ fayllari: avval kesh (tez yuklanadi).
  */
-const VERSION = "cp-v2";
+const VERSION = "cp-v3";
 const PAGES = VERSION + "-pages";
 const ASSETS = VERSION + "-assets";
 const PRECACHE = ["/", "/avtotest/", "/offline/"];
-const NEVER_CACHE = ["/admin", "/send_file", "/remove_file", "/add-comment", "/i18n/", "/search/"];
+const NEVER_CACHE = ["/admin", "/send_file", "/remove_file", "/add-comment", "/i18n/", "/search/", "/media/arxiv/"];
 const MAX_PAGE_ENTRIES = 150;
 
 self.addEventListener("install", (event) => {

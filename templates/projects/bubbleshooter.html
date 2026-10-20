@@ -19,10 +19,12 @@
 <body>
 {% include "includes/site_header.html" %}
 {% include "includes/seo_intro.html" %}
-<div style="width:100%;height:100%">
+<div style="width:100%;height:100%" id="bubble-wrap">
 
-    <canvas style="margin:auto" id="viewport" width="628" height="628"></canvas>
+    <canvas style="margin:auto;max-width:100%;height:auto" id="viewport" width="628" height="628"></canvas>
 </div>
+<script src="/static/js/game-kit.js"></script>
+<script>CPGame.init({ id: "bubbleshooter", title: "Bubble Shooter", before: document.getElementById("bubble-wrap") });</script>
 {% include 'comment_form.html' %}
 </body>
 </html>
