@@ -16,442 +16,402 @@
     <link rel="stylesheet" href="/static/css/ads.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Three.js (3D fon) faqat katta ekranlarda, sahifa yuklangandan keyin ulanadi — pastdagi load3D() -->
-    <link rel="stylesheet" href="/static/css/home.css?v=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/home.css?v=2">
+
+    <style>
+        /* Ambient GPU-accelerated background - 0ms JS lag */
+        .cp-ambient-bg {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at 12% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+                        radial-gradient(circle at 88% 20%, rgba(16, 185, 129, 0.07) 0%, transparent 40%),
+                        radial-gradient(circle at 50% 85%, rgba(139, 92, 246, 0.06) 0%, transparent 55%);
+        }
+        [data-theme="dark"] .cp-ambient-bg {
+            background: radial-gradient(circle at 12% 15%, rgba(99, 102, 241, 0.16) 0%, transparent 45%),
+                        radial-gradient(circle at 88% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 40%),
+                        radial-gradient(circle at 50% 85%, rgba(139, 92, 246, 0.1) 0%, transparent 55%);
+        }
+
+        /* Modern Hero Styles */
+        .cp-hero-v2 {
+            margin: 18px auto 26px;
+            padding: 32px 28px;
+            border-radius: 24px;
+            color: #fff;
+            background: linear-gradient(135deg, #4338ca 0%, #6366f1 45%, #059669 100%);
+            box-shadow: 0 16px 40px -10px rgba(79, 70, 229, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+        .cp-hero-v2::before {
+            content: "";
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+        .cp-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+            backdrop-filter: blur(8px);
+        }
+        .cp-hero-v2 h1 {
+            font-size: clamp(1.4rem, 3.2vw, 2.2rem);
+            font-weight: 800;
+            line-height: 1.25;
+            margin: 0 0 12px;
+            color: #fff !important;
+            -webkit-text-fill-color: #fff !important;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+        .cp-hero-v2 p.cp-lead {
+            font-size: clamp(0.95rem, 1.8vw, 1.12rem);
+            line-height: 1.6;
+            margin: 0 0 22px;
+            opacity: 0.94;
+            max-width: 720px;
+        }
+        .cp-hero-actions-v2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        .cp-hero-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 18px;
+            border-radius: 14px;
+            text-decoration: none !important;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+            box-sizing: border-box;
+        }
+        .cp-hero-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        .cp-hero-btn.btn-exam {
+            background: #fff;
+            color: #4338ca !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+        }
+        .cp-hero-btn.btn-tickets {
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff !important;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(8px);
+        }
+        .cp-hero-btn.btn-tickets:hover {
+            background: rgba(255, 255, 255, 0.28);
+        }
+        .cp-hero-btn.btn-signs {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff !important;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+        }
+        .cp-hero-btn.btn-signs:hover {
+            background: rgba(255, 255, 255, 0.24);
+        }
+        .cp-hero-btn small {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            opacity: 0.85;
+            margin-top: 1px;
+        }
+
+        /* Dynamic Readiness Widget */
+        .cp-readiness-widget {
+            display: none; /* JS fills and shows */
+            margin-bottom: 24px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 18px;
+            padding: 18px 22px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease;
+        }
+        [data-theme="dark"] .cp-readiness-widget {
+            background: var(--color-surface-2-dark);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+        .cp-readiness-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .cp-readiness-title {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cp-readiness-score {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #10b981;
+        }
+        .cp-progress-track {
+            height: 10px;
+            background: var(--color-surface-3);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        [data-theme="dark"] .cp-progress-track {
+            background: var(--color-surface-3-dark);
+        }
+        .cp-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #6366f1, #10b981);
+            border-radius: 999px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cp-readiness-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+        .cp-readiness-stat {
+            background: var(--color-surface-2);
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        [data-theme="dark"] .cp-readiness-stat {
+            background: var(--color-surface-dark);
+        }
+        .cp-readiness-stat b {
+            font-size: 1.05rem;
+            color: var(--color-primary);
+        }
+
+        /* 6 Pillars Grid */
+        .cp-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+        .cp-pillar-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            text-decoration: none !important;
+            color: var(--color-text) !important;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        [data-theme="dark"] .cp-pillar-card {
+            background: var(--color-surface-2-dark);
+        }
+        .cp-pillar-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-primary);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.12);
+        }
+        .cp-pillar-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            flex-shrink: 0;
+            padding: 10px;
+            border-radius: 14px;
+            background: var(--color-surface-3);
+        }
+        [data-theme="dark"] .cp-pillar-icon {
+            background: var(--color-surface-3-dark);
+        }
+        .cp-pillar-body h3 {
+            font-size: 1.02rem;
+            font-weight: 700;
+            margin: 0 0 4px;
+        }
+        .cp-pillar-body p {
+            font-size: 0.83rem;
+            color: var(--color-text-2);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Section Header */
+        .cp-section-h {
+            font-size: 1.18rem;
+            font-weight: 800;
+            margin: 22px 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--color-text);
+        }
+        .cp-section-h small {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        /* Today Cards */
+        .cp-today-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .cp-today-card {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            text-decoration: none !important;
+            color: var(--color-text) !important;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            transition: border-color 0.15s ease, transform 0.15s ease;
+        }
+        [data-theme="dark"] .cp-today-card {
+            background: var(--color-surface-2-dark);
+        }
+        .cp-today-card:hover {
+            border-color: var(--color-primary);
+            transform: translateY(-2px);
+        }
+        .cp-today-card b {
+            font-size: 0.95rem;
+        }
+        .cp-today-card small {
+            color: var(--color-text-2);
+            font-size: 0.8rem;
+        }
+        .cp-today-card .cp-badge-up { color: #dc2626; font-weight: 600; }
+        .cp-today-card .cp-badge-down { color: #16a34a; font-weight: 600; }
+
+        /* Tools Grid */
+        .cp-tools-grid-v2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+        .cp-tool-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-text) !important;
+            text-decoration: none !important;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.15s ease;
+        }
+        [data-theme="dark"] .cp-tool-pill {
+            background: var(--color-surface-2-dark);
+        }
+        .cp-tool-pill:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary) !important;
+            transform: translateY(-2px);
+        }
+        .cp-tool-pill span {
+            font-size: 1.25rem;
+            line-height: 1;
+        }
+
+        /* Search Bar */
+        .cp-home-search-v2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 14px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            margin-bottom: 24px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+        }
+        [data-theme="dark"] .cp-home-search-v2 {
+            background: var(--color-surface-2-dark);
+        }
+        .cp-home-search-v2 i {
+            color: var(--color-text-3);
+            font-size: 1.1rem;
+        }
+        .cp-home-search-v2 input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--color-text);
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .cp-home-search-v2 button {
+            padding: 7px 16px;
+            border-radius: 10px;
+            border: none;
+            background: var(--color-primary);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+        .cp-home-search-v2 button:hover {
+            opacity: 0.9;
+        }
+    </style>
+
     <script>
-        // Theme button update function
-        function updateThemeButton(theme) {
-            const button = document.getElementById('themeButton');
-            if (button) {
-                button.innerHTML = theme === 'light'
-                    ? '<i class="fas fa-moon"></i>'
-                    : '<i class="fas fa-sun"></i>';
-            }
-        }
-
-        // Theme initialization and handling
-        const initTheme = () => {
-            const savedTheme = localStorage.getItem('theme') ||
+        // Synchronous theme initialization (avoids flash of incorrect theme)
+        (function() {
+            var saved = localStorage.getItem('theme') ||
                 (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeButton(savedTheme);
-        };
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
 
-        // Initialize theme immediately
-        document.addEventListener('DOMContentLoaded', initTheme);
-
-        // Watch for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-            if (!localStorage.getItem('theme')) {
-                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-                updateThemeButton(e.matches ? 'dark' : 'light');
-            }
-        });
-
-        // Three.js Scene Setup
-        let scene, camera, renderer, controls;
-        let particles, particleGeometry, particleMaterial;
-        let cubes = [];
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
-
-        // Initialize Three.js scene
-        function initThreeJS() {
-            // Create scene
-            scene = new THREE.Scene();
-            scene.fog = new THREE.Fog(0x000000, 1, 1000);
-
-            // Create camera
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-            camera.position.z = 100;
-
-            // Create renderer
-            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setClearColor(0x000000, 0);
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-            // Add to DOM
-            const container = document.getElementById('threejs-container');
-            if (container) {
-                container.appendChild(renderer.domElement);
-            }
-
-            // Create particle system
-            createParticleSystem();
-
-            // Create floating cubes
-            createFloatingCubes();
-
-            // Create geometric shapes
-            createGeometricShapes();
-
-            // Add lighting
-            addLighting();
-
-            // Start animation
-            animate();
+        function toggleTheme() {
+            var cur = document.documentElement.getAttribute('data-theme') || 'light';
+            var next = cur === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
         }
-
-        // Create particle system with performance optimization
-        function createParticleSystem() {
-            // Reduce particle count on mobile devices
-            const isMobile = window.innerWidth < 768;
-            const particleCount = isMobile ? 300 : 1000;
-
-            particleGeometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-
-            for (let i = 0; i < particleCount; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * 2000;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 2000;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 2000;
-
-                const color = new THREE.Color();
-                color.setHSL(0.6, 0.8, 0.5 + Math.random() * 0.5);
-                colors[i * 3] = color.r;
-                colors[i * 3 + 1] = color.g;
-                colors[i * 3 + 2] = color.b;
-            }
-
-            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-            particleMaterial = new THREE.PointsMaterial({
-                size: isMobile ? 1.5 : 2,
-                vertexColors: true,
-                transparent: true,
-                opacity: isMobile ? 0.4 : 0.6,
-                blending: THREE.AdditiveBlending
-            });
-
-            particles = new THREE.Points(particleGeometry, particleMaterial);
-            scene.add(particles);
-        }
-
-        // Create floating cubes with performance optimization
-        function createFloatingCubes() {
-            const isMobile = window.innerWidth < 768;
-            const cubeCount = isMobile ? 8 : 20;
-            for (let i = 0; i < cubeCount; i++) {
-                const geometry = new THREE.BoxGeometry(
-                    Math.random() * 20 + 5,
-                    Math.random() * 20 + 5,
-                    Math.random() * 20 + 5
-                );
-
-                const material = new THREE.MeshPhongMaterial({
-                    color: new THREE.Color().setHSL(0.6 + Math.random() * 0.2, 0.8, 0.5),
-                    transparent: true,
-                    opacity: 0.3,
-                    wireframe: Math.random() > 0.5
-                });
-
-                const cube = new THREE.Mesh(geometry, material);
-                cube.position.set(
-                    (Math.random() - 0.5) * 1000,
-                    (Math.random() - 0.5) * 1000,
-                    (Math.random() - 0.5) * 1000
-                );
-                cube.rotation.set(
-                    Math.random() * Math.PI,
-                    Math.random() * Math.PI,
-                    Math.random() * Math.PI
-                );
-
-                cube.userData = {
-                    originalY: cube.position.y,
-                    speed: Math.random() * 0.02 + 0.01,
-                    rotationSpeed: {
-                        x: (Math.random() - 0.5) * 0.02,
-                        y: (Math.random() - 0.5) * 0.02,
-                        z: (Math.random() - 0.5) * 0.02
-                    }
-                };
-
-                scene.add(cube);
-                cubes.push(cube);
-            }
-        }
-
-        // Create geometric shapes with performance optimization
-        function createGeometricShapes() {
-            const shapes = [];
-            const isMobile = window.innerWidth < 768;
-
-            // Create torus shapes
-            const torusCount = isMobile ? 2 : 5;
-            for (let i = 0; i < torusCount; i++) {
-                const geometry = new THREE.TorusGeometry(30, 10, 16, 100);
-                const material = new THREE.MeshPhongMaterial({
-                    color: new THREE.Color().setHSL(0.7, 0.8, 0.5),
-                    transparent: true,
-                    opacity: 0.2,
-                    wireframe: true
-                });
-
-                const torus = new THREE.Mesh(geometry, material);
-                torus.position.set(
-                    (Math.random() - 0.5) * 800,
-                    (Math.random() - 0.5) * 800,
-                    (Math.random() - 0.5) * 800
-                );
-
-                torus.userData = {
-                    rotationSpeed: {
-                        x: (Math.random() - 0.5) * 0.01,
-                        y: (Math.random() - 0.5) * 0.01,
-                        z: (Math.random() - 0.5) * 0.01
-                    }
-                };
-
-                scene.add(torus);
-                shapes.push(torus);
-            }
-
-            // Create sphere shapes
-            const sphereCount = isMobile ? 3 : 8;
-            for (let i = 0; i < sphereCount; i++) {
-                const geometry = new THREE.SphereGeometry(20, 32, 32);
-                const material = new THREE.MeshPhongMaterial({
-                    color: new THREE.Color().setHSL(0.5, 0.8, 0.5),
-                    transparent: true,
-                    opacity: 0.1,
-                    wireframe: true
-                });
-
-                const sphere = new THREE.Mesh(geometry, material);
-                sphere.position.set(
-                    (Math.random() - 0.5) * 600,
-                    (Math.random() - 0.5) * 600,
-                    (Math.random() - 0.5) * 600
-                );
-
-                sphere.userData = {
-                    rotationSpeed: {
-                        x: (Math.random() - 0.5) * 0.005,
-                        y: (Math.random() - 0.5) * 0.005,
-                        z: (Math.random() - 0.5) * 0.005
-                    }
-                };
-
-                scene.add(sphere);
-                shapes.push(sphere);
-            }
-        }
-
-        // Add lighting
-        function addLighting() {
-            const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
-            scene.add(ambientLight);
-
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(1, 1, 1);
-            directionalLight.castShadow = true;
-            scene.add(directionalLight);
-
-            const pointLight = new THREE.PointLight(0x4f46e5, 1, 100);
-            pointLight.position.set(0, 0, 50);
-            scene.add(pointLight);
-        }
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Rotate particles
-            if (particles) {
-                particles.rotation.x += 0.001;
-                particles.rotation.y += 0.002;
-            }
-
-            // Animate cubes
-            cubes.forEach(cube => {
-                cube.rotation.x += cube.userData.rotationSpeed.x;
-                cube.rotation.y += cube.userData.rotationSpeed.y;
-                cube.rotation.z += cube.userData.rotationSpeed.z;
-
-                cube.position.y = cube.userData.originalY + Math.sin(Date.now() * cube.userData.speed) * 50;
-            });
-
-            // Mouse interaction
-            camera.position.x += (mouseX - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-
-            renderer.render(scene, camera);
-        }
-
-        // Mouse movement handler
-        function onMouseMove(event) {
-            mouseX = (event.clientX - windowHalfX) * 0.5;
-            mouseY = (event.clientY - windowHalfY) * 0.5;
-        }
-
-        // Window resize handler
-        function onWindowResize() {
-            if (!camera || !renderer) return;
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        // Hide loading animation when Three.js is ready
-        function hideLoadingAnimation() {
-            const loadingElement = document.getElementById('loading3d');
-            if (loadingElement) {
-                loadingElement.style.opacity = '0';
-                setTimeout(() => {
-                    loadingElement.style.display = 'none';
-                }, 500);
-            }
-        }
-
-        // Update Three.js scene based on theme
-        function updateThreeJSTheme(theme) {
-            if (scene && particleMaterial) {
-                if (theme === 'dark') {
-                    scene.fog = new THREE.Fog(0x000000, 1, 1000);
-                    particleMaterial.opacity = 0.8;
-                    particleMaterial.size = 3;
-
-                    // Update cube materials for dark theme
-                    cubes.forEach(cube => {
-                        if (cube.material) {
-                            cube.material.color.setHSL(0.6 + Math.random() * 0.2, 0.8, 0.7);
-                            cube.material.opacity = 0.5;
-                        }
-                    });
-
-                    // Update lighting for dark theme
-                    if (scene.children) {
-                        scene.children.forEach(child => {
-                            if (child.type === 'PointLight') {
-                                child.color.setHex(0x6b8aff);
-                                child.intensity = 1.5;
-                            }
-                        });
-                    }
-                } else {
-                    scene.fog = new THREE.Fog(0xffffff, 1, 1000);
-                    particleMaterial.opacity = 0.4;
-                    particleMaterial.size = 2;
-
-                    // Update cube materials for light theme
-                    cubes.forEach(cube => {
-                        if (cube.material) {
-                            cube.material.color.setHSL(0.6 + Math.random() * 0.2, 0.8, 0.5);
-                            cube.material.opacity = 0.3;
-                        }
-                    });
-
-                    // Update lighting for light theme
-                    if (scene.children) {
-                        scene.children.forEach(child => {
-                            if (child.type === 'PointLight') {
-                                child.color.setHex(0x4f46e5);
-                                child.intensity = 1;
-                            }
-                        });
-                    }
-                }
-            }
-        }
-
-        // 3D fon — bezak: telefon, sekin internet va "kamroq animatsiya" sozlamasida yuklanmaydi.
-        // Kontent darhol ko'rinadi (avval 2 soniyalik yuklanish ekrani bor edi — LCP va Core Web Vitals'ni buzardi).
-        function want3D() {
-            const c = navigator.connection || {};
-            return window.innerWidth >= 1024 && !c.saveData && !/2g/.test(c.effectiveType || '') &&
-                !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        }
-        function load3D() {
-            const s = document.createElement('script');
-            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-            s.async = true;
-            s.onload = () => {
-                initThreeJS();
-                updateThreeJSTheme(document.documentElement.getAttribute('data-theme') || 'light');
-                document.addEventListener('mousemove', onMouseMove, false);
-                window.addEventListener('resize', onWindowResize, false);
-            };
-            document.head.appendChild(s);
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingElement = document.getElementById('loading3d');
-            if (loadingElement) loadingElement.style.display = 'none';
-        });
-        window.addEventListener('load', () => {
-            if (!want3D()) return;
-            (window.requestIdleCallback || ((cb) => setTimeout(cb, 1500)))(load3D);
-        });
-
-        // Shared symbols for code rain
-        const symbols = [
-            '{', '}', '()', '[]', ';', '==',
-            'function', 'class', 'def', 'var',
-            'if', 'else', 'return',
-            'for', 'while', '</>',
-            'import', 'from', '+=',
-            '===', '=>', 'async',
-            'try', 'catch', '#',
-            'pip', 'npm', 'git',
-            'python', 'django', 'react'];        // Code rain initialization with performance optimizations
-        const initCodeRain = () => {
-            const container = document.createElement('div');
-            container.id = 'codeRain';
-            container.className = 'code-rain';
-
-            const width = window.innerWidth;
-            const columns = Math.floor(width / 30); // Reduced column density
-            const fragment = document.createDocumentFragment();
-
-            for (let i = 0; i < columns; i++) {
-                const column = document.createElement('div');
-                column.className = 'code-column';
-                column.style.left = `${i * 30}px`;
-                column.style.animationDelay = `${Math.random() * 12}s`; // Shorter delays
-                column.textContent = Array(15).fill(0) // Reduced symbols per column
-                    .map(() => symbols[Math.floor(Math.random() * symbols.length)])
-                    .join('\\n');
-                fragment.appendChild(column);
-            }
-
-            container.appendChild(fragment);
-            document.body.appendChild(container);
-            return container;
-        };
-
-        // Create code rain as soon as possible
-        let codeRainContainer;
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                codeRainContainer = initCodeRain();
-            });
-        } else {
-            codeRainContainer = initCodeRain();
-        }        // Clean up code rain container on window resize
-        window.addEventListener('resize', () => {
-            if (codeRainContainer) {
-                codeRainContainer.innerHTML = '';
-                initCodeRain();
-            }
-        });
-    </script> 
-
-    <!-- Google Ads -->
+    </script>
 
     <!-- Google Funding Choices -->
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-4137874891184814?ers=1"
-        nonce="d9aDtkYHWiyzXi90igUlvg"></script>
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-4137874891184814?ers=1" nonce="d9aDtkYHWiyzXi90igUlvg"></script>
     <script nonce="d9aDtkYHWiyzXi90igUlvg">
         (function () {
             function signalGooglefcPresent() {
@@ -470,267 +430,236 @@
             signalGooglefcPresent();
         })();
     </script>
-    <script async src="https://fundingchoicesmessages.google.com/i/pub-7773722896374259?ers=1"
-        nonce="sGG5LwmtfkrIyGTmOqNI6w"></script>
-    <script
-        nonce="sGG5LwmtfkrIyGTmOqNI6w">(function () { function signalGooglefcPresent2() { if (!window.frames['googlefcPresent2']) { if (document.body) { const iframe = document.createElement('iframe'); iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;'; iframe.style.display = 'none'; iframe.name = 'googlefcPresent2'; document.body.appendChild(iframe); } else { setTimeout(signalGooglefcPresent2, 0); } } } signalGooglefcPresent2(); })();</script>
+    <script async src="https://fundingchoicesmessages.google.com/i/pub-7773722896374259?ers=1" nonce="sGG5LwmtfkrIyGTmOqNI6w"></script>
+    <script nonce="sGG5LwmtfkrIyGTmOqNI6w">
+        (function () {
+            function signalGooglefcPresent2() {
+                if (!window.frames['googlefcPresent2']) {
+                    if (document.body) {
+                        const iframe = document.createElement('iframe');
+                        iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
+                        iframe.style.display = 'none';
+                        iframe.name = 'googlefcPresent2';
+                        document.body.appendChild(iframe);
+                    } else {
+                        setTimeout(signalGooglefcPresent2, 0);
+                    }
+                }
+            }
+            signalGooglefcPresent2();
+        })();
+    </script>
 
     {% block extra_head %}{% endblock %}
 </head>
 
-<body>
-    <!-- Three.js 3D Background Container -->
-    <div id="threejs-container"></div>
+<body class="cp-has-header">
+    <div class="cp-ambient-bg" aria-hidden="true"></div>
 
+    <!-- Unified Site Header -->
+    {% include "includes/site_header.html" %}
 
-    <!-- 3D Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-3d">
-        <div class="container">
-            <a class="navbar-brand btn-3d" href="/">
-                <i class="fas fa-code"></i> Complex Programmer
-            </a>
-            <button class="navbar-toggler btn-3d" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-3d" href="/blog/">
-                            <i class="fas fa-blog"></i> {{ ui.blog }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-3d" href="/projects/">
-                            <i class="fas fa-project-diagram"></i> {{ ui.projects }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-3d" href="{{ lang_prefix }}/avtotest/imtihon/">
-                            <i class="fas fa-stopwatch"></i> {{ ui.exam }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-3d" href="/tests/">
-                            <i class="fas fa-tasks"></i> {{ ui.tests }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-3d" href="/avtotest/">
-                            <i class="fas fa-car"></i> {{ ui.avtotest }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-3d" href="{{ lang_prefix }}/yol-belgilari/">
-                            <i class="fas fa-traffic-light"></i> {{ ui.signs }}
-                        </a>
-                    </li>
-                </ul>
-                <!-- Language Selector -->
-                <form action="{% url 'set_language' %}" method="post" class="language-selector ms-auto">
-                    {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ request.get_full_path_info }}">
-                    <select name="language" onchange="this.form.submit()" aria-label="{{ ui.language }}">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE|slice:":2" %}selected{% endif %}>
-                            {{ language.name_local }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </form>
-            </div>
-            <!-- 3D Theme Toggle -->
-            <button class="theme-toggle btn-3d ms-3" onclick="toggleTheme()" id="themeButton" aria-label="Toggle theme">
-                <i class="fas fa-sun"></i>
-            </button>
-        </div>
-        </div>
-    </nav> <!-- Main Content -->
+    <!-- PWA Install Banner -->
     {% include "includes/pwa_install.html" %}
+
     <main role="main" class="fade-in">
-        <div class="container"><div class="cp-home">
+        <div class="container">
             {% include "includes/seo_intro.html" %}
-            <section class="cp-hero" aria-labelledby="cp-hero-h">
-                <h2 id="cp-hero-h">🚗 {{ ui.hero_title }}</h2>
-                <p>{{ ui.hero_lead }}</p>
-                <div class="cp-hero-actions">
-                    <a class="cp-hero-main" href="{{ lang_prefix }}/avtotest/">📋 {{ ui.hero_tickets }}</a>
-                    <a class="cp-hero-exam" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ ui.exam }}<small>{{ ui.exam_desc }}</small></a>
-                    <a href="{{ lang_prefix }}/yol-belgilari/">🚸 {{ ui.signs }}</a>
-                    <a href="{{ lang_prefix }}/avtotest/reyting/">🏆 {{ ui.leaderboard }}</a>
-                    <a href="{{ lang_prefix }}/profil/">👤 {{ ui.profile }}</a>
+
+            <!-- High-Converting Hero Section -->
+            <section class="cp-hero-v2" aria-labelledby="cp-hero-h">
+                <div class="cp-hero-badge">
+                    <span>🔥</span> O'zbekiston YHXBB 2026 rasmiy bazasi
+                </div>
+                <h1 id="cp-hero-h">{{ ui.hero_title }}</h1>
+                <p class="cp-lead">{{ ui.hero_lead }}</p>
+
+                <div class="cp-hero-actions-v2">
+                    <a class="cp-hero-btn btn-exam" href="{{ lang_prefix }}/avtotest/imtihon/">
+                        <span style="font-size:1.5rem">🎯</span>
+                        <div>
+                            <span>{{ ui.exam }}</span>
+                            <small>{{ ui.exam_desc }}</small>
+                        </div>
+                    </a>
+                    <a class="cp-hero-btn btn-tickets" href="{{ lang_prefix }}/avtotest/">
+                        <span style="font-size:1.5rem">📋</span>
+                        <div>
+                            <span>{{ ui.hero_tickets }}</span>
+                            <small>108 bilet · 1080 savol</small>
+                        </div>
+                    </a>
+                    <a class="cp-hero-btn btn-signs" href="{{ lang_prefix }}/yol-belgilari/">
+                        <span style="font-size:1.5rem">🚸</span>
+                        <div>
+                            <span>{{ ui.signs }}</span>
+                            <small>{{ ui.signs_desc }}</small>
+                        </div>
+                    </a>
+                    <a class="cp-hero-btn btn-signs" href="{{ lang_prefix }}/avtotest/reyting/">
+                        <span style="font-size:1.5rem">🏆</span>
+                        <div>
+                            <span>{{ ui.leaderboard }}</span>
+                            <small>Haftalik peshqadamlar</small>
+                        </div>
+                    </a>
                 </div>
             </section>
-            <style>
-                .cp-hero{margin:8px auto 22px;padding:22px;border-radius:20px;text-align:left;color:#fff;
-                    background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#16a34a);box-shadow:0 12px 30px rgba(79,70,229,.25)}
-                .cp-hero h2{font-size:clamp(1.2rem,2.6vw,1.6rem);font-weight:800;margin:0 0 8px;color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important}
-                .cp-hero p{margin:0 0 16px;opacity:.92}
-                .cp-hero-actions{display:flex;flex-wrap:wrap;gap:10px}
-                .cp-hero-actions a{flex:1 1 150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:12px 14px;
-                    border-radius:14px;font-weight:700;text-decoration:none!important;color:#fff!important;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3)}
-                .cp-hero-actions a:hover{background:rgba(255,255,255,.26)}
-                .cp-hero-actions a.cp-hero-main{background:#fff;color:#4f46e5!important}
-                .cp-hero-actions a.cp-hero-exam{background:#22c55e;border-color:#22c55e}
-                .cp-hero-actions small{font-weight:500;font-size:.75rem;opacity:.9}
-            </style>
+
+            <!-- Dynamic Student Readiness Widget (Auto-populated from localStorage & server) -->
+            <section id="cpReadinessWidget" class="cp-readiness-widget" aria-label="Mening tayyorgarligim">
+                <div class="cp-readiness-header">
+                    <div class="cp-readiness-title">
+                        <span>📊</span> Mening tayyorgarlik darajam
+                    </div>
+                    <div id="cpReadinessScore" class="cp-readiness-score">0%</div>
+                </div>
+                <div class="cp-progress-track">
+                    <div id="cpProgressFill" class="cp-progress-fill"></div>
+                </div>
+                <div class="cp-readiness-stats">
+                    <div class="cp-readiness-stat">
+                        <span style="font-size:0.75rem; color:var(--color-text-2)">Yechilgan biletlar</span>
+                        <b id="cpSolvedBilets">0 / 108</b>
+                    </div>
+                    <div class="cp-readiness-stat">
+                        <span style="font-size:0.75rem; color:var(--color-text-2)">O'rtacha aniqlik</span>
+                        <b id="cpAccuracy">0%</b>
+                    </div>
+                    <div class="cp-readiness-stat">
+                        <span style="font-size:0.75rem; color:var(--color-text-2)">Xatolar soni</span>
+                        <b id="cpMistakesCount" style="color:#ef4444">0 ta</b>
+                    </div>
+                    <div class="cp-readiness-stat" style="justify-content:center; align-items:flex-end;">
+                        <a id="cpResumeBtn" href="/avtotest/" class="btn btn-sm btn-primary" style="font-weight:700; border-radius:8px; font-size:0.8rem">
+                            Davom ettirish &rarr;
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6 Pillars of Avtotest -->
+            <h2 class="cp-section-h">
+                <span>🚗 Avtotest & Haydovchilik akademiyasi</span>
+                <small><a href="/avtotest/" style="text-decoration:none">Barchasi &rarr;</a></small>
+            </h2>
+            <div class="cp-pillars-grid">
+                <a href="{{ lang_prefix }}/avtotest/imtihon/" class="cp-pillar-card">
+                    <div class="cp-pillar-icon">🎯</div>
+                    <div class="cp-pillar-body">
+                        <h3>{{ ui.exam }}</h3>
+                        <p>20 savol, 25 daqiqa, 2 xato limiti. Haqiqiy YHXX imtihon kompyuteri tajribasi.</p>
+                    </div>
+                </a>
+                <a href="/avtotest/" class="cp-pillar-card">
+                    <div class="cp-pillar-icon">📋</div>
+                    <div class="cp-pillar-body">
+                        <h3>108 ta Bilet</h3>
+                        <p>Rasmiy 1080 ta savol. Har bir savol bo'yicha qonuniy YHQ tushuntirishlari.</p>
+                    </div>
+                </a>
+                <a href="/tests/xatolar/" class="cp-pillar-card">
+                    <div class="cp-pillar-icon">❌</div>
+                    <div class="cp-pillar-body">
+                        <h3>Xatolar ustida ishlash</h3>
+                        <p>Faqat siz ilgari xato belgilagan savollarni qayta ishlab, xatolarni tozalang.</p>
+                    </div>
+                </a>
+                <a href="{{ lang_prefix }}/yol-belgilari/" class="cp-pillar-card">
+                    <div class="cp-pillar-icon">🚸</div>
+                    <div class="cp-pillar-body">
+                        <h3>{{ ui.signs }}</h3>
+                        <p>Barcha yo'l belgilari, guruhlar, ma'nosi va tushuntirishlari bilan to'liq katalog.</p>
+                    </div>
+                </a>
+                <a href="/yhq/" class="cp-pillar-card">
+                    <div class="cp-pillar-icon">📖</div>
+                    <div class="cp-pillar-body">
+                        <h3>{{ ui.yhq }}</h3>
+                        <p>Yo'l harakati qoidalari 28 ta bob va tegishli ilovalar bo'yicha to'liq matni.</p>
+                    </div>
+                </a>
+                <a href="{{ lang_prefix }}/avtotest/reyting/" class="cp-pillar-card">
+                    <div class="cp-pillar-icon">🏆</div>
+                    <div class="cp-pillar-body">
+                        <h3>{{ ui.leaderboard }}</h3>
+                        <p>Ketma-ket kunlar (streak) va haftalik eng faol o'quvchilar musobaqasi.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bugun / Today Section -->
             {% if today %}
-            <section class="cp-today" aria-labelledby="cp-today-h">
-                <h2 id="cp-today-h" class="cp-home-h">📅 {{ ui.today }}</h2>
-                <div class="cp-today-grid">
-                    <a href="{{ lang_prefix }}/avtotest/kun-savoli/">
-                        <span class="cp-today-ico">❓</span>
-                        <b>{{ ui.daily_q }}</b><small>{{ ui.daily_q_desc }}</small>
-                    </a>
-                    {% if today.usd %}
-                    <a href="/exchangerates/">
-                        <span class="cp-today-ico">💵</span>
-                        <b>{{ ui.usd_rate }}: {{ today.usd.rate }}</b>
-                        {% if today.usd.diff %}<small class="{% if today.usd_up %}cp-up{% else %}cp-down{% endif %}">{% if today.usd_up %}▲{% else %}▼{% endif %} {{ today.usd.diff }}</small>{% endif %}
-                    </a>
+            <h2 class="cp-section-h">
+                <span>📅 {{ ui.today }}</span>
+            </h2>
+            <div class="cp-today-grid">
+                <a href="{{ lang_prefix }}/avtotest/kun-savoli/" class="cp-today-card">
+                    <span style="font-size:1.4rem">❓</span>
+                    <b>{{ ui.daily_q }}</b>
+                    <small>{{ ui.daily_q_desc }}</small>
+                </a>
+                {% if today.usd %}
+                <a href="/exchangerates/" class="cp-today-card">
+                    <span style="font-size:1.4rem">💵</span>
+                    <b>{{ ui.usd_rate }}: {{ today.usd.rate }}</b>
+                    {% if today.usd.diff %}
+                    <small class="{% if today.usd_up %}cp-badge-up{% else %}cp-badge-down{% endif %}">
+                        {% if today.usd_up %}▲{% else %}▼{% endif %} {{ today.usd.diff }} UZS
+                    </small>
                     {% endif %}
-                    {% if today.post %}
-                    <a href="{{ lang_prefix }}{{ today.post.url }}">
-                        <span class="cp-today-ico">✍️</span>
-                        <b>{{ ui.latest_post }}</b><small>{{ today.post_title|truncatechars:70 }}</small>
-                    </a>
-                    {% endif %}
-                    <a href="/projects/">
-                        <span class="cp-today-ico">🎮</span>
-                        <b>{{ ui.games }}</b><small>Snake · Tetris · Car · Bubble Shooter</small>
-                    </a>
-                </div>
-            </section>
-            <style>
-                .cp-today-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:22px}
-                .cp-today-grid a{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border-radius:14px;text-decoration:none!important;
-                    color:var(--color-text)!important;background:var(--color-surface-2);border:1px solid var(--color-border)}
-                .cp-today-grid a:hover{border-color:var(--color-primary)}
-                .cp-today-grid small{color:var(--color-text-2);font-size:.8rem}
-                .cp-today-ico{font-size:1.4rem}
-                .cp-today-grid .cp-up{color:#dc2626}.cp-today-grid .cp-down{color:#16a34a}
-            </style>
+                </a>
+                {% endif %}
+                {% if today.post %}
+                <a href="{{ lang_prefix }}{{ today.post.url }}" class="cp-today-card">
+                    <span style="font-size:1.4rem">✍️</span>
+                    <b>{{ ui.latest_post }}</b>
+                    <small>{{ today.post_title|truncatechars:65 }}</small>
+                </a>
+                {% endif %}
+                <a href="/projects/" class="cp-today-card">
+                    <span style="font-size:1.4rem">🎮</span>
+                    <b>{{ ui.games }}</b>
+                    <small>Snake · Tetris · Car · Bubble Shooter</small>
+                </a>
+            </div>
             {% endif %}
-            <form class="cp-home-search" action="/search/" method="get" role="search">
+
+            <!-- Search Bar -->
+            <form class="cp-home-search-v2" action="/search/" method="get" role="search">
                 <i class="fas fa-search"></i>
                 <input type="search" name="q" placeholder="{{ ui.search_placeholder }}" aria-label="{{ ui.search }}">
                 <button type="submit">{{ ui.search }}</button>
             </form>
-            <h2 class="cp-home-h">{{ ui.popular_tools }}</h2>
-            <div class="cp-tools-grid">
-                <a href="/avtotest/"><span>🚗</span>{{ ui.avtotest }}</a>
-                <a href="/translate/"><span>🌐</span>{{ ui.translate }}</a>
-                <a href="/changetext/"><span>🔤</span>{{ ui.latin }}</a>
-                <a href="/pdf_tools/"><span>📄</span>{{ ui.pdf }}</a>
-                <a href="/password_generator/"><span>🔐</span>{{ ui.password }}</a>
-                <a href="/exchangerates/"><span>💱</span>{{ ui.rates }}</a>
-                <a href="/coins/"><span>🪙</span>{{ ui.coins }}</a>
-                <a href="/ip/"><span>📍</span>{{ ui.ip }}</a>
-                <a href="/imagecompare/"><span>🖼️</span>{{ ui.imagecompare }}</a>
-                <a href="/sitemap/"><span>🗺️</span>{{ ui.sitemap }}</a>
-            </div>
-        </div></div>
-        <!-- Menu Cards Section -->
-        <div class="container">
-            <div class="menu-cards-grid">
-                <a href="/blog/" class="menu-card">
-                    <div class="menu-card-icon">
-                        <i class="fas fa-blog"></i>
-                    </div>
-                    <div class="menu-card-content">
-                        <h3 class="menu-card-title">{{ ui.blog }}</h3>
-                        <p class="menu-card-desc">{{ ui.blog_desc }}</p>
-                    </div>
-                    <div class="menu-card-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-                <a href="/projects/" class="menu-card">
-                    <div class="menu-card-icon">
-                        <i class="fas fa-project-diagram"></i>
-                    </div>
-                    <div class="menu-card-content">
-                        <h3 class="menu-card-title">{{ ui.projects }}</h3>
-                        <p class="menu-card-desc">{{ ui.projects_desc }}</p>
-                    </div>
-                    <div class="menu-card-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-                <a href="{{ lang_prefix }}/avtotest/imtihon/" class="menu-card">
-                    <div class="menu-card-icon">
-                        <i class="fas fa-stopwatch"></i>
-                    </div>
-                    <div class="menu-card-content">
-                        <h3 class="menu-card-title">{{ ui.exam }}</h3>
-                        <p class="menu-card-desc">{{ ui.exam_desc }}</p>
-                    </div>
-                    <div class="menu-card-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-                <a href="/tests/" class="menu-card">
-                    <div class="menu-card-icon">
-                        <i class="fas fa-tasks"></i>
-                    </div>
-                    <div class="menu-card-content">
-                        <h3 class="menu-card-title">{{ ui.tests }}</h3>
-                        <p class="menu-card-desc">{{ ui.tests_desc }}</p>
-                    </div>
-                    <div class="menu-card-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-                <a href="/avtotest/" class="menu-card">
-                    <div class="menu-card-icon">
-                        <i class="fas fa-car"></i>
-                    </div>
-                    <div class="menu-card-content">
-                        <h3 class="menu-card-title">{{ ui.avtotest }}</h3>
-                        <p class="menu-card-desc">{{ ui.avtotest_desc }}</p>
-                    </div>
-                    <div class="menu-card-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-                <a href="{{ lang_prefix }}/yol-belgilari/" class="menu-card">
-                    <div class="menu-card-icon">
-                        <i class="fas fa-traffic-light"></i>
-                    </div>
-                    <div class="menu-card-content">
-                        <h3 class="menu-card-title">{{ ui.signs }}</h3>
-                        <p class="menu-card-desc">{{ ui.signs_desc }}</p>
-                    </div>
-                    <div class="menu-card-arrow">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
+
+            <!-- Popular Online Tools -->
+            <h2 class="cp-section-h">
+                <span>🧰 {{ ui.popular_tools }}</span>
+                <small><a href="/projects/" style="text-decoration:none">{{ ui.all_tools }} &rarr;</a></small>
+            </h2>
+            <div class="cp-tools-grid-v2">
+                <a href="/translate/" class="cp-tool-pill"><span>🌐</span>{{ ui.translate }}</a>
+                <a href="/changetext/" class="cp-tool-pill"><span>🔤</span>{{ ui.latin }}</a>
+                <a href="/pdf_tools/" class="cp-tool-pill"><span>📄</span>{{ ui.pdf }}</a>
+                <a href="/password_generator/" class="cp-tool-pill"><span>🔐</span>{{ ui.password }}</a>
+                <a href="/exchangerates/" class="cp-tool-pill"><span>💱</span>{{ ui.rates }}</a>
+                <a href="/coins/" class="cp-tool-pill"><span>🪙</span>{{ ui.coins }}</a>
+                <a href="/ip/" class="cp-tool-pill"><span>📍</span>{{ ui.ip }}</a>
+                <a href="/imagecompare/" class="cp-tool-pill"><span>🖼️</span>{{ ui.imagecompare }}</a>
+                <a href="/sitemap/" class="cp-tool-pill"><span>🗺️</span>{{ ui.sitemap }}</a>
             </div>
         </div>
 
         <!-- Main Top Ad Card -->
         <div class="container">
-            <div class="ad-card">
+            <div class="ad-card" style="margin-top:10px">
                 <div class="ad-card-label">
                     <i class="fas fa-bullhorn"></i> Reklama
                 </div>
                 <div class="ad-card-content">
-                    <!-- Display Ad for Desktop -->
-                    <ins class="adsbygoogle" style="min-block-size:250px;" data-ad-client="ca-pub-7773722896374259"
+                    <ins class="adsbygoogle" style="min-block-size:120px;" data-ad-client="ca-pub-7773722896374259"
                         data-ad-slot="3869366477" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-
-                    <!-- Mobile Ad -->
-                    <ins class="adsbygoogle" style="min-block-size:100px;" data-ad-client="ca-pub-4137874891184814"
-                        data-ad-slot="2799587029" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
             </div>
         </div>
@@ -739,184 +668,91 @@
             {% block content %}{% endblock %}
         </div>
 
-        <!-- Main Bottom Ad Card -->
-        <div class="container">
-            <div class="ad-card">
-                <div class="ad-card-label">
-                    <i class="fas fa-bullhorn"></i> Reklama
-                </div>
-                <div class="ad-card-content">
-                    <!-- Display Ad for Desktop -->
-                    <ins class="adsbygoogle" style="min-block-size:250px;" data-ad-client="ca-pub-7773722896374259"
-                        data-ad-slot="9722986318" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+        {% include "includes/seo_text.html" %}
+    </main>
 
-                    <!-- Desktop Ad -->
-                    <ins class="adsbygoogle" style="min-block-size:250px;" data-ad-client="ca-pub-4137874891184814"
-                        data-ad-slot="4986766667" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-            </div>
-        </div>
-    {% include "includes/seo_text.html" %}
-    </main> <!-- Footer -->
+    <!-- Footer -->
     <footer>
-        <!-- Display Ad 3 -->
-        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
-            data-ad-slot="8855222233" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-
-        <!-- Mobile Ad 2 -->
-        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-4137874891184814"
-            data-ad-slot="1305745791" data-ad-format="auto" data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-
         <div class="footer-content">
             <div class="footer-copyright">
                 <p class="copyright-text">&copy; {% now "Y" %} Complex Programmer. Barcha huquqlar himoyalangan.</p>
                 <div>
-                    <a href="/terms" class="footer-social-link"
-                        style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">Terms</a>
-                    <span style="color: rgba(255,255,255,0.5); margin: 0 0.5rem;">|</span>
-                    <a href="/privacy" class="footer-social-link"
-                        style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">Privacy</a>
-                    <span style="color: rgba(255,255,255,0.5); margin: 0 0.5rem;">|</span>
-                    <a href="/arxiv/" class="footer-social-link"
-                        style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">{{ ui.archive }}</a>
-                    <span style="color: rgba(255,255,255,0.5); margin: 0 0.5rem;">|</span>
-                    <a href="/markets/" class="footer-social-link"
-                        style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">{{ ui.markets }}</a>
+                    <a href="/terms" class="footer-social-link" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">Terms</a>
+                    <span style="color: rgba(255,255,255,0.4); margin: 0 0.5rem;">|</span>
+                    <a href="/privacy" class="footer-social-link" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">Privacy</a>
+                    <span style="color: rgba(255,255,255,0.4); margin: 0 0.5rem;">|</span>
+                    <a href="/arxiv/" class="footer-social-link" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">{{ ui.archive }}</a>
+                    <span style="color: rgba(255,255,255,0.4); margin: 0 0.5rem;">|</span>
+                    <a href="/markets/" class="footer-social-link" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">{{ ui.markets }}</a>
                 </div>
             </div>
             <div class="footer-social-links">
-                <a href="https://www.facebook.com/complexprogrammer" class="footer-social-link" aria-label="Facebook">
-                    <i class="fab fa-facebook"></i>
-                </a>
-                <a href="https://twitter.com/c0mplexprog" class="footer-social-link" aria-label="Twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="https://t.me/complexprogrammeruzchannel" class="footer-social-link" aria-label="Telegram">
+                <a href="https://t.me/AvtoTestUzbBot" class="footer-social-link" aria-label="Telegram Bot" title="@AvtoTestUzbBot">
                     <i class="fab fa-telegram"></i>
-                </a>
-                <a href="https://www.instagram.com/complexprogrammer" class="footer-social-link" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i>
                 </a>
                 <a href="https://github.com/complexprogrammer" class="footer-social-link" aria-label="GitHub">
                     <i class="fab fa-github"></i>
                 </a>
             </div>
         </div>
-    </footer> <!-- Scripts -->
+    </footer>
+
+    <!-- Bootstrap Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Student Progress Live Calculation Script -->
     <script>
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                var results = JSON.parse(localStorage.getItem('avtotestResults') || '{}');
+                var mistakes = JSON.parse(localStorage.getItem('avtotestMistakes') || '{}');
+                var keys = Object.keys(results);
+                var solvedCount = keys.length;
+                var mistakesCount = Object.keys(mistakes).length;
 
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeButton(newTheme);
+                if (solvedCount > 0 || mistakesCount > 0) {
+                    var totalCorrect = 0;
+                    var totalAnswered = 0;
+                    var lastBilet = 1;
 
-            // Update Three.js scene theme
-            updateThreeJSTheme(newTheme);
-        }
+                    keys.forEach(function (k) {
+                        var item = results[k];
+                        if (item && typeof item === 'object') {
+                            totalCorrect += (item.correct || 0);
+                            totalAnswered += ((item.correct || 0) + (item.wrong || 0));
+                            var bNum = parseInt(k, 10);
+                            if (bNum > lastBilet) lastBilet = bNum;
+                        }
+                    });
 
-        // Enhanced DOM handling with modern features
-        document.addEventListener('DOMContentLoaded', () => {
-            // Handle active links
-            const currentPath = window.location.pathname;
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (currentPath.startsWith(link.getAttribute('href'))) {
-                    link.classList.add('active');
-                }
-            });
+                    var accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+                    var readinessScore = Math.min(100, Math.round((solvedCount / 108) * 60 + (accuracy * 0.4)));
 
-            // Add smooth scroll behavior
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
+                    var widget = document.getElementById('cpReadinessWidget');
+                    var scoreEl = document.getElementById('cpReadinessScore');
+                    var fillEl = document.getElementById('cpProgressFill');
+                    var solvedEl = document.getElementById('cpSolvedBilets');
+                    var accEl = document.getElementById('cpAccuracy');
+                    var mistakesEl = document.getElementById('cpMistakesCount');
+                    var resumeBtn = document.getElementById('cpResumeBtn');
 
-            // Add intersection observer for animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe elements for animation
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
-            });
-
-            // Add ripple effect to buttons
-            document.querySelectorAll('.btn, .theme-toggle, .footer-social-link').forEach(button => {
-                button.addEventListener('click', function (e) {
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-
-                    ripple.style.cssText = `
-                        position: absolute;
-                        width: ${size}px;
-                        height: ${size}px;
-                        left: ${x}px;
-                        top: ${y}px;
-                        background: rgba(255, 255, 255, 0.3);
-                        border-radius: 50%;
-                        transform: scale(0);
-                        animation: ripple 0.6s ease-out;
-                        pointer-events: none;
-                        z-index: 10;
-                    `;
-
-                    this.style.position = 'relative';
-                    this.appendChild(ripple);
-
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-
-            // Add CSS for ripple animation
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
+                    if (widget) {
+                        widget.style.display = 'block';
+                        if (scoreEl) scoreEl.textContent = readinessScore + '% Tayyor';
+                        if (fillEl) fillEl.style.width = readinessScore + '%';
+                        if (solvedEl) solvedEl.textContent = solvedCount + ' / 108';
+                        if (accEl) accEl.textContent = accuracy + '%';
+                        if (mistakesEl) mistakesEl.textContent = mistakesCount + ' ta';
+                        if (resumeBtn) {
+                            var nextBilet = Math.min(108, lastBilet + 1);
+                            resumeBtn.href = '/avtotest/' + nextBilet + '/';
+                            resumeBtn.innerHTML = nextBilet + '-bilet &rarr;';
+                        }
                     }
                 }
-            `;
-            document.head.appendChild(style);
+            } catch (e) {
+                console.error("Readiness widget error:", e);
+            }
         });
     </script>
     {% block extra_js %}{% endblock %}

@@ -190,9 +190,10 @@ def exam(request):
             {"l": letter, "t": _pick(q, "javob_" + letter.lower(), sfx)}
             for letter in LETTERS if _pick(q, "javob_" + letter.lower(), sfx)
         ]
+        expl = _pick(q, "izoh", sfx) if q.izoh_holati == "approved" else ""
         questions.append({
             "id": q.id, "bilet": q.bilet, "raqam": q.raqam, "q": _pick(q, "savol", sfx),
-            "img": q.rasm, "o": options, "a": q.javob,
+            "img": q.rasm, "o": options, "a": q.javob, "expl": expl,
         })
     graph = [
         _breadcrumbs(lang, _url_lang(request), [("Avtotest", "/avtotest/"), (t["exam_h1"], "/avtotest/imtihon/")]),
@@ -778,3 +779,40 @@ def yhq_chapter(request, slug):
         **_yhq_lang_context(request, path),
     }
     return render(request, "driving/yhq_chapter.html", context)
+
+
+# ==================== YO'L HARAKATI JARIMALARI ====================
+
+
+def fines(request):
+    """O'zbekiston YHQ jarimalari katalogi va BHM kalkulyatori."""
+    from driving import fines as fines_module
+
+    lang = _lang(request)
+    t = texts(lang)
+    items = fines_module.get_fines()
+    q = request.GET.get("q", "").strip().lower()
+    cat = request.GET.get("cat", "")
+    if cat:
+        items = [i for i in items if i["cat"] == cat]
+    if q:
+        items = [
+            i for i in items
+            if q in i["title_uz"].lower() or q in i["title_ru"].lower() or q in i["article"].lower()
+        ]
+    title = (
+        "Yo'l harakati jarimalari 2026 — O'zbekiston jarimalar jadvali va kalkulyatori"
+        if lang == "uz" else "Штрафы ПДД Узбекистана 2026 — таблица и калькулятор штрафов"
+    )
+    desc = (
+        "O'zbekiston YHQ bo'yicha barcha jarimalar miqdori, 15 kunlik 50% chegirma, BHM hisobi va MJtK moddalari."
+        if lang == "uz" else "Все штрафы за нарушение ПДД в Узбекистане, расчет 50% скидки при оплате за 15 дней и статьи КоАО."
+    )
+    graph = [_breadcrumbs(lang, _url_lang(request), [("Avtotest", "/avtotest/"), ("Jarimalar", "/jarimalar/")])]
+    context = {
+        "t": t, "fines": items, "bhm": fines_module.BHM, "bhm_fmt": f"{fines_module.BHM:,}".replace(",", " "),
+        "search_query": q, "selected_cat": cat,
+        **_seo(title, desc, graph),
+    }
+    return render(request, "driving/fines.html", context)
+
