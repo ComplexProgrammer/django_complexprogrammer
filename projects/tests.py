@@ -68,8 +68,9 @@ class ExchangeRatesTestCase(TestCase):
         fallback_result = fetch_json("https://cbu.uz/test", "test:fallback_key")
         self.assertEqual(fallback_result, self.mock_rates)
 
+    @patch("projects.views._save_disk_fallback")
     @patch("projects.views.requests.get")
-    def test_get_exchange_rates_endpoint_success(self, mock_get):
+    def test_get_exchange_rates_endpoint_success(self, mock_get, mock_save):
         mock_resp = MagicMock()
         mock_resp.status_code = 200
         mock_resp.json.return_value = self.mock_rates

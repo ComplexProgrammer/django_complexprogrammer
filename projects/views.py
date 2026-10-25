@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 CBU_RATES_URL = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
 CBU_FALLBACK_FILE = settings.BASE_DIR / "projects" / "data" / "cbu_rates_fallback.json"
+CBU_CACHE_KEY = "api:cbu:v2"
 
 DEFAULT_REQUEST_HEADERS = {
     "User-Agent": (
@@ -39,11 +40,15 @@ DEFAULT_REQUEST_HEADERS = {
 
 def _save_disk_fallback(path, data):
     try:
+        # Faqat to'liq ro'yxat bo'lsa (kamida 10 ta valyuta) zaxiraga yozamiz
+        # Shunda testlar yoki xatolik bilan qisqargan ro'yxat haqiqiy 74 ta valyutani buzmaydi
+        if isinstance(data, list) and len(data) < 10:
+            return
         target = Path(path)
         target.parent.mkdir(parents=True, exist_ok=True)
         tmp = target.with_suffix(".tmp")
         with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False)
+            json.dump(data, f, ensure_ascii=False, indent=2)
         tmp.replace(target)
     except Exception as exc:
         logger.warning("Failed to save disk fallback to %s: %s", path, exc)
@@ -90,7 +95,7 @@ def home_today(request):
     usd = cache.get("home:usd")
     if usd is None:
         # Bosh sahifa CBU'ni kutib qolmasin: qisqa timeout, xato ham 10 daqiqaga keshlanadi
-        rates = fetch_json(CBU_RATES_URL, "api:cbu", timeout=3, ttl=1800)
+        rates = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, timeout=3, ttl=1800)
         row = next((r for r in rates or [] if r.get("Ccy") == "USD"), None)
         usd = {"rate": row.get("Rate"), "diff": row.get("Diff", "")} if row else False
         cache.set("home:usd", usd, 1800 if usd else 600)
@@ -178,7 +183,7 @@ def fetch_json(
     if data is not None:
         return data
 
-    if disk_fallback_path is None and cache_key == "api:cbu":
+    if disk_fallback_path is None and cache_key in ("api:cbu", CBU_CACHE_KEY):
         disk_fallback_path = CBU_FALLBACK_FILE
 
     req_headers = DEFAULT_REQUEST_HEADERS.copy()
@@ -206,9 +211,12 @@ def fetch_json(
     if data:
         cache.set(cache_key, data, ttl)
         if fallback:
-            cache.set(f"{cache_key}:fallback", data, 86400 * 30)  # 30 kun saqlanadi
-            if disk_fallback_path:
-                _save_disk_fallback(disk_fallback_path, data)
+            # CBU uchun qisqargan ro'yxat (10 tadan kam) bo'lsa, mavjud 74 ta valyutalik zaxirani buzmaymiz
+            is_cbu_truncated = cache_key in ("api:cbu", CBU_CACHE_KEY) and isinstance(data, list) and len(data) < 10
+            if not is_cbu_truncated:
+                cache.set(f"{cache_key}:fallback", data, 86400 * 30)  # 30 kun saqlanadi
+                if disk_fallback_path:
+                    _save_disk_fallback(disk_fallback_path, data)
         return data
 
     # 3. Agar API xatolik bergan bo'lsa, fallback keshdan olamiz
@@ -424,7 +432,7 @@ def GetBilet(request):
 
 
 def exchangerates(request):
-    data = fetch_json(CBU_RATES_URL, "api:cbu", ttl=1800, timeout=8)
+    data = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, ttl=1800, timeout=8)
     context = {
         "data": data or [],
         "api_error": not bool(data),
@@ -434,7 +442,7 @@ def exchangerates(request):
 
 
 def GetExchangeRates(request):
-    data = fetch_json(CBU_RATES_URL, "api:cbu", ttl=1800, timeout=8)
+    data = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, ttl=1800, timeout=8)
     if not data:
         return JsonResponse({"data": [], "error": "Markaziy bank sayti javob bermayapti"}, status=503)
     return JsonResponse({"data": data})
