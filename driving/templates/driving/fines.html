@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+<style>
+  .f-hero {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #fff;
+    border-radius: 20px;
+    padding: 26px 24px;
+    margin-bottom: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .f-hero h1 {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 800;
+    margin: 0 0 10px;
+    color: #fff !important;
+  }
+  .f-bhm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #a5b4fc;
+    margin-bottom: 12px;
+  }
+  .f-discount-box {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-top: 14px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .f-search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .f-search-box input {
+    flex: 1;
+    min-width: 220px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+  }
+  .f-search-box input:focus {
+    border-color: var(--accent);
+  }
+  .f-cats {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    margin-bottom: 20px;
+    scrollbar-width: none;
+  }
+  .f-cats::-webkit-scrollbar { display: none; }
+  .f-cat-pill {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    text-decoration: none !important;
+    font-size: 0.88rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .f-cat-pill.active, .f-cat-pill:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff !important;
+  }
+
+  /* Fine Card */
+  .f-item-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .f-item-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .f-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .f-article {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .f-pricing {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 10px 0;
+  }
+  .f-price-full {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .f-price-disc {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.12);
+    padding: 2px 10px;
+    border-radius: 8px;
+  }
+
+  /* Live BHM Calculator Widget */
+  .f-calc-widget {
+    background: var(--card);
+    border: 2px solid var(--accent);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+</style>
+</head>
+<body>
+{% include "includes/site_header.html" %}
+
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>Jarimalar jadvali</span>
+  </nav>
+
+  <div class="f-hero">
+    <div class="f-bhm-badge">
+      <span>📌</span> Amaldagi 1 BHM = {{ bhm_fmt }} so'm
+    </div>
+    <h1>⚖️ Yo'l Harakati Jarimalari (2026)</h1>
+    <p style="margin:0; opacity:0.9; font-size:0.95rem">
+      O'zbekiston Respublikasi Ma'muriy javobgarlik to'g'risidagi kodeksi (MJtK) bo'yicha belgilangan barcha qoidabuzarlik jarimalari va chegirmalar.
+    </p>
+
+    <div class="f-discount-box">
+      <b>⚡ 50% Chegirma qoidasi:</b> Jarima to'g'risidagi qaror chiqarilgan kundan boshlab <b>15 kun ichida</b> to'lansa, jarima summasining <b>50 foizini</b> to'lash kifoya qiladi (MJtK 332-1-moddasi).
+    </div>
+  </div>
+
+  <!-- Interactive Live Calculator -->
+  <div class="f-calc-widget">
+    <h3 class="d-h2" style="margin:0 0 10px">🧮 BHM Kalkulyatori</h3>
+    <div class="d-row" style="align-items:center; gap:12px; margin-bottom:12px">
+      <label for="calcBhmInput" style="font-weight:600; font-size:0.9rem">BHM karrasi:</label>
+      <input type="number" id="calcBhmInput" value="2" min="0.5" max="100" step="0.5"
+             style="width:90px; padding:8px 12px; border-radius:8px; border:1px solid var(--border); font-size:1.05rem; font-weight:700">
+      <span style="font-size:0.9rem; color:var(--muted)">baravar BHM</span>
+    </div>
+    <div class="d-stats">
+      <div>
+        <span style="font-size:0.8rem; color:var(--muted)">To'liq jarima miqdori</span>
+        <b id="calcTotalSum" style="font-size:1.35rem; color:var(--text)">750 000 so'm</b>
+      </div>
+      <div>
+        <span style="font-size:0.8rem; color:#10b981">15 kun ichida (50% chegirma)</span>
+        <b id="calcDiscSum" style="font-size:1.35rem; color:#10b981">375 000 so'm</b>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Categories -->
+  <form method="get" class="f-search-box" action="{{ lang_prefix }}/jarimalar/">
+    <input type="search" name="q" value="{{ search_query }}" placeholder="🔍 Qoidabuzarlik yoki moddani qidiring (masalan: tezlik, qizil, kamar, telefon)..." aria-label="Qidirish">
+    {% if selected_cat %}<input type="hidden" name="cat" value="{{ selected_cat }}">{% endif %}
+    <button type="submit" class="d-btn">Qidirish</button>
+    {% if search_query or selected_cat %}
+      <a href="{{ lang_prefix }}/jarimalar/" class="d-btn alt">Tozalash</a>
+    {% endif %}
+  </form>
+
+  <div class="f-cats">
+    <a href="{{ lang_prefix }}/jarimalar/" class="f-cat-pill {% if not selected_cat %}active{% endif %}">Barchasi</a>
+    <a href="{{ lang_prefix }}/jarimalar/?cat=speed" class="f-cat-pill {% if selected_cat == 'speed' %}active{% endif %}">🏎️ Tezlik</a>
+    <a href="{{ lang_prefix }}/jarimalar/?cat=rules" class="f-cat-pill {% if selected_cat == 'rules' %}active{% endif %}">🛑 Qoidalar va svetofor</a>
+    <a href="{{ lang_prefix }}/jarimalar/?cat=safety" class="f-cat-pill {% if selected_cat == 'safety' %}active{% endif %}">🛡️ Kamar va telefon</a>
+    <a href="{{ lang_prefix }}/jarimalar/?cat=documents" class="f-cat-pill {% if selected_cat == 'documents' %}active{% endif %}">📄 Hujjatlar va sug'urta</a>
+    <a href="{{ lang_prefix }}/jarimalar/?cat=severe" class="f-cat-pill {% if selected_cat == 'severe' %}active{% endif %}">⚠️ Og'ir qoidabuzarliklar</a>
+  </div>
+
+  <!-- Fines List -->
+  {% if fines %}
+    {% for f in fines %}
+    <div class="f-item-card">
+      <div class="f-item-header">
+        <h3 style="font-size:1.05rem; font-weight:700; margin:0; flex:1">
+          {% if ui_lang == 'ru' %}{{ f.title_ru }}{% else %}{{ f.title_uz }}{% endif %}
+        </h3>
+        <span class="f-article">{{ f.article }}</span>
+      </div>
+
+      <div class="f-pricing">
+        <span class="f-price-full">{{ f.amount_fmt }} so'm <small style="font-size:0.8rem; font-weight:500; color:var(--muted)">({{ f.bhm_str }})</small></span>
+        <span class="f-price-disc">15 kun ichida: {{ f.discount_50_fmt }} so'm</span>
+      </div>
+
+      <p style="margin:4px 0 0; font-size:0.88rem; color:var(--muted); line-height:1.4">
+        {% if ui_lang == 'ru' %}{{ f.desc_ru }}{% else %}{{ f.desc_uz }}{% endif %}
+      </p>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="d-card" style="text-align:center; padding:40px 20px">
+      <p style="font-size:2rem; margin-bottom:10px">🔍</p>
+      <h3 class="d-h2">Qidiruv bo'yicha jarimalar topilmadi</h3>
+      <p class="d-meta">Iltimos, boshqa so'z bilan qidiring yoki barcha ro'yxatni oching.</p>
+      <a href="{{ lang_prefix }}/jarimalar/" class="d-btn">Barcha jarimalar</a>
+    </div>
+  {% endif %}
+
+  <div class="d-row" style="margin-top:24px">
+    <a href="{{ lang_prefix }}/avtotest/imtihon/" class="d-btn">🎯 Imtihon simulyatori</a>
+    <a href="{{ lang_prefix }}/yhq/" class="d-btn alt">📖 Yo'l harakati qoidalari</a>
+    <a href="{{ lang_prefix }}/yol-belgilari/" class="d-btn alt">🚸 Yo'l belgilari</a>
+  </div>
+</main>
+
+<script>
+  // Live BHM Calculator logic
+  var BHM = {{ bhm }};
+  var input = document.getElementById("calcBhmInput");
+  var totalEl = document.getElementById("calcTotalSum");
+  var discEl = document.getElementById("calcDiscSum");
+
+  function fmt(n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " so'm";
+  }
+
+  function updateCalc() {
+    var val = parseFloat(input.value) || 0;
+    var total = val * BHM;
+    var disc = total * 0.5;
+    totalEl.textContent = fmt(total);
+    discEl.textContent = fmt(disc);
+  }
+
+  if (input) {
+    input.addEventListener("input", updateCalc);
+  }
+</script>
+</body>
+</html>

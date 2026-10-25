@@ -58,6 +58,7 @@
     <a href="{{ lang_prefix }}/avtotest/imtihon/" {% if request.path_info == "/avtotest/imtihon/" %}aria-current="page"{% endif %}>🎯 {{ ui.exam }}</a>
     <a href="/yhq/" {% if request.path_info|slice:":5" == "/yhq/" %}aria-current="page"{% endif %}>📖 {{ ui.yhq }}</a>
     <a href="{{ lang_prefix }}/yol-belgilari/" {% if request.path_info|slice:":15" == "/yol-belgilari/" %}aria-current="page"{% endif %}>🚸 {{ ui.signs }}</a>
+    <a href="{{ lang_prefix }}/jarimalar/" {% if request.path_info|slice:":11" == "/jarimalar/" %}aria-current="page"{% endif %}>⚖️ Jarimalar</a>
     <a href="/tests/" {% if request.path_info|slice:":7" == "/tests/" %}aria-current="page"{% endif %}>📝 {{ ui.tests }}</a>
     <a href="/projects/" {% if request.path_info == "/projects/" %}aria-current="page"{% endif %}>🧰 {{ ui.projects }}</a>
     <a href="/blog/" {% if request.path_info|slice:":6" == "/blog/" %}aria-current="page"{% endif %}>📰 {{ ui.blog }}</a>

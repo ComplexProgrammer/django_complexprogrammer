@@ -123,7 +123,9 @@
     var m = load();
     if (ok) { delete m[q.id]; save(m); }
     window.cpSync.answered(ok);
-    document.getElementById("feedback").innerHTML = '<div class="alert alert-' + (ok ? "success" : "danger") + ' py-2 m-0">' + esc(ok ? T.correct : T.wrong) + '</div>';
+    var expl = pick(q, "izoh");
+    var explHtml = expl ? '<div class="mt-2 p-2 rounded" style="background:rgba(99,102,241,0.1); border-left:4px solid #6366f1; font-size:0.88rem">💡 <b>Qoida izohi:</b> ' + esc(expl) + '</div>' : '';
+    document.getElementById("feedback").innerHTML = '<div class="alert alert-' + (ok ? "success" : "danger") + ' py-2 m-0">' + esc(ok ? T.correct : T.wrong) + '</div>' + explHtml;
     document.getElementById("next").disabled = false;
     document.getElementById("next").focus();
   }
