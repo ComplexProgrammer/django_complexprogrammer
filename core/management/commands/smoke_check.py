@@ -14,6 +14,7 @@ PATHS = [
     "/", "/avtotest/", "/avtotest/1/", "/avtotest/1/1/", "/avtotest/imtihon/", "/avtotest/mavzular/",
     "/avtotest/pdf/", "/avtotest/kun-savoli/", "/yol-belgilari/", "/tests/", "/blog/", "/news/", "/projects/",
     "/translate/", "/search/?q=avto", "/sitemap.xml", "/robots.txt", "/ru/avtotest/", "/en/",
+    "/GetExchangeRates/", "/exchangerates/",
 ]
 
 
