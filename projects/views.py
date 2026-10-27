@@ -622,16 +622,56 @@ def client_ip(request):
     return request.META.get("REMOTE_ADDR", "")
 
 
-IP_FIELDS = [
-    ("ip", "IP Address"), ("city", "City"), ("region", "Region"), ("region_code", "Region code"),
-    ("flag", "Flag"), ("country_code", "Country code"), ("country_code_iso3", "Country code iso3"),
-    ("country_name", "Country name"), ("country_capital", "Country capital"), ("country_tld", "Country tld"),
-    ("continent_code", "Continent code"), ("in_eu", "in eu"), ("postal", "Postal"), ("latitude", "Latitude"),
-    ("longitude", "Longitude"), ("timezone", "Time zone"), ("utc_offset", "Utc offset"),
-    ("country_calling_code", "Country calling code"), ("currency", "Currency"), ("currency_name", "Currency name"),
-    ("languages", "Languages"), ("country_area", "Country area"), ("country_population", "Country population"),
-    ("asn", "asn"), ("org", "org"), ("hostname", "hostname"),
-]
+IP_TEXT = {
+    "uz": {
+        "your_ip": "Sizning IP manzilingiz", "checked_ip": "Tekshirilgan IP manzil", "copy": "Nusxalash", "copied": "Nusxalandi",
+        "placeholder": "IP manzil kiriting, masalan 8.8.8.8", "search": "Tekshirish", "my_ip": "Mening IP", "invalid": "IP manzil noto'g'ri yozilgan",
+        "loading": "Ma'lumot yuklanmoqda...", "location": "Joylashuv", "network": "Tarmoq", "time": "Vaqt", "country": "Mamlakat haqida",
+        "country_name": "Mamlakat", "region": "Viloyat", "city": "Shahar", "postal": "Pochta indeksi", "coords": "Koordinatalar", "map": "Xaritada ochish",
+        "ip": "IP manzil", "version": "Versiya", "org": "Provayder", "asn": "ASN", "net": "Tarmoq bloki", "hostname": "Host nomi",
+        "timezone": "Vaqt mintaqasi", "utc": "UTC farqi", "local_time": "Hozirgi vaqt",
+        "capital": "Poytaxt", "calling": "Telefon kodi", "currency": "Valyuta", "languages": "Tillar", "tld": "Domen", "population": "Aholi",
+        "area": "Maydoni, km²", "eu": "Yevropa Ittifoqi", "yes": "Ha", "no": "Yo'q", "error": "Xizmat vaqtincha ishlamayapti",
+        "private": "Lokal (xususiy) IP manzil — internetda joylashuvi yo'q",
+        "note": "Joylashuv IP manzil bo'yicha taxminiy aniqlanadi: odatda provayder joylashgan shahar ko'rsatiladi.", "app": "Android ilova",
+    },
+    "ru": {
+        "your_ip": "Ваш IP-адрес", "checked_ip": "Проверяемый IP-адрес", "copy": "Копировать", "copied": "Скопировано",
+        "placeholder": "Введите IP-адрес, например 8.8.8.8", "search": "Проверить", "my_ip": "Мой IP", "invalid": "Неверный IP-адрес",
+        "loading": "Загрузка данных...", "location": "Местоположение", "network": "Сеть", "time": "Время", "country": "О стране",
+        "country_name": "Страна", "region": "Регион", "city": "Город", "postal": "Почтовый индекс", "coords": "Координаты", "map": "Открыть на карте",
+        "ip": "IP-адрес", "version": "Версия", "org": "Провайдер", "asn": "ASN", "net": "Сеть", "hostname": "Имя хоста",
+        "timezone": "Часовой пояс", "utc": "Смещение UTC", "local_time": "Текущее время",
+        "capital": "Столица", "calling": "Телефонный код", "currency": "Валюта", "languages": "Языки", "tld": "Домен", "population": "Население",
+        "area": "Площадь, км²", "eu": "Евросоюз", "yes": "Да", "no": "Нет", "error": "Сервис временно недоступен",
+        "private": "Локальный (частный) IP-адрес — у него нет местоположения в интернете",
+        "note": "Местоположение по IP определяется приблизительно: обычно это город провайдера.", "app": "Приложение Android",
+    },
+    "en": {
+        "your_ip": "Your IP address", "checked_ip": "IP address checked", "copy": "Copy", "copied": "Copied",
+        "placeholder": "Enter an IP address, e.g. 8.8.8.8", "search": "Look up", "my_ip": "My IP", "invalid": "Invalid IP address",
+        "loading": "Loading details...", "location": "Location", "network": "Network", "time": "Time", "country": "About the country",
+        "country_name": "Country", "region": "Region", "city": "City", "postal": "Postal code", "coords": "Coordinates", "map": "Open map",
+        "ip": "IP address", "version": "Version", "org": "Provider", "asn": "ASN", "net": "Network", "hostname": "Hostname",
+        "timezone": "Time zone", "utc": "UTC offset", "local_time": "Local time",
+        "capital": "Capital", "calling": "Calling code", "currency": "Currency", "languages": "Languages", "tld": "Domain", "population": "Population",
+        "area": "Area, km²", "eu": "European Union", "yes": "Yes", "no": "No", "error": "The service is temporarily unavailable",
+        "private": "Local (private) IP address — it has no location on the internet",
+        "note": "IP location is approximate: it usually shows the city of the internet provider.", "app": "Android app",
+    },
+    "tr": {
+        "your_ip": "IP adresiniz", "checked_ip": "Sorgulanan IP adresi", "copy": "Kopyala", "copied": "Kopyalandı",
+        "placeholder": "IP adresi girin, ör. 8.8.8.8", "search": "Sorgula", "my_ip": "IP'm", "invalid": "Geçersiz IP adresi",
+        "loading": "Bilgiler yükleniyor...", "location": "Konum", "network": "Ağ", "time": "Saat", "country": "Ülke hakkında",
+        "country_name": "Ülke", "region": "Bölge", "city": "Şehir", "postal": "Posta kodu", "coords": "Koordinatlar", "map": "Haritada aç",
+        "ip": "IP adresi", "version": "Sürüm", "org": "Sağlayıcı", "asn": "ASN", "net": "Ağ bloğu", "hostname": "Ana bilgisayar adı",
+        "timezone": "Saat dilimi", "utc": "UTC farkı", "local_time": "Yerel saat",
+        "capital": "Başkent", "calling": "Telefon kodu", "currency": "Para birimi", "languages": "Diller", "tld": "Alan adı", "population": "Nüfus",
+        "area": "Yüzölçümü, km²", "eu": "Avrupa Birliği", "yes": "Evet", "no": "Hayır", "error": "Hizmet geçici olarak kullanılamıyor",
+        "private": "Yerel (özel) IP adresi — internette konumu yok",
+        "note": "IP konumu yaklaşıktır: genellikle internet sağlayıcısının şehrini gösterir.", "app": "Android uygulaması",
+    },
+}
 
 
 def _ip_lookup(raw_ip, wait=True):
@@ -639,17 +679,19 @@ def _ip_lookup(raw_ip, wait=True):
     try:
         ip_obj = ipaddress.ip_address((raw_ip or "").strip())
     except ValueError:
-        return {"error": True, "reason": "Noto'g'ri IP manzil"}
+        return {"error": True, "code": "invalid", "reason": "Noto'g'ri IP manzil"}
     if ip_obj.is_private or ip_obj.is_loopback:
-        return {"ip": str(ip_obj), "error": True, "reason": "Lokal (xususiy) IP manzil"}
+        return {"ip": str(ip_obj), "error": True, "code": "private", "reason": "Lokal (xususiy) IP manzil"}
     cache_key = f"api:ip:{ip_obj}"
     if not wait:
         return cache.get(cache_key)
     data = fetch_json(f"https://ipapi.co/{ip_obj}/json/", cache_key, ttl=3600, timeout=4, fallback=False)
-    return data or {"ip": str(ip_obj), "error": True, "reason": "Xizmat vaqtincha ishlamayapti"}
+    return data or {"ip": str(ip_obj), "error": True, "code": "error", "reason": "Xizmat vaqtincha ishlamayapti"}
 
 
 def ip(request):
+    from django.utils import translation
+
     # Parametr berilmasa — serverning emas, foydalanuvchining o'z IP manzili
     raw_ip = request.GET.get("ip") or client_ip(request)
     # Sahifa ipapi.co'ni kutmaydi: keshda bo'lmasa, jadval brauzerda /GetIpData/ orqali to'ldiriladi
@@ -657,17 +699,21 @@ def ip(request):
     pending = data is None
     if pending:
         data = {"ip": raw_ip.strip()}
-    rows = [
-        (key, label, data.get("country_code") if key == "flag" else data.get(key))
-        for key, label in IP_FIELDS
-    ]
-    context = {"data": data, "rows": rows, "pending": pending, "comments": page_comments(request)}
+    lang = (translation.get_language() or "uz")[:2]
+    context = {
+        "data": data,
+        "pending": pending,
+        # O'z IP'ini ko'ryaptimi yoki boshqa manzilni tekshiryaptimi — sarlavha shunga qarab
+        "own_ip": not request.GET.get("ip"),
+        "t": IP_TEXT.get(lang, IP_TEXT["en"]),
+        "comments": page_comments(request),
+    }
     return render(request, "projects/ip.html", context)
 
 
 def GetIpData(request):
     data = _ip_lookup(request.GET.get("ip") or client_ip(request))
-    return JsonResponse(data, status=503 if data.get("reason") == "Xizmat vaqtincha ishlamayapti" else 200)
+    return JsonResponse(data, status=503 if data.get("code") == "error" else 200)
 
 
 def map(request):
