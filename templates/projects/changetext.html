@@ -1,796 +1,251 @@
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
-
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-    
-    {% load i18n %}
-    {% get_current_language as LANGUAGE_CODE %}
-    {% get_available_languages as LANGUAGES %}
-    {% get_language_info_list for LANGUAGES as languages %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uchun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .ct{max-width:1100px}
+  .ct-hero{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:24px;margin-bottom:18px;border-radius:20px;
+    color:#fff;background:linear-gradient(135deg,#059669,#0d9488 45%,#4f46e5);box-shadow:0 12px 32px rgba(13,148,136,.22)}
+  .ct-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .ct-hero p{margin:0;opacity:.88}
+  .ct-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .ct-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);font-size:.88rem}
+  .ct-app img{height:44px;display:block}
 
-    <!--  -->
+  .ct-switch{display:flex;flex-wrap:wrap;gap:4px;padding:4px;margin-bottom:14px;border-radius:14px;background:var(--card);border:1px solid var(--border)}
+  .ct-switch button{flex:1 1 auto;padding:9px 14px;border:0;border-radius:10px;background:transparent;color:var(--muted);font:inherit;font-weight:600;
+    cursor:pointer;transition:background .15s,color .15s}
+  .ct-switch button:hover{color:var(--text)}
+  .ct-switch button[aria-pressed="true"]{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
-    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
-        integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/static/js/three-guard.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+  .ct-panes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ct-pane{display:flex;flex-direction:column;margin:0;padding:14px}
+  .ct-pane-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+  .ct-pane-head b{font-size:.95rem}
+  .ct-tag{padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:600;background:rgba(99,102,241,.12);color:var(--accent)}
+  .ct-pane textarea{flex:1;width:100%;min-height:260px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);
+    color:var(--text);font:inherit;font-size:1.02rem;line-height:1.6;resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s}
+  .ct-pane textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.18)}
+  .ct-pane textarea[readonly]{cursor:text}
+  .ct-pane-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
+  .ct-tools{display:flex;flex-wrap:wrap;gap:6px}
+  .ct-tool{padding:7px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-size:.88rem;
+    font-weight:600;cursor:pointer;transition:border-color .15s,color .15s}
+  .ct-tool:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .ct-tool:disabled{opacity:.45;cursor:default}
+  .ct-tool.primary{background:linear-gradient(135deg,#6366f1,#8b5cf6);border-color:transparent;color:#fff}
+  .ct-tool.primary:hover:not(:disabled){color:#fff;filter:brightness(1.08)}
+  .ct-busy{opacity:.6}
+  .ct-tip{margin:10px 2px 0;color:var(--muted);font-size:.88rem}
+  .ct-err{color:#ef4444;font-size:.88rem}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  .ct-abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;margin-top:12px}
+  .ct-abc div{padding:8px 4px;border-radius:12px;border:1px solid var(--border);background:var(--bg);text-align:center}
+  .ct-abc b{display:block;font-size:1.3rem}
+  .ct-abc small{color:var(--muted);font-size:.78rem}
+  .ct-abc .new{border-color:#22c55e;background:rgba(34,197,94,.1)}
+  .ct-legend{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:.85rem}
+  .ct-legend i{width:14px;height:14px;border-radius:4px;border:1px solid #22c55e;background:rgba(34,197,94,.15)}
+  [hidden]{display:none!important}
 
-        :root {
-            --bg-color: #0a0a0f;
-            --text-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-color: #00ffff;
-            --accent-secondary: #ff00ff;
-            --accent-glow: rgba(0, 255, 255, 0.3);
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f0f4f8;
-            --text-color: #1a1a2e;
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --accent-color: #667eea;
-            --accent-secondary: #764ba2;
-            --accent-glow: rgba(102, 126, 234, 0.3);
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: all 0.5s ease;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        #threejs-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.7;
-        }
-
-        .container {
-            position: relative;
-            z-index: 10;
-            padding-top: 2rem;
-        }
-
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease;
-            margin-bottom: 2rem;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 50px 0 rgba(0, 0, 0, 0.5);
-            border-color: var(--accent-color);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px var(--accent-glow);
-            }
-
-            50% {
-                box-shadow: 0 0 40px var(--accent-glow);
-            }
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-align: center;
-            margin: 2rem 0;
-            animation: float 3s ease-in-out infinite;
-            font-size: 2.5rem;
-        }
-
-        h6 {
-            text-align: center;
-            color: var(--text-color);
-            margin: 1rem 0;
-            font-weight: 500;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--border-color);
-            border-radius: 15px;
-            color: var(--text-color);
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            resize: vertical;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent-color);
-            color: var(--text-color);
-            box-shadow: 0 0 20px var(--accent-glow);
-            outline: none;
-        }
-
-        .form-control::placeholder {
-            color: var(--text-color);
-            opacity: 0.5;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--accent-color);
-            color: var(--text-color);
-            padding: 12px 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 4px 15px var(--accent-glow);
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px var(--accent-glow);
-        }
-
-        .C0mplexButton {
-            animation: fadeInUp 1s ease;
-        }
-
-        marquee h2 {
-            color: var(--accent-color) !important;
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .fixed-top {
-            z-index: 100;
-        }
-
-        .script-switch {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .script-switch button {
-            flex: 1 1 auto;
-            background: transparent;
-            border: 2px solid var(--border-color);
-            border-radius: 50px;
-            color: var(--text-color);
-            padding: 8px 16px;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .script-switch button.active,
-        .script-switch button:hover {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .alphabet-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 8px;
-        }
-
-        .alphabet-grid .letter {
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 8px 4px;
-            text-align: center;
-        }
-
-        .alphabet-grid .letter b {
-            display: block;
-            font-size: 1.3rem;
-        }
-
-        .alphabet-grid .letter small {
-            opacity: 0.6;
-        }
-
-        .alphabet-grid .letter.changed {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        @media (max-width: 768px) {
-            .glass-card {
-                padding: 1rem;
-            }
-
-            h2 {
-                font-size: 1.8rem;
-            }
-
-            .form-control {
-                padding: 1rem;
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, var(--accent-secondary), var(--accent-color));
-        }
-    </style>
+  @media (max-width:760px){
+    .ct-hero{padding:20px 18px}
+    .ct-panes{grid-template-columns:1fr}
+    .ct-pane textarea{min-height:180px}
+    .ct-switch button{flex:1 1 40%;padding:9px 8px}
+  }
+</style>
 </head>
-
 <body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-    
-    <script>
-        {% comment %} var app = angular.module("App", []); {% endcomment %}
-        var app = angular.module("App", [], function ($httpProvider) {
-            $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-            $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-        });
-        app.controller("Data", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
-            $scope.TextLength = 0;
-            // "" — avto (kirill -> lotin 1995, lotin -> kirill), "cyr", "lat1995", "lat2026"
-            $scope.target = "";
-            $scope.SetTarget = function (to) {
-                $scope.target = to;
-                $scope.ChangeText($scope.old_text);
-            }
-            // Yozish to'xtagach (300 ms) bitta so'rov ketadi; kechikib kelgan eski javob yangisini bosib ketmaydi
-            var requestNo = 0;
-            $scope.ChangeText = function (text) {
-                var current = ++requestNo;
-                if (text) {
-                    $http({
-                        method: 'GET',
-                        url: "/GetChangeTextData/",
-                        params: { text: text, to: $scope.target },
-                        transformResponse: function (data) { return data; }
-                    }).then(function (d) {
-                        if (current !== requestNo) return;
-                        $scope.new_text = d.data;
-                        $scope.TextLength = d.data.length;
-                    }, function (error) {
-                        console.log("error in GetChangeTextData -> ", error);
-                        alertify.error("Xatolik yuz berdi");
-                    });
-                }
-                else {
-                    $scope.new_text = ''
-                }
-            }
-            var old_text = document.getElementById('old_text');
-            old_text.focus();
-            document.getElementById("new_text").disabled = true;
-            $scope.CopyText = function () {
-                document.getElementById("new_text").disabled = false;
-                /* Get the text field */
-                var copyText = document.getElementById("new_text");
-
-                /* Select the text field */
-                copyText.select();
-                copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-                /* Copy the text inside the text field */
-                document.execCommand("copy");
-
-                /* Alert the copied text */
-                alertify.success("Copied");
-                document.getElementById("new_text").disabled = true;
-            }
-            document.getElementById('old_text').focus();
-
-        }]);
-        app.config(['$httpProvider', function ($httpProvider) {
-            $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-            $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-        }]);
-
-    </script>
-    <script async src="https://ad.mail.ru/static/ads-async.js"></script>
-    <ins class="mrg-tag" data-ad-client="ad-1128075" data-ad-slot="1128075"></ins>
-    <script>(MRGtag = window.MRGtag || []).push({})</script>
-    <!-- Yandex.RTB Before content R-A-20240413-2 -->
-    <div id="yandex_rtb_R-A-20240413-2"></div>
-    <script>window.yaContextCb.push(() => {
-            Ya.Context.AdvManager.render({
-                renderTo: 'yandex_rtb_R-A-20240413-2',
-                blockId: 'R-A-20240413-2'
-            })
-        })</script>
-    <marquee>
-        <h2 style="color:green;">
-            {% if request.LANGUAGE_CODE == 'uz' %}
-            Xizmat lotin yoki kirill yozuvini belgilaydi.
-            {% else %}
-            {% if request.LANGUAGE_CODE == 'ru' %}
-            Сервис определяет латиницу или кириллицу.
-            {% else %}
-            The service determines the Latin or Cyrillic text.
-            {% endif %}
-            {% endif %}
-        </h2>
-    </marquee>
-
-    <canvas id="threejs-canvas"></canvas>
-
-    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>
-    </button>
-
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article"
-        data-ad-format="fluid" data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
-    <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <!-- <ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-layout="in-article"
-data-ad-format="fluid"
-data-ad-client="ca-pub-4137874891184814"
-data-ad-slot="6832564320"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-    <div ng-app="App" ng-controller="Data" class="container">
-        <div class="C0mplexButton float-end">
-            <a href="#" onclick="window.history.back(); return false;">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                X
-            </a>
-        </div>
-        <h2>
-            {% if request.LANGUAGE_CODE == 'uz' %}
-            Lotin Kirill
-            {% else %}
-            {% if request.LANGUAGE_CODE == 'ru' %}
-            Латинский Кирилл
-            {% else %}
-            Latin Kirill
-            {% endif %}
-            {% endif %}
-            <a href="https://play.google.com/store/apps/details?id=changetext.complexprogrammer.uz" target="_blank">
-                <img src="/static/img/google-play.svg" />
-            </a>
-        </h2>
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        {% verbatim %}
-        <h6 ng-show="TextLength==0" style="text-align:center">
-            Matnni kiriting
-        </h6>
-        <h6 ng-show="TextLength!=0" style="text-align:center">
-            Matndagi belgilar soni {{TextLength}} ta
-        </h6>
-        {% endverbatim %}
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        {% verbatim %}
-        <h6 ng-show="TextLength==0" style="text-align:center">
-            Введите текст
-        </h6>
-        <h6 ng-show="TextLength!=0" style="text-align:center">
-            Количество символов в тексте {{TextLength}}
-        </h6>
-        {% endverbatim %}
-        {% else %}
-        {% verbatim %}
-        <h6 ng-show="TextLength==0" style="text-align:center">
-            Enter the text
-        </h6>
-        <h6 ng-show="TextLength!=0" style="text-align:center">
-            The number of characters in the text {{TextLength}}
-        </h6>
-        {% endverbatim %}
-        {% endif %}
-        {% endif %}
-        <div class="glass-card">
-            <div class="script-switch" role="group">
-                <button type="button" ng-class="{active: target==''}" ng-click="SetTarget('')">
-                    {% if request.LANGUAGE_CODE == 'uz' %}Avto{% elif request.LANGUAGE_CODE == 'ru' %}Авто{% else %}Auto{% endif %}
-                </button>
-                <button type="button" ng-class="{active: target=='cyr'}" ng-click="SetTarget('cyr')">
-                    {% if request.LANGUAGE_CODE == 'uz' %}Kirill{% elif request.LANGUAGE_CODE == 'ru' %}Кириллица{% else %}Cyrillic{% endif %}
-                </button>
-                <button type="button" ng-class="{active: target=='lat1995'}" ng-click="SetTarget('lat1995')">
-                    {% if request.LANGUAGE_CODE == 'uz' %}Lotin (1995){% elif request.LANGUAGE_CODE == 'ru' %}Латиница (1995){% else %}Latin (1995){% endif %}
-                </button>
-                <button type="button" ng-class="{active: target=='lat2026'}" ng-click="SetTarget('lat2026')">
-                    {% if request.LANGUAGE_CODE == 'uz' %}Yangi lotin (2026){% elif request.LANGUAGE_CODE == 'ru' %}Новая латиница (2026){% else %}New Latin (2026){% endif %}
-                </button>
-            </div>
-            <form method="post" action="/ChangeTextData" id="form">
-                <textarea class="form-control" ng-model="old_text" ng-model-options="{ debounce: 300 }" ng-change="ChangeText(old_text)" rows="10" cols="50"
-                    name="old_text" id="old_text" placeholder="Enter your text..."></textarea>
-                <textarea ng-model="new_text" class="form-control" name="new_text" id="new_text" rows="10" cols="50"
-                    placeholder="Result will appear here..." disabled>{{new_text}}</textarea>
-                <div class="C0mplexButton Success">
-                    <a href="#" style="width:100%;text-align:center" ng-click="CopyText()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <i class="fa fa-copy"></i>
-                        {% if request.LANGUAGE_CODE == 'uz' %}
-                        Nusxalash
-                        {% else %}
-                        {% if request.LANGUAGE_CODE == 'ru' %}
-                        Копировать
-                        {% else %}
-                        Copy
-                        {% endif %}
-                        {% endif %}
-                    </a>
-                </div>
-                <p style="margin:15px">
-                    {% if request.LANGUAGE_CODE == 'uz' %}
-                    Koʼpincha bizda kirill yoki lotin alifbosidagi matnlarni kirilldan-lotinga, lotindan-kirillga
-                    oʼgirishga ehtiyoj boʼladi.Ushbu kiril lotin, lotin kiril onlayn translit dasturi oʼzbek tilidagi
-                    har qanday matnlarni hech qanday muammosiz hal qilishingizda sizga yordam beradi.Bu dasturning
-                    afzalligi shundaki, simvollar soni cheklanmangan, hamda qaysi tilga oʼgirishni dasturni oʼzi
-                    aniqlaydi. Butun bir maqolani yoki matnni birinchi boʼsh katakka qoʼysangiz, bir necha soniyadan
-                    soʼng tayyor natijani qoʼlga kiritasiz. Hozircha sinov tartibida ishlayotganligi sababli, natijani
-                    tekshirib oling.
-                    {% else %}
-                    {% if request.LANGUAGE_CODE == 'ru' %}
-                    Часто нам требуется конвертировать кириллические или латинские тексты с кириллицы на латиницу, с
-                    латиницы на кириллицу.Эта программа онлайн-транслитерации Кириллица Латиница, Латиница Кириллица
-                    поможет вам без проблем решить любой текст на узбекском языке.Преимущество этой программы в том, что
-                    количество символов не ограничено, и программа сама определяет, какой язык конвертировать. Если в
-                    первую пустую ячейку поместить всю статью или текст, то через несколько секунд вы получите готовый
-                    результат. Поскольку сейчас он работает в пробном режиме, проверьте результат.
-                    {% else %}
-                    Often we need to convert Cyrillic or Latin texts from Cyrillic to Latin, from Latin to Cyrillic.
-                    This Cyrillic Latin, Latin Cyrillic online transliteration program will help you solve any text in
-                    the Uzbek language without any problems. The advantage of this program is that the number of
-                    characters is not limited, and the program determines which language to convert. If you put an
-                    entire article or text in the first empty cell, you will get the finished result in a few seconds.
-                    As it is running in trial mode for now, check the result.
-                    {% endif %}
-                    {% endif %}
-                </p>
-            </form>
-        </div>
-        <div class="glass-card">
-            <h6>
-                {% if request.LANGUAGE_CODE == 'uz' %}
-                Oʻzbek lotin alifbosi (2026): 28 harf va tutuq belgisi (ʼ)
-                {% elif request.LANGUAGE_CODE == 'ru' %}
-                Узбекский латинский алфавит (2026): 28 букв и знак тутук (ʼ)
-                {% else %}
-                Uzbek Latin alphabet (2026): 28 letters and the tutuq sign (ʼ)
-                {% endif %}
-            </h6>
-            <div class="alphabet-grid">
-                {% for new, old, cyr in alphabet %}
-                <div class="letter{% if new != old %} changed{% endif %}">
-                    <b>{{ new }}</b>
-                    <small>{{ old }} · {{ cyr }}</small>
-                </div>
-                {% endfor %}
-            </div>
-            <p style="margin:15px 0 0;opacity:.8">
-                {% if request.LANGUAGE_CODE == 'uz' %}
-                1995-yilgi alifboda 26 harf va 3 ta harf birikmasi (sh, ch, ng) bor edi. Islohot sh, ch, gʻ va oʻ ni
-                bitta harfga — ş, ç, ğ va ö ga aylantirdi, ng esa alohida harf sifatida sanalmaydi. Tutuq belgisi (ʼ)
-                harf emas, belgi.
-                {% elif request.LANGUAGE_CODE == 'ru' %}
-                В алфавите 1995 года было 26 букв и 3 буквосочетания (sh, ch, ng). Реформа заменила sh, ch, gʻ и oʻ
-                одиночными буквами ş, ç, ğ и ö, а ng больше не считается отдельной буквой. Тутук (ʼ) — знак, а не буква.
-                {% else %}
-                The 1995 alphabet had 26 letters and 3 digraphs (sh, ch, ng). The reform replaced sh, ch, gʻ and oʻ
-                with the single letters ş, ç, ğ and ö, and ng is no longer counted as a separate letter. The tutuq (ʼ)
-                is a sign, not a letter.
-                {% endif %}
-            </p>
-        </div>
+<main class="d-main ct">
+  <section class="ct-hero">
+    <div>
+      <h1>{{ seo_h1 }}</h1>
+      {% if seo_lead %}<p>{{ seo_lead }}</p>{% endif %}
+      <div class="ct-badges">
+        <span>✨ {{ t.badge_auto }}</span>
+        <span>🔤 {{ t.badge_scripts }}</span>
+        <span>✅ {{ t.badge_free }}</span>
+      </div>
     </div>
+    <a class="ct-app" href="https://play.google.com/store/apps/details?id=changetext.complexprogrammer.uz" target="_blank" rel="noopener" title="{{ t.app }}">
+      <img src="/static/img/google-play.svg" alt="{{ t.app }}">
+    </a>
+  </section>
+
+  <div class="ct-switch" role="group" id="ct-switch">
+    <button type="button" data-to="" aria-pressed="true">{{ t.auto }}</button>
+    <button type="button" data-to="cyr" aria-pressed="false">{{ t.cyr }}</button>
+    <button type="button" data-to="lat1995" aria-pressed="false">{{ t.lat1995 }}</button>
+    <button type="button" data-to="lat2026" aria-pressed="false">{{ t.lat2026 }}</button>
+  </div>
+
+  <div class="ct-panes">
+    <section class="d-card ct-pane">
+      <div class="ct-pane-head"><b>{{ t.source }}</b><span class="ct-tag" id="ct-from" hidden></span></div>
+      <textarea id="ct-in" placeholder="{{ t.placeholder }}" spellcheck="false" autofocus></textarea>
+      <div class="ct-pane-foot">
+        <span class="d-meta" id="ct-count">0 {{ t.chars }} · 0 {{ t.words }}</span>
+        <div class="ct-tools">
+          <button type="button" class="ct-tool" id="ct-paste">📥 {{ t.paste }}</button>
+          <button type="button" class="ct-tool" id="ct-clear" disabled>🗑 {{ t.clear }}</button>
+        </div>
+      </div>
+    </section>
+    <section class="d-card ct-pane">
+      <div class="ct-pane-head"><b>{{ t.result }}</b><span class="ct-tag" id="ct-to" hidden></span></div>
+      <textarea id="ct-out" placeholder="{{ t.result_placeholder }}" readonly></textarea>
+      <div class="ct-pane-foot">
+        <span class="ct-err" id="ct-err" hidden>{{ t.error }}</span>
+        <div class="ct-tools" style="margin-left:auto">
+          <button type="button" class="ct-tool" id="ct-swap" title="{{ t.swap }}" aria-label="{{ t.swap }}" disabled>⇄</button>
+          <button type="button" class="ct-tool" id="ct-download" disabled>⬇ {{ t.download }}</button>
+          <button type="button" class="ct-tool primary" id="ct-copy" disabled>📋 {{ t.copy }}</button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <p class="ct-tip">ℹ️ {{ t.tip }}</p>
+  {% csrf_token %}
+
+  <script async src="https://ad.mail.ru/static/ads-async.js"></script>
+  <ins class="mrg-tag" data-ad-client="ad-1128075" data-ad-slot="1128075"></ins>
+  <script>(MRGtag = window.MRGtag || []).push({})</script>
+  <!-- Yandex.RTB Before content R-A-20240413-2 -->
+  <div id="yandex_rtb_R-A-20240413-2"></div>
+  <script>window.yaContextCb.push(() => {
+      Ya.Context.AdvManager.render({ renderTo: 'yandex_rtb_R-A-20240413-2', blockId: 'R-A-20240413-2' })
+    })</script>
+  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid"
+    data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <section class="d-card" style="margin-top:18px">
+    <div class="d-between">
+      <h2 class="d-h2" style="margin:0">🔤 {{ t.alphabet }}</h2>
+      <span class="ct-legend"><i></i>{{ t.changed }}</span>
+    </div>
+    <div class="ct-abc">
+      {% for new, old, cyr in alphabet %}
+      <div{% if new != old %} class="new"{% endif %}><b>{{ new }}</b><small>{{ old }} · {{ cyr }}</small></div>
+      {% endfor %}
+    </div>
+    <p class="d-meta" style="margin:14px 0 0">{{ t.alphabet_note }}</p>
+  </section>
+</main>
+
 {% include "includes/seo_text.html" %}
-    {% include 'comment_form.html' %}
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
-        data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <!-- <ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="autorelaxed"
-data-ad-client="ca-pub-4137874891184814"
-data-ad-slot="4202531555"></ins>
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid" data-ad-layout-key="-an-4i-cp+a2+21k"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
+  data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+{{ t|json_script:"ct-text" }}
 <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid"
-        data-ad-layout-key="-an-4i-cp+a2+21k" data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <!-- <ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="fluid"
-data-ad-layout-key="-6t+ed+2i-1n-4w"
-data-ad-client="ca-pub-4137874891184814"
-data-ad-slot="7442938415"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-    <!-- Display 1 -->
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
-        data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <!-- 1 chi abzast Mobil -->
-    <!-- <ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-client="ca-pub-4137874891184814"
-data-ad-slot="2799587029"
-data-ad-format="auto"
-data-full-width-responsive="true"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
+  (function () {
+    var T = JSON.parse(document.getElementById("ct-text").textContent);
+    var $ = function (id) { return document.getElementById(id); };
+    var input = $("ct-in"), output = $("ct-out"), target = "", timer = null, req = null;
+    var csrf = document.querySelector("[name=csrfmiddlewaretoken]").value;
+    var NAMES = { cyr: T.cyr, lat1995: T.lat1995, lat2026: T.lat2026 };
 
-    <script>
-        // Three.js 3D Text Transformation Animation
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({
-            canvas: document.getElementById('threejs-canvas'),
-            alpha: true,
-            antialias: true
+    // core/translit.py: detect_script bilan bir xil qoida — server qaysi yo'nalishda o'girishini oldindan ko'rsatish uchun
+    function detect(text) {
+      var cyr = (text.match(/[Ѐ-ӿ]/g) || []).length, lat = (text.match(/[A-Za-zŞÇĞÖşçğö]/g) || []).length;
+      if (!cyr && !lat) return "";
+      if (cyr > lat) return "cyr";
+      return /[ŞÇĞÖşçğö]/.test(text) ? "lat2026" : "lat1995";
+    }
+
+    function updateInfo() {
+      var text = input.value, words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      $("ct-count").textContent = text.length.toLocaleString("ru-RU") + " " + T.chars + " · " + words.toLocaleString("ru-RU") + " " + T.words;
+      $("ct-clear").disabled = !text;
+      var from = detect(text), to = target || (from === "cyr" ? "lat1995" : from ? "cyr" : "");
+      $("ct-from").hidden = !from; $("ct-from").textContent = NAMES[from] || "";
+      $("ct-to").hidden = !to || !from; $("ct-to").textContent = NAMES[to] || "";
+    }
+
+    function setOutput(text) {
+      output.value = text;
+      ["ct-copy", "ct-download", "ct-swap"].forEach(function (id) { $(id).disabled = !text; });
+    }
+
+    function convert() {
+      var text = input.value;
+      updateInfo();
+      $("ct-err").hidden = true;
+      if (req) req.abort();  // kechikib kelgan eski javob yangisini bosib ketmasin
+      if (!text.trim()) { setOutput(""); return; }
+      req = new AbortController();
+      output.classList.add("ct-busy");
+      var body = new URLSearchParams({ text: text, to: target });
+      fetch("/changetext/", { method: "POST", body: body, headers: { "X-CSRFToken": csrf }, signal: req.signal })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+        .then(function (res) { output.classList.remove("ct-busy"); setOutput(res); })
+        .catch(function (e) {
+          if (e.name === "AbortError") return;
+          output.classList.remove("ct-busy");
+          $("ct-err").hidden = false;
         });
+    }
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+    input.addEventListener("input", function () {
+      updateInfo();
+      clearTimeout(timer);
+      timer = setTimeout(convert, 300);  // yozish to'xtagach bitta so'rov
+    });
 
-        // Create particles forming Latin and Cyrillic letters
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
-        const posArray = new Float32Array(particlesCount * 3);
+    $("ct-switch").addEventListener("click", function (e) {
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      target = btn.dataset.to;
+      this.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+      convert();
+    });
 
-        for (let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 100;
-        }
+    $("ct-paste").addEventListener("click", function () {
+      if (!navigator.clipboard || !navigator.clipboard.readText) { input.focus(); return; }
+      navigator.clipboard.readText().then(function (text) { input.value = text; convert(); }).catch(function () { input.focus(); });
+    });
+    $("ct-clear").addEventListener("click", function () { input.value = ""; convert(); input.focus(); });
+    $("ct-swap").addEventListener("click", function () {
+      // Natija kirishga o'tadi va "Avto" — teskari yo'nalishda o'giriladi (lotin -> kirill va h.k.)
+      input.value = output.value;
+      $("ct-switch").querySelector('button[data-to=""]').click();
+      input.focus();
+    });
 
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    $("ct-copy").addEventListener("click", function () {
+      var btn = this;
+      function done() { btn.textContent = "✅ " + T.copied; setTimeout(function () { btn.textContent = "📋 " + T.copy; }, 1500); }
+      if (navigator.clipboard) navigator.clipboard.writeText(output.value).then(done);
+      else { output.select(); document.execCommand("copy"); done(); }
+    });
 
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.05,
-            color: 0x00ffff,
-            transparent: true,
-            opacity: 0.6,
-            blending: THREE.AdditiveBlending
-        });
+    $("ct-download").addEventListener("click", function () {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([output.value], { type: "text/plain;charset=utf-8" }));
+      a.download = (target || "natija") + ".txt";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    });
 
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Add morphing text shapes
-        const group = new THREE.Group();
-
-        // Create rotating rings (representing text transformation)
-        for (let i = 0; i < 3; i++) {
-            const geometry = new THREE.TorusGeometry(10 + i * 5, 0.5, 16, 100);
-            const material = new THREE.MeshBasicMaterial({
-                color: i % 2 === 0 ? 0x00ffff : 0xff00ff,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.3
-            });
-            const torus = new THREE.Mesh(geometry, material);
-            torus.rotation.x = Math.random() * Math.PI;
-            torus.rotation.y = Math.random() * Math.PI;
-            group.add(torus);
-        }
-
-        scene.add(group);
-
-        // Add floating letters effect
-        const linesGeometry = new THREE.BufferGeometry();
-        const linesCount = 50;
-        const linesPositions = [];
-
-        for (let i = 0; i < linesCount; i++) {
-            const x1 = (Math.random() - 0.5) * 50;
-            const y1 = (Math.random() - 0.5) * 50;
-            const z1 = (Math.random() - 0.5) * 50;
-            const x2 = (Math.random() - 0.5) * 50;
-            const y2 = (Math.random() - 0.5) * 50;
-            const z2 = (Math.random() - 0.5) * 50;
-
-            linesPositions.push(x1, y1, z1, x2, y2, z2);
-        }
-
-        linesGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linesPositions, 3));
-
-        const linesMaterial = new THREE.LineBasicMaterial({
-            color: 0xff00ff,
-            transparent: true,
-            opacity: 0.2
-        });
-
-        const lines = new THREE.LineSegments(linesGeometry, linesMaterial);
-        scene.add(lines);
-
-        camera.position.z = 40;
-
-        let mouseX = 0;
-        let mouseY = 0;
-
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Rotate particles
-            particlesMesh.rotation.y += 0.001;
-            particlesMesh.rotation.x += 0.0005;
-
-            // Rotate text transformation rings
-            group.rotation.x += 0.002;
-            group.rotation.y += 0.003;
-
-            // Rotate lines
-            lines.rotation.x += 0.0005;
-            lines.rotation.y += 0.001;
-
-            // Interactive camera movement
-            camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
-            camera.position.y += (mouseY * 10 - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Theme Toggle Function
-        function toggleTheme() {
-            const body = document.documentElement;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-
-            const themeButton = document.getElementById('themeButton');
-
-            if (newTheme === 'light') {
-                themeButton.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Dark Mode</span>';
-                particlesMaterial.color.setHex(0x667eea);
-                group.children.forEach((child, i) => {
-                    child.material.color.setHex(i % 2 === 0 ? 0x667eea : 0x764ba2);
-                });
-                linesMaterial.color.setHex(0x764ba2);
-            } else {
-                themeButton.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>';
-                particlesMaterial.color.setHex(0x00ffff);
-                group.children.forEach((child, i) => {
-                    child.material.color.setHex(i % 2 === 0 ? 0x00ffff : 0xff00ff);
-                });
-                linesMaterial.color.setHex(0xff00ff);
-            }
-        }
-
-        // Set initial theme from localStorage
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-
-            const themeButton = document.getElementById('themeButton');
-
-            if (savedTheme === 'light') {
-                themeButton.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Dark Mode</span>';
-                particlesMaterial.color.setHex(0x667eea);
-                group.children.forEach((child, i) => {
-                    child.material.color.setHex(i % 2 === 0 ? 0x667eea : 0x764ba2);
-                });
-                linesMaterial.color.setHex(0x764ba2);
-            } else {
-                themeButton.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>';
-            }
-        });
-    </script>{% include "includes/scroll_buttons.html" %}
+    if (input.value) convert(); else updateInfo();
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
-
 </html>

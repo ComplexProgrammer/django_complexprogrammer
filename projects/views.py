@@ -601,11 +601,67 @@ def GetExchangeRates(request):
     return JsonResponse({"data": data})
 
 
+CHANGETEXT_TEXT = {
+    "uz": {
+        "badge_auto": "Yozuvni o'zi aniqlaydi", "badge_scripts": "Kirill · Lotin 1995 · Lotin 2026", "badge_free": "Bepul, cheklovsiz",
+        "auto": "Avto", "cyr": "Kirill", "lat1995": "Lotin (1995)", "lat2026": "Yangi lotin (2026)",
+        "source": "Matn", "result": "Natija", "placeholder": "Matnni shu yerga yozing yoki qo'ying...", "result_placeholder": "Natija shu yerda chiqadi",
+        "chars": "belgi", "words": "so'z", "paste": "Qo'yish", "clear": "Tozalash", "copy": "Nusxalash", "copied": "Nusxalandi",
+        "download": "Yuklab olish (.txt)", "swap": "Natijani matnga o'tkazish", "error": "Xatolik yuz berdi, qayta urinib ko'ring",
+        "alphabet": "O'zbek lotin alifbosi (2026): 28 harf va tutuq belgisi (ʼ)",
+        "alphabet_note": "1995-yilgi alifboda 26 harf va 3 ta harf birikmasi (sh, ch, ng) bor edi. Islohot sh, ch, gʻ va oʻ ni bitta harfga — ş, ç, ğ va ö ga aylantirdi, ng esa alohida harf sifatida sanalmaydi. Tutuq belgisi (ʼ) harf emas, belgi.",
+        "changed": "o'zgargan harflar", "app": "Android ilova",
+        "tip": "Inglizcha so'zlar, havolalar va @username o'zgarmaydi. Natijani tekshirib oling.",
+    },
+    "ru": {
+        "badge_auto": "Сам определяет алфавит", "badge_scripts": "Кириллица · Латиница 1995 · Латиница 2026", "badge_free": "Бесплатно, без ограничений",
+        "auto": "Авто", "cyr": "Кириллица", "lat1995": "Латиница (1995)", "lat2026": "Новая латиница (2026)",
+        "source": "Текст", "result": "Результат", "placeholder": "Введите или вставьте текст...", "result_placeholder": "Здесь появится результат",
+        "chars": "симв.", "words": "слов", "paste": "Вставить", "clear": "Очистить", "copy": "Копировать", "copied": "Скопировано",
+        "download": "Скачать (.txt)", "swap": "Перенести результат в текст", "error": "Произошла ошибка, попробуйте ещё раз",
+        "alphabet": "Узбекский латинский алфавит (2026): 28 букв и знак тутук (ʼ)",
+        "alphabet_note": "В алфавите 1995 года было 26 букв и 3 буквосочетания (sh, ch, ng). Реформа заменила sh, ch, gʻ и oʻ одиночными буквами ş, ç, ğ и ö, а ng больше не считается отдельной буквой. Тутук (ʼ) — знак, а не буква.",
+        "changed": "изменённые буквы", "app": "Приложение Android",
+        "tip": "Английские слова, ссылки и @username не меняются. Проверьте результат.",
+    },
+    "en": {
+        "badge_auto": "Detects the script itself", "badge_scripts": "Cyrillic · Latin 1995 · Latin 2026", "badge_free": "Free, no limits",
+        "auto": "Auto", "cyr": "Cyrillic", "lat1995": "Latin (1995)", "lat2026": "New Latin (2026)",
+        "source": "Text", "result": "Result", "placeholder": "Type or paste your text here...", "result_placeholder": "The result will appear here",
+        "chars": "chars", "words": "words", "paste": "Paste", "clear": "Clear", "copy": "Copy", "copied": "Copied",
+        "download": "Download (.txt)", "swap": "Use result as input", "error": "Something went wrong, please try again",
+        "alphabet": "Uzbek Latin alphabet (2026): 28 letters and the tutuq sign (ʼ)",
+        "alphabet_note": "The 1995 alphabet had 26 letters and 3 digraphs (sh, ch, ng). The reform replaced sh, ch, gʻ and oʻ with the single letters ş, ç, ğ and ö, and ng is no longer counted as a separate letter. The tutuq (ʼ) is a sign, not a letter.",
+        "changed": "changed letters", "app": "Android app",
+        "tip": "English words, links and @usernames are kept as is. Please check the result.",
+    },
+    "tr": {
+        "badge_auto": "Alfabeyi kendisi algılar", "badge_scripts": "Kiril · Latin 1995 · Latin 2026", "badge_free": "Ücretsiz, sınırsız",
+        "auto": "Otomatik", "cyr": "Kiril", "lat1995": "Latin (1995)", "lat2026": "Yeni Latin (2026)",
+        "source": "Metin", "result": "Sonuç", "placeholder": "Metni buraya yazın veya yapıştırın...", "result_placeholder": "Sonuç burada görünecek",
+        "chars": "karakter", "words": "kelime", "paste": "Yapıştır", "clear": "Temizle", "copy": "Kopyala", "copied": "Kopyalandı",
+        "download": "İndir (.txt)", "swap": "Sonucu metne aktar", "error": "Bir hata oluştu, tekrar deneyin",
+        "alphabet": "Özbek Latin alfabesi (2026): 28 harf ve tutuk işareti (ʼ)",
+        "alphabet_note": "1995 alfabesinde 26 harf ve 3 harf birleşimi (sh, ch, ng) vardı. Reform sh, ch, gʻ ve oʻ'yu tek harflere — ş, ç, ğ ve ö'ye dönüştürdü; ng artık ayrı bir harf sayılmıyor. Tutuk (ʼ) bir harf değil, işarettir.",
+        "changed": "değişen harfler", "app": "Android uygulaması",
+        "tip": "İngilizce kelimeler, bağlantılar ve @kullanıcı adları değişmez. Sonucu kontrol edin.",
+    },
+}
+
+
+@ensure_csrf_cookie
 def changetext(request):
-    comments = page_comments(request)
-    context = {"comments": comments, "alphabet": ALPHABET_2026}
+    from django.utils import translation
+
     if request.method == "POST":
-        return HttpResponse(convert(request.POST["text"], request.POST.get("to")))
+        # Sahifa matnni POST bilan yuboradi: uzun matn URL (GET) chegarasiga sig'maydi
+        return HttpResponse(convert(request.POST.get("text", ""), request.POST.get("to")))
+    lang = (translation.get_language() or "uz")[:2]
+    context = {
+        "comments": page_comments(request),
+        "alphabet": ALPHABET_2026,
+        "t": CHANGETEXT_TEXT.get(lang, CHANGETEXT_TEXT["en"]),
+    }
     return render(request, "projects/changetext.html", context=context)
 
 
