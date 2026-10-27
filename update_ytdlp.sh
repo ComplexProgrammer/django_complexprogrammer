@@ -1,0 +1,86 @@
+#!/bin/bash
+# YouTube yuklovchi (yt-dlp) ni yangilash. YouTube saytini tez-tez o'zgartiradi — eski yt-dlp ishlamay qoladi.
+# Ishlatish:  bash update_ytdlp.sh
+#
+# Nima qiladi:
+#   * yt-dlp ni oxirgi versiyaga yangilaydi; imageio-ffmpeg (video+audio birlashtirish, MP3) yo'q bo'lsa — o'rnatadi;
+#   * versiya o'zgargan bo'lsagina saytni qayta ishga tushiradi (tmp/restart.txt) — aks holda saytga tegmaydi;
+#   * serverdan YouTube ochilishini qisqa sinov bilan tekshirib, natijani logga yozadi
+#     (Hetzner kabi data-markaz IP'larini YouTube "Sign in to confirm you're not a bot" deb bloklashi mumkin);
+#   * hamma narsa logs/update_ytdlp.log ga yoziladi, cron email faqat xatoda keladi.
+#
+# cPanel → Cron Jobs (har kuni 04:30):
+#   30 4 * * * PYTHON=/home/<user>/virtualenv/.../bin/python bash /path/to/django/update_ytdlp.sh
+set -e
+cd "$(dirname "$0")"
+
+# CloudLinux / cPanel thread limitini saqlash
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+
+PYTHON="${PYTHON:-python3}"
+LOG="logs/update_ytdlp.log"
+TEST_URL="https://youtu.be/jNQXAC9IVRw"  # 19 soniyalik "Me at the zoo" — YouTube'dagi birinchi video, o'chirilmaydi
+
+mkdir -p logs tmp
+# Bir vaqtda faqat bitta nusxa (oldingisi tugamagan bo'lsa — chiqib ketadi)
+if command -v flock >/dev/null; then
+    exec 9>"logs/.update_ytdlp.lock"
+    flock -n 9 || exit 0
+fi
+exec 3>&2 >>"$LOG" 2>&1
+echo "===== $(date '+%Y-%m-%d %H:%M:%S') ====="
+# Xato bo'lsa cron email yuborishi uchun stderr'ga ham chiqaramiz
+trap 'echo "update_ytdlp.sh xato bilan tugadi (qator $LINENO). Batafsil: $LOG" >&3' ERR
+
+version() {
+    "$PYTHON" -c "import yt_dlp; print(yt_dlp.version.__version__)" 2>/dev/null || echo "yo'q"
+}
+
+fail() {
+    echo "XATO: $1"
+    echo "update_ytdlp.sh: $1. Batafsil: $LOG" >&3
+    exit 1
+}
+
+# PyPI'dagi oxirgi versiya. pip ulana olmasa ham (paket allaqachon o'rnatilgan bo'lsa) 0 bilan tugaydi —
+# shuning uchun natijani alohida tekshiramiz, aks holda eskirgan yt-dlp haqida hech kim bilmay qoladi
+LATEST=$("$PYTHON" -m pip index versions yt-dlp --disable-pip-version-check 2>/dev/null | sed -n 's/^yt-dlp (\(.*\))$/\1/p')
+[ -n "$LATEST" ] || fail "PyPI'ga ulanib bo'lmadi — yt-dlp yangilanmadi"
+
+OLD=$(version)
+"$PYTHON" -m pip install -q --disable-pip-version-check -U yt-dlp
+if ! "$PYTHON" -c "import imageio_ffmpeg" 2>/dev/null; then
+    echo "imageio-ffmpeg o'rnatilmoqda (birinchi marta, ~30 MB)..."
+    "$PYTHON" -m pip install -q --disable-pip-version-check imageio-ffmpeg
+fi
+NEW=$(version)
+[ "$NEW" = "$LATEST" ] || fail "yt-dlp $NEW, PyPI'da esa $LATEST — yangilab bo'lmadi"
+
+if [ "$OLD" != "$NEW" ]; then
+    # Passenger yangi yt-dlp ni faqat qayta ishga tushgach yuklaydi
+    touch tmp/restart.txt
+    echo "yt-dlp yangilandi: $OLD -> $NEW (sayt qayta ishga tushirildi)"
+else
+    echo "yt-dlp oxirgi versiyada: $NEW"
+fi
+
+# YouTube serverdan ochiladimi? Natija faqat logga yoziladi — cron xatosi hisoblanmaydi
+"$PYTHON" - "$TEST_URL" <<'PY' || true
+import sys
+
+import yt_dlp
+
+try:
+    with yt_dlp.YoutubeDL({"quiet": True, "no_warnings": True, "skip_download": True, "socket_timeout": 20}) as ydl:
+        info = ydl.extract_info(sys.argv[1], download=False)
+    heights = sorted({f["height"] for f in info.get("formats") or [] if f.get("height")})
+    print(f"YouTube sinovi: OK — \"{info.get('title')}\", sifatlar: {heights}")
+except Exception as exc:
+    text = str(exc)
+    hint = " (YouTube server IP'sini bloklagan)" if "not a bot" in text or "Sign in" in text else ""
+    print(f"YouTube sinovi: XATO{hint} — {text[:300]}")
+PY
