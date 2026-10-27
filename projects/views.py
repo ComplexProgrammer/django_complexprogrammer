@@ -102,7 +102,7 @@ def home_today(request):
         # Bosh sahifa CBU'ni kutib qolmasin: qisqa timeout, xato ham 10 daqiqaga keshlanadi
         rates = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, timeout=3, ttl=1800)
         row = next((r for r in rates or [] if r.get("Ccy") == "USD"), None)
-        usd = {"rate": row.get("Rate"), "diff": row.get("Diff", "")} if row else False
+        usd = {"rate": row.get("Rate"), "diff": row.get("Diff", ""), "date": row.get("Date", "")} if row else False
         cache.set("home:usd", usd, 1800 if usd else 600)
 
     post = cache.get("home:post")

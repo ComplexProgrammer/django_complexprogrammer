@@ -740,17 +740,31 @@
                         </div>
                     </a>
                     {% if today.usd %}
-                    <a href="/exchangerates/" class="cp-today-card">
+                    <a href="/exchangerates/" class="cp-today-card" id="cp-usd" data-date="{{ today.usd.date|default:'' }}">
                         <i class="fas fa-chart-line cp-today-ico text-success"></i>
                         <div>
-                            <b>{{ ui.usd_rate }}: {{ today.usd.rate }}</b>
-                            {% if today.usd.diff %}
-                            <small class="{% if today.usd_up %}cp-badge-up{% else %}cp-badge-down{% endif %}">
+                            <b>{{ ui.usd_rate }}: <span id="cp-usd-rate">{{ today.usd.rate }}</span></b>
+                            <small id="cp-usd-diff" class="{% if today.usd_up %}cp-badge-up{% else %}cp-badge-down{% endif %}"{% if not today.usd.diff %} hidden{% endif %}>
                                 {% if today.usd_up %}▲{% else %}▼{% endif %} {{ today.usd.diff }} UZS
                             </small>
-                            {% endif %}
                         </div>
                     </a>
+                    <script src="/static/js/cbu-live.js?v=1"></script>
+                    <script>
+                      // Server cbu.uz ga ulana olmaydi — brauzer yangiroq dollar kursini topsa, shu yerda ko'rsatiladi
+                      (function () {
+                        var card = document.getElementById("cp-usd");
+                        cpCbuLatest(card.dataset.date).then(function (list) {
+                          var usd = list && list.filter(function (r) { return r.Ccy === "USD"; })[0];
+                          if (!usd || !(parseFloat(usd.Rate) > 0)) return;
+                          var diff = String(usd.Diff || ""), up = diff.charAt(0) !== "-", small = document.getElementById("cp-usd-diff");
+                          document.getElementById("cp-usd-rate").textContent = usd.Rate;
+                          small.className = up ? "cp-badge-up" : "cp-badge-down";
+                          small.textContent = (up ? "▲ " : "▼ ") + diff + " UZS";
+                          small.hidden = !diff;
+                        });
+                      })();
+                    </script>
                     {% endif %}
                     {% if today.post %}
                     <a href="{{ lang_prefix }}{{ today.post.url }}" class="cp-today-card">
