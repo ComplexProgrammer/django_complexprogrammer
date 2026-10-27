@@ -14,6 +14,7 @@ urlpatterns = [
         name="instagram_downloader_",
     ),  # type: ignore
     path("youtube_downloader/", views.youtube_downloader_, name="youtube_downloader"),  # type: ignore
+    path("youtube_downloader/status/", views.youtube_job_status, name="youtube_job_status"),
     path("coins/", views.coins, name="coins"),
     path("GetCoins/", views.GetCoins, name="GetCoins"),
     path(
@@ -35,6 +36,7 @@ urlpatterns = [
     path("changetext/", views.changetext, name="changetext"),
     path("GetChangeTextData/", views.GetChangeTextData, name="GetChangeTextData"),  # type: ignore
     path("ip/", views.ip, name="ip"),
+    path("GetIpData/", views.GetIpData, name="GetIpData"),
     path("map", views.map, name="map"),
     path("password_generator/", views.password_generator, name="password_generator"),
     path("sitemap/", views.sitemap, name="sitemap"),

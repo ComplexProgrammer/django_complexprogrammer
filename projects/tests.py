@@ -128,3 +128,70 @@ class ExchangeRatesTestCase(TestCase):
         # Verify USD is present in fallback
         ccys = [item.get("Ccy") for item in data["data"]]
         self.assertIn("USD", ccys)
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class IpPageTestCase(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def tearDown(self):
+        cache.clear()
+
+    @patch("projects.views.requests.get")
+    def test_page_does_not_wait_for_ipapi(self, mock_get):
+        # Keshda yo'q IP: sahifa ipapi.co'ga so'rov yubormasdan ochiladi, jadval keyin to'ldiriladi
+        response = self.client.get("/ip/", {"ip": "8.8.8.8"})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'data-pending="1"')
+        mock_get.assert_not_called()
+
+    @patch("projects.views.requests.get")
+    def test_get_ip_data_and_cached_page(self, mock_get):
+        mock_resp = MagicMock()
+        mock_resp.json.return_value = {"ip": "8.8.8.8", "city": "Mountain View", "country_code": "US"}
+        mock_get.return_value = mock_resp
+
+        data = self.client.get("/GetIpData/", {"ip": "8.8.8.8"}).json()
+        self.assertEqual(data["city"], "Mountain View")
+        # Endi keshda bor — sahifa ma'lumot bilan darhol chiqadi
+        response = self.client.get("/ip/", {"ip": "8.8.8.8"})
+        self.assertNotContains(response, 'data-pending="1"')
+        self.assertContains(response, "Mountain View")
+        self.assertEqual(mock_get.call_count, 1)
+
+    def test_private_ip(self):
+        data = self.client.get("/GetIpData/", {"ip": "192.168.1.1"}).json()
+        self.assertTrue(data["error"])
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class YoutubeJobTestCase(TestCase):
+    def setUp(self):
+        cache.clear()
+        thread_patcher = patch("projects.views.threading.Thread", SyncThread)
+        thread_patcher.start()
+        self.addCleanup(thread_patcher.stop)
+
+    def tearDown(self):
+        cache.clear()
+
+    def post(self, **extra):
+        body = {"choice": 1, "quality": "low", "link": "https://youtu.be/abc", **extra}
+        return self.client.post("/youtube_downloader/", body, content_type="application/json")
+
+    @patch("projects.views.youtube_downloader.download_video", return_value="abc_video.mp4")
+    def test_async_job(self, mock_download):
+        job = self.post(**{"async": True}).json()["job"]
+        status = self.client.get("/youtube_downloader/status/", {"job": job}).json()
+        self.assertEqual(status, {"status": "done", "result": "abc_video.mp4"})
+
+    @patch("projects.views.youtube_downloader.download_video", return_value="abc_video.mp4")
+    def test_sync_request_keeps_old_format(self, mock_download):
+        # Mobil ilova "async"siz yuboradi va natijani shu javobda kutadi
+        self.assertEqual(self.post().json(), {"result": "abc_video.mp4"})
+
+    def test_unknown_job(self):
+        response = self.client.get("/youtube_downloader/status/", {"job": "nope"})
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json()["result"], "0")

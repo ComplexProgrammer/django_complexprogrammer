@@ -316,6 +316,30 @@
  document.addEventListener('DOMContentLoaded', function () {
     var input = document.getElementById('ip');
     if (input) input.addEventListener('keydown', function (e) { if (e.key === 'Enter') IpFinder(); });
+    // Keshda bo'lmagan IP: sahifa darhol ochiladi, ma'lumot ipapi.co'dan keyin keladi
+    var rows = document.getElementById('ip-rows');
+    if (!rows || !rows.dataset.pending) return;
+    var loading = document.getElementById('ip-loading'), error = document.getElementById('ip-error');
+    fetch('/GetIpData/?ip=' + encodeURIComponent(rows.dataset.ip))
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        loading.hidden = true;
+        if (d.error) { error.textContent = d.reason; error.hidden = false; }
+        rows.querySelectorAll('tr[data-key]').forEach(function (tr) {
+          var key = tr.dataset.key, v = key === 'flag' ? d.country_code : d[key];
+          tr.hidden = v === null || v === undefined;
+          if (tr.hidden) return;
+          var cell = tr.cells[1];
+          if (key === 'flag') {
+            var img = document.createElement('img');
+            img.alt = '';
+            img.src = 'https://ipapi.co/static/images/flags/' + encodeURIComponent(String(v).toLowerCase()) + '.png';
+            cell.replaceChildren(img);
+          }
+          else cell.textContent = v;
+        });
+      })
+      .catch(function () { loading.hidden = true; error.textContent = "Xizmat vaqtincha ishlamayapti"; error.hidden = false; });
  });
 </script>
 </head>
@@ -373,9 +397,8 @@
                         </a>
                     </div>
                     </div>
-                {% if data.error %}
-                <div class="alert alert-warning">{{ data.reason }}</div>
-                {% endif %}
+                <div class="alert alert-warning" id="ip-error" {% if not data.error %}hidden{% endif %}>{{ data.reason }}</div>
+                <div class="text-center text-muted mb-2" id="ip-loading" {% if not pending %}hidden{% endif %}>Yuklanmoqda...</div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -386,111 +409,13 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr ng-show="data.ip!=null">
-                            <td>IP Address</td>
-                            <td>{{data.ip}}</td>
+                    <tbody id="ip-rows" data-ip="{{ data.ip|default:'' }}"{% if pending %} data-pending="1"{% endif %}>
+                        {% for key, label, value in rows %}
+                        <tr data-key="{{ key }}"{% if value is None %} hidden{% endif %}>
+                            <td>{{ label }}</td>
+                            <td>{% if key == "flag" %}{% if value %}<img alt="" src="https://ipapi.co/static/images/flags/{{ value|lower }}.png"/>{% endif %}{% else %}{{ value }}{% endif %}</td>
                         </tr>
-                        <tr ng-show="data.city!=null">
-                            <td>City</td>
-                            <td>{{data.city}}</td>
-                        </tr>
-                        <tr ng-show="data.region!=null">
-                            <td>Region</td>
-                            <td>{{data.region}}</td>
-                        </tr>
-                        <tr ng-show="data.region_code!=null">
-                            <td>Region code</td>
-                            <td>{{data.region_code}}</td>
-                        </tr>
-                        <tr ng-show="data.country_code!=null">
-                            <td>Flag</td>
-                            <td><img src="https://ipapi.co/static/images/flags/{{data.country_code|lower}}.png"/></td>
-                        </tr>
-                        <tr ng-show="data.country_code!=null">
-                            <td>Country code</td>
-                            <td>{{data.country_code}}</td>
-                        </tr>
-                        <tr ng-show="data.country_code_iso3!=null">
-                            <td>Country code iso3</td>
-                            <td>{{data.country_code_iso3}}</td>
-                        </tr>
-                        <tr ng-show="data.country_name!=null">
-                            <td>Country name</td>
-                            <td>{{data.country_name}}</td>
-                        </tr>
-                        <tr ng-show="data.country_capital!=null">
-                            <td>Country capital</td>
-                            <td>{{data.country_capital}}</td>
-                        </tr>
-                        <tr ng-show="data.country_tld!=null">
-                            <td>Country tld</td>
-                            <td>{{data.country_tld}}</td>
-                        </tr>
-                        <tr ng-show="data.continent_code!=null">
-                            <td>Continent code</td>
-                            <td>{{data.continent_code}}</td>
-                        </tr>
-                        <tr ng-show="data.in_eu!=null">
-                            <td>in eu</td>
-                            <td>{{data.in_eu}}</td>
-                        </tr>
-                        <tr ng-show="data.postal!=null">
-                            <td>Postal</td>
-                            <td>{{data.postal}}</td>
-                        </tr>
-                        <tr ng-show="data.latitude!=null">
-                            <td>Latitude</td>
-                            <td>{{data.latitude}}</td>
-                        </tr>
-                        <tr ng-show="data.longitude!=null">
-                            <td>Longitude</td>
-                            <td>{{data.longitude}}</td>
-                        </tr>
-                        <tr ng-show="data.timezone!=null">
-                            <td>Time zone</td>
-                            <td>{{data.timezone}}</td>
-                        </tr>
-                        <tr ng-show="data.utc_offset!=null">
-                            <td>Utc offset</td>
-                            <td>{{data.utc_offset}}</td>
-                        </tr>
-                        <tr ng-show="data.country_calling_code!=null">
-                            <td>Country calling code</td>
-                            <td>{{data.country_calling_code}}</td>
-                        </tr>
-                        <tr ng-show="data.currency!=null">
-                            <td>Currency</td>
-                            <td>{{data.currency}}</td>
-                        </tr>
-                        <tr ng-show="data.currency_name!=null">
-                            <td>Currency name</td>
-                            <td>{{data.currency_name}}</td>
-                        </tr>
-                        <tr ng-show="data.languages!=null">
-                            <td>Languages</td>
-                            <td>{{data.languages}}</td>
-                        </tr>
-                        <tr ng-show="data.country_area!=null">
-                            <td>Country area</td>
-                            <td>{{data.country_area}}</td>
-                        </tr>
-                        <tr ng-show="data.country_population!=null">
-                            <td>Country population</td>
-                            <td>{{data.country_population}}</td>
-                        </tr>
-                        <tr ng-show="data.asn!=null">
-                            <td>asn</td>
-                            <td>{{data.asn}}</td>
-                        </tr>
-                        <tr ng-show="data.org!=null">
-                            <td>org</td>
-                            <td>{{data.org}}</td>
-                        </tr>
-                        <tr ng-show="data.hostname!=null">
-                            <td>hostname</td>
-                            <td>{{data.hostname}}</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
                 </div>
