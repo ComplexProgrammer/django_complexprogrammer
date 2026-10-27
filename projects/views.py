@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import re
 import threading
+import uuid
 
 import requests
 import urllib3
@@ -135,6 +136,40 @@ def instagram_downloader_(request):
     return render(request, "projects/instagram_downloader.html", context=context)
 
 
+# Bir jarayonda bir vaqtda ko'pi bilan shuncha yuklash (hosting thread/NPROC limiti); qolganlari navbatda kutadi
+YT_SLOTS = threading.BoundedSemaphore(2)
+YT_JOB_TTL = 2 * 3600
+
+
+def _youtube_download(choice, quality, link):
+    """Yuklab olish natijasi: {"result": fayl, "files": [...]} yoki {"result": "0", "error": ...}."""
+    downloads.cleanup_old()
+    try:
+        if choice == 3:
+            return {"result": youtube_downloader.download_audio(link)}
+        if choice == 2:
+            # Pleylist uchun birinchi videoni qaytaramiz, qolganlari ro'yxatda
+            filenames = youtube_downloader.download_playlist(link, quality)
+            if not filenames:
+                return {"result": "0", "error": "Pleylist bo'sh"}
+            return {"result": filenames[0], "files": filenames}
+        return {"result": youtube_downloader.download_video(link, quality)}
+    except youtube_downloader.DownloadError as exc:
+        return {"result": "0", "error": str(exc)}
+
+
+def _youtube_job(job_id, *args):
+    key = f"ytjob:{job_id}"
+    with YT_SLOTS:
+        cache.set(key, {"status": "running"}, YT_JOB_TTL)
+        try:
+            data = _youtube_download(*args)
+        except Exception:  # fon oqimida kutilmagan xato — foydalanuvchi cheksiz kutib qolmasin
+            logger.exception("YouTube job %s failed", job_id)
+            data = {"result": "0", "error": "Xatolik yuz berdi, birozdan so'ng urinib ko'ring"}
+        cache.set(key, {"status": "done", **data}, YT_JOB_TTL)
+
+
 def youtube_downloader_(request):
     comments = page_comments(request)
     context = {"comments": comments}
@@ -152,21 +187,23 @@ def youtube_downloader_(request):
     if not youtube_downloader.is_youtube_url(link):
         return JsonResponse({"result": "0", "error": "YouTube havolasini kiriting"})
 
-    downloads.cleanup_old()
-    try:
-        if choice == 3:
-            filename = youtube_downloader.download_audio(link)
-        elif choice == 2:
-            # Pleylist uchun birinchi videoni qaytaramiz, qolganlari ro'yxatda
-            filenames = youtube_downloader.download_playlist(link, quality)
-            if not filenames:
-                return JsonResponse({"result": "0", "error": "Pleylist bo'sh"})
-            return JsonResponse({"result": filenames[0], "files": filenames})
-        else:
-            filename = youtube_downloader.download_video(link, quality)
-    except youtube_downloader.DownloadError as exc:
-        return JsonResponse({"result": "0", "error": str(exc)})
-    return JsonResponse({"result": filename})
+    if not json_data.get("async"):
+        # Mobil ilova javobni shu so'rovning o'zida kutadi (eski format)
+        return JsonResponse(_youtube_download(choice, quality, link))
+
+    # Sayt: yuklash fonda bajariladi, sahifa holatni /youtube_downloader/status/ orqali so'rab turadi
+    job_id = uuid.uuid4().hex
+    cache.set(f"ytjob:{job_id}", {"status": "queued"}, YT_JOB_TTL)
+    threading.Thread(target=_youtube_job, args=(job_id, choice, quality, link), daemon=True).start()
+    return JsonResponse({"job": job_id})
+
+
+def youtube_job_status(request):
+    job_id = request.GET.get("job", "")
+    data = cache.get(f"ytjob:{job_id}") if job_id.isalnum() else None
+    if data is None:
+        return JsonResponse({"status": "done", "result": "0", "error": "Vazifa topilmadi, qaytadan urinib ko'ring"}, status=404)
+    return JsonResponse(data)
 
 
 def fetch_json(
@@ -498,26 +535,52 @@ def client_ip(request):
     return request.META.get("REMOTE_ADDR", "")
 
 
+IP_FIELDS = [
+    ("ip", "IP Address"), ("city", "City"), ("region", "Region"), ("region_code", "Region code"),
+    ("flag", "Flag"), ("country_code", "Country code"), ("country_code_iso3", "Country code iso3"),
+    ("country_name", "Country name"), ("country_capital", "Country capital"), ("country_tld", "Country tld"),
+    ("continent_code", "Continent code"), ("in_eu", "in eu"), ("postal", "Postal"), ("latitude", "Latitude"),
+    ("longitude", "Longitude"), ("timezone", "Time zone"), ("utc_offset", "Utc offset"),
+    ("country_calling_code", "Country calling code"), ("currency", "Currency"), ("currency_name", "Currency name"),
+    ("languages", "Languages"), ("country_area", "Country area"), ("country_population", "Country population"),
+    ("asn", "asn"), ("org", "org"), ("hostname", "hostname"),
+]
+
+
+def _ip_lookup(raw_ip, wait=True):
+    """IP ma'lumoti. ``wait=False`` bo'lsa ipapi.co'ga so'rov yuborilmaydi — faqat kesh (yo'q bo'lsa None)."""
+    try:
+        ip_obj = ipaddress.ip_address((raw_ip or "").strip())
+    except ValueError:
+        return {"error": True, "reason": "Noto'g'ri IP manzil"}
+    if ip_obj.is_private or ip_obj.is_loopback:
+        return {"ip": str(ip_obj), "error": True, "reason": "Lokal (xususiy) IP manzil"}
+    cache_key = f"api:ip:{ip_obj}"
+    if not wait:
+        return cache.get(cache_key)
+    data = fetch_json(f"https://ipapi.co/{ip_obj}/json/", cache_key, ttl=3600, timeout=4, fallback=False)
+    return data or {"ip": str(ip_obj), "error": True, "reason": "Xizmat vaqtincha ishlamayapti"}
+
+
 def ip(request):
-    comments = page_comments(request)
     # Parametr berilmasa — serverning emas, foydalanuvchining o'z IP manzili
     raw_ip = request.GET.get("ip") or client_ip(request)
-    try:
-        ip_obj = ipaddress.ip_address(raw_ip.strip())
-    except ValueError:
-        return render(
-            request,
-            "projects/ip.html",
-            {"data": {"error": True, "reason": "Noto'g'ri IP manzil"}, "comments": comments},
-        )
-    if ip_obj.is_private or ip_obj.is_loopback:
-        data = {"ip": str(ip_obj), "error": True, "reason": "Lokal (xususiy) IP manzil"}
-    else:
-        # Har bir IP birinchi marta so'ralganda kesh yo'q — sahifa uzoq kutmasin
-        data = fetch_json(f"https://ipapi.co/{ip_obj}/json/", f"api:ip:{ip_obj}", ttl=3600, timeout=4, fallback=False)
-        if data is None:
-            data = {"ip": str(ip_obj), "error": True, "reason": "Xizmat vaqtincha ishlamayapti"}
-    return render(request, "projects/ip.html", {"data": data, "comments": comments})
+    # Sahifa ipapi.co'ni kutmaydi: keshda bo'lmasa, jadval brauzerda /GetIpData/ orqali to'ldiriladi
+    data = _ip_lookup(raw_ip, wait=False)
+    pending = data is None
+    if pending:
+        data = {"ip": raw_ip.strip()}
+    rows = [
+        (key, label, data.get("country_code") if key == "flag" else data.get(key))
+        for key, label in IP_FIELDS
+    ]
+    context = {"data": data, "rows": rows, "pending": pending, "comments": page_comments(request)}
+    return render(request, "projects/ip.html", context)
+
+
+def GetIpData(request):
+    data = _ip_lookup(request.GET.get("ip") or client_ip(request))
+    return JsonResponse(data, status=503 if data.get("reason") == "Xizmat vaqtincha ishlamayapti" else 200)
 
 
 def map(request):

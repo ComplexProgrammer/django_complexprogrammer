@@ -162,7 +162,9 @@ body.light-mode .theme-toggle {
                     choice:$scope.convert_choice,
                     quality:$scope.convert_quality,
                     link:$scope.link,
-                    links:$scope.links
+                    links:$scope.links,
+                    // Yuklash serverda fonda bajariladi, natija /youtube_downloader/status/ dan so'raladi
+                    async:true
                 }
                 console.dir($scope.model)
                 function getCookie(name) {
@@ -190,7 +192,23 @@ body.light-mode .theme-toggle {
                     headers: {'X-CSRFToken': csrftoken},
                     dataType: "json"
                 }).then(function (d) {
-                  console.log(d.data)
+                    if (!d.data.job) return d;
+                    // Video yuklanguncha holatni har 2 soniyada so'raymiz (ko'pi bilan 15 daqiqa)
+                    var started = Date.now();
+                    return new Promise(function (resolve, reject) {
+                        (function poll() {
+                            $http.get("/youtube_downloader/status/", {params: {job: d.data.job}}).then(function (s) {
+                                if (s.data.status === "done") return resolve(s);
+                                if (Date.now() - started > 15 * 60 * 1000) return reject("timeout");
+                                setTimeout(poll, 2000);
+                            }, function (e) {
+                                if (e.data && e.data.status === "done") return resolve({data: e.data});
+                                reject(e);
+                            });
+                        })();
+                    });
+                }).then(function (d) {
+                  $scope.$applyAsync();
                     if(!d.data.result || d.data.result=="0"){
                         alertify.error(d.data.error || "Youtube video url manzili kiritilmagan");
                         document.getElementById('hh').className= "fade hide";
