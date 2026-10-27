@@ -21,25 +21,37 @@ def _save(stream, title, ext=None):
     try:
         stream.download(output_path=downloads.ensure_dir(), filename=name)
     except Exception as exc:
-        raise DownloadError("YouTube'dan yuklab bo'lmadi, birozdan so'ng urinib ko'ring") from exc
+        raise DownloadError(UNAVAILABLE) from exc
     return name
+
+
+UNAVAILABLE = "YouTube'dan yuklab bo'lmadi, birozdan so'ng urinib ko'ring"
 
 
 def download_video(url, resolution):
     """Videoni media/downloads ga saqlaydi va fayl nomini qaytaradi."""
     video = _youtube(url)
-    stream = video.streams.get_by_itag(choose_resolution(resolution))
-    if stream is None:
-        # So'ralgan sifat bo'lmasa — ovoz+video birga bo'lgan eng yaxshi oqim
-        stream = video.streams.filter(progressive=True, file_extension="mp4").get_highest_resolution()
-    return _save(stream, video.title)
+    try:
+        # pytube oqimlar ro'yxatini shu yerda (tarmoqdan) oladi — YouTube o'zgarsa HTTPError va h.k. tashlaydi
+        stream = video.streams.get_by_itag(choose_resolution(resolution))
+        if stream is None:
+            # So'ralgan sifat bo'lmasa — ovoz+video birga bo'lgan eng yaxshi oqim
+            stream = video.streams.filter(progressive=True, file_extension="mp4").get_highest_resolution()
+        title = video.title
+    except Exception as exc:
+        raise DownloadError(UNAVAILABLE) from exc
+    return _save(stream, title)
 
 
 def download_audio(url):
     """Faqat audio oqimini (m4a) yuklaydi — mp3 o'rniga, konvertatsiyasiz."""
     video = _youtube(url)
-    stream = video.streams.get_audio_only()
-    return _save(stream, video.title, ".m4a")
+    try:
+        stream = video.streams.get_audio_only()
+        title = video.title
+    except Exception as exc:
+        raise DownloadError(UNAVAILABLE) from exc
+    return _save(stream, title, ".m4a")
 
 
 def download_videos(urls, resolution):
@@ -47,8 +59,11 @@ def download_videos(urls, resolution):
 
 
 def download_playlist(url, resolution):
-    playlist = pytube.Playlist(url)
-    return download_videos(playlist.video_urls, resolution)
+    try:
+        urls = list(pytube.Playlist(url).video_urls)
+    except Exception as exc:
+        raise DownloadError(UNAVAILABLE) from exc
+    return download_videos(urls, resolution)
 
 
 def choose_resolution(resolution):

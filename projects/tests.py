@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock, patch
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from django.test import TestCase, override_settings
 from django.urls import reverse
 import requests
@@ -25,6 +25,7 @@ class SyncThread:
 class ExchangeRatesTestCase(TestCase):
     def setUp(self):
         cache.clear()
+        caches["durable"].clear()
         thread_patcher = patch("projects.views.threading.Thread", SyncThread)
         thread_patcher.start()
         self.addCleanup(thread_patcher.stop)
@@ -84,7 +85,7 @@ class ExchangeRatesTestCase(TestCase):
     @patch("projects.views.requests.get")
     def test_fetch_json_returns_stale_data_and_refreshes(self, mock_get):
         # Kesh muddati tugagan, lekin eski ma'lumot bor: darhol eski ma'lumot qaytadi, kesh fonda yangilanadi
-        cache.set("test:stale_key:fallback", [{"Ccy": "OLD"}])
+        caches["durable"].set("test:stale_key:fallback", [{"Ccy": "OLD"}])
         mock_resp = MagicMock()
         mock_resp.json.return_value = self.mock_rates
         mock_get.return_value = mock_resp

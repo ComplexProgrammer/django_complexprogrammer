@@ -146,8 +146,18 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
         "LOCATION": BASE_DIR / "tmp" / "django_cache",
         "TIMEOUT": 600,
-        "OPTIONS": {"MAX_ENTRIES": 5000},
-    }
+        # Chegaraga yetganda Django yozuvlarning 1/3 qismini tasodifiy o'chiradi — kichik chegarada muhim kalitlar
+        # (home:usd, blog yon paneli) tez-tez o'chib, sahifalar qayta hisoblanardi
+        "OPTIONS": {"MAX_ENTRIES": 20000},
+    },
+    # Tashqi API'larning zaxira (fallback) javoblari: kalitlar kam, tasodifiy tozalashga tushmasligi kerak —
+    # aks holda stale-while-revalidate ishlamay, sahifa CBU'ni 20 soniyagacha kutib qolardi (projects.views.fetch_json)
+    "durable": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": BASE_DIR / "tmp" / "django_cache_durable",
+        "TIMEOUT": None,
+        "OPTIONS": {"MAX_ENTRIES": 1000},
+    },
 }
 
 # Password validation

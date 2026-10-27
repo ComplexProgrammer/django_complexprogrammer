@@ -11,7 +11,7 @@ import uuid
 import requests
 import urllib3
 from django.conf import settings
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from django.db.models import Max
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
@@ -30,6 +30,8 @@ logger = logging.getLogger(__name__)
 CBU_RATES_URL = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
 CBU_FALLBACK_FILE = settings.BASE_DIR / "projects" / "data" / "cbu_rates_fallback.json"
 CBU_CACHE_KEY = "api:cbu:v2"
+# Zaxira javoblar alohida keshda: asosiy kesh to'lganda tasodifiy o'chirilmaydi (settings.CACHES)
+durable_cache = caches["durable"]
 
 DEFAULT_REQUEST_HEADERS = {
     "User-Agent": (
@@ -232,7 +234,7 @@ def fetch_json(
     args = (url, cache_key, timeout, ttl, params, headers, fallback, disk_fallback_path)
     if fallback:
         # Diskdagi zaxira bu yerda ishlatilmaydi: u kunlab eski bo'lishi mumkin (faqat API ishlamasa beriladi)
-        stale = cache.get(f"{cache_key}:fallback")
+        stale = durable_cache.get(f"{cache_key}:fallback")
         if stale:
             # Bir vaqtda faqat bitta jarayon yangilaydi; qolganlar eski ma'lumotni olib ketaveradi
             if cache.add(f"{cache_key}:refreshing", 1, timeout + 10):
@@ -253,6 +255,8 @@ def _refresh_json(*args):
 
 def _fetch_json_now(url, cache_key, timeout, ttl, params, headers, fallback, disk_fallback_path):
     req_headers = DEFAULT_REQUEST_HEADERS.copy()
+    # Ulanish uchun alohida qisqa chegara: server javob bermasa, timeout*2 (SSL qayta urinish bilan *4) kutilmasin
+    timeout = (min(3, timeout), timeout)
     if headers:
         req_headers.update(headers)
 
@@ -280,14 +284,14 @@ def _fetch_json_now(url, cache_key, timeout, ttl, params, headers, fallback, dis
             # CBU uchun qisqargan ro'yxat (10 tadan kam) bo'lsa, mavjud 74 ta valyutalik zaxirani buzmaymiz
             is_cbu_truncated = cache_key in ("api:cbu", CBU_CACHE_KEY) and isinstance(data, list) and len(data) < 10
             if not is_cbu_truncated:
-                cache.set(f"{cache_key}:fallback", data, 86400 * 30)  # 30 kun saqlanadi
+                durable_cache.set(f"{cache_key}:fallback", data, 86400 * 30)  # 30 kun saqlanadi
                 if disk_fallback_path:
                     _save_disk_fallback(disk_fallback_path, data)
         return data
 
     # 3. Agar API xatolik bergan bo'lsa, fallback keshdan olamiz
     if fallback:
-        fallback_data = cache.get(f"{cache_key}:fallback")
+        fallback_data = durable_cache.get(f"{cache_key}:fallback")
         if fallback_data:
             logger.info("Using cached fallback for key '%s'", cache_key)
             cache.set(cache_key, fallback_data, 300)  # Keyingi so'rovlar kutib qolmasligi uchun 5 daqiqa
@@ -298,7 +302,7 @@ def _fetch_json_now(url, cache_key, timeout, ttl, params, headers, fallback, dis
             if disk_data:
                 logger.info("Using disk fallback for key '%s' from %s", cache_key, disk_fallback_path)
                 cache.set(cache_key, disk_data, 300)
-                cache.set(f"{cache_key}:fallback", disk_data, 86400 * 30)
+                durable_cache.set(f"{cache_key}:fallback", disk_data, 86400 * 30)
                 return disk_data
 
     return None
