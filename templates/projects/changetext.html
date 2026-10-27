@@ -222,6 +222,57 @@
             z-index: 100;
         }
 
+        .script-switch {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .script-switch button {
+            flex: 1 1 auto;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-color);
+            padding: 8px 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .script-switch button.active,
+        .script-switch button:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
+        }
+
+        .alphabet-grid .letter {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        .alphabet-grid .letter b {
+            display: block;
+            font-size: 1.3rem;
+        }
+
+        .alphabet-grid .letter small {
+            opacity: 0.6;
+        }
+
+        .alphabet-grid .letter.changed {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
         @media (max-width: 768px) {
             .glass-card {
                 padding: 1rem;
@@ -267,12 +318,19 @@
         });
         app.controller("Data", ["$scope", "$http", "$filter", function ($scope, $http, $filter) {
             $scope.TextLength = 0;
+            // "" — avto (kirill -> lotin 1995, lotin -> kirill), "cyr", "lat1995", "lat2026"
+            $scope.target = "";
+            $scope.SetTarget = function (to) {
+                $scope.target = to;
+                $scope.ChangeText($scope.old_text);
+            }
             $scope.ChangeText = function (text) {
                 if (text) {
                     $http({
                         method: 'GET',
-                        url: "/GetChangeTextData?text=" + text,
-                        dataType: "json"
+                        url: "/GetChangeTextData/",
+                        params: { text: text, to: $scope.target },
+                        transformResponse: function (data) { return data; }
                     }).then(function (d) {
                         $scope.new_text = d.data;
                         $scope.TextLength = d.data.length;
@@ -413,6 +471,20 @@ data-ad-slot="6832564320"></ins>
         {% endif %}
         {% endif %}
         <div class="glass-card">
+            <div class="script-switch" role="group">
+                <button type="button" ng-class="{active: target==''}" ng-click="SetTarget('')">
+                    {% if request.LANGUAGE_CODE == 'uz' %}Avto{% elif request.LANGUAGE_CODE == 'ru' %}Авто{% else %}Auto{% endif %}
+                </button>
+                <button type="button" ng-class="{active: target=='cyr'}" ng-click="SetTarget('cyr')">
+                    {% if request.LANGUAGE_CODE == 'uz' %}Kirill{% elif request.LANGUAGE_CODE == 'ru' %}Кириллица{% else %}Cyrillic{% endif %}
+                </button>
+                <button type="button" ng-class="{active: target=='lat1995'}" ng-click="SetTarget('lat1995')">
+                    {% if request.LANGUAGE_CODE == 'uz' %}Lotin (1995){% elif request.LANGUAGE_CODE == 'ru' %}Латиница (1995){% else %}Latin (1995){% endif %}
+                </button>
+                <button type="button" ng-class="{active: target=='lat2026'}" ng-click="SetTarget('lat2026')">
+                    {% if request.LANGUAGE_CODE == 'uz' %}Yangi lotin (2026){% elif request.LANGUAGE_CODE == 'ru' %}Новая латиница (2026){% else %}New Latin (2026){% endif %}
+                </button>
+            </div>
             <form method="post" action="/ChangeTextData" id="form">
                 <textarea class="form-control" ng-model="old_text" ng-change="ChangeText(old_text)" rows="10" cols="50"
                     name="old_text" id="old_text" placeholder="Enter your text..."></textarea>
@@ -464,6 +536,39 @@ data-ad-slot="6832564320"></ins>
                     {% endif %}
                 </p>
             </form>
+        </div>
+        <div class="glass-card">
+            <h6>
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                Oʻzbek lotin alifbosi (2026): 28 harf va tutuq belgisi (ʼ)
+                {% elif request.LANGUAGE_CODE == 'ru' %}
+                Узбекский латинский алфавит (2026): 28 букв и знак тутук (ʼ)
+                {% else %}
+                Uzbek Latin alphabet (2026): 28 letters and the tutuq sign (ʼ)
+                {% endif %}
+            </h6>
+            <div class="alphabet-grid">
+                {% for new, old, cyr in alphabet %}
+                <div class="letter{% if new != old %} changed{% endif %}">
+                    <b>{{ new }}</b>
+                    <small>{{ old }} · {{ cyr }}</small>
+                </div>
+                {% endfor %}
+            </div>
+            <p style="margin:15px 0 0;opacity:.8">
+                {% if request.LANGUAGE_CODE == 'uz' %}
+                1995-yilgi alifboda 26 harf va 3 ta harf birikmasi (sh, ch, ng) bor edi. Islohot sh, ch, gʻ va oʻ ni
+                bitta harfga — ş, ç, ğ va ö ga aylantirdi, ng esa alohida harf sifatida sanalmaydi. Tutuq belgisi (ʼ)
+                harf emas, belgi.
+                {% elif request.LANGUAGE_CODE == 'ru' %}
+                В алфавите 1995 года было 26 букв и 3 буквосочетания (sh, ch, ng). Реформа заменила sh, ch, gʻ и oʻ
+                одиночными буквами ş, ç, ğ и ö, а ng больше не считается отдельной буквой. Тутук (ʼ) — знак, а не буква.
+                {% else %}
+                The 1995 alphabet had 26 letters and 3 digraphs (sh, ch, ng). The reform replaced sh, ch, gʻ and oʻ
+                with the single letters ş, ç, ğ and ö, and ng is no longer counted as a separate letter. The tutuq (ʼ)
+                is a sign, not a letter.
+                {% endif %}
+            </p>
         </div>
     </div>
 {% include "includes/seo_text.html" %}
