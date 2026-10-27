@@ -436,9 +436,57 @@ def C0mplexTranslate(request):
     return render(request, "projects/translate.html", context=context)
 
 
+IMAGECOMPARE_TEXT = {
+    "uz": {
+        "badge_private": "Rasmlar serverga yuborilmaydi", "badge_fast": "Natija bir zumda", "badge_free": "Bepul",
+        "first": "1-rasm (asl)", "second": "2-rasm (o'zgargan)", "drop": "Rasmni shu yerga tashlang yoki bosing",
+        "paste": "Ctrl+V bilan ham qo'yish mumkin", "change": "Almashtirish", "remove": "O'chirish", "swap": "Rasmlar o'rnini almashtirish",
+        "compare": "Solishtirish", "need_two": "Solishtirish uchun ikkala rasmni ham yuklang", "bad_file": "Bu fayl rasm emas yoki buzilgan",
+        "mode_diff": "Farqlar", "mode_slider": "Slayder", "sensitivity": "Sezgirlik", "similar": "O'xshashlik", "changed": "O'zgargan piksellar",
+        "size": "O'lcham", "identical": "Rasmlar bir xil — farq topilmadi", "aspect": "Rasmlar nisbati har xil: 2-rasm 1-rasm o'lchamiga moslab cho'zildi, natija aniq bo'lmasligi mumkin.",
+        "legend": "Qizil — farq qilgan joylar, ramka — farqlar sohasi", "slider_hint": "Surgichni suring: chapda 1-rasm, o'ngda 2-rasm",
+        "download": "Natijani yuklab olish (PNG)", "app": "Android ilova",
+    },
+    "ru": {
+        "badge_private": "Изображения не отправляются на сервер", "badge_fast": "Результат мгновенно", "badge_free": "Бесплатно",
+        "first": "Изображение 1 (оригинал)", "second": "Изображение 2 (изменённое)", "drop": "Перетащите изображение или нажмите",
+        "paste": "Можно вставить через Ctrl+V", "change": "Заменить", "remove": "Удалить", "swap": "Поменять изображения местами",
+        "compare": "Сравнить", "need_two": "Загрузите оба изображения для сравнения", "bad_file": "Файл не является изображением или повреждён",
+        "mode_diff": "Различия", "mode_slider": "Слайдер", "sensitivity": "Чувствительность", "similar": "Сходство", "changed": "Изменённые пиксели",
+        "size": "Размер", "identical": "Изображения одинаковые — различий нет", "aspect": "Пропорции изображений разные: второе растянуто под размер первого, результат может быть неточным.",
+        "legend": "Красным — различия, рамка — область изменений", "slider_hint": "Двигайте ползунок: слева изображение 1, справа изображение 2",
+        "download": "Скачать результат (PNG)", "app": "Приложение Android",
+    },
+    "en": {
+        "badge_private": "Images never leave your device", "badge_fast": "Instant result", "badge_free": "Free",
+        "first": "Image 1 (original)", "second": "Image 2 (changed)", "drop": "Drop an image here or click",
+        "paste": "You can also paste with Ctrl+V", "change": "Replace", "remove": "Remove", "swap": "Swap images",
+        "compare": "Compare", "need_two": "Upload both images to compare", "bad_file": "This file is not an image or is damaged",
+        "mode_diff": "Differences", "mode_slider": "Slider", "sensitivity": "Sensitivity", "similar": "Similarity", "changed": "Changed pixels",
+        "size": "Size", "identical": "The images are identical — no differences found", "aspect": "The images have different proportions: image 2 was stretched to image 1, so the result may be inaccurate.",
+        "legend": "Red — differences, box — changed area", "slider_hint": "Drag the handle: image 1 on the left, image 2 on the right",
+        "download": "Download result (PNG)", "app": "Android app",
+    },
+    "tr": {
+        "badge_private": "Resimler sunucuya gönderilmez", "badge_fast": "Anında sonuç", "badge_free": "Ücretsiz",
+        "first": "Resim 1 (orijinal)", "second": "Resim 2 (değişmiş)", "drop": "Resmi buraya bırakın veya tıklayın",
+        "paste": "Ctrl+V ile de yapıştırabilirsiniz", "change": "Değiştir", "remove": "Kaldır", "swap": "Resimlerin yerini değiştir",
+        "compare": "Karşılaştır", "need_two": "Karşılaştırmak için iki resmi de yükleyin", "bad_file": "Bu dosya resim değil veya bozuk",
+        "mode_diff": "Farklar", "mode_slider": "Kaydırıcı", "sensitivity": "Hassasiyet", "similar": "Benzerlik", "changed": "Değişen pikseller",
+        "size": "Boyut", "identical": "Resimler aynı — fark bulunamadı", "aspect": "Resimlerin oranları farklı: 2. resim 1. resme göre uzatıldı, sonuç kesin olmayabilir.",
+        "legend": "Kırmızı — farklar, çerçeve — değişen alan", "slider_hint": "Tutamacı kaydırın: solda resim 1, sağda resim 2",
+        "download": "Sonucu indir (PNG)", "app": "Android uygulaması",
+    },
+}
+
+
 def ImageCompare(request):
+    from django.utils import translation
+
     # Solishtirish brauzerda (canvas) bajariladi, server faqat sahifani beradi
-    return render(request, "projects/imagecompare.html", {"comments": page_comments(request)})
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": IMAGECOMPARE_TEXT.get(lang, IMAGECOMPARE_TEXT["en"])}
+    return render(request, "projects/imagecompare.html", context)
 
 
 def avtotest(request):
