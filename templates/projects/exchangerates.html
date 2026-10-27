@@ -89,13 +89,13 @@
 </head>
 <body>
 {% include "includes/site_header.html" %}
-<main class="d-main xr">
+<main class="d-main xr" data-date="{{ rate_date }}">
   <section class="xr-hero">
     <div>
       <h1>{{ seo_h1 }}</h1>
       {% if seo_lead %}<p>{{ seo_lead }}</p>{% endif %}
       <div class="xr-badges">
-        {% if rate_date %}<span>📅 {{ t.date }}: <b>{{ rate_date }}</b></span>{% endif %}
+        {% if rate_date %}<span>📅 {{ t.date }}: <b id="xr-date">{{ rate_date }}</b></span>{% endif %}
         <span>🏦 cbu.uz</span>
       </div>
     </div>
@@ -110,13 +110,13 @@
   <h2 class="xr-h2">{{ t.featured }}</h2>
   <div class="xr-featured">
     {% for r in featured %}
-    <article class="xr-tile xr-{{ r.trend }}">
+    <article class="xr-tile xr-{{ r.trend }}" data-ccy="{{ r.ccy }}">
       <div class="xr-tile-top">
         <span class="xr-flag"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="/static/flag_image/symbol_defs.svg#icon-currency-{{ r.ccy }}"></use></svg></span>
         <span><b>{{ r.ccy }}</b><small>{{ r.name }}</small></span>
       </div>
-      <div class="xr-tile-rate">{{ r.rate_fmt }} <small>{{ t.sum }}</small></div>
-      <span class="xr-chg">{% if r.trend == "up" %}▲{% elif r.trend == "down" %}▼{% else %}●{% endif %} {{ r.diff_fmt }} <small>{{ r.pct_fmt }}</small></span>
+      <div class="xr-tile-rate"><span class="xr-v">{{ r.rate_fmt }}</span> <small>{{ t.sum }}</small></div>
+      <span class="xr-chg"><span class="xr-a">{% if r.trend == "up" %}▲{% elif r.trend == "down" %}▼{% else %}●{% endif %}</span> <span class="xr-d">{{ r.diff_fmt }}</span> <small class="xr-p">{{ r.pct_fmt }}</small></span>
     </article>
     {% endfor %}
   </div>
@@ -151,15 +151,15 @@
         <span>№</span><span>{{ t.currency }}</span><span>{{ t.code }}</span><span class="xr-rate">{{ t.rate }}</span><span class="xr-chg">{{ t.change }}</span>
       </li>
       {% for r in rows %}
-      <li class="xr-row xr-{{ r.trend }}" data-q="{{ r.search }}">
+      <li class="xr-row xr-{{ r.trend }}" data-ccy="{{ r.ccy }}" data-q="{{ r.search }}">
         <span class="xr-num">{{ forloop.counter }}</span>
         <span class="xr-cur">
           <span class="xr-flag"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="/static/flag_image/symbol_defs.svg#icon-currency-{{ r.ccy }}"></use></svg></span>
           <span><b>{{ r.ccy }}</b><small>{{ r.name }}{% if r.per %} · {{ r.per }}{% endif %}</small></span>
         </span>
         <span class="xr-code">{{ r.code }}</span>
-        <span class="xr-rate">{{ r.rate_fmt }} <small>{{ t.sum }}</small></span>
-        <span class="xr-chg">{% if r.trend == "up" %}▲{% elif r.trend == "down" %}▼{% else %}●{% endif %} {{ r.diff_fmt }} <small>{{ r.pct_fmt }}</small></span>
+        <span class="xr-rate"><span class="xr-v">{{ r.rate_fmt }}</span> <small>{{ t.sum }}</small></span>
+        <span class="xr-chg"><span class="xr-a">{% if r.trend == "up" %}▲{% elif r.trend == "down" %}▼{% else %}●{% endif %}</span> <span class="xr-d">{{ r.diff_fmt }}</span> <small class="xr-p">{{ r.pct_fmt }}</small></span>
       </li>
       {% endfor %}
     </ul>
@@ -183,6 +183,7 @@
   data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
+<script src="/static/js/cbu-live.js?v=1"></script>
 <script>
   (function () {
     var data = document.getElementById("xr-rates");
@@ -213,6 +214,34 @@
       update();
     });
     update();
+
+    // Server (Germaniya) cbu.uz ga ulana olmaydi — brauzer yangiroq kurs topsa, sahifa joyida yangilanadi (static/js/cbu-live.js)
+    function num(v, sign) {
+      var s = Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(/,/g, "\u00a0");
+      return (v < 0 ? "-" : sign ? "+" : "") + s;
+    }
+    var main = document.querySelector("main[data-date]");
+    window.cpCbuLatest && cpCbuLatest(main.dataset.date).then(function (list) {
+      if (!list) return;
+      list.forEach(function (item) {
+        var rate = parseFloat(item.Rate), diff = parseFloat(item.Diff) || 0, nominal = parseInt(item.Nominal, 10) || 1;
+        if (!item.Ccy || !(rate > 0)) return;
+        var prev = rate - diff, trend = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
+        RATES[item.Ccy] = rate / nominal;
+        document.querySelectorAll('[data-ccy="' + item.Ccy + '"]').forEach(function (el) {
+          el.classList.remove("xr-up", "xr-down", "xr-flat");
+          el.classList.add("xr-" + trend);
+          el.querySelector(".xr-v").textContent = num(rate);
+          el.querySelector(".xr-a").textContent = trend === "up" ? "▲" : trend === "down" ? "▼" : "●";
+          el.querySelector(".xr-d").textContent = num(diff, true);
+          el.querySelector(".xr-p").textContent = num(prev ? diff / prev * 100 : 0, true) + "%";
+        });
+      });
+      var date = document.getElementById("xr-date");
+      if (date) date.textContent = list[0].Date;
+      main.dataset.date = list[0].Date;
+      update();
+    });
 
     // Qidiruv: valyuta kodi, nomi yoki raqamli kodi bo'yicha
     var rows = document.querySelectorAll("#xr-rows li[data-q]"), empty = document.getElementById("xr-empty");
