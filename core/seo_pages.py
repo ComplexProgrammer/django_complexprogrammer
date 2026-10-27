@@ -503,7 +503,7 @@ PAGES = {
         "kind": "tool",
         "uz": {
             "title": "PDF ni Word, Excel va rasmga o'tkazish — onlayn, bepul",
-            "desc": "PDF faylni Word (DOCX), Excel (XLSX) yoki rasmga bepul o'tkazing. Faylni yuklang va natijani bir zumda yuklab oling.",
+            "desc": "PDF faylni Word (DOCX), Excel (CSV) yoki rasmga (JPG) bepul o'tkazing. Faylni yuklang va natijani bir zumda yuklab oling.",
             "h1": "PDF konvertor",
             "lead": "PDF faylni Word, Excel yoki rasm formatiga o'tkazing.",
             "text": [
@@ -517,7 +517,7 @@ PAGES = {
         },
         "ru": {
             "title": "PDF в Word, Excel и картинки — онлайн и бесплатно",
-            "desc": "Бесплатно конвертируйте PDF в Word (DOCX), Excel (XLSX) или изображения. Загрузите файл и сразу скачайте результат.",
+            "desc": "Бесплатно конвертируйте PDF в Word (DOCX), Excel (CSV) или изображения (JPG). Загрузите файл и сразу скачайте результат.",
             "h1": "PDF-конвертер",
             "lead": "Преобразуйте PDF в Word, Excel или изображения.",
             "text": [
@@ -531,7 +531,7 @@ PAGES = {
         },
         "en": {
             "title": "Convert PDF to Word, Excel and images — free online",
-            "desc": "Convert PDF to Word (DOCX), Excel (XLSX) or images for free. Upload a file and download the result instantly.",
+            "desc": "Convert PDF to Word (DOCX), Excel (CSV) or images (JPG) for free. Upload a file and download the result instantly.",
             "h1": "PDF converter",
             "lead": "Turn a PDF into Word, Excel or image files.",
             "text": [
