@@ -214,3 +214,32 @@ class RateRowsTestCase(TestCase):
         self.assertEqual(rows[0]["diff_fmt"], "+23.04")
         self.assertEqual(rows[1]["nominal"], 10)
         self.assertIn("dollari", rows[0]["search"])
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class YoutubeInfoTestCase(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def tearDown(self):
+        cache.clear()
+
+    @patch("projects.views.youtube_downloader.video_info", return_value={"title": "Me at the zoo", "heights": [144, 240]})
+    def test_info_is_cached(self, mock_info):
+        for _ in range(2):
+            data = self.client.get("/youtube_downloader/info/", {"url": "https://youtu.be/jNQXAC9IVRw"}).json()
+        self.assertEqual(data["title"], "Me at the zoo")
+        mock_info.assert_called_once()
+
+    def test_info_rejects_non_youtube(self):
+        response = self.client.get("/youtube_downloader/info/", {"url": "https://example.com/video"})
+        self.assertEqual(response.status_code, 400)
+
+    @patch("projects.views.youtube_downloader.video_info")
+    def test_info_explains_errors(self, mock_info):
+        from projects.youtube_downloader import DownloadError
+
+        mock_info.side_effect = DownloadError("Video topilmadi yoki o'chirilgan")
+        response = self.client.get("/youtube_downloader/info/", {"url": "https://youtu.be/xxxxxxxxxxx"})
+        self.assertEqual(response.status_code, 422)
+        self.assertIn("topilmadi", response.json()["error"])
