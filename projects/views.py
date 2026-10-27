@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import re
 import threading
+import time
 import uuid
 
 import requests
@@ -143,39 +144,99 @@ YT_SLOTS = threading.BoundedSemaphore(2)
 YT_JOB_TTL = 2 * 3600
 
 
-def _youtube_download(choice, quality, link):
+def _youtube_download(choice, quality, link, progress=None):
     """Yuklab olish natijasi: {"result": fayl, "files": [...]} yoki {"result": "0", "error": ...}."""
     downloads.cleanup_old()
     try:
         if choice == 3:
-            return {"result": youtube_downloader.download_audio(link)}
+            return {"result": youtube_downloader.download_audio(link, progress=progress)}
         if choice == 2:
             # Pleylist uchun birinchi videoni qaytaramiz, qolganlari ro'yxatda
             filenames = youtube_downloader.download_playlist(link, quality)
             if not filenames:
                 return {"result": "0", "error": "Pleylist bo'sh"}
             return {"result": filenames[0], "files": filenames}
-        return {"result": youtube_downloader.download_video(link, quality)}
+        return {"result": youtube_downloader.download_video(link, quality, progress=progress)}
     except youtube_downloader.DownloadError as exc:
         return {"result": "0", "error": str(exc)}
 
 
 def _youtube_job(job_id, *args):
     key = f"ytjob:{job_id}"
+    last = {"t": 0.0}
+
+    def progress(pct):
+        # Sahifa yuklash foizini ko'rsatadi; keshga soniyasiga ko'pi bilan bir marta yoziladi
+        now = time.monotonic()
+        if pct >= 100 or now - last["t"] >= 1:
+            last["t"] = now
+            cache.set(key, {"status": "running", "progress": pct}, YT_JOB_TTL)
+
     with YT_SLOTS:
-        cache.set(key, {"status": "running"}, YT_JOB_TTL)
+        cache.set(key, {"status": "running", "progress": 0}, YT_JOB_TTL)
         try:
-            data = _youtube_download(*args)
+            data = _youtube_download(*args, progress=progress)
         except Exception:  # fon oqimida kutilmagan xato — foydalanuvchi cheksiz kutib qolmasin
             logger.exception("YouTube job %s failed", job_id)
             data = {"result": "0", "error": "Xatolik yuz berdi, birozdan so'ng urinib ko'ring"}
         cache.set(key, {"status": "done", **data}, YT_JOB_TTL)
 
 
+YT_TEXT = {
+    "uz": {
+        "badge_free": "Bepul, ro'yxatdan o'tmasdan", "badge_formats": "MP4 video va MP3 audio", "badge_quality": "4K gacha sifat",
+        "placeholder": "YouTube havolasini qo'ying: https://youtu.be/...", "paste": "Qo'yish", "check": "Ko'rish",
+        "invalid": "YouTube video havolasini kiriting", "loading": "Video ma'lumoti olinmoqda...",
+        "video": "Video (MP4)", "audio": "Audio (MP3)", "audio_m4a": "Audio (M4A)", "quality": "Sifat", "format": "Format",
+        "download": "Yuklab olish", "queued": "Navbatda...", "downloading": "Yuklanmoqda", "processing": "Fayl tayyorlanmoqda...",
+        "ready": "Tayyor!", "save": "Faylni saqlash", "again": "Boshqa video", "error": "Xatolik yuz berdi",
+        "too_long": "Video 3 soatdan uzun — yuklab bo'lmaydi", "live": "Jonli efirni yuklab bo'lmaydi",
+        "note": "Faqat o'zingizga tegishli yoki mualliflik huquqi ruxsat bergan videolarni yuklab oling. Fayllar serverdan 1 soatda o'chiriladi.",
+        "app": "Android ilova", "timeout": "Juda uzoq davom etdi — qaytadan urinib ko'ring",
+    },
+    "ru": {
+        "badge_free": "Бесплатно, без регистрации", "badge_formats": "Видео MP4 и аудио MP3", "badge_quality": "Качество до 4K",
+        "placeholder": "Вставьте ссылку YouTube: https://youtu.be/...", "paste": "Вставить", "check": "Открыть",
+        "invalid": "Введите ссылку на видео YouTube", "loading": "Получаем данные о видео...",
+        "video": "Видео (MP4)", "audio": "Аудио (MP3)", "audio_m4a": "Аудио (M4A)", "quality": "Качество", "format": "Формат",
+        "download": "Скачать", "queued": "В очереди...", "downloading": "Загрузка", "processing": "Подготовка файла...",
+        "ready": "Готово!", "save": "Сохранить файл", "again": "Другое видео", "error": "Произошла ошибка",
+        "too_long": "Видео длиннее 3 часов — скачать нельзя", "live": "Прямой эфир скачать нельзя",
+        "note": "Скачивайте только свои видео или те, что разрешены авторским правом. Файлы удаляются с сервера через 1 час.",
+        "app": "Приложение Android", "timeout": "Слишком долго — попробуйте ещё раз",
+    },
+    "en": {
+        "badge_free": "Free, no sign-up", "badge_formats": "MP4 video and MP3 audio", "badge_quality": "Up to 4K quality",
+        "placeholder": "Paste a YouTube link: https://youtu.be/...", "paste": "Paste", "check": "Open",
+        "invalid": "Enter a YouTube video link", "loading": "Fetching video details...",
+        "video": "Video (MP4)", "audio": "Audio (MP3)", "audio_m4a": "Audio (M4A)", "quality": "Quality", "format": "Format",
+        "download": "Download", "queued": "Queued...", "downloading": "Downloading", "processing": "Preparing the file...",
+        "ready": "Done!", "save": "Save file", "again": "Another video", "error": "Something went wrong",
+        "too_long": "The video is longer than 3 hours — it can't be downloaded", "live": "Live streams can't be downloaded",
+        "note": "Only download videos you own or that copyright allows. Files are deleted from the server after 1 hour.",
+        "app": "Android app", "timeout": "This took too long — please try again",
+    },
+    "tr": {
+        "badge_free": "Ücretsiz, kayıt gerekmez", "badge_formats": "MP4 video ve MP3 ses", "badge_quality": "4K'ya kadar kalite",
+        "placeholder": "YouTube bağlantısını yapıştırın: https://youtu.be/...", "paste": "Yapıştır", "check": "Aç",
+        "invalid": "Bir YouTube video bağlantısı girin", "loading": "Video bilgileri alınıyor...",
+        "video": "Video (MP4)", "audio": "Ses (MP3)", "audio_m4a": "Ses (M4A)", "quality": "Kalite", "format": "Biçim",
+        "download": "İndir", "queued": "Sırada...", "downloading": "İndiriliyor", "processing": "Dosya hazırlanıyor...",
+        "ready": "Hazır!", "save": "Dosyayı kaydet", "again": "Başka video", "error": "Bir hata oluştu",
+        "too_long": "Video 3 saatten uzun — indirilemez", "live": "Canlı yayın indirilemez",
+        "note": "Yalnızca size ait veya telif hakkının izin verdiği videoları indirin. Dosyalar 1 saat sonra sunucudan silinir.",
+        "app": "Android uygulaması", "timeout": "Çok uzun sürdü — lütfen tekrar deneyin",
+    },
+}
+
+
+@ensure_csrf_cookie
 def youtube_downloader_(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
     if request.method != "POST":
+        from django.utils import translation
+
+        lang = (translation.get_language() or "uz")[:2]
+        context = {"comments": page_comments(request), "t": YT_TEXT.get(lang, YT_TEXT["en"])}
         return render(request, "projects/youtube_downloader.html", context=context)
 
     try:
@@ -198,6 +259,25 @@ def youtube_downloader_(request):
     cache.set(f"ytjob:{job_id}", {"status": "queued"}, YT_JOB_TTL)
     threading.Thread(target=_youtube_job, args=(job_id, choice, quality, link), daemon=True).start()
     return JsonResponse({"job": job_id})
+
+
+def youtube_info(request):
+    """Yuklashdan oldin video ma'lumoti (nom, rasm, davomiylik, mavjud sifatlar) — 10 daqiqaga keshlanadi."""
+    link = (request.GET.get("url") or "").strip()
+    if not youtube_downloader.is_youtube_url(link):
+        return JsonResponse({"error": "YouTube havolasini kiriting"}, status=400)
+    key = "ytinfo:" + hashlib.sha1(link.encode()).hexdigest()
+    data = cache.get(key)
+    if data is None:
+        try:
+            data = youtube_downloader.video_info(link)
+        except youtube_downloader.DownloadError as exc:
+            return JsonResponse({"error": str(exc)}, status=422)
+        except Exception:
+            logger.exception("YouTube info failed for %s", link)
+            return JsonResponse({"error": youtube_downloader.UNAVAILABLE}, status=502)
+        cache.set(key, data, 600)
+    return JsonResponse(data)
 
 
 def youtube_job_status(request):
