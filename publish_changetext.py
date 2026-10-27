@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""Lotin-kirill o'girgich maqolasini rasmlari bilan birga nashr qilish skripti.
+"""Lotin-kirill ögirgiç maqolasini rasmlari bilan birga naşr qiliş skripti.
 
-Ishlatish:
-    python publish_changetext.py            # Nashr qilish (yoki yangilash)
-    python publish_changetext.py --draft    # Qoralama qilib saqlash
+Işlatiş:
+    python publish_changetext.py            # Naşr qiliş (yoki yangilaş)
+    python publish_changetext.py --draft    # Qoralama qilib saqlaş
 """
 
 import os
@@ -23,7 +23,7 @@ def main():
         import django
         django.setup()
     except Exception as exc:
-        print(f"Xatolik: Django yuklanmadi ({exc}). Virtual muhit faollashtirilganligini tekshiring.")
+        print(f"Xatolik: Django yuklanmadi ({exc}). Virtual muhit faollaştirilganligini tekşiring.")
         sys.exit(1)
 
     from django.core.management import call_command
@@ -34,7 +34,7 @@ def main():
 
     call_command("publish_changetext_post", *args)
 
-    # tmp/restart.txt agar mavjud bo'lsa yangilaymiz (Passenger uchun)
+    # tmp/restart.txt agar mavjud bölsa yangilaymiz (Passenger uçun)
     if os.path.isdir("tmp"):
         try:
             with open(os.path.join("tmp", "restart.txt"), "a"):
