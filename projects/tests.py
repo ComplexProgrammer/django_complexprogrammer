@@ -196,3 +196,21 @@ class YoutubeJobTestCase(TestCase):
         response = self.client.get("/youtube_downloader/status/", {"job": "nope"})
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json()["result"], "0")
+
+
+class RateRowsTestCase(TestCase):
+    def test_trend_is_numeric_not_string(self):
+        from projects.views import _rate_rows
+
+        rows = _rate_rows([
+            {"Ccy": "USD", "Code": "840", "CcyNm_UZ": "AQSH dollari", "Nominal": "1", "Rate": "11861.96", "Diff": "23.04"},
+            {"Ccy": "JPY", "Code": "392", "CcyNm_UZ": "Yaponiya iyenasi", "Nominal": "10", "Rate": "753.5", "Diff": "-1.10"},
+            # Satr sifatida "0.00" > "0" — avval nol o'zgarish yashil "+" bilan chiqardi
+            {"Ccy": "XDR", "Code": "960", "CcyNm_UZ": "SDR", "Nominal": "1", "Rate": "16000", "Diff": "0.00"},
+            {"Ccy": "BAD", "Rate": "n/a"},
+        ], "uz")
+        self.assertEqual([r["trend"] for r in rows], ["up", "down", "flat"])
+        self.assertEqual(rows[0]["rate_fmt"], "11\u00a0861.96")
+        self.assertEqual(rows[0]["diff_fmt"], "+23.04")
+        self.assertEqual(rows[1]["nominal"], 10)
+        self.assertIn("dollari", rows[0]["search"])
