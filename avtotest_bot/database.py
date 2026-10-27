@@ -677,7 +677,76 @@ class Database:
             )
             await db.commit()
 
-            return session_data
+        # Saytdagi ActivityDay (streak va reyting) hamda ExamResult bilan sinxronlash
+        try:
+            await self._sync_user_activity(
+                user_id=user_id,
+                answered=total_answered,
+                correct=correct,
+                mode=session_data.get("mode", "quiz"),
+            )
+        except Exception as e:
+            logger.warning(f"Sayt bilan sinxronlashda xatolik: {e}")
+
+        return session_data
+
+    async def _sync_user_activity(
+        self, user_id: int, answered: int, correct: int, mode: str = "quiz", seconds: int = 0
+    ):
+        """Telegram botdagi natijalarni saytning ActivityDay va ExamResult jadvallariga sinxronlash."""
+        if not answered:
+            return
+        today = datetime.now().date().isoformat()
+        now_dt = datetime.now().isoformat()
+        async with self.connect() as db:
+            async with db.execute(
+                "SELECT user_id FROM driving_telegramaccount WHERE telegram_id = ?", (user_id,)
+            ) as cur:
+                row = await cur.fetchone()
+
+            auth_user_id = row["user_id"] if row else None
+            if not auth_user_id:
+                username = f"tg{user_id}"
+                async with db.execute(
+                    "SELECT id FROM auth_user WHERE username = ?", (username,)
+                ) as cur:
+                    u_row = await cur.fetchone()
+                if u_row:
+                    auth_user_id = u_row["id"]
+                else:
+                    cur = await db.execute(
+                        """INSERT INTO auth_user (username, password, first_name, last_name, email, is_staff, is_active, is_superuser, date_joined)
+                           VALUES (?, '!', '', '', '', 0, 1, 0, ?)""",
+                        (username, now_dt),
+                    )
+                    auth_user_id = cur.lastrowid
+
+                await db.execute(
+                    """INSERT OR IGNORE INTO driving_telegramaccount (user_id, telegram_id, username, first_name, last_name, photo_url, created_at, last_login_at)
+                       VALUES (?, ?, '', '', '', '', ?, ?)""",
+                    (auth_user_id, user_id, now_dt, now_dt),
+                )
+
+            # ActivityDay ni yangilash (streak va haftalik reyting)
+            await db.execute(
+                """INSERT INTO driving_activityday (user_id, date, answered, correct)
+                   VALUES (?, ?, ?, ?)
+                   ON CONFLICT(user_id, date) DO UPDATE SET
+                     answered = answered + excluded.answered,
+                     correct = correct + excluded.correct""",
+                (auth_user_id, today, answered, correct),
+            )
+
+            # Agar imtihon rejimi bo'lsa, ExamResult ga ham yozish
+            if mode == "exam" and answered >= 10:
+                passed = (answered - correct) <= 2
+                await db.execute(
+                    """INSERT INTO driving_examresult (user_id, correct, total, seconds, passed, created_at)
+                       VALUES (?, ?, ?, ?, ?, ?)""",
+                    (auth_user_id, correct, answered, seconds, passed, now_dt),
+                )
+
+            await db.commit()
 
     async def cancel_session(self, user_id: int):
         async with self.connect() as db:

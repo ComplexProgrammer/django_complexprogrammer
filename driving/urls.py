@@ -16,6 +16,7 @@ urlpatterns = [
     path("yhq/<slug:slug>-bob/", views.yhq_chapter, name="yhq_chapter"),
     path("yol-belgilari/", views.signs, name="road_signs"),
     path("yol-belgilari/<int:pk>/", views.sign, name="road_sign"),
+    path("jarimalar/", views.fines, name="fines"),
     path("profil/", views.profile, name="profile"),
     path("auth/telegram/", views.telegram_login, name="telegram_login"),
     path("auth/telegram/webapp/", views.telegram_webapp_login, name="telegram_webapp_login"),

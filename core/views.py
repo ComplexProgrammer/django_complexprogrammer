@@ -21,6 +21,7 @@ TOOLS = [
     ("/avtotest/", "avtotest", "yhq imtihon bilet prava haydovchilik пдд экзамен driving"),
     ("/avtotest/imtihon/", "exam", "imtihon simulyator sinov экзамен симулятор exam simulator"),
     ("/yol-belgilari/", "signs", "yo'l belgilari belgi знаки дорожные road signs"),
+    ("/jarimalar/", "jarimalar", "jarima jarimalar shtraf shtrafy bhm ma'muriy kodeks mjdk штрафы штраф fines"),
     ("/yhq/", "yhq", "yhq yo'l harakati qoidalari qoida пдд правила traffic rules"),
     ("/avtotest/reyting/", "leaderboard", "reyting top рейтинг leaderboard"),
     ("/tests/", "tests", "test savol maktab тест"),
@@ -109,6 +110,7 @@ def offline(request):
 STATIC_SITEMAP_SECTIONS = [
     ("Asosiy sahifalar", [
         ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/avtotest/imtihon/", "weekly", "0.9"),
+        ("/jarimalar/", "weekly", "0.9"), ("/yol-belgilari/", "weekly", "0.8"),
         ("/avtotest/reyting/", "daily", "0.5"), ("/avtotest/kun-savoli/", "daily", "0.7"), ("/avtotest/pdf/", "monthly", "0.8"), ("/tests/", "weekly", "0.8"),
         ("/blog/", "daily", "0.8"), ("/projects/", "weekly", "0.7"),
     ]),

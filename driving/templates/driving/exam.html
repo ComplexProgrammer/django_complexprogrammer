@@ -5,47 +5,270 @@
 {% include "includes/head_common.html" %}
 {% include "driving/_style.html" %}
 <style>
-  .e-top{position:sticky;top:58px;z-index:5;background:var(--bg);padding:8px 0 10px}
-  .e-dots{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-  .e-dots button{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font:inherit;font-size:.8rem;cursor:pointer}
-  .e-dots button.cur{border-color:var(--accent);box-shadow:0 0 0 2px rgba(99,102,241,.35)}
-  .e-dots button.ok{background:#22c55e;border-color:#22c55e;color:#fff}
-  .e-dots button.bad{background:#ef4444;border-color:#ef4444;color:#fff}
-  .e-timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.2rem}
-  .e-timer.low{color:#ef4444}
-  .e-result{text-align:center}
-  .e-result .big{font-size:3rem;font-weight:800;line-height:1.1;margin:8px 0}
-  .e-save{margin:16px auto 0;max-width:480px;padding:14px 16px;border-radius:14px;border:2px solid var(--accent);background:rgba(99,102,241,.08)}
-  .e-save p{margin:6px 0 10px;font-size:.9rem;opacity:.9}
+  .e-top {
+    position: sticky;
+    top: 58px;
+    z-index: 10;
+    background: var(--bg);
+    padding: 10px 0 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .e-dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .e-dots button {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .e-dots button.cur {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+    font-weight: 800;
+  }
+  .e-dots button.answered {
+    background: #4f46e5;
+    border-color: #4f46e5;
+    color: #fff;
+  }
+  .e-dots button.ok {
+    background: #10b981;
+    border-color: #10b981;
+    color: #fff;
+  }
+  .e-dots button.bad {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: #fff;
+  }
+  .e-timer {
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+    font-size: 1.3rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .e-timer.low {
+    color: #ef4444;
+    animation: pulse 1s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Mode selection cards */
+  .e-modes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 16px 0 22px;
+  }
+  .e-mode-card {
+    padding: 16px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+  }
+  .e-mode-card:hover {
+    border-color: var(--accent);
+  }
+  .e-mode-card.selected {
+    border-color: #4f46e5;
+    background: rgba(99, 102, 241, 0.08);
+  }
+  .e-mode-card h3 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .e-mode-card p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* Official Protocol Result Card */
+  .e-protocol-card {
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    background: var(--card);
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .e-stamp {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .e-stamp.pass {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 2px solid #10b981;
+  }
+  .e-stamp.fail {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    border: 2px solid #ef4444;
+  }
+  .e-big-score {
+    font-size: clamp(3rem, 7vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1;
+    margin: 12px 0 8px;
+  }
+  .e-review-list {
+    margin-top: 24px;
+    text-align: left;
+  }
+  .e-review-item {
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    background: var(--bg);
+  }
+  .e-review-item.is-wrong {
+    border-left: 5px solid #ef4444;
+  }
+  .e-review-item.is-correct {
+    border-left: 5px solid #10b981;
+  }
 </style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
+
 <main class="d-main">
   <nav class="d-crumbs" aria-label="breadcrumb">
     <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>{{ t.exam_h1 }}</span>
   </nav>
+
+  <!-- Intro Screen with Mode Selection -->
   <div id="intro" class="d-card d-cta">
     <h1 class="d-h1">🎯 {{ t.exam_h1 }}</h1>
     {% if topic_title %}<p><b>📚 {{ topic_title }}</b></p>{% endif %}
     <p>{{ t.exam_desc }}</p>
-    <p class="d-meta">{{ t.exam_rules }}</p>
-    <button type="button" class="d-btn" id="start">{{ t.start_exam }} →</button>
+
+    <!-- Mode Selector -->
+    <div class="e-modes-grid">
+      <div id="modeReal" class="e-mode-card selected" onclick="setExamMode('real')">
+        <h3>🏢 YHXX Rasmiy Imtihoni</h3>
+        <p>Haqiqiy kompyuter formati. Javoblar qulflanadi, to'g'ri/xatoligi faqat oxirida bayonnomada e'lon qilinadi.</p>
+      </div>
+      <div id="modeStudy" class="e-mode-card" onclick="setExamMode('study')">
+        <h3>🎓 O'quv Mashg'uloti</h3>
+        <p>Mashq rejimi. Har bir savolda to'g'ri javob va qonuniy YHQ izohi darhol ko'rsatiladi.</p>
+      </div>
+    </div>
+
+    <div class="d-stats" style="margin-bottom: 20px;">
+      <div><b>20 ta</b><span>Savollar</span></div>
+      <div><b>25:00</b><span>Vaqt limiti</span></div>
+      <div><b>≤ 2 ta</b><span>Xato limiti</span></div>
+      <div><b>18 / 20</b><span>O'tish bali (90%)</span></div>
+    </div>
+
+    <div class="d-row">
+      <button type="button" class="d-btn green" id="start" style="font-size:1.05rem; padding:12px 24px">
+        🚀 {{ t.start_exam }}
+      </button>
+      <a href="{{ lang_prefix }}/avtotest/" class="d-btn alt">📋 Biletlar ro'yxati</a>
+    </div>
   </div>
+
+  <!-- Live Exam Container -->
   <div id="exam" hidden>
     <div class="e-top">
       <div class="d-between">
-        <span class="d-meta"><span id="pos">1</span>/{{ total }} · {{ t.mistakes_left }}: <b id="left">{{ max_mistakes }}</b></span>
-        <span class="e-timer" id="timer">25:00</span>
+        <span class="d-meta">
+          Savol: <b id="pos" style="font-size:1.1rem; color:var(--text)">1</b> / {{ total }}
+          <span id="mistakesLeftBox" style="margin-left:8px;">· {{ t.mistakes_left }}: <b id="left">{{ max_mistakes }}</b></span>
+        </span>
+        <span class="e-timer" id="timer">⏱️ 25:00</span>
       </div>
       <div class="e-dots" id="dots"></div>
     </div>
+
     <div class="d-card" id="card"></div>
+
+    <div class="d-row" style="justify-content:space-between; margin-top:14px;">
+      <button type="button" class="d-btn alt" id="btnPrev">← Oldingi</button>
+      <button type="button" class="d-btn alt" id="btnFinishEarly" style="color:#ef4444!important">
+        Imtihonni yakunlash
+      </button>
+      <button type="button" class="d-btn" id="btnNext">Keyingi →</button>
+    </div>
   </div>
-  <div id="result" class="d-card e-result" hidden></div>
+
+  <!-- Official Protocol & Results Screen -->
+  <div id="result" hidden>
+    <div class="e-protocol-card">
+      <div id="stampBox" class="e-stamp pass">TOPSHIRILDI ✅</div>
+      <h2 id="resTitle" class="d-h1" style="margin-bottom:6px">Tabriklaymiz, siz imtihondan o'tdingiz!</h2>
+      <div id="resScore" class="e-big-score" style="color:#10b981">19 / 20</div>
+      <p id="resMeta" class="d-meta" style="font-size:1rem; margin-bottom:20px;">
+        To'g'ri javoblar: 19 ta · Sarflangan vaqt: 12:45
+      </p>
+
+      <div class="d-row" style="justify-content:center; gap:10px; margin-bottom:18px">
+        <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🔁 {{ t.again }}</a>
+        <button type="button" class="d-btn green" id="btnDownloadStory">
+          📸 Stories sertifikatini yuklash
+        </button>
+        <button type="button" class="d-btn alt" id="share">📤 {{ t.share }}</button>
+      </div>
+
+      <div id="authNotice"></div>
+    </div>
+
+    <!-- Mistakes & Answers Review -->
+    <div class="d-card">
+      <h3 class="d-h2">📋 Barcha savollar tahlili</h3>
+      <div id="reviewContainer" class="e-review-list"></div>
+    </div>
+  </div>
 </main>
+
+<!-- Hidden Canvas for Instagram/Telegram Stories (1080x1920) -->
+<canvas id="storyCanvas" width="1080" height="1920" style="display:none"></canvas>
+
 {% include "driving/_sync.html" %}
+
 <script>
+var examMode = "real"; // 'real' or 'study'
+
+function setExamMode(m) {
+  examMode = m;
+  document.getElementById("modeReal").classList.toggle("selected", m === "real");
+  document.getElementById("modeStudy").classList.toggle("selected", m === "study");
+}
+
 (function () {
   var Q = {{ questions_json|safe }};
   var LIMIT = {{ exam_seconds }}, MAX_BAD = {{ max_mistakes }}, PREFIX = "{{ lang_prefix }}", TOPIC = "{{ request.GET.mavzu|default:''|escapejs }}";
@@ -67,17 +290,45 @@
   function wrongCount() { return Object.keys(answers).filter(function (i) { return answers[i] !== Q[i].a; }).length; }
 
   $("start").addEventListener("click", function () {
-    $("intro").hidden = true; $("exam").hidden = false;
+    $("intro").hidden = true;
+    $("exam").hidden = false;
     started = Date.now();
-    $("dots").innerHTML = Q.map(function (_, i) { return '<button type="button" data-i="' + i + '">' + (i + 1) + "</button>"; }).join("");
-    $("dots").addEventListener("click", function (e) { var i = e.target.getAttribute("data-i"); if (i !== null) { cur = +i; render(); } });
+    $("mistakesLeftBox").style.display = examMode === "study" ? "inline" : "none";
+
+    $("dots").innerHTML = Q.map(function (_, i) {
+      return '<button type="button" data-i="' + i + '">' + (i + 1) + "</button>";
+    }).join("");
+
+    $("dots").addEventListener("click", function (e) {
+      var i = e.target.getAttribute("data-i");
+      if (i !== null) { cur = +i; render(); }
+    });
+
     timerId = setInterval(tick, 1000);
     render();
   });
 
+  $("btnPrev").addEventListener("click", function () {
+    if (cur > 0) { cur--; render(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  });
+
+  $("btnNext").addEventListener("click", function () {
+    if (cur < Q.length - 1) { cur++; render(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    else goNext();
+  });
+
+  $("btnFinishEarly").addEventListener("click", function () {
+    var answeredCount = Object.keys(answers).length;
+    var unanswered = Q.length - answeredCount;
+    var msg = unanswered > 0
+      ? "Sizda hali " + unanswered + " ta belgilanmagan savol bor. Imtihonni yakunlaysizmi?"
+      : "Imtihonni yakunlab, rasmiy natijani ko'rmoqchimisiz?";
+    if (confirm(msg)) finish(false);
+  });
+
   function tick() {
     var left = LIMIT - elapsed();
-    $("timer").textContent = fmt(left);
+    $("timer").textContent = "⏱️ " + fmt(left);
     $("timer").classList.toggle("low", left <= 120);
     if (left <= 0) finish(true);
   }
@@ -86,36 +337,73 @@
     var q = Q[cur], given = answers[cur];
     $("pos").textContent = cur + 1;
     $("left").textContent = Math.max(0, MAX_BAD - wrongCount());
+
     document.querySelectorAll("#dots button").forEach(function (b, i) {
-      b.className = (i === cur ? "cur " : "") + (i in answers ? (answers[i] === Q[i].a ? "ok" : "bad") : "");
+      var isCur = i === cur;
+      var hasAnswer = i in answers;
+      var cls = isCur ? "cur " : "";
+
+      if (examMode === "study") {
+        if (hasAnswer) cls += (answers[i] === Q[i].a ? "ok" : "bad");
+      } else {
+        if (hasAnswer) cls += "answered";
+      }
+      b.className = cls.trim();
     });
+
     var html = '<p class="d-meta"><a href="' + PREFIX + "/avtotest/" + q.bilet + "/" + q.raqam + '/" target="_blank" rel="noopener">' +
       esc(T.ticket.replace("{n}", q.bilet)) + ", " + esc(T.question.replace("{n}", q.raqam)) + "</a></p>" +
       '<h2 class="d-h2">' + esc(q.q) + "</h2>" +
-      (q.img ? '<img class="d-img" src="/static/avtotest/' + encodeURIComponent(q.img) + '" alt="">' : "") +
-      q.o.map(function (o, i) {
-        var cls = given ? (o.l === q.a ? " ok" : (o.l === given ? " bad" : "")) : "";
-        return '<button type="button" class="d-opt' + cls + '" data-l="' + o.l + '"' + (given ? " disabled" : "") + "><kbd>" + (i + 1) + "</kbd><span>" + esc(o.t) + "</span></button>";
-      }).join("") +
-      (given ? '<p class="d-note ' + (given === q.a ? "ok" : "bad") + '">' + esc(given === q.a ? T.ok : T.bad) + "</p>" : "") +
-      '<div class="d-row" style="justify-content:flex-end;margin-top:12px"><button type="button" class="d-btn" id="next"' + (given ? "" : " disabled") + ">" + esc(T.next) + " →</button></div>";
+      (q.img ? '<img class="d-img" src="/static/avtotest/' + encodeURIComponent(q.img) + '" alt="">' : "");
+
+    html += q.o.map(function (o, i) {
+      var cls = "";
+      if (examMode === "study" && given) {
+        cls = o.l === q.a ? " ok" : (o.l === given ? " bad" : "");
+      } else if (given === o.l) {
+        cls = " ok"; // Selected option in real mode
+      }
+      return '<button type="button" class="d-opt' + cls + '" data-l="' + o.l + '">' +
+             '<kbd>' + (i + 1) + '</kbd><span>' + esc(o.t) + '</span></button>';
+    }).join("");
+
+    if (examMode === "study" && given) {
+      html += '<p class="d-note ' + (given === q.a ? "ok" : "bad") + '">' + esc(given === q.a ? T.ok : T.bad) + '</p>';
+      if (q.expl) {
+        html += '<p class="d-meta" style="margin-top:8px; padding:10px; background:var(--card); border-radius:10px">💡 <b>Izoh:</b> ' + esc(q.expl) + '</p>';
+      }
+    }
+
     $("card").innerHTML = html;
-    $("card").querySelectorAll(".d-opt").forEach(function (b) { b.addEventListener("click", function () { answer(b.getAttribute("data-l")); }); });
-    $("next").addEventListener("click", goNext);
+    $("card").querySelectorAll(".d-opt").forEach(function (b) {
+      b.addEventListener("click", function () { answer(b.getAttribute("data-l")); });
+    });
   }
 
   function answer(letter) {
-    if (finished || cur in answers) return;
-    var q = Q[cur], ok = letter === q.a;
+    if (finished) return;
+    var q = Q[cur];
     answers[cur] = letter;
+    var ok = letter === q.a;
+
     try {
       var m = JSON.parse(localStorage.getItem("avtotestMistakes") || "{}");
       if (ok) delete m[q.id]; else m[q.id] = { bilet: q.bilet, t: Date.now() };
       localStorage.setItem("avtotestMistakes", JSON.stringify(m));
     } catch (e) {}
+
     window.cpSync.answered(ok);
-    if (Object.keys(answers).length === Q.length) { render(); setTimeout(function () { finish(false); }, 700); return; }
     render();
+
+    if (Object.keys(answers).length === Q.length) {
+      setTimeout(function () {
+        if (confirm("Barcha 20 ta savolga javob berildi. Imtihonni yakunlaysizmi?")) {
+          finish(false);
+        }
+      }, 400);
+    } else {
+      setTimeout(goNext, 300);
+    }
   }
 
   function goNext() {
@@ -123,71 +411,173 @@
       var i = (cur + step) % Q.length;
       if (!(i in answers)) { cur = i; render(); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     }
-    finish(false);
   }
 
   function finish(timeUp) {
     if (finished) return;
     finished = true;
     clearInterval(timerId);
+
     var seconds = Math.min(elapsed(), LIMIT);
     var correct = Object.keys(answers).filter(function (i) { return answers[i] === Q[i].a; }).length;
-    var wrong = Q.length - correct; // javob berilmaganlar ham xato hisoblanadi
+    var wrong = Q.length - correct;
     var passed = wrong <= MAX_BAD;
+
     try {
       var hist = JSON.parse(localStorage.getItem("avtotestExams") || "[]");
-      hist.unshift({ correct: correct, total: Q.length, seconds: seconds, date: Date.now() });
+      hist.unshift({ correct: correct, total: Q.length, seconds: seconds, date: Date.now(), passed: passed });
       localStorage.setItem("avtotestExams", JSON.stringify(hist.slice(0, 50)));
     } catch (e) {}
+
     window.cpTrack("exam_complete", { score: correct, total: Q.length, passed: passed, seconds: seconds, topic: TOPIC });
+
     if (LOGGED_IN) {
       fetch("/api/avtotest/exam/", {
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json", "X-CSRFToken": TOKEN },
         body: JSON.stringify({ correct: correct, total: Q.length, seconds: seconds })
       }).catch(function () {});
-    } else {
-      // Mehmon natijasi yo'qolmasin: Telegram orqali kirgach _sync.html uni profilga yuboradi
-      try {
-        var pend = JSON.parse(localStorage.getItem("cpPendingExams") || "[]");
-        pend.push({ correct: correct, total: Q.length, seconds: seconds });
-        localStorage.setItem("cpPendingExams", JSON.stringify(pend.slice(-5)));
-      } catch (e) {}
     }
+
     $("exam").hidden = true;
+    $("result").hidden = false;
+
+    // Render Protocol
+    var stamp = $("stampBox");
+    stamp.className = "e-stamp " + (passed ? "pass" : "fail");
+    stamp.textContent = passed ? "TOPSHIRILDI (O'TDI) ✅" : "TOPSHIRILMADI (YIQILDI) ❌";
+
+    $("resTitle").textContent = passed ? T.passed : T.failed;
+    $("resScore").textContent = correct + " / " + Q.length;
+    $("resScore").style.color = passed ? "#10b981" : "#ef4444";
+    $("resMeta").textContent = "To'g'ri: " + correct + " ta · Xato: " + wrong + " ta · Sarflangan vaqt: " + fmt(seconds);
+
+    // Auth Notice
+    if (!LOGGED_IN) {
+      $("authNotice").innerHTML = '<div class="e-save" style="margin-top:16px"><b>💾 Natijangizni saqlab qoling</b><p>' + esc(T.login) + '</p>' +
+        '<a class="d-btn" href="' + PREFIX + '/profil/">✈️ Telegram orqali kirish →</a></div>';
+    }
+
+    // Review List
+    var revHtml = "";
+    Q.forEach(function (q, i) {
+      var given = answers[i];
+      var isOk = given === q.a;
+      revHtml += '<div class="e-review-item ' + (isOk ? "is-correct" : "is-wrong") + '">' +
+        '<b>' + (i + 1) + '-savol: ' + esc(q.q) + '</b>' +
+        '<div style="margin:6px 0; font-size:0.9rem">' +
+        'Sizning javobingiz: <b style="color:' + (isOk ? "#10b981" : "#ef4444") + '">' + (given ? given : "Javob berilmagan") + '</b> · ' +
+        'To\'g\'ri javob: <b style="color:#10b981">' + q.a + '</b>' +
+        '</div>' +
+        (q.expl ? '<p style="font-size:0.83rem; color:var(--muted); margin:4px 0 0">💡 ' + esc(q.expl) + '</p>' : '') +
+        '</div>';
+    });
+    $("reviewContainer").innerHTML = revHtml;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Share button
     var shareUrl = location.origin + PREFIX + "/avtotest/imtihon/natija/?c=" + correct + "&t=" + Q.length;
     var text = T.shareText.replace("{c}", correct).replace("{t}", Q.length);
-    $("result").innerHTML =
-      (timeUp ? '<p class="d-note bad">⏰ ' + esc(T.timeUp) + "</p>" : "") +
-      '<h1 class="d-h1">' + esc(passed ? T.passed : T.failed) + "</h1>" +
-      '<div class="big" style="color:' + (passed ? "#22c55e" : "#ef4444") + '">' + correct + "/" + Q.length + "</div>" +
-      '<p class="d-meta">' + esc(T.score) + " · " + esc(T.time) + ": " + fmt(seconds) + "</p>" +
-      '<div class="d-row" style="justify-content:center;margin:16px 0">' +
-      '<a class="d-btn" href="' + PREFIX + '/avtotest/imtihon/">🔁 ' + esc(T.again) + "</a>" +
-      (wrong ? '<a class="d-btn alt" href="' + PREFIX + '/avtotest/xatolar/">❌ ' + esc(T.review) + "</a>" : "") +
-      '<button type="button" class="d-btn green" id="share">📤 ' + esc(T.share) + "</button></div>" +
-      (LOGGED_IN
-        ? '<p><a href="' + PREFIX + '/profil/">' + esc(T.profile) + '</a> · <a href="' + PREFIX + '/avtotest/reyting/">' + esc(T.leaderboard) + "</a></p>"
-        : '<div class="e-save"><b>💾 ' + esc(T.loginTitle) + "</b><p>" + esc(T.login) + "</p>" +
-          '<a class="d-btn" href="' + PREFIX + '/profil/">✈️ Telegram →</a></div>') +
-      '<p style="margin-top:12px"><a class="d-btn alt" href="https://t.me/complexprogrammeruzchannel" target="_blank" rel="noopener">📢 ' + esc(T.channel) + "</a></p>";
-    $("result").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
     $("share").addEventListener("click", function () {
-      window.cpTrack("share", { content_type: "exam_result", item_id: correct + "/" + Q.length });
       if (navigator.share) { navigator.share({ title: document.title, text: text, url: shareUrl }).catch(function () {}); return; }
       window.open("https://t.me/share/url?url=" + encodeURIComponent(shareUrl) + "&text=" + encodeURIComponent(text), "_blank", "noopener");
     });
+
+    // Stories Download Canvas
+    $("btnDownloadStory").addEventListener("click", function () {
+      drawStoryCertificate(correct, Q.length, passed, seconds);
+    });
   }
 
+  // Draw 1080x1920 Instagram/Telegram Story Image
+  function drawStoryCertificate(c, total, passed, sec) {
+    var canvas = $("storyCanvas");
+    var ctx = canvas.getContext("2d");
+
+    // Background Gradient
+    var grad = ctx.createLinearGradient(0, 0, 0, 1920);
+    if (passed) {
+      grad.addColorStop(0, "#064e3b");
+      grad.addColorStop(0.5, "#047857");
+      grad.addColorStop(1, "#0f172a");
+    } else {
+      grad.addColorStop(0, "#312e81");
+      grad.addColorStop(0.5, "#4338ca");
+      grad.addColorStop(1, "#0f172a");
+    }
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1080, 1920);
+
+    // Decorative Circle
+    ctx.beginPath();
+    ctx.arc(540, 600, 320, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(255, 255, 255, 0.06)";
+    ctx.fill();
+
+    // Top Brand Badge
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 38px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("COMPLEXPROGRAMMER.UZ · AVTOTEST", 540, 180);
+
+    ctx.font = "30px Inter, sans-serif";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+    ctx.fillText("O'zbekiston YHXBB Imtihon Simulyatori", 540, 240);
+
+    // Big Score
+    ctx.font = "bold 180px Inter, sans-serif";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(c + " / " + total, 540, 640);
+
+    // Status Banner
+    ctx.font = "bold 56px Inter, sans-serif";
+    ctx.fillStyle = passed ? "#34d399" : "#f87171";
+    ctx.fillText(passed ? "IMTIHONDAN O'TDIM! 🎉" : "MASHG'ULOT NATIJASI 🚗", 540, 820);
+
+    // Details Box
+    ctx.fillStyle = "rgba(255, 255, 255, 0.12)";
+    ctx.roundRect(140, 960, 800, 360, 24);
+    ctx.fill();
+
+    ctx.font = "36px Inter, sans-serif";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Aniqlik ko'rsatkichi: " + Math.round((c / total) * 100) + "%", 540, 1060);
+    ctx.fillText("Sarflangan vaqt: " + fmt(sec), 540, 1140);
+    ctx.fillText("Rasmiy o'tish bali: kamida 18 / 20", 540, 1220);
+
+    // Footer CTA
+    ctx.font = "bold 44px Inter, sans-serif";
+    ctx.fillStyle = "#fbbf24";
+    ctx.fillText("Siz ham o'zingizni sinab ko'ring! 👉", 540, 1540);
+
+    ctx.font = "34px Inter, sans-serif";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.fillText("complexprogrammer.uz/avtotest/imtihon/", 540, 1620);
+    ctx.fillText("@AvtoTestUzbBot", 540, 1680);
+
+    // Download trigger
+    var link = document.createElement("a");
+    link.download = "Avtotest_Imtihon_" + c + "_" + total + ".png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  }
+
+  // Keyboard Shortcuts
   document.addEventListener("keydown", function (e) {
     if ($("exam").hidden) return;
     var i = "1234".indexOf(e.key), btns = $("card").querySelectorAll(".d-opt");
     if (i >= 0 && btns[i]) answer(btns[i].getAttribute("data-l"));
-    else if (e.key === "Enter" && cur in answers) { e.preventDefault(); goNext(); }
+    else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goNext(); }
+    else if (e.key === "ArrowLeft" && cur > 0) { cur--; render(); }
+    else if (e.key === "ArrowRight" && cur < Q.length - 1) { cur++; render(); }
   });
+
   window.addEventListener("beforeunload", function (e) {
-    if (!$("exam").hidden && !finished && Object.keys(answers).length) { e.preventDefault(); e.returnValue = ""; }
+    if (!$("exam").hidden && !finished && Object.keys(answers).length) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
   });
 })();
 </script>

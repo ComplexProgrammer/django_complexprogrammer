@@ -286,18 +286,19 @@
             transform: scale(1.15) rotate(5deg);
         }
 
-        /* Navbar container */
+        /* Container */
         .container {
             inline-size: 100%;
             max-inline-size: var(--container-max);
             margin: 0 auto;
             padding-inline: var(--spacing-xl);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: block;
         }
 
         .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             gap: var(--spacing-xl);
         }
 

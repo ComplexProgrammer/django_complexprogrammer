@@ -1,10 +1,13 @@
 import hashlib
 import ipaddress
 import json
+import logging
 import os
+from pathlib import Path
 import re
 
 import requests
+import urllib3
 from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Max
@@ -19,6 +22,48 @@ from core import downloads
 from core.translit import ALPHABET_2026, convert
 from projects import sitemap_crawler, youtube_downloader
 from projects.models import AvtoTest, Project
+
+logger = logging.getLogger(__name__)
+
+CBU_RATES_URL = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
+CBU_FALLBACK_FILE = settings.BASE_DIR / "projects" / "data" / "cbu_rates_fallback.json"
+CBU_CACHE_KEY = "api:cbu:v2"
+
+DEFAULT_REQUEST_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "uz,ru,en;q=0.9",
+}
+
+
+def _save_disk_fallback(path, data):
+    try:
+        # Faqat to'liq ro'yxat bo'lsa (kamida 10 ta valyuta) zaxiraga yozamiz
+        # Shunda testlar yoki xatolik bilan qisqargan ro'yxat haqiqiy 74 ta valyutani buzmaydi
+        if isinstance(data, list) and len(data) < 10:
+            return
+        target = Path(path)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        tmp = target.with_suffix(".tmp")
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        tmp.replace(target)
+    except Exception as exc:
+        logger.warning("Failed to save disk fallback to %s: %s", path, exc)
+
+
+def _load_disk_fallback(path):
+    try:
+        target = Path(path)
+        if target.is_file():
+            with open(target, "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception as exc:
+        logger.warning("Failed to load disk fallback from %s: %s", path, exc)
+    return None
 
 
 def base(request):
@@ -51,7 +96,7 @@ def home_today(request):
     usd = cache.get("home:usd")
     if usd is None:
         # Bosh sahifa CBU'ni kutib qolmasin: qisqa timeout, xato ham 10 daqiqaga keshlanadi
-        rates = fetch_json(CBU_RATES_URL, "api:cbu", timeout=3, ttl=1800)
+        rates = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, timeout=3, ttl=1800)
         row = next((r for r in rates or [] if r.get("Ccy") == "USD"), None)
         usd = {"rate": row.get("Rate"), "diff": row.get("Diff", "")} if row else False
         cache.set("home:usd", usd, 1800 if usd else 600)
@@ -123,19 +168,75 @@ def youtube_downloader_(request):
     return JsonResponse({"result": filename})
 
 
-def fetch_json(url, cache_key, timeout=5, ttl=600, params=None):
-    """Tashqi API'dan JSON oladi: natija keshlanadi, API ishlamasa None qaytaradi."""
+def fetch_json(
+    url,
+    cache_key,
+    timeout=8,
+    ttl=600,
+    params=None,
+    headers=None,
+    fallback=True,
+    disk_fallback_path=None,
+):
+    """Tashqi API'dan JSON oladi: natija keshlanadi, API ishlamasa kesh fallback yoki diskdan qaytaradi."""
+    # 1. Asosiy yangi keshni tekshiramiz
     data = cache.get(cache_key)
     if data is not None:
         return data
+
+    if disk_fallback_path is None and cache_key in ("api:cbu", CBU_CACHE_KEY):
+        disk_fallback_path = CBU_FALLBACK_FILE
+
+    req_headers = DEFAULT_REQUEST_HEADERS.copy()
+    if headers:
+        req_headers.update(headers)
+
+    data = None
     try:
-        resp = requests.get(url, params=params, timeout=timeout)
+        resp = requests.get(url, params=params, headers=req_headers, timeout=timeout)
         resp.raise_for_status()
         data = resp.json()
-    except (requests.RequestException, ValueError):
-        return None
-    cache.set(cache_key, data, ttl)
-    return data
+    except requests.exceptions.SSLError as ssl_err:
+        logger.warning("SSL error fetching %s: %s. Retrying without SSL verification...", url, ssl_err)
+        try:
+            urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            resp = requests.get(url, params=params, headers=req_headers, timeout=timeout, verify=False)
+            resp.raise_for_status()
+            data = resp.json()
+        except Exception as retry_err:
+            logger.warning("Retry without verify also failed for %s: %s", url, retry_err)
+    except (requests.RequestException, ValueError) as exc:
+        logger.warning("fetch_json network error for %s: %s", url, exc)
+
+    # 2. Agar API muvaffaqiyatli ma'lumot qaytargan bo'lsa
+    if data:
+        cache.set(cache_key, data, ttl)
+        if fallback:
+            # CBU uchun qisqargan ro'yxat (10 tadan kam) bo'lsa, mavjud 74 ta valyutalik zaxirani buzmaymiz
+            is_cbu_truncated = cache_key in ("api:cbu", CBU_CACHE_KEY) and isinstance(data, list) and len(data) < 10
+            if not is_cbu_truncated:
+                cache.set(f"{cache_key}:fallback", data, 86400 * 30)  # 30 kun saqlanadi
+                if disk_fallback_path:
+                    _save_disk_fallback(disk_fallback_path, data)
+        return data
+
+    # 3. Agar API xatolik bergan bo'lsa, fallback keshdan olamiz
+    if fallback:
+        fallback_data = cache.get(f"{cache_key}:fallback")
+        if fallback_data:
+            logger.info("Using cached fallback for key '%s'", cache_key)
+            cache.set(cache_key, fallback_data, 300)  # Keyingi so'rovlar kutib qolmasligi uchun 5 daqiqa
+            return fallback_data
+
+        if disk_fallback_path:
+            disk_data = _load_disk_fallback(disk_fallback_path)
+            if disk_data:
+                logger.info("Using disk fallback for key '%s' from %s", cache_key, disk_fallback_path)
+                cache.set(cache_key, disk_data, 300)
+                cache.set(f"{cache_key}:fallback", disk_data, 86400 * 30)
+                return disk_data
+
+    return None
 
 
 def coins(request):
@@ -331,22 +432,19 @@ def GetBilet(request):
     return JsonResponse(list(arr), safe=False)
 
 
-CBU_RATES_URL = "https://cbu.uz/uz/arkhiv-kursov-valyut/json/"
-
-
 def exchangerates(request):
-    data = fetch_json(CBU_RATES_URL, "api:cbu", ttl=1800)
+    data = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, ttl=1800, timeout=8)
     context = {
         "data": data or [],
-        "api_error": data is None,
+        "api_error": not bool(data),
         "comments": page_comments(request),
     }
     return render(request, "projects/exchangerates.html", context=context)
 
 
 def GetExchangeRates(request):
-    data = fetch_json(CBU_RATES_URL, "api:cbu", ttl=1800)
-    if data is None:
+    data = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, ttl=1800, timeout=8)
+    if not data:
         return JsonResponse({"data": [], "error": "Markaziy bank sayti javob bermayapti"}, status=503)
     return JsonResponse({"data": data})
 
