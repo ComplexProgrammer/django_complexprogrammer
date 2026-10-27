@@ -3,566 +3,230 @@
 <head>
 <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uchun #}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
-<link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<!--  -->
-
-<script src="/static/js/three-guard.js"></script>
+{% include "driving/_style.html" %}
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+  .xr{max-width:1040px}
+  .xr-up{--c:#16a34a} .xr-down{--c:#dc2626} .xr-flat{--c:var(--muted)}
+  [data-theme="dark"] .xr-up{--c:#4ade80} [data-theme="dark"] .xr-down{--c:#f87171}
 
-    :root {
-        --bg-color: #0a0a0f;
-        --text-color: #ffffff;
-        --card-bg: rgba(255, 255, 255, 0.05);
-        --border-color: rgba(255, 255, 255, 0.1);
-        --accent-color: #00ffff;
-        --accent-secondary: #ffd700;
-        --accent-glow: rgba(0, 255, 255, 0.3);
-    }
+  .xr-hero{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;padding:26px 24px;margin-bottom:22px;
+    border-radius:20px;color:#fff;background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#9333ea);box-shadow:0 12px 32px rgba(79,70,229,.25)}
+  .xr-hero h1{font-size:clamp(1.35rem,3.2vw,1.9rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .xr-hero p{margin:0;opacity:.85}
+  .xr-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .xr-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);font-size:.88rem}
+  .xr-app img{height:44px;display:block}
 
-    [data-theme="light"] {
-        --bg-color: #f0f4f8;
-        --text-color: #1a1a2e;
-        --card-bg: rgba(255, 255, 255, 0.7);
-        --border-color: rgba(0, 0, 0, 0.1);
-        --accent-color: #667eea;
-        --accent-secondary: #f59e0b;
-        --accent-glow: rgba(102, 126, 234, 0.3);
-    }
+  .xr-h2{font-size:1.1rem;font-weight:700;margin:0 0 12px}
+  .xr-featured{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:22px}
+  .xr-tile{position:relative;overflow:hidden;padding:16px 18px;border-radius:16px;background:var(--card);border:1px solid var(--border);
+    transition:transform .15s,box-shadow .15s}
+  .xr-tile::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--c)}
+  .xr-tile:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,23,42,.08)}
+  .xr-tile-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .xr-tile-top b{display:block;font-size:1.05rem}
+  .xr-tile-top small{display:block;color:var(--muted);font-size:.82rem;line-height:1.2}
+  .xr-tile-rate{font-size:1.55rem;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .xr-tile-rate small{font-size:.85rem;font-weight:500;color:var(--muted)}
 
-    body {
-        font-family: 'Poppins', sans-serif;
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        transition: all 0.5s ease;
-        overflow-x: hidden;
-        position: relative;
-        min-height: 100vh;
-    }
+  .xr-flag{flex:0 0 auto;width:34px;height:34px;border-radius:50%;overflow:hidden;box-shadow:0 0 0 1px var(--border);background:var(--border)}
+  .xr-flag svg{width:100%;height:100%;display:block}
+  .xr-chg{display:inline-flex;align-items:center;gap:6px;color:var(--c);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .xr-chg small{padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,transparent);font-size:.78rem}
 
-    #threejs-canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        opacity: 0.7;
-    }
+  .xr-conv-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+  .xr-field label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:5px}
+  .xr-field input,.xr-field select,.xr-search{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--border);
+    background:var(--bg);color:var(--text);font:inherit;outline:none;transition:border-color .15s,box-shadow .15s}
+  .xr-field input:focus,.xr-field select:focus,.xr-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.18)}
+  .xr-swap{width:46px;height:46px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:1.2rem;cursor:pointer}
+  .xr-swap:hover{border-color:var(--accent);color:var(--accent)}
+  .xr-result{margin-top:14px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(139,92,246,.1));
+    font-size:clamp(1.2rem,3vw,1.6rem);font-weight:800;font-variant-numeric:tabular-nums;word-break:break-word}
+  .xr-result small{display:block;font-size:.85rem;font-weight:500;color:var(--muted)}
 
-    h2 {
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-align: center;
-        margin: 2rem 0;
-        animation: float 3s ease-in-out infinite;
-        font-size: 2rem;
-        padding: 1rem;
-        position: relative;
-        z-index: 10;
-    }
+  .xr-search{margin-bottom:12px}
+  .xr-rows{list-style:none;margin:0;padding:0}
+  .xr-row{display:grid;grid-template-columns:2rem minmax(0,1fr) 4.5rem 10rem 11rem;gap:12px;align-items:center;padding:11px 6px;border-top:1px solid var(--border)}
+  .xr-row:hover{background:rgba(99,102,241,.05)}
+  .xr-row[hidden]{display:none}
+  .xr-head{color:var(--muted);font-size:.82rem;font-weight:600;border-top:0;padding-top:0}
+  .xr-head:hover{background:none}
+  .xr-num{color:var(--muted);font-size:.85rem}
+  .xr-cur{display:flex;align-items:center;gap:10px;min-width:0}
+  .xr-cur>span:last-child{min-width:0}  /* uzun nom qo'shni ustunga chiqmasin, ... bilan qisqaradi */
+  .xr-cur b{display:block}
+  .xr-cur small{display:block;color:var(--muted);font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .xr-code{color:var(--muted);font-variant-numeric:tabular-nums}
+  .xr-rate{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+  .xr-rate small{font-weight:500;color:var(--muted)}
+  .xr-row .xr-chg{justify-content:flex-end}
+  .xr-head .xr-rate,.xr-head .xr-chg{color:var(--muted);font-weight:600}
+  .xr-note{margin:14px 0 0;color:var(--muted);font-size:.88rem}
+  .xr-error{border-color:#f59e0b;background:rgba(245,158,11,.1)}
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .table {
-        background: var(--card-bg);
-        backdrop-filter: blur(20px);
-        border-radius: 15px;
-        overflow: hidden;
-        border: 1px solid var(--border-color);
-        animation: fadeInUp 0.8s ease;
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    }
-
-    .table thead th {
-        background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-        color: white;
-        font-weight: 600;
-        padding: 1.5rem 1rem;
-        border: none;
-        font-family: 'Orbitron', sans-serif;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .table tbody tr {
-        border-bottom: 1px solid var(--border-color);
-        transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.02);
-    }
-
-    .table tbody tr:hover {
-        background: rgba(0, 255, 255, 0.1);
-        transform: scale(1.01);
-        box-shadow: 0 4px 15px var(--accent-glow);
-    }
-
-    .table tbody td {
-        padding: 1.2rem 1rem;
-        color: var(--text-color);
-        border: none;
-        vertical-align: middle;
-    }
-
-    .table tbody td:first-child {
-        font-weight: 600;
-        color: var(--accent-color);
-        font-family: 'Orbitron', monospace;
-    }
-
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 1000;
-        background: var(--card-bg);
-        backdrop-filter: blur(10px);
-        border: 2px solid var(--accent-color);
-        color: var(--text-color);
-        padding: 12px 24px;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 500;
-        box-shadow: 0 4px 15px var(--accent-glow);
-    }
-
-    .theme-toggle:hover {
-        transform: scale(1.05);
-        box-shadow: 0 6px 25px var(--accent-glow);
-    }
-
-    .C0mplexButton { animation: fadeInUp 1s ease; }
-    .fixed-top { z-index: 100; }
-
-    @media (max-width: 768px) {
-        h2 { font-size: 1.3rem; }
-        .table thead th { padding: 1rem 0.5rem; font-size: 0.75rem; }
-        .table tbody td { padding: 0.8rem 0.5rem; font-size: 0.85rem; }
-    }
-
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-        border-radius: 10px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, var(--accent-secondary), var(--accent-color));
-    }
+  @media (max-width:640px){
+    .xr-hero{padding:20px 18px}
+    /* Asosiy valyutalar telefonda 2x2 — bitta ustunda ekranni to'ldirib yuborardi */
+    .xr-featured{grid-template-columns:1fr 1fr;gap:10px}
+    .xr-tile{padding:12px 13px}
+    .xr-tile-top{gap:8px;margin-bottom:8px}
+    .xr-tile-top small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .xr-tile-top>span:last-child{min-width:0}
+    .xr-tile-rate{font-size:1.15rem}
+    .xr-tile .xr-chg{font-size:.85rem}
+    .xr-tile .xr-chg small{display:none}
+    .xr-conv-grid{grid-template-columns:1fr auto}
+    .xr-conv-grid .xr-field:first-child{grid-column:1 / -1}
+    /* Telefonda jadval kartochkaga aylanadi: gorizontal aylantirish shart emas */
+    .xr-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"cur rate" "cur chg";row-gap:2px;padding:12px 2px}
+    .xr-num,.xr-code,.xr-head{display:none}
+    .xr-cur{grid-area:cur} .xr-rate{grid-area:rate} .xr-row .xr-chg{grid-area:chg}
+  }
 </style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-{% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
-
-<canvas id="threejs-canvas"></canvas>
-
-<button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-    <i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>
-</button>
-
-<div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
-    <img src="/static/img/buffering.gif" />
-</div>
-<input id="hh" type="hidden" />
-<div class="C0mplexButton float-end">
-    <a href="#" onclick="window.history.back(); return false;">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        X
-    </a>
-</div>
-<h2>
-    {% if request.LANGUAGE_CODE == 'uz' %}
-    O'zbekiston Respublikasi Markaziy bankining valyuta kurslari
-    {% else %}
-    {% if request.LANGUAGE_CODE == 'ru' %}
-    Курсы валют Центрального банка Республики Узбекистан
-    {% else %}
-    Exchange rates of the Central Bank of the Republic of Uzbekistan
-    {% endif %}
-    {% endif %}
-    <a href="https://play.google.com/store/apps/details?id=exchangerates.complexprogrammer.uz" target="_blank">
-        <img src="/static/img/google-play.svg" />
-    </a>
-</h2>
-<ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-layout="in-article"
-data-ad-format="fluid"
-data-ad-client="ca-pub-7773722896374259"
-data-ad-slot="2303661293"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- <ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-layout="in-article"
-data-ad-format="fluid"
-data-ad-client="ca-pub-4137874891184814"
-data-ad-slot="6832564320"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-<div ng-app="App" ng-controller="ExchangeRates">
-    <!-- Telefonda jadval kesilib qolmasin (body overflow-x: hidden) — gorizontal aylantiriladi -->
-    <div class="table-responsive">
-    <table class="table table-hover" ng-show="ShowData">
-        <thead>
-            <tr>
-                <th>№</th>
-                <th scope="col">Name of currencies</th>
-                <th scope="col">Symbolic code</th>
-                <th scope="col">Digital code</th>
-                <th scope="col">Differensial</th>
-                <th scope="col">Rate</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in data%}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>
-                    <i>
-                        <svg style="width:24px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                            <use href="/static/flag_image/symbol_defs.svg#icon-currency-{{item.Ccy}}" xlink:href="" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
-                        </svg>
-                    </i>
-                    {{item.Nominal}}
-                    {% if request.LANGUAGE_CODE == 'uz' %}
-                    <span>{{item.CcyNm_UZ}}</span>
-                    {% else %}
-                    {% if request.LANGUAGE_CODE == 'ru' %}
-                    <span>{{item.CcyNm_RU}}</span>
-                    {% else %}
-                    <span>{{item.CcyNm_EN}}</span>
-                    {% endif %}
-                    {% endif %}
-                </td>
-                <td>{{item.Ccy}}</td>
-                <td>{{item.Code}}</td>
-                <td>
-                    {% if item.Diff > '0' %}
-                        <div style="color:green">
-                            +{{item.Diff}}
-                            <i>
-                                <svg style="width:24px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                    <use xlink:href="/static/icons/sprite_icons.svg#icon__chart_up" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
-                                </svg>
-                            </i>
-                        </div>
-                    {% endif %}
-                    {% if item.Diff == '0' %}
-                        <div style="color:gray">
-                            {{item.Diff}}
-                            <i>
-                                <svg style="width:24px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                    <use xlink:href="/static/icons/sprite_icons.svg#icon__minus" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
-                                </svg>
-                            </i>
-                        </div>
-                    {% endif %}
-                    {% if item.Diff < '0' %}
-                        <div style="color:red">
-                            {{item.Diff}}
-                            <i>
-                                <svg style="width:24px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                    <use xlink:href="/static/icons/sprite_icons.svg#icon__chart_down" xmlns:xlink="http://www.w3.org/1999/xlink"></use>
-                                </svg>
-                            </i>
-                        </div>
-                    {% endif %}
-                </td>
-                <td>{{item.Rate}} 
-                    {% if request.LANGUAGE_CODE == 'uz' %}
-                    so'm
-                    {% else %}
-                    {% if request.LANGUAGE_CODE == 'ru' %}
-                    сум
-                    {% else %}
-                    sum
-                    {% endif %}
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan="6" class="text-center text-warning">Markaziy bank sayti hozir javob bermayapti. Birozdan so'ng sahifani yangilang.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<main class="d-main xr">
+  <section class="xr-hero">
+    <div>
+      <h1>{{ seo_h1 }}</h1>
+      {% if seo_lead %}<p>{{ seo_lead }}</p>{% endif %}
+      <div class="xr-badges">
+        {% if rate_date %}<span>📅 {{ t.date }}: <b>{{ rate_date }}</b></span>{% endif %}
+        <span>🏦 cbu.uz</span>
+      </div>
     </div>
-</div>
+    <a class="xr-app" href="https://play.google.com/store/apps/details?id=exchangerates.complexprogrammer.uz" target="_blank" rel="noopener" title="{{ t.app }}">
+      <img src="/static/img/google-play.svg" alt="{{ t.app }}">
+    </a>
+  </section>
+
+  {% if api_error %}
+  <div class="d-card xr-error">{{ t.error }}</div>
+  {% else %}
+  <h2 class="xr-h2">{{ t.featured }}</h2>
+  <div class="xr-featured">
+    {% for r in featured %}
+    <article class="xr-tile xr-{{ r.trend }}">
+      <div class="xr-tile-top">
+        <span class="xr-flag"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="/static/flag_image/symbol_defs.svg#icon-currency-{{ r.ccy }}"></use></svg></span>
+        <span><b>{{ r.ccy }}</b><small>{{ r.name }}</small></span>
+      </div>
+      <div class="xr-tile-rate">{{ r.rate_fmt }} <small>{{ t.sum }}</small></div>
+      <span class="xr-chg">{% if r.trend == "up" %}▲{% elif r.trend == "down" %}▼{% else %}●{% endif %} {{ r.diff_fmt }} <small>{{ r.pct_fmt }}</small></span>
+    </article>
+    {% endfor %}
+  </div>
+
+  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid"
+    data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+  <section class="d-card">
+    <h2 class="xr-h2">🧮 {{ t.converter }}</h2>
+    <div class="xr-conv-grid">
+      <div class="xr-field">
+        <label for="xr-amount" id="xr-amount-label">{{ t.amount }}</label>
+        <input id="xr-amount" type="number" inputmode="decimal" min="0" step="any" value="100">
+      </div>
+      <div class="xr-field">
+        <label for="xr-ccy">{{ t.currency }}</label>
+        <select id="xr-ccy">
+          {% for r in rows %}<option value="{{ r.ccy }}"{% if r.ccy == "USD" %} selected{% endif %}>{{ r.ccy }} — {{ r.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <button type="button" class="xr-swap" id="xr-swap" title="{{ t.swap }}" aria-label="{{ t.swap }}">⇄</button>
+    </div>
+    <div class="xr-result" aria-live="polite"><small id="xr-from"></small><span id="xr-out"></span></div>
+  </section>
+
+  <section class="d-card">
+    <div class="d-between"><h2 class="xr-h2">{{ t.all }} <span class="d-meta">({{ rows|length }})</span></h2></div>
+    <input type="search" class="xr-search" id="xr-search" placeholder="{{ t.search }}" autocomplete="off">
+    <ul class="xr-rows" id="xr-rows">
+      <li class="xr-row xr-head" aria-hidden="true">
+        <span>№</span><span>{{ t.currency }}</span><span>{{ t.code }}</span><span class="xr-rate">{{ t.rate }}</span><span class="xr-chg">{{ t.change }}</span>
+      </li>
+      {% for r in rows %}
+      <li class="xr-row xr-{{ r.trend }}" data-q="{{ r.search }}">
+        <span class="xr-num">{{ forloop.counter }}</span>
+        <span class="xr-cur">
+          <span class="xr-flag"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="/static/flag_image/symbol_defs.svg#icon-currency-{{ r.ccy }}"></use></svg></span>
+          <span><b>{{ r.ccy }}</b><small>{{ r.name }}{% if r.per %} · {{ r.per }}{% endif %}</small></span>
+        </span>
+        <span class="xr-code">{{ r.code }}</span>
+        <span class="xr-rate">{{ r.rate_fmt }} <small>{{ t.sum }}</small></span>
+        <span class="xr-chg">{% if r.trend == "up" %}▲{% elif r.trend == "down" %}▼{% else %}●{% endif %} {{ r.diff_fmt }} <small>{{ r.pct_fmt }}</small></span>
+      </li>
+      {% endfor %}
+    </ul>
+    <p class="d-meta" id="xr-empty" hidden>{{ t.none }}</p>
+    <p class="xr-note">ℹ️ {{ t.note }}</p>
+  </section>
+  {{ converter_rates|json_script:"xr-rates" }}
+  {% endif %}
+</main>
+
 {% include "includes/seo_text.html" %}
-{% include 'comment_form.html' %}
-<ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="autorelaxed"
-data-ad-client="ca-pub-7773722896374259"
-data-ad-slot="2479701367"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- <ins class="adsbygoogle"
-<!--     style="display:block; text-align:center;"
-    data-ad-format="autorelaxed"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="4202531555"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> --> -->
-<ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="fluid"
-data-ad-layout-key="-an-4i-cp+a2+21k"
-data-ad-client="ca-pub-7773722896374259"
-data-ad-slot="4679993061"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- <ins class="adsbygoogle"
-<!--     style="display:block; text-align:center;"
-    data-ad-format="fluid"
-    data-ad-layout-key="-6t+ed+2i-1n-4w"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="7442938415"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> --> -->
-<!-- Display 1 -->
-<ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-client="ca-pub-7773722896374259"
-    data-ad-slot="3869366477"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- 1 chi abzast Mobil -->
-<!-- <ins class="adsbygoogle"
-<!--      style="display:block; text-align:center;"
-     data-ad-client="ca-pub-4137874891184814"
-     data-ad-slot="2799587029"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script> --> -->
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid" data-ad-layout-key="-an-4i-cp+a2+21k"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
+  data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
 <script>
-// Three.js 3D Currency Animation with Coins
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('threejs-canvas'),
-    alpha: true,
-    antialias: true
-});
+  (function () {
+    var data = document.getElementById("xr-rates");
+    if (!data) return;
+    var RATES = JSON.parse(data.textContent);
+    var SUM = "{{ t.sum|escapejs }}";
+    var amount = document.getElementById("xr-amount"), ccy = document.getElementById("xr-ccy");
+    var from = document.getElementById("xr-from"), out = document.getElementById("xr-out");
+    var toSum = true;  // true: valyuta -> so'm, false: so'm -> valyuta
 
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-
-// Create floating coins (representing currencies)
-const coinGroup = new THREE.Group();
-
-for(let i = 0; i < 20; i++) {
-    const coinGeometry = new THREE.CylinderGeometry(2, 2, 0.3, 32);
-    const coinMaterial = new THREE.MeshBasicMaterial({
-        color: i % 2 === 0 ? 0x00ffff : 0xffd700,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.4
-    });
-    const coin = new THREE.Mesh(coinGeometry, coinMaterial);
-
-    coin.position.x = (Math.random() - 0.5) * 60;
-    coin.position.y = (Math.random() - 0.5) * 60;
-    coin.position.z = (Math.random() - 0.5) * 60;
-    coin.rotation.x = Math.random() * Math.PI;
-    coin.rotation.z = Math.random() * Math.PI;
-
-    coinGroup.add(coin);
-}
-
-scene.add(coinGroup);
-
-// Create particles
-const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 3000;
-const posArray = new Float32Array(particlesCount * 3);
-
-for(let i = 0; i < particlesCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 100;
-}
-
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.05,
-    color: 0x00ffff,
-    transparent: true,
-    opacity: 0.5,
-    blending: THREE.AdditiveBlending
-});
-
-const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particlesMesh);
-
-// Add currency symbol shapes
-const currencyLines = new THREE.Group();
-for(let i = 0; i < 30; i++) {
-    const geometry = new THREE.BufferGeometry();
-    const positions = [];
-
-    const x1 = (Math.random() - 0.5) * 50;
-    const y1 = (Math.random() - 0.5) * 50;
-    const z1 = (Math.random() - 0.5) * 50;
-    const x2 = (Math.random() - 0.5) * 50;
-    const y2 = (Math.random() - 0.5) * 50;
-    const z2 = (Math.random() - 0.5) * 50;
-
-    positions.push(x1, y1, z1, x2, y2, z2);
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-
-    const material = new THREE.LineBasicMaterial({
-        color: 0xffd700,
-        transparent: true,
-        opacity: 0.3
-    });
-
-    const line = new THREE.Line(geometry, material);
-    currencyLines.add(line);
-}
-
-scene.add(currencyLines);
-
-camera.position.z = 50;
-
-let mouseX = 0;
-let mouseY = 0;
-
-document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-});
-
-function animate() {
-    requestAnimationFrame(animate);
-
-    // Rotate coins
-    coinGroup.rotation.y += 0.002;
-    coinGroup.children.forEach((coin, index) => {
-        coin.rotation.y += 0.01 + index * 0.001;
-        coin.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
-    });
-
-    // Rotate particles
-    particlesMesh.rotation.y += 0.0005;
-    particlesMesh.rotation.x += 0.0003;
-
-    // Rotate currency lines
-    currencyLines.rotation.x += 0.0003;
-    currencyLines.rotation.y += 0.0005;
-
-    // Interactive camera
-    camera.position.x += (mouseX * 15 - camera.position.x) * 0.05;
-    camera.position.y += (mouseY * 15 - camera.position.y) * 0.05;
-    camera.lookAt(scene.position);
-
-    renderer.render(scene, camera);
-}
-
-animate();
-
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Theme Toggle Function
-function toggleTheme() {
-    const body = document.documentElement;
-    const currentTheme = body.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-    body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    const themeButton = document.getElementById('themeButton');
-
-    if (newTheme === 'light') {
-        themeButton.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Dark Mode</span>';
-        particlesMaterial.color.setHex(0x667eea);
-        coinGroup.children.forEach((coin, i) => {
-            coin.material.color.setHex(i % 2 === 0 ? 0x667eea : 0xf59e0b);
-        });
-        currencyLines.children.forEach(line => {
-            line.material.color.setHex(0xf59e0b);
-        });
-    } else {
-        themeButton.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>';
-        particlesMaterial.color.setHex(0x00ffff);
-        coinGroup.children.forEach((coin, i) => {
-            coin.material.color.setHex(i % 2 === 0 ? 0x00ffff : 0xffd700);
-        });
-        currencyLines.children.forEach(line => {
-            line.material.color.setHex(0xffd700);
-        });
+    function fmt(n) {
+      // 1 dan kichik natijada (so'm -> valyuta) 2 kasr yetmaydi: 100 so'm = 0.0084 USD
+      return n.toLocaleString("ru-RU", n > 0 && n < 1 ? { maximumSignificantDigits: 3 } : { maximumFractionDigits: 2 });
     }
-}
-
-// Set initial theme
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-
-    const themeButton = document.getElementById('themeButton');
-
-    if (savedTheme === 'light') {
-        themeButton.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Dark Mode</span>';
-        particlesMaterial.color.setHex(0x667eea);
-        coinGroup.children.forEach((coin, i) => {
-            coin.material.color.setHex(i % 2 === 0 ? 0x667eea : 0xf59e0b);
-        });
-        currencyLines.children.forEach(line => {
-            line.material.color.setHex(0xf59e0b);
-        });
-    } else {
-        themeButton.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Light Mode</span>';
+    var result = 0;
+    function update() {
+      var a = parseFloat(String(amount.value).replace(",", ".")) || 0, rate = RATES[ccy.value] || 0;
+      result = toSum ? a * rate : (rate ? a / rate : 0);
+      from.textContent = fmt(a) + " " + (toSum ? ccy.value : SUM) + " =";
+      out.textContent = fmt(result) + " " + (toSum ? SUM : ccy.value);
     }
-});
-</script>{% include "includes/scroll_buttons.html" %}
+    amount.addEventListener("input", update);
+    ccy.addEventListener("change", update);
+    document.getElementById("xr-swap").addEventListener("click", function () {
+      // Natija yangi miqdorga aylanadi: 100 USD = 1 186 196 so'm -> 1 186 196 so'm = 100 USD
+      toSum = !toSum;
+      amount.value = Math.round(result * 100) / 100;
+      update();
+    });
+    update();
+
+    // Qidiruv: valyuta kodi, nomi yoki raqamli kodi bo'yicha
+    var rows = document.querySelectorAll("#xr-rows li[data-q]"), empty = document.getElementById("xr-empty");
+    document.getElementById("xr-search").addEventListener("input", function () {
+      var q = this.value.trim().toLowerCase(), shown = 0;
+      rows.forEach(function (li) {
+        var hit = !q || li.dataset.q.indexOf(q) !== -1;
+        li.hidden = !hit;
+        if (hit) shown++;
+      });
+      empty.hidden = shown > 0;
+    });
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

@@ -501,11 +501,94 @@ def GetBilet(request):
     return JsonResponse(list(arr), safe=False)
 
 
+# Sahifa tepasida kartochka bo'lib chiqadigan valyutalar
+RATES_FEATURED = ("USD", "EUR", "RUB", "KZT")
+RATES_TEXT = {
+    "uz": {
+        "date": "Kurs sanasi", "featured": "Asosiy valyutalar", "all": "Barcha valyutalar", "search": "Valyuta qidirish: dollar, EUR, 840...",
+        "converter": "Valyuta kalkulyatori", "amount": "Miqdor", "currency": "Valyuta", "swap": "Almashtirish", "sum": "so'm",
+        "rate": "Kurs", "change": "O'zgarish", "code": "Kod", "per": "{} uchun", "none": "Hech narsa topilmadi",
+        "error": "Markaziy bank sayti hozir javob bermayapti. Birozdan so'ng sahifani yangilang.",
+        "note": "Markaziy bankning rasmiy kursi. Banklardagi sotib olish va sotish kurslari farq qilishi mumkin.", "app": "Android ilova",
+    },
+    "ru": {
+        "date": "Курс на", "featured": "Основные валюты", "all": "Все валюты", "search": "Поиск валюты: доллар, EUR, 840...",
+        "converter": "Конвертер валют", "amount": "Сумма", "currency": "Валюта", "swap": "Поменять", "sum": "сум",
+        "rate": "Курс", "change": "Изменение", "code": "Код", "per": "за {}", "none": "Ничего не найдено",
+        "error": "Сайт Центрального банка сейчас не отвечает. Обновите страницу чуть позже.",
+        "note": "Официальный курс ЦБ. Курсы покупки и продажи в банках могут отличаться.", "app": "Приложение Android",
+    },
+    "en": {
+        "date": "Rates as of", "featured": "Major currencies", "all": "All currencies", "search": "Search currency: dollar, EUR, 840...",
+        "converter": "Currency converter", "amount": "Amount", "currency": "Currency", "swap": "Swap", "sum": "UZS",
+        "rate": "Rate", "change": "Change", "code": "Code", "per": "per {}", "none": "Nothing found",
+        "error": "The Central Bank website is not responding right now. Please refresh the page a little later.",
+        "note": "Official Central Bank rate. Buy and sell rates at banks may differ.", "app": "Android app",
+    },
+    "tr": {
+        "date": "Kur tarihi", "featured": "Ana para birimleri", "all": "Tüm para birimleri", "search": "Para birimi ara: dolar, EUR, 840...",
+        "converter": "Döviz çevirici", "amount": "Miktar", "currency": "Para birimi", "swap": "Değiştir", "sum": "som",
+        "rate": "Kur", "change": "Değişim", "code": "Kod", "per": "{} için", "none": "Sonuç bulunamadı",
+        "error": "Merkez Bankası sitesi şu anda yanıt vermiyor. Lütfen sayfayı biraz sonra yenileyin.",
+        "note": "Merkez Bankası resmi kuru. Bankalardaki alış ve satış kurları farklı olabilir.", "app": "Android uygulaması",
+    },
+}
+
+
+def _num(value, digits=2, sign=False):
+    """12345.6 -> "12 345.60" (minglar bo'sh joy bilan ajratiladi)."""
+    return format(value, f"{'+' if sign else ''},.{digits}f").replace(",", "\u00a0")
+
+
+def _rate_rows(data, lang):
+    """CBU javobini jadval uchun tayyorlaydi: Diff satr emas, son sifatida solishtiriladi."""
+    name_key = {"ru": "CcyNm_RU", "en": "CcyNm_EN", "tr": "CcyNm_EN"}.get(lang, "CcyNm_UZ")
+    rows = []
+    for item in data or []:
+        try:
+            rate = float(item["Rate"])
+            diff = float(item.get("Diff") or 0)
+            nominal = int(item.get("Nominal") or 1)
+        except (KeyError, TypeError, ValueError):
+            continue
+        prev = rate - diff
+        rows.append({
+            "ccy": item.get("Ccy", ""),
+            "code": item.get("Code", ""),
+            "name": item.get(name_key) or item.get("CcyNm_EN") or item.get("Ccy", ""),
+            "nominal": nominal,
+            "rate": rate,
+            "rate_fmt": _num(rate),
+            "diff_fmt": _num(diff, sign=True),
+            "pct_fmt": _num(diff / prev * 100 if prev else 0, sign=True) + "%",
+            "trend": "up" if diff > 0 else "down" if diff < 0 else "flat",
+            # Qidiruv barcha tillardagi nom bo'yicha: ruscha sahifada ham "dollar" topilsin
+            "search": " ".join(
+                str(item.get(k) or "") for k in ("Ccy", "Code", "CcyNm_UZ", "CcyNm_UZC", "CcyNm_RU", "CcyNm_EN")
+            ).lower(),
+        })
+    return rows
+
+
 def exchangerates(request):
+    from django.utils import translation
+
     data = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, ttl=1800, timeout=8)
+    lang = (translation.get_language() or "uz")[:2]
+    t = RATES_TEXT.get(lang, RATES_TEXT["en"])
+    rows = _rate_rows(data, lang)
+    for r in rows:
+        # Kurs bir necha birlik uchun berilgan valyutalar (masalan, 10 JPY) — "10 JPY uchun"
+        r["per"] = t["per"].format(f"{r['nominal']} {r['ccy']}") if r["nominal"] > 1 else ""
+    by_ccy = {r["ccy"]: r for r in rows}
     context = {
-        "data": data or [],
-        "api_error": not bool(data),
+        "rows": rows,
+        "featured": [by_ccy[c] for c in RATES_FEATURED if c in by_ccy],
+        "rate_date": (data or [{}])[0].get("Date", "") if data else "",
+        # Kalkulyator uchun: 1 birlik valyuta necha so'm
+        "converter_rates": {r["ccy"]: r["rate"] / r["nominal"] for r in rows},
+        "t": t,
+        "api_error": not rows,
         "comments": page_comments(request),
     }
     return render(request, "projects/exchangerates.html", context=context)
