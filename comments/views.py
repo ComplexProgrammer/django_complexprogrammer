@@ -4,10 +4,11 @@ from django.contrib import messages
 from django.utils import timezone
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
-from comments.pages import normalize_page_url
+from comments.pages import normalize_page_url, page_comments
 from comments.utils import in_background, send_comment_notification, send_reply_notification
 from .forms import CommentForm
 from .models import Comment
@@ -15,6 +16,8 @@ from .models import Comment
 # Bitta IP'dan RATE_LIMIT daqiqada RATE_LIMIT_COUNT tadan ko'p izoh yozib bo'lmaydi
 RATE_LIMIT_COUNT = 5
 RATE_LIMIT_SECONDS = 10 * 60
+# Sahifada birdaniga shuncha izoh chiqadi, qolganlari "Ko'proq izohlar" tugmasi bilan (comment_form.html)
+COMMENTS_PER_PAGE = 20
 
 
 def _client_ip(request):
@@ -87,3 +90,14 @@ def add_comment(request):
         in_background(send_reply_notification, comment, parent)
     messages.success(request, "Izohingiz qabul qilindi. Rahmat!")
     return _safe_redirect(request, back_url)
+
+
+def more_comments(request):
+    """Sahifaning keyingi COMMENTS_PER_PAGE ta izohi (HTML bo'lagi) — "Ko'proq izohlar" tugmasi uchun."""
+    try:
+        offset = max(int(request.GET.get("offset", 0)), 0)
+    except ValueError:
+        offset = 0
+    page_url = normalize_page_url(request.GET.get("page_url", ""))
+    comments = page_comments(request, page_url)[offset:offset + COMMENTS_PER_PAGE]
+    return render(request, "comment_more.html", {"comments": comments})

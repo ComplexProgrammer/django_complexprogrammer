@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.db import DatabaseError, connection, transaction
-from django.db.models import F, Max, Sum
+from django.db.models import F, Max, Prefetch, Sum
 from django.core.cache import cache
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -518,10 +518,12 @@ def signs(request):
     t = texts(lang)
     f = _field(lang)
     categories = []
-    for cat in RoadSignCategories.objects.filter(is_deleted=False).order_by("sort_order"):
+    # Belgilar bitta so'rovda olinadi (har bir kategoriya uchun alohida so'rov emas)
+    visible = Prefetch("signs", queryset=RoadSigns.objects.filter(is_deleted=False).order_by("sort_order"))
+    for cat in RoadSignCategories.objects.filter(is_deleted=False).order_by("sort_order").prefetch_related(visible):
         items = [
             {"id": s.id, "number": s.number, "name": getattr(s, "name_" + f) or s.name_uz_uz, "image": s.image}
-            for s in cat.signs.filter(is_deleted=False)
+            for s in cat.signs.all()
         ]
         categories.append({"code": cat.code, "name": getattr(cat, "name_" + f) or cat.name_uz_uz, "signs": items})
     total = sum(len(c["signs"]) for c in categories)

@@ -95,6 +95,8 @@ class AvtoTest(models.Model):
 
     class Meta:
         ordering = ["raqam"]
+        # Bilet va savol sahifalari shu ikki maydon bo'yicha qidiradi
+        indexes = [models.Index(fields=["bilet", "raqam"], name="avtotest_bilet_raqam_idx")]
 
     def __str__(self):
         return f"{self.bilet} {self.savol}"

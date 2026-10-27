@@ -15,6 +15,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        # Har bir sahifa o'z izohlarini page_url bo'yicha oladi (comments.pages.page_comments)
+        indexes = [models.Index(fields=["page_url", "-created_at"], name="comment_page_idx")]
 
     def __str__(self):
         return f"{self.username} - {self.page_url} - {self.text}"

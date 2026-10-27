@@ -324,7 +324,10 @@
                 $scope.target = to;
                 $scope.ChangeText($scope.old_text);
             }
+            // Yozish to'xtagach (300 ms) bitta so'rov ketadi; kechikib kelgan eski javob yangisini bosib ketmaydi
+            var requestNo = 0;
             $scope.ChangeText = function (text) {
+                var current = ++requestNo;
                 if (text) {
                     $http({
                         method: 'GET',
@@ -332,6 +335,7 @@
                         params: { text: text, to: $scope.target },
                         transformResponse: function (data) { return data; }
                     }).then(function (d) {
+                        if (current !== requestNo) return;
                         $scope.new_text = d.data;
                         $scope.TextLength = d.data.length;
                     }, function (error) {
@@ -486,7 +490,7 @@ data-ad-slot="6832564320"></ins>
                 </button>
             </div>
             <form method="post" action="/ChangeTextData" id="form">
-                <textarea class="form-control" ng-model="old_text" ng-change="ChangeText(old_text)" rows="10" cols="50"
+                <textarea class="form-control" ng-model="old_text" ng-model-options="{ debounce: 300 }" ng-change="ChangeText(old_text)" rows="10" cols="50"
                     name="old_text" id="old_text" placeholder="Enter your text..."></textarea>
                 <textarea ng-model="new_text" class="form-control" name="new_text" id="new_text" rows="10" cols="50"
                     placeholder="Result will appear here..." disabled>{{new_text}}</textarea>
