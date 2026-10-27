@@ -236,6 +236,8 @@ data-ad-slot="6832564320"></ins>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script> -->
 <div ng-app="App" ng-controller="ExchangeRates">
+    <!-- Telefonda jadval kesilib qolmasin (body overflow-x: hidden) — gorizontal aylantiriladi -->
+    <div class="table-responsive">
     <table class="table table-hover" ng-show="ShowData">
         <thead>
             <tr>
@@ -319,6 +321,7 @@ data-ad-slot="6832564320"></ins>
             {% endfor %}
         </tbody>
     </table>
+    </div>
 </div>
 {% include "includes/seo_text.html" %}
 {% include 'comment_form.html' %}

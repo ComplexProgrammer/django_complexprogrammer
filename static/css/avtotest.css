@@ -909,9 +909,12 @@
             opacity: 1;
         }
 
-        .ticket-icon .material-symbols-outlined {
-            font-size: 3rem;
-            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        /* Material "description" ikonkasi — inline SVG (4 MB lik ikonka shrifti o'rniga) */
+        .ticket-icon .ticket-svg {
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            vertical-align: middle;
         }
 
         .ticket-label {

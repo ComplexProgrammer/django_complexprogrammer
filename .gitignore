@@ -93,6 +93,7 @@ django_complexprogrammer/__pycache__/
 projects/__pycache__/
 # Vaqtinchalik fayllar
 tmp/django_cache/
+tmp/django_cache_durable/
 media/downloads/
 
 # Maxfiy fayllar va ma'lumotlar bazasi nusxalari — git'ga tushmasin
