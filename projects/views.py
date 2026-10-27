@@ -845,15 +845,15 @@ def GetExchangeRates(request):
 
 CHANGETEXT_TEXT = {
     "uz": {
-        "badge_auto": "Yozuvni o'zi aniqlaydi", "badge_scripts": "Kirill · Lotin 1995 · Lotin 2026", "badge_free": "Bepul, cheklovsiz",
+        "badge_auto": "Yozuvni özi aniqlaydi", "badge_scripts": "Kirill · Lotin 1995 · Lotin 2026", "badge_free": "Bepul, çeklovsiz",
         "auto": "Avto", "cyr": "Kirill", "lat1995": "Lotin (1995)", "lat2026": "Yangi lotin (2026)",
-        "source": "Matn", "result": "Natija", "placeholder": "Matnni shu yerga yozing yoki qo'ying...", "result_placeholder": "Natija shu yerda chiqadi",
-        "chars": "belgi", "words": "so'z", "paste": "Qo'yish", "clear": "Tozalash", "copy": "Nusxalash", "copied": "Nusxalandi",
-        "download": "Yuklab olish (.txt)", "swap": "Natijani matnga o'tkazish", "error": "Xatolik yuz berdi, qayta urinib ko'ring",
-        "alphabet": "O'zbek lotin alifbosi (2026): 28 harf va tutuq belgisi (ʼ)",
+        "source": "Matn", "result": "Natija", "placeholder": "Matnni şu yerga yozing yoki qöying...", "result_placeholder": "Natija şu yerda çiqadi",
+        "chars": "belgi", "words": "söz", "paste": "Qöyış", "clear": "Tozalaş", "copy": "Nusxalaş", "copied": "Nusxalandi",
+        "download": "Yuklab oliş (.txt)", "swap": "Natijani matnga ötkaziş", "error": "Xatolik yuz berdi, qayta urinib köring",
+        "alphabet": "Özbek lotin alifbosi (2026): 28 harf va tutuq belgisi (ʼ)",
         "alphabet_note": "1995-yilgi alifboda 26 harf va 3 ta harf birikmasi (sh, ch, ng) bor edi. Islohot sh, ch, gʻ va oʻ ni bitta harfga — ş, ç, ğ va ö ga aylantirdi, ng esa alohida harf sifatida sanalmaydi. Tutuq belgisi (ʼ) harf emas, belgi.",
-        "changed": "o'zgargan harflar", "app": "Android ilova",
-        "tip": "Inglizcha so'zlar, havolalar va @username o'zgarmaydi. Natijani tekshirib oling.",
+        "changed": "özgargan harflar", "app": "Android ilova",
+        "tip": "Inglizça sözlar, havolalar va @username özgarmaydi. Natijani tekşirib oling.",
     },
     "ru": {
         "badge_auto": "Сам определяет алфавит", "badge_scripts": "Кириллица · Латиница 1995 · Латиница 2026", "badge_free": "Бесплатно, без ограничений",

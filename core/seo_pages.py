@@ -211,17 +211,17 @@ PAGES = {
     "/changetext/": {
         "kind": "tool",
         "uz": {
-            "title": "Lotin-kirill o'girgich — o'zbek matnini lotinga va kirillga o'tkazish",
-            "desc": "O'zbek matnini kirill yozuvidan lotinga va lotindan kirillga bepul o'giring. O', G', sh, ch, ye kabi harflar to'g'ri o'tkaziladi.",
-            "h1": "Lotin-kirill o'girgich",
-            "lead": "Matnni joylashtiring va yo'nalishni tanlang: lotin → kirill yoki kirill → lotin.",
+            "title": "Lotin-kirill ögirgiç — özbek matnini lotinga va kirillga ötkaziş",
+            "desc": "Özbek matnini kirill yozuvidan lotinga va lotindan kirillga bepul ögiring. Ö, Ğ, ş, ç, ye kabi harflar töğri ötkaziladi.",
+            "h1": "Lotin-kirill ögirgiç",
+            "lead": "Matnni joylaştiring va yönalişni tanlang: lotin → kirill yoki kirill → lotin.",
             "text": [
-                ("Nega maxsus o'girgich kerak?", "O'zbek tilida lotin va kirill alifbolari harfma-harf mos kelmaydi: \"sh\", \"ch\", \"o'\", \"g'\", \"ye\", \"yo\", \"ts\" kabi birikmalar va so'z boshidagi \"e\" alohida qoidalar bilan o'giriladi. Bu vosita shu qoidalarni hisobga oladi, shuning uchun hujjat, maqola yoki xabarni qo'lda tahrirlashga hojat qolmaydi."),
-                ("Qanday foydalaniladi?", "Matnni maydonga yozing yoki nusxalab joylashtiring, kerakli yo'nalishni tanlang va natijani bir bosishda nusxalang."),
+                ("Nega maxsus ögirgiç kerak?", "Özbek tilida lotin va kirill alifbolari harfma-harf mos kelmaydi: \"ş\", \"ç\", \"ö\", \"ğ\", \"ye\", \"yo\", \"ts\" kabi birikmalar va söz boşidagi \"e\" alohida qoidalar bilan ögiriladi. Bu vosita şu qoidalarni hisobga oladi, şuning uçun hujjat, maqola yoki xabarni qölda tahrirlaşga hojat qolmaydi."),
+                ("Qanday foydalaniladi?", "Matnni maydonga yozing yoki nusxalab joylaştiring, kerakli yönalişni tanlang va natijani bir bosişda nusxalang."),
             ],
             "faq": [
-                ("Kirilldan lotinga o'girish bepulmi?", "Ha, cheklovsiz va bepul."),
-                ("O' va G' harflari to'g'ri chiqadimi?", "Ha, o'zbek lotin alifbosidagi barcha harflar to'g'ri o'giriladi."),
+                ("Kirilldan lotinga ögiriş bepulmi?", "Ha, çeklovsiz va bepul."),
+                ("Ö va Ğ harflari töğri çiqadimi?", "Ha, özbek lotin alifbosidagi barça harflar töğri ögiriladi."),
             ],
         },
         "ru": {

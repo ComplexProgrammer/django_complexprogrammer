@@ -1,7 +1,7 @@
-"""Lotin-kirill o'girgich (changetext) sahifasi uchun blog maqolasini nashr qilish yoki yangilash.
+"""Lotin-kirill ögirgiç (changetext) sahifasi uçun blog maqolasini naşr qiliş yoki yangilaş.
 
-Ishlatish:
-    python manage.py publish_changetext_post           # darhol saytda nashr qiladi
+Işlatiş:
+    python manage.py publish_changetext_post           # darhol saytda naşr qiladi
     python manage.py publish_changetext_post --update  # mavjud maqola matnini yangilaydi
     python manage.py publish_changetext_post --draft   # qoralama qilib saqlaydi (2099-yil)
 """
@@ -14,68 +14,68 @@ IMAGE_REL_PATH = "post/images/lotin_kirill_ogirgich.jpg"
 PAGE_URL = "https://complexprogrammer.uz/changetext/"
 DRAFT_TIME = datetime.datetime(2099, 1, 1, tzinfo=datetime.timezone.utc)
 
-SEO_TITLE = "Lotin-kirill o'girgich — matnlarni xatosiz o'tkazish"
-SEO_DESCRIPTION = "O'zbek matnini kirilldan lotinga va 2026-yilgi yangi lotin alifbosiga bepul o'giring. O', G', sh, ch kabi harflar to'g'ri o'tkaziladi."
+SEO_TITLE = "Lotin-kirill ögirgiç — matnlarni xatosiz ötkaziş"
+SEO_DESCRIPTION = "Özbek matnini kirilldan lotinga va 2026-yilgi yangi lotin alifbosiga bepul ögiring. Ö, Ğ, ş, ç kabi harflar töğri ötkaziladi."
 
 ARTICLE_DATA = {
     "uz": {
-        "name": "Lotin-kirill o‘girgich — o‘zbekcha matnlarni tez, aniq va qulay konvertatsiya qiling",
-        "title": "Kirilldan lotinga, amaldagi va yangi 2026-yilgi alifboga bepul o‘tkazish: fonetik qoidalar, texnik atamalar va dasturlash kodlarini saqlash imkoniyatlari.",
+        "name": "Lotin-kirill ögirgiç — özbekça matnlarni tez, aniq va qulay konvertatsiya qiling",
+        "title": "Kirilldan lotinga, amaldagi va yangi 2026-yilgi alifboga bepul ötkaziş: fonetik qoidalar, texnik atamalar va dasturlaş kodlarini saqlaş imkoniyatlari.",
         "body": """
-<p>Hujjatlar, maqolalar, ilmiy ishlar yoki ijtimoiy tarmoqlardagi postlar bilan ishlaganda o‘zbek tilidagi matnlarni <strong>kirilldan lotinga</strong> yoki <strong>lotindan kirillga</strong> o‘girish zarurati tez-tez uchraydi. Biroq, internetdagi aksariyat oddiy o‘girgichlar matnni shunchaki harfma-harf almashtirib, jiddiy orfografik va ma’noviy xatoliklarga yo‘l qo‘yadi.</p>
+<p>Hujjatlar, maqolalar, ilmiy işlar yoki ijtimoiy tarmoqlardagi postlar bilan işlaganda özbek tilidagi matnlarni <strong>kirilldan lotinga</strong> yoki <strong>lotindan kirillga</strong> ögiriş zarurati tez-tez uçraydi. Biroq, internetdagi aksariyat oddiy ögirgiçlar matnni şunçaki harfma-harf almaştirib, jiddiy orfografik va ma’noviy xatoliklarga yöl qöyadi.</p>
 
-<p>Ushbu muammolarni to‘liq bartaraf etish maqsadida yaratilgan <a href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener"><strong>Complex Programmer Lotin-Kirill o‘girgichi</strong></a> o‘zbek tilining fonetik va grammatik xususiyatlarini chuqur inobatga olgan holda ishlaydi. Quyida ushbu vositaning asosiy imkoniyatlari va afzalliklari bilan tanishamiz.</p>
+<p>Uşbu muammolarni töliq bartaraf etiş maqsadida yaratilgan <a href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener"><strong>Complex Programmer Lotin-Kirill ögirgiçi</strong></a> özbek tilining fonetik va grammatik xususiyatlarini çuqur inobatga olgan holda işlaydi. Quyida uşbu vositaning asosiy imkoniyatlari va afzalliklari bilan tanişamiz.</p>
 
-<h2>1. Yangi 2026-yilgi Lotin alifbosi (Ş, Ç, Ğ, Ö) bilan to‘liq moslik</h2>
-<p>O‘zbekiston Respublikasida qabul qilingan alifbo islohotiga muvofiq, ko‘p uchraydigan ikki belgili harflar bitta aniq harfga o‘zgartirilgan:</p>
+<h2>1. Yangi 2026-yilgi Lotin alifbosi (Ş, Ç, Ğ, Ö) bilan töliq moslik</h2>
+<p>Özbekiston Respublikasida qabul qilingan alifbo islohotiga muvofiq, köp uçraydigan ikki belgili harflar bitta aniq harfga özgartirilgan:</p>
 <ul>
-  <li><code>Sh</code> ➔ <code>Ş</code> (masalan: <em>shahar</em> ➔ <em>şahar</em>)</li>
-  <li><code>Ch</code> ➔ <code>Ç</code> (masalan: <em>choy</em> ➔ <em>çoy</em>)</li>
-  <li><code>O‘</code> ➔ <code>Ö</code> (masalan: <em>o‘rganish</em> ➔ <em>örganiç</em>)</li>
-  <li><code>G‘</code> ➔ <code>Ğ</code> (masalan: <em>g‘alaba</em> ➔ <em>ğalaba</em>)</li>
+  <li><code>Sh</code> ➔ <code>Ş</code> (masalan: <em>şahar</em>)</li>
+  <li><code>Ch</code> ➔ <code>Ç</code> (masalan: <em>çoy</em>)</li>
+  <li><code>O‘</code> ➔ <code>Ö</code> (masalan: <em>örganiç</em>)</li>
+  <li><code>G‘</code> ➔ <code>Ğ</code> (masalan: <em>ğalaba</em>)</li>
 </ul>
-<p><a href="https://complexprogrammer.uz/changetext/">changetext</a> xizmatida birgina tugma orqali matningizni <strong>Kirill</strong>, <strong>Lotin (1995-yilgi amaldagi alifbo)</strong> yoki <strong>Yangi Lotin (2026)</strong> variantlariga bir zumda o‘tkaza olasiz. Sahifada 28 ta harf va tutuq belgisini qiyosiy ko‘rsatuvchi interaktiv jadval ham mavjud.</p>
+<p><a href="https://complexprogrammer.uz/changetext/">changetext</a> xizmatida birgina tugma orqali matningizni <strong>Kirill</strong>, <strong>Lotin (1995-yilgi amaldagi alifbo)</strong> yoki <strong>Yangi Lotin (2026)</strong> variantlariga bir zumda ötkaza olasiz. Sahifada 28 ta harf va tutuq belgisini qiyosiy körsatuvçi interaktiv jadval ham mavjud.</p>
 
 <h2>2. Aqlli fonetik tahlil: «E / Ye», «Ts» va tutuq belgisi</h2>
-<p>O‘zbek tilida so‘z boshida yoki unlilardan keyin keladigan tovushlar alohida qoidalar asosida yoziladi. Platforma ushbu nozik jihatlarni avtomatik hal qiladi:</p>
+<p>Özbek tilida söz boşida yoki unlilardan keyin keladigan tovuşlar alohida qoidalar asosida yoziladi. Platforma uşbu nozik jihatlarni avtomatik hal qiladi:</p>
 <ul>
-  <li><strong>E va Ye farqlanishi:</strong> So‘z boshidagi <code>E</code> harfi kirillda to‘g‘ri <code>Э</code> ga, unlilardan keyingi <code>Ye</code> esa <code>Е</code> ga o‘tkaziladi (masalan: <em>Eshik</em> ➔ <em>Эшик</em>, <em>Kiyik</em> ➔ <em>Кийик</em>).</li>
-  <li><strong>Ts tovushi:</strong> So‘z o‘rtasida unlilardan keyin kelgan <code>Ц</code> harfi <code>ts</code>, boshqa holatlarda esa <code>s</code> bo‘lib o‘giriladi (masalan: <em>konstitutsiya</em>).</li>
-  <li><strong>Sh birikmasi bilan adashmaslik:</strong> <em>Исҳоқ</em> kabi so‘zlar <em>Ishoq</em> emas, ajratuvchi tutuq belgisi bilan <code>Isʼhoq</code> shaklida to‘g‘ri aks ettiriladi.</li>
-  <li><strong>«yo‘l» so‘zi:</strong> <code>yo'l</code> so‘zidagi <code>o'</code> alohida tovush bo‘lgani uchun <code>ё</code> ga aylanib ketmaydi va <code>йўл</code> bo‘lib aniq chiqadi.</li>
+  <li><strong>E va Ye farqlanişi:</strong> Söz boşidagi <code>E</code> harfi kirillda töğri <code>Э</code> ga, unlilardan keyingi <code>Ye</code> esa <code>Е</code> ga ötkaziladi (masalan: <em>Eşik</em> ➔ <em>Эшик</em>, <em>Kiyik</em> ➔ <em>Кийик</em>).</li>
+  <li><strong>Ts tovuşi:</strong> Söz örtasida unlilardan keyin kelgan <code>Ц</code> harfi <code>ts</code>, boşqa holatlarda esa <code>s</code> bölib ögiriladi (masalan: <em>konstitutsiya</em>).</li>
+  <li><strong>Ş birikmasi bilan adaşmaslik:</strong> <em>Исҳоқ</em> kabi sözlar <em>Işoq</em> emas, ajratuvçi tutuq belgisi bilan <code>Isʼhoq</code> şaklida töğri aks ettiriladi.</li>
+  <li><strong>«yöl» sözi:</strong> <code>yo'l</code> sözidagi <code>o'</code> alohida tovuş bölgani uçun <code>ё</code> ga aylanib ketmaydi va <code>йўл</code> bölib aniq çiqadi.</li>
 </ul>
 
-<h2>3. Havolalar, @username va xorijiy so‘zlar daxlsizligi</h2>
-<p>Dasturchilar, blogerlar va zamonaviy matn mualliflari uchun eng muhim jihat — matn ichidagi texnik elementlarning buzilmasligidir. Ushbu o‘girgich:</p>
+<h2>3. Havolalar, @username va xorijiy sözlar daxlsizligi</h2>
+<p>Dasturçilar, blogerlar va zamonaviy matn mualliflari uçun eng muhim jihat — matn içidagi texnik elementlarning buzilmasligidir. Uşbu ögirgiç:</p>
 <ul>
-  <li>Veb-sayt havolalari (<code>https://...</code>) va elektron pochtalarga tegmaydi;</li>
-  <li>Telegram, Instagram va boshqa tarmoqlardagi <code>@username</code> larni o‘zgartirmaydi;</li>
-  <li>Dasturlash kodlari (<code>&lt;code&gt;...&lt;/code&gt;</code>) va HTML teglarini toza saqlaydi;</li>
-  <li>O‘zbek alifbosida mavjud bo‘lmagan <code>c</code>, <code>w</code> harflari yoki raqamlar qatnashgan xorijiy so‘zlar hamda brendlarni (masalan: <em>CS2</em>, <em>Workshop</em>, <em>VAC</em>, <em>Google Play</em>) lotincha o‘z holicha qoldiradi.</li>
+  <li>Veb-sayt havolalari (<code>https://...</code>) va elektron poçtalarga tegmaydi;</li>
+  <li>Telegram, Instagram va boşqa tarmoqlardagi <code>@username</code> larni özgartirmaydi;</li>
+  <li>Dasturlaş kodlari (<code>&lt;code&gt;...&lt;/code&gt;</code>) va HTML teglarini toza saqlaydi;</li>
+  <li>Özbek alifbosida mavjud bölmagan <code>c</code>, <code>w</code> harflari yoki raqamlar qatnaşgan xorijiy sözlar hamda brendlarni (masalan: <em>CS2</em>, <em>Workshop</em>, <em>VAC</em>, <em>Google Play</em>) lotinça öz holiça qoldiradi.</li>
 </ul>
 
-<h2>4. Katta hajmli matnlar, tezkor nusxalash va .txt yuklab olish</h2>
-<p>Katta maqolalar, hisobotlar yoki kitob boblarini kiritganingizda ham tizim kechikishlarsiz ishlaydi. Natija maydonida bir qator qulayliklar yaratilgan:</p>
+<h2>4. Katta hajmli matnlar, tezkor nusxalaş va .txt yuklab oliş</h2>
+<p>Katta maqolalar, hisobotlar yoki kitob boblarini kiritganingizda ham tizim keçikişlarsiz işlaydi. Natija maydonida bir qator qulayliklar yaratilgan:</p>
 <ul>
-  <li><strong>Jonli statistika:</strong> Kiritilgan belgilar va so‘zlar soni real vaqtda hisoblab boriladi.</li>
-  <li><strong>📥 Qo‘yish va 🗑 Tozalash:</strong> Xotiradan matnni bir zumda joylash yoki tozalash.</li>
-  <li><strong>⇄ O‘rin almashtirish (Swap):</strong> Olingan natijani yana teskari yo‘nalishga tezkor aylantirish.</li>
-  <li><strong>📋 Bir bosishda nusxalash:</strong> Tayyor natijani clipboardga oson ko‘chirish.</li>
-  <li><strong>⬇ .txt fayl qilib yuklab olish:</strong> Katta matnlarni fayl ko‘rinishida qurilmangizga saqlab olish.</li>
+  <li><strong>Jonli statistika:</strong> Kiritilgan belgilar va sözlar soni real vaqtda hisoblab boriladi.</li>
+  <li><strong>📥 Qöyış va 🗑 Tozalaş:</strong> Xotiradan matnni bir zumda joylaş yoki tozalaş.</li>
+  <li><strong>⇄ Örin almaştiriş (Swap):</strong> Olingan natijani yana teskari yönalişga tezkor aylantiriş.</li>
+  <li><strong>📋 Bir bosişda nusxalaş:</strong> Tayyor natijani clipboardga oson köçiriş.</li>
+  <li><strong>⬇ .txt fayl qilib yuklab oliş:</strong> Katta matnlarni fayl körinişida qurilmangizga saqlab oliş.</li>
 </ul>
 
 <h2>5. Qorong‘i rejim va Android mobil ilovasi</h2>
-<p>Sayt interfeysi zamonaviy dizaynga ega bo‘lib, tungi vaqtda ko‘zni toliqtirmaydigan <strong>Dark mode</strong> (qorong‘i mavzu) rejimini qo‘llab-quvvatlaydi. Shuningdek, xizmatni brauzerda PWA ilova sifatida kompyuter yoki smartfonga o‘rnatib olishingiz yoki Google Play’dagi rasmiy <a href="https://play.google.com/store/apps/details?id=changetext.complexprogrammer.uz" target="_blank" rel="noopener"><strong>Android ilovasi</strong></a> orqali smartfoningizda cheksiz va qulay ishlatishingiz mumkin.</p>
+<p>Sayt interfeysi zamonaviy dizaynga ega bölib, tungi vaqtda közni toliqtirmaydigan <strong>Dark mode</strong> (qorong‘i mavzu) rejimini qöllab-quvvatlaydi. Şuningdek, xizmatni brauzerda PWA ilova sifatida kompyuter yoki smartfonga örnatib olişingiz yoki Google Play’dagi rasmiy <a href="https://play.google.com/store/apps/details?id=changetext.complexprogrammer.uz" target="_blank" rel="noopener"><strong>Android ilovasi</strong></a> orqali smartfoningizda çeksiz va qulay işlatişingiz mumkin.</p>
 
 <h2>Qanday foydalaniladi?</h2>
 <ol>
-  <li><a href="https://complexprogrammer.uz/changetext/"><strong>https://complexprogrammer.uz/changetext/</strong></a> sahifasiga o‘ting.</li>
-  <li>Chap tomondagi maydonga matningizni yozing yoki nusxalab joylashtiring.</li>
+  <li><a href="https://complexprogrammer.uz/changetext/"><strong>https://complexprogrammer.uz/changetext/</strong></a> sahifasiga öting.</li>
+  <li>Çap tomondagi maydonga matningizni yozing yoki nusxalab joylaştiring.</li>
   <li>Kerakli yozuvni tanlang: <strong>Avto</strong>, <strong>Kirill</strong>, <strong>Lotin (1995)</strong> yoki <strong>Yangi lotin (2026)</strong>.</li>
-  <li>O‘ng tomonda bir soniyada tayyor bo‘lgan natijadan nusxa oling yoki .txt fayl qilib yuklab oling!</li>
+  <li>Öng tomonda bir soniyada tayyor bölgan natijadan nusxa oling yoki .txt fayl qilib yuklab oling!</li>
 </ol>
 
-<p>O‘zbek tilidagi barcha matnlaringizni bepul, aniq va sifatli o‘girish uchun hoziroq sinab ko‘ring: 👉 <a href="https://complexprogrammer.uz/changetext/"><strong>complexprogrammer.uz/changetext</strong></a></p>
+<p>Özbek tilidagi barça matnlaringizni bepul, aniq va sifatli ögiriş uçun hoziroq sinab köring: 👉 <a href="https://complexprogrammer.uz/changetext/"><strong>complexprogrammer.uz/changetext</strong></a></p>
 """,
     },
     "ru": {
@@ -163,7 +163,6 @@ ARTICLE_DATA = {
     },
 }
 
-# Kirillcha versiya uchun qo'shimcha matn
 CYR_DATA = {
     "name": "Лотин-кирилл ўгиргич — ўзбекча матнларни тез, аниқ ва қулай конвертация қилинг",
     "title": "Кириллдан лотинга, амалдаги ва янги 2026 йилги алифбога бепул ўтказиш: фонетик қоидалар, техник атамалар ва дастурлаш кодларини сақлаш имкониятлари.",
@@ -184,8 +183,8 @@ CYR_DATA = {
 
 <h2>2. Ақлли фонетик таҳлил: «Э / Е», «Ц» ва тутуқ белгиси</h2>
 <ul>
-  <li><strong>Э ва Е фарқланиши:</strong> Сўз бошидаги <code>E</code> ҳарфи кириллда тўғри <code>Э</code> га, унлилардан кейинги <code>Ye</code> эса <code>Е</code> га ўтказилади (масалан: <em>Эшик</em>, <em>Кийик</em>).</li>
-  <li><strong>Ц товуши:</strong> Сўз ўртасида унлилардан кейин келган <code>Ц</code> ҳарфи <code>ts</code>, бошқа ҳолатларда эса <code>s</code> бўлиб ўгирилади.</li>
+  <li><strong>Э ва Е фарқланиши:</strong> Сўз бошидаги <code>E</code> ҳарфи кириллда тўғри <code>Э</code> га, унлилардан keyingi <code>Ye</code> эса <code>Е</code> га ўтказилади (масалан: <em>Эшик</em>, <em>Кийик</em>).</li>
+  <li><strong>Ц товуши:</strong> Сўз ўртасида унлилардан keyin kelgan <code>Ц</code> ҳарфи <code>ts</code>, бошқа ҳолатларда эса <code>s</code> бўлиб ўгирилади.</li>
   <li><strong>Sh бирикмаси билан адашмаслик:</strong> <em>Исҳоқ</em> каби сўзлар <em>Ишоқ</em> эмас, ажратувчи тутуқ белгиси билан <code>Isʼhoq</code> шаклида тўғри акс эттирилади.</li>
   <li><strong>«йўл» сўзи:</strong> <code>yo'l</code> сўзидаги <code>o'</code> алоҳида товуш бўлгани учун <code>ё</code> га айланиб кетмайди ва <code>йўл</code> бўлиб чиқади.</li>
 </ul>
@@ -221,12 +220,12 @@ except ImportError:
 
 
 class Command(BaseCommand):
-    help = "Lotin-kirill o'girgich (changetext) blog maqolasini rasmlari bilan birga nashr qilish yoki yangilash."
+    help = "Lotin-kirill ögirgiç (changetext) blog maqolasini rasmlari bilan birga naşr qiliş yoki yangilaş."
 
     def add_arguments(self, parser):
-        parser.add_argument("--update", action="store_true", help="Mavjud maqola matnini yangilash")
-        parser.add_argument("--draft", action="store_true", help="Saytda ko'rsatmasdan qoralama (2099-yil) sifatida saqlash")
-        parser.add_argument("--dry-run", action="store_true", help="Bazaga yozmasdan tekshirish")
+        parser.add_argument("--update", action="store_true", help="Mavjud maqola matnini yangilaş")
+        parser.add_argument("--draft", action="store_true", help="Saytda körsatmasdan qoralama (2099-yil) sifatida saqlaş")
+        parser.add_argument("--dry-run", action="store_true", help="Bazaga yozmasdan tekşiriş")
 
     def handle(self, *args, **opts):
         from django.conf import settings
@@ -238,7 +237,7 @@ class Command(BaseCommand):
         if not author:
             author = User.objects.order_by("id").first()
         if not author:
-            raise CommandError("Muallif uchun birorta ham User topilmadi.")
+            raise CommandError("Muallif uçun birorta ham User topilmadi.")
 
         category = (
             Categories.objects.filter(name_uz_uz__icontains="ilm", is_deleted=False).first()
@@ -248,11 +247,10 @@ class Command(BaseCommand):
 
         publish_time = DRAFT_TIME if opts["draft"] else timezone.now()
 
-        # Rasm tekshiruvi
         image_full_path = os.path.join(settings.MEDIA_ROOT, IMAGE_REL_PATH)
         has_image = os.path.exists(image_full_path)
         if not has_image:
-            self.stdout.write(self.style.WARNING(f"Ogohlantirish: Rasm fayli topilmadi: {image_full_path}"))
+            self.stdout.write(self.style.WARNING(f"Ogohlantiriş: Rasm fayli topilmadi: {image_full_path}"))
         else:
             self.stdout.write(self.style.SUCCESS(f"Rasm biriktirildi: {IMAGE_REL_PATH}"))
 
@@ -282,7 +280,7 @@ class Command(BaseCommand):
 
         post = Posts.objects.filter(slug=SLUG).first()
         if post and not opts["update"]:
-            self.stdout.write(self.style.WARNING(f"Maqola allaqachon mavjud ({SLUG}). Yangilash uchun --update parametrini bering."))
+            self.stdout.write(self.style.WARNING(f"Maqola allaqaçon mavjud ({SLUG}). Yangilaş uçun --update parametrini bering."))
             self.stdout.write(f"Havola: https://complexprogrammer.uz/blog/{SLUG}/")
             return
 
@@ -292,7 +290,7 @@ class Command(BaseCommand):
 
         if not post:
             post = Posts(slug=SLUG, created_by=author, categorie=category)
-            action = "yaratildi va nashr qilindi"
+            action = "yaratildi va naşr qilindi"
         else:
             action = "yangilandi"
 
@@ -303,7 +301,7 @@ class Command(BaseCommand):
 
         post.save()
 
-        status_text = "Qoralama (2099-yil)" if opts["draft"] else "Nashr qilindi (jonli efirda)"
+        status_text = "Qoralama (2099-yil)" if opts["draft"] else "Naşr qilindi (jonli efirda)"
         self.stdout.write(self.style.SUCCESS("=" * 60))
         self.stdout.write(self.style.SUCCESS(f"✅ Maqola muvaffaqiyatli {action}!"))
         self.stdout.write(self.style.SUCCESS(f"📌 Holati: {status_text}"))
