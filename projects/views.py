@@ -429,10 +429,63 @@ def _translate_mymemory(text, src, dest):
     return " ".join(parts)
 
 
+TRANSLATE_TEXT = {
+    "uz": {
+        "badge_langs": "22 til", "badge_limit": "5000 belgigacha", "badge_free": "Bepul, ro'yxatdan o'tmasdan",
+        "auto": "Tilni aniqlash", "from": "Qaysi tildan", "to": "Qaysi tilga", "swap": "Tillarni almashtirish",
+        "placeholder": "Tarjima qilinadigan matnni kiriting...", "result_placeholder": "Tarjima shu yerda chiqadi",
+        "translate": "Tarjima qilish", "translating": "Tarjima qilinmoqda...", "paste": "Qo'yish", "clear": "Tozalash",
+        "copy": "Nusxalash", "copied": "Nusxalandi", "listen": "Tinglash", "stop": "To'xtatish",
+        "too_long": "Matn 5000 belgidan oshmasin", "error": "Tarjima qilib bo'lmadi, birozdan so'ng urinib ko'ring",
+        "same": "Manba va natija tillari bir xil", "auto_swap": "Avval manba tilini tanlang",
+        "hint": "Ctrl+Enter — tarjima qilish. Yozishni to'xtatsangiz, tarjima o'zi boshlanadi.", "app": "Android ilova",
+    },
+    "ru": {
+        "badge_langs": "22 языка", "badge_limit": "До 5000 символов", "badge_free": "Бесплатно, без регистрации",
+        "auto": "Определить язык", "from": "С какого языка", "to": "На какой язык", "swap": "Поменять языки",
+        "placeholder": "Введите текст для перевода...", "result_placeholder": "Здесь появится перевод",
+        "translate": "Перевести", "translating": "Перевод...", "paste": "Вставить", "clear": "Очистить",
+        "copy": "Копировать", "copied": "Скопировано", "listen": "Прослушать", "stop": "Остановить",
+        "too_long": "Текст не должен превышать 5000 символов", "error": "Не удалось перевести, попробуйте чуть позже",
+        "same": "Исходный и целевой языки совпадают", "auto_swap": "Сначала выберите исходный язык",
+        "hint": "Ctrl+Enter — перевести. Перевод начнётся сам, когда вы перестанете печатать.", "app": "Приложение Android",
+    },
+    "en": {
+        "badge_langs": "22 languages", "badge_limit": "Up to 5000 characters", "badge_free": "Free, no sign-up",
+        "auto": "Detect language", "from": "From", "to": "To", "swap": "Swap languages",
+        "placeholder": "Enter text to translate...", "result_placeholder": "The translation will appear here",
+        "translate": "Translate", "translating": "Translating...", "paste": "Paste", "clear": "Clear",
+        "copy": "Copy", "copied": "Copied", "listen": "Listen", "stop": "Stop",
+        "too_long": "The text must not exceed 5000 characters", "error": "Translation failed, please try again later",
+        "same": "Source and target languages are the same", "auto_swap": "Choose the source language first",
+        "hint": "Ctrl+Enter to translate. Translation starts automatically when you stop typing.", "app": "Android app",
+    },
+    "tr": {
+        "badge_langs": "22 dil", "badge_limit": "5000 karaktere kadar", "badge_free": "Ücretsiz, kayıt gerekmez",
+        "auto": "Dili algıla", "from": "Kaynak dil", "to": "Hedef dil", "swap": "Dilleri değiştir",
+        "placeholder": "Çevrilecek metni girin...", "result_placeholder": "Çeviri burada görünecek",
+        "translate": "Çevir", "translating": "Çevriliyor...", "paste": "Yapıştır", "clear": "Temizle",
+        "copy": "Kopyala", "copied": "Kopyalandı", "listen": "Dinle", "stop": "Durdur",
+        "too_long": "Metin 5000 karakteri geçmemelidir", "error": "Çevrilemedi, lütfen biraz sonra tekrar deneyin",
+        "same": "Kaynak ve hedef dil aynı", "auto_swap": "Önce kaynak dili seçin",
+        "hint": "Ctrl+Enter ile çevirin. Yazmayı bıraktığınızda çeviri kendiliğinden başlar.", "app": "Android uygulaması",
+    },
+}
+
+
 @ensure_csrf_cookie
 def C0mplexTranslate(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {
+        "comments": page_comments(request),
+        "t": TRANSLATE_TEXT.get(lang, TRANSLATE_TEXT["en"]),
+        # Tillar sahifaga birga beriladi — alohida /GetTranslateLanguages/ so'rovi kerak emas
+        "languages": [{"code": c, "name": n} for c, n in TRANSLATE_LANGUAGES.items() if c != "auto"],
+        "max_chars": MAX_TRANSLATE_CHARS,
+        "ui_code": lang if lang in TRANSLATE_LANGUAGES else "en",
+    }
     return render(request, "projects/translate.html", context=context)
 
 
