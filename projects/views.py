@@ -308,18 +308,69 @@ def _fetch_json_now(url, cache_key, timeout, ttl, params, headers, fallback, dis
     return None
 
 
+COINS_TEXT = {
+    "uz": {
+        "badge_top": "Top 250 tanga", "badge_fresh": "Har 5 daqiqada yangilanadi", "badge_uzs": "Dollar va so'mda",
+        "market_cap": "Bozor kapitalizatsiyasi", "btc_share": "Bitcoin ulushi", "gainers": "24 soatda o'sdi", "losers": "24 soatda tushdi",
+        "search": "Qidirish: Bitcoin, ETH, Solana...", "sort": "Saralash", "sort_rank": "Reyting", "sort_price": "Narx",
+        "sort_up": "Eng ko'p o'sgan", "sort_down": "Eng ko'p tushgan", "sort_cap": "Kapitalizatsiya", "sort_volume": "Savdo hajmi",
+        "coin": "Tanga", "price": "Narx", "change24": "24 soat", "change7": "7 kun", "cap": "Kapitalizatsiya", "volume": "Hajm (24 soat)",
+        "more": "Yana ko'rsatish", "found": "ta tanga", "none": "Hech narsa topilmadi", "updated": "Yangilandi",
+        "error": "Kripto narxlar xizmati hozir javob bermayapti", "retry": "Qayta urinish", "sum": "so'm",
+        "note": "Ma'lumotlar CoinGecko'dan olinadi. So'mdagi narx Markaziy bank dollar kursi bo'yicha hisoblanadi. Bu investitsiya maslahati emas.",
+    },
+    "ru": {
+        "badge_top": "Топ-250 монет", "badge_fresh": "Обновляется каждые 5 минут", "badge_uzs": "В долларах и сумах",
+        "market_cap": "Капитализация рынка", "btc_share": "Доля Bitcoin", "gainers": "Выросли за 24 ч", "losers": "Упали за 24 ч",
+        "search": "Поиск: Bitcoin, ETH, Solana...", "sort": "Сортировка", "sort_rank": "Рейтинг", "sort_price": "Цена",
+        "sort_up": "Лидеры роста", "sort_down": "Лидеры падения", "sort_cap": "Капитализация", "sort_volume": "Объём торгов",
+        "coin": "Монета", "price": "Цена", "change24": "24 ч", "change7": "7 дн", "cap": "Капитализация", "volume": "Объём (24 ч)",
+        "more": "Показать ещё", "found": "монет", "none": "Ничего не найдено", "updated": "Обновлено",
+        "error": "Сервис цен криптовалют сейчас не отвечает", "retry": "Повторить", "sum": "сум",
+        "note": "Данные CoinGecko. Цена в сумах рассчитана по курсу доллара ЦБ. Это не инвестиционная рекомендация.",
+    },
+    "en": {
+        "badge_top": "Top 250 coins", "badge_fresh": "Updated every 5 minutes", "badge_uzs": "In USD and UZS",
+        "market_cap": "Market cap", "btc_share": "Bitcoin dominance", "gainers": "Up in 24h", "losers": "Down in 24h",
+        "search": "Search: Bitcoin, ETH, Solana...", "sort": "Sort", "sort_rank": "Rank", "sort_price": "Price",
+        "sort_up": "Top gainers", "sort_down": "Top losers", "sort_cap": "Market cap", "sort_volume": "Volume",
+        "coin": "Coin", "price": "Price", "change24": "24h", "change7": "7d", "cap": "Market cap", "volume": "Volume (24h)",
+        "more": "Show more", "found": "coins", "none": "Nothing found", "updated": "Updated",
+        "error": "The crypto price service is not responding right now", "retry": "Retry", "sum": "UZS",
+        "note": "Data by CoinGecko. UZS prices use the Central Bank dollar rate. This is not investment advice.",
+    },
+    "tr": {
+        "badge_top": "İlk 250 coin", "badge_fresh": "5 dakikada bir güncellenir", "badge_uzs": "Dolar ve somda",
+        "market_cap": "Piyasa değeri", "btc_share": "Bitcoin payı", "gainers": "24 saatte yükselen", "losers": "24 saatte düşen",
+        "search": "Ara: Bitcoin, ETH, Solana...", "sort": "Sırala", "sort_rank": "Sıra", "sort_price": "Fiyat",
+        "sort_up": "En çok yükselen", "sort_down": "En çok düşen", "sort_cap": "Piyasa değeri", "sort_volume": "Hacim",
+        "coin": "Coin", "price": "Fiyat", "change24": "24 sa", "change7": "7 gün", "cap": "Piyasa değeri", "volume": "Hacim (24 sa)",
+        "more": "Daha fazla göster", "found": "coin", "none": "Sonuç bulunamadı", "updated": "Güncellendi",
+        "error": "Kripto fiyat hizmeti şu anda yanıt vermiyor", "retry": "Tekrar dene", "sum": "som",
+        "note": "Veriler CoinGecko'dan alınır. Som fiyatı Merkez Bankası dolar kuruyla hesaplanır. Yatırım tavsiyesi değildir.",
+    },
+}
+
+
 def coins(request):
+    from django.utils import translation
+
     # Ma'lumot sahifa ochilgach /GetCoins/ orqali yuklanadi — sahifa tez ochiladi
-    return render(request, "projects/coins.html", {"comments": page_comments(request)})
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": COINS_TEXT.get(lang, COINS_TEXT["en"])}
+    return render(request, "projects/coins.html", context)
 
 
 def GetCoins(request):
     # minerstat endi API kalit talab qiladi — CoinGecko'ning bepul API'si ishlatiladi
     data = fetch_json(
         "https://api.coingecko.com/api/v3/coins/markets",
-        "api:coingecko",
+        "api:coingecko:v2",
         ttl=300,
-        params={"vs_currency": "usd", "order": "market_cap_desc", "per_page": 250, "page": 1},
+        params={
+            "vs_currency": "usd", "order": "market_cap_desc", "per_page": 250, "page": 1,
+            "price_change_percentage": "7d",
+        },
     )
     if data is None:
         return JsonResponse({"data": [], "error": "Kripto narxlar xizmati javob bermayapti"}, status=503)
@@ -329,14 +380,24 @@ def GetCoins(request):
             "rank": c.get("market_cap_rank"),
             "name": c.get("name"),
             "coin": (c.get("symbol") or "").upper(),
-            "image": c.get("image"),
+            # 30 px ikonka uchun "small" (~2.5 KB) yetarli — "large" (~12 KB) 50 ta tangada ~0.5 MB ortiqcha trafik
+            "image": (c.get("image") or "").replace("/large/", "/small/"),
             "price": c.get("current_price"),
             "change24h": c.get("price_change_percentage_24h"),
+            "change7d": c.get("price_change_percentage_7d_in_currency"),
             "market_cap": c.get("market_cap"),
+            "volume": c.get("total_volume"),
         }
         for c in data
     ]
-    return JsonResponse({"data": coins})
+    # So'mdagi narx uchun Markaziy bank dollar kursi (keshdan; CBU kutilmaydi — eskisi bo'lsa o'shani beradi)
+    rates = fetch_json(CBU_RATES_URL, CBU_CACHE_KEY, timeout=3, ttl=1800)
+    usd = next((r for r in rates or [] if r.get("Ccy") == "USD"), None)
+    try:
+        usd_uzs = float(usd["Rate"]) if usd else None
+    except (TypeError, ValueError):
+        usd_uzs = None
+    return JsonResponse({"data": coins, "usd_uzs": usd_uzs})
 
 
 TRANSLATE_LANGUAGES = {
