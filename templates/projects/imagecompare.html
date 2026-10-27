@@ -1,629 +1,360 @@
-{% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uchun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .ic{max-width:1100px}
+  .ic-hero{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:24px;margin-bottom:18px;border-radius:20px;
+    color:#fff;background:linear-gradient(135deg,#db2777,#9333ea 50%,#4f46e5);box-shadow:0 12px 32px rgba(147,51,234,.22)}
+  .ic-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .ic-hero p{margin:0;opacity:.88}
+  .ic-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .ic-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);font-size:.88rem}
+  .ic-app img{height:44px;display:block}
 
-<!--  -->
+  /* minmax(0,1fr): katta rasm ustunni kengaytirib, sahifani gorizontal aylantirmasin */
+  .ic-inputs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:stretch}
+  .ic-slot{margin:0;padding:14px;display:flex;flex-direction:column;min-width:0}
+  .ic-slot h2{font-size:.98rem;font-weight:700;margin:0 0 10px}
+  .ic-drop{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:220px;padding:14px;
+    border:2px dashed var(--border);border-radius:14px;background:var(--bg);text-align:center;cursor:pointer;overflow:hidden;transition:border-color .15s,background .15s}
+  .ic-drop:hover,.ic-drop.over{border-color:var(--accent);background:rgba(99,102,241,.06)}
+  .ic-drop.has{border-style:solid;padding:6px}
+  .ic-drop img{max-width:100%;max-height:300px;border-radius:10px;display:block}
+  .ic-drop .ic-ph{font-size:2.2rem;line-height:1}
+  .ic-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;min-height:30px}
+  .ic-meta .d-meta{font-size:.85rem;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ic-meta>span:last-child{flex:0 0 auto;white-space:nowrap}
+  .ic-link{border:0;background:none;color:var(--accent);font:inherit;font-size:.88rem;font-weight:600;cursor:pointer;padding:4px 6px}
+  .ic-link.danger{color:#ef4444}
+  .ic-swap{align-self:center;width:46px;height:46px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);
+    font-size:1.2rem;cursor:pointer;transition:border-color .15s,transform .15s}
+  .ic-swap:hover:not(:disabled){border-color:var(--accent);transform:rotate(180deg)}
+  .ic-swap:disabled{opacity:.4;cursor:default}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
-    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
-    <script src="/static/js/three-guard.js"></script>
-    <style>
-        :root {
-            --bg-color: #0a0e27;
-            --text-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-color: #00d4ff;
-            --accent-glow: rgba(0, 212, 255, 0.3);
-            transition: all 0.3s ease;
-        }
+  .ic-result{margin-top:16px}
+  .ic-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .ic-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--bg);border:1px solid var(--border)}
+  .ic-tabs button{padding:7px 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer}
+  .ic-tabs button[aria-pressed="true"]{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+  .ic-sens{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--muted)}
+  .ic-sens input{accent-color:#6366f1;width:150px}
+  .ic-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+  .ic-stats div{padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--border);text-align:center}
+  .ic-stats b{display:block;font-size:1.35rem;font-variant-numeric:tabular-nums}
+  .ic-stats span{color:var(--muted);font-size:.82rem}
+  .ic-view{position:relative;border-radius:12px;overflow:hidden;background:repeating-conic-gradient(var(--border) 0 25%,transparent 0 50%) 0 0/20px 20px}
+  .ic-view canvas{display:block;width:100%;height:auto}
+  .ic-slider{position:relative;user-select:none;touch-action:none}
+  .ic-slider canvas:last-of-type{position:absolute;inset:0}
+  .ic-handle{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);pointer-events:none}
+  .ic-handle::after{content:"⇆";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;border-radius:50%;
+    display:grid;place-items:center;background:#fff;color:#4f46e5;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+  .ic-tag{position:absolute;top:10px;padding:3px 9px;border-radius:8px;background:rgba(15,23,42,.7);color:#fff;font-size:.78rem;pointer-events:none}
+  .ic-range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+  .ic-note{margin:10px 0 0;font-size:.88rem}
+  .ic-note.warn{color:#d97706}
+  .ic-ok{padding:12px 14px;border-radius:12px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);margin-bottom:12px;font-weight:600}
+  [hidden]{display:none!important}
 
-        [data-theme="dark"] {
-            --bg-color: #0a0e27;
-            --text-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f5f7fa;
-            --text-color: #212121;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --border-color: #e0e0e0;
-            --accent-color: #0066ff;
-            --accent-glow: rgba(0, 102, 255, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        #threejs-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            margin-top: 100px;
-            backdrop-filter: blur(10px);
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-        }
-
-        h2 {
-            text-align: center;
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, var(--accent-color), #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite;
-            display: inline-block;
-            width: 100%;
-        }
-
-        @keyframes titleGlow {
-            0%, 100% { filter: drop-shadow(0 0 20px var(--accent-glow)); }
-            50% { filter: drop-shadow(0 0 40px var(--accent-glow)); }
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-color: var(--border-color);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--accent-glow);
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: 2px solid var(--accent-color);
-            background: var(--card-bg);
-            color: var(--text-color);
-            cursor: pointer;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 5px 20px var(--accent-glow);
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
-
-        .dropify-wrapper {
-            border: 2px dashed var(--accent-color) !important;
-            border-radius: 15px !important;
-            background: var(--card-bg) !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .dropify-wrapper:hover {
-            border-color: #ff00ff !important;
-            box-shadow: 0 0 30px var(--accent-glow) !important;
-            transform: scale(1.02);
-        }
-
-        .text-info {
-            color: var(--accent-color) !important;
-            font-weight: 600;
-            font-size: 1.2rem;
-            text-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .text-danger {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .C0mplexButton a {
-            background: linear-gradient(135deg, var(--accent-color), #ff00ff) !important;
-            border-radius: 15px !important;
-            padding: 15px 30px !important;
-            transition: all 0.3s ease !important;
-            box-shadow: 0 10px 30px var(--accent-glow) !important;
-        }
-
-        .C0mplexButton a:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 15px 40px var(--accent-glow) !important;
-        }
-
-        .row {
-            margin-bottom: 30px;
-        }
-
-        img {
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .fixed-top {
-            z-index: 1001;
-        }
-    </style>
-    <script>
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeButton(savedTheme);
-        });
-
-        function toggleTheme() {
-            const body = document.documentElement;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-
-            updateThemeButton(newTheme);
-        }
-
-        function updateThemeButton(theme) {
-            const button = document.getElementById('themeButton');
-            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
-            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
-            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
-        }
-    </script>
-    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i> Light Mode
-    </button>
+  @media (max-width:760px){
+    .ic-hero{padding:20px 18px}
+    .ic-inputs{grid-template-columns:minmax(0,1fr)}
+    .ic-swap{transform:rotate(90deg);justify-self:center}
+    .ic-swap:hover:not(:disabled){transform:rotate(270deg)}
+    .ic-drop{min-height:170px}
+    .ic-sens input{width:120px}
+    .ic-stats b{font-size:1.1rem}
+  }
+</style>
 </head>
-<body ng-app="App" ng-controller="ImageCompare">
+<body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-    <canvas id="threejs-bg"></canvas>
-
-    <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-layout="in-article"
-    data-ad-format="fluid"
-    data-ad-client="ca-pub-7773722896374259"
-    data-ad-slot="2303661293"></ins>
-  <script>
-  (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-    <!-- <ins class="adsbygoogle"
-        style="display:block; text-align:center;"
-        data-ad-layout="in-article"
-        data-ad-format="fluid"
-        data-ad-client="ca-pub-4137874891184814"
-        data-ad-slot="6832564320"></ins>
-    <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    </script> -->
-<div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
-    <img src="/static/img/buffering.gif" />
-</div>
-<input id="hh" type="hidden" />
-<div class="C0mplexButton float-end">
-    <a href="#" onclick="window.history.back(); return false;">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        X
+<main class="d-main ic">
+  <section class="ic-hero">
+    <div>
+      <h1>{{ seo_h1 }}</h1>
+      {% if seo_lead %}<p>{{ seo_lead }}</p>{% endif %}
+      <div class="ic-badges">
+        <span>🔒 {{ t.badge_private }}</span>
+        <span>⚡ {{ t.badge_fast }}</span>
+        <span>✅ {{ t.badge_free }}</span>
+      </div>
+    </div>
+    <a class="ic-app" href="https://play.google.com/store/apps/dev?id=6854503445964035235" target="_blank" rel="noopener" title="{{ t.app }}">
+      <img src="/static/img/google-play.svg" alt="{{ t.app }}">
     </a>
-</div>
-<div class="container" >
-    <h2>
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        Rasm solishtirish
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        Сравнение изображений
-        {% else %}
-        Image Compare
-        {% endif %}
-        {% endif %}
-        <a href="https://play.google.com/store/apps/details?id=exchangerates.complexprogrammer.uz" target="_blank">
-            <img src="/static/img/google-play.svg" />
-        </a>
-    </h2>
-    {% if request.LANGUAGE_CODE == 'uz' %}
-    <div class="row text-center">
-        <div class="col"><p class="text-info">1 - Rasm</p></div>
-        <div class="col"><p class="text-info">2 - Rasm</p></div>
-    </div>
-    {% else %}
-    {% if request.LANGUAGE_CODE == 'ru' %}
-    <div class="row text-center">
-        <div class="col"><p class="text-info">1 - Изображение</p></div>
-        <div class="col"><p class="text-info">2 - Изображение</p></div>
-    </div>
-    {% else %}
-    <div class="row text-center">
-        <div class="col"><p class="text-info">1 - Picture</p></div>
-        <div class="col"><p class="text-info">2 - Picture</p></div>
-    </div>
-    {% endif %}
-    {% endif %}
+  </section>
 
-    <div class="row">
-        <div class="col"><input type="file" ng-files="getTheFiles1($files)" ng-model="img_model1" id="img1" name="img1" data-height="500" class="dropify" /></div>
-        <div class="col"><input type="file" ng-files="getTheFiles2($files)" ng-model="img_model2" id="img2" name="img2" data-height="500" class="dropify" /></div>
-    </div>
-    <div class="C0mplexButton Success">
-        <a href="#" ng-click="getResult()" style="width:100%;text-align:center">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <i class="fa fa-copy"></i>
-            {% if request.LANGUAGE_CODE == 'uz' %}
-            Taqqoslash
-            {% else %}
-            {% if request.LANGUAGE_CODE == 'ru' %}
-            Сравнение
-            {% else %}
-            Comparison
-            {% endif %}
-            {% endif %}
-        </a>
-    </div>
-    {% if request.LANGUAGE_CODE == 'uz' %}
-    <div class="row text-center" ng-show="Data!=0&&ShowData">
-        <div class="col"><p class="text-info">Natija</p></div>
-    </div>
-    <div class="row text-center" ng-show="Data==0">
-        <div class="col"><p class="text-danger">Rasm o`lchamlari bir xil bo`lishi kerak!</p></div>
-    </div>
-    {% else %}
-    {% if request.LANGUAGE_CODE == 'ru' %}
-    <div class="row text-center" ng-show="Data!=0&&ShowData">
-        <div class="col"><p class="text-info">Результат</p></div>
-    </div>
-    <div class="row text-center" ng-show="Data==0">
-        <div class="col"><p class="text-danger">Размеры изображений должны быть одинаковыми!</p></div>
-    </div>
-    {% else %}
-    <div class="row text-center" ng-show="Data!=0&&ShowData">
-        <div class="col"><p class="text-info">The result</p></div>
-    </div>
-    <div class="row text-center" ng-show="Data==0">
-        <div class="col"><p class="text-danger">Image dimensions must be the same!</p></div>
-    </div>
-    {% endif %}
-    {% endif %}
-    {% verbatim %}
-    <div class="row text-center" ng-show="Data!=0&&ShowData">
-        <div class="col"><img ng-src="{{img_result}}" style="max-width:100%;height:auto" alt="Farqlar" /></div>
-    </div>
-    {% endverbatim %}
-</div>
+  <div class="ic-inputs">
+    {% for n in "01" %}
+    <section class="d-card ic-slot" data-slot="{{ n }}">
+      <h2>{% if n == "0" %}{{ t.first }}{% else %}{{ t.second }}{% endif %}</h2>
+      <input type="file" accept="image/*" hidden>
+      <div class="ic-drop" tabindex="0" role="button" aria-label="{{ t.drop }}">
+        <span class="ic-ph">🖼️</span>
+        <b>{{ t.drop }}</b>
+        <span class="d-meta">{{ t.paste }}</span>
+      </div>
+      <div class="ic-meta">
+        <span class="d-meta"></span>
+        <span>
+          <button type="button" class="ic-link" data-act="change" hidden>{{ t.change }}</button>
+          <button type="button" class="ic-link danger" data-act="remove" hidden>{{ t.remove }}</button>
+        </span>
+      </div>
+    </section>
+    {% if n == "0" %}<button type="button" class="ic-swap" id="ic-swap" title="{{ t.swap }}" aria-label="{{ t.swap }}" disabled>⇄</button>{% endif %}
+    {% endfor %}
+  </div>
+  <p class="d-meta" id="ic-msg" style="margin:10px 2px 0">ℹ️ {{ t.need_two }}</p>
 
+  <section class="d-card ic-result" id="ic-result" hidden>
+    <div class="ic-bar">
+      <div class="ic-tabs" id="ic-tabs">
+        <button type="button" data-mode="diff" aria-pressed="true">🔴 {{ t.mode_diff }}</button>
+        <button type="button" data-mode="slider" aria-pressed="false">↔️ {{ t.mode_slider }}</button>
+      </div>
+      <label class="ic-sens" id="ic-sens">{{ t.sensitivity }} <input type="range" id="ic-threshold" min="1" max="100" value="80"></label>
+    </div>
+    <div class="ic-ok" id="ic-identical" hidden>✅ {{ t.identical }}</div>
+    <div class="ic-stats">
+      <div><b id="ic-similar">—</b><span>{{ t.similar }}</span></div>
+      <div><b id="ic-changed">—</b><span>{{ t.changed }}</span></div>
+      <div><b id="ic-size">—</b><span>{{ t.size }}</span></div>
+    </div>
+    <div class="ic-view" id="ic-diff-view"></div>
+    <div class="ic-view ic-slider" id="ic-slider-view" hidden>
+      <span class="ic-tag" style="left:10px">1</span><span class="ic-tag" style="right:10px">2</span>
+      <div class="ic-handle" id="ic-handle"></div>
+      <input type="range" class="ic-range" id="ic-pos" min="0" max="100" value="50" step="0.1" aria-label="{{ t.slider_hint }}">
+    </div>
+    <p class="ic-note d-meta" id="ic-legend">{{ t.legend }}</p>
+    <p class="ic-note warn" id="ic-aspect" hidden>⚠️ {{ t.aspect }}</p>
+    <div class="d-row" style="margin-top:12px">
+      <button type="button" class="d-btn" id="ic-download">⬇ {{ t.download }}</button>
+    </div>
+  </section>
+
+  <ins class="adsbygoogle" style="display:block; text-align:center; margin-top:18px" data-ad-layout="in-article" data-ad-format="fluid"
+    data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</main>
+
+{% include "includes/seo_text.html" %}
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid" data-ad-layout-key="-an-4i-cp+a2+21k"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
+  data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+{{ t|json_script:"ic-text" }}
 <script>
-    // Three.js Background Animation
-    const canvas = document.getElementById('threejs-bg');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  // Rasmlar serverga yuborilmaydi — solishtirish to'liq brauzerda (canvas) bajariladi
+  (function () {
+    var T = JSON.parse(document.getElementById("ic-text").textContent);
+    var MAX_SIDE = 1600;  // katta rasmlar shu o'lchamgacha kichraytiriladi (tezlik va xotira uchun)
+    var $ = function (id) { return document.getElementById(id); };
+    var slots = [].slice.call(document.querySelectorAll(".ic-slot"));
+    var images = [null, null];  // {img, file, url}
+    var prepared = null;        // {w, h, a, b, canvasA, canvasB}
+    var diffCanvas = document.createElement("canvas");
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    camera.position.z = 50;
+    function size(n) { return n < 1024 * 1024 ? Math.max(1, Math.round(n / 1024)) + " KB" : (n / 1024 / 1024).toFixed(1) + " MB"; }
+    function fmt(n) { return n.toLocaleString("ru-RU"); }
 
-    // Create particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 3000;
-    const posArray = new Float32Array(particlesCount * 3);
-
-    for(let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 200;
-    }
-
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-    const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.3,
-        color: 0x00d4ff,
-        transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending
-    });
-
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
-
-    // Create geometric shapes
-    const geometries = [];
-    const materials = [];
-
-    // Add Torus
-    const torusGeometry = new THREE.TorusGeometry(10, 3, 16, 100);
-    const torusMaterial = new THREE.MeshBasicMaterial({
-        color: 0x00d4ff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3
-    });
-    const torus = new THREE.Mesh(torusGeometry, torusMaterial);
-    torus.position.set(-30, 20, -20);
-    scene.add(torus);
-    geometries.push(torus);
-
-    // Add Icosahedron
-    const icoGeometry = new THREE.IcosahedronGeometry(8, 0);
-    const icoMaterial = new THREE.MeshBasicMaterial({
-        color: 0xff00ff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3
-    });
-    const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
-    icosahedron.position.set(30, -20, -30);
-    scene.add(icosahedron);
-    geometries.push(icosahedron);
-
-    // Add Octahedron
-    const octGeometry = new THREE.OctahedronGeometry(7);
-    const octMaterial = new THREE.MeshBasicMaterial({
-        color: 0x00ff88,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3
-    });
-    const octahedron = new THREE.Mesh(octGeometry, octMaterial);
-    octahedron.position.set(0, -30, -25);
-    scene.add(octahedron);
-    geometries.push(octahedron);
-
-    // Mouse interaction
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-    });
-
-    // Animation loop
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // Rotate particles
-        particlesMesh.rotation.x += 0.0005;
-        particlesMesh.rotation.y += 0.0005;
-
-        // Rotate geometric shapes
-        geometries.forEach((geo, index) => {
-            geo.rotation.x += 0.01 * (index + 1) * 0.3;
-            geo.rotation.y += 0.01 * (index + 1) * 0.3;
-            geo.position.y += Math.sin(Date.now() * 0.001 + index) * 0.05;
-        });
-
-        // Mouse interaction
-        camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
-        camera.position.y += (mouseY * 5 - camera.position.y) * 0.05;
-        camera.lookAt(scene.position);
-
-        renderer.render(scene, camera);
-    }
-
-    animate();
-
-    // Handle window resize
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // Update theme-based colors
-    function updateThreeJSTheme() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'light') {
-            particlesMaterial.color.setHex(0x0066ff);
-            torusMaterial.color.setHex(0x0066ff);
-        } else {
-            particlesMaterial.color.setHex(0x00d4ff);
-            torusMaterial.color.setHex(0x00d4ff);
-        }
-    }
-
-    // Listen for theme changes
-    const observer = new MutationObserver(updateThreeJSTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-</script>
-
-<script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
-<script>$('.dropify').dropify();</script>
-<ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="autorelaxed"
-data-ad-client="ca-pub-7773722896374259"
-data-ad-slot="2479701367"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-format="autorelaxed"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="4202531555"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-<ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="fluid"
-data-ad-layout-key="-an-4i-cp+a2+21k"
-data-ad-client="ca-pub-7773722896374259"
-data-ad-slot="4679993061"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-format="fluid"
-    data-ad-layout-key="-6t+ed+2i-1n-4w"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="7442938415"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-<!-- Display 1 -->
-<ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-client="ca-pub-7773722896374259"
-    data-ad-slot="3869366477"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- 1 chi abzast Mobil -->
-<!-- <ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-client="ca-pub-4137874891184814"
-     data-ad-slot="2799587029"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-{% include "includes/scroll_buttons.html" %}
-<script>
-// Rasmlar serverga yuborilmaydi — solishtirish to'liq brauzerda (canvas) bajariladi
-angular.module("App", [])
-  .directive("ngFiles", ["$parse", function ($parse) {
-    return {
-      link: function (scope, element, attrs) {
-        var onChange = $parse(attrs.ngFiles);
-        element.on("change", function (event) {
-          scope.$apply(function () { onChange(scope, { $files: event.target.files }); });
-        });
-      }
-    };
-  }])
-  .controller("ImageCompare", ["$scope", function ($scope) {
-    var files = [null, null];
-    $scope.ShowData = false;
-    $scope.getTheFiles1 = function ($files) { files[0] = $files[0]; };
-    $scope.getTheFiles2 = function ($files) { files[1] = $files[0]; };
-
-    function loadImage(file) {
+    function load(file) {
       return new Promise(function (resolve, reject) {
-        var img = new Image();
-        img.onload = function () { resolve(img); };
-        img.onerror = reject;
-        img.src = URL.createObjectURL(file);
+        var url = URL.createObjectURL(file), img = new Image();
+        img.onload = function () { resolve({ img: img, file: file, url: url }); };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(); };
+        img.src = url;
       });
     }
 
-    $scope.getResult = function () {
-      if (!files[0] || !files[1]) {
-        alertify.error("Ikkala rasmni ham tanlang");
+    function setImage(i, file) {
+      if (!file) return;
+      if (file.type && file.type.indexOf("image/") !== 0) return showMsg(T.bad_file, true);
+      load(file).then(function (item) {
+        if (images[i]) URL.revokeObjectURL(images[i].url);
+        images[i] = item;
+        drawSlot(i);
+        update();
+      }).catch(function () { showMsg(T.bad_file, true); });
+    }
+
+    function drawSlot(i) {
+      var slot = slots[i], drop = slot.querySelector(".ic-drop"), item = images[i];
+      drop.classList.toggle("has", !!item);
+      drop.innerHTML = item
+        ? '<img alt="">'
+        : '<span class="ic-ph">🖼️</span><b></b><span class="d-meta"></span>';
+      if (item) drop.querySelector("img").src = item.url;
+      else { drop.querySelector("b").textContent = T.drop; drop.querySelector(".d-meta").textContent = T.paste; }
+      slot.querySelector(".ic-meta .d-meta").textContent = item
+        ? item.img.naturalWidth + "×" + item.img.naturalHeight + " · " + size(item.file.size) + " · " + item.file.name : "";
+      slot.querySelectorAll(".ic-link").forEach(function (b) { b.hidden = !item; });
+    }
+
+    function showMsg(text, isError) {
+      var m = $("ic-msg");
+      m.hidden = !text;
+      m.textContent = (isError ? "⚠️ " : "ℹ️ ") + text;
+      m.style.color = isError ? "#ef4444" : "";
+    }
+
+    function canvasOf(img, w, h) {
+      var c = document.createElement("canvas");
+      c.width = w; c.height = h;
+      c.getContext("2d").drawImage(img, 0, 0, w, h);
+      return c;
+    }
+
+    function update() {
+      $("ic-swap").disabled = !(images[0] || images[1]);
+      if (!images[0] || !images[1]) {
+        prepared = null;
+        $("ic-result").hidden = true;
+        showMsg(T.need_two);
         return;
       }
-      Promise.all([loadImage(files[0]), loadImage(files[1])]).then(function (imgs) {
-        // Ikkinchi rasm birinchisining o'lchamiga keltiriladi (o'lcham har xil bo'lsa ham ishlaydi)
-        var w = Math.min(imgs[0].naturalWidth, 1600);
-        var h = Math.round(imgs[0].naturalHeight * w / imgs[0].naturalWidth);
-        var data = imgs.map(function (img) {
-          var c = document.createElement("canvas");
-          c.width = w; c.height = h;
-          var ctx = c.getContext("2d");
-          ctx.drawImage(img, 0, 0, w, h);
-          return ctx.getImageData(0, 0, w, h);
-        });
-        var out = document.createElement("canvas");
-        out.width = w; out.height = h;
-        var octx = out.getContext("2d");
-        var result = octx.createImageData(w, h);
-        var a = data[0].data, b = data[1].data, r = result.data, diffCount = 0;
-        for (var i = 0; i < a.length; i += 4) {
-          var d = Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]);
-          var gray = (a[i] + a[i + 1] + a[i + 2]) / 3 * 0.5;
-          if (d > 60) {
-            diffCount++;
-            r[i] = 255; r[i + 1] = 0; r[i + 2] = 0;
-          } else {
-            r[i] = r[i + 1] = r[i + 2] = gray;
-          }
-          r[i + 3] = 255;
+      showMsg("");
+      // 2-rasm 1-rasm o'lchamiga keltiriladi — o'lchamlar har xil bo'lsa ham solishtiriladi
+      var A = images[0].img, B = images[1].img;
+      var scale = Math.min(1, MAX_SIDE / Math.max(A.naturalWidth, A.naturalHeight));
+      var w = Math.max(1, Math.round(A.naturalWidth * scale)), h = Math.max(1, Math.round(A.naturalHeight * scale));
+      var ca = canvasOf(A, w, h), cb = canvasOf(B, w, h);
+      prepared = {
+        w: w, h: h, canvasA: ca, canvasB: cb,
+        a: ca.getContext("2d").getImageData(0, 0, w, h).data,
+        b: cb.getContext("2d").getImageData(0, 0, w, h).data
+      };
+      var ra = A.naturalWidth / A.naturalHeight, rb = B.naturalWidth / B.naturalHeight;
+      $("ic-aspect").hidden = Math.abs(ra - rb) / ra < 0.02;
+      $("ic-size").textContent = A.naturalWidth + "×" + A.naturalHeight;
+
+      var slider = $("ic-slider-view");
+      slider.querySelectorAll("canvas").forEach(function (c) { c.remove(); });
+      slider.insertBefore(ca, slider.firstChild);
+      slider.insertBefore(cb, ca.nextSibling);
+      setPos($("ic-pos").value);
+
+      $("ic-result").hidden = false;
+      renderDiff();
+    }
+
+    // Sezgirlik 1..100 -> RGB farqlari yig'indisi chegarasi (100 — eng sezgir)
+    function renderDiff() {
+      if (!prepared) return;
+      var p = prepared, thr = Math.round((101 - $("ic-threshold").value) * 3);
+      diffCanvas.width = p.w; diffCanvas.height = p.h;
+      var ctx = diffCanvas.getContext("2d"), out = ctx.createImageData(p.w, p.h), r = out.data, a = p.a, b = p.b;
+      var changed = 0, minX = p.w, minY = p.h, maxX = -1, maxY = -1;
+      for (var i = 0, px = 0; i < a.length; i += 4, px++) {
+        var d = Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]);
+        if (d > thr) {
+          changed++;
+          r[i] = 239; r[i + 1] = 68; r[i + 2] = 68;
+          var x = px % p.w, y = (px - x) / p.w;
+          if (x < minX) minX = x; if (x > maxX) maxX = x;
+          if (y < minY) minY = y; if (y > maxY) maxY = y;
+        } else {
+          // Farqsiz joylar och kulrang — qizil farqlar yaqqol ko'rinsin
+          var gray = 140 + (a[i] * 0.299 + a[i + 1] * 0.587 + a[i + 2] * 0.114) * 0.45;
+          r[i] = r[i + 1] = r[i + 2] = gray;
         }
-        octx.putImageData(result, 0, 0);
-        var similarity = (100 - diffCount / (w * h) * 100).toFixed(2);
-        $scope.$apply(function () {
-          $scope.img_result = out.toDataURL("image/png");
-          $scope.Data = 1;
-          $scope.ShowData = true;
-        });
-        alertify.success("O'xshashlik: " + similarity + "% (farqlar qizil rangda)");
-      }).catch(function () {
-        alertify.error("Rasmni o'qib bo'lmadi");
+        r[i + 3] = 255;
+      }
+      ctx.putImageData(out, 0, 0);
+      if (changed) {
+        var pad = Math.max(4, Math.round(Math.max(p.w, p.h) / 150));
+        ctx.strokeStyle = "#4f46e5";
+        ctx.lineWidth = Math.max(2, Math.round(Math.max(p.w, p.h) / 400));
+        ctx.setLineDash([ctx.lineWidth * 4, ctx.lineWidth * 2]);
+        ctx.strokeRect(Math.max(0, minX - pad), Math.max(0, minY - pad),
+          Math.min(p.w, maxX + pad) - Math.max(0, minX - pad), Math.min(p.h, maxY + pad) - Math.max(0, minY - pad));
+      }
+      var total = p.w * p.h, similar = 100 - changed / total * 100;
+      $("ic-similar").textContent = (changed && similar > 99.99 ? 99.99 : similar).toFixed(2) + "%";
+      $("ic-changed").textContent = fmt(changed);
+      $("ic-identical").hidden = changed > 0;
+      var view = $("ic-diff-view");
+      if (!view.contains(diffCanvas)) view.appendChild(diffCanvas);
+    }
+
+    function setPos(v) {
+      $("ic-handle").style.left = v + "%";
+      var top = $("ic-slider-view").querySelectorAll("canvas")[1];
+      if (top) top.style.clipPath = "inset(0 0 0 " + v + "%)";
+    }
+
+    function setMode(mode) {
+      document.querySelectorAll("#ic-tabs button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.mode === mode ? "true" : "false"); });
+      var diff = mode === "diff";
+      $("ic-diff-view").hidden = !diff;
+      $("ic-slider-view").hidden = diff;
+      $("ic-sens").hidden = !diff;
+      $("ic-legend").textContent = diff ? T.legend : T.slider_hint;
+    }
+
+    slots.forEach(function (slot, i) {
+      var input = slot.querySelector("input"), drop = slot.querySelector(".ic-drop");
+      input.addEventListener("change", function () { setImage(i, input.files[0]); input.value = ""; });
+      drop.addEventListener("click", function () { input.click(); });
+      drop.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); } });
+      ["dragenter", "dragover"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("over"); }); });
+      ["dragleave", "drop"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove("over"); }); });
+      drop.addEventListener("drop", function (e) { setImage(i, e.dataTransfer.files[0]); });
+      slot.querySelector('[data-act="change"]').addEventListener("click", function () { input.click(); });
+      slot.querySelector('[data-act="remove"]').addEventListener("click", function () {
+        URL.revokeObjectURL(images[i].url);
+        images[i] = null;
+        drawSlot(i);
+        update();
       });
-    };
-  }]);
+    });
+
+    // Ctrl+V: nusxalangan rasm birinchi bo'sh joyga (ikkalasi to'la bo'lsa — 2-rasm o'rniga)
+    document.addEventListener("paste", function (e) {
+      var items = (e.clipboardData && e.clipboardData.items) || [];
+      for (var k = 0; k < items.length; k++) {
+        if (items[k].type.indexOf("image/") === 0) {
+          setImage(!images[0] ? 0 : 1, items[k].getAsFile());
+          e.preventDefault();
+          return;
+        }
+      }
+    });
+
+    $("ic-swap").addEventListener("click", function () {
+      images.reverse();
+      drawSlot(0); drawSlot(1);
+      update();
+    });
+    $("ic-threshold").addEventListener("input", renderDiff);
+    $("ic-pos").addEventListener("input", function () { setPos(this.value); });
+    $("ic-tabs").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) setMode(b.dataset.mode); });
+    $("ic-download").addEventListener("click", function () {
+      diffCanvas.toBlob(function (blob) {
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "farqlar.png";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      }, "image/png");
+    });
+  })();
 </script>
-{% include "includes/seo_text.html" %}
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>
