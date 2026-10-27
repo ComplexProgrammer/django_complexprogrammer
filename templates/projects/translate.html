@@ -1,1699 +1,296 @@
-{% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
-
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uchun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .tr{max-width:1100px}
+  .tr-hero{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:24px;margin-bottom:18px;border-radius:20px;
+    color:#fff;background:linear-gradient(135deg,#2563eb,#4f46e5 50%,#7c3aed);box-shadow:0 12px 32px rgba(79,70,229,.25)}
+  .tr-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .tr-hero p{margin:0;opacity:.88}
+  .tr-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .tr-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);font-size:.88rem}
+  .tr-app img{height:44px;display:block}
 
-    <!--  -->
+  .tr-langs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:start;margin-bottom:14px}
+  .tr-lang select{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);
+    font:inherit;font-weight:600;outline:none;cursor:pointer}
+  .tr-lang select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.18)}
+  .tr-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .tr-chips button{padding:4px 11px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--muted);font:inherit;
+    font-size:.82rem;font-weight:600;cursor:pointer}
+  .tr-chips button:hover{color:var(--text);border-color:var(--accent)}
+  .tr-chips button[aria-pressed="true"]{background:rgba(99,102,241,.14);border-color:var(--accent);color:var(--accent)}
+  .tr-swap{width:46px;height:46px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.2rem;
+    cursor:pointer;transition:transform .2s,border-color .15s}
+  .tr-swap:hover{border-color:var(--accent);transform:rotate(180deg)}
 
-    <script src="https://kit.fontawesome.com/f7eccd980a.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
-    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
-        integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/static/js/three-guard.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700,900|Roboto+Condensed:400,300,700'
-        rel='stylesheet' type='text/css'>
-    <style>
-        :root {
-            --bg-color: #0f0c29;
-            --text-color: #ffffff;
-            --card-bg: rgba(56, 52, 93, 0.7);
-            --border-color: rgba(113, 88, 226, 0.4);
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --accent-purple: #7158e2;
-            --accent-blue: #3c40c6;
-            --accent-pink: #f5576c;
-            --glow-color: rgba(113, 88, 226, 0.5);
-            transition: all 0.3s ease;
-        }
+  .tr-panes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+  .tr-pane{display:flex;flex-direction:column;margin:0;padding:14px}
+  .tr-pane textarea{flex:1;width:100%;min-height:240px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);
+    color:var(--text);font:inherit;font-size:1.05rem;line-height:1.6;resize:vertical;outline:none;transition:border-color .15s,box-shadow .15s}
+  .tr-pane textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.18)}
+  .tr-pane.out textarea{background:linear-gradient(135deg,rgba(99,102,241,.06),rgba(139,92,246,.06))}
+  .tr-pane.busy textarea{opacity:.55}
+  .tr-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
+  .tr-tools{display:flex;flex-wrap:wrap;gap:6px}
+  .tr-tool{padding:7px 12px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-size:.88rem;
+    font-weight:600;cursor:pointer;transition:border-color .15s,color .15s}
+  .tr-tool:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .tr-tool:disabled{opacity:.45;cursor:default}
+  .tr-count.over{color:#ef4444;font-weight:700}
+  .tr-err{color:#ef4444;font-size:.88rem}
+  .tr-go{margin-top:14px}
+  .tr-go .d-btn{width:100%;padding:14px 18px;font-size:1.02rem}
+  .tr-hint{margin:10px 2px 0;color:var(--muted);font-size:.88rem}
+  [hidden]{display:none!important}
 
-        [data-theme="dark"] {
-            --bg-color: #0f0c29;
-            --text-color: #ffffff;
-            --card-bg: rgba(56, 52, 93, 0.7);
-            --border-color: rgba(113, 88, 226, 0.4);
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f0f4f8;
-            --text-color: #2d3436;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --border-color: rgba(113, 88, 226, 0.3);
-            --glow-color: rgba(113, 88, 226, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            font-family: 'Roboto', sans-serif;
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
-
-        #threejs-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            padding-top: 20px;
-        }
-
-        h2 {
-            text-align: center;
-            font-weight: 700;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes titleGlow {
-
-            0%,
-            100% {
-                filter: drop-shadow(0 0 20px var(--glow-color));
-            }
-
-            50% {
-                filter: drop-shadow(0 0 40px var(--glow-color));
-            }
-        }
-
-        .card {
-            background: var(--card-bg) !important;
-            border: 2px solid var(--border-color) !important;
-            backdrop-filter: blur(20px);
-            border-radius: 20px !important;
-            box-shadow: 0 15px 40px var(--glow-color);
-            transition: all 0.4s ease;
-            margin-bottom: 30px;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px var(--glow-color);
-        }
-
-        .card-header {
-            background: var(--primary-gradient) !important;
-            font-weight: 700 !important;
-            font-size: 1.3rem !important;
-            padding: 15px 20px !important;
-            border: none !important;
-            border-radius: 18px 18px 0 0 !important;
-        }
-
-        .card-title {
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-
-        .form-control,
-        .form-select {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 2px solid var(--border-color) !important;
-            color: var(--text-color) !important;
-            border-radius: 15px !important;
-            padding: 12px 15px !important;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            background: rgba(255, 255, 255, 0.15) !important;
-            border-color: var(--accent-purple) !important;
-            box-shadow: 0 0 30px var(--glow-color) !important;
-            color: var(--text-color) !important;
-        }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        textarea.form-control {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .btn {
-            border-radius: 15px !important;
-            padding: 12px 25px !important;
-            font-weight: 600 !important;
-            transition: all 0.3s ease !important;
-            border: 2px solid var(--border-color) !important;
-        }
-
-        .btn-light {
-            background: rgba(255, 255, 255, 0.2) !important;
-            backdrop-filter: blur(10px) !important;
-            color: var(--text-color) !important;
-        }
-
-        .btn-light:hover {
-            background: var(--primary-gradient) !important;
-            border-color: transparent !important;
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px var(--glow-color);
-        }
-
-        .C0mplexButton a {
-            background: var(--primary-gradient) !important;
-            border-radius: 15px !important;
-            transition: all 0.3s ease !important;
-            box-shadow: 0 10px 30px var(--glow-color) !important;
-        }
-
-        .C0mplexButton a:hover {
-            transform: translateY(-3px) !important;
-            box-shadow: 0 15px 40px var(--glow-color) !important;
-        }
-
-        .C0mplexButton.Info a {
-            background: var(--secondary-gradient) !important;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            inset-block-start: 20px;
-            inset-inline-end: 20px;
-            padding: 12px 20px;
-            border-radius: 50px;
-            border: 2px solid var(--accent-purple);
-            background: var(--card-bg);
-            color: var(--text-color);
-            cursor: pointer;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 5px 20px var(--glow-color);
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px var(--glow-color);
-            background: var(--primary-gradient);
-            border: none;
-        }
-
-        .fixed-top {
-            z-index: 1001;
-        }
-
-        .row {
-            margin-bottom: 20px;
-        }
-
-        [data-theme="light"] .card {
-            color: #2d3436;
-        }
-
-        [data-theme="light"] .form-control,
-        [data-theme="light"] .form-select {
-            background: rgba(0, 0, 0, 0.05) !important;
-        }
-
-        [data-theme="light"] .form-control::placeholder {
-            color: rgba(0, 0, 0, 0.4);
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-    </style>
-    <script>
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeButton(savedTheme);
-        });
-
-        function toggleTheme() {
-            const body = document.documentElement;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-
-            updateThemeButton(newTheme);
-        }
-
-        function updateThemeButton(theme) {
-            const button = document.getElementById('themeButton');
-            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
-            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
-            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
-        }
-    </script>
-    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i> Light Mode
-    </button>
+  @media (max-width:760px){
+    .tr-hero{padding:20px 18px}
+    .tr-langs{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:6px}
+    .tr-lang select{padding:10px 8px;font-size:.92rem}
+    .tr-chips{display:none}
+    .tr-swap{width:40px;height:40px}
+    .tr-panes{grid-template-columns:minmax(0,1fr)}
+    .tr-pane textarea{min-height:160px}
+    .tr-tool{padding:6px 9px;font-size:.82rem}  /* uchala tugma bitta qatorga sig'sin */
+    .tr-tool .tr-l{display:none}  /* telefonda faqat ikonka; nomi title/aria-label'da */
+    .tr-tool i{font-style:normal}
+  }
+</style>
 </head>
-
-<body ng-app="App" ng-controller="Translate">
+<body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-    <canvas id="threejs-bg"></canvas>
-
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article"
-        data-ad-format="fluid" data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <!-- <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-layout="in-article"
-    data-ad-format="fluid"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="6832564320"></ins>
-  <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-  </script> -->
-    <!-- Yandex.RTB Before content R-A-20240413-2 -->
-    <div id="yandex_rtb_R-A-20240413-2"></div>
-    <script>window.yaContextCb.push(() => {
-            Ya.Context.AdvManager.render({
-                renderTo: 'yandex_rtb_R-A-20240413-2',
-                blockId: 'R-A-20240413-2'
-            })
-        })</script>
-    <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
-        <img src="/static/img/buffering.gif" />
+<main class="d-main tr">
+  <section class="tr-hero">
+    <div>
+      <h1>{{ seo_h1 }}</h1>
+      {% if seo_lead %}<p>{{ seo_lead }}</p>{% endif %}
+      <div class="tr-badges">
+        <span>🌐 {{ t.badge_langs }}</span>
+        <span>📝 {{ t.badge_limit }}</span>
+        <span>✅ {{ t.badge_free }}</span>
+      </div>
     </div>
-    <input id="hh" type="text" class="fade hide" />
-    <div class="container">
-        <div class="C0mplexButton float-end">
-            <a href="#" onclick="window.history.back(); return false;">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                X
-            </a>
-        </div>
-        <h2>
-            {% if request.LANGUAGE_CODE == 'uz' %}
-            Tarjima qilish
-            {% else %}
-            {% if request.LANGUAGE_CODE == 'ru' %}
-            Перевод
-            {% else %}
-            Translation
-            {% endif %}
-            {% endif %}
-            <a href="https://play.google.com/store/apps/details?id=translate.complexprogrammer.uz" target="_blank">
-                <img src="/static/img/google-play.svg" />
-            </a>
-        </h2>
-        <div class="row text-center">
-            <div class="col">
-                <div class="C0mplexButton Info">
-                    <a href="#" ng-click="replace()">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col">
-                <select class="form-select" ng-change="getResult()" required name="src" ng-model="src"
-                    ng-options="code as name for (code, name) in Languages"></select>
-            </div>
-            <!--        <div class="col-1">-->
-            <!--                <button class="btn btn-light" ng-click="replace()"><img src="/static/icons/left-right.svg"></button>-->
-            <!--        </div>-->
-            <div class="col">
-                <select class="form-select" ng-change="getResult()" required name="dest" ng-model="dest"
-                    ng-options="code as name for (code, name) in Languages | omitAuto"></select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <textarea ng-model="text" id="text" class="form-control" cols="5" rows="15">
+    <a class="tr-app" href="https://play.google.com/store/apps/details?id=translate.complexprogrammer.uz" target="_blank" rel="noopener" title="{{ t.app }}">
+      <img src="/static/img/google-play.svg" alt="{{ t.app }}">
+    </a>
+  </section>
 
-            </textarea>
-            </div>
-            <div class="col">
-                <textarea ng-model="result" class="form-control" cols="5" rows="15" disabled>
-
-            </textarea>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-light" style="width:50px" ng-click="speech(text)"><img width="100%"
-                        src="/static/icons/icons9-voice-80.png"></button>
-            </div>
-            <div class="col">
-                <button class="btn btn-light float-end" style="width:50px" ng-click="speech(result)"><img width="100%"
-                        src="/static/icons/icons9-voice-80.png"></button>
-            </div>
-
-        </div>
-        <div class="C0mplexButton Success">
-            <a href="#" ng-click="getResult()" style="width:100%;text-align:center">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <i class="fa-solid fa-rotate"></i>
-                {% if request.LANGUAGE_CODE == 'uz' %}
-                Tarjima qilish
-                {% else %}
-                {% if request.LANGUAGE_CODE == 'ru' %}
-                Перевод
-                {% else %}
-                Translation
-                {% endif %}
-                {% endif %}
-            </a>
-        </div>
-        <br />
-        <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
-            data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
-        <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        <!-- <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-format="autorelaxed"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="4202531555"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script> -->
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        <div class="row">
-            <div class="col">
-                <div class="card text-bg-info mb-12">
-                    <div class="card-header">Bepul tarjimon (xususiyatlari):</div>
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text">
-                            Maqolalar, paragraflar yoki boshqa tillar orasidagi boshqa narsalarni tarjima qilish uchun
-                            100% bepul AI Paragraph Translator vositasidan foydalanishni o'ylab ko'rganmisiz?
-                            <br />
-                            <br />
-                            Agar shunday bo'lsa, siz to'g'ri joydasiz!
-                            <br />
-                            <br />
-                            Agar siz ushbu AI texnologiyasida yangi bo'lsangiz, menga tushuntirib bering.
-                            <br />
-                            <br />
-                            Sun'iy intellekt vositalari bugungi kunda eng so'nggi tendentsiya bo'lib, H-supertools-da
-                            biz onlayn ishlashda vaqt va pulni tejashga yordam beradigan eng yaxshi AI vositalarini
-                            ishlab chiqishga harakat qilmoqdamiz. biz birinchi bo'lib bepulni ishga tushirdik
-                            <br />
-                            <br />
-                            AI kontent yaratish vositasi va endi AI paragraf tarjimoni.
-                        </p>
-                        <br />
-                        <h5 class="card-title">Shunday qilib, qisqacha:</h5>
-                        <p class="card-text">
-                            Ushbu bepul vosita paragraflarni turli tillarga bir necha soniya ichida tarjima qilishga
-                            yordam beradi. <br /> <br />
-                        </p>
-                        <br />
-                        <h5 class="card-title">How To Use The Free AI Paragraph Translator tool?</h5>
-                        <p class="card-text">
-                            H-supertools-da bizning asosiy maqsadimiz narsalarni soddalashtirishdir, shuning uchun biz
-                            bir necha marta bosish bilan ishlaydigan juda kuchli vositalarni yaratamiz.
-                            <br />
-                            <br />
-                            Shunday qilib, siz tarjima qilmoqchi bo'lgan paragrafni joylashtirishingiz kerak, manba va
-                            maqsadli tilni tanlang, "Tarjima" tugmasini bosing va qolganini AIga qo'ying!
-                            <br />
-                            <br />
-                        </p>
-                        <br />
-                        <h5 class="card-title">Nega biz matn kiritishda cheklovlarga egamiz?</h5>
-                        <p class="card-text">
-                            Ehtimol, nima uchun bizda kiritishda 900 belgi chegarasi bor, chunki bu vosita bepul!
-                            <br />
-                            <br />
-                            Afsuski, Bepul Asboblar har doim spamerlarga qarshi himoyasiz bo'lib, bizning veb-saytimizni
-                            himoya qiladi va haqiqiy yordamga muhtoj odamlar uchun uni saqlab qoladi. Shuning uchun biz
-                            foydalanishga ba'zi cheklovlar qo'yishimiz shart.
-                            <br />
-                            <br />
-                            Yaxshi xabar shundaki, foydalanuvchilarning ushbu vositadagi faolligini kuzatib borar
-                            ekanmiz, bu chegaralar asta-sekin ortadi.
-                            <br />
-                            <br />
-                        </p>
-                        <h5 class="card-title">Mavjud tillar:</h5>
-                        <p class="card-text">
-                            * Afrikaan
-                            <br />
-                            * Amhar
-                            <br />
-                            * Arabcha
-                            <br />
-                            * Ozarbayjon
-                            <br />
-                            * Belarus
-                            <br />
-                            * Bolgar
-                            <br />
-                            * Bengal
-                            <br />
-                            * Bosniyalik
-                            <br />
-                            * Katalon
-                            <br />
-                            * Sebuano
-                            <br />
-                            * Korsika
-                            <br />
-                            * Chex
-                            <br />
-                            * Uels
-                            <br />
-                            * Daniya
-                            <br />
-                            * Nemis
-                            <br />
-                            * yunoncha
-                            <br />
-                            * Ingliz
-                            <br />
-                            * Esperanto
-                            <br />
-                            * Ispan
-                            <br />
-                            * Eston
-                            <br />
-                            * Bask
-                            <br />
-                            * Forscha
-                            <br />
-                            * Fin
-                            <br />
-                            * Fransuz
-                            <br />
-                            * Friz
-                            <br />
-                            * Irlandiya
-                            <br />
-                            * Shotlandiya gael
-                            <br />
-                            * Galisian
-                            <br />
-                            * Gujarati
-                            <br />
-                            * Hausa
-                            <br />
-                            * Gavayi
-                            <br />
-                            * Ibroniycha
-                            <br />
-                            * Hind
-                            <br />
-                            * Hmong
-                            <br />
-                            * Xorvat
-                            <br />
-                            * Gaiti kreoli
-                            <br />
-                            * Venger
-                            <br />
-                            * arman
-                            <br />
-                            * Indoneziya
-                            <br />
-                            * Igbo
-                            <br />
-                            * Islandiyalik
-                            <br />
-                            * Italiya
-                            <br />
-                            * Ibroniycha
-                            <br />
-                            * Yapon
-                            <br />
-                            * Yava
-                            <br />
-                            * Gruzin
-                            <br />
-                            * Qozoq
-                            <br />
-                            * Kxmer
-                            <br />
-                            * Kannada
-                            <br />
-                            * Koreys
-                            <br />
-                            * Kurd (kurmanji)
-                            <br />
-                            * qirg'iz
-                            <br />
-                            * Lotin
-                            <br />
-                            * Lyuksemburg
-                            <br />
-                            * Lao
-                            <br />
-                            * Litva
-                            <br />
-                            * Latviya
-                            <br />
-                            * Malagasi
-                            <br />
-                            * Maori
-                            <br />
-                            * makedon
-                            <br />
-                            * Malayalam
-                            <br />
-                            * Mo'g'ul
-                            <br />
-                            * Marathi
-                            <br />
-                            * Malay
-                            <br />
-                            * Malta
-                            <br />
-                            * Myanma (birma)
-                            <br />
-                            * Nepal
-                            <br />
-                            * Gollandiya
-                            <br />
-                            * Norvegiya
-                            <br />
-                            * Chicheva
-                            <br />
-                            * Odiya
-                            <br />
-                            * Panjob
-                            <br />
-                            * Polsha
-                            <br />
-                            * Pashtu
-                            <br />
-                            * Portugal
-                            <br />
-                            * Ruminiya
-                            <br />
-                            * Rus
-                            <br />
-                            * Sindhi
-                            <br />
-                            * Sinhala
-                            <br />
-                            * Slovak
-                            <br />
-                            * Sloven
-                            <br />
-                            * Samoa
-                            <br />
-                            * Shona
-                            <br />
-                            * Somali
-                            <br />
-                            * Alban
-                            <br />
-                            * Serb
-                            <br />
-                            * Sesoto
-                            <br />
-                            * Sundan
-                            <br />
-                            * shved
-                            <br />
-                            * Suahili
-                            <br />
-                            * Tamil
-                            <br />
-                            * Telugu
-                            <br />
-                            * tojik
-                            <br />
-                            * Tailand
-                            <br />
-                            * Filippin
-                            <br />
-                            * Turkcha
-                            <br />
-                            * Uyg'ur
-                            <br />
-                            * ukrain
-                            <br />
-                            * Urdu
-                            <br />
-                            * O'zbek
-                            <br />
-                            * Vetnam
-                            <br />
-                            * Xosa
-                            <br />
-                            * Yiddish
-                            <br />
-                            * Yoruba
-                            <br />
-                            * Xitoy (soddalashtirilgan)
-                            <br />
-                            * Xitoy (an'anaviy)
-                            <br />
-                            * Zulu
-                            <br />
-                            Biz koʻproq tillarni qoʻshishga harakat qilmoqdamiz.
-                            <br />
-                            <br />
-                        </p>
-                        <h5 class="card-title">Prohibited Content</h5>
-                        <p class="card-text">
-                            Biz yomon kontentda qattiq filtrlashdan foydalanamiz, shuning uchun sizga quyidagi kontent
-                            toifalaridan birini yaratish uchun vositadan foydalanishga ruxsat berilmagan:
-                            <br />
-                            * Nafrat: shaxsga asoslangan nafratni ifodalovchi, qo'zg'atuvchi yoki targ'ib qiluvchi
-                            kontent.
-                            <br />
-                            * Bezorilik: shaxsni ta'qib qilish, tahdid qilish yoki haqorat qilishni maqsad qilgan
-                            kontent.
-                            <br />
-                            * Zo'ravonlik: zo'ravonlikni targ'ib qiluvchi yoki ulug'laydigan yoki boshqalarning
-                            azoblanishi yoki tahqirlanishini nishonlaydigan kontent.
-                            <br />
-                            * Oʻz-oʻziga zarar yetkazish: oʻz joniga qasd qilish, kesish va ovqatlanish buzilishi kabi
-                            oʻz-oʻziga zarar yetkazishni targʻib qiluvchi, ragʻbatlantiradigan yoki tasvirlaydigan
-                            kontent.
-                            <br />
-                            * Voyaga yetganlar uchun: jinsiy aloqani tasvirlash yoki jinsiy xizmatlarni targʻib qilish
-                            kabi jinsiy hayajonni uygʻotish uchun moʻljallangan kontent (jinsiy taʼlim va salomatlik
-                            bundan mustasno).
-                            <br />
-                            * Siyosiy: siyosiy jarayonga ta'sir o'tkazishga yoki saylovoldi tashviqoti maqsadlarida
-                            foydalanishga urinish bo'lgan kontent.
-                            <br />
-                            * Spam: so'ralmagan ommaviy kontent.
-                            <br />
-                            * Aldash: yolg'on yoki chalg'ituvchi kontent, masalan, shaxslarni aldashga yoki
-                            dezinformatsiyani tarqatishga urinish.
-                            <br />
-                            * Zararli dasturiy ta'minot: to'lov dasturi, keyloggerlar, viruslar yoki ma'lum darajada
-                            zarar yetkazishga mo'ljallangan boshqa dasturlarni yaratishga urinadigan kontent.
-                            <br />
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        <div class="row">
-            <div class="col">
-                <div class="card text-bg-info mb-12">
-                    <div class="card-header">Бесплатный переводчик (объяснение):</div>
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text">
-                            Вы думали об использовании 100% бесплатного инструмента AI Paragraph Translator для перевода
-                            статей, абзацев или просто чего-либо с другого языка?
-                            <br />
-                            <br />
-                            Если да, то вы находитесь в правильном месте!
-                            <br />
-                            <br />
-                            Если вы новичок в этой технологии искусственного интеллекта, позвольте мне объяснить.
-                            <br />
-                            <br />
-                            Инструменты искусственного интеллекта — это последняя тенденция сегодняшнего дня, и здесь, в
-                            H-supertools, мы делаем все возможное, чтобы разработать лучшие инструменты искусственного
-                            интеллекта, которые помогут вам сэкономить время и деньги при работе в Интернете. мы первыми
-                            запустили бесплатную
-                            <br />
-                            <br />
-                            Инструмент создания AI-контента, а теперь и AI-переводчик абзацев.
-                        </p>
-                        <br />
-                        <h5 class="card-title">Коротко:</h5>
-                        <p class="card-text">
-                            Этот бесплатный инструмент поможет вам переводить абзацы с разных языков за считанные
-                            секунды.
-                            <br />
-                            <br />
-                        </p>
-                        <br />
-                        <h5 class="card-title">Как использовать бесплатный инструмент AI-переводчик абзацев?</h5>
-                        <p class="card-text">
-                            Наша главная цель в H-supertools — упростить вещи, поэтому мы создаем сверхмощные
-                            инструменты, которые работают с помощью нескольких щелчков мыши.
-                            <br />
-                            <br />
-                            Итак, вам нужно вставить абзац, который вы хотите перевести, выбрать исходный и целевой
-                            язык, нажать «Перевести», и пусть ИИ сделает все остальное!
-                            <br />
-                            <br />
-                        </p>
-                        <br />
-                        <h5 class="card-title">Почему у нас есть ограничения на вводимый текст?</h5>
-                        <p class="card-text">
-                            Возможно, вам интересно, почему у нас есть ограничение на вводимые символы в 900 символов,
-                            поскольку этот инструмент бесплатен!
-                            <br />
-                            <br />
-                            К сожалению, бесплатные инструменты всегда уязвимы для спамеров, поэтому они защищают наш
-                            веб-сайт и поддерживают его работоспособность для людей, которым нужна реальная помощь.
-                            Поэтому мы обязаны установить некоторые ограничения на использование.
-                            <br />
-                            <br />
-                            Хорошей новостью является то, что эти ограничения будут постепенно увеличиваться по мере
-                            того, как мы будем отслеживать активность пользователей в этом инструменте.
-                            <br />
-                            <br />
-                        </p>
-                        <h5 class="card-title">Доступные языки:</h5>
-                        <p class="card-text">
-                            * Африкаанс
-                            <br />
-                            * Амхарский
-                            <br />
-                            * арабский
-                            <br />
-                            * азербайджанский
-                            <br />
-                            * Белорусский
-                            <br />
-                            * Болгарский
-                            <br />
-                            * Бенгальский
-                            <br />
-                            * Боснийский
-                            <br />
-                            * Каталанский
-                            <br />
-                            * Кебуано
-                            <br />
-                            * Корсиканец
-                            <br />
-                            * Чешский
-                            <br />
-                            * Валлийский
-                            <br />
-                            * Датский
-                            <br />
-                            * Немецкий
-                            <br />
-                            * Греческий
-                            <br />
-                            * Английский
-                            <br />
-                            * Эсперанто
-                            <br />
-                            * Испанский
-                            <br />
-                            * Эстонский
-                            <br />
-                            * Баскский
-                            <br />
-                            * Персидский
-                            <br />
-                            * Финский
-                            <br />
-                            * Французский
-                            <br />
-                            * Фризский
-                            <br />
-                            * Ирландский
-                            <br />
-                            * Шотландский гэльский
-                            <br />
-                            * Галисийский
-                            <br />
-                            * Гуджарати
-                            <br />
-                            * Хауса
-                            <br />
-                            * Гавайский
-                            <br />
-                            * Иврит
-                            <br />
-                            * Хинди
-                            <br />
-                            * Хмонг
-                            <br />
-                            * Хорватский
-                            <br />
-                            * Гаитянский креольский
-                            <br />
-                            * Венгерский
-                            <br />
-                            * Армянский
-                            <br />
-                            * Индонезийский
-                            <br />
-                            * Игбо
-                            <br />
-                            * Исландский
-                            <br />
-                            * Итальянский
-                            <br />
-                            * Иврит
-                            <br />
-                            * Японский
-                            <br />
-                            * Яванский
-                            <br />
-                            * Грузинский
-                            <br />
-                            * Казахский
-                            <br />
-                            * Кхмерский
-                            <br />
-                            * Каннада
-                            <br />
-                            * Корейский
-                            <br />
-                            * Курдский (курманджи)
-                            <br />
-                            * Кыргызский
-                            <br />
-                            * латынь
-                            <br />
-                            * Люксембургский
-                            <br />
-                            * Лао
-                            <br />
-                            * Литовский
-                            <br />
-                            * Латышский
-                            <br />
-                            * Малагасийский
-                            <br />
-                            * Маори
-                            <br />
-                            * Македонский
-                            <br />
-                            * Малаялам
-                            <br />
-                            * Монгольский
-                            <br />
-                            * Маратхи
-                            <br />
-                            * Малайский
-                            <br />
-                            * Мальтийский
-                            <br />
-                            * Мьянма (бирманский)
-                            <br />
-                            * Непальский
-                            <br />
-                            * Голландский
-                            <br />
-                            * Норвежский
-                            <br />
-                            * Чичева
-                            <br />
-                            * Одия
-                            <br />
-                            * Пенджаби
-                            <br />
-                            * Польский
-                            <br />
-                            * Пушту
-                            <br />
-                            * Португальский
-                            <br />
-                            * Румынский
-                            <br />
-                            * Русский
-                            <br />
-                            * Синдхи
-                            <br />
-                            * Сингальский
-                            <br />
-                            * словацкий
-                            <br />
-                            * Словенский
-                            <br />
-                            * Самоа
-                            <br />
-                            * Шона
-                            <br />
-                            * Сомали
-                            <br />
-                            * Албанский
-                            <br />
-                            * Сербский
-                            <br />
-                            * Сесото
-                            <br />
-                            * Суданский
-                            <br />
-                            * Шведский
-                            <br />
-                            * Суахили
-                            <br />
-                            * Тамильский
-                            <br />
-                            * телугу
-                            <br />
-                            * Таджикский
-                            <br />
-                            * Тайский
-                            <br />
-                            * Филиппинский
-                            <br />
-                            * Турецкий
-                            <br />
-                            * Уйгурский
-                            <br />
-                            * Украинец
-                            <br />
-                            * Урду
-                            <br />
-                            * Узбекский
-                            <br />
-                            * Вьетнамский
-                            <br />
-                            * Коса
-                            <br />
-                            * Идиш
-                            <br />
-                            * Йоруба
-                            <br />
-                            * Китайский упрощенный)
-                            <br />
-                            * Китайский традиционный)
-                            <br />
-                            * Зулу
-                            <br />
-                            Мы изо всех сил стараемся добавить больше языков.
-                            <br />
-                            <br />
-                        </p>
-                        <h5 class="card-title">Prohibited Content</h5>
-                        <p class="card-text">
-                            Мы используем строгую фильтрацию плохого контента, поэтому вам не разрешается использовать
-                            этот инструмент для создания любой из следующих категорий контента:
-                            <br />
-                            * Ненависть: контент, который выражает, разжигает или пропагандирует ненависть на основе
-                            идентичности.
-                            <br />
-                            * Преследование: контент, целью которого является преследование, угроза или запугивание
-                            человека.
-                            <br />
-                            * Насилие: контент, пропагандирующий или прославляющий насилие или прославляющий страдания
-                            или унижение других.
-                            <br />
-                            * Членовредительство: контент, который пропагандирует, поощряет или изображает акты
-                            членовредительства, такие как самоубийство, порезы и расстройства пищевого поведения.
-                            <br />
-                            * Для взрослых: контент, призванный вызвать сексуальное возбуждение, например описание
-                            сексуальной активности или реклама сексуальных услуг (за исключением полового воспитания и
-                            здоровья).
-                            <br />
-                            * Политический: контент, пытающийся повлиять на политический процесс или используемый в
-                            целях предвыборной кампании.
-                            <br />
-                            * Спам: Массовый нежелательный контент.
-                            <br />
-                            * Обман: ложный или вводящий в заблуждение контент, например, попытка обмануть людей или
-                            распространить дезинформацию.
-                            <br />
-                            * Вредоносное ПО: контент, который пытается создать программы-вымогатели, кейлоггеры, вирусы
-                            или другое программное обеспечение, предназначенное для нанесения определенного уровня
-                            вреда.
-                            <br />
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% else %}
-        <div class="row">
-            <div class="col">
-                <div class="card text-bg-info mb-12">
-                    <div class="card-header">Free Translator (Explained):</div>
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text">
-                            Have you been thinking of using a 100% free AI Paragraph Translator tool to Translate
-                            Articles, Paragraphs, or simply anything between different languages?
-                            <br />
-                            <br />
-                            If so, you are in the right place!
-                            <br />
-                            <br />
-                            If you are new to this AI technology, let me explain.
-                            <br />
-                            <br />
-                            Artificial intelligence tools are the latest trend today, and here on H-supertools, we are
-                            trying our best to develop the best AI tools that help you save time and money while working
-                            online. we launched first the free
-                            <br />
-                            <br />
-                            AI content generator tool, and now the AI Paragraph Translator.
-                        </p>
-                        <br />
-                        <h5 class="card-title">So in Short:</h5>
-                        <p class="card-text">
-                            This Free Tool Helps You Translate Paragraphs between different languages in seconds.
-                            <br />
-                            <br />
-                        </p>
-                        <br />
-                        <h5 class="card-title">How To Use The Free AI Paragraph Translator tool?</h5>
-                        <p class="card-text">
-                            Here on H-supertools, our primary goal is to simplify things, so we create super powerful
-                            tools that work with a few clicks.
-                            <br />
-                            <br />
-                            So, you need to paste the paragraph you want to translate, select the source and target
-                            language, click Translate, and let the AI do the rest!
-                            <br />
-                            <br />
-                        </p>
-                        <br />
-                        <h5 class="card-title">Why do We have limits on the Input text?</h5>
-                        <p class="card-text">
-                            Maybe you are wondering why we have a 900 char limit on the input as This Tool is Free!
-                            <br />
-                            <br />
-                            Unfortunately, Free Tools are always vulnerable to spammers, and to protect our website and
-                            keep it up for people who want real help. Therefore, we are obliged to set some limitations
-                            on usage.
-                            <br />
-                            <br />
-                            The Good News is these limits will gradually increase as we monitor users' activity on this
-                            tool.
-                            <br />
-                            <br />
-                        </p>
-                        <h5 class="card-title">Available Languages:</h5>
-                        <p class="card-text">
-                            * Afrikaans
-                            <br />
-                            * Amharic
-                            <br />
-                            * Arabic
-                            <br />
-                            * Azerbaijani
-                            <br />
-                            * Belarusian
-                            <br />
-                            * Bulgarian
-                            <br />
-                            * Bengali
-                            <br />
-                            * Bosnian
-                            <br />
-                            * Catalan
-                            <br />
-                            * Cebuano
-                            <br />
-                            * Corsican
-                            <br />
-                            * Czech
-                            <br />
-                            * Welsh
-                            <br />
-                            * Danish
-                            <br />
-                            * German
-                            <br />
-                            * Greek
-                            <br />
-                            * English
-                            <br />
-                            * Esperanto
-                            <br />
-                            * Spanish
-                            <br />
-                            * Estonian
-                            <br />
-                            * Basque
-                            <br />
-                            * Persian
-                            <br />
-                            * Finnish
-                            <br />
-                            * French
-                            <br />
-                            * Frisian
-                            <br />
-                            * Irish
-                            <br />
-                            * Scots gaelic
-                            <br />
-                            * Galician
-                            <br />
-                            * Gujarati
-                            <br />
-                            * Hausa
-                            <br />
-                            * Hawaiian
-                            <br />
-                            * Hebrew
-                            <br />
-                            * Hindi
-                            <br />
-                            * Hmong
-                            <br />
-                            * Croatian
-                            <br />
-                            * Haitian creole
-                            <br />
-                            * Hungarian
-                            <br />
-                            * Armenian
-                            <br />
-                            * Indonesian
-                            <br />
-                            * Igbo
-                            <br />
-                            * Icelandic
-                            <br />
-                            * Italian
-                            <br />
-                            * Hebrew
-                            <br />
-                            * Japanese
-                            <br />
-                            * Javanese
-                            <br />
-                            * Georgian
-                            <br />
-                            * Kazakh
-                            <br />
-                            * Khmer
-                            <br />
-                            * Kannada
-                            <br />
-                            * Korean
-                            <br />
-                            * Kurdish (kurmanji)
-                            <br />
-                            * Kyrgyz
-                            <br />
-                            * Latin
-                            <br />
-                            * Luxembourgish
-                            <br />
-                            * Lao
-                            <br />
-                            * Lithuanian
-                            <br />
-                            * Latvian
-                            <br />
-                            * Malagasy
-                            <br />
-                            * Maori
-                            <br />
-                            * Macedonian
-                            <br />
-                            * Malayalam
-                            <br />
-                            * Mongolian
-                            <br />
-                            * Marathi
-                            <br />
-                            * Malay
-                            <br />
-                            * Maltese
-                            <br />
-                            * Myanmar (burmese)
-                            <br />
-                            * Nepali
-                            <br />
-                            * Dutch
-                            <br />
-                            * Norwegian
-                            <br />
-                            * Chichewa
-                            <br />
-                            * Odia
-                            <br />
-                            * Punjabi
-                            <br />
-                            * Polish
-                            <br />
-                            * Pashto
-                            <br />
-                            * Portuguese
-                            <br />
-                            * Romanian
-                            <br />
-                            * Russian
-                            <br />
-                            * Sindhi
-                            <br />
-                            * Sinhala
-                            <br />
-                            * Slovak
-                            <br />
-                            * Slovenian
-                            <br />
-                            * Samoan
-                            <br />
-                            * Shona
-                            <br />
-                            * Somali
-                            <br />
-                            * Albanian
-                            <br />
-                            * Serbian
-                            <br />
-                            * Sesotho
-                            <br />
-                            * Sundanese
-                            <br />
-                            * Swedish
-                            <br />
-                            * Swahili
-                            <br />
-                            * Tamil
-                            <br />
-                            * Telugu
-                            <br />
-                            * Tajik
-                            <br />
-                            * Thai
-                            <br />
-                            * Filipino
-                            <br />
-                            * Turkish
-                            <br />
-                            * Uyghur
-                            <br />
-                            * Ukrainian
-                            <br />
-                            * Urdu
-                            <br />
-                            * Uzbek
-                            <br />
-                            * Vietnamese
-                            <br />
-                            * Xhosa
-                            <br />
-                            * Yiddish
-                            <br />
-                            * Yoruba
-                            <br />
-                            * Chinese (simplified)
-                            <br />
-                            * Chinese (traditional)
-                            <br />
-                            * Zulu
-                            <br />
-                            We are trying our best to add more languages.
-                            <br />
-                            <br />
-                        </p>
-                        <h5 class="card-title">Prohibited Content</h5>
-                        <p class="card-text">
-                            We use Strict Filtering on bad content, so you are not allowed to use the tool for
-                            generating any of the following categories of content:
-                            <br />
-                            * Hate: content that expresses, incites, or promotes hate based on identity.
-                            <br />
-                            * Harassment: content that intends to harass, threaten, or bully an individual.
-                            <br />
-                            * Violence: content that promotes or glorifies violence or celebrates the suffering or
-                            humiliation of others.
-                            <br />
-                            * Self-harm: content that promotes, encourages, or depicts acts of self-harm, such as
-                            suicide, cutting, and eating disorders.
-                            <br />
-                            * Adult: content meant to arouse sexual excitement, such as describing a sexual activity or
-                            promoting sexual services (excluding sex education and wellness).
-                            <br />
-                            * Political: content attempting to influence the political process or be used for
-                            campaigning purposes.
-                            <br />
-                            * Spam: Unsolicited bulk content.
-                            <br />
-                            * Deception: false or misleading content, such as attempting to defraud individuals or
-                            spread disinformation.
-                            <br />
-                            * Malware: content that attempts to generate ransomware, keyloggers, viruses, or other
-                            software intended to impose some level of harm.
-                            <br />
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        {% endif %}
+  <div class="tr-langs">
+    <div class="tr-lang">
+      <select id="tr-src" aria-label="{{ t.from }}">
+        <option value="auto">✨ {{ t.auto }}</option>
+        {% for l in languages %}<option value="{{ l.code }}">{{ l.name }}</option>{% endfor %}
+      </select>
+      <div class="tr-chips" data-for="tr-src"></div>
     </div>
+    <button type="button" class="tr-swap" id="tr-swap" title="{{ t.swap }}" aria-label="{{ t.swap }}">⇄</button>
+    <div class="tr-lang">
+      <select id="tr-dest" aria-label="{{ t.to }}">
+        {% for l in languages %}<option value="{{ l.code }}">{{ l.name }}</option>{% endfor %}
+      </select>
+      <div class="tr-chips" data-for="tr-dest"></div>
+    </div>
+  </div>
+
+  <div class="tr-panes">
+    <section class="d-card tr-pane">
+      <textarea id="tr-in" placeholder="{{ t.placeholder }}" maxlength="{{ max_chars }}" autofocus></textarea>
+      <div class="tr-foot">
+        <span class="d-meta tr-count" id="tr-count">0 / {{ max_chars }}</span>
+        <div class="tr-tools">
+          <button type="button" class="tr-tool" id="tr-listen-in" data-tts disabled title="{{ t.listen }}" aria-label="{{ t.listen }}"><i>🔊</i> <span class="tr-l">{{ t.listen }}</span></button>
+          <button type="button" class="tr-tool" id="tr-paste" title="{{ t.paste }}" aria-label="{{ t.paste }}"><i>📥</i> <span class="tr-l">{{ t.paste }}</span></button>
+          <button type="button" class="tr-tool" id="tr-clear" disabled title="{{ t.clear }}" aria-label="{{ t.clear }}"><i>🗑</i> <span class="tr-l">{{ t.clear }}</span></button>
+        </div>
+      </div>
+    </section>
+    <section class="d-card tr-pane out" id="tr-out-pane">
+      <textarea id="tr-out" placeholder="{{ t.result_placeholder }}" readonly aria-live="polite"></textarea>
+      <div class="tr-foot">
+        <span class="tr-err" id="tr-err" hidden></span>
+        <div class="tr-tools" style="margin-left:auto">
+          <button type="button" class="tr-tool" id="tr-listen-out" data-tts disabled title="{{ t.listen }}" aria-label="{{ t.listen }}"><i>🔊</i> <span class="tr-l">{{ t.listen }}</span></button>
+          <button type="button" class="tr-tool" id="tr-copy" disabled><i>📋</i> <span>{{ t.copy }}</span></button>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="tr-go"><button type="button" class="d-btn" id="tr-go">🌐 {{ t.translate }}</button></div>
+  <p class="tr-hint">ℹ️ {{ t.hint }}</p>
+
+  <!-- Yandex.RTB Before content R-A-20240413-2 -->
+  <div id="yandex_rtb_R-A-20240413-2"></div>
+  <script>window.yaContextCb.push(() => {
+      Ya.Context.AdvManager.render({ renderTo: 'yandex_rtb_R-A-20240413-2', blockId: 'R-A-20240413-2' })
+    })</script>
+  <ins class="adsbygoogle" style="display:block; text-align:center; margin-top:18px" data-ad-layout="in-article" data-ad-format="fluid"
+    data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</main>
+
 {% include "includes/seo_text.html" %}
-    {% include 'comment_form.html' %}
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid"
-        data-ad-layout-key="-an-4i-cp+a2+21k" data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <!-- <ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="fluid"
-data-ad-layout-key="-6t+ed+2i-1n-4w"
-data-ad-client="ca-pub-4137874891184814"
-data-ad-slot="7442938415"></ins>
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid" data-ad-layout-key="-an-4i-cp+a2+21k"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
+  data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+{{ t|json_script:"tr-text" }}
 <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-    <!-- Display 1 -->
-    <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
-        data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <!-- 1 chi abzast Mobil -->
-    <!-- <ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-client="ca-pub-4137874891184814"
-data-ad-slot="2799587029"
-data-ad-format="auto"
-data-full-width-responsive="true"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-    {% include "includes/scroll_buttons.html" %}
+  (function () {
+    var T = JSON.parse(document.getElementById("tr-text").textContent);
+    var MAX = {{ max_chars }}, POPULAR = ["uz", "ru", "en", "tr"];
+    var $ = function (id) { return document.getElementById(id); };
+    var src = $("tr-src"), dest = $("tr-dest"), input = $("tr-in"), output = $("tr-out");
+    var timer = null, req = null, lastKey = "";
 
-    <script>
-        // Three.js Translation-themed Background Animation
-        const canvas = document.getElementById('threejs-bg');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        camera.position.z = 50;
-
-        // Create floating text/language-themed particles
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 2000;
-        const posArray = new Float32Array(particlesCount * 3);
-        const colorArray = new Float32Array(particlesCount * 3);
-
-        // Purple/Blue gradient colors for translation theme
-        const colors = [
-            new THREE.Color(0x667eea), // Blue-purple
-            new THREE.Color(0x764ba2), // Purple
-            new THREE.Color(0xf093fb), // Light pink
-            new THREE.Color(0xf5576c), // Pink-red
-            new THREE.Color(0x7158e2), // Bright purple
-        ];
-
-        for (let i = 0; i < particlesCount * 3; i += 3) {
-            posArray[i] = (Math.random() - 0.5) * 200;
-            posArray[i + 1] = (Math.random() - 0.5) * 200;
-            posArray[i + 2] = (Math.random() - 0.5) * 200;
-
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            colorArray[i] = color.r;
-            colorArray[i + 1] = color.g;
-            colorArray[i + 2] = color.b;
-        }
-
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.5,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending
-        });
-
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Create language/text symbol geometric shapes
-        const geometries = [];
-
-        // Add Torus (like letter O)
-        const torusGeometry = new THREE.TorusGeometry(10, 2.5, 16, 100);
-        const torusMaterial = new THREE.MeshBasicMaterial({
-            color: 0x667eea,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.4
-        });
-        const torus = new THREE.Mesh(torusGeometry, torusMaterial);
-        torus.position.set(-30, 20, -25);
-        scene.add(torus);
-        geometries.push(torus);
-
-        // Add Octahedron (diamond shape - like punctuation)
-        const octGeometry = new THREE.OctahedronGeometry(8);
-        const octMaterial = new THREE.MeshBasicMaterial({
-            color: 0xf093fb,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.35
-        });
-        const octahedron = new THREE.Mesh(octGeometry, octMaterial);
-        octahedron.position.set(30, -20, -30);
-        scene.add(octahedron);
-        geometries.push(octahedron);
-
-        // Add Tetrahedron (like letter A)
-        const tetraGeometry = new THREE.TetrahedronGeometry(9);
-        const tetraMaterial = new THREE.MeshBasicMaterial({
-            color: 0x764ba2,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.35
-        });
-        const tetrahedron = new THREE.Mesh(tetraGeometry, tetraMaterial);
-        tetrahedron.position.set(-25, -25, -35);
-        scene.add(tetrahedron);
-        geometries.push(tetrahedron);
-
-        // Add Icosahedron
-        const icoGeometry = new THREE.IcosahedronGeometry(7, 0);
-        const icoMaterial = new THREE.MeshBasicMaterial({
-            color: 0xf5576c,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.35
-        });
-        const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
-        icosahedron.position.set(20, 25, -40);
-        scene.add(icosahedron);
-        geometries.push(icosahedron);
-
-        // Add Box (like text block)
-        const boxGeometry = new THREE.BoxGeometry(12, 8, 6);
-        const boxMaterial = new THREE.MeshBasicMaterial({
-            color: 0x7158e2,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.3
-        });
-        const box = new THREE.Mesh(boxGeometry, boxMaterial);
-        box.position.set(0, -30, -20);
-        scene.add(box);
-        geometries.push(box);
-
-        // Mouse interaction
-        let mouseX = 0;
-        let mouseY = 0;
-
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        });
-
-        // Animation loop
-        let time = 0;
-        function animate() {
-            requestAnimationFrame(animate);
-            time += 0.001;
-
-            // Rotate particles with flowing effect
-            particlesMesh.rotation.x += 0.0002;
-            particlesMesh.rotation.y += 0.0004;
-
-            // Create wave motion in particles (like text flowing)
-            const positions = particlesMesh.geometry.attributes.position.array;
-            for (let i = 0; i < positions.length; i += 3) {
-                positions[i] += Math.sin(time + positions[i + 1]) * 0.01;
-                positions[i + 1] += Math.cos(time + positions[i]) * 0.01;
-            }
-            particlesMesh.geometry.attributes.position.needsUpdate = true;
-
-            // Animate geometric shapes
-            geometries.forEach((geo, index) => {
-                // Rotate at different speeds
-                geo.rotation.x += 0.004 * (index + 1) * 0.5;
-                geo.rotation.y += 0.006 * (index + 1) * 0.5;
-
-                // Floating motion
-                geo.position.y += Math.sin(time * 2 + index * 1.5) * 0.06;
-
-                // Pulsating scale effect
-                const scale = 1 + Math.sin(time * 2.5 + index) * 0.08;
-                geo.scale.set(scale, scale, scale);
-            });
-
-            // Smooth mouse parallax
-            camera.position.x += (mouseX * 6 - camera.position.x) * 0.05;
-            camera.position.y += (mouseY * 6 - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Update theme-based colors
-        function updateThreeJSTheme() {
-            const theme = document.documentElement.getAttribute('data-theme');
-            if (theme === 'light') {
-                particlesMaterial.opacity = 0.5;
-                torusMaterial.opacity = 0.25;
-                octMaterial.opacity = 0.2;
-                tetraMaterial.opacity = 0.2;
-                icoMaterial.opacity = 0.2;
-                boxMaterial.opacity = 0.18;
-            } else {
-                particlesMaterial.opacity = 0.8;
-                torusMaterial.opacity = 0.4;
-                octMaterial.opacity = 0.35;
-                tetraMaterial.opacity = 0.35;
-                icoMaterial.opacity = 0.35;
-                boxMaterial.opacity = 0.3;
-            }
-        }
-
-        // Listen for theme changes
-        const observer = new MutationObserver(updateThreeJSTheme);
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    </script>
-<script>
-angular.module("App", [])
-  .filter("omitAuto", function () {
-    return function (langs) {
-      var out = {};
-      angular.forEach(langs, function (name, code) { if (code !== "auto") out[code] = name; });
-      return out;
-    };
-  })
-  .controller("Translate", ["$scope", "$http", function ($scope, $http) {
+    // Oxirgi tanlangan tillar eslab qolinadi; birinchi marta — sayt tili tomonga
     var saved = {};
     try { saved = JSON.parse(localStorage.getItem("translatePrefs") || "{}"); } catch (e) {}
-    $scope.Languages = {};
-    $scope.src = saved.src || "auto";
-    $scope.dest = saved.dest || "{{ request.LANGUAGE_CODE|default:'uz' }}";
-    $scope.text = "";
-    $scope.result = "";
-    var busy = document.getElementById("conn");
+    src.value = saved.src || "auto";
+    dest.value = saved.dest || "{{ ui_code }}";
+    if (!dest.value) dest.value = "en";
+    if (dest.value === src.value) dest.value = src.value === "en" ? "uz" : "en";
 
-    $http.get("/GetTranslateLanguages/").then(function (r) { $scope.Languages = r.data.data; });
+    function savePrefs() { try { localStorage.setItem("translatePrefs", JSON.stringify({ src: src.value, dest: dest.value })); } catch (e) {} }
 
-    $scope.getResult = function () {
-      try { localStorage.setItem("translatePrefs", JSON.stringify({ src: $scope.src, dest: $scope.dest })); } catch (e) {}
-      if (!$scope.text || !$scope.text.trim()) { $scope.result = ""; return; }
-      if (busy) busy.style.visibility = "visible";
-      $http.post("/GetTranslateResult/?" + new URLSearchParams({ src: $scope.src, dest: $scope.dest }),
-        new URLSearchParams({ text: $scope.text }).toString(),
-        { headers: { "Content-Type": "application/x-www-form-urlencoded", "X-CSRFToken": getCsrf() } }
-      ).then(function (r) {
-        $scope.result = r.data.data;
-      }, function (err) {
-        alertify.error((err.data && err.data.error) || "Tarjima qilib bo'lmadi");
-      }).finally(function () { if (busy) busy.style.visibility = "hidden"; });
-    };
+    // Mashhur tillar uchun tezkor tugmalar
+    document.querySelectorAll(".tr-chips").forEach(function (box) {
+      var select = $(box.dataset.for);
+      POPULAR.forEach(function (code) {
+        var opt = select.querySelector('option[value="' + code + '"]');
+        if (!opt) return;
+        var b = document.createElement("button");
+        b.type = "button"; b.dataset.code = code; b.textContent = opt.textContent;
+        b.addEventListener("click", function () { select.value = code; select.dispatchEvent(new Event("change")); });
+        box.appendChild(b);
+      });
+    });
+    function syncChips() {
+      document.querySelectorAll(".tr-chips button").forEach(function (b) {
+        b.setAttribute("aria-pressed", $(b.parentNode.dataset.for).value === b.dataset.code ? "true" : "false");
+      });
+    }
 
-    $scope.replace = function () {
-      if ($scope.src === "auto") { alertify.message("Avval manba tilini tanlang"); return; }
-      var t = $scope.src; $scope.src = $scope.dest; $scope.dest = t;
-      $scope.text = $scope.result || $scope.text;
-      $scope.getResult();
-    };
+    function updateInfo() {
+      var n = input.value.length;
+      $("tr-count").textContent = n.toLocaleString("ru-RU") + " / " + MAX.toLocaleString("ru-RU");
+      $("tr-count").classList.toggle("over", n >= MAX);
+      $("tr-clear").disabled = !n;
+      $("tr-listen-in").disabled = !n || !window.speechSynthesis;
+    }
 
-    $scope.copy = function () {
-      navigator.clipboard.writeText($scope.result).then(function () { alertify.success("Nusxa olindi"); });
-    };
+    function setOutput(text) {
+      output.value = text;
+      $("tr-copy").disabled = !text;
+      $("tr-listen-out").disabled = !text || !window.speechSynthesis;
+    }
 
-    $scope.speech = function (text) {
-      if (!text || !window.speechSynthesis) return;
-      speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(text);
-      var lang = text === $scope.result ? $scope.dest : $scope.src;
-      if (lang && lang !== "auto") u.lang = lang;
-      speechSynthesis.speak(u);
-    };
+    function showError(msg) { $("tr-err").textContent = msg || ""; $("tr-err").hidden = !msg; }
 
-    document.getElementById("text").addEventListener("keydown", function (e) {
-      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { $scope.$apply($scope.getResult); }
+    function translate(force) {
+      var text = input.value.trim();
+      clearTimeout(timer);
+      showError("");
+      if (!text) { if (req) req.abort(); setOutput(""); lastKey = ""; return; }
+      if (src.value === dest.value) { showError(T.same); return; }
+      if (text.length > MAX) { showError(T.too_long); return; }
+      var key = src.value + "|" + dest.value + "|" + text;
+      if (key === lastKey && !force) return;  // o'zgarmagan matn qayta yuborilmaydi
+      lastKey = key;
+      if (req) req.abort();  // eski so'rov natijasi yangisini bosib ketmasin
+      req = new AbortController();
+      $("tr-out-pane").classList.add("busy");
+      $("tr-go").disabled = true;
+      $("tr-go").textContent = "⏳ " + T.translating;
+      fetch("/GetTranslateResult/?" + new URLSearchParams({ src: src.value, dest: dest.value }), {
+        method: "POST",
+        body: new URLSearchParams({ text: text }),
+        headers: { "X-CSRFToken": (document.cookie.match(/(?:^|; )csrftoken=([^;]*)/) || [])[1] || "" },
+        signal: req.signal
+      })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok || res.d.error) { lastKey = ""; showError(res.d.error || T.error); return; }
+          setOutput(res.d.data || "");
+        })
+        .catch(function (e) { if (e.name !== "AbortError") { lastKey = ""; showError(T.error); } })
+        .finally(function () {
+          $("tr-out-pane").classList.remove("busy");
+          $("tr-go").disabled = false;
+          $("tr-go").textContent = "🌐 " + T.translate;
+        });
+    }
+
+    input.addEventListener("input", function () {
+      updateInfo();
+      clearTimeout(timer);
+      timer = setTimeout(translate, 1000);  // yozish to'xtagach avtomatik tarjima
+    });
+    input.addEventListener("keydown", function (e) { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); translate(true); } });
+    [src, dest].forEach(function (s) {
+      s.addEventListener("change", function () { savePrefs(); syncChips(); translate(); });
+    });
+    $("tr-go").addEventListener("click", function () { translate(true); });
+
+    $("tr-swap").addEventListener("click", function () {
+      if (src.value === "auto") { showError(T.auto_swap); src.focus(); return; }
+      var s = src.value;
+      src.value = dest.value; dest.value = s;
+      if (output.value) { input.value = output.value; setOutput(""); }
+      savePrefs(); syncChips(); updateInfo(); translate();
     });
 
-    function getCsrf() {
-      var m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
-      return m ? decodeURIComponent(m[1]) : "";
-    }
-  }]);
-</script>
-</body>
+    $("tr-paste").addEventListener("click", function () {
+      if (!navigator.clipboard || !navigator.clipboard.readText) { input.focus(); return; }
+      navigator.clipboard.readText().then(function (t) { input.value = t.slice(0, MAX); updateInfo(); translate(); }).catch(function () { input.focus(); });
+    });
+    $("tr-clear").addEventListener("click", function () { input.value = ""; updateInfo(); translate(); input.focus(); });
 
+    $("tr-copy").addEventListener("click", function () {
+      var btn = this;
+      navigator.clipboard.writeText(output.value).then(function () {
+        setTool(btn, "✅", T.copied);
+        setTimeout(function () { setTool(btn, "📋", T.copy); }, 1500);
+      });
+    });
+
+    // Tugmadagi ikonka va yozuvni almashtiradi (yozuv telefonda yashirin bo'lishi mumkin)
+    function setTool(btn, icon, label) {
+      btn.querySelector("i").textContent = icon;
+      btn.querySelector("span").textContent = label;
+      if (btn.hasAttribute("title")) { btn.title = label; btn.setAttribute("aria-label", label); }
+    }
+
+    // Ovozli o'qish brauzerning o'zida (speechSynthesis); qayta bosilsa — to'xtaydi
+    function speak(btn, text, lang) {
+      if (speechSynthesis.speaking) { speechSynthesis.cancel(); return; }
+      var u = new SpeechSynthesisUtterance(text);
+      if (lang && lang !== "auto") u.lang = lang;
+      u.onend = u.onerror = function () { setTool(btn, "🔊", T.listen); };
+      setTool(btn, "⏹", T.stop);
+      speechSynthesis.speak(u);
+    }
+    $("tr-listen-in").addEventListener("click", function () { speak(this, input.value, src.value); });
+    $("tr-listen-out").addEventListener("click", function () { speak(this, output.value, dest.value); });
+    if (!window.speechSynthesis) document.querySelectorAll("[data-tts]").forEach(function (b) { b.hidden = true; });
+
+    syncChips();
+    updateInfo();
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
+</body>
 </html>
