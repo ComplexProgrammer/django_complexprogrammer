@@ -99,6 +99,12 @@ class ArchiveItem(models.Model):
         verbose_name = _("Arxiv yozuvi")
         verbose_name_plural = _("Arxiv yozuvlari")
         ordering = ["-created_at"]
+        indexes = [
+            # Ro'yxat sahifasi 15 mingdan ortiq yozuvni created_at bo'yicha saralab sahifalaydi
+            models.Index(fields=["-created_at"], name="archiveitem_created_idx"),
+            # /media/arxiv/documents/<fayl> — huquqni tekshirish uchun yozuv fayl nomi bo'yicha topiladi
+            models.Index(fields=["document"], name="archiveitem_document_idx"),
+        ]
 
     def __str__(self) -> str:
         return f"{self.register_number}"

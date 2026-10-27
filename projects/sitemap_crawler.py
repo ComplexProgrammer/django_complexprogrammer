@@ -7,6 +7,7 @@ Ichki tarmoq manzillariga (127.0.0.1, 10.x, 192.168.x ...) so'rov yuborilmaydi.
 import ipaddress
 import socket
 import time
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import urldefrag, urljoin, urlsplit
 from xml.sax.saxutils import escape
 
@@ -15,6 +16,7 @@ from lxml import html as lxml_html
 
 MAX_PAGES = 200
 TIME_BUDGET = 25  # soniya
+WORKERS = 4  # hosting thread limiti (NPROC) sababli ko'p emas
 SKIP_EXT = (
     ".jpg", ".jpeg", ".png", ".gif", ".svg", ".webp", ".ico", ".css", ".js",
     ".pdf", ".zip", ".rar", ".mp3", ".mp4", ".avi", ".doc", ".docx", ".xls", ".xlsx",
@@ -52,6 +54,33 @@ def normalize_start_url(url):
     return f"{parts.scheme}://{parts.netloc}{parts.path or '/'}"
 
 
+def _fetch(session, url, host):
+    """Sahifani yuklaydi: (haqiqiy manzil, ichki havolalar) yoki None."""
+    try:
+        resp = session.get(url, timeout=5, allow_redirects=True)
+    except requests.RequestException:
+        return None
+    # Redirect boshqa domenga olib ketsa — tashlab ketamiz
+    if urlsplit(resp.url).netloc != host or resp.status_code != 200:
+        return None
+    if "text/html" not in resp.headers.get("Content-Type", ""):
+        return None
+    links = []
+    try:
+        tree = lxml_html.fromstring(resp.content)
+    except (ValueError, lxml_html.etree.ParserError):
+        return resp.url, links
+    for href in tree.xpath("//a/@href"):
+        link, _ = urldefrag(urljoin(resp.url, href))
+        parts = urlsplit(link)
+        if parts.scheme not in ("http", "https") or parts.netloc != host:
+            continue
+        if parts.path.lower().endswith(SKIP_EXT):
+            continue
+        links.append(link)
+    return resp.url, links
+
+
 def crawl(start_url):
     start_url = normalize_start_url(start_url)
     host = urlsplit(start_url).netloc
@@ -62,31 +91,19 @@ def crawl(start_url):
     session = requests.Session()
     session.headers.update(HEADERS)
 
-    while queue and len(found) < MAX_PAGES and time.monotonic() < deadline:
-        url = queue.pop(0)
-        try:
-            resp = session.get(url, timeout=5, allow_redirects=True)
-        except requests.RequestException:
-            continue
-        # Redirect boshqa domenga olib ketsa — tashlab ketamiz
-        if urlsplit(resp.url).netloc != host or resp.status_code != 200:
-            continue
-        if "text/html" not in resp.headers.get("Content-Type", ""):
-            continue
-        found.append(resp.url)
-        try:
-            tree = lxml_html.fromstring(resp.content)
-        except (ValueError, lxml_html.etree.ParserError):
-            continue
-        for href in tree.xpath("//a/@href"):
-            link, _ = urldefrag(urljoin(resp.url, href))
-            parts = urlsplit(link)
-            if parts.scheme not in ("http", "https") or parts.netloc != host:
-                continue
-            if parts.path.lower().endswith(SKIP_EXT) or link in seen:
-                continue
-            seen.add(link)
-            queue.append(link)
+    # Sahifalar WORKERS tadan parallel yuklanadi (ketma-ket yuklash 200 sahifada juda sekin edi)
+    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+        while queue and len(found) < MAX_PAGES and time.monotonic() < deadline:
+            batch, queue = queue[:WORKERS], queue[WORKERS:]
+            for result in pool.map(lambda u: _fetch(session, u, host), batch):
+                if result is None or len(found) >= MAX_PAGES:
+                    continue
+                url, links = result
+                found.append(url)
+                for link in links:
+                    if link not in seen:
+                        seen.add(link)
+                        queue.append(link)
 
     if not found:
         raise CrawlError("Saytdan birorta ham sahifa olinmadi")

@@ -5,6 +5,7 @@ import logging
 import os
 from pathlib import Path
 import re
+import threading
 
 import requests
 import urllib3
@@ -178,7 +179,11 @@ def fetch_json(
     fallback=True,
     disk_fallback_path=None,
 ):
-    """Tashqi API'dan JSON oladi: natija keshlanadi, API ishlamasa kesh fallback yoki diskdan qaytaradi."""
+    """Tashqi API'dan JSON oladi: natija keshlanadi, API ishlamasa kesh fallback yoki diskdan qaytaradi.
+
+    Kesh muddati tugaganda eski (fallback) ma'lumot bo'lsa, u darhol qaytariladi va API fonda yangilanadi
+    (stale-while-revalidate) — foydalanuvchi tashqi API'ni (CBU, CoinGecko) kutib qolmaydi.
+    """
     # 1. Asosiy yangi keshni tekshiramiz
     data = cache.get(cache_key)
     if data is not None:
@@ -187,6 +192,29 @@ def fetch_json(
     if disk_fallback_path is None and cache_key in ("api:cbu", CBU_CACHE_KEY):
         disk_fallback_path = CBU_FALLBACK_FILE
 
+    args = (url, cache_key, timeout, ttl, params, headers, fallback, disk_fallback_path)
+    if fallback:
+        # Diskdagi zaxira bu yerda ishlatilmaydi: u kunlab eski bo'lishi mumkin (faqat API ishlamasa beriladi)
+        stale = cache.get(f"{cache_key}:fallback")
+        if stale:
+            # Bir vaqtda faqat bitta jarayon yangilaydi; qolganlar eski ma'lumotni olib ketaveradi
+            if cache.add(f"{cache_key}:refreshing", 1, timeout + 10):
+                threading.Thread(target=_refresh_json, args=args, daemon=True).start()
+            return stale
+
+    return _fetch_json_now(*args)
+
+
+def _refresh_json(*args):
+    try:
+        _fetch_json_now(*args)
+    except Exception as exc:  # fon oqimida xato jarayonni yiqitmasin
+        logger.warning("Background refresh failed for %s: %s", args[0], exc)
+    finally:
+        cache.delete(f"{args[1]}:refreshing")
+
+
+def _fetch_json_now(url, cache_key, timeout, ttl, params, headers, fallback, disk_fallback_path):
     req_headers = DEFAULT_REQUEST_HEADERS.copy()
     if headers:
         req_headers.update(headers)
@@ -485,7 +513,8 @@ def ip(request):
     if ip_obj.is_private or ip_obj.is_loopback:
         data = {"ip": str(ip_obj), "error": True, "reason": "Lokal (xususiy) IP manzil"}
     else:
-        data = fetch_json(f"https://ipapi.co/{ip_obj}/json/", f"api:ip:{ip_obj}", ttl=3600)
+        # Har bir IP birinchi marta so'ralganda kesh yo'q — sahifa uzoq kutmasin
+        data = fetch_json(f"https://ipapi.co/{ip_obj}/json/", f"api:ip:{ip_obj}", ttl=3600, timeout=4, fallback=False)
         if data is None:
             data = {"ip": str(ip_obj), "error": True, "reason": "Xizmat vaqtincha ishlamayapti"}
     return render(request, "projects/ip.html", {"data": data, "comments": comments})
@@ -526,10 +555,15 @@ def sitemap(request):
         url = json.loads(request.body or b"{}").get("url", "")
     except ValueError:
         url = ""
-    try:
-        urls = sitemap_crawler.crawl(url)
-    except sitemap_crawler.CrawlError as exc:
-        return JsonResponse({"error": str(exc)}, status=400)
+    # Bir sayt qayta-qayta so'ralsa, 25 soniyalik aylanib chiqish takrorlanmasin
+    cache_key = "sitemap_crawl:" + hashlib.sha1(url.strip().lower().encode()).hexdigest()
+    urls = cache.get(cache_key)
+    if urls is None:
+        try:
+            urls = sitemap_crawler.crawl(url)
+        except sitemap_crawler.CrawlError as exc:
+            return JsonResponse({"error": str(exc)}, status=400)
+        cache.set(cache_key, urls, 3600)
     return JsonResponse({"xml": sitemap_crawler.build_xml(urls), "count": len(urls), "urls": urls})
 
 

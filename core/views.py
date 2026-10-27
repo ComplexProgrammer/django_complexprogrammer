@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.cache import cache
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -227,7 +228,12 @@ def build_sitemap():
 
 
 def sitemap_xml(request):
-    return HttpResponse(build_sitemap(), content_type="application/xml")
+    # Minglab sahifa × 3 til — har so'rovda qayta qurish og'ir (robotlar tez-tez so'raydi)
+    xml = cache.get("sitemap_xml")
+    if xml is None:
+        xml = build_sitemap()
+        cache.set("sitemap_xml", xml, 3600)
+    return HttpResponse(xml, content_type="application/xml")
 
 
 def indexnow_key(request, key):
@@ -245,6 +251,7 @@ def robots_txt(request):
         "Disallow: /send_file/",
         "Disallow: /remove_file/",
         "Disallow: /search/",
+        "Disallow: /comments/more/",
         "Disallow: /media/downloads/",
         "",
         f"Sitemap: {SITE_URL}/sitemap.xml",

@@ -44,6 +44,16 @@ def _card(post, lang):
 
 
 def _sidebar(lang):
+    # Har bir blog sahifasida 4 ta so'rov — 10 daqiqaga keshlanadi (yangi maqola ko'pi bilan 10 daqiqada chiqadi)
+    key = f"blog:sidebar:{lang}"
+    data = cache.get(key)
+    if data is None:
+        data = _build_sidebar(lang)
+        cache.set(key, data, 600)
+    return data
+
+
+def _build_sidebar(lang):
     published = Posts.published()
     counts = dict(
         published.values("categorie_id").annotate(n=Count("id")).values_list("categorie_id", "n")

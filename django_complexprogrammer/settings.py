@@ -127,6 +127,16 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+        # Ulanish har so'rovda qayta ochilmaydi (PRAGMA'lar ham har safar bajarilmaydi)
+        "CONN_MAX_AGE": 600,
+        "CONN_HEALTH_CHECKS": True,
+        "OPTIONS": {
+            # Baza WAL rejimida: synchronous=NORMAL xavfsiz va yozishni tezlashtiradi;
+            # 20 MB sahifa keshi va 128 MB mmap o'qishni tezlashtiradi (baza ~20 MB — to'liq xotiraga sig'adi)
+            "init_command": "PRAGMA synchronous=NORMAL; PRAGMA cache_size=-20000; PRAGMA mmap_size=134217728;",
+            # Bir vaqtda yozish bo'lsa, darhol "database is locked" xatosi o'rniga 20 soniyagacha kutadi
+            "timeout": 20,
+        },
     }
 }
 # Kesh: fayl asosida, shuning uchun Passenger'ning barcha jarayonlari uchun umumiy

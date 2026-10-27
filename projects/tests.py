@@ -12,9 +12,22 @@ from projects.views import (
 )
 
 
+class SyncThread:
+    """Fon yangilanishi testlarda darhol (sinxron) bajariladi — natija aniq bo'lsin."""
+
+    def __init__(self, target, args=(), daemon=None):
+        self.target, self.args = target, args
+
+    def start(self):
+        self.target(*self.args)
+
+
 class ExchangeRatesTestCase(TestCase):
     def setUp(self):
         cache.clear()
+        thread_patcher = patch("projects.views.threading.Thread", SyncThread)
+        thread_patcher.start()
+        self.addCleanup(thread_patcher.stop)
         self.mock_rates = [
             {
                 "id": 68,
@@ -67,6 +80,19 @@ class ExchangeRatesTestCase(TestCase):
 
         fallback_result = fetch_json("https://cbu.uz/test", "test:fallback_key")
         self.assertEqual(fallback_result, self.mock_rates)
+
+    @patch("projects.views.requests.get")
+    def test_fetch_json_returns_stale_data_and_refreshes(self, mock_get):
+        # Kesh muddati tugagan, lekin eski ma'lumot bor: darhol eski ma'lumot qaytadi, kesh fonda yangilanadi
+        cache.set("test:stale_key:fallback", [{"Ccy": "OLD"}])
+        mock_resp = MagicMock()
+        mock_resp.json.return_value = self.mock_rates
+        mock_get.return_value = mock_resp
+
+        result = fetch_json("https://cbu.uz/test", "test:stale_key")
+        self.assertEqual(result, [{"Ccy": "OLD"}])
+        self.assertEqual(cache.get("test:stale_key"), self.mock_rates)
+        self.assertIsNone(cache.get("test:stale_key:refreshing"))
 
     @patch("projects.views._save_disk_fallback")
     @patch("projects.views.requests.get")
