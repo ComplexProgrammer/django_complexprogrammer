@@ -1377,9 +1377,51 @@ def duckhunt(request):
     return render(request, "projects/duckhunt.html", context=context)
 
 
+MOTO_TEXT = {
+    "uz": {
+        "lead": "Tepaliklar oşa mototsiklda iloji boriça uzoqqa boring. Havoda muvozanatni saqlang — boşi bilan yerga tuşsa, öyin tugaydi.",
+        "badge_keys": "Klaviatura va sensorli tugmalar", "badge_record": "Rekord saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "start": "Boşlaş", "again": "Qayta öynaş", "resume": "Davom etiş", "paused": "Pauza", "over": "Yiqildingiz!",
+        "best": "Rekord", "new_record": "🎉 Yangi rekord!", "distance": "Masofa", "speed": "Tezlik", "m": "m", "kmh": "km/soat",
+        "hint_keys": "→ yoki D — gaz, ← yoki A — tormoz. Havoda ↑ ↓ (W S) bilan oldinga-orqaga egiling. Probel — pauza",
+        "hint_touch": "Pastdagi «Gaz» va «Tormoz» tugmalarini bosib turing. Havoda gaz orqaga, tormoz oldinga egadi",
+        "gas": "Gaz", "brake": "Tormoz", "pause_btn": "Pauza", "more_games": "Boşqa öyinlar",
+    },
+    "ru": {
+        "lead": "Проедьте на мотоцикле по холмам как можно дальше. Держите равновесие в воздухе — приземлитесь на голову, и игра окончена.",
+        "badge_keys": "Клавиатура и сенсорные кнопки", "badge_record": "Рекорд сохраняется", "badge_free": "Бесплатно, без скачивания",
+        "start": "Начать", "again": "Играть снова", "resume": "Продолжить", "paused": "Пауза", "over": "Вы упали!",
+        "best": "Рекорд", "new_record": "🎉 Новый рекорд!", "distance": "Расстояние", "speed": "Скорость", "m": "м", "kmh": "км/ч",
+        "hint_keys": "→ или D — газ, ← или A — тормоз. В воздухе ↑ ↓ (W S) — наклон назад/вперёд. Пробел — пауза",
+        "hint_touch": "Удерживайте кнопки «Газ» и «Тормоз» внизу. В воздухе газ наклоняет назад, тормоз — вперёд",
+        "gas": "Газ", "brake": "Тормоз", "pause_btn": "Пауза", "more_games": "Другие игры",
+    },
+    "en": {
+        "lead": "Ride your motorcycle over the hills as far as you can. Keep your balance in the air — land on your head and the game is over.",
+        "badge_keys": "Keyboard and touch buttons", "badge_record": "Best score is saved", "badge_free": "Free, no download",
+        "start": "Start", "again": "Play again", "resume": "Resume", "paused": "Paused", "over": "You crashed!",
+        "best": "Best", "new_record": "🎉 New record!", "distance": "Distance", "speed": "Speed", "m": "m", "kmh": "km/h",
+        "hint_keys": "→ or D to accelerate, ← or A to brake. In the air ↑ ↓ (W S) lean back/forward. Space to pause",
+        "hint_touch": "Hold the Gas and Brake buttons below. In the air gas leans back, brake leans forward",
+        "gas": "Gas", "brake": "Brake", "pause_btn": "Pause", "more_games": "More games",
+    },
+    "tr": {
+        "lead": "Motosikletle tepelerin üzerinden olabildiğince uzağa git. Havada dengeni koru — başının üstüne düşersen oyun biter.",
+        "badge_keys": "Klavye ve dokunmatik düğmeler", "badge_record": "Rekor kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "start": "Başla", "again": "Tekrar oyna", "resume": "Devam et", "paused": "Duraklatıldı", "over": "Düştün!",
+        "best": "Rekor", "new_record": "🎉 Yeni rekor!", "distance": "Mesafe", "speed": "Hız", "m": "m", "kmh": "km/sa",
+        "hint_keys": "→ veya D gaz, ← veya A fren. Havada ↑ ↓ (W S) ile geriye/öne eğil. Boşluk ile duraklat",
+        "hint_touch": "Alttaki Gaz ve Fren düğmelerini basılı tutun. Havada gaz geriye, fren öne eğer",
+        "gas": "Gaz", "brake": "Fren", "pause_btn": "Duraklat", "more_games": "Diğer oyunlar",
+    },
+}
+
+
 def motorcycle(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": MOTO_TEXT.get(lang, MOTO_TEXT["en"])}
     return render(request, "projects/motorcycle.html", context=context)
 
 

@@ -1,38 +1,432 @@
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-    
-    {% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uçun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .mt{max-width:900px}
+  .mt-hero{padding:22px 24px;margin-bottom:16px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#f97316,#dc2626 55%,#7c2d12);box-shadow:0 12px 32px rgba(220,38,38,.22)}
+  .mt-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .mt-hero p{margin:0;opacity:.92}
+  .mt-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .mt-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.86rem}
 
-<link rel="icon" sizes="16x16" href="/static/Games/Motorcycle/Images/moto.png">
-<link rel="stylesheet" href="/static/Games/Motorcycle/css.css">
-<!--  -->
+  .mt-card{padding:14px}
+  .mt-board{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(15,23,42,.22);
+    touch-action:none;user-select:none;-webkit-user-select:none}
+  .mt-board canvas{display:block;width:100%;height:100%}
+  .mt-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;pointer-events:none}
+  .mt-hud span{padding:4px 10px;border-radius:10px;background:rgba(15,23,42,.6);color:#fff;font-weight:700;font-size:.9rem;font-variant-numeric:tabular-nums}
+  .mt-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:22px;
+    text-align:center;color:#fff;background:rgba(15,23,42,.62);backdrop-filter:blur(2px)}
+  .mt-overlay h2{font-size:clamp(1.4rem,5vw,2.1rem);font-weight:800;margin:0;color:#fff}
+  .mt-overlay p{margin:0;opacity:.92;font-size:.92rem;max-width:420px}
+  .mt-big{font-size:clamp(2.2rem,8vw,3.2rem);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+  .mt-rec{color:#fde047;font-weight:800}
+  /* flex:0 — umumiy telefon qoidasi (.d-btn{flex:1 1 auto}) vertikal ustunda tugmani böyiga çözib yubormasin */
+  .mt-overlay .d-btn{flex:0 0 auto;padding:12px 26px;font-size:1.05rem}
 
+  /* Sensorli boşqaruv: bosib turiladi */
+  .mt-pad{display:none;grid-template-columns:1fr 1fr;gap:10px;max-width:420px;margin:12px auto 0}
+  .mt-pad button{height:64px;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.15rem;font-weight:800;
+    box-shadow:0 3px 0 var(--border);touch-action:none;user-select:none;-webkit-user-select:none}
+  .mt-pad button.on{transform:translateY(2px);box-shadow:none;background:rgba(249,115,22,.18)}
+  @media (pointer:coarse),(max-width:640px){ .mt-pad{display:grid} }
+  .mt-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+  .mt-tool{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+  .mt-more{display:flex;justify-content:center;margin-top:14px}
+  [hidden]{display:none!important}
+  @media (max-width:640px){ .mt-hero{padding:18px} .mt-card{padding:10px} .mt-board{aspect-ratio:1/1} }
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-<div id="MotorcycleBody">
-    <canvas id="MotorcycleCanvas">
-    </canvas>
-    <div class="startScreen">
-        <div class='Rasm'></div>
-        <p class="glow">
-            Boshlash uchun shu yerni bosing<br />
-            Boshqarish uchun &#8592;, &#8594;, &#8593;, &#8595; yoki (a, d, w, s) tugmalaridan foydalaning<br />
-            Boshqaruvni yo'qotsangiz yutqazasiz.
-        </p>
-
+<main class="d-main mt">
+  <section class="mt-hero">
+    <h1>🏍️ {{ seo_h1|default:"Motorcycle" }}</h1>
+    <p>{{ t.lead }}</p>
+    <div class="mt-badges">
+      <span>🎮 {{ t.badge_keys }}</span>
+      <span>🏆 {{ t.badge_record }}</span>
+      <span>✅ {{ t.badge_free }}</span>
     </div>
-</div>
-{% include 'comment_form.html' %}
-<script src="/static/js/game-kit.js"></script>
-<script>CPGame.init({ id: "motorcycle", title: "Motorcycle", before: document.getElementById("MotorcycleBody") });</script>
-<script src="/static/Games/Motorcycle/js.js"></script>{% include "includes/scroll_buttons.html" %}
+  </section>
+
+  <section class="d-card mt-card">
+    <div class="mt-board" id="mt-board">
+      <canvas id="mt-canvas" aria-label="Motorcycle"></canvas>
+      <div class="mt-hud" id="mt-hud" hidden>
+        <span>📏 <b id="mt-dist">0</b> {{ t.m }}</span>
+        <span>⚡ <b id="mt-speed">0</b> {{ t.kmh }}</span>
+      </div>
+      <div class="mt-overlay" id="mt-start">
+        <h2>🏍️ Motorcycle</h2>
+        <p id="mt-hint">{{ t.hint_keys }}</p>
+        <button type="button" class="d-btn" data-act="start">▶ {{ t.start }}</button>
+      </div>
+      <div class="mt-overlay" id="mt-paused" hidden>
+        <h2>⏸ {{ t.paused }}</h2>
+        <button type="button" class="d-btn" data-act="resume">▶ {{ t.resume }}</button>
+      </div>
+      <div class="mt-overlay" id="mt-over" hidden>
+        <h2>💥 {{ t.over }}</h2>
+        <div class="mt-big"><span id="mt-final">0</span> {{ t.m }}</div>
+        <p>🏆 {{ t.best }}: <b id="mt-best">—</b></p>
+        <p class="mt-rec" id="mt-record" hidden>{{ t.new_record }}</p>
+        <button type="button" class="d-btn" data-act="start">🔄 {{ t.again }}</button>
+      </div>
+    </div>
+
+    <div class="mt-pad" id="mt-pad" aria-hidden="true">
+      <button type="button" data-key="brake">◀ {{ t.brake }}</button>
+      <button type="button" data-key="gas">{{ t.gas }} ▶</button>
+    </div>
+    <div class="mt-tools">
+      <button type="button" class="mt-tool" id="mt-pause-btn">⏸ {{ t.pause_btn }}</button>
+    </div>
+  </section>
+  <div class="mt-more"><a class="d-btn alt" href="{{ lang_prefix }}/projects/">🎮 {{ t.more_games }}</a></div>
+</main>
+
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+{{ t|json_script:"mt-text" }}
+<script src="/static/js/game-kit.js?v=2"></script>
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("mt-text").textContent);
+    // Rekord metrda (eski öyinda kadrlar soni edi), şuning uçun yangi kalit
+    var GAME_ID = "motorcycle2";
+    var $ = function (id) { return document.getElementById(id); };
+    var board = $("mt-board"), canvas = $("mt-canvas"), ctx = canvas.getContext("2d");
+
+    // Fizika "dunyo birliklari"da: ekran ölçamidan qatʼi nazar öyin bir xil (1 m = 20 birlik)
+    var G = 760, ACC = 340, BRAKE = 560, MAXV = 470, MINV = -140, LEAN = 9;
+    var R = 11, L = 40, UNIT_M = 20, START_X = 100;
+    var W = 800, H = 450, k = 1;
+
+    var state = "start", bike, rider, camX = 0, camY = 0, phase = [0, 0, 0], dust = [];
+    var lastTime = 0, crashT = 0, lastMeters = -1, bestM = 0;
+    var keys = { gas: 0, brake: 0, back: 0, fwd: 0 }, touch = { gas: 0, brake: 0 };
+
+    function fit() {
+      var r = board.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.max(280, Math.round(r.width)); H = Math.max(200, Math.round(r.height));
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Kamida ~560 birlik oldinga körinsin (telefonda ham yöl oldindan körinadi)
+      k = Math.min(H / 340, W / 560);
+      if (bike) { follow(1); draw(); }
+    }
+
+    // Yöl relyefi: bir neçta sinusoida yiğindisi; boşida tekis, uzoqlaşgan sari tepaliklar balandlaşadi
+    function ground(x) {
+      var f = Math.min(1, Math.max(0, (x - 250) / 700)); f = f * f * (3 - 2 * f);
+      var amp = f * Math.min(1.25, 0.4 + x / 10000);
+      return 260 - amp * (70 * Math.sin(x / 190 + phase[0]) + 38 * Math.sin(x / 83 + phase[1]) + 12 * Math.sin(x / 41 + phase[2])) - ramp(x);
+    }
+    // Tramplinlar: 150 m dan keyin taxminan har 70 m da (ba'zilari tuşib qoladi); sekin çiqib, keskinroq tuşadi —
+    // tezlikda uçib ketiladi, havoda gazni qöyib yubormasa orqaga ağdarilib ketadi
+    var RAMP_STEP = 1400, RAMP_FROM = 3000;
+    function ramp(x) {
+      if (x < RAMP_FROM) return 0;
+      var i = Math.floor(x / RAMP_STEP), u = x - i * RAMP_STEP - RAMP_STEP / 2;
+      if (u <= -120 || u >= 60) return 0;
+      var r = Math.sin(i * 12.9898 + phase[0] * 78.233) * 43758.5453;
+      if (r - Math.floor(r) < 0.3) return 0;
+      var h = Math.min(60, 26 + (x - RAMP_FROM) / 500);
+      return u < 0 ? h * Math.pow((u + 120) / 120, 2) : h * Math.pow(1 - u / 60, 2);
+    }
+    function wrap(a) { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; }
+
+    function reset() {
+      phase = [Math.random() * 6.3, Math.random() * 6.3, Math.random() * 6.3];
+      bike = { x: START_X, y: ground(START_X) - R, vy: 0, v: 0, rot: 0, av: 0, grounded: true, spin: 0, maxX: START_X };
+      rider = null; dust = []; lastMeters = -1;
+      try { bestM = parseInt(localStorage.getItem("cpGameBest:" + GAME_ID) || "0", 10) || 0; } catch (e) { bestM = 0; }
+      follow(1);
+    }
+
+    function follow(t) {
+      var vw = W / k, vh = H / k;
+      camX += (bike.x - vw * 0.3 - camX) * t;
+      camY += (bike.y - vh * 0.6 - camY) * t;
+    }
+
+    function update(dt) {
+      var b = bike, alive = state === "play";
+      var gas = alive && (keys.gas || touch.gas), brake = alive && (keys.brake || touch.brake);
+      var c = Math.cos(b.rot), s = Math.sin(b.rot);
+      var a = Math.atan2(ground(b.x + c * L / 2) - ground(b.x - c * L / 2), c * L || 1);
+
+      if (b.grounded) {
+        if (gas) b.v += ACC * dt;
+        if (brake) b.v -= (b.v > 0 ? BRAKE : ACC * 0.4) * dt;
+        b.v += G * Math.sin(a) * 0.5 * dt;           // qiyalikda pastga tortadi
+        b.v -= b.v * (alive ? 0.25 : 2.5) * dt;
+      } else {
+        b.v -= b.v * 0.05 * dt;
+        // Havoda: gaz/↑ — orqaga, tormoz/↓ — oldinga egiladi
+        var lean = (brake || (alive && keys.fwd) ? 1 : 0) - (gas || (alive && keys.back) ? 1 : 0);
+        b.av += lean * LEAN * dt;
+        b.av -= b.av * 0.6 * dt;
+        b.av = Math.max(-5, Math.min(5, b.av));
+        b.rot = wrap(b.rot + b.av * dt);
+      }
+      b.v = Math.max(MINV, Math.min(MAXV, b.v));
+      b.x += b.v * dt;
+      b.vy += G * dt; b.y += b.vy * dt;
+      b.spin += b.v * dt / R;
+
+      // Ğildiraklar yerga tegdimi?
+      c = Math.cos(b.rot); s = Math.sin(b.rot);
+      var rx = b.x - c * L / 2, fx = b.x + c * L / 2;
+      var gr = ground(rx), gf = ground(fx);
+      var touchR = b.y - s * L / 2 + R >= gr, touchF = b.y + s * L / 2 + R >= gf;
+      // Yerda ketayotganda — ğildiraklar orasidagi vatar böyiça (aks holda burçak keçikib, tepalikda "yopişib qoladi"),
+      // havoda — har bir ğildirak alohida tekşiriladi
+      var touching = b.grounded ? b.y + R >= (gr + gf) / 2 - 0.01 : touchR || touchF;
+      if (touching) {
+        a = Math.atan2(gf - gr, fx - rx);
+        if (!b.grounded && alive) {
+          var diff = Math.abs(wrap(b.rot - a));
+          if (diff > 1.25) crash();
+          else if (diff > 0.55) b.v *= 0.75;          // qiyşiq tuşganda tezlik yöqoladi
+        }
+        b.rot = wrap(b.rot + wrap(a - b.rot) * Math.min(1, dt * 18));
+        b.y = (gr + gf) / 2 - R;
+        b.vy = b.v * Math.tan(Math.max(-1.3, Math.min(1.3, a)));
+        b.av = 0; b.grounded = true;
+      } else b.grounded = false;
+
+      // Boşi bilan yerga tegsa — yiqiladi
+      if (state === "play") {
+        c = Math.cos(b.rot); s = Math.sin(b.rot);
+        var hx = b.x - 4 * c + 32 * s, hy = b.y - 4 * s - 32 * c;
+        if (hy > ground(hx) - 5) crash();
+      }
+
+      if (rider) {
+        rider.vy += G * dt; rider.x += rider.vx * dt; rider.y += rider.vy * dt; rider.rot += rider.spin * dt;
+        var g = ground(rider.x) - 6;
+        if (rider.y > g) { rider.y = g; rider.vy *= -0.3; rider.vx *= 0.6; rider.spin *= 0.6; }
+      }
+
+      if (b.grounded && gas && Math.random() < 0.6) dust.push({ x: rx - 6, y: gr - 2, vx: -40 - Math.random() * 60, vy: -30 - Math.random() * 40, life: 0.5 });
+      dust.forEach(function (p) { p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; });
+      dust = dust.filter(function (p) { return p.life > 0; });
+
+      if (alive) {
+        b.maxX = Math.max(b.maxX, b.x);
+        var m = Math.floor((b.maxX - START_X) / UNIT_M);
+        if (m !== lastMeters) { lastMeters = m; $("mt-dist").textContent = m; CPGame.score(m); }
+        $("mt-speed").textContent = Math.round(Math.abs(b.v) / UNIT_M * 3.6);
+      } else if (state === "crash") {
+        crashT -= dt;
+        if (crashT <= 0) finish();
+      }
+      follow(Math.min(1, dt * 5));
+    }
+
+    function crash() {
+      if (state !== "play") return;
+      state = "crash"; crashT = 1.1;
+      var c = Math.cos(bike.rot), s = Math.sin(bike.rot);
+      rider = { x: bike.x - 4 * c + 22 * s, y: bike.y - 4 * s - 22 * c, vx: bike.v * 0.8, vy: -200, rot: bike.rot, spin: 6 };
+      keys.gas = keys.brake = keys.back = keys.fwd = 0;
+    }
+
+    function finish() {
+      state = "over";
+      var m = Math.max(0, Math.floor((bike.maxX - START_X) / UNIT_M));
+      var before = bestM;
+      CPGame.over(m);
+      bestM = Math.max(before, m);
+      $("mt-final").textContent = m;
+      $("mt-best").textContent = bestM + " " + T.m;
+      $("mt-record").hidden = !(m > 0 && m > before);
+      show("mt-over");
+    }
+
+    // --- Çiziş ---
+    function hills(par, base, amp, f1, f2, color) {
+      var vw = W / k, vh = H / k;
+      ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(0, vh);
+      for (var sx = 0; sx <= vw + 10; sx += 10) {
+        var u = sx + camX * par;
+        ctx.lineTo(sx, vh * base - (camY - 60) * par * 0.3 - amp * (Math.sin(u / f1) * 0.6 + Math.sin(u / f2 + 1.3) * 0.4));
+      }
+      ctx.lineTo(vw, vh); ctx.fill();
+    }
+    function drawBike(b) {
+      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.rot);
+      [-L / 2, L / 2].forEach(function (wx) {                                   // ğildiraklar
+        ctx.fillStyle = "#111827"; ctx.beginPath(); ctx.arc(wx, 0, R, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#9ca3af"; ctx.beginPath(); ctx.arc(wx, 0, R - 3.5, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = "#4b5563"; ctx.lineWidth = 1.4; ctx.beginPath();
+        for (var i = 0; i < 3; i++) { var an = b.spin + i * Math.PI / 3; ctx.moveTo(wx - Math.cos(an) * (R - 4), -Math.sin(an) * (R - 4)); ctx.lineTo(wx + Math.cos(an) * (R - 4), Math.sin(an) * (R - 4)); }
+        ctx.stroke();
+      });
+      ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.strokeStyle = "#374151"; ctx.lineWidth = 3;                           // rama va vilka
+      ctx.beginPath(); ctx.moveTo(-L / 2, 0); ctx.lineTo(-6, -10); ctx.lineTo(12, -10); ctx.lineTo(L / 2, 0); ctx.moveTo(12, -10); ctx.lineTo(15, -18); ctx.stroke();
+      ctx.fillStyle = "#dc2626"; ctx.beginPath();                                // korpus va bak
+      ctx.moveTo(-14, -9); ctx.lineTo(-4, -16); ctx.lineTo(12, -16); ctx.lineTo(16, -9); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#1f2937"; ctx.fillRect(-16, -14, 12, 4);                 // örindiq
+      ctx.fillStyle = "#9ca3af"; ctx.fillRect(-20, -5, 12, 3);                  // gluşitel
+      if (!rider) drawRider();
+      ctx.restore();
+    }
+    function drawRider() {
+      ctx.lineCap = "round"; ctx.strokeStyle = "#1e3a8a"; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(-8, -15); ctx.lineTo(2, -9); ctx.lineTo(0, -2); ctx.stroke();   // oyoq
+      ctx.strokeStyle = "#f97316";
+      ctx.beginPath(); ctx.moveTo(-8, -15); ctx.lineTo(-2, -28); ctx.stroke();                     // tana
+      ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(-2, -26); ctx.lineTo(8, -21); ctx.lineTo(15, -19); ctx.stroke(); // qöl
+      ctx.fillStyle = "#facc15"; ctx.beginPath(); ctx.arc(-1, -33, 6.5, 0, Math.PI * 2); ctx.fill(); // dubulğa
+      ctx.fillStyle = "#1f2937"; ctx.fillRect(1, -35, 6, 3.5);
+    }
+    function draw() {
+      var vw = W / k, vh = H / k;
+      var sky = ctx.createLinearGradient(0, 0, 0, H);
+      sky.addColorStop(0, "#fb923c"); sky.addColorStop(0.45, "#fcd34d"); sky.addColorStop(1, "#fef3c7");
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+      ctx.save(); ctx.scale(k, k);
+      ctx.fillStyle = "rgba(255,255,255,.75)"; ctx.beginPath(); ctx.arc(vw * 0.78, vh * 0.22, 34, 0, Math.PI * 2); ctx.fill();
+      hills(0.12, 0.62, 45, 140, 63, "#c2410c55");
+      hills(0.3, 0.75, 35, 90, 41, "#9a341288");
+
+      ctx.translate(-camX, -camY);
+      var x0 = camX - 20, x1 = camX + vw + 20, bottom = camY + vh + 20;
+      var soil = ctx.createLinearGradient(0, camY + vh * 0.4, 0, bottom);
+      soil.addColorStop(0, "#92400e"); soil.addColorStop(1, "#451a03");
+      ctx.fillStyle = soil; ctx.beginPath(); ctx.moveTo(x0, bottom);
+      for (var x = x0; x <= x1; x += 6) ctx.lineTo(x, ground(x));
+      ctx.lineTo(x1, bottom); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = "#65a30d"; ctx.lineWidth = 6; ctx.lineJoin = "round"; ctx.beginPath();
+      for (x = x0; x <= x1; x += 6) x === x0 ? ctx.moveTo(x, ground(x) + 2) : ctx.lineTo(x, ground(x) + 2);
+      ctx.stroke();
+
+      // Tramplinlar — yöldan ajralib tursin deb yağoç rangida
+      for (var ri = Math.floor(x0 / RAMP_STEP); ri <= Math.floor(x1 / RAMP_STEP); ri++) {
+        var rc = ri * RAMP_STEP + RAMP_STEP / 2;
+        if (ramp(rc - 1) <= 0) continue;
+        ctx.fillStyle = "#b45309"; ctx.beginPath();
+        for (x = rc - 120; x <= rc + 60; x += 4) ctx.lineTo(x, ground(x));
+        for (x = rc + 60; x >= rc - 120; x -= 4) ctx.lineTo(x, ground(x) + ramp(x));
+        ctx.fill();
+        ctx.strokeStyle = "#78350f"; ctx.lineWidth = 2; ctx.beginPath();
+        for (x = rc - 100; x <= rc + 40; x += 20) { ctx.moveTo(x, ground(x)); ctx.lineTo(x, ground(x) + ramp(x)); }
+        ctx.stroke();
+        ctx.lineWidth = 4; ctx.beginPath();
+        for (x = rc - 120; x <= rc + 60; x += 4) x === rc - 120 ? ctx.moveTo(x, ground(x)) : ctx.lineTo(x, ground(x));
+        ctx.stroke();
+      }
+
+      // Har 100 m da belgi, rekord joyida bayroqça
+      ctx.font = "bold 13px system-ui, sans-serif"; ctx.textAlign = "center";
+      var step = 100 * UNIT_M;
+      for (var mx = Math.ceil((x0 - START_X) / step) * step + START_X; mx <= x1; mx += step) {
+        if (mx <= START_X) continue;
+        var gy = ground(mx);
+        ctx.fillStyle = "#78350f"; ctx.fillRect(mx - 1.5, gy - 34, 3, 34);
+        ctx.fillStyle = "#fff"; ctx.fillRect(mx - 18, gy - 50, 36, 17);
+        ctx.fillStyle = "#111827"; ctx.fillText((mx - START_X) / UNIT_M + " " + T.m, mx, gy - 37);
+      }
+      if (bestM > 0) {
+        var bx = START_X + bestM * UNIT_M;
+        if (bx > x0 && bx < x1) {
+          var by = ground(bx);
+          ctx.fillStyle = "#111827"; ctx.fillRect(bx - 1.5, by - 56, 3, 56);
+          ctx.fillStyle = "#facc15"; ctx.beginPath(); ctx.moveTo(bx + 1.5, by - 56); ctx.lineTo(bx + 26, by - 49); ctx.lineTo(bx + 1.5, by - 42); ctx.fill();
+          ctx.fillStyle = "#111827"; ctx.fillText("🏆", bx + 12, by - 60);
+        }
+      }
+
+      dust.forEach(function (p) { ctx.fillStyle = "rgba(120,53,15," + p.life + ")"; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill(); });
+      drawBike(bike);
+      if (rider) { ctx.save(); ctx.translate(rider.x, rider.y); ctx.rotate(rider.rot); ctx.translate(0, 22); drawRider(); ctx.restore(); }
+      ctx.restore();
+    }
+
+    function loop(time) {
+      var dt = Math.min(0.033, (time - lastTime) / 1000);
+      lastTime = time;
+      if (state === "play" || state === "crash") {
+        // Kiçik qadamlar — tez harakatda ham ğildirak yerdan "ötib ketmaydi"
+        update(dt / 2); update(dt / 2);
+        draw();
+      }
+      requestAnimationFrame(loop);
+    }
+
+    function show(id) { ["mt-start", "mt-paused", "mt-over"].forEach(function (o) { $(o).hidden = o !== id; }); $("mt-hud").hidden = id === "mt-start" || id === "mt-over"; }
+    function start() { reset(); CPGame.score(0); state = "play"; show(null); }
+    function pause() { if (state === "play") { state = "paused"; show("mt-paused"); clearInput(); } }
+    function resume() { if (state === "paused") { state = "play"; show(null); } }
+    function clearInput() { keys.gas = keys.brake = keys.back = keys.fwd = 0; touch.gas = touch.brake = 0; document.querySelectorAll(".mt-pad .on").forEach(function (b) { b.classList.remove("on"); }); }
+
+    // e.code — klaviatura tili (lotin/kirill) qanday bölmasin işlaydi
+    var CODES = { ArrowRight: "gas", KeyD: "gas", ArrowLeft: "brake", KeyA: "brake", ArrowUp: "back", KeyW: "back", ArrowDown: "fwd", KeyS: "fwd" };
+    function typing(e) { return e.target.closest && e.target.closest("input, textarea, select, [contenteditable]"); }
+    document.addEventListener("keydown", function (e) {
+      if (typing(e)) return;  // izoh yozişga xalaqit bermasin
+      var act = CODES[e.code];
+      if (act && state === "play") { keys[act] = 1; e.preventDefault(); return; }
+      if (e.key === " " || e.code === "KeyP" || e.key === "Escape") {
+        if (state === "play") { e.preventDefault(); pause(); }
+        else if (state === "paused" && e.key !== "Escape") { e.preventDefault(); resume(); }
+      } else if (e.key === "Enter" && (state === "start" || state === "over" || state === "paused")) {
+        e.preventDefault(); state === "paused" ? resume() : start();
+      }
+    });
+    document.addEventListener("keyup", function (e) { var act = CODES[e.code]; if (act) keys[act] = 0; });
+    window.addEventListener("blur", clearInput);
+
+    $("mt-pad").querySelectorAll("button").forEach(function (b) {
+      var key = b.dataset.key;
+      function set(on) { touch[key] = on ? 1 : 0; b.classList.toggle("on", on); }
+      b.addEventListener("pointerdown", function (e) {
+        e.preventDefault();
+        if (state === "start" || state === "over") start();
+        b.setPointerCapture && b.setPointerCapture(e.pointerId);
+        set(true);
+      });
+      ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (ev) { b.addEventListener(ev, function () { set(false); }); });
+      b.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    });
+    // Öyin maydonining öziga teginiş: çap yarmi — tormoz, öng yarmi — gaz
+    var boardTouch = null;
+    canvas.addEventListener("pointerdown", function (e) {
+      if (state !== "play" || e.pointerType === "mouse") return;
+      var r = canvas.getBoundingClientRect();
+      boardTouch = e.clientX - r.left < r.width / 2 ? "brake" : "gas";
+      touch[boardTouch] = 1;
+      canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId);
+    });
+    ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (ev) {
+      canvas.addEventListener(ev, function () { if (boardTouch) { touch[boardTouch] = 0; boardTouch = null; } });
+    });
+
+    document.querySelectorAll("[data-act]").forEach(function (b) {
+      b.addEventListener("click", function () { b.dataset.act === "resume" ? resume() : start(); });
+    });
+    $("mt-pause-btn").addEventListener("click", function () { state === "play" ? pause() : state === "paused" ? resume() : start(); this.blur(); });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+    window.addEventListener("resize", fit);
+
+    if (matchMedia("(pointer:coarse)").matches) $("mt-hint").textContent = T.hint_touch;
+    CPGame.init({ id: GAME_ID, title: "Motorcycle", before: board });
+    reset();
+    fit();
+    draw();
+    requestAnimationFrame(function (t) { lastTime = t; requestAnimationFrame(loop); });
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>
