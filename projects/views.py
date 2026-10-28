@@ -1041,24 +1041,141 @@ def password_generator(request):
     return render(request, "projects/password_generator.html", {"comments": page_comments(request)})
 
 
+SITEMAP_TEXT = {
+    "uz": {
+        "badge_free": "Bepul, ro'yxatdan o'tmasdan", "badge_pages": "300 tagacha sahifa", "badge_seo": "Google va Yandex uchun",
+        "placeholder": "Sayt manzili: example.uz", "paste": "Qo'yish", "generate": "Sitemap yaratish",
+        "invalid": "Sayt manzilini kiriting, masalan: example.uz", "starting": "Sayt tekshirilmoqda...",
+        "crawling": "Sahifalar qidirilmoqda", "found": "topildi", "checked": "tekshirildi",
+        "ready": "Sitemap tayyor!", "pages": "sahifa", "download": "sitemap.xml yuklab olish", "copy": "Nusxalash", "copied": "Nusxalandi",
+        "tab_list": "Sahifalar", "tab_xml": "XML", "filter": "Sahifalarni qidirish...", "again": "Boshqa sayt",
+        "error": "Xatolik yuz berdi, qayta urinib ko'ring", "timeout": "Juda uzoq davom etdi — qaytadan urinib ko'ring",
+        "how": "Keyin nima qilish kerak?",
+        "step1": "sitemap.xml faylini yuklab oling va saytingizning bosh papkasiga joylang (example.uz/sitemap.xml)",
+        "step2": "robots.txt fayliga qator qo'shing: Sitemap: https://example.uz/sitemap.xml",
+        "step3": "Google Search Console va Yandex Webmaster'da sitemap manzilini yuboring",
+        "note": "robots.txt taqiqlagan, noindex belgilangan va HTML bo'lmagan sahifalar xaritaga kirmaydi.", "app": "Android ilovalar",
+    },
+    "ru": {
+        "badge_free": "Бесплатно, без регистрации", "badge_pages": "До 300 страниц", "badge_seo": "Для Google и Яндекса",
+        "placeholder": "Адрес сайта: example.uz", "paste": "Вставить", "generate": "Создать sitemap",
+        "invalid": "Введите адрес сайта, например: example.uz", "starting": "Проверяем сайт...",
+        "crawling": "Поиск страниц", "found": "найдено", "checked": "проверено",
+        "ready": "Sitemap готов!", "pages": "стр.", "download": "Скачать sitemap.xml", "copy": "Копировать", "copied": "Скопировано",
+        "tab_list": "Страницы", "tab_xml": "XML", "filter": "Поиск по страницам...", "again": "Другой сайт",
+        "error": "Произошла ошибка, попробуйте ещё раз", "timeout": "Слишком долго — попробуйте ещё раз",
+        "how": "Что делать дальше?",
+        "step1": "Скачайте sitemap.xml и загрузите его в корневую папку сайта (example.uz/sitemap.xml)",
+        "step2": "Добавьте строку в robots.txt: Sitemap: https://example.uz/sitemap.xml",
+        "step3": "Отправьте адрес sitemap в Google Search Console и Яндекс Вебмастер",
+        "note": "Страницы, запрещённые в robots.txt, с noindex и не-HTML файлы в карту не попадают.", "app": "Приложения Android",
+    },
+    "en": {
+        "badge_free": "Free, no sign-up", "badge_pages": "Up to 300 pages", "badge_seo": "For Google and Yandex",
+        "placeholder": "Website address: example.com", "paste": "Paste", "generate": "Generate sitemap",
+        "invalid": "Enter a website address, e.g. example.com", "starting": "Checking the website...",
+        "crawling": "Finding pages", "found": "found", "checked": "checked",
+        "ready": "Your sitemap is ready!", "pages": "pages", "download": "Download sitemap.xml", "copy": "Copy", "copied": "Copied",
+        "tab_list": "Pages", "tab_xml": "XML", "filter": "Filter pages...", "again": "Another website",
+        "error": "Something went wrong, please try again", "timeout": "This took too long — please try again",
+        "how": "What to do next?",
+        "step1": "Download sitemap.xml and upload it to your website's root folder (example.com/sitemap.xml)",
+        "step2": "Add a line to robots.txt: Sitemap: https://example.com/sitemap.xml",
+        "step3": "Submit the sitemap URL in Google Search Console and Yandex Webmaster",
+        "note": "Pages blocked by robots.txt, marked noindex and non-HTML files are left out.", "app": "Android apps",
+    },
+    "tr": {
+        "badge_free": "Ücretsiz, kayıt gerekmez", "badge_pages": "300 sayfaya kadar", "badge_seo": "Google ve Yandex için",
+        "placeholder": "Site adresi: example.com", "paste": "Yapıştır", "generate": "Sitemap oluştur",
+        "invalid": "Bir site adresi girin, ör. example.com", "starting": "Site kontrol ediliyor...",
+        "crawling": "Sayfalar aranıyor", "found": "bulundu", "checked": "kontrol edildi",
+        "ready": "Sitemap hazır!", "pages": "sayfa", "download": "sitemap.xml indir", "copy": "Kopyala", "copied": "Kopyalandı",
+        "tab_list": "Sayfalar", "tab_xml": "XML", "filter": "Sayfalarda ara...", "again": "Başka site",
+        "error": "Bir hata oluştu, tekrar deneyin", "timeout": "Çok uzun sürdü — tekrar deneyin",
+        "how": "Sonra ne yapmalı?",
+        "step1": "sitemap.xml dosyasını indirin ve sitenizin kök klasörüne yükleyin (example.com/sitemap.xml)",
+        "step2": "robots.txt dosyasına satır ekleyin: Sitemap: https://example.com/sitemap.xml",
+        "step3": "Sitemap adresini Google Search Console ve Yandex Webmaster'a gönderin",
+        "note": "robots.txt ile engellenen, noindex işaretli ve HTML olmayan sayfalar eklenmez.", "app": "Android uygulamaları",
+    },
+}
+# Bir jarayonda bir vaqtda ko'pi bilan shuncha sayt aylanib chiqiladi (har biri WORKERS ta oqim ishlatadi)
+SITEMAP_SLOTS = threading.BoundedSemaphore(2)
+
+
+def _sitemap_key(url):
+    return "sitemap_crawl:v2:" + hashlib.sha1(url.strip().lower().encode()).hexdigest()
+
+
+def _sitemap_result(pages):
+    return {"xml": sitemap_crawler.build_xml(pages), "count": len(pages), "urls": [p["url"] for p in pages]}
+
+
+def _sitemap_job(job_id, url):
+    key = f"smjob:{job_id}"
+
+    def progress(found, checked):
+        cache.set(key, {"status": "running", "found": found, "checked": checked}, YT_JOB_TTL)
+
+    with SITEMAP_SLOTS:
+        cache.set(key, {"status": "running", "found": 0, "checked": 0}, YT_JOB_TTL)
+        try:
+            pages = sitemap_crawler.crawl(url, progress=progress)
+            cache.set(_sitemap_key(url), pages, 3600)
+            data = _sitemap_result(pages)
+        except sitemap_crawler.CrawlError as exc:
+            data = {"error": str(exc)}
+        except Exception:  # fon oqimida kutilmagan xato — sahifa cheksiz kutib qolmasin
+            logger.exception("Sitemap job %s failed", job_id)
+            data = {"error": "Xatolik yuz berdi, birozdan so'ng urinib ko'ring"}
+        cache.set(key, {"status": "done", **data}, YT_JOB_TTL)
+
+
 @ensure_csrf_cookie
 def sitemap(request):
     if request.method != "POST":
-        return render(request, "projects/sitemap.html", {"comments": page_comments(request)})
+        from django.utils import translation
+
+        lang = (translation.get_language() or "uz")[:2]
+        context = {"comments": page_comments(request), "t": SITEMAP_TEXT.get(lang, SITEMAP_TEXT["en"]),
+                   "max_pages": sitemap_crawler.MAX_PAGES}
+        return render(request, "projects/sitemap.html", context)
     try:
-        url = json.loads(request.body or b"{}").get("url", "")
+        payload = json.loads(request.body or b"{}")
     except ValueError:
-        url = ""
-    # Bir sayt qayta-qayta so'ralsa, 25 soniyalik aylanib chiqish takrorlanmasin
-    cache_key = "sitemap_crawl:" + hashlib.sha1(url.strip().lower().encode()).hexdigest()
-    urls = cache.get(cache_key)
-    if urls is None:
-        try:
-            urls = sitemap_crawler.crawl(url)
-        except sitemap_crawler.CrawlError as exc:
-            return JsonResponse({"error": str(exc)}, status=400)
-        cache.set(cache_key, urls, 3600)
-    return JsonResponse({"xml": sitemap_crawler.build_xml(urls), "count": len(urls), "urls": urls})
+        payload = {}
+    url = (payload.get("url") or "").strip()
+    # Bir sayt qayta-qayta so'ralsa, aylanib chiqish takrorlanmasin (1 soat)
+    pages = cache.get(_sitemap_key(url))
+    if not payload.get("async"):
+        # Eski format (mobil ilova): javob shu so'rovning o'zida
+        if pages is None:
+            try:
+                pages = sitemap_crawler.crawl(url)
+            except sitemap_crawler.CrawlError as exc:
+                return JsonResponse({"error": str(exc)}, status=400)
+            cache.set(_sitemap_key(url), pages, 3600)
+        return JsonResponse(_sitemap_result(pages))
+
+    job_id = uuid.uuid4().hex
+    if pages is not None:
+        cache.set(f"smjob:{job_id}", {"status": "done", **_sitemap_result(pages)}, YT_JOB_TTL)
+        return JsonResponse({"job": job_id})
+    try:
+        sitemap_crawler.normalize_start_url(url)  # noto'g'ri manzil darhol aytiladi, fon vazifasiz
+    except sitemap_crawler.CrawlError as exc:
+        return JsonResponse({"error": str(exc)}, status=400)
+    cache.set(f"smjob:{job_id}", {"status": "queued"}, YT_JOB_TTL)
+    threading.Thread(target=_sitemap_job, args=(job_id, url), daemon=True).start()
+    return JsonResponse({"job": job_id})
+
+
+def sitemap_job_status(request):
+    job_id = request.GET.get("job", "")
+    data = cache.get(f"smjob:{job_id}") if job_id.isalnum() else None
+    if data is None:
+        return JsonResponse({"status": "done", "error": "Vazifa topilmadi, qaytadan urinib ko'ring"}, status=404)
+    return JsonResponse(data)
 
 
 def snake(request):

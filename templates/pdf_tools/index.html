@@ -246,7 +246,9 @@
       // XMLHttpRequest — yuklash foizini ko'rsatish uchun (fetch buni bermaydi)
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "/pdf_tools/");
-      xhr.setRequestHeader("X-CSRFToken", form.querySelector("[name=csrfmiddlewaretoken]").value);
+      // Cookie'dagi token — sahifa bir necha tabda ochilganda yashirin maydondagisi eskirib qolishi mumkin
+      var cookie = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
+      xhr.setRequestHeader("X-CSRFToken", cookie ? decodeURIComponent(cookie[1]) : form.querySelector("[name=csrfmiddlewaretoken]").value);
       xhr.upload.onprogress = function (ev) {
         if (!ev.lengthComputable) return;
         var pct = Math.round(ev.loaded / ev.total * 100);
