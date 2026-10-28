@@ -295,9 +295,11 @@
                   return;
                 }
                 if (Date.now() - started > 15 * 60 * 1000) { finish(false, T.timeout); return; }
-                if (s.status === "running" && s.progress != null) {
-                  if (s.progress >= 100) stage(T.processing, null);  // birlashtirish / mp3 ga o'girish
-                  else stage(T.downloading, s.progress);
+                if (s.status === "running") {
+                  // Bosqich: info (video ma'lumoti) -> downloading (foiz) -> processing (ffmpeg: birlashtirish / mp3)
+                  if (s.stage === "processing") stage(T.processing, null);
+                  else if (s.stage === "downloading" && s.progress != null) stage(T.downloading, s.progress);
+                  else stage(T.queued, null);
                 }
                 setTimeout(poll, 1500);
               })

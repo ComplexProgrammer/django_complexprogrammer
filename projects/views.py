@@ -142,6 +142,12 @@ def instagram_downloader_(request):
 # Bir jarayonda bir vaqtda ko'pi bilan shuncha yuklash (hosting thread/NPROC limiti); qolganlari navbatda kutadi
 YT_SLOTS = threading.BoundedSemaphore(2)
 YT_JOB_TTL = 2 * 3600
+YT_QUEUE_WAIT = 600  # bo'sh joy kutish chegarasi — qotib qolgan vazifa navbatni abadiy band qilmasin
+YT_BEAT = 20  # vazifa "tirikman" belgisini shuncha soniyada yangilaydi
+# Watchdog (youtube_job_status): belgi yangilanmasa — jarayon o'lgan (Passenger to'xtatgan);
+# bosqich o'zgarmasa — qotib qolgan. Video ma'lumoti odatda soniyalarda, ffmpeg esa uzun videoda daqiqalab ishlaydi
+YT_DEAD_AFTER = 90
+YT_STUCK_AFTER = {"queued": YT_QUEUE_WAIT + 60, "info": 180, "downloading": 300, "processing": 900}
 
 
 def _youtube_download(choice, quality, link, progress=None):
@@ -163,23 +169,51 @@ def _youtube_download(choice, quality, link, progress=None):
 
 def _youtube_job(job_id, *args):
     key = f"ytjob:{job_id}"
+    state = {"status": "queued", "stage": "queued", "progress": None, "changed": time.time()}
+    lock = threading.Lock()
+    stop = threading.Event()
     last = {"t": 0.0}
 
-    def progress(pct):
-        # Sahifa yuklash foizini ko'rsatadi; keshga soniyasiga ko'pi bilan bir marta yoziladi
-        now = time.monotonic()
-        if pct >= 100 or now - last["t"] >= 1:
-            last["t"] = now
-            cache.set(key, {"status": "running", "progress": pct}, YT_JOB_TTL)
+    def save():
+        data = {k: v for k, v in state.items() if v is not None}
+        cache.set(key, dict(data, beat=time.time()), YT_JOB_TTL)
 
-    with YT_SLOTS:
-        cache.set(key, {"status": "running", "progress": 0}, YT_JOB_TTL)
-        try:
-            data = _youtube_download(*args, progress=progress)
-        except Exception:  # fon oqimida kutilmagan xato — foydalanuvchi cheksiz kutib qolmasin
-            logger.exception("YouTube job %s failed", job_id)
-            data = {"result": "0", "error": "Xatolik yuz berdi, birozdan so'ng urinib ko'ring"}
-        cache.set(key, {"status": "done", **data}, YT_JOB_TTL)
+    def progress(pct, stage="downloading"):
+        # Foiz keshga soniyasiga ko'pi bilan bir marta; bosqich o'zgarishi — darhol
+        with lock:
+            now = time.monotonic()
+            new_stage = stage != state["stage"]
+            if new_stage or pct >= 100 or now - last["t"] >= 1:
+                last["t"] = now
+                if new_stage or pct != state["progress"]:
+                    state["changed"] = time.time()
+                state.update(status="running", stage=stage, progress=pct)
+                save()
+
+    def heartbeat():
+        # Jarayon tirik ekanini bildiradi; Passenger jarayonni to'xtatsa — belgi eskiradi va watchdog ishlaydi
+        while not stop.wait(YT_BEAT):
+            with lock:
+                save()
+
+    with lock:
+        save()
+    threading.Thread(target=heartbeat, daemon=True).start()
+    try:
+        if not YT_SLOTS.acquire(timeout=YT_QUEUE_WAIT):
+            data = {"result": "0", "error": "Server hozir band — birozdan so'ng urinib ko'ring"}
+        else:
+            try:
+                progress(0, "info")
+                data = _youtube_download(*args, progress=progress)
+            except Exception:  # fon oqimida kutilmagan xato — foydalanuvchi cheksiz kutib qolmasin
+                logger.exception("YouTube job %s failed", job_id)
+                data = {"result": "0", "error": "Xatolik yuz berdi, birozdan so'ng urinib ko'ring"}
+            finally:
+                YT_SLOTS.release()
+    finally:
+        stop.set()
+    cache.set(key, {"status": "done", **data}, YT_JOB_TTL)
 
 
 YT_TEXT = {
@@ -282,9 +316,24 @@ def youtube_info(request):
 
 def youtube_job_status(request):
     job_id = request.GET.get("job", "")
-    data = cache.get(f"ytjob:{job_id}") if job_id.isalnum() else None
+    try:
+        data = cache.get(f"ytjob:{job_id}") if job_id.isalnum() else None
+    except OSError:
+        # Fayl keshi aynan shu paytda yozilayotgan bo'lishi mumkin (Windows'da) — sahifa keyingi so'rovda qayta so'raydi
+        return JsonResponse({"status": "running"})
     if data is None:
         return JsonResponse({"status": "done", "result": "0", "error": "Vazifa topilmadi, qaytadan urinib ko'ring"}, status=404)
+    if data.get("status") != "done" and "beat" in data:
+        # Watchdog: jarayon o'lgan yoki bosqich juda uzoq qotib qolgan — foydalanuvchi cheksiz kutmasin
+        now = time.time()
+        stage = data.get("stage", "queued")
+        dead = now - data["beat"] > YT_DEAD_AFTER
+        stuck = now - data.get("changed", data["beat"]) > YT_STUCK_AFTER.get(stage, 600)
+        if dead or stuck:
+            logger.warning("YouTube job %s %s at stage %s", job_id, "died" if dead else "stuck", stage)
+            data = {"status": "done", "result": "0", "stage": stage,
+                    "error": "Video tayyorlanmadi (server javob bermadi) — qaytadan urinib ko'ring"}
+            cache.set(f"ytjob:{job_id}", data, YT_JOB_TTL)
     return JsonResponse(data)
 
 

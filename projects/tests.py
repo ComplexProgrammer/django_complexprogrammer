@@ -13,13 +13,18 @@ from projects.views import (
 
 
 class SyncThread:
-    """Fon yangilanishi testlarda darhol (sinxron) bajariladi — natija aniq bo'lsin."""
+    """Fon yangilanishi testlarda darhol (sinxron) bajariladi — natija aniq bo'lsin.
+
+    YouTube vazifasining "tirikman" (heartbeat) oqimi ishga tushirilmaydi: u vazifa tugashini kutib aylanadi,
+    sinxron rejimda esa testni abadiy to'xtatib qo'yardi.
+    """
 
     def __init__(self, target, args=(), daemon=None):
         self.target, self.args = target, args
 
     def start(self):
-        self.target(*self.args)
+        if self.target.__name__ != "heartbeat":
+            self.target(*self.args)
 
 
 class ExchangeRatesTestCase(TestCase):
@@ -317,3 +322,41 @@ class SitemapJobTestCase(TestCase):
         response = self.post(url="localhost", **{"async": True})
         self.assertEqual(response.status_code, 400)
         self.assertIn("error", response.json())
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class YoutubeWatchdogTestCase(TestCase):
+    def setUp(self):
+        cache.clear()
+
+    def tearDown(self):
+        cache.clear()
+
+    def status(self, job):
+        return self.client.get("/youtube_downloader/status/", {"job": job}).json()
+
+    def test_dead_process_reported(self):
+        import time as _time
+
+        # "Tirikman" belgisi 2 daqiqa yangilanmagan — Passenger jarayonni to'xtatgan
+        cache.set("ytjob:dead1", {"status": "running", "stage": "processing", "progress": 100,
+                                  "beat": _time.time() - 120, "changed": _time.time() - 120})
+        data = self.status("dead1")
+        self.assertEqual(data["status"], "done")
+        self.assertEqual(data["result"], "0")
+        self.assertEqual(self.status("dead1")["status"], "done")  # natija keshga yozilgan
+
+    def test_stuck_stage_reported(self):
+        import time as _time
+
+        # Jarayon tirik, lekin "info" bosqichi (deno) 5 daqiqadan beri o'zgarmagan
+        cache.set("ytjob:stuck1", {"status": "running", "stage": "info", "progress": 0,
+                                   "beat": _time.time(), "changed": _time.time() - 300})
+        self.assertEqual(self.status("stuck1")["result"], "0")
+
+    def test_healthy_job_untouched(self):
+        import time as _time
+
+        cache.set("ytjob:ok1", {"status": "running", "stage": "downloading", "progress": 40,
+                                "beat": _time.time(), "changed": _time.time() - 10})
+        self.assertEqual(self.status("ok1")["status"], "running")
