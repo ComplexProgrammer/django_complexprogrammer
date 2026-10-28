@@ -1,84 +1,297 @@
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-    
-    {% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uçun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="şa384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .dh{max-width:860px}
+  .dh-hero{padding:22px 24px;margin-bottom:16px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#0ea5e9,#2563eb 50%,#7c3aed);box-shadow:0 12px 32px rgba(37,99,235,.22)}
+  .dh-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .dh-hero p{margin:0;opacity:.92}
+  .dh-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .dh-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.86rem}
 
-<link rel="icon" sizes="16x16" href="/static/games/duckhunt/images/hunter.png">
- <!--  -->
-
-<link href="/static/Games/DuckHunt/css/Style.css" rel="stylesheet" />
- <link rel="stylesheet" href="/static/C0mplexButtonStyle.css">
+  .dh-card{padding:14px}
+  .dh-board{position:relative;width:100%;aspect-ratio:16/10;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(15,23,42,.22);
+    cursor:crosshair;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+  .dh-board canvas{display:block;width:100%;height:100%}
+  .dh-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;pointer-events:none}
+  .dh-hud span{padding:4px 10px;border-radius:10px;background:rgba(15,23,42,.6);color:#fff;font-weight:700;font-size:.9rem;font-variant-numeric:tabular-nums}
+  .dh-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:22px;
+    text-align:center;color:#fff;background:rgba(15,23,42,.62);backdrop-filter:blur(2px);cursor:default}
+  .dh-overlay h2{font-size:clamp(1.4rem,5vw,2.1rem);font-weight:800;margin:0;color:#fff}
+  .dh-overlay p{margin:0;opacity:.92;font-size:.92rem;max-width:380px}
+  .dh-big{font-size:clamp(2.2rem,8vw,3.2rem);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+  .dh-rec{color:#fde047;font-weight:800}
+  /* flex:0 — umumiy telefon qoidasi (.d-btn{flex:1 1 auto}) vertikal ustunda tugmani böyiga çözib yubormasin */
+  .dh-overlay .d-btn{flex:0 0 auto;padding:12px 26px;font-size:1.05rem}
+  .dh-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+  .dh-tool{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+  .dh-more{display:flex;justify-content:center;margin-top:14px}
+  [hidden]{display:none!important}
+  @media (max-width:640px){ .dh-hero{padding:18px} .dh-card{padding:10px} .dh-board{aspect-ratio:4/5} }
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-<span style="position:absolute;visibility:hidden">
-    <audio id="shoot_sound" controls="controls">
-        <source src="/static/Games/DuckHunt/Sounds/shoot.mp3" type="audio/mpeg" />
-    </audio>
-</span>
-<br />
-<body class="bodyClass" style="overflow:hidden" onclick="document.getElementById('shoot_sound').play();">
-    <a href="/" style="text-decoration:none;background-color:red;position:fixed;z-index:1">Go Back</a>
-    <br />
-    <br />
-    <a href="/duckhunt/" style="text-decoration:none;background-color:green;position:fixed;z-index:1">Refresh</a>
-    <input type="checkbox" class="shoot_check" id="duck1" />
-    <label for="duck1" class="duck"></label>
+<main class="d-main dh">
+  <section class="dh-hero">
+    <h1>🦆 {{ seo_h1|default:"Duck Hunt" }}</h1>
+    <p>{{ t.lead }}</p>
+    <div class="dh-badges">
+      <span>🎯 {{ t.badge_aim }}</span>
+      <span>⏱️ {{ t.badge_record }}</span>
+      <span>✅ {{ t.badge_free }}</span>
+    </div>
+  </section>
 
-    <input type="checkbox" class="shoot_check" id="duck2" />
-    <label for="duck2" class="duck"></label>
+  <section class="d-card dh-card">
+    <div class="dh-board" id="dh-board">
+      <canvas id="dh-canvas" aria-label="Duck Hunt"></canvas>
+      <div class="dh-hud" id="dh-hud" hidden>
+        <span>🦆 <b id="dh-hits">0</b>/10</span>
+        <span>⏱️ <b id="dh-time">0.0</b> {{ t.sec }}</span>
+        <span>🎯 <b id="dh-acc">—</b></span>
+      </div>
+      <div class="dh-overlay" id="dh-start">
+        <h2>🦆 Duck Hunt</h2>
+        <p id="dh-hint">{{ t.hint }}</p>
+        <button type="button" class="d-btn" data-act="start">▶ {{ t.start }}</button>
+      </div>
+      <div class="dh-overlay" id="dh-paused" hidden>
+        <h2>⏸ {{ t.paused }}</h2>
+        <button type="button" class="d-btn" data-act="resume">▶ {{ t.resume }}</button>
+      </div>
+      <div class="dh-overlay" id="dh-over" hidden>
+        <h2>🏆 {{ t.done }}</h2>
+        <div class="dh-big"><span id="dh-final">0</span> {{ t.sec }}</div>
+        <p>🎯 {{ t.accuracy }}: <b id="dh-final-acc">—</b> · 🏆 {{ t.best }}: <b id="dh-best">—</b></p>
+        <p class="dh-rec" id="dh-record" hidden>{{ t.new_record }}</p>
+        <button type="button" class="d-btn" data-act="start">🔄 {{ t.again }}</button>
+      </div>
+    </div>
+    <div class="dh-tools">
+      <button type="button" class="dh-tool" id="dh-pause-btn">⏸ {{ t.pause_btn }}</button>
+      <button type="button" class="dh-tool" id="dh-sound"></button>
+    </div>
+  </section>
+  <div class="dh-more"><a class="d-btn alt" href="{{ lang_prefix }}/projects/">🎮 {{ t.more_games }}</a></div>
+</main>
 
-    <input type="checkbox" class="shoot_check" id="duck3" />
-    <label for="duck3" class="duck"></label>
+<div class="d-comments">{% include 'comment_form.html' %}</div>
 
-    <input type="checkbox" class="shoot_check" id="duck4" />
-    <label for="duck4" class="duck"></label>
+{{ t|json_script:"dh-text" }}
+<script src="/static/js/game-kit.js?v=2"></script>
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("dh-text").textContent);
+    var GOAL = 10, MAX_ON_SCREEN = 2;
+    var $ = function (id) { return document.getElementById(id); };
+    var board = $("dh-board"), canvas = $("dh-canvas"), ctx = canvas.getContext("2d");
+    var W = 800, H = 500, GROUND = 0.78;    // H*GROUND — maysa çiziği
 
-    <input type="checkbox" class="shoot_check" id="duck5" />
-    <label for="duck5" class="duck"></label>
+    // Kanvas ölçami ekranga moslanadi (telefonda tikroq maydon), retina ekranlarda tiniq
+    function fit() {
+      var r = board.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.max(300, Math.round(r.width)); H = Math.max(240, Math.round(r.height));
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      clouds = clouds || [0, 1, 2, 3].map(function (i) { return { x: i * 0.3 + Math.random() * 0.15, y: 0.08 + (i % 2) * 0.12 + Math.random() * 0.05, s: 0.7 + Math.random() * 0.6 }; });
+      draw();
+    }
 
-    <input type="checkbox" class="shoot_check" id="duck6" />
-    <label for="duck6" class="duck"></label>
+    var state = "start", ducks = [], falling = [], feathers = [], clouds = null;
+    var hits = 0, shots = 0, elapsed = 0, spawnIn = 0, lastTime = 0, flash = 0, aim = null;
+    var sound = true;
+    try { sound = localStorage.getItem("duckSound") !== "off"; } catch (e) {}
+    var shotSfx = new Audio("/static/Games/DuckHunt/Sounds/shoot.mp3");
+    shotSfx.preload = "none"; shotSfx.volume = 0.4;
 
-    <input type="checkbox" class="shoot_check" id="duck7" />
-    <label for="duck7" class="duck"></label>
+    function scale() { return Math.max(0.65, Math.min(1.2, W / 800)); }
 
-    <input type="checkbox" class="shoot_check" id="duck8" />
-    <label for="duck8" class="duck"></label>
+    // Yangi ördak: çap yoki öngdan, tölqinsimon yöl bilan; vaqt ötsa yuqoriga uçib qoçadi
+    function spawn() {
+      var fromLeft = Math.random() < 0.5, s = scale();
+      var speed = (130 + Math.random() * 90 + hits * 12) * s;
+      ducks.push({
+        x: fromLeft ? -40 : W + 40, y: H * (0.18 + Math.random() * 0.42), vx: fromLeft ? speed : -speed,
+        phase: Math.random() * Math.PI * 2, amp: (25 + Math.random() * 35) * s, life: 0, escaping: false,
+        flap: Math.random() * 10, color: Math.random() < 0.5 ? "#15803d" : "#1d4ed8", r: 26 * s
+      });
+    }
 
-    <input type="checkbox" class="shoot_check" id="duck9" />
-    <label for="duck9" class="duck"></label>
+    function update(dt) {
+      if (state === "play") {
+        elapsed += dt;
+        spawnIn -= dt;
+        if (ducks.length < MAX_ON_SCREEN && hits + ducks.length < GOAL && spawnIn <= 0) { spawn(); spawnIn = 0.6 + Math.random() * 0.8; }
+        $("dh-time").textContent = elapsed.toFixed(1);
+      }
+      for (var i = ducks.length - 1; i >= 0; i--) {
+        var d = ducks[i];
+        d.life += dt; d.flap += dt * 14;
+        if (!d.escaping && (d.life > 5.5 || d.x < -60 || d.x > W + 60)) d.escaping = true;
+        if (d.escaping) { d.y -= 260 * scale() * dt; d.x += d.vx * 0.4 * dt; }
+        else {
+          d.x += d.vx * dt;
+          d.y += Math.cos(d.life * 2.2 + d.phase) * d.amp * dt * 2.2;
+          d.y = Math.max(H * 0.08, Math.min(H * GROUND - d.r * 2, d.y));
+          if ((d.x < d.r && d.vx < 0 && d.life > 1) || (d.x > W - d.r && d.vx > 0 && d.life > 1)) d.vx *= -1;  // çetdan qaytadi
+        }
+        if (d.y < -60) ducks.splice(i, 1);   // qoçib ketdi — örniga yangisi çiqadi
+      }
+      falling.forEach(function (f) { f.vy += 900 * dt; f.y += f.vy * dt; f.rot += dt * 8; });
+      falling = falling.filter(function (f) { return f.y < H * GROUND + 10; });
+      feathers.forEach(function (p) { p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 60 * dt; p.life -= dt; });
+      feathers = feathers.filter(function (p) { return p.life > 0; });
+      clouds.forEach(function (c) { c.x += dt * 0.01 * c.s; if (c.x > 1.2) c.x = -0.2; });
+      if (flash > 0) flash = Math.max(0, flash - dt * 4);
+    }
 
-    <input type="checkbox" class="shoot_check" id="duck10" />
-    <label for="duck10" class="duck"></label>
-    <div class="score"></div>
-    <script src="/static/js/game-kit.js"></script>
-    <script>
-        // Rekord — 10 ta o'rdakning hammasini otish uchun ketgan eng qisqa vaqt
-        (function () {
-            var bar = document.createElement("div");
-            bar.style.cssText = "position:fixed;top:70px;right:10px;z-index:3;max-width:92vw";
-            var slot = bar.appendChild(document.createElement("span"));  // panel shu joyga (qotirilgan blok ichiga) qo'yiladi
-            document.body.appendChild(bar);
-            CPGame.init({ id: "duckhunt", title: "Duck Hunt", mode: "time", before: slot });
-            var ducks = document.querySelectorAll(".shoot_check"), started = 0;
-            ducks.forEach(function (d) {
-                d.addEventListener("change", function () {
-                    if (!started) started = Date.now();
-                    var shot = document.querySelectorAll(".shoot_check:checked").length;
-                    var sec = Math.round((Date.now() - started) / 1000);
-                    if (shot === ducks.length) CPGame.over(Math.max(1, sec)); else CPGame.score(sec);
-                });
-            });
-        })();
-    </script>
-    {% include 'comment_form.html' %}
+    function shoot(px, py) {
+      if (state !== "play") return;
+      shots++;
+      if (sound) { try { shotSfx.currentTime = 0; shotSfx.play().catch(function () {}); } catch (e) {} }
+      flash = 1;
+      // Eng yaqin ördak; barmoq bilan otişda nişon kengroq
+      var tol = matchMedia("(pointer:coarse)").matches ? 1.6 : 1.15, hit = -1, best = Infinity;
+      ducks.forEach(function (d, i) {
+        if (d.escaping && d.y < 0) return;
+        var dist = Math.hypot(px - d.x, py - d.y);
+        if (dist < d.r * tol && dist < best) { best = dist; hit = i; }
+      });
+      if (hit >= 0) {
+        var d = ducks.splice(hit, 1)[0];
+        hits++;
+        falling.push({ x: d.x, y: d.y, vy: -120, rot: 0, color: d.color, r: d.r, dir: d.vx > 0 ? 1 : -1 });
+        for (var k = 0; k < 10; k++) feathers.push({ x: d.x, y: d.y, vx: (Math.random() - .5) * 160, vy: (Math.random() - .8) * 140, life: 0.9 + Math.random() * 0.5 });
+        $("dh-hits").textContent = hits;
+        CPGame.score(Math.round(elapsed));
+        if (hits >= GOAL) finish();
+      }
+      $("dh-acc").textContent = Math.round(hits / shots * 100) + "%";
+    }
+
+    // --- Çiziş ---
+    function cloud(x, y, s) {
+      ctx.fillStyle = "#f8fafc";
+      ctx.beginPath();   // bitta yöl — doiralar ustma-ust tuşganda çok körinmasin
+      [[0, 0, 22], [24, -10, 26], [50, 0, 22], [24, 6, 24]].forEach(function (c) {
+        ctx.moveTo(x + (c[0] + c[2]) * s, y + c[1] * s); ctx.arc(x + c[0] * s, y + c[1] * s, c[2] * s, 0, Math.PI * 2);
+      });
+      ctx.fill();
+    }
+    function drawDuck(d, rot, dead) {
+      var s = d.r / 26, dir = d.vx > 0 || d.dir > 0 ? 1 : -1;
+      ctx.save(); ctx.translate(d.x, d.y); if (rot) ctx.rotate(rot); ctx.scale(dir * s, s);
+      ctx.fillStyle = "#92400e"; ctx.beginPath(); ctx.ellipse(-4, 4, 26, 15, 0, 0, Math.PI * 2); ctx.fill();          // tana
+      ctx.fillStyle = "#fef3c7"; ctx.beginPath(); ctx.ellipse(2, 9, 16, 7, 0, 0, Math.PI * 2); ctx.fill();            // kökrak
+      ctx.fillStyle = d.color; ctx.beginPath(); ctx.arc(22, -8, 11, 0, Math.PI * 2); ctx.fill();                      // boş
+      ctx.fillStyle = "#fff"; ctx.fillRect(14, 0, 14, 3);                                                           // böyin halqasi
+      ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.moveTo(31, -9); ctx.lineTo(43, -5); ctx.lineTo(31, -3); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#111";
+      if (dead) { ctx.font = "bold 10px sans-serif"; ctx.fillText("x", 22, -7); }
+      else { ctx.beginPath(); ctx.arc(25, -10, 2.4, 0, Math.PI * 2); ctx.fill(); }
+      var flap = dead ? 0 : Math.sin(d.flap) * 0.9;                                                                 // qanot qoqiş
+      ctx.fillStyle = "#78350f"; ctx.beginPath(); ctx.moveTo(-10, 0);
+      ctx.quadraticCurveTo(-2, -26 * flap - 4, 12, -2 - 22 * flap); ctx.quadraticCurveTo(4, 2, -10, 0); ctx.fill();
+      ctx.fillStyle = "#92400e"; ctx.beginPath(); ctx.moveTo(-28, 2); ctx.lineTo(-38, -4); ctx.lineTo(-36, 8); ctx.closePath(); ctx.fill(); // dum
+      ctx.restore();
+    }
+    function draw() {
+      var sky = ctx.createLinearGradient(0, 0, 0, H * GROUND);
+      sky.addColorStop(0, "#38bdf8"); sky.addColorStop(1, "#bae6fd");
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = "#fde68a"; ctx.beginPath(); ctx.arc(W * 0.86, H * 0.16, Math.min(W, H) * 0.06, 0, Math.PI * 2); ctx.fill();
+      clouds.forEach(function (c) { cloud(c.x * W, c.y * H, c.s * scale()); });
+      ctx.fillStyle = "#65a30d"; ctx.beginPath(); ctx.moveTo(0, H * GROUND);
+      for (var x = 0; x <= W; x += 20) ctx.lineTo(x, H * GROUND - 30 - Math.sin(x / 90) * 18 - Math.sin(x / 37) * 6);
+      ctx.lineTo(W, H * GROUND); ctx.fill();
+      ducks.forEach(function (d) { drawDuck(d, 0, false); });
+      falling.forEach(function (f) { drawDuck(f, f.rot * f.dir, true); });
+      feathers.forEach(function (p) { ctx.fillStyle = "rgba(254,243,199," + Math.min(1, p.life) + ")"; ctx.fillRect(p.x, p.y, 4, 2); });
+      ctx.fillStyle = "#4d7c0f"; ctx.fillRect(0, H * GROUND, W, H);
+      ctx.fillStyle = "#3f6212";                                                                                    // qamişlar
+      for (var g = 0; g < W; g += 14) { var h = 14 + (g * 7 % 23); ctx.fillRect(g, H * GROUND - h, 3, h + 2); }
+      if (flash > 0) { ctx.fillStyle = "rgba(255,255,255," + flash * 0.25 + ")"; ctx.fillRect(0, 0, W, H); }
+      if (aim && state === "play") {                                                                                // nişon
+        ctx.strokeStyle = "rgba(220,38,38,.9)"; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.arc(aim.x, aim.y, 16, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(aim.x - 24, aim.y); ctx.lineTo(aim.x - 8, aim.y); ctx.moveTo(aim.x + 8, aim.y); ctx.lineTo(aim.x + 24, aim.y);
+        ctx.moveTo(aim.x, aim.y - 24); ctx.lineTo(aim.x, aim.y - 8); ctx.moveTo(aim.x, aim.y + 8); ctx.lineTo(aim.x, aim.y + 24); ctx.stroke();
+      }
+    }
+
+    function loop(time) {
+      var dt = Math.min(0.05, (time - lastTime) / 1000);
+      lastTime = time;
+      // Öyin tugagach ham yiqilayotgan va uçib ketayotgan ördaklar oxirigaça harakatlanadi, keyin kadr çizilmaydi
+      if (state === "play" || (state === "over" && (ducks.length || falling.length || feathers.length))) { update(dt); draw(); }
+      requestAnimationFrame(loop);
+    }
+
+    function show(id) { ["dh-start", "dh-paused", "dh-over"].forEach(function (o) { $(o).hidden = o !== id; }); $("dh-hud").hidden = !!id && id !== "dh-paused"; }
+
+    function start() {
+      ducks = []; falling = []; feathers = []; hits = 0; shots = 0; elapsed = 0; spawnIn = 0.3;
+      $("dh-hits").textContent = 0; $("dh-acc").textContent = "—"; $("dh-time").textContent = "0.0";
+      CPGame.score(0);
+      state = "play"; show(null);
+    }
+    function pause() { if (state === "play") { state = "paused"; show("dh-paused"); } }
+    function resume() { if (state === "paused") { state = "play"; show(null); } }
+
+    function finish() {
+      state = "over";
+      ducks.forEach(function (d) { d.escaping = true; });   // qolgan ördaklar uçib ketadi
+      var sec = Math.max(1, Math.round(elapsed));
+      var before = parseInt(localStorage.getItem("cpGameBest:duckhunt") || "0", 10) || 0;
+      CPGame.over(sec);   // "time" rejimi: kamroq — yaxşiroq
+      var best = before ? Math.min(before, sec) : sec;
+      $("dh-final").textContent = elapsed.toFixed(1);
+      $("dh-final-acc").textContent = Math.round(hits / shots * 100) + "%";
+      $("dh-best").textContent = best + " " + T.sec;
+      $("dh-record").hidden = !(!before || sec < before);
+      setTimeout(function () { if (state === "over") show("dh-over"); }, 700);  // oxirgi ördak yiqilişi körinsin
+    }
+
+    function point(e) { var r = canvas.getBoundingClientRect(); return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height }; }
+    canvas.addEventListener("pointerdown", function (e) { if (e.button > 0) return; var p = point(e); aim = p; shoot(p.x, p.y); });
+    canvas.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") aim = point(e); });
+    canvas.addEventListener("pointerleave", function () { aim = null; });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;  // izoh yozişga xalaqit bermasin
+      if (e.key === " " || e.key === "p" || e.key === "P" || e.key === "Escape") {
+        if (state === "play") { e.preventDefault(); pause(); }
+        else if (state === "paused" && e.key !== "Escape") { e.preventDefault(); resume(); }
+      } else if (e.key === "Enter" && state !== "play") {
+        e.preventDefault(); state === "paused" ? resume() : start();
+      }
+    });
+    document.querySelectorAll("[data-act]").forEach(function (b) {
+      b.addEventListener("click", function () { b.dataset.act === "resume" ? resume() : start(); });
+    });
+    $("dh-pause-btn").addEventListener("click", function () { state === "play" ? pause() : state === "paused" ? resume() : start(); this.blur(); });
+    function syncSound() { $("dh-sound").textContent = sound ? "🔊 " + T.sound_on : "🔇 " + T.sound_off; }
+    $("dh-sound").addEventListener("click", function () {
+      sound = !sound; syncSound(); this.blur();
+      try { localStorage.setItem("duckSound", sound ? "on" : "off"); } catch (e) {}
+    });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+    window.addEventListener("resize", fit);
+
+    if (matchMedia("(pointer:coarse)").matches) $("dh-hint").textContent = T.hint_touch;
+    syncSound();
+    CPGame.init({ id: "duckhunt", title: "Duck Hunt", mode: "time", before: board });
+    fit();
+    requestAnimationFrame(function (t) { lastTime = t; requestAnimationFrame(loop); });
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>
