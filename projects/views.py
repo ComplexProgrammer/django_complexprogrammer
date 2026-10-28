@@ -1227,9 +1227,55 @@ def sitemap_job_status(request):
     return JsonResponse(data)
 
 
+SNAKE_TEXT = {
+    "uz": {
+        "lead": "Ilonni boshqaring, olmalarni yeng va o'z dumingizga urilmang. Har 5 ta olmadan keyin tezlik oshadi.",
+        "badge_keys": "Klaviatura va barmoq bilan", "badge_record": "Rekord saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "start": "Boshlash", "again": "Qayta o'ynash", "resume": "Davom etish", "paused": "Pauza", "over": "O'yin tugadi",
+        "score": "Hisob", "best": "Rekord", "new_record": "🎉 Yangi rekord!",
+        "hint_keys": "Strelkalar yoki WASD — boshqarish, Probel — pauza", "hint_touch": "Ekranni suring yoki pastdagi tugmalarni bosing",
+        "speed": "Tezlik", "slow": "Sekin", "normal": "O'rta", "fast": "Tez",
+        "walls": "Devorlar", "walls_pass": "O'tib ketadi", "walls_solid": "Urilsa — o'yin tugaydi",
+        "more_games": "Boshqa o'yinlar", "pause_btn": "Pauza",
+    },
+    "ru": {
+        "lead": "Управляйте змейкой, собирайте яблоки и не врезайтесь в свой хвост. Каждые 5 яблок скорость растёт.",
+        "badge_keys": "Клавиатура и свайпы", "badge_record": "Рекорд сохраняется", "badge_free": "Бесплатно, без скачивания",
+        "start": "Начать", "again": "Играть снова", "resume": "Продолжить", "paused": "Пауза", "over": "Игра окончена",
+        "score": "Счёт", "best": "Рекорд", "new_record": "🎉 Новый рекорд!",
+        "hint_keys": "Стрелки или WASD — управление, Пробел — пауза", "hint_touch": "Проводите по экрану или нажимайте кнопки внизу",
+        "speed": "Скорость", "slow": "Медленно", "normal": "Средне", "fast": "Быстро",
+        "walls": "Стены", "walls_pass": "Проходить насквозь", "walls_solid": "Удар — конец игры",
+        "more_games": "Другие игры", "pause_btn": "Пауза",
+    },
+    "en": {
+        "lead": "Steer the snake, eat the apples and don't bite your own tail. The speed goes up every 5 apples.",
+        "badge_keys": "Keyboard and swipe", "badge_record": "Best score is saved", "badge_free": "Free, no download",
+        "start": "Start", "again": "Play again", "resume": "Resume", "paused": "Paused", "over": "Game over",
+        "score": "Score", "best": "Best", "new_record": "🎉 New record!",
+        "hint_keys": "Arrows or WASD to steer, Space to pause", "hint_touch": "Swipe on the board or use the buttons below",
+        "speed": "Speed", "slow": "Slow", "normal": "Normal", "fast": "Fast",
+        "walls": "Walls", "walls_pass": "Wrap around", "walls_solid": "Crash ends the game",
+        "more_games": "More games", "pause_btn": "Pause",
+    },
+    "tr": {
+        "lead": "Yılanı yönlendirin, elmaları yiyin ve kendi kuyruğunuza çarpmayın. Her 5 elmada hız artar.",
+        "badge_keys": "Klavye ve kaydırma", "badge_record": "Rekor kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "start": "Başla", "again": "Tekrar oyna", "resume": "Devam et", "paused": "Duraklatıldı", "over": "Oyun bitti",
+        "score": "Skor", "best": "Rekor", "new_record": "🎉 Yeni rekor!",
+        "hint_keys": "Oklar veya WASD ile yönlendirin, Boşluk ile duraklatın", "hint_touch": "Tahtayı kaydırın veya alttaki düğmeleri kullanın",
+        "speed": "Hız", "slow": "Yavaş", "normal": "Orta", "fast": "Hızlı",
+        "walls": "Duvarlar", "walls_pass": "İçinden geç", "walls_solid": "Çarpınca oyun biter",
+        "more_games": "Diğer oyunlar", "pause_btn": "Duraklat",
+    },
+}
+
+
 def snake(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": SNAKE_TEXT.get(lang, SNAKE_TEXT["en"])}
     return render(request, "projects/snake.html", context=context)
 
 

@@ -3,156 +3,315 @@
 <head>
 <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <style>
-        canvas {
-            border: 1px solid black;
-            max-width: 100%;
-            height: auto;
-            touch-action: none;
-        }
-        .comment-form {
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        .comment {
-            margin: 10px 0;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .comment-meta {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-        }
-        .reply-form {
-            margin: 10px 0 10px 20px;
-            display: none;
-        }
-        .replies {
-            margin-left: 40px;
-        }
-        .replies .comment {
-            border-left: 2px solid #ddd;
-        }
-        .comment-actions {
-            margin-top: 10px;
-        }
-        .comment-actions button {
-            margin-right: 10px;
-        }
-    </style>
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uchun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .sn{max-width:760px}
+  .sn-hero{padding:22px 24px;margin-bottom:16px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#16a34a,#059669 50%,#0d9488);box-shadow:0 12px 32px rgba(5,150,105,.22)}
+  .sn-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .sn-hero p{margin:0;opacity:.92}
+  .sn-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .sn-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.86rem}
+
+  .sn-card{padding:14px}
+  .sn-board{position:relative;width:100%;max-width:520px;margin:0 auto;aspect-ratio:1;border-radius:16px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(15,23,42,.18);touch-action:none;user-select:none}
+  .sn-board canvas{display:block;width:100%;height:100%}
+  .sn-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;
+    text-align:center;color:#fff;background:rgba(6,40,25,.72);backdrop-filter:blur(2px)}
+  .sn-overlay h2{font-size:clamp(1.4rem,5vw,2rem);font-weight:800;margin:0;color:#fff}
+  .sn-overlay p{margin:0;opacity:.9;font-size:.92rem;max-width:340px}
+  .sn-big{font-size:clamp(2.2rem,9vw,3.4rem);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+  .sn-rec{color:#fde047;font-weight:800}
+  /* flex:0 — umumiy telefon qoidasi (.d-btn{flex:1 1 auto}) vertikal ustunda tugmani bo'yiga cho'zib yubormasin */
+  .sn-overlay .d-btn{flex:0 0 auto;padding:12px 26px;font-size:1.05rem}
+
+  .sn-tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;max-width:520px;margin:12px auto 0}
+  .sn-seg{display:flex;gap:3px;padding:3px;border-radius:11px;background:var(--bg);border:1px solid var(--border)}
+  .sn-seg button{padding:6px 11px;border:0;border-radius:8px;background:transparent;color:var(--muted);font:inherit;font-size:.86rem;font-weight:600;cursor:pointer}
+  .sn-seg button[aria-pressed="true"]{background:linear-gradient(135deg,#16a34a,#0d9488);color:#fff}
+  .sn-label{font-size:.8rem;color:var(--muted);margin-bottom:4px}
+  .sn-pause{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+
+  /* Telefon uchun yo'nalish tugmalari */
+  .sn-pad{display:none;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,56px);gap:8px;justify-content:center;margin:14px auto 0}
+  .sn-pad button{border:0;border-radius:14px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:1.4rem;
+    box-shadow:0 3px 0 var(--border);touch-action:manipulation}
+  .sn-pad button:active{transform:translateY(2px);box-shadow:none;background:rgba(22,163,74,.15)}
+  .sn-pad [data-dir="up"]{grid-column:2}
+  .sn-pad [data-dir="left"]{grid-column:1;grid-row:2}
+  .sn-pad [data-dir="down"]{grid-column:2;grid-row:2}
+  .sn-pad [data-dir="right"]{grid-column:3;grid-row:2}
+  @media (pointer:coarse),(max-width:640px){ .sn-pad{display:grid} }
+  .sn-more{display:flex;justify-content:center;margin-top:14px}
+  [hidden]{display:none!important}
+  @media (max-width:640px){ .sn-hero{padding:18px} .sn-card{padding:10px} }
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>Snake Game</h1>
-            <a href="/projects" class="C0mplexButton Danger">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Back
-            </a>
-        </div>
+<main class="d-main sn">
+  <section class="sn-hero">
+    <h1>🐍 {{ seo_h1|default:"Snake" }}</h1>
+    <p>{{ t.lead }}</p>
+    <div class="sn-badges">
+      <span>🎮 {{ t.badge_keys }}</span>
+      <span>🏆 {{ t.badge_record }}</span>
+      <span>✅ {{ t.badge_free }}</span>
+    </div>
+  </section>
 
-        <canvas id="gc" width="400" height="400"></canvas>
-
-        {% include 'comment_form.html' %}
+  <section class="d-card sn-card">
+    <div class="sn-board" id="sn-board">
+      <canvas id="gc" width="520" height="520" aria-label="Snake"></canvas>
+      <div class="sn-overlay" id="sn-start">
+        <h2>🐍 Snake</h2>
+        <p id="sn-hint">{{ t.hint_keys }}</p>
+        <button type="button" class="d-btn" data-act="start">▶ {{ t.start }}</button>
+      </div>
+      <div class="sn-overlay" id="sn-paused" hidden>
+        <h2>⏸ {{ t.paused }}</h2>
+        <button type="button" class="d-btn" data-act="resume">▶ {{ t.resume }}</button>
+      </div>
+      <div class="sn-overlay" id="sn-over" hidden>
+        <h2>{{ t.over }}</h2>
+        <div class="sn-big" id="sn-final">0</div>
+        <p><span id="sn-best-line">🏆 {{ t.best }}: <b id="sn-best">0</b></span></p>
+        <p class="sn-rec" id="sn-record" hidden>{{ t.new_record }}</p>
+        <button type="button" class="d-btn" data-act="start">🔄 {{ t.again }}</button>
+      </div>
     </div>
 
-    <script src="/static/js/game-kit.js"></script>
-    <script>
-        function toggleReplyForm(formId) {
-            const form = document.getElementById(formId);
-            if (form.style.display === 'none' || !form.style.display) {
-                form.style.display = 'block';
-            } else {
-                form.style.display = 'none';
-            }
-        }
+    <div class="sn-tools">
+      <div>
+        <div class="sn-label">{{ t.speed }}</div>
+        <div class="sn-seg" id="sn-speed">
+          <button type="button" data-v="slow">{{ t.slow }}</button>
+          <button type="button" data-v="normal">{{ t.normal }}</button>
+          <button type="button" data-v="fast">{{ t.fast }}</button>
+        </div>
+      </div>
+      <div>
+        <div class="sn-label">{{ t.walls }}</div>
+        <div class="sn-seg" id="sn-walls">
+          <button type="button" data-v="pass">{{ t.walls_pass }}</button>
+          <button type="button" data-v="solid">{{ t.walls_solid }}</button>
+        </div>
+      </div>
+      <button type="button" class="sn-pause" id="sn-pause-btn">⏸ {{ t.pause_btn }}</button>
+    </div>
 
-        window.onload=function() {
-            canv=document.getElementById("gc");
-            ctx=canv.getContext("2d");
-            document.addEventListener("keydown",keyPush);
-            CPGame.init({ id: "snake", title: "Snake" });
-            // Telefonda: ekran ustida barmoqni surish = strelka tugmasi
-            CPGame.swipe(canv, function(dir) {
-                var codes = { left: 37, up: 38, right: 39, down: 40 };
-                if (codes[dir]) keyPush({ keyCode: codes[dir] });
-            });
-            setInterval(game,1000/15);
-        }
-        px=py=10;
-        gs=tc=20;
-        ax=ay=15;
-        xv=yv=0;
-        trail=[];
-        tail = 5;
-        function game() {
-            px+=xv;
-            py+=yv;
-            if(px<0) {
-                px= tc-1;
-            }
-            if(px>tc-1) {
-                px= 0;
-            }
-            if(py<0) {
-                py= tc-1;
-            }
-            if(py>tc-1) {
-                py= 0;
-            }
-            ctx.fillStyle="black";
-            ctx.fillRect(0,0,canv.width,canv.height);
-        
-            ctx.fillStyle="lime";
-            for(var i=0;i<trail.length;i++) {
-                ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-2,gs-2);
-                if(trail[i].x==px && trail[i].y==py && tail > 5) {
-                    CPGame.over(tail - 5);  // o'z dumiga urildi — o'yin qaytadan
-                    tail = 5;
-                    CPGame.score(0);
-                }
-            }
-            trail.push({x:px,y:py});
-            while(trail.length>tail) {
-                trail.shift();
-            }
-        
-            if(ax==px && ay==py) {
-                tail++;
-                CPGame.score(tail - 5);
-                ax=Math.floor(Math.random()*tc);
-                ay=Math.floor(Math.random()*tc);
-            }
-            ctx.fillStyle="red";
-            ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
-        }
-        function keyPush(evt) {
-            switch(evt.keyCode) {
-                case 37:
-                    xv=-1;yv=0;
-                    break;
-                case 38:
-                    xv=0;yv=-1;
-                    break;
-                case 39:
-                    xv=1;yv=0;
-                    break;
-                case 40:
-                    xv=0;yv=1;
-                    break;
-            }
-        }
-    </script>
+    <div class="sn-pad" id="sn-pad" aria-hidden="true">
+      <button type="button" data-dir="up">▲</button>
+      <button type="button" data-dir="left">◀</button>
+      <button type="button" data-dir="down">▼</button>
+      <button type="button" data-dir="right">▶</button>
+    </div>
+  </section>
+  <div class="sn-more"><a class="d-btn alt" href="{{ lang_prefix }}/projects/">🎮 {{ t.more_games }}</a></div>
+</main>
+
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+{{ t|json_script:"sn-text" }}
+<script src="/static/js/game-kit.js?v=2"></script>
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("sn-text").textContent);
+    var N = 20;                                        // maydon 20x20 katak
+    var SPEEDS = { slow: 7, normal: 10, fast: 14 };    // qadam/soniya (boshlang'ich)
+    var canvas = document.getElementById("gc"), ctx = canvas.getContext("2d");
+    var $ = function (id) { return document.getElementById(id); };
+    var DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+
+    var settings = { speed: "normal", walls: "pass" };
+    try { Object.assign(settings, JSON.parse(localStorage.getItem("snakeSettings") || "{}")); } catch (e) {}
+
+    var snake, dir, queue, food, eaten, state = "start", acc = 0, lastTime = 0;
+
+    function cellSize() { return canvas.width / N; }
+
+    function reset() {
+      snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+      dir = "right"; queue = []; eaten = 0;
+      placeFood();
+      CPGame.score(0);
+    }
+
+    // Olma faqat bo'sh katakka tushadi
+    function placeFood() {
+      var free = [];
+      for (var x = 0; x < N; x++) for (var y = 0; y < N; y++) {
+        if (!snake.some(function (p) { return p.x === x && p.y === y; })) free.push({ x: x, y: y });
+      }
+      food = free[Math.floor(Math.random() * free.length)];
+    }
+
+    // Har 5 ta olmadan keyin ~8% tezroq, lekin chegarasi bor
+    function stepsPerSecond() { return Math.min(SPEEDS[settings.speed] * Math.pow(1.08, Math.floor(eaten / 5)), 24); }
+
+    // Yo'nalishlar navbatda saqlanadi: bir qadam ichida ikki tez bosish ham to'g'ri bajariladi, teskari burilish e'tiborsiz
+    function turn(d) {
+      if (state !== "play") return;
+      var last = queue.length ? queue[queue.length - 1] : dir;
+      var v = DIRS[d], lv = DIRS[last];
+      if (!v || (v[0] === -lv[0] && v[1] === -lv[1]) || d === last || queue.length >= 3) return;
+      queue.push(d);
+    }
+
+    function step() {
+      if (queue.length) dir = queue.shift();
+      var head = { x: snake[0].x + DIRS[dir][0], y: snake[0].y + DIRS[dir][1] };
+      var outside = head.x < 0 || head.y < 0 || head.x >= N || head.y >= N;
+      if (outside) {
+        if (settings.walls === "solid") return gameOver();
+        head.x = (head.x + N) % N; head.y = (head.y + N) % N;
+      }
+      var grows = head.x === food.x && head.y === food.y;
+      // Dumning oxiri shu qadamda bo'shaydi (o'smasa) — unga kirish mumkin
+      var body = grows ? snake : snake.slice(0, -1);
+      if (body.some(function (p) { return p.x === head.x && p.y === head.y; })) return gameOver();
+      snake.unshift(head);
+      if (grows) {
+        eaten++;
+        CPGame.score(eaten);
+        if (snake.length === N * N) return gameOver();  // butun maydon to'ldi — g'alaba
+        placeFood();
+      } else {
+        snake.pop();
+      }
+    }
+
+    function roundRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+    }
+
+    function draw() {
+      var s = cellSize();
+      // Shaxmat taxtasi kabi maydon
+      for (var x = 0; x < N; x++) for (var y = 0; y < N; y++) {
+        ctx.fillStyle = (x + y) % 2 ? "#a7d948" : "#8ecc39";
+        ctx.fillRect(x * s, y * s, s, s);
+      }
+      // Olma
+      var cx = food.x * s + s / 2, cy = food.y * s + s / 2;
+      ctx.fillStyle = "#e7471d";
+      ctx.beginPath(); ctx.arc(cx, cy + s * 0.04, s * 0.38, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#5a3a1a"; ctx.fillRect(cx - s * 0.04, cy - s * 0.42, s * 0.08, s * 0.16);
+      ctx.fillStyle = "#3f8f2a";
+      ctx.beginPath(); ctx.ellipse(cx + s * 0.13, cy - s * 0.32, s * 0.12, s * 0.06, -0.6, 0, Math.PI * 2); ctx.fill();
+      // Ilon: boshdan dumga rang biroz o'zgaradi
+      snake.forEach(function (p, i) {
+        var k = i / Math.max(1, snake.length - 1);
+        ctx.fillStyle = "hsl(" + (220 - k * 10) + ", 70%, " + (52 - k * 12) + "%)";
+        var pad = i === 0 ? s * 0.04 : s * 0.1;
+        roundRect(p.x * s + pad, p.y * s + pad, s - pad * 2, s - pad * 2, s * 0.3);
+        ctx.fill();
+      });
+      // Ko'zlar — harakat yo'nalishiga qaraydi
+      var h = snake[0], d = DIRS[dir], ex = h.x * s + s / 2, ey = h.y * s + s / 2;
+      [-1, 1].forEach(function (side) {
+        var ox = ex + d[0] * s * 0.18 + -d[1] * side * s * 0.2, oy = ey + d[1] * s * 0.18 + d[0] * side * s * 0.2;
+        ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(ox, oy, s * 0.13, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#111"; ctx.beginPath(); ctx.arc(ox + d[0] * s * 0.04, oy + d[1] * s * 0.04, s * 0.065, 0, Math.PI * 2); ctx.fill();
+      });
+    }
+
+    function loop(time) {
+      if (state === "play") {
+        acc += Math.min(250, time - lastTime);
+        var interval = 1000 / stepsPerSecond();
+        while (acc >= interval && state === "play") { acc -= interval; step(); }
+        draw();
+      }
+      lastTime = time;
+      requestAnimationFrame(loop);
+    }
+
+    function show(id) { ["sn-start", "sn-paused", "sn-over"].forEach(function (o) { $(o).hidden = o !== id; }); }
+
+    function start() {
+      reset(); acc = 0; state = "play"; show(null); draw();
+      canvas.focus && canvas.focus();
+    }
+    function pause() { if (state === "play") { state = "paused"; show("sn-paused"); } }
+    function resume() { if (state === "paused") { state = "play"; acc = 0; show(null); } }
+
+    function gameOver() {
+      state = "over";
+      var before = parseInt(localStorage.getItem("cpGameBest:snake") || "0", 10) || 0;
+      CPGame.over(eaten);  // rekord bo'lsa game-kit saqlaydi va panelda ko'rsatadi
+      var best = Math.max(before, eaten);
+      $("sn-final").textContent = eaten;
+      $("sn-best").textContent = best;
+      $("sn-record").hidden = !(eaten > before && eaten > 0);
+      show("sn-over");
+      draw();
+    }
+
+    // Klaviatura: strelkalar/WASD sahifani aylantirmaydi
+    var KEYS = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right",
+                 W: "up", S: "down", A: "left", D: "right", "ц": "up", "ы": "down", "ф": "left", "в": "right" };
+    document.addEventListener("keydown", function (e) {
+      if (e.target.closest && e.target.closest("input, textarea, select")) return;  // izoh yozayotganda xalaqit bermasin
+      var d = KEYS[e.key];
+      if (d) {
+        e.preventDefault();
+        if (state === "start" || state === "over") start();
+        turn(d);
+      } else if (e.key === " " || e.key === "p" || e.key === "P" || e.key === "Escape") {
+        if (state === "play") { e.preventDefault(); pause(); }
+        else if (state === "paused" && e.key !== "Escape") { e.preventDefault(); resume(); }
+      } else if (e.key === "Enter" && state !== "play") {
+        e.preventDefault();
+        state === "paused" ? resume() : start();
+      }
+    });
+
+    document.querySelectorAll("[data-act]").forEach(function (b) {
+      b.addEventListener("click", function () { b.dataset.act === "resume" ? resume() : start(); });
+    });
+    $("sn-pause-btn").addEventListener("click", function () { state === "play" ? pause() : state === "paused" ? resume() : start(); });
+    $("sn-pad").querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("pointerdown", function (e) {
+        e.preventDefault();
+        if (state === "start" || state === "over") start();
+        turn(b.dataset.dir);
+      });
+    });
+    CPGame.swipe($("sn-board"), function (d) {
+      if (d === "tap") { if (state !== "play") { state === "paused" ? resume() : start(); } return; }
+      if (state === "start" || state === "over") start();
+      turn(d);
+    });
+    // Boshqa tabga o'tilsa — avtomatik pauza
+    document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+
+    function bindSeg(id, key) {
+      var box = $(id);
+      function sync() { box.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.v === settings[key] ? "true" : "false"); }); }
+      box.addEventListener("click", function (e) {
+        var b = e.target.closest("button"); if (!b) return;
+        settings[key] = b.dataset.v; sync();
+        try { localStorage.setItem("snakeSettings", JSON.stringify(settings)); } catch (err) {}
+        b.blur();  // keyingi probel tugmani emas, pauzani bossin
+      });
+      sync();
+    }
+    bindSeg("sn-speed", "speed");
+    bindSeg("sn-walls", "walls");
+
+    if (matchMedia("(pointer:coarse)").matches) $("sn-hint").textContent = T.hint_touch;
+    CPGame.init({ id: "snake", title: "Snake", before: $("sn-board") });
+    reset();
+    draw();
+    requestAnimationFrame(function (t) { lastTime = t; requestAnimationFrame(loop); });
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>
