@@ -12,6 +12,7 @@ import shutil
 import uuid
 
 import yt_dlp
+from django.conf import settings
 
 from core import downloads
 
@@ -73,6 +74,13 @@ def _options(**extra):
     ff = ffmpeg_path()
     if ff:
         opts["ffmpeg_location"] = ff
+    # Server IP'si bloklanganda: kirilgan akkaunt cookie'lari va/yoki proksi (settings.YTDLP_*)
+    cookies = getattr(settings, "YTDLP_COOKIES", "")
+    if cookies and os.path.isfile(cookies):
+        opts["cookiefile"] = cookies
+    proxy = getattr(settings, "YTDLP_PROXY", "")
+    if proxy:
+        opts["proxy"] = proxy
     opts.update(extra)
     return opts
 

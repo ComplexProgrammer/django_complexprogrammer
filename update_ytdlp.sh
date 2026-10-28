@@ -68,19 +68,21 @@ else
     echo "yt-dlp oxirgi versiyada: $NEW"
 fi
 
-# YouTube serverdan ochiladimi? Natija faqat logga yoziladi — cron xatosi hisoblanmaydi
-"$PYTHON" - "$TEST_URL" <<'PY' || true
-import sys
-
-import yt_dlp
-
+# YouTube serverdan ochiladimi? Sayt ishlatadigan kod orqali (.env dagi YTDLP_COOKIES / YTDLP_PROXY bilan).
+# Natija faqat logga yoziladi — cron xatosi hisoblanmaydi
+"$PYTHON" manage.py shell -v 0 -c "
+import os
+from django.conf import settings
+from projects import youtube_downloader as yd
+used = []
+if settings.YTDLP_COOKIES and os.path.isfile(settings.YTDLP_COOKIES):
+    used.append('cookie fayli')
+if settings.YTDLP_PROXY:
+    used.append('proksi')
+via = ' (' + ', '.join(used) + ' bilan)' if used else ' (cookie/proksisiz)'
 try:
-    with yt_dlp.YoutubeDL({"quiet": True, "no_warnings": True, "skip_download": True, "socket_timeout": 20}) as ydl:
-        info = ydl.extract_info(sys.argv[1], download=False)
-    heights = sorted({f["height"] for f in info.get("formats") or [] if f.get("height")})
-    print(f"YouTube sinovi: OK — \"{info.get('title')}\", sifatlar: {heights}")
+    info = yd.video_info('$TEST_URL')
+    print('YouTube sinovi' + via + ': OK — ' + info['title'] + ', sifatlar: ' + str(info['heights']))
 except Exception as exc:
-    text = str(exc)
-    hint = " (YouTube server IP'sini bloklagan)" if "not a bot" in text or "Sign in" in text else ""
-    print(f"YouTube sinovi: XATO{hint} — {text[:300]}")
-PY
+    print('YouTube sinovi' + via + ': XATO — ' + str(exc)[:300])
+" 2>/dev/null || true

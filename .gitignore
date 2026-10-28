@@ -97,6 +97,9 @@ tmp/django_cache_durable/
 media/downloads/
 
 # Maxfiy fayllar va ma'lumotlar bazasi nusxalari — git'ga tushmasin
+# secrets/ — YouTube cookie fayli (akkaunt sessiyasi!) va boshqa maxfiy fayllar
+secrets/
+*cookies*.txt
 *.key
 *.pem
 *.sqlite3

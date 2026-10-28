@@ -415,6 +415,11 @@ CKEDITOR_CONFIGS = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # APPEND_SLASH=False
+# YouTube yuklovchi (projects/youtube_downloader.py). YouTube data-markaz IP'larini "bot" deb bloklaydi —
+# chetlab o'tish uchun kirilgan akkauntning cookie fayli (Netscape formati) va/yoki proksi beriladi.
+# secrets/ git'ga kirmaydi (.gitignore). Proksi: http://user:pass@host:port yoki socks5://host:port
+YTDLP_COOKIES = config("YTDLP_COOKIES", default=str(BASE_DIR / "secrets" / "youtube_cookies.txt"))
+YTDLP_PROXY = config("YTDLP_PROXY", default="")
 # Foydalanuvchiga yuklab berilishi mumkin bo'lgan kengaytmalar (core/downloads.py)
 GET_FILE_FORMATS = {
     ".mp3",
