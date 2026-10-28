@@ -158,7 +158,12 @@
     var T = JSON.parse(document.getElementById("ct-text").textContent);
     var $ = function (id) { return document.getElementById(id); };
     var input = $("ct-in"), output = $("ct-out"), target = "", timer = null, req = null;
-    var csrf = document.querySelector("[name=csrfmiddlewaretoken]").value;
+    // CSRF token yuborish paytida cookie'dan olinadi: sahifa bir necha tabda birdan ochilsa, sahifadagi yashirin
+    // token eskirib qolishi mumkin (403). Cookie bo'lmasa — sahifadagi qiymat
+    function csrf() {
+      var m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
+      return m ? decodeURIComponent(m[1]) : document.querySelector("[name=csrfmiddlewaretoken]").value;
+    }
     var NAMES = { cyr: T.cyr, lat1995: T.lat1995, lat2026: T.lat2026 };
 
     // core/translit.py: detect_script bilan bir xil qoida — server qaysi yo'nalishda o'girishini oldindan ko'rsatish uchun
@@ -192,7 +197,7 @@
       req = new AbortController();
       output.classList.add("ct-busy");
       var body = new URLSearchParams({ text: text, to: target });
-      fetch("/changetext/", { method: "POST", body: body, headers: { "X-CSRFToken": csrf }, signal: req.signal })
+      fetch("/changetext/", { method: "POST", body: body, headers: { "X-CSRFToken": csrf() }, signal: req.signal })
         .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
         .then(function (res) { output.classList.remove("ct-busy"); setOutput(res); })
         .catch(function (e) {

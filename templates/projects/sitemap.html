@@ -1,391 +1,313 @@
-{% load i18n %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
 <head>
 <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uchun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .sm{max-width:960px}
+  .sm-hero{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:24px;margin-bottom:18px;border-radius:20px;
+    color:#fff;background:linear-gradient(135deg,#0d9488,#0891b2 50%,#4f46e5);box-shadow:0 12px 32px rgba(8,145,178,.22)}
+  .sm-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .sm-hero p{margin:0;opacity:.9}
+  .sm-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .sm-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.88rem}
+  .sm-app img{height:44px;display:block}
 
-<!--  -->
+  .sm-form{display:flex;flex-wrap:wrap;gap:10px}
+  .sm-input{flex:1 1 280px;min-width:0;display:flex;align-items:center;border-radius:12px;border:1px solid var(--border);background:var(--bg);
+    transition:border-color .15s,box-shadow .15s}
+  .sm-input:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.18)}
+  .sm-input.bad{border-color:#ef4444}
+  .sm-input span{padding-left:14px;color:var(--muted)}
+  .sm-input input{flex:1;min-width:0;padding:13px 14px 13px 6px;border:0;background:transparent;color:var(--text);font:inherit;outline:none}
+  .sm-msg{margin:10px 2px 0;font-size:.9rem;color:#ef4444}
 
-    <script src="https://kit.fontawesome.com/391652c176.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="icon" sizes="16x16" href="/static/img/favicon.ico">
-    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #212121;
-            --card-bg: #ffffff;
-            --border-color: #e0e0e0;
-            transition: all 0.3s ease;
-        }
+  .sm-progress .d-meta{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .sm-bar{height:10px;border-radius:99px;background:var(--border);overflow:hidden}
+  .sm-bar div{height:100%;width:3%;border-radius:99px;background:linear-gradient(90deg,#0d9488,#6366f1);transition:width .5s}
+  .sm-count{font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
 
-        [data-theme="dark"] {
-            --bg-color: #212121;
-            --text-color: #ffffff;
-            --card-bg: #2d2d2d;
-            --border-color: #444;
-        }
+  .sm-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .sm-head h2{font-size:1.15rem;font-weight:800;margin:0}
+  .sm-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--bg);border:1px solid var(--border)}
+  .sm-tabs button{padding:7px 14px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer}
+  .sm-tabs button[aria-pressed="true"]{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff}
+  .sm-filter{width:100%;padding:10px 14px;margin-bottom:10px;border-radius:12px;border:1px solid var(--border);background:var(--bg);color:var(--text);
+    font:inherit;outline:none}
+  .sm-list{list-style:none;margin:0;padding:0;max-height:440px;overflow:auto;border:1px solid var(--border);border-radius:12px}
+  .sm-list li{display:flex;align-items:center;gap:10px;padding:8px 12px;border-top:1px solid var(--border);font-size:.92rem}
+  .sm-list li:first-child{border-top:0}
+  .sm-list a{flex:1;min-width:0;color:var(--text);text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sm-list a:hover{color:var(--accent)}
+  .sm-depth{flex:0 0 auto;min-width:28px;padding:1px 7px;border-radius:999px;background:rgba(99,102,241,.12);color:var(--accent);
+    font-size:.76rem;font-weight:700;text-align:center}
+  .sm-date{flex:0 0 auto;color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums}
+  .sm-xml{margin:0;max-height:440px;overflow:auto;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg);
+    font:.82rem/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;color:var(--text)}
+  .sm-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .sm-steps{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .sm-steps li{counter-increment:s;display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:var(--bg);overflow-wrap:anywhere}
+  .sm-steps li::before{content:counter(s);flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;
+    color:#fff;background:linear-gradient(135deg,#0d9488,#6366f1)}
+  .sm-steps code{padding:1px 6px;border-radius:6px;background:var(--card);border:1px solid var(--border);font-size:.86em}
+  .sm-error{border-color:#ef4444;background:rgba(239,68,68,.08)}
+  .sm-note{margin:12px 2px 0;color:var(--muted);font-size:.86rem}
+  [hidden]{display:none!important}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-color: var(--border-color);
-        }
-
-        .theme-toggle {
-            position: fixed;
-            inset-block-start: 20px;
-            inset-inline-end: 20px;
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-color);
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        textarea, input[type="text"] {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            border-color: var(--border-color);
-        }
-    </style>
-    <script>
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeButton(savedTheme);
-        });
-
-        function toggleTheme() {
-            const body = document.documentElement;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            const themeName = newTheme === 'light' ? 'Light' : 'Dark';
-            
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            updateThemeButton(newTheme);
-        }
-
-        function updateThemeButton(theme) {
-            const button = document.getElementById('themeButton');
-            const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
-            const text = theme === 'light' ? 'Dark Mode' : 'Light Mode';
-            button.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
-        }
-    </script>
-    <button id="themeButton" class="theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-sun"></i> Dark Mode
-    </button>
-</head>
-<body ng-app="App" ng-controller="SitemapGenerator">
-{% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-    <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-layout="in-article"
-    data-ad-format="fluid"
-    data-ad-client="ca-pub-7773722896374259"
-    data-ad-slot="2303661293"></ins>
-  <script>
-  (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  <!-- <ins class="adsbygoogle"
-  style="display:block; text-align:center;"
-  data-ad-layout="in-article"
-  data-ad-format="fluid"
-  data-ad-client="ca-pub-4137874891184814"
-  data-ad-slot="6832564320"></ins>
-<script>
-   (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-<div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
-    <img src="/static/img/buffering.gif" />
-</div>
-<input id="hh" type="text" class="fade hide" />
-<div class="container" >
-    <div class="C0mplexButton float-end">
-        <a href="#" onclick="window.history.back(); return false;">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            X
-        </a>
-    </div>
-    <h2>
-        {% if request.LANGUAGE_CODE == 'uz' %}
-        Bepul onlayn XML sayt xaritasi generatori
-        {% else %}
-        {% if request.LANGUAGE_CODE == 'ru' %}
-        Бесплатный онлайн-генератор XML-карты сайта
-        {% else %}
-        Free Online XML Sitemap Generator
-        {% endif %}
-        {% endif %}
-        <a href="https://play.google.com/store/apps/dev?id=6854503445964035235" target="_blank">
-            <img src="/static/img/google-play.svg" />
-        </a>
-    </h2>
-    <div class="row">
-        <div class="col">
-            <div class="badge bg-success text-wrap">
-                <i class="fa-regular fa-circle-check"></i> 
-                {% if request.LANGUAGE_CODE == 'uz' %}
-                XML sayt xaritasi generatori
-                {% else %}
-                {% if request.LANGUAGE_CODE == 'ru' %}
-                XML-генератор карты сайта
-                {% else %}
-                XML Sitemap Generator
-                {% endif %}
-                {% endif %}
-            </div>
-            <br>
-            <br>
-            {% if request.LANGUAGE_CODE == 'uz' %}
-            <div class="input-group">
-                <input type="text" class="form-control" ng-model="url" ng-keyup="$event.key==='Enter' && Generator()" placeholder="Veb-saytingiz URL manzili" id="url">
-                <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Joylashtirish</button>
-                <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Generator sayt xaritasi</button>
-              </div>
-            {% else %}
-            {% if request.LANGUAGE_CODE == 'ru' %}
-            <div class="input-group">
-                <input type="text" class="form-control" ng-model="url" ng-keyup="$event.key==='Enter' && Generator()" placeholder="URL-адрес вашего веб-сайта" id="url">
-                <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Вставить</button>
-                <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Карта сайта генератора</button>
-              </div>
-            {% else %}
-            <div class="input-group">
-                <input type="text" class="form-control" ng-model="url" ng-keyup="$event.key==='Enter' && Generator()" placeholder="Your Website URL" id="url">
-                <button class="btn btn-outline-success" ng-click="Paste()" id="paste" type="button"><i class="fa fa-paste"></i> Paste</button>
-                <button class="btn btn-outline-warning" ng-click="Generator()" type="button"><i class="fa-solid fa-recycle"></i> Generator Sitemap</button>
-              </div>
-            {% endif %}
-            {% endif %}
-
-<!--            <div class="progress">-->
-<!--              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>-->
-<!--            </div>-->
-        </div>
-    </div>
-    <br />
-    {% if request.LANGUAGE_CODE == 'uz' %}
-    <div class="row">
-        <div class="col">
-             <div class="card text-bg-info mb-12">
-                 <div class="card-header">XML Sitemap Generator haqida</div>
-                 <div class="card-body">
-                     {% comment %} <h5 class="card-title"></h5> {% endcomment %}
-                     <p class="card-text">
-                        XML SITEMAP yaratish har bir veb-sayt va blog uchun indekslash va SEO amaliyotlarini yaxshilash uchun juda muhimdir. XML dan foydalanish
-                          <br />
-                          Sayt xaritasi generatori, siz funktsional XML sayt xaritalarini yaratishingiz va Google-ga sahifalaringizni topish va ularni skanerlashda yordam berishingiz mumkin. Bu bepul
-                          <br />
-                          va foydalanish oson. XML Sitemap Generator-dan foydalaning va natijalardan zavqlanishni boshlang.
-                     </p>
-                     <br />
-                     <h5 class="card-title">XML sayt xaritasi generatoridan qanday foydalanish kerak?</h5>
-                     <p class="card-text">
-                        XML Sitemap Generator-dan foydalanish uchun quyidagi amallarni bajaring:
-                        <br />
-                        <br />
-                        * Domen nomini kiriting
-                        <br />
-                        <br />
-                        * Sayt xaritasini yaratish tugmasini bosing
-                     </p>
-                 </div>
-             </div>
-        </div>
-     </div>
-    {% else %}
-    {% if request.LANGUAGE_CODE == 'ru' %}
-    <div class="row">
-        <div class="col">
-             <div class="card text-bg-info mb-12">
-                 <div class="card-header">О генераторе XML-карты сайта</div>
-                 <div class="card-body">
-                     {% comment %} <h5 class="card-title"></h5> {% endcomment %}
-                     <p class="card-text">
-                        Создание XML-карты сайта имеет решающее значение для каждого веб-сайта и блога для улучшения индексации и практики SEO. Использование XML
-                        <br />
-                        Генератор карты сайта: вы можете создавать функциональные XML-файлы Sitemap и помогать Google находить ваши страницы и сканировать их. Это бесплатно
-                        <br />
-                        и прост в использовании. Просто используйте XML Sitemap Generator и начните наслаждаться результатами.
-                     </p>
-                     <br />
-                     <h5 class="card-title">Как использовать генератор XML-карты сайта?</h5>
-                     <p class="card-text">
-                        Чтобы использовать генератор XML Sitemap, выполните следующие действия:
-                        <br />
-                        <br />
-                        * Введите доменное имя
-                        <br />
-                        <br />
-                        * Нажмите «Создать карту сайта».
-                     </p>
-                 </div>
-             </div>
-        </div>
-     </div>
-    {% else %}
-    <div class="row">
-        <div class="col">
-             <div class="card text-bg-info mb-12">
-                 <div class="card-header">About the XML Sitemap Generator</div>
-                 <div class="card-body">
-                     {% comment %} <h5 class="card-title"></h5> {% endcomment %}
-                     <p class="card-text">
-                         Creating XML SITEMAP is crucial for every website and blog for better indexing and SEO practices. Using the XML
-                         <br />
-                         Sitemap Generator, you can create functional XML Sitemaps and help Google find your pages and crawl them. It is free
-                         <br />
-                         and easy to use. Just use XML Sitemap Generator and start enjoying the results.
-                     </p>
-                     <br />
-                     <h5 class="card-title">How to use XML Sitemap Generator?</h5>
-                     <p class="card-text">
-                         To use XML Sitemap Generator, follow these steps:
-                         <br />
-                         <br />
-                         * Enter a domain name
-                         <br />
-                         <br />
-                         * Click Generate Sitemap
-                     </p>
-                 </div>
-             </div>
-        </div>
-     </div>
-    {% endif %}
-    {% endif %}
-</div>
-{% verbatim %}
-<div class="container my-3" ng-show="xml">
-  <div class="d-flex gap-2 mb-2 flex-wrap">
-    <span class="badge bg-success align-self-center">{{count}} ta sahifa</span>
-    <button class="btn btn-primary btn-sm" ng-click="Download()"><i class="fa fa-download"></i> sitemap.xml yuklab olish</button>
-    <button class="btn btn-outline-secondary btn-sm" ng-click="Copy()"><i class="fa fa-copy"></i> Nusxa olish</button>
-  </div>
-  <textarea class="form-control font-monospace" rows="14" readonly ng-model="xml"></textarea>
-</div>
-{% endverbatim %}
-{% include "includes/seo_text.html" %}
-{% include 'comment_form.html' %}
-<ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-format="autorelaxed"
-    data-ad-client="ca-pub-7773722896374259"
-    data-ad-slot="2479701367"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-format="autorelaxed"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="4202531555"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-<ins class="adsbygoogle"
-style="display:block; text-align:center;"
-data-ad-format="fluid"
-data-ad-layout-key="-an-4i-cp+a2+21k"
-data-ad-client="ca-pub-7773722896374259"
-data-ad-slot="4679993061"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- <ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-format="fluid"
-    data-ad-layout-key="-6t+ed+2i-1n-4w"
-    data-ad-client="ca-pub-4137874891184814"
-    data-ad-slot="7442938415"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-<!-- Display 1 -->
-<ins class="adsbygoogle"
-    style="display:block; text-align:center;"
-    data-ad-client="ca-pub-7773722896374259"
-    data-ad-slot="3869366477"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-<script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<!-- 1 chi abzast Mobil -->
-<!-- <ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-client="ca-pub-4137874891184814"
-     data-ad-slot="2799587029"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script> -->
-{% include "includes/scroll_buttons.html" %}
-<script>
-angular.module("App", []).controller("SitemapGenerator", ["$scope", "$http", function ($scope, $http) {
-  $scope.url = "";
-  $scope.xml = "";
-  var busy = document.getElementById("conn");
-  function csrf() {
-    var m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
-    return m ? decodeURIComponent(m[1]) : "";
+  @media (max-width:640px){
+    .sm-hero{padding:20px 18px}
+    .sm-form .d-btn{flex:1 1 auto}
+    .sm-date{display:none}
+    .sm-actions .d-btn{flex:1 1 auto}
   }
-  $scope.Paste = function () {
-    navigator.clipboard.readText().then(function (t) { $scope.$apply(function () { $scope.url = t.trim(); }); });
-  };
-  $scope.Generator = function () {
-    if (!$scope.url) { alertify.error("Sayt manzilini kiriting"); return; }
-    if (busy) busy.style.visibility = "visible";
-    alertify.message("Sayt tekshirilmoqda, bu 30 soniyagacha davom etishi mumkin...");
-    $http.post("/sitemap/", { url: $scope.url }, { headers: { "X-CSRFToken": csrf() } })
-      .then(function (r) {
-        $scope.xml = r.data.xml;
-        $scope.count = r.data.count;
-        alertify.success(r.data.count + " ta sahifa topildi");
-      }, function (err) {
-        alertify.error((err.data && err.data.error) || "Xatolik yuz berdi");
-      }).finally(function () { if (busy) busy.style.visibility = "hidden"; });
-  };
-  $scope.Download = function () {
-    var blob = new Blob([$scope.xml], { type: "application/xml" });
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "sitemap.xml";
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
-  $scope.Copy = function () {
-    navigator.clipboard.writeText($scope.xml).then(function () { alertify.success("Nusxa olindi"); });
-  };
-}]);
+</style>
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main sm">
+  <section class="sm-hero">
+    <div>
+      <h1>{{ seo_h1 }}</h1>
+      {% if seo_lead %}<p>{{ seo_lead }}</p>{% endif %}
+      <div class="sm-badges">
+        <span>✅ {{ t.badge_free }}</span>
+        <span>📄 {{ t.badge_pages }}</span>
+        <span>🔎 {{ t.badge_seo }}</span>
+      </div>
+    </div>
+    <a class="sm-app" href="https://play.google.com/store/apps/dev?id=6854503445964035235" target="_blank" rel="noopener" title="{{ t.app }}">
+      <img src="/static/img/google-play.svg" alt="{{ t.app }}">
+    </a>
+  </section>
+
+  <section class="d-card">
+    {% csrf_token %}
+    <form class="sm-form" id="sm-form">
+      <label class="sm-input" id="sm-input-box">
+        <span>🌐</span>
+        <input type="text" id="sm-url" placeholder="{{ t.placeholder }}" autocomplete="url" spellcheck="false" inputmode="url" aria-label="{{ t.placeholder }}" autofocus>
+      </label>
+      <button type="button" class="d-btn alt" id="sm-paste">📥 {{ t.paste }}</button>
+      <button type="submit" class="d-btn" id="sm-go">🗺️ {{ t.generate }}</button>
+    </form>
+    <p class="sm-msg" id="sm-msg" hidden></p>
+  </section>
+
+  <section class="d-card sm-progress" id="sm-progress" hidden>
+    <div class="d-meta"><span id="sm-stage">{{ t.starting }}</span><span id="sm-checked"></span></div>
+    <div class="sm-count"><span id="sm-found">0</span> <small class="d-meta">{{ t.pages }} {{ t.found }}</small></div>
+    <div class="sm-bar" style="margin-top:10px"><div id="sm-bar"></div></div>
+  </section>
+
+  <section class="d-card sm-error" id="sm-error" hidden>
+    <div class="d-between"><b id="sm-error-text"></b><button type="button" class="d-btn alt" id="sm-retry">🔄 {{ t.generate }}</button></div>
+  </section>
+
+  <section class="d-card" id="sm-result" hidden>
+    <div class="sm-head">
+      <h2>✅ {{ t.ready }} <span class="d-meta" id="sm-total"></span></h2>
+      <div class="sm-tabs" id="sm-tabs">
+        <button type="button" data-tab="list" aria-pressed="true">📄 {{ t.tab_list }}</button>
+        <button type="button" data-tab="xml" aria-pressed="false">🧾 {{ t.tab_xml }}</button>
+      </div>
+    </div>
+    <div id="sm-tab-list">
+      <input type="search" class="sm-filter" id="sm-filter" placeholder="{{ t.filter }}" autocomplete="off">
+      <ul class="sm-list" id="sm-list"></ul>
+    </div>
+    <pre class="sm-xml" id="sm-xml" hidden></pre>
+    <div class="sm-actions">
+      <button type="button" class="d-btn green" id="sm-download">⬇ {{ t.download }}</button>
+      <button type="button" class="d-btn alt" id="sm-copy">📋 {{ t.copy }}</button>
+      <button type="button" class="d-btn alt" id="sm-again">{{ t.again }}</button>
+    </div>
+  </section>
+
+  <section class="d-card">
+    <h2 class="d-h2">🚀 {{ t.how }}</h2>
+    <ol class="sm-steps">
+      <li><span data-domain>{{ t.step1 }}</span></li>
+      <li><span data-domain>{{ t.step2 }}</span></li>
+      <li><span>{{ t.step3 }}</span></li>
+    </ol>
+    <p class="sm-note">ℹ️ {{ t.note }}</p>
+  </section>
+
+  <ins class="adsbygoogle" style="display:block; text-align:center; margin-top:18px" data-ad-layout="in-article" data-ad-format="fluid"
+    data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</main>
+
+{% include "includes/seo_text.html" %}
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid" data-ad-layout-key="-an-4i-cp+a2+21k"
+  data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+<ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
+  data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+{{ t|json_script:"sm-text" }}
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("sm-text").textContent);
+    var MAX = {{ max_pages }};
+    var $ = function (id) { return document.getElementById(id); };
+    // CSRF token yuborish paytida cookie'dan olinadi: sahifa bir necha tabda birdan ochilsa, sahifadagi yashirin
+    // token eskirib qolishi mumkin (403). Cookie bo'lmasa — sahifadagi qiymat
+    function csrf() {
+      var m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
+      return m ? decodeURIComponent(m[1]) : document.querySelector("[name=csrfmiddlewaretoken]").value;
+    }
+    var result = null, busy = false;
+    // "Keyin nima qilish kerak?" — misol domeni o'rniga foydalanuvchining sayti
+    var steps = [].map.call(document.querySelectorAll("[data-domain]"), function (el) { return { el: el, text: el.textContent }; });
+
+    function show(id, on) { $(id).hidden = !on; }
+    function msg(text) { $("sm-msg").textContent = text || ""; show("sm-msg", !!text); $("sm-input-box").classList.toggle("bad", !!text); }
+
+    function normalize(v) {
+      v = v.trim();
+      if (!v) return "";
+      if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+      try { var u = new URL(v); return /\./.test(u.hostname) ? u.href : ""; } catch (e) { return ""; }
+    }
+
+    function setDomain(url) {
+      var origin = url ? new URL(url).origin : "";
+      var host = url ? new URL(url).host : "";
+      steps.forEach(function (s) {
+        s.el.innerHTML = "";
+        // Misollardagi example.uz / example.com -> haqiqiy domen; manzillar <code> ichida
+        var text = host ? s.text.replace(/https?:\/\/example\.(uz|com)/g, origin).replace(/example\.(uz|com)/g, host) : s.text;
+        text.split(/(\S*sitemap\.xml|Sitemap: \S+)/).forEach(function (part, i) {
+          if (!part) return;
+          if (i % 2) { var c = document.createElement("code"); c.textContent = part; s.el.appendChild(c); }
+          else s.el.appendChild(document.createTextNode(part));
+        });
+      });
+    }
+
+    function finish(data, url) {
+      busy = false;
+      $("sm-go").disabled = false;
+      show("sm-progress", false);
+      if (data.error) {
+        $("sm-error-text").textContent = "⚠️ " + data.error;
+        show("sm-error", true);
+        return;
+      }
+      result = data;
+      $("sm-total").textContent = "· " + data.count + " " + T.pages;
+      $("sm-xml").textContent = data.xml;
+      renderList();
+      setDomain(data.urls && data.urls[0] || url);  // redirectdan keyingi haqiqiy domen (www. va h.k.)
+      show("sm-result", true);
+      $("sm-result").scrollIntoView({ behavior: "smooth", block: "start" });
+      window.cpTrack && cpTrack("sitemap_generate", { pages: data.count });
+    }
+
+    function renderList() {
+      var q = $("sm-filter").value.trim().toLowerCase(), list = $("sm-list");
+      list.textContent = "";
+      // Chuqurlik va lastmod XML'dan olinadi (urls ro'yxati bilan bir xil tartibda)
+      var items = [].slice.call(new DOMParser().parseFromString(result.xml, "application/xml").getElementsByTagName("url"));
+      var frag = document.createDocumentFragment();
+      items.forEach(function (node) {
+        var loc = node.getElementsByTagName("loc")[0].textContent;
+        if (q && loc.toLowerCase().indexOf(q) === -1) return;
+        var li = document.createElement("li"), a = document.createElement("a"), pr = document.createElement("span");
+        var lm = node.getElementsByTagName("lastmod")[0], prio = node.getElementsByTagName("priority")[0];
+        pr.className = "sm-depth"; pr.textContent = prio ? prio.textContent : "";
+        a.href = loc; a.target = "_blank"; a.rel = "noopener nofollow"; a.title = loc;
+        a.textContent = loc.replace(/^https?:\/\/[^/]+/, "") || "/";
+        li.appendChild(pr); li.appendChild(a);
+        if (lm) { var d = document.createElement("span"); d.className = "sm-date"; d.textContent = lm.textContent; li.appendChild(d); }
+        frag.appendChild(li);
+      });
+      list.appendChild(frag);
+    }
+
+    function generate() {
+      if (busy) return;
+      var url = normalize($("sm-url").value);
+      if (!url) { msg(T.invalid); return; }
+      msg("");
+      busy = true;
+      $("sm-go").disabled = true;
+      ["sm-result", "sm-error"].forEach(function (id) { show(id, false); });
+      show("sm-progress", true);
+      $("sm-stage").textContent = T.starting;
+      $("sm-found").textContent = "0"; $("sm-checked").textContent = ""; $("sm-bar").style.width = "3%";
+
+      fetch("/sitemap/", { method: "POST", headers: { "Content-Type": "application/json", "X-CSRFToken": csrf() },
+        body: JSON.stringify({ url: url, async: true }) })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!d.job) { finish({ error: d.error || T.error }, url); return; }
+          var started = Date.now();
+          (function poll() {
+            fetch("/sitemap/status/?job=" + d.job).then(function (r) { return r.json(); }).then(function (s) {
+              if (s.status === "done") { finish(s, url); return; }
+              if (Date.now() - started > 5 * 60 * 1000) { finish({ error: T.timeout }, url); return; }
+              if (s.status === "running") {
+                $("sm-stage").textContent = T.crawling + "...";
+                $("sm-found").textContent = s.found || 0;
+                $("sm-checked").textContent = (s.checked || 0) + " " + T.checked;
+                $("sm-bar").style.width = Math.max(3, Math.min(100, (s.found || 0) / MAX * 100)) + "%";
+              }
+              setTimeout(poll, 1000);
+            }).catch(function () { setTimeout(poll, 2000); });
+          })();
+        })
+        .catch(function () { finish({ error: T.error }, url); });
+    }
+
+    $("sm-form").addEventListener("submit", function (e) { e.preventDefault(); generate(); });
+    $("sm-retry").addEventListener("click", generate);
+    $("sm-url").addEventListener("input", function () { msg(""); });
+    $("sm-paste").addEventListener("click", function () {
+      if (!navigator.clipboard || !navigator.clipboard.readText) { $("sm-url").focus(); return; }
+      navigator.clipboard.readText().then(function (t) { $("sm-url").value = t.trim(); msg(""); }).catch(function () { $("sm-url").focus(); });
+    });
+    $("sm-tabs").addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      show("sm-tab-list", b.dataset.tab === "list");
+      show("sm-xml", b.dataset.tab === "xml");
+    });
+    $("sm-filter").addEventListener("input", function () { if (result) renderList(); });
+    $("sm-download").addEventListener("click", function () {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([result.xml], { type: "application/xml" }));
+      a.download = "sitemap.xml";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    });
+    $("sm-copy").addEventListener("click", function () {
+      var btn = this;
+      navigator.clipboard.writeText(result.xml).then(function () {
+        btn.textContent = "✅ " + T.copied;
+        setTimeout(function () { btn.textContent = "📋 " + T.copy; }, 1500);
+      });
+    });
+    $("sm-again").addEventListener("click", function () {
+      show("sm-result", false);
+      $("sm-url").value = "";
+      setDomain("");
+      $("sm-url").focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    setDomain("");
+  })();
 </script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

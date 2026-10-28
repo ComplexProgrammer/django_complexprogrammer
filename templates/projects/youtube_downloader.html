@@ -162,7 +162,12 @@
   (function () {
     var T = JSON.parse(document.getElementById("yt-text").textContent);
     var $ = function (id) { return document.getElementById(id); };
-    var csrf = document.querySelector("[name=csrfmiddlewaretoken]").value;
+    // CSRF token yuborish paytida cookie'dan olinadi: sahifa bir necha tabda birdan ochilsa, sahifadagi yashirin
+    // token eskirib qolishi mumkin (403). Cookie bo'lmasa — sahifadagi qiymat
+    function csrf() {
+      var m = document.cookie.match(/(?:^|; )csrftoken=([^;]*)/);
+      return m ? decodeURIComponent(m[1]) : document.querySelector("[name=csrfmiddlewaretoken]").value;
+    }
     var YT_RE = /^https?:\/\/(www\.|m\.|music\.)?(youtube\.com\/(watch\?|shorts\/|live\/|embed\/)|youtu\.be\/)/i;
     var info = null, kind = "video", quality = "low", busy = false, infoReq = null, timer = null;
 
@@ -270,7 +275,7 @@
       stage(T.queued, null);
       fetch("/youtube_downloader/", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "X-CSRFToken": csrf },
+        headers: { "Content-Type": "application/json", "X-CSRFToken": csrf() },
         body: JSON.stringify({ choice: kind === "audio" ? 3 : 1, quality: quality, link: info.url, async: true })
       })
         .then(function (r) { return r.json(); })

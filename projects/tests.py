@@ -243,3 +243,77 @@ class YoutubeInfoTestCase(TestCase):
         response = self.client.get("/youtube_downloader/info/", {"url": "https://youtu.be/xxxxxxxxxxx"})
         self.assertEqual(response.status_code, 422)
         self.assertIn("topilmadi", response.json()["error"])
+
+
+class SitemapCrawlerTestCase(TestCase):
+    def test_clean_url_drops_tracking_and_fragment(self):
+        from projects.sitemap_crawler import clean_url
+
+        self.assertEqual(clean_url("https://Example.com/a/?utm_source=x&id=5#top"), "https://example.com/a/?id=5")
+        self.assertEqual(clean_url("https://example.com"), "https://example.com/")
+
+    def test_www_and_bare_domain_are_same_site(self):
+        from projects.sitemap_crawler import _site
+
+        self.assertEqual(_site("www.Example.com:443"), _site("example.com"))
+
+    def test_build_xml_priority_and_lastmod(self):
+        from projects.sitemap_crawler import build_xml
+
+        xml = build_xml([
+            {"url": "https://example.com/", "depth": 0, "lastmod": "2026-10-20"},
+            {"url": "https://example.com/a?x=1&y=2", "depth": 2, "lastmod": None},
+        ])
+        self.assertIn("<priority>1.0</priority>", xml)
+        self.assertIn("<priority>0.6</priority>", xml)
+        self.assertIn("<lastmod>2026-10-20</lastmod>", xml)
+        self.assertIn("x=1&amp;y=2", xml)  # XML uchun escape
+
+    def test_private_hosts_rejected(self):
+        from projects.sitemap_crawler import CrawlError, normalize_start_url
+
+        for url in ("localhost", "http://127.0.0.1/", ""):
+            with self.assertRaises(CrawlError):
+                normalize_start_url(url)
+
+
+@override_settings(SECURE_SSL_REDIRECT=False)
+class SitemapJobTestCase(TestCase):
+    PAGES = [{"url": "https://example.com/", "depth": 0, "lastmod": None},
+             {"url": "https://example.com/about/", "depth": 1, "lastmod": "2026-10-01"}]
+
+    def setUp(self):
+        cache.clear()
+        thread_patcher = patch("projects.views.threading.Thread", SyncThread)
+        thread_patcher.start()
+        self.addCleanup(thread_patcher.stop)
+
+    def tearDown(self):
+        cache.clear()
+
+    def post(self, **body):
+        return self.client.post("/sitemap/", body, content_type="application/json")
+
+    @patch("projects.views.sitemap_crawler.normalize_start_url", return_value="https://example.com/")
+    @patch("projects.views.sitemap_crawler.crawl")
+    def test_async_job_and_cache(self, mock_crawl, _norm):
+        mock_crawl.return_value = self.PAGES
+        job = self.post(url="example.com", **{"async": True}).json()["job"]
+        status = self.client.get("/sitemap/status/", {"job": job}).json()
+        self.assertEqual(status["status"], "done")
+        self.assertEqual(status["count"], 2)
+        self.assertIn("<loc>https://example.com/about/</loc>", status["xml"])
+        # Ikkinchi so'rov keshdan — qayta aylanib chiqilmaydi
+        self.post(url="example.com", **{"async": True})
+        mock_crawl.assert_called_once()
+
+    @patch("projects.views.sitemap_crawler.crawl")
+    def test_sync_request_keeps_old_format(self, mock_crawl):
+        mock_crawl.return_value = self.PAGES
+        data = self.post(url="example.com").json()
+        self.assertEqual(data["urls"], ["https://example.com/", "https://example.com/about/"])
+
+    def test_invalid_url_rejected_without_job(self):
+        response = self.post(url="localhost", **{"async": True})
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("error", response.json())

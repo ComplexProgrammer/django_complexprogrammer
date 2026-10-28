@@ -41,6 +41,7 @@ urlpatterns = [
     path("map", views.map, name="map"),
     path("password_generator/", views.password_generator, name="password_generator"),
     path("sitemap/", views.sitemap, name="sitemap"),
+    path("sitemap/status/", views.sitemap_job_status, name="sitemap_job_status"),
     path("snake/", views.snake, name="snake"),
     path("snake2/", views.snake2, name="snake2"),
     path("car/", views.car, name="car"),
