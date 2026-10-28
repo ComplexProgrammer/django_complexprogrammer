@@ -1333,9 +1333,47 @@ def car(request):
     return render(request, "projects/car.html", context=context)
 
 
+DUCK_TEXT = {
+    "uz": {
+        "lead": "10 ta ördakni iloji boriça tez oting. Otilmagan ördak uçib ketadi — örniga yangisi çiqadi.",
+        "badge_aim": "Siçqonça yoki barmoq bilan", "badge_record": "Eng tez vaqt saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "start": "Boşlaş", "again": "Qayta öynaş", "resume": "Davom etiş", "paused": "Pauza", "done": "Barakalla!",
+        "time": "Vaqt", "best": "Rekord", "new_record": "🎉 Yangi rekord!", "accuracy": "Aniqlik", "shots": "öq",
+        "hint": "Ördakni nişonga olib bosing. Probel — pauza", "hint_touch": "Ördakka barmoq bilan teging",
+        "sound_on": "Ovoz yoqilgan", "sound_off": "Ovoz öçirilgan", "pause_btn": "Pauza", "more_games": "Boşqa öyinlar", "sec": "s",
+    },
+    "ru": {
+        "lead": "Подстрелите 10 уток как можно быстрее. Утка, которую не сбили, улетает — вместо неё появляется новая.",
+        "badge_aim": "Мышью или пальцем", "badge_record": "Сохраняется лучшее время", "badge_free": "Бесплатно, без скачивания",
+        "start": "Начать", "again": "Играть снова", "resume": "Продолжить", "paused": "Пауза", "done": "Отлично!",
+        "time": "Время", "best": "Рекорд", "new_record": "🎉 Новый рекорд!", "accuracy": "Точность", "shots": "выстр.",
+        "hint": "Наведите прицел на утку и нажмите. Пробел — пауза", "hint_touch": "Коснитесь утки пальцем",
+        "sound_on": "Звук включён", "sound_off": "Звук выключен", "pause_btn": "Пауза", "more_games": "Другие игры", "sec": "с",
+    },
+    "en": {
+        "lead": "Shoot 10 ducks as fast as you can. A duck you miss flies away — a new one takes its place.",
+        "badge_aim": "Mouse or finger", "badge_record": "Best time is saved", "badge_free": "Free, no download",
+        "start": "Start", "again": "Play again", "resume": "Resume", "paused": "Paused", "done": "Well done!",
+        "time": "Time", "best": "Best", "new_record": "🎉 New record!", "accuracy": "Accuracy", "shots": "shots",
+        "hint": "Aim at a duck and click. Space to pause", "hint_touch": "Tap a duck with your finger",
+        "sound_on": "Sound on", "sound_off": "Sound off", "pause_btn": "Pause", "more_games": "More games", "sec": "s",
+    },
+    "tr": {
+        "lead": "10 ördeği olabildiğince hızlı vurun. Vuramadığınız ördek uçup gider — yerine yenisi gelir.",
+        "badge_aim": "Fare veya parmakla", "badge_record": "En iyi süre kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "start": "Başla", "again": "Tekrar oyna", "resume": "Devam et", "paused": "Duraklatıldı", "done": "Harika!",
+        "time": "Süre", "best": "Rekor", "new_record": "🎉 Yeni rekor!", "accuracy": "İsabet", "shots": "atış",
+        "hint": "Ördeğe nişan alıp tıklayın. Boşluk ile duraklatın", "hint_touch": "Ördeğe parmağınızla dokunun",
+        "sound_on": "Ses açık", "sound_off": "Ses kapalı", "pause_btn": "Duraklat", "more_games": "Diğer oyunlar", "sec": "sn",
+    },
+}
+
+
 def duckhunt(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": DUCK_TEXT.get(lang, DUCK_TEXT["en"])}
     return render(request, "projects/duckhunt.html", context=context)
 
 
