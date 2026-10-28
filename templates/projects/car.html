@@ -1,50 +1,317 @@
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uchun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .cr{max-width:760px}
+  .cr-hero{padding:22px 24px;margin-bottom:16px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#f97316,#dc2626 50%,#7c3aed);box-shadow:0 12px 32px rgba(220,38,38,.22)}
+  .cr-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .cr-hero p{margin:0;opacity:.92}
+  .cr-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .cr-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.86rem}
 
-<link rel="stylesheet" href="static/C0mplexButtonStyle.css">
-<!--  -->
+  .cr-card{padding:14px}
+  .cr-board{position:relative;width:100%;max-width:400px;margin:0 auto;aspect-ratio:360/560;border-radius:16px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(15,23,42,.25);touch-action:none;user-select:none;-webkit-user-select:none}
+  .cr-board canvas{display:block;width:100%;height:100%}
+  .cr-hud{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;pointer-events:none}
+  .cr-hud span{padding:4px 10px;border-radius:10px;background:rgba(15,23,42,.65);color:#fff;font-weight:700;font-size:.9rem;font-variant-numeric:tabular-nums}
+  .cr-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:22px;
+    text-align:center;color:#fff;background:rgba(15,23,42,.72);backdrop-filter:blur(2px)}
+  .cr-overlay h2{font-size:clamp(1.4rem,6vw,2rem);font-weight:800;margin:0;color:#fff}
+  .cr-overlay p{margin:0;opacity:.9;font-size:.9rem;max-width:300px}
+  .cr-big{font-size:clamp(2.2rem,10vw,3.2rem);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+  .cr-rec{color:#fde047;font-weight:800}
+  /* flex:0 — umumiy telefon qoidasi (.d-btn{flex:1 1 auto}) vertikal ustunda tugmani bo'yiga cho'zib yubormasin */
+  .cr-overlay .d-btn{flex:0 0 auto;padding:12px 26px;font-size:1.05rem}
 
-<link rel="icon" sizes="16x16" href="/static/Games/Car/Images/car_bg.png">
-<link rel="stylesheet" href="/static/Games/Car/car.css">
+  .cr-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:400px;margin:12px auto 0}
+  .cr-tool{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+
+  /* Sensorli boshqaruv: bosib turiladi */
+  .cr-pad{display:none;grid-template-columns:repeat(4,1fr);gap:8px;max-width:400px;margin:12px auto 0}
+  .cr-pad button{height:58px;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.4rem;
+    box-shadow:0 3px 0 var(--border);touch-action:none;user-select:none;-webkit-user-select:none}
+  .cr-pad button.on{transform:translateY(2px);box-shadow:none;background:rgba(249,115,22,.18)}
+  @media (pointer:coarse),(max-width:640px){ .cr-pad{display:grid} }
+  .cr-more{display:flex;justify-content:center;margin-top:14px}
+  [hidden]{display:none!important}
+  @media (max-width:640px){ .cr-hero{padding:18px} .cr-card{padding:10px} }
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-<audio id="stop_sound" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/Games/Car/Sounds/Stop.mp3" type="audio/mpeg" />
-</audio>
-<audio id="driving_sound" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/Games/Car/Sounds/Driving.mp3" type="audio/mpeg" />
-</audio>
-<audio id="accident_sound" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/Games/Car/Sounds/accident.mp3" type="audio/mpeg" />
-</audio>
-<audio id="go_sound" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/Games/Car/Sounds/go.mp3" type="audio/mpeg" />
-</audio>
-<audio id="starting_sound" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/Games/Car/Sounds/starting.mp3" type="audio/mpeg" />
-</audio>
- <div class="CarClass">
-    <div class="carGame">
-        <div class="score"></div>
-        <div class="startScreen">
-            <div class="MashinaRasmi"></div>
-            <p>
-                Boshlash uchun shu erni bosing<br />
-                Boshqarish uchun &#8592;, &#8594;, &#8593;, &#8595; yoki (a, d, w, s) tugmalaridan foydalaning<br />
-                Agar boshqa mashinani urib qo'ysangiz, yutqazasiz.
-            </p>
-        </div>
-        <div class="gameArea hide"></div>
+<main class="d-main cr">
+  <section class="cr-hero">
+    <h1>🏎️ {{ seo_h1|default:"Car Racing" }}</h1>
+    <p>{{ t.lead }}</p>
+    <div class="cr-badges">
+      <span>🎮 {{ t.badge_keys }}</span>
+      <span>🏆 {{ t.badge_record }}</span>
+      <span>✅ {{ t.badge_free }}</span>
     </div>
-    <script src="/static/js/game-kit.js"></script>
-    <script>CPGame.init({ id: "car", title: "Car Racing", before: document.querySelector(".CarClass") });</script>
-    <script src="/static/Games/Car/car.js"></script>
-</div>
-{% include 'comment_form.html' %}
+  </section>
+
+  <section class="d-card cr-card">
+    <div class="cr-board" id="cr-board">
+      <canvas id="cr-canvas" aria-label="Car Racing"></canvas>
+      <div class="cr-hud" id="cr-hud" hidden><span id="cr-score">0</span><span id="cr-speed">0 {{ t.kmh }}</span></div>
+      <div class="cr-overlay" id="cr-start">
+        <h2>🏎️ Car Racing</h2>
+        <p id="cr-hint">{{ t.hint_keys }}</p>
+        <button type="button" class="d-btn" data-act="start">▶ {{ t.start }}</button>
+      </div>
+      <div class="cr-overlay" id="cr-paused" hidden>
+        <h2>⏸ {{ t.paused }}</h2>
+        <button type="button" class="d-btn" data-act="resume">▶ {{ t.resume }}</button>
+      </div>
+      <div class="cr-overlay" id="cr-over" hidden>
+        <h2>💥 {{ t.over }}</h2>
+        <div class="cr-big" id="cr-final">0</div>
+        <p>🏆 {{ t.best }}: <b id="cr-best">0</b></p>
+        <p class="cr-rec" id="cr-record" hidden>{{ t.new_record }}</p>
+        <button type="button" class="d-btn" data-act="start">🔄 {{ t.again }}</button>
+      </div>
+    </div>
+
+    <div class="cr-pad" id="cr-pad" aria-hidden="true">
+      <button type="button" data-key="left">◀</button>
+      <button type="button" data-key="down">▼</button>
+      <button type="button" data-key="up">▲</button>
+      <button type="button" data-key="right">▶</button>
+    </div>
+    <div class="cr-tools">
+      <button type="button" class="cr-tool" id="cr-pause-btn">⏸ {{ t.pause_btn }}</button>
+      <button type="button" class="cr-tool" id="cr-sound"></button>
+    </div>
+  </section>
+  <div class="cr-more"><a class="d-btn alt" href="{{ lang_prefix }}/projects/">🎮 {{ t.more_games }}</a></div>
+</main>
+
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+{{ t|json_script:"cr-text" }}
+<script src="/static/js/game-kit.js?v=2"></script>
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("cr-text").textContent);
+    var W = 360, H = 560;                    // mantiqiy o'lcham (canvas ekranga moslab kattalashtiriladi)
+    var GRASS = 34, ROAD_W = W - GRASS * 2, LANES = 3, LANE_W = ROAD_W / LANES;
+    var CAR_W = 42, CAR_H = 74;
+    var COLORS = ["#2563eb", "#16a34a", "#9333ea", "#0891b2", "#ca8a04", "#db2777", "#475569", "#ea580c"];
+    var $ = function (id) { return document.getElementById(id); };
+    var canvas = $("cr-canvas"), ctx = canvas.getContext("2d");
+
+    // Retina ekranlarda tiniq chizish
+    function fit() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    fit();
+
+    var state = "start", player, enemies, trees, roadOffset, speed, maxSpeed, elapsed, score, spawnIn, lastTime = 0, shake = 0;
+    var input = { left: false, right: false, up: false, down: false };
+    var sound = true;
+    try { sound = localStorage.getItem("carSound") !== "off"; } catch (e) {}
+    var sfx = { start: new Audio("/static/Games/Car/Sounds/starting.mp3"), crash: new Audio("/static/Games/Car/Sounds/accident.mp3") };
+    Object.keys(sfx).forEach(function (k) { sfx[k].preload = "none"; sfx[k].volume = 0.5; });
+    function play(name) { if (!sound) return; try { sfx[name].currentTime = 0; sfx[name].play().catch(function () {}); } catch (e) {} }
+
+    function laneX(i) { return GRASS + LANE_W * i + (LANE_W - CAR_W) / 2; }
+
+    function reset() {
+      player = { x: laneX(1), y: H - CAR_H - 24 };
+      enemies = []; roadOffset = 0; speed = 300; maxSpeed = 360; elapsed = 0; score = 0; spawnIn = 0.6; shake = 0;
+      trees = [];
+      for (var i = 0; i < 8; i++) trees.push({ side: i % 2, y: i * 80 + Math.random() * 40, r: 9 + Math.random() * 6 });
+      CPGame.score(0);
+    }
+
+    // Raqib mashinasi: bitta oraliqda kamida bitta qator bo'sh qoladi — o'tib bo'lmaydigan "devor" bo'lmasin
+    function spawn() {
+      var band = enemies.filter(function (e) { return e.y < CAR_H * 2.2; });
+      var busy = band.map(function (e) { return e.lane; });
+      var free = [0, 1, 2].filter(function (l) { return busy.indexOf(l) === -1; });
+      if (free.length <= 1) return;
+      var lane = free[Math.floor(Math.random() * free.length)];
+      enemies.push({ lane: lane, x: laneX(lane), y: -CAR_H - 10, v: 120 + Math.random() * 90,
+                     color: COLORS[Math.floor(Math.random() * COLORS.length)] });
+    }
+
+    function update(dt) {
+      elapsed += dt;
+      maxSpeed = Math.min(360 + elapsed * 6, 760);              // vaqt o'tgan sari tezroq
+      var target = input.up ? maxSpeed : input.down ? 170 : maxSpeed * 0.8;
+      speed += (target - speed) * Math.min(1, dt * (input.down ? 3 : 1.2));
+      var steer = 230 + speed * 0.25;
+      if (input.left) player.x -= steer * dt;
+      if (input.right) player.x += steer * dt;
+      player.x = Math.max(GRASS + 4, Math.min(W - GRASS - CAR_W - 4, player.x));
+
+      roadOffset = (roadOffset + speed * dt) % 80;
+      trees.forEach(function (tr) { tr.y += speed * dt; if (tr.y > H + 20) { tr.y -= H + 80; tr.r = 9 + Math.random() * 6; } });
+
+      spawnIn -= dt * (speed / 300);
+      if (spawnIn <= 0) { spawn(); spawnIn = Math.max(0.45, 1.1 - elapsed / 120) * (0.7 + Math.random() * 0.6); }
+
+      for (var i = enemies.length - 1; i >= 0; i--) {
+        var e = enemies[i];
+        e.y += (speed - e.v) * dt;
+        if (e.y > H + 20) { enemies.splice(i, 1); continue; }
+        // To'qnashuv (mashina chetlari biroz kechiriladi)
+        var m = 6;
+        if (player.x + m < e.x + CAR_W - m && player.x + CAR_W - m > e.x + m &&
+            player.y + m < e.y + CAR_H - m && player.y + CAR_H - m > e.y + m) return crash();
+      }
+      // Eski hisob bilan bir xil shkala: bazaviy tezlikda ~60 ochko/soniya
+      score += speed * dt / 5;
+      $("cr-score").textContent = Math.floor(score);
+      $("cr-speed").textContent = Math.round(speed / 4) + " " + T.kmh;
+    }
+
+    function roundRect(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+    }
+
+    // Yuqoridan ko'rinishdagi mashina (vektor — rasm yuklanmaydi)
+    function drawCar(x, y, color, isPlayer) {
+      ctx.fillStyle = "rgba(0,0,0,.25)"; roundRect(x + 3, y + 5, CAR_W, CAR_H, 10); ctx.fill();
+      ctx.fillStyle = "#111";
+      [[x - 3, y + 10], [x + CAR_W - 3, y + 10], [x - 3, y + CAR_H - 24], [x + CAR_W - 3, y + CAR_H - 24]].forEach(function (p) {
+        roundRect(p[0], p[1], 6, 14, 2); ctx.fill();
+      });
+      ctx.fillStyle = color; roundRect(x, y, CAR_W, CAR_H, 10); ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.18)"; roundRect(x + 4, y + 4, CAR_W - 8, 10, 5); ctx.fill();
+      ctx.fillStyle = "#1e293b";
+      roundRect(x + 6, y + (isPlayer ? 16 : CAR_H - 30), CAR_W - 12, 14, 4); ctx.fill();   // old oyna
+      roundRect(x + 7, y + (isPlayer ? CAR_H - 22 : 14), CAR_W - 14, 9, 3); ctx.fill();    // orqa oyna
+      ctx.fillStyle = isPlayer ? "#fde68a" : "#fecaca";                                   // chiroqlar
+      var ly = isPlayer ? y + 1 : y + CAR_H - 5;
+      ctx.fillRect(x + 5, ly, 8, 4); ctx.fillRect(x + CAR_W - 13, ly, 8, 4);
+    }
+
+    function draw() {
+      ctx.save();
+      if (shake > 0) ctx.translate((Math.random() - .5) * shake, (Math.random() - .5) * shake);
+      ctx.fillStyle = "#4ade80"; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = "#22c55e";
+      for (var g = -1; g < H / 40 + 1; g++) { ctx.fillRect(0, g * 40 + roadOffset % 40, GRASS, 20); ctx.fillRect(W - GRASS, g * 40 + roadOffset % 40, GRASS, 20); }
+      trees.forEach(function (tr) {
+        var tx = tr.side ? W - GRASS / 2 : GRASS / 2;
+        ctx.fillStyle = "#166534"; ctx.beginPath(); ctx.arc(tx, tr.y, tr.r, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#15803d"; ctx.beginPath(); ctx.arc(tx - 2, tr.y - 2, tr.r * .6, 0, Math.PI * 2); ctx.fill();
+      });
+      ctx.fillStyle = "#374151"; ctx.fillRect(GRASS, 0, ROAD_W, H);
+      ctx.fillStyle = "#e5e7eb"; ctx.fillRect(GRASS + 2, 0, 3, H); ctx.fillRect(W - GRASS - 5, 0, 3, H);
+      ctx.fillStyle = "rgba(255,255,255,.85)";
+      for (var l = 1; l < LANES; l++) {
+        for (var d = -1; d < H / 80 + 1; d++) ctx.fillRect(GRASS + LANE_W * l - 2, d * 80 + roadOffset, 4, 40);
+      }
+      enemies.forEach(function (e) { drawCar(e.x, e.y, e.color, false); });
+      drawCar(player.x, player.y, "#ef4444", true);
+      ctx.restore();
+    }
+
+    function loop(time) {
+      var dt = Math.min(0.05, (time - lastTime) / 1000);
+      lastTime = time;
+      if (state === "play") { update(dt); draw(); }
+      else if (shake > 0) { shake = Math.max(0, shake - dt * 40); draw(); }
+      requestAnimationFrame(loop);
+    }
+
+    function show(id) { ["cr-start", "cr-paused", "cr-over"].forEach(function (o) { $(o).hidden = o !== id; }); $("cr-hud").hidden = !!id && id !== "cr-paused"; }
+
+    function start() {
+      reset(); state = "play"; show(null); play("start");
+      Object.keys(input).forEach(function (k) { input[k] = false; });
+    }
+    function pause() { if (state === "play") { state = "paused"; show("cr-paused"); } }
+    function resume() { if (state === "paused") { state = "play"; show(null); } }
+
+    function crash() {
+      state = "over"; shake = 14; play("crash");
+      var final = Math.floor(score);
+      var before = parseInt(localStorage.getItem("cpGameBest:car") || "0", 10) || 0;
+      CPGame.over(final);
+      $("cr-final").textContent = final;
+      $("cr-best").textContent = Math.max(before, final);
+      $("cr-record").hidden = !(final > before && final > 0);
+      setTimeout(function () { if (state === "over") show("cr-over"); }, 450);  // avval silkinish ko'rinsin
+    }
+
+    // Klaviatura: faqat boshqaruv tugmalari ushlanadi va faqat o'yin maydonidan tashqarida yozilmayotganda
+    var KEYS = { ArrowLeft: "left", ArrowRight: "right", ArrowUp: "up", ArrowDown: "down", a: "left", d: "right", w: "up", s: "down",
+                 A: "left", D: "right", W: "up", S: "down", "ф": "left", "в": "right", "ц": "up", "ы": "down" };
+    function typing(e) { return e.target.closest && e.target.closest("input, textarea, select, [contenteditable]"); }
+    document.addEventListener("keydown", function (e) {
+      if (typing(e)) return;
+      var k = KEYS[e.key];
+      if (k) {
+        if (state === "play" || /^Arrow/.test(e.key)) e.preventDefault();  // o'yin paytida sahifa aylanmasin
+        if (state === "start" || state === "over") { if (/^Arrow/.test(e.key)) start(); else return; }
+        input[k] = true;
+      } else if (e.key === " " || e.key === "p" || e.key === "P" || e.key === "Escape") {
+        if (state === "play") { e.preventDefault(); pause(); }
+        else if (state === "paused" && e.key !== "Escape") { e.preventDefault(); resume(); }
+      } else if (e.key === "Enter" && state !== "play") {
+        e.preventDefault(); state === "paused" ? resume() : start();
+      }
+    });
+    document.addEventListener("keyup", function (e) { var k = KEYS[e.key]; if (k) input[k] = false; });
+    window.addEventListener("blur", function () { Object.keys(input).forEach(function (k) { input[k] = false; }); });
+
+    // Sensorli tugmalar: bosib turiladi (barmoq tugmadan chiqib ketsa ham qo'yib yuboriladi)
+    $("cr-pad").querySelectorAll("button").forEach(function (b) {
+      function set(on) { input[b.dataset.key] = on; b.classList.toggle("on", on); }
+      b.addEventListener("pointerdown", function (e) {
+        e.preventDefault();
+        if (state === "start" || state === "over") start();
+        b.setPointerCapture && b.setPointerCapture(e.pointerId);
+        set(true);
+      });
+      ["pointerup", "pointercancel", "lostpointercapture"].forEach(function (ev) { b.addEventListener(ev, function () { set(false); }); });
+      b.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    });
+    // Yo'lning chap/o'ng yarmiga tegish — rul
+    var board = $("cr-board"), touchKey = null;
+    board.addEventListener("pointerdown", function (e) {
+      if (state !== "play" || e.target.closest("button")) return;
+      var r = board.getBoundingClientRect();
+      touchKey = e.clientX - r.left < r.width / 2 ? "left" : "right";
+      input[touchKey] = true;
+    });
+    ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) {
+      board.addEventListener(ev, function () { if (touchKey) { input[touchKey] = false; touchKey = null; } });
+    });
+
+    document.querySelectorAll("[data-act]").forEach(function (b) {
+      b.addEventListener("click", function () { b.dataset.act === "resume" ? resume() : start(); });
+    });
+    $("cr-pause-btn").addEventListener("click", function () { state === "play" ? pause() : state === "paused" ? resume() : start(); this.blur(); });
+    function syncSound() { $("cr-sound").textContent = sound ? "🔊 " + T.sound_on : "🔇 " + T.sound_off; }
+    $("cr-sound").addEventListener("click", function () {
+      sound = !sound; syncSound(); this.blur();
+      try { localStorage.setItem("carSound", sound ? "on" : "off"); } catch (e) {}
+    });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+
+    if (matchMedia("(pointer:coarse)").matches) $("cr-hint").textContent = T.hint_touch;
+    syncSound();
+    CPGame.init({ id: "car", title: "Car Racing", before: board });
+    reset();
+    draw();
+    requestAnimationFrame(function (t) { lastTime = t; requestAnimationFrame(loop); });
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

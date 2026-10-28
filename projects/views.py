@@ -1285,9 +1285,51 @@ def snake2(request):
     return render(request, "projects/snake2.html", context=context)
 
 
+CAR_TEXT = {
+    "uz": {
+        "lead": "Mashinani boshqaring, boshqa mashinalarga urilmang va iloji boricha uzoqqa boring. Vaqt o'tgan sari tezlik oshadi.",
+        "badge_keys": "Klaviatura va sensorli tugmalar", "badge_record": "Rekord saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "start": "Boshlash", "again": "Qayta o'ynash", "resume": "Davom etish", "paused": "Pauza", "over": "Halokat!",
+        "best": "Rekord", "new_record": "🎉 Yangi rekord!", "speed": "Tezlik", "kmh": "km/soat",
+        "hint_keys": "← → yoki A D — boshqarish, ↑ ↓ yoki W S — tezlik, Probel — pauza",
+        "hint_touch": "Pastdagi tugmalarni bosib turing yoki yo'lning chap/o'ng tomoniga teging",
+        "sound_on": "Ovoz yoqilgan", "sound_off": "Ovoz o'chirilgan", "pause_btn": "Pauza", "more_games": "Boshqa o'yinlar",
+    },
+    "ru": {
+        "lead": "Управляйте машиной, не врезайтесь в другие автомобили и уезжайте как можно дальше. Со временем скорость растёт.",
+        "badge_keys": "Клавиатура и сенсорные кнопки", "badge_record": "Рекорд сохраняется", "badge_free": "Бесплатно, без скачивания",
+        "start": "Начать", "again": "Играть снова", "resume": "Продолжить", "paused": "Пауза", "over": "Авария!",
+        "best": "Рекорд", "new_record": "🎉 Новый рекорд!", "speed": "Скорость", "kmh": "км/ч",
+        "hint_keys": "← → или A D — руль, ↑ ↓ или W S — скорость, Пробел — пауза",
+        "hint_touch": "Удерживайте кнопки внизу или касайтесь левой/правой стороны дороги",
+        "sound_on": "Звук включён", "sound_off": "Звук выключен", "pause_btn": "Пауза", "more_games": "Другие игры",
+    },
+    "en": {
+        "lead": "Steer your car, avoid the traffic and drive as far as you can. The speed goes up over time.",
+        "badge_keys": "Keyboard and touch buttons", "badge_record": "Best score is saved", "badge_free": "Free, no download",
+        "start": "Start", "again": "Play again", "resume": "Resume", "paused": "Paused", "over": "Crash!",
+        "best": "Best", "new_record": "🎉 New record!", "speed": "Speed", "kmh": "km/h",
+        "hint_keys": "← → or A D to steer, ↑ ↓ or W S for speed, Space to pause",
+        "hint_touch": "Hold the buttons below or tap the left/right side of the road",
+        "sound_on": "Sound on", "sound_off": "Sound off", "pause_btn": "Pause", "more_games": "More games",
+    },
+    "tr": {
+        "lead": "Arabanı yönlendir, diğer araçlara çarpma ve olabildiğince uzağa git. Zamanla hız artar.",
+        "badge_keys": "Klavye ve dokunmatik düğmeler", "badge_record": "Rekor kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "start": "Başla", "again": "Tekrar oyna", "resume": "Devam et", "paused": "Duraklatıldı", "over": "Kaza!",
+        "best": "Rekor", "new_record": "🎉 Yeni rekor!", "speed": "Hız", "kmh": "km/sa",
+        "hint_keys": "← → veya A D ile yönlendir, ↑ ↓ veya W S ile hız, Boşluk ile duraklat",
+        "hint_touch": "Alttaki düğmeleri basılı tutun veya yolun sol/sağ tarafına dokunun",
+        "sound_on": "Ses açık", "sound_off": "Ses kapalı", "pause_btn": "Duraklat", "more_games": "Diğer oyunlar",
+    },
+}
+
+
 def car(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": CAR_TEXT.get(lang, CAR_TEXT["en"])}
     return render(request, "projects/car.html", context=context)
 
 
