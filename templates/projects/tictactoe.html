@@ -1,68 +1,257 @@
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uçun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .tt{max-width:760px}
+  .tt-hero{padding:22px 24px;margin-bottom:16px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#6366f1,#a855f7 55%,#ec4899);box-shadow:0 12px 32px rgba(168,85,247,.22)}
+  .tt-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .tt-hero p{margin:0;opacity:.92}
+  .tt-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .tt-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.86rem}
 
-<link rel="icon" sizes="16x16" href="/static/Games/TicTacToe/tictactoe.png">
-<!--  -->
+  .tt-card{padding:16px}
+  .tt-settings{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;margin-bottom:14px}
+  .tt-set{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--muted);font-weight:600}
+  .tt-seg{display:flex;gap:3px;padding:3px;border-radius:11px;background:var(--bg);border:1px solid var(--border)}
+  .tt-seg button{border:0;border-radius:8px;padding:5px 11px;background:transparent;color:var(--text);font:inherit;font-weight:700;cursor:pointer}
+  .tt-seg button.on{background:var(--accent);color:#fff}
 
-<link href="/static/Games/TicTacToe/style.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v5.15.2/js/all.js" data-auto-replace-svg="nest"></script>
+  .tt-status{text-align:center;font-weight:800;font-size:1.1rem;min-height:1.6em;margin-bottom:12px}
+  .tt-status .x{color:#6366f1} .tt-status .o{color:#ec4899}
+  .tt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(100%,360px);margin:0 auto;aspect-ratio:1}
+  .tt-cell{position:relative;border:0;border-radius:16px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--border);cursor:pointer;padding:0;
+    transition:transform .12s,background .2s}
+  .tt-cell:hover:not(:disabled){background:rgba(99,102,241,.08)}
+  .tt-cell:active:not(:disabled){transform:scale(.96)}
+  .tt-cell:disabled{cursor:default}
+  .tt-cell:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .tt-cell svg{position:absolute;inset:18%;width:64%;height:64%;overflow:visible}
+  .tt-cell .mark{fill:none;stroke-width:12;stroke-linecap:round;stroke-dasharray:300;stroke-dashoffset:300;animation:tt-draw .35s ease-out forwards}
+  .tt-cell .mark.x{stroke:#6366f1} .tt-cell .mark.o{stroke:#ec4899}
+  .tt-cell .mark.x + .mark.x{animation-delay:.12s}
+  .tt-cell.win{background:rgba(253,224,71,.35);box-shadow:inset 0 0 0 2px #eab308}
+  .tt-grid.done .tt-cell:not(.win){opacity:.55}
+  @keyframes tt-draw{to{stroke-dashoffset:0}}
+
+  .tt-board-row{display:flex;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .tt-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:360px;margin:16px auto 0;text-align:center}
+  .tt-stats div{padding:8px;border-radius:12px;background:var(--bg);border:1px solid var(--border)}
+  .tt-stats b{display:block;font-size:1.4rem;font-variant-numeric:tabular-nums}
+  .tt-stats span{font-size:.8rem;color:var(--muted)}
+  .tt-hint{text-align:center;font-size:.85rem;color:var(--muted);margin:12px 0 0}
+  .tt-tool{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+  .tt-more{display:flex;justify-content:center;margin-top:14px}
+  [hidden]{display:none!important}
+  @media (prefers-reduced-motion:reduce){ .tt-cell .mark{animation:none;stroke-dashoffset:0} }
+  @media (max-width:640px){ .tt-hero{padding:18px} .tt-card{padding:12px} }
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-<div class="TicTacToeBody">
-    <!-- select box -->
-    <div class="select-box">
-        <header>Tic Tac Toe</header>
-        <div class="content">
-            <div class="title">Select which you want to be?</div>
-            <div class="options">
-                <button class="playerX">Player (X)</button>
-                <button class="playerO">Player (O)</button>
-            </div>
-            <div class="credit">Created By <a href="" target="_blank">www.complexprogrammer.uz</a></div>
-        </div>
+<main class="d-main tt">
+  <section class="tt-hero">
+    <h1>❌⭕ {{ seo_h1|default:"Tic Tac Toe" }}</h1>
+    <p>{{ t.lead }}</p>
+    <div class="tt-badges">
+      <span>👥 {{ t.badge_modes }}</span>
+      <span>🏆 {{ t.badge_record }}</span>
+      <span>✅ {{ t.badge_free }}</span>
     </div>
-    <!-- playboard section -->
-    <div class="play-board">
-        <div class="details">
-            <div class="players">
-                <span class="Xturn">X's Turn</span>
-                <span class="Oturn">O's Turn</span>
-                <div class="slider"></div>
-            </div>
-        </div>
-        <div class="play-area">
-            <section>
-                <span class="box1"></span>
-                <span class="box2"></span>
-                <span class="box3"></span>
-            </section>
-            <section>
-                <span class="box4"></span>
-                <span class="box5"></span>
-                <span class="box6"></span>
-            </section>
-            <section>
-                <span class="box7"></span>
-                <span class="box8"></span>
-                <span class="box9"></span>
-            </section>
-        </div>
+  </section>
+
+  <section class="d-card tt-card" id="tt-card">
+    <div class="tt-settings">
+      <div class="tt-set">{{ t.mode }}
+        <div class="tt-seg" id="tt-mode"><button type="button" data-v="cpu">🤖 {{ t.vs_cpu }}</button><button type="button" data-v="two">👥 {{ t.two }}</button></div>
+      </div>
+      <div class="tt-set" id="tt-level-wrap">{{ t.level }}
+        <div class="tt-seg" id="tt-level"><button type="button" data-v="0">{{ t.easy }}</button><button type="button" data-v="1">{{ t.medium }}</button><button type="button" data-v="2">{{ t.hard }}</button></div>
+      </div>
+      <div class="tt-set" id="tt-side-wrap">{{ t.side }}
+        <div class="tt-seg" id="tt-side"><button type="button" data-v="X">X</button><button type="button" data-v="O">O</button></div>
+      </div>
     </div>
 
-    <!-- result box -->
-    <div class="result-box">
-        <div class="won-text"></div>
-        <div class="btn"><button>Replay</button></div>
+    <div class="tt-status" id="tt-status" aria-live="polite"></div>
+    <div class="tt-grid" id="tt-grid">
+      {% for i in cells %}<button type="button" class="tt-cell" data-i="{{ i }}" aria-label="{{ forloop.counter }}"></button>{% endfor %}
     </div>
-</div>
-{% include 'comment_form.html' %}
-<script src="/static/js/game-kit.js"></script>
-<script>CPGame.init({ id: "tictactoe", title: "Tic Tac Toe", mode: "wins", before: document.querySelector(".TicTacToeBody") });</script>
-<script src="/static/Games/TicTacToe/script.js"></script>
+
+    <div class="tt-board-row">
+      <button type="button" class="d-btn" id="tt-new">🔄 {{ t.new_game }}</button>
+    </div>
+    <div class="tt-stats">
+      <div><b id="tt-w">0</b><span id="tt-w-label">{{ t.you }}</span></div>
+      <div><b id="tt-d">0</b><span>{{ t.draws }}</span></div>
+      <div><b id="tt-l">0</b><span id="tt-l-label">{{ t.cpu }}</span></div>
+    </div>
+    <div class="tt-board-row"><button type="button" class="tt-tool" id="tt-reset">🧹 {{ t.reset }}</button></div>
+    <p class="tt-hint">{{ t.hint }}</p>
+  </section>
+  <div class="tt-more"><a class="d-btn alt" href="{{ lang_prefix }}/projects/">🎮 {{ t.more_games }}</a></div>
+</main>
+
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+{{ t|json_script:"tt-text" }}
+<script src="/static/js/game-kit.js?v=2"></script>
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("tt-text").textContent);
+    var $ = function (id) { return document.getElementById(id); };
+    var cells = Array.prototype.slice.call(document.querySelectorAll(".tt-cell"));
+    var LINES = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+    var SVG = {
+      X: '<svg viewBox="0 0 100 100" aria-hidden="true"><path class="mark x" d="M15 15 L85 85"/><path class="mark x" d="M85 15 L15 85"/></svg>',
+      O: '<svg viewBox="0 0 100 100" aria-hidden="true"><circle class="mark o" cx="50" cy="50" r="36"/></svg>'
+    };
+
+    function load(key, def) { try { var v = localStorage.getItem(key); return v == null ? def : v; } catch (e) { return def; } }
+    function save(key, v) { try { localStorage.setItem(key, v); } catch (e) {} }
+    var mode = load("tttMode", "cpu"), level = +load("tttLevel", "1"), side = load("tttSide", "X");
+    var stats = { cpu: { w: 0, d: 0, l: 0 }, two: { w: 0, d: 0, l: 0 } };
+    try { stats = JSON.parse(load("tttStats", "")) || stats; } catch (e) {}
+
+    var board, turn, over, thinking = null;
+
+    function winner(b) {
+      for (var i = 0; i < LINES.length; i++) {
+        var l = LINES[i];
+        if (b[l[0]] && b[l[0]] === b[l[1]] && b[l[0]] === b[l[2]]) return { mark: b[l[0]], line: l };
+      }
+      return b.indexOf(null) < 0 ? { mark: null, line: [] } : null;
+    }
+
+    // --- Kompyuter ---
+    function empty(b) { var out = []; b.forEach(function (v, i) { if (!v) out.push(i); }); return out; }
+    function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+    function winningMove(b, mark) {
+      var moves = empty(b);
+      for (var i = 0; i < moves.length; i++) { b[moves[i]] = mark; var w = winner(b); b[moves[i]] = null; if (w && w.mark === mark) return moves[i]; }
+      return -1;
+    }
+    function minimax(b, mark, me, depth) {
+      var w = winner(b);
+      if (w) return { score: w.mark === me ? 10 - depth : w.mark ? depth - 10 : 0 };
+      var best = null, other = mark === "X" ? "O" : "X";
+      empty(b).forEach(function (i) {
+        b[i] = mark;
+        var s = minimax(b, other, me, depth + 1).score;
+        b[i] = null;
+        if (!best || (mark === me ? s > best.score : s < best.score) || (s === best.score && Math.random() < 0.3)) best = { score: s, move: i };
+      });
+      return best;
+    }
+    function cpuMove() {
+      var me = turn, you = me === "X" ? "O" : "X", b = board.slice(), m;
+      if (level === 2) return empty(b).length === 9 ? pick([0, 2, 4, 6, 8]) : minimax(b, me, me, 0).move;
+      if (level === 1) {
+        // Yutsa — yutadi, xavf bölsa — tösadi; baʼzan xato qiladi
+        if ((m = winningMove(b, me)) >= 0) return m;
+        if (Math.random() < 0.85 && (m = winningMove(b, you)) >= 0) return m;
+        if (!b[4] && Math.random() < 0.7) return 4;
+        var corners = [0, 2, 6, 8].filter(function (i) { return !b[i]; });
+        return corners.length && Math.random() < 0.6 ? pick(corners) : pick(empty(b));
+      }
+      if (Math.random() < 0.4 && (m = winningMove(b, me)) >= 0) return m;
+      return pick(empty(b));
+    }
+
+    // --- Öyin ---
+    function newGame() {
+      clearTimeout(thinking); thinking = null;
+      board = new Array(9).fill(null); turn = "X"; over = false;
+      cells.forEach(function (c, i) { c.innerHTML = ""; c.classList.remove("win"); c.disabled = false; c.setAttribute("aria-label", String(i + 1)); });
+      $("tt-grid").classList.remove("done");
+      status();
+      if (mode === "cpu" && side === "O") cpuTurn();
+    }
+    function play(i) {
+      if (over || board[i]) return;
+      board[i] = turn;
+      cells[i].innerHTML = SVG[turn]; cells[i].disabled = true;
+      cells[i].setAttribute("aria-label", (i + 1) + ": " + turn);
+      var w = winner(board);
+      if (w) return finish(w);
+      turn = turn === "X" ? "O" : "X";
+      status();
+      if (mode === "cpu" && turn !== side) cpuTurn();
+    }
+    function cpuTurn() {
+      status(true);
+      cells.forEach(function (c) { c.disabled = true; });
+      thinking = setTimeout(function () {
+        thinking = null;
+        cells.forEach(function (c, i) { c.disabled = !!board[i]; });
+        play(cpuMove());
+      }, 420);
+    }
+    function finish(w) {
+      over = true;
+      cells.forEach(function (c) { c.disabled = true; });
+      w.line.forEach(function (i) { cells[i].classList.add("win"); });
+      $("tt-grid").classList.add("done");
+      var st = stats[mode];
+      if (!w.mark) { st.d++; $("tt-status").textContent = "🤝 " + T.draw; }
+      else if (mode === "cpu") {
+        if (w.mark === side) { st.w++; CPGame.win(); $("tt-status").textContent = T.won; }
+        else { st.l++; $("tt-status").textContent = T.lost; }
+      } else {
+        if (w.mark === "X") st.w++; else st.l++;
+        $("tt-status").innerHTML = '<span class="' + w.mark.toLowerCase() + '">' + w.mark + "</span> " + T.wins_of + " 🎉";
+      }
+      save("tttStats", JSON.stringify(stats));
+      renderStats();
+      $("tt-new").focus({ preventScroll: true });
+    }
+    function status(cpuThinking) {
+      var el = $("tt-status");
+      if (mode === "cpu") el.innerHTML = cpuThinking ? "🤖 " + T.cpu_turn : '<span class="' + side.toLowerCase() + '">' + side + "</span> — " + T.your_turn;
+      else el.innerHTML = T.turn + ' <span class="' + turn.toLowerCase() + '">' + turn + "</span>";
+    }
+    function renderStats() {
+      var st = stats[mode];
+      $("tt-w").textContent = st.w; $("tt-d").textContent = st.d; $("tt-l").textContent = st.l;
+      $("tt-w-label").textContent = mode === "cpu" ? T.you : "X";
+      $("tt-l-label").textContent = mode === "cpu" ? T.cpu : "O";
+    }
+
+    // --- Sozlamalar ---
+    function seg(id, value, onPick) {
+      var box = $(id);
+      function sync(v) { box.querySelectorAll("button").forEach(function (b) { b.classList.toggle("on", b.dataset.v === String(v)); }); }
+      box.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { sync(b.dataset.v); onPick(b.dataset.v); }); });
+      sync(value);
+    }
+    function syncVisibility() { $("tt-level-wrap").hidden = $("tt-side-wrap").hidden = mode !== "cpu"; }
+    seg("tt-mode", mode, function (v) { mode = v; save("tttMode", v); syncVisibility(); renderStats(); newGame(); });
+    seg("tt-level", level, function (v) { level = +v; save("tttLevel", v); newGame(); });
+    seg("tt-side", side, function (v) { side = v; save("tttSide", v); newGame(); });
+
+    cells.forEach(function (c, i) {
+      c.addEventListener("click", function () { if (mode === "two" || turn === side) play(i); });
+    });
+    $("tt-new").addEventListener("click", newGame);
+    $("tt-reset").addEventListener("click", function () { stats[mode] = { w: 0, d: 0, l: 0 }; save("tttStats", JSON.stringify(stats)); renderStats(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;  // izoh yozişga xalaqit bermasin
+      var n = parseInt(e.key, 10);
+      if (n >= 1 && n <= 9) {
+        if (over) return;
+        if (mode === "two" || (turn === side && !thinking)) { e.preventDefault(); play(n - 1); }
+      } else if (e.key === "Enter" && over && document.activeElement === document.body) { e.preventDefault(); newGame(); }
+    });
+
+    CPGame.init({ id: "tictactoe", title: "Tic Tac Toe", mode: "wins", before: $("tt-card") });
+    syncVisibility(); renderStats(); newGame();
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>

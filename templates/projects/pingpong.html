@@ -3,250 +3,324 @@
 <head>
 <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-    <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <style>
-        canvas { 
-            border: 1px solid black;
-            background-color: black;
-        }
-        .comment-form {
-            margin: 20px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-        .comment {
-            margin: 10px 0;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .comment-meta {
-            color: #666;
-            font-size: 0.9em;
-            margin-block-end: 8px;
-        }
-        .reply-form {
-            margin: 10px 0 10px 20px;
-            display: none;
-        }
-        .replies {
-            margin-inline-start: 40px;
-        }
-        .replies .comment {
-            border-inline-start: 2px solid #ddd;
-        }
-        .comment-actions {
-            margin-block-start: 10px;
-        }
-        .comment-actions button {
-            margin-inline-end: 10px;
-        }
-    </style>
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uçun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .pp{max-width:900px}
+  .pp-hero{padding:22px 24px;margin-bottom:16px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#0d9488,#2563eb 55%,#1e3a8a);box-shadow:0 12px 32px rgba(37,99,235,.22)}
+  .pp-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .pp-hero p{margin:0;opacity:.92}
+  .pp-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .pp-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.86rem}
+
+  .pp-card{padding:14px}
+  .pp-board{position:relative;width:100%;aspect-ratio:8/5;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(15,23,42,.25);
+    touch-action:none;user-select:none;-webkit-user-select:none}
+  .pp-board canvas{display:block;width:100%;height:100%}
+  .pp-score{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:4px 14px;border-radius:12px;
+    background:rgba(15,23,42,.55);color:#fff;font-weight:700;font-size:.92rem;pointer-events:none;white-space:nowrap}
+  .pp-score b{font-size:1.25rem;font-variant-numeric:tabular-nums}
+  .pp-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:22px;
+    text-align:center;color:#fff;background:rgba(15,23,42,.64);backdrop-filter:blur(2px)}
+  .pp-overlay h2{font-size:clamp(1.4rem,5vw,2.1rem);font-weight:800;margin:0;color:#fff}
+  .pp-overlay p{margin:0;opacity:.92;font-size:.92rem;max-width:420px}
+  .pp-big{font-size:clamp(2.2rem,8vw,3.2rem);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+  /* flex:0 — umumiy telefon qoidasi (.d-btn{flex:1 1 auto}) vertikal ustunda tugmani böyiga çözib yubormasin */
+  .pp-overlay .d-btn{flex:0 0 auto;padding:12px 26px;font-size:1.05rem}
+  .pp-seg{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(255,255,255,.14)}
+  .pp-seg button{border:0;border-radius:9px;padding:6px 12px;background:transparent;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+  .pp-seg button.on{background:#fff;color:#1e3a8a}
+  .pp-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+  .pp-tool{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+  .pp-more{display:flex;justify-content:center;margin-top:14px}
+  [hidden]{display:none!important}
+  /* Telefonda maydon tik: siz pastda, kompyuter tepada */
+  @media (max-width:640px){ .pp-hero{padding:18px} .pp-card{padding:10px} .pp-board{aspect-ratio:5/8;max-height:78vh;margin:0 auto}
+    .pp-score{top:50%;left:8px;transform:translateY(-50%);font-size:.8rem} }
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center my-3">
-            <h1>Ping Pong Game</h1>
-            <a href="/projects" class="C0mplexButton Danger">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                Back
-            </a>
-        </div>
-
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
-        <script src="/static/js/game-kit.js"></script>
-        <script>CPGame.init({ id: "pingpong", title: "Ping Pong", mode: "wins", before: document.getElementById("gameCanvas") });</script>
-        {% include 'comment_form.html' %}
+<main class="d-main pp">
+  <section class="pp-hero">
+    <h1>🏓 {{ seo_h1|default:"Ping Pong" }}</h1>
+    <p>{{ t.lead }}</p>
+    <div class="pp-badges">
+      <span>🎮 {{ t.badge_keys }}</span>
+      <span>🏆 {{ t.badge_record }}</span>
+      <span>✅ {{ t.badge_free }}</span>
     </div>
+  </section>
 
-    <script>
-        function toggleReplyForm(formId) {
-            const form = document.getElementById(formId);
-            if (form.style.display === 'none' || !form.style.display) {
-                form.style.display = 'block';
-            } else {
-                form.style.display = 'none';
-            }
-        }
+  <section class="d-card pp-card">
+    <div class="pp-board" id="pp-board">
+      <canvas id="pp-canvas" aria-label="Ping Pong"></canvas>
+      <div class="pp-score" id="pp-score" hidden>{{ t.you }} <b id="pp-s1">0</b> : <b id="pp-s2">0</b> {{ t.cpu }}</div>
+      <div class="pp-overlay" id="pp-start">
+        <h2>🏓 Ping Pong</h2>
+        <p id="pp-hint">{{ t.hint_keys }}</p>
+        <div>{{ t.level }}</div>
+        <div class="pp-seg" id="pp-level">
+          <button type="button" data-level="0">{{ t.easy }}</button>
+          <button type="button" data-level="1">{{ t.medium }}</button>
+          <button type="button" data-level="2">{{ t.hard }}</button>
+        </div>
+        <button type="button" class="d-btn" data-act="start">▶ {{ t.start }}</button>
+      </div>
+      <div class="pp-overlay" id="pp-paused" hidden>
+        <h2>⏸ {{ t.paused }}</h2>
+        <button type="button" class="d-btn" data-act="resume">▶ {{ t.resume }}</button>
+      </div>
+      <div class="pp-overlay" id="pp-over" hidden>
+        <h2 id="pp-result"></h2>
+        <div class="pp-big" id="pp-final">0 : 0</div>
+        <button type="button" class="d-btn" data-act="start">🔄 {{ t.again }}</button>
+        <button type="button" class="d-btn alt" data-act="menu">⚙️ {{ t.level }}</button>
+      </div>
+    </div>
+    <div class="pp-tools">
+      <button type="button" class="pp-tool" id="pp-pause-btn">⏸ {{ t.pause_btn }}</button>
+      <button type="button" class="pp-tool" id="pp-sound"></button>
+    </div>
+  </section>
+  <div class="pp-more"><a class="d-btn alt" href="{{ lang_prefix }}/projects/">🎮 {{ t.more_games }}</a></div>
+</main>
 
-        var canvas;
-        var canvasContext;
-        var ballX = 50;
-        var ballY = 50;
-        var ballSpeedX = 10;
-        var ballSpeedY = 4;
-        
-        var player1Score = 0;
-        var player2Score = 0;
-        const WINNING_SCORE = 3;
-        
-        var paddle1Y = 250;
-        var paddle2Y = 250;
-        const PADDLE_HEIGHT = 100;
-        const PADDLE_THICKNESS = 10;
-        
-        var showingWinScreen = false;
-        
-        window.onload = function() {
-            canvas = document.getElementById('gameCanvas');
-            canvasContext = canvas.getContext('2d');
-            
-            var framesPerSecond = 30;
-            setInterval(function() {
-                moveEverything();
-                drawEverything();	
-            }, 1000/framesPerSecond);
-            
-            canvas.addEventListener('mousedown',handleMouseClick);
-            
-            canvas.addEventListener('mousemove',
-                function(evt) {
-                    var mousePos = calculateMousePos(evt);
-                    paddle1Y = mousePos.y - (PADDLE_HEIGHT/2);
-                });
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+{{ t|json_script:"pp-text" }}
+<script src="/static/js/game-kit.js?v=2"></script>
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("pp-text").textContent);
+    var $ = function (id) { return document.getElementById(id); };
+    var board = $("pp-board"), canvas = $("pp-canvas"), ctx = canvas.getContext("2d");
+
+    // Mantiq bitta "gorizontal" dunyoda (siz çapda, kompyuter öngda); telefonda faqat 90° burib çiziladi
+    var W = 800, H = 500, PW = 12, PH = 92, BR = 9, P1X = 26, P2X = W - 26 - PW, WIN = 5;
+    var LEVELS = [
+      { speed: 250, error: 50, react: 0.55, start: 340, max: 640 },   // oson
+      { speed: 360, error: 34, react: 0.35, start: 380, max: 780 },   // örtaça
+      { speed: 430, error: 30, react: 0.15, start: 420, max: 900 }    // qiyin
+    ];
+    var level = 1;
+    try { level = Math.min(2, Math.max(0, parseInt(localStorage.getItem("pongLevel") || "1", 10) || 0)); } catch (e) {}
+
+    var state = "start", portrait = false, scale = 1;
+    var p1 = { y: H / 2, v: 0, target: null }, p2 = { y: H / 2, v: 0, aim: 0 };
+    var ball = { x: W / 2, y: H / 2, vx: 0, vy: 0 }, trail = [], sparks = [];
+    var s1 = 0, s2 = 0, serveT = 0, serveDir = -1, lastTime = 0, keyDir = 0;
+    var sound = true;
+    try { sound = localStorage.getItem("pongSound") !== "off"; } catch (e) {}
+
+    function fit() {
+      var r = board.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+      portrait = r.height > r.width;
+      if (portrait) {
+        // dunyo (x, y) -> ekran (y, pastdan x): siz pastda, kompyuter tepada
+        scale = r.width / H;
+        ctx.setTransform(0, -scale * dpr, scale * dpr, 0, 0, r.height * dpr);
+      } else {
+        scale = r.width / W;
+        ctx.setTransform(scale * dpr, 0, 0, scale * dpr, 0, 0);
+      }
+      draw();
+    }
+
+    function start() {
+      s1 = s2 = 0; p1.y = p2.y = H / 2; p1.target = null; trail = []; sparks = [];
+      $("pp-s1").textContent = 0; $("pp-s2").textContent = 0;
+      serveDir = -1; serve();
+      state = "play"; show(null);
+    }
+    function serve() {
+      ball.x = W / 2; ball.y = H / 2; ball.vx = 0; ball.vy = 0; serveT = 0.9; trail = [];
+      p2.aim = (Math.random() - 0.5) * 2 * LEVELS[level].error;
+    }
+    function launch() {
+      var L = LEVELS[level], a = (Math.random() - 0.5) * 0.7;
+      ball.vx = Math.cos(a) * L.start * serveDir; ball.vy = Math.sin(a) * L.start;
+    }
+
+    function update(dt) {
+      var L = LEVELS[level];
+      // Siz: siçqonça/barmoq nuqtasiga yoki klaviatura bilan
+      var prev = p1.y;
+      if (keyDir) { p1.target = null; p1.y += keyDir * 560 * dt; }
+      else if (p1.target != null) { var d = p1.target - p1.y; p1.y += Math.max(-1800 * dt, Math.min(1800 * dt, d)); }
+      p1.y = clampP(p1.y); p1.v = (p1.y - prev) / dt;
+
+      // Kompyuter: töp unga qarab kelsa, tuşadigan joyni taxmin qiladi (qiyinroq daraja — aniqroq)
+      var target = H / 2;
+      // Töp maydonning maʼlum qismidan ötgandagina kuzatadi (oson darajada keçroq) — insondek keçikiş
+      if (ball.vx > 0 && ball.x > W * L.react) target = predict() + p2.aim;
+      else if (ball.vx > 0) target = p2.y;
+      var dy = target - p2.y, step = L.speed * dt;
+      prev = p2.y;
+      if (Math.abs(dy) > 6) p2.y += Math.max(-step, Math.min(step, dy));
+      p2.y = clampP(p2.y); p2.v = (p2.y - prev) / dt;
+
+      if (serveT > 0) { if ((serveT -= dt) <= 0) launch(); }
+      else {
+        var n = Math.ceil(Math.hypot(ball.vx, ball.vy) * dt / 6);
+        for (var i = 0; i < n && state === "play"; i++) moveBall(dt / n);
+      }
+      trail.push([ball.x, ball.y]); if (trail.length > 10) trail.shift();
+      sparks.forEach(function (s) { s.x += s.vx * dt; s.y += s.vy * dt; s.life -= dt; });
+      sparks = sparks.filter(function (s) { return s.life > 0; });
+    }
+    function clampP(y) { return Math.max(PH / 2 + 4, Math.min(H - PH / 2 - 4, y)); }
+    function predict() {
+      // Devorlardan qaytişni hisobga olib, töp kompyuter raketkasiga qayerda yetişini topadi
+      var t = (P2X - BR - ball.x) / ball.vx, y = ball.y + ball.vy * t, span = H - 2 * BR;
+      y = (y - BR) % (2 * span); if (y < 0) y += 2 * span;
+      return BR + (y > span ? 2 * span - y : y);
+    }
+    function moveBall(dt) {
+      var L = LEVELS[level];
+      ball.x += ball.vx * dt; ball.y += ball.vy * dt;
+      if (ball.y < BR) { ball.y = BR; ball.vy = Math.abs(ball.vy); blip(300, 0.04); }
+      if (ball.y > H - BR) { ball.y = H - BR; ball.vy = -Math.abs(ball.vy); blip(300, 0.04); }
+      if (ball.vx < 0 && ball.x - BR <= P1X + PW && ball.x - BR > P1X - 10 && Math.abs(ball.y - p1.y) < PH / 2 + BR) hit(p1, 1, P1X + PW + BR);
+      else if (ball.vx > 0 && ball.x + BR >= P2X && ball.x + BR < P2X + PW + 10 && Math.abs(ball.y - p2.y) < PH / 2 + BR) hit(p2, -1, P2X - BR);
+      if (ball.x < -30) point(false);
+      else if (ball.x > W + 30) point(true);
+    }
+    function hit(p, dir, x) {
+      var L = LEVELS[level], speed = Math.min(L.max, Math.hypot(ball.vx, ball.vy) * 1.06);
+      // Raketkaning qayeriga tegsa — şu tomonga qiyaroq qaytadi; raketka harakati ham "aylantiradi"
+      var rel = Math.max(-1, Math.min(1, (ball.y - p.y) / (PH / 2))), a = rel * 0.85;
+      ball.vx = Math.cos(a) * speed * dir; ball.vy = Math.sin(a) * speed + p.v * 0.15;
+      ball.x = x;
+      for (var i = 0; i < 8; i++) sparks.push({ x: ball.x, y: ball.y, vx: dir * (60 + Math.random() * 160), vy: (Math.random() - 0.5) * 240, life: 0.3 });
+      // Tezlik oşgan sari kompyuter köproq adaşadi
+      if (dir > 0) p2.aim = (Math.random() - 0.5) * 2 * L.error * (0.6 + speed / 500);
+      blip(dir > 0 ? 520 : 440, 0.06);
+    }
+    function point(mine) {
+      if (mine) s1++; else s2++;
+      $("pp-s1").textContent = s1; $("pp-s2").textContent = s2;
+      blip(mine ? 880 : 200, 0.18);
+      if (s1 >= WIN || s2 >= WIN) return finish();
+      serveDir = mine ? 1 : -1;   // ötkazib yuborgan tomonga xizmat qilinadi
+      serve();
+    }
+    function finish() {
+      state = "over";
+      var won = s1 > s2;
+      if (won) CPGame.win();
+      $("pp-result").textContent = won ? T.won : T.lost;
+      $("pp-final").textContent = s1 + " : " + s2;
+      show("pp-over");
+      draw();
+    }
+
+    // --- Ovoz ---
+    var audio = null;
+    function blip(freq, dur) {
+      if (!sound) return;
+      try {
+        audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+        var o = audio.createOscillator(), g = audio.createGain(), t0 = audio.currentTime;
+        o.type = "square"; o.frequency.setValueAtTime(freq, t0);
+        g.gain.setValueAtTime(0.06, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+        o.connect(g); g.connect(audio.destination); o.start(t0); o.stop(t0 + dur);
+      } catch (e) {}
+    }
+
+    // --- Çiziş ---
+    function rrect(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.fill(); }
+    function draw() {
+      var bg = ctx.createLinearGradient(0, 0, W, H);
+      bg.addColorStop(0, "#0f766e"); bg.addColorStop(1, "#1e40af");
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = "rgba(255,255,255,.55)"; ctx.lineWidth = 4; ctx.strokeRect(6, 6, W - 12, H - 12);
+      ctx.lineWidth = 2; ctx.setLineDash([14, 12]); ctx.beginPath(); ctx.moveTo(W / 2, 10); ctx.lineTo(W / 2, H - 10); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = "rgba(255,255,255,.25)"; ctx.beginPath(); ctx.moveTo(10, H / 2); ctx.lineTo(W - 10, H / 2); ctx.stroke();
+
+      ctx.fillStyle = "#fde047"; rrect(P1X, p1.y - PH / 2, PW, PH, 6);
+      ctx.fillStyle = "#f87171"; rrect(P2X, p2.y - PH / 2, PW, PH, 6);
+
+      trail.forEach(function (p, i) { ctx.fillStyle = "rgba(255,255,255," + (i / trail.length * 0.35) + ")"; ctx.beginPath(); ctx.arc(p[0], p[1], BR * (i / trail.length), 0, Math.PI * 2); ctx.fill(); });
+      sparks.forEach(function (s) { ctx.fillStyle = "rgba(253,224,71," + s.life / 0.3 + ")"; ctx.fillRect(s.x - 2, s.y - 2, 4, 4); });
+      if (state !== "start") {
+        ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(ball.x, ball.y, BR, 0, Math.PI * 2); ctx.fill();
+        if (serveT > 0 && state === "play") {   // xizmat oldidan kiçik pauza — töp miltillaydi
+          ctx.strokeStyle = "rgba(255,255,255," + (0.3 + 0.3 * Math.sin(serveT * 20)) + ")"; ctx.lineWidth = 3;
+          ctx.beginPath(); ctx.arc(ball.x, ball.y, BR + 8, 0, Math.PI * 2); ctx.stroke();
         }
-        
-        function calculateMousePos(evt) {
-            var rect = canvas.getBoundingClientRect();
-            var root = document.documentElement;
-            var mouseX = evt.clientX - rect.left - root.scrollLeft;
-            var mouseY = evt.clientY - rect.top - root.scrollTop;
-            return {
-                x:mouseX,
-                y:mouseY
-            };
-        }
-        
-        function handleMouseClick(evt) {
-            if(showingWinScreen) {
-                player1Score = 0;
-                player2Score = 0;
-                showingWinScreen = false;
-            }
-        }
-        
-        function computerMovement() {
-            var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);
-            if(paddle2YCenter < ballY-35) {
-                paddle2Y = paddle2Y + 6;
-            } else if(paddle2YCenter > ballY+35) {
-                paddle2Y = paddle2Y - 6;
-            }
-        }
-        
-        function moveEverything() {
-            if(showingWinScreen) {
-                return;
-            }
-        
-            computerMovement();
-            
-            ballX = ballX + ballSpeedX;
-            ballY = ballY + ballSpeedY;
-            
-            if(ballX < 0) {
-                if(ballY > paddle1Y &&
-                   ballY < paddle1Y+PADDLE_HEIGHT) {
-                    ballSpeedX = -ballSpeedX;
-                    
-                    var deltaY = ballY
-                            -(paddle1Y+PADDLE_HEIGHT/2);
-                    ballSpeedY = deltaY * 0.35;
-                } else {
-                    player2Score++; // must be BEFORE ballReset()
-                    ballReset();
-                }
-            }
-            if(ballX > canvas.width) {
-                if(ballY > paddle2Y &&
-                   ballY < paddle2Y+PADDLE_HEIGHT) {
-                    ballSpeedX = -ballSpeedX;
-                    
-                    var deltaY = ballY
-                            -(paddle2Y+PADDLE_HEIGHT/2);
-                    ballSpeedY = deltaY * 0.35;
-                } else {
-                    player1Score++; // must be BEFORE ballReset()
-                    ballReset();	
-                }
-            }
-            if(ballY < 0) {
-                ballSpeedY = -ballSpeedY;
-            }
-            if(ballY > canvas.height) {
-                ballSpeedY = -ballSpeedY;
-            }
-        }
-        
-        function drawNet() {
-            for(var i=0;i<canvas.height;i+=40) {
-                colorRect(canvas.width/2-1,i,2,20,'white');
-            }
-        }
-        
-        function drawEverything() {
-            // next line blanks out the screen with black
-            colorRect(0,0,canvas.width,canvas.height,'black');
-            
-            if(showingWinScreen) {
-                canvasContext.fillStyle = 'white';
-                
-                if(player1Score >= WINNING_SCORE) {
-                    canvasContext.fillText("Left Player Won!", 350,200);
-                } else if(player2Score >= WINNING_SCORE) {
-                    canvasContext.fillText("Right Player Won!", 350,200);
-                }
-                
-                canvasContext.fillText("click to continue", 350,500);
-                return;
-            }
-            
-            drawNet();
-            
-            // this is left player paddle
-            colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
-            
-            // this is right computer paddle
-            colorRect(canvas.width-PADDLE_THICKNESS,
-                    paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
-            
-            // next line draws the ball
-            colorCircle(ballX, ballY, 10, 'white');
-            
-            canvasContext.fillText(player1Score, 100,100);
-            canvasContext.fillText(player2Score, canvas.width-100,100);
-        }
-        
-        function colorCircle(centerX, centerY, radius, drawColor) {
-            canvasContext.fillStyle = drawColor;
-            canvasContext.beginPath();
-            canvasContext.arc(centerX, centerY, radius, 0,Math.PI*2,true);
-            canvasContext.fill();
-        }
-        
-        function colorRect(leftX,topY, width,height, drawColor) {
-            canvasContext.fillStyle = drawColor;
-            canvasContext.fillRect(leftX,topY, width,height);
-        }
-        
-        function ballReset() {
-            if(player1Score >= WINNING_SCORE ||
-               player2Score >= WINNING_SCORE) {
-                showingWinScreen = true;
-                if (player1Score >= WINNING_SCORE && window.CPGame) CPGame.win();  // kompyuterni yutdi
-            }
-            
-            ballSpeedX = -ballSpeedX;
-            ballX = canvas.width/2;
-            ballY = canvas.height/2;
-        }
-    </script>
+      }
+    }
+
+    function loop(time) {
+      var dt = Math.min(0.033, (time - lastTime) / 1000);
+      lastTime = time;
+      if (state === "play") { update(dt); draw(); }
+      requestAnimationFrame(loop);
+    }
+
+    function show(id) { ["pp-start", "pp-paused", "pp-over"].forEach(function (o) { $(o).hidden = o !== id; }); $("pp-score").hidden = id === "pp-start"; }
+    function pause() { if (state === "play") { state = "paused"; keyDir = 0; show("pp-paused"); } }
+    function resume() { if (state === "paused") { state = "play"; show(null); } }
+
+    // --- Boşqaruv ---
+    function pointerY(e) {
+      var r = canvas.getBoundingClientRect();
+      return portrait ? (e.clientX - r.left) / r.width * H : (e.clientY - r.top) / r.height * H;
+    }
+    canvas.addEventListener("pointerdown", function (e) { if (state === "play") { p1.target = pointerY(e); canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId); } });
+    canvas.addEventListener("pointermove", function (e) { if (state === "play" && (e.pointerType === "mouse" || e.buttons || e.pressure)) p1.target = pointerY(e); });
+
+    function typing(e) { return e.target.closest && e.target.closest("input, textarea, select, [contenteditable]"); }
+    // ← → ham işlaydi: tik maydonda raketka çapga-öngga yuradi
+    var UP = { ArrowUp: 1, KeyW: 1, ArrowLeft: 1, KeyA: 1 }, DOWN = { ArrowDown: 1, KeyS: 1, ArrowRight: 1, KeyD: 1 };
+    document.addEventListener("keydown", function (e) {
+      if (typing(e)) return;  // izoh yozişga xalaqit bermasin
+      if (state === "play" && (UP[e.code] || DOWN[e.code])) { keyDir = UP[e.code] ? -1 : 1; e.preventDefault(); return; }
+      if (e.code === "Space" || e.code === "KeyP" || e.key === "Escape") {
+        if (state === "play") { e.preventDefault(); pause(); }
+        else if (state === "paused" && e.key !== "Escape") { e.preventDefault(); resume(); }
+      } else if (e.key === "Enter" && state !== "play") {
+        e.preventDefault(); state === "paused" ? resume() : start();
+      }
+    });
+    document.addEventListener("keyup", function (e) { if (UP[e.code] || DOWN[e.code]) keyDir = 0; });
+    window.addEventListener("blur", function () { keyDir = 0; });
+
+    function syncLevel() { $("pp-level").querySelectorAll("button").forEach(function (b) { b.classList.toggle("on", +b.dataset.level === level); }); }
+    $("pp-level").querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        level = +b.dataset.level; syncLevel();
+        try { localStorage.setItem("pongLevel", String(level)); } catch (e) {}
+      });
+    });
+    document.querySelectorAll("[data-act]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var act = b.dataset.act;
+        if (act === "resume") resume();
+        else if (act === "menu") { state = "start"; show("pp-start"); draw(); }
+        else start();
+      });
+    });
+    $("pp-pause-btn").addEventListener("click", function () { state === "play" ? pause() : state === "paused" ? resume() : start(); this.blur(); });
+    function syncSound() { $("pp-sound").textContent = sound ? "🔊 " + T.sound_on : "🔇 " + T.sound_off; }
+    $("pp-sound").addEventListener("click", function () {
+      sound = !sound; syncSound(); this.blur();
+      try { localStorage.setItem("pongSound", sound ? "on" : "off"); } catch (e) {}
+    });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+    window.addEventListener("resize", fit);
+
+    if (matchMedia("(pointer:coarse)").matches) $("pp-hint").textContent = T.hint_touch;
+    syncLevel(); syncSound();
+    CPGame.init({ id: "pingpong", title: "Ping Pong", mode: "wins", before: board });
+    fit();
+    requestAnimationFrame(function (t) { lastTime = t; requestAnimationFrame(loop); });
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>
