@@ -1477,21 +1477,163 @@ def bubbleshooter(request):
     return render(request, "projects/bubbleshooter.html", context=context)
 
 
+PONG_TEXT = {
+    "uz": {
+        "lead": "Kompyuterga qarşi stol tennisi. Raketkani siçqonça, barmoq yoki klaviatura bilan boşqaring — 5 ballga birinçi yetgan yutadi.",
+        "badge_keys": "Siçqonça, barmoq yoki klaviatura", "badge_record": "Ğalabalar saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "start": "Boşlaş", "again": "Yana öynaş", "resume": "Davom etiş", "paused": "Pauza",
+        "you": "Siz", "cpu": "Kompyuter", "won": "Siz yutdingiz! 🎉", "lost": "Kompyuter yutdi",
+        "level": "Qiyinçilik", "easy": "Oson", "medium": "Örtaça", "hard": "Qiyin",
+        "hint_keys": "Siçqonçani yuqoriga-pastga yurgizing yoki ↑ ↓ (W S) tugmalaridan foydalaning. Probel — pauza",
+        "hint_touch": "Barmoqni maydon ustida yurgizib raketkani boşqaring",
+        "sound_on": "Ovoz yoqilgan", "sound_off": "Ovoz öçirilgan", "pause_btn": "Pauza", "more_games": "Boşqa öyinlar",
+    },
+    "ru": {
+        "lead": "Настольный теннис против компьютера. Управляйте ракеткой мышью, пальцем или клавиатурой — побеждает тот, кто первым наберёт 5 очков.",
+        "badge_keys": "Мышь, палец или клавиатура", "badge_record": "Победы сохраняются", "badge_free": "Бесплатно, без скачивания",
+        "start": "Начать", "again": "Ещё раз", "resume": "Продолжить", "paused": "Пауза",
+        "you": "Вы", "cpu": "Компьютер", "won": "Вы победили! 🎉", "lost": "Победил компьютер",
+        "level": "Сложность", "easy": "Легко", "medium": "Средне", "hard": "Сложно",
+        "hint_keys": "Двигайте мышь вверх-вниз или используйте ↑ ↓ (W S). Пробел — пауза",
+        "hint_touch": "Водите пальцем по полю, чтобы двигать ракетку",
+        "sound_on": "Звук включён", "sound_off": "Звук выключен", "pause_btn": "Пауза", "more_games": "Другие игры",
+    },
+    "en": {
+        "lead": "Table tennis against the computer. Move your paddle with the mouse, your finger or the keyboard — first to 5 points wins.",
+        "badge_keys": "Mouse, finger or keyboard", "badge_record": "Wins are saved", "badge_free": "Free, no download",
+        "start": "Start", "again": "Play again", "resume": "Resume", "paused": "Paused",
+        "you": "You", "cpu": "Computer", "won": "You won! 🎉", "lost": "The computer won",
+        "level": "Difficulty", "easy": "Easy", "medium": "Medium", "hard": "Hard",
+        "hint_keys": "Move the mouse up and down or use ↑ ↓ (W S). Space to pause",
+        "hint_touch": "Slide your finger over the table to move the paddle",
+        "sound_on": "Sound on", "sound_off": "Sound off", "pause_btn": "Pause", "more_games": "More games",
+    },
+    "tr": {
+        "lead": "Bilgisayara karşı masa tenisi. Raketi fare, parmak veya klavyeyle yönet — 5 sayıya ilk ulaşan kazanır.",
+        "badge_keys": "Fare, parmak veya klavye", "badge_record": "Galibiyetler kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "start": "Başla", "again": "Tekrar oyna", "resume": "Devam et", "paused": "Duraklatıldı",
+        "you": "Sen", "cpu": "Bilgisayar", "won": "Kazandın! 🎉", "lost": "Bilgisayar kazandı",
+        "level": "Zorluk", "easy": "Kolay", "medium": "Orta", "hard": "Zor",
+        "hint_keys": "Fareyi yukarı-aşağı hareket ettir veya ↑ ↓ (W S) kullan. Boşluk ile duraklat",
+        "hint_touch": "Raketi hareket ettirmek için parmağını masada kaydır",
+        "sound_on": "Ses açık", "sound_off": "Ses kapalı", "pause_btn": "Duraklat", "more_games": "Diğer oyunlar",
+    },
+}
+
+
 def pingpong(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": PONG_TEXT.get(lang, PONG_TEXT["en"])}
     return render(request, "projects/pingpong.html", context=context)
 
 
+TTT_TEXT = {
+    "uz": {
+        "lead": "Klassik «X va O» öyini. Kompyuterga qarşi uç xil qiyinçilikda yoki dösingiz bilan bitta qurilmada öynang.",
+        "badge_modes": "Kompyuter yoki 2 kişi", "badge_record": "Ğalabalar saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "mode": "Rejim", "vs_cpu": "Kompyuterga qarşi", "two": "2 kişi",
+        "level": "Qiyinçilik", "easy": "Oson", "medium": "Örtaça", "hard": "Yengilmas",
+        "side": "Siz", "turn": "Navbat:", "your_turn": "Sizning navbatingiz", "cpu_turn": "Kompyuter öylayapti…",
+        "won": "Siz yutdingiz! 🎉", "lost": "Kompyuter yutdi", "draw": "Durang", "wins_of": "yutdi",
+        "you": "Siz", "cpu": "Kompyuter", "draws": "Durang", "new_game": "Yangi öyin", "reset": "Hisobni tozalaş",
+        "hint": "X har doim birinçi yuradi. Klaviaturada 1–9 raqamlari bilan ham yuriş mumkin",
+        "more_games": "Boşqa öyinlar",
+    },
+    "ru": {
+        "lead": "Классические «Крестики-нолики». Играйте против компьютера на трёх уровнях сложности или с другом на одном устройстве.",
+        "badge_modes": "Компьютер или 2 игрока", "badge_record": "Победы сохраняются", "badge_free": "Бесплатно, без скачивания",
+        "mode": "Режим", "vs_cpu": "Против компьютера", "two": "2 игрока",
+        "level": "Сложность", "easy": "Легко", "medium": "Средне", "hard": "Непобедимый",
+        "side": "Вы", "turn": "Ход:", "your_turn": "Ваш ход", "cpu_turn": "Компьютер думает…",
+        "won": "Вы победили! 🎉", "lost": "Победил компьютер", "draw": "Ничья", "wins_of": "победил",
+        "you": "Вы", "cpu": "Компьютер", "draws": "Ничьи", "new_game": "Новая игра", "reset": "Сбросить счёт",
+        "hint": "Крестики всегда ходят первыми. Можно ходить цифрами 1–9 на клавиатуре",
+        "more_games": "Другие игры",
+    },
+    "en": {
+        "lead": "Classic noughts and crosses. Play against the computer on three difficulty levels or with a friend on the same device.",
+        "badge_modes": "Computer or 2 players", "badge_record": "Wins are saved", "badge_free": "Free, no download",
+        "mode": "Mode", "vs_cpu": "Vs computer", "two": "2 players",
+        "level": "Difficulty", "easy": "Easy", "medium": "Medium", "hard": "Unbeatable",
+        "side": "You", "turn": "Turn:", "your_turn": "Your turn", "cpu_turn": "Computer is thinking…",
+        "won": "You won! 🎉", "lost": "The computer won", "draw": "Draw", "wins_of": "wins",
+        "you": "You", "cpu": "Computer", "draws": "Draws", "new_game": "New game", "reset": "Reset score",
+        "hint": "X always moves first. You can also play with the 1–9 keys",
+        "more_games": "More games",
+    },
+    "tr": {
+        "lead": "Klasik «XOX» oyunu. Bilgisayara karşı üç zorluk seviyesinde ya da arkadaşınla aynı cihazda oyna.",
+        "badge_modes": "Bilgisayar veya 2 oyuncu", "badge_record": "Galibiyetler kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "mode": "Mod", "vs_cpu": "Bilgisayara karşı", "two": "2 oyuncu",
+        "level": "Zorluk", "easy": "Kolay", "medium": "Orta", "hard": "Yenilmez",
+        "side": "Sen", "turn": "Sıra:", "your_turn": "Senin sıran", "cpu_turn": "Bilgisayar düşünüyor…",
+        "won": "Kazandın! 🎉", "lost": "Bilgisayar kazandı", "draw": "Berabere", "wins_of": "kazandı",
+        "you": "Sen", "cpu": "Bilgisayar", "draws": "Beraberlik", "new_game": "Yeni oyun", "reset": "Skoru sıfırla",
+        "hint": "X her zaman önce oynar. 1–9 tuşlarıyla da oynayabilirsin",
+        "more_games": "Diğer oyunlar",
+    },
+}
+
+
 def tictactoe(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": TTT_TEXT.get(lang, TTT_TEXT["en"]), "cells": range(9)}
     return render(request, "projects/tictactoe.html", context=context)
 
 
+TETRIS_TEXT = {
+    "uz": {
+        "lead": "Tuşayotgan figuralarni aylantirib, töliq qatorlar hosil qiling. Har 10 qatordan keyin daraja oşadi va figuralar tezlaşadi.",
+        "badge_keys": "Klaviatura va sensorli tugmalar", "badge_record": "Rekord saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "start": "Boşlaş", "again": "Qayta öynaş", "resume": "Davom etiş", "paused": "Pauza", "over": "Öyin tugadi",
+        "score": "Hisob", "lines": "Qatorlar", "level": "Daraja", "next": "Keyingi", "hold": "Zaxira",
+        "best": "Rekord", "new_record": "🎉 Yangi rekord!",
+        "hint_keys": "← → — siljitiş, ↑ yoki X — aylantiriş, Z — teskari, ↓ — tezlaştiriş, Probel — taşlaş, C — zaxira, P — pauza",
+        "hint_touch": "Pastdagi tugmalardan foydalaning yoki maydonda suring: çap/öng — siljitiş, tegiş — aylantiriş, pastga — taşlaş",
+        "sound_on": "Ovoz yoqilgan", "sound_off": "Ovoz öçirilgan", "pause_btn": "Pauza", "more_games": "Boşqa öyinlar",
+    },
+    "ru": {
+        "lead": "Вращайте падающие фигуры и собирайте полные ряды. Каждые 10 рядов уровень растёт, и фигуры падают быстрее.",
+        "badge_keys": "Клавиатура и сенсорные кнопки", "badge_record": "Рекорд сохраняется", "badge_free": "Бесплатно, без скачивания",
+        "start": "Начать", "again": "Играть снова", "resume": "Продолжить", "paused": "Пауза", "over": "Игра окончена",
+        "score": "Счёт", "lines": "Ряды", "level": "Уровень", "next": "Далее", "hold": "Запас",
+        "best": "Рекорд", "new_record": "🎉 Новый рекорд!",
+        "hint_keys": "← → — сдвиг, ↑ или X — поворот, Z — обратный поворот, ↓ — ускорить, Пробел — сбросить, C — запас, P — пауза",
+        "hint_touch": "Используйте кнопки внизу или свайпы по полю: влево/вправо — сдвиг, касание — поворот, вниз — сбросить",
+        "sound_on": "Звук включён", "sound_off": "Звук выключен", "pause_btn": "Пауза", "more_games": "Другие игры",
+    },
+    "en": {
+        "lead": "Rotate the falling pieces and complete full lines. Every 10 lines the level goes up and the pieces fall faster.",
+        "badge_keys": "Keyboard and touch buttons", "badge_record": "Best score is saved", "badge_free": "Free, no download",
+        "start": "Start", "again": "Play again", "resume": "Resume", "paused": "Paused", "over": "Game over",
+        "score": "Score", "lines": "Lines", "level": "Level", "next": "Next", "hold": "Hold",
+        "best": "Best", "new_record": "🎉 New record!",
+        "hint_keys": "← → move, ↑ or X rotate, Z rotate back, ↓ soft drop, Space hard drop, C hold, P pause",
+        "hint_touch": "Use the buttons below or swipe on the board: left/right to move, tap to rotate, down to drop",
+        "sound_on": "Sound on", "sound_off": "Sound off", "pause_btn": "Pause", "more_games": "More games",
+    },
+    "tr": {
+        "lead": "Düşen parçaları döndür ve tam sıralar oluştur. Her 10 sırada seviye yükselir ve parçalar hızlanır.",
+        "badge_keys": "Klavye ve dokunmatik düğmeler", "badge_record": "Rekor kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "start": "Başla", "again": "Tekrar oyna", "resume": "Devam et", "paused": "Duraklatıldı", "over": "Oyun bitti",
+        "score": "Skor", "lines": "Sıralar", "level": "Seviye", "next": "Sıradaki", "hold": "Yedek",
+        "best": "Rekor", "new_record": "🎉 Yeni rekor!",
+        "hint_keys": "← → kaydır, ↑ veya X döndür, Z ters döndür, ↓ hızlandır, Boşluk bırak, C yedek, P duraklat",
+        "hint_touch": "Alttaki düğmeleri kullan veya alanda kaydır: sol/sağ kaydırır, dokunma döndürür, aşağı bırakır",
+        "sound_on": "Ses açık", "sound_off": "Ses kapalı", "pause_btn": "Duraklat", "more_games": "Diğer oyunlar",
+    },
+}
+
+
 def tetris(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": TETRIS_TEXT.get(lang, TETRIS_TEXT["en"])}
     return render(request, "projects/tetris.html", context=context)
 
 
