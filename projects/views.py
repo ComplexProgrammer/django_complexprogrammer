@@ -1425,9 +1425,55 @@ def motorcycle(request):
     return render(request, "projects/motorcycle.html", context=context)
 
 
+BUBBLE_TEXT = {
+    "uz": {
+        "lead": "Bir xil rangdagi 3 va undan ortiq şarçani yiğib portlating. Har 5 ta bekor otişda yuqoridan yangi qator tuşadi — şarçalar pastki çiziqqa yetsa, öyin tugaydi.",
+        "badge_aim": "Siçqonça yoki barmoq bilan", "badge_record": "Rekord saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
+        "start": "Boşlaş", "again": "Qayta öynaş", "resume": "Davom etiş", "paused": "Pauza", "over": "Öyin tugadi",
+        "score": "Hisob", "best": "Rekord", "new_record": "🎉 Yangi rekord!", "rows_in": "Yangi qatorgaça",
+        "cleared": "Maydon tozalandi! +1000", "next": "Keyingi",
+        "hint_keys": "Siçqonça bilan nişonga olib bosing. ← → — buriş, Probel — otiş, S — şarçalarni almaştiriş, P — pauza",
+        "hint_touch": "Barmoq bilan nişonga olib, qöyib yuboring. Pastdagi kiçik şarçaga tegsangiz — almaşadi",
+        "sound_on": "Ovoz yoqilgan", "sound_off": "Ovoz öçirilgan", "pause_btn": "Pauza", "swap_btn": "Almaştiriş", "more_games": "Boşqa öyinlar",
+    },
+    "ru": {
+        "lead": "Собирайте 3 и более шарика одного цвета, чтобы они лопнули. Каждые 5 промахов сверху опускается новый ряд — если шарики дойдут до нижней линии, игра окончена.",
+        "badge_aim": "Мышью или пальцем", "badge_record": "Рекорд сохраняется", "badge_free": "Бесплатно, без скачивания",
+        "start": "Начать", "again": "Играть снова", "resume": "Продолжить", "paused": "Пауза", "over": "Игра окончена",
+        "score": "Счёт", "best": "Рекорд", "new_record": "🎉 Новый рекорд!", "rows_in": "До нового ряда",
+        "cleared": "Поле очищено! +1000", "next": "Следующий",
+        "hint_keys": "Наведите мышью и нажмите. ← → — поворот, Пробел — выстрел, S — поменять шарики, P — пауза",
+        "hint_touch": "Прицельтесь пальцем и отпустите. Коснитесь маленького шарика внизу, чтобы поменять",
+        "sound_on": "Звук включён", "sound_off": "Звук выключен", "pause_btn": "Пауза", "swap_btn": "Поменять", "more_games": "Другие игры",
+    },
+    "en": {
+        "lead": "Match 3 or more bubbles of the same colour to pop them. Every 5 misses a new row drops from the top — if the bubbles reach the bottom line, the game is over.",
+        "badge_aim": "Mouse or finger", "badge_record": "Best score is saved", "badge_free": "Free, no download",
+        "start": "Start", "again": "Play again", "resume": "Resume", "paused": "Paused", "over": "Game over",
+        "score": "Score", "best": "Best", "new_record": "🎉 New record!", "rows_in": "New row in",
+        "cleared": "Board cleared! +1000", "next": "Next",
+        "hint_keys": "Aim with the mouse and click. ← → to aim, Space to shoot, S to swap bubbles, P to pause",
+        "hint_touch": "Aim with your finger and release. Tap the small bubble below to swap",
+        "sound_on": "Sound on", "sound_off": "Sound off", "pause_btn": "Pause", "swap_btn": "Swap", "more_games": "More games",
+    },
+    "tr": {
+        "lead": "Aynı renkten 3 veya daha fazla balonu birleştirip patlat. Her 5 ıskada yukarıdan yeni bir sıra iner — balonlar alt çizgiye ulaşırsa oyun biter.",
+        "badge_aim": "Fare veya parmakla", "badge_record": "Rekor kaydedilir", "badge_free": "Ücretsiz, indirmeden",
+        "start": "Başla", "again": "Tekrar oyna", "resume": "Devam et", "paused": "Duraklatıldı", "over": "Oyun bitti",
+        "score": "Skor", "best": "Rekor", "new_record": "🎉 Yeni rekor!", "rows_in": "Yeni sıraya",
+        "cleared": "Alan temizlendi! +1000", "next": "Sıradaki",
+        "hint_keys": "Fareyle nişan alıp tıklayın. ← → nişan, Boşluk atış, S balonları değiştir, P duraklat",
+        "hint_touch": "Parmağınızla nişan alıp bırakın. Değiştirmek için alttaki küçük balona dokunun",
+        "sound_on": "Ses açık", "sound_off": "Ses kapalı", "pause_btn": "Duraklat", "swap_btn": "Değiştir", "more_games": "Diğer oyunlar",
+    },
+}
+
+
 def bubbleshooter(request):
-    comments = page_comments(request)
-    context = {"comments": comments}
+    from django.utils import translation
+
+    lang = (translation.get_language() or "uz")[:2]
+    context = {"comments": page_comments(request), "t": BUBBLE_TEXT.get(lang, BUBBLE_TEXT["en"])}
     return render(request, "projects/bubbleshooter.html", context=context)
 
 

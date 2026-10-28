@@ -1,30 +1,421 @@
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 {% include "includes/head_common.html" %}
+{# Bootstrap — faqat izohlar bloki (comment_form.html) uçun #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+{% include "driving/_style.html" %}
+<style>
+  .bs{max-width:860px}
+  .bs-hero{padding:22px 24px;margin-bottom:16px;border-radius:20px;color:#fff;
+    background:linear-gradient(135deg,#ec4899,#8b5cf6 55%,#3b82f6);box-shadow:0 12px 32px rgba(139,92,246,.25)}
+  .bs-hero h1{font-size:clamp(1.3rem,3vw,1.8rem);font-weight:800;margin:0 0 6px;color:#fff}
+  .bs-hero p{margin:0;opacity:.92}
+  .bs-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .bs-badges span{padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:.86rem}
 
-<link rel="icon" sizes="16x16" href="/static/Games/BubbleShooter/bubble-sprites.png">
-<link rel="stylesheet" href="/static/C0mplexButtonStyle.css">
- <style>
- body {
-    background-color: #212121;
-    color: white
-}
- </style>
-<!--  -->
-
-<script src="/static/Games/BubbleShooter/bubble-shooter-example.js"></script>
+  .bs-card{padding:14px}
+  .bs-board{position:relative;width:100%;max-width:440px;margin:0 auto;aspect-ratio:380/540;border-radius:18px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(15,23,42,.25);touch-action:none;user-select:none;-webkit-user-select:none}
+  .bs-board canvas{display:block;width:100%;height:100%;cursor:crosshair}
+  .bs-toast{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);padding:8px 16px;border-radius:12px;background:rgba(15,23,42,.75);
+    color:#fde047;font-weight:800;pointer-events:none;white-space:nowrap}
+  .bs-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:22px;
+    text-align:center;color:#fff;background:rgba(15,23,42,.66);backdrop-filter:blur(2px)}
+  .bs-overlay h2{font-size:clamp(1.4rem,5vw,2rem);font-weight:800;margin:0;color:#fff}
+  .bs-overlay p{margin:0;opacity:.92;font-size:.9rem;max-width:340px}
+  .bs-big{font-size:clamp(2.2rem,8vw,3rem);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+  .bs-rec{color:#fde047;font-weight:800}
+  /* flex:0 — umumiy telefon qoidasi (.d-btn{flex:1 1 auto}) vertikal ustunda tugmani böyiga çözib yubormasin */
+  .bs-overlay .d-btn{flex:0 0 auto;padding:12px 26px;font-size:1.05rem}
+  .bs-tools{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+  .bs-tool{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+  .bs-more{display:flex;justify-content:center;margin-top:14px}
+  [hidden]{display:none!important}
+  @media (max-width:640px){ .bs-hero{padding:18px} .bs-card{padding:10px} }
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-<div style="width:100%;height:100%" id="bubble-wrap">
+<main class="d-main bs">
+  <section class="bs-hero">
+    <h1>🫧 {{ seo_h1|default:"Bubble Shooter" }}</h1>
+    <p>{{ t.lead }}</p>
+    <div class="bs-badges">
+      <span>🎯 {{ t.badge_aim }}</span>
+      <span>🏆 {{ t.badge_record }}</span>
+      <span>✅ {{ t.badge_free }}</span>
+    </div>
+  </section>
 
-    <canvas style="margin:auto;max-width:100%;height:auto" id="viewport" width="628" height="628"></canvas>
-</div>
-<script src="/static/js/game-kit.js"></script>
-<script>CPGame.init({ id: "bubbleshooter", title: "Bubble Shooter", before: document.getElementById("bubble-wrap") });</script>
-{% include 'comment_form.html' %}
+  <section class="d-card bs-card">
+    <div class="bs-board" id="bs-board">
+      <canvas id="bs-canvas" aria-label="Bubble Shooter"></canvas>
+      <div class="bs-toast" id="bs-toast" hidden></div>
+      <div class="bs-overlay" id="bs-start">
+        <h2>🫧 Bubble Shooter</h2>
+        <p id="bs-hint">{{ t.hint_keys }}</p>
+        <button type="button" class="d-btn" data-act="start">▶ {{ t.start }}</button>
+      </div>
+      <div class="bs-overlay" id="bs-paused" hidden>
+        <h2>⏸ {{ t.paused }}</h2>
+        <button type="button" class="d-btn" data-act="resume">▶ {{ t.resume }}</button>
+      </div>
+      <div class="bs-overlay" id="bs-over" hidden>
+        <h2>🫧 {{ t.over }}</h2>
+        <div class="bs-big" id="bs-final">0</div>
+        <p>🏆 {{ t.best }}: <b id="bs-best">—</b></p>
+        <p class="bs-rec" id="bs-record" hidden>{{ t.new_record }}</p>
+        <button type="button" class="d-btn" data-act="start">🔄 {{ t.again }}</button>
+      </div>
+    </div>
+    <div class="bs-tools">
+      <button type="button" class="bs-tool" id="bs-swap-btn">🔁 {{ t.swap_btn }}</button>
+      <button type="button" class="bs-tool" id="bs-pause-btn">⏸ {{ t.pause_btn }}</button>
+      <button type="button" class="bs-tool" id="bs-sound"></button>
+    </div>
+  </section>
+  <div class="bs-more"><a class="d-btn alt" href="{{ lang_prefix }}/projects/">🎮 {{ t.more_games }}</a></div>
+</main>
+
+<div class="d-comments">{% include 'comment_form.html' %}</div>
+
+{{ t|json_script:"bs-text" }}
+<script src="/static/js/game-kit.js?v=2"></script>
+<script>
+  (function () {
+    var T = JSON.parse(document.getElementById("bs-text").textContent);
+    var $ = function (id) { return document.getElementById(id); };
+    var board = $("bs-board"), canvas = $("bs-canvas"), ctx = canvas.getContext("2d");
+
+    // Maydon "dunyo birliklari"da: 9 ustun, olti burçakli (har ikkinçi qator yarim şarça surilgan) tör
+    var COLS = 9, R = 20, ROWH = R * Math.sqrt(3), BW = COLS * 2 * R + R, BH = 540;
+    var DEAD_ROW = 12, START_ROWS = 5, MISSES_PER_ROW = 5, SPEED = 950;
+    var DEAD_Y = R + (DEAD_ROW - 0.5) * ROWH;
+    var SX = BW / 2, SY = BH - 46;                               // otiş nuqtasi
+    var NX = SX - 78, NY = SY + 14;                              // keyingi şarça
+    var COLORS = [
+      ["#f87171", "#b91c1c"], ["#fbbf24", "#b45309"], ["#4ade80", "#15803d"],
+      ["#60a5fa", "#1d4ed8"], ["#c084fc", "#7e22ce"], ["#22d3ee", "#0e7490"]
+    ];
+
+    var state = "start", rows = [], cur = 0, next = 0, shot = null, aim = Math.PI / 2;
+    var score = 0, misses = 0, effects = [], k = 1, lastTime = 0, keyRot = 0, toastT = 0;
+    var sound = true;
+    try { sound = localStorage.getItem("bubbleSound") !== "off"; } catch (e) {}
+
+    function fit() {
+      var r = board.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+      k = r.width / BW;
+      ctx.setTransform(k * dpr, 0, 0, k * dpr, 0, 0);
+      draw();
+    }
+
+    // --- Tör ---
+    function cellX(r, c) { return R + c * 2 * R + (rows[r].off ? R : 0); }
+    function cellY(r) { return R + r * ROWH; }
+    function ensureRow(r) {
+      while (rows.length <= r) rows.push({ off: rows.length ? !rows[rows.length - 1].off : false, cells: new Array(COLS).fill(-1) });
+    }
+    function neighbors(r, c) {
+      var list = [[r, c - 1], [r, c + 1]], d = rows[r].off ? [0, 1] : [-1, 0];
+      [r - 1, r + 1].forEach(function (rr) { d.forEach(function (dc) { list.push([rr, c + dc]); }); });
+      return list.filter(function (p) { return p[0] >= 0 && p[0] < rows.length && p[1] >= 0 && p[1] < COLS; });
+    }
+    function at(r, c) { return rows[r] ? rows[r].cells[c] : -1; }
+    function colorsOnBoard() {
+      var set = {};
+      rows.forEach(function (row) { row.cells.forEach(function (v) { if (v >= 0) set[v] = 1; }); });
+      return Object.keys(set).map(Number);
+    }
+    function randomColor() {
+      var list = colorsOnBoard();
+      if (!list.length) list = COLORS.map(function (_, i) { return i; });
+      return list[Math.floor(Math.random() * list.length)];
+    }
+    function newRow(off) {
+      var cells = [];
+      for (var c = 0; c < COLS; c++) {
+        // Qöşni bilan bir xil rang tez-tez çiqsin — boşlanğiç öyin "yopiq" bölib qolmasin
+        cells.push(c > 0 && Math.random() < 0.35 ? cells[c - 1] : Math.floor(Math.random() * COLORS.length));
+      }
+      return { off: off, cells: cells };
+    }
+    function addTopRow() {
+      rows.unshift(newRow(rows.length ? !rows[0].off : false));
+      trim();
+    }
+    function trim() { while (rows.length && rows[rows.length - 1].cells.every(function (v) { return v < 0; })) rows.pop(); }
+
+    // --- Öyin jarayoni ---
+    function start() {
+      rows = []; effects = []; shot = null; score = 0; misses = 0; aim = Math.PI / 2;
+      for (var i = 0; i < START_ROWS; i++) rows.push(newRow(i % 2 === 1));
+      cur = randomColor(); next = randomColor();
+      CPGame.score(0);
+      state = "play"; show(null);
+    }
+    function fire() {
+      if (state !== "play" || shot) return;
+      shot = { x: SX, y: SY, vx: Math.cos(aim) * SPEED, vy: -Math.sin(aim) * SPEED, color: cur };
+      cur = next; next = randomColor();
+      blip(330, 0.06, "triangle");
+    }
+    function swap() {
+      if (state !== "play" || shot) return;
+      var t = cur; cur = next; next = t;
+      blip(520, 0.04, "sine");
+    }
+
+    function step(dt) {
+      if (shot) {
+        // Kiçik qadamlar bilan — tez uçganda ham şarçalar orasidan "ötib ketmaydi"
+        var n = Math.ceil(SPEED * dt / (R / 3));
+        for (var i = 0; i < n && shot; i++) {
+          shot.x += shot.vx * dt / n; shot.y += shot.vy * dt / n;
+          if (shot.x < R) { shot.x = R; shot.vx = Math.abs(shot.vx); }
+          if (shot.x > BW - R) { shot.x = BW - R; shot.vx = -Math.abs(shot.vx); }
+          if (shot.y <= R || hits(shot.x, shot.y)) land();
+        }
+      }
+      effects.forEach(function (e) {
+        e.t += dt;
+        if (e.type === "fall") { e.vy += 1400 * dt; e.x += e.vx * dt; e.y += e.vy * dt; }
+      });
+      effects = effects.filter(function (e) { return e.type === "fall" ? e.y < BH + R : e.t < (e.type === "pop" ? 0.22 : 0.9); });
+      if (keyRot) setAim(aim - keyRot * 1.8 * dt);
+      if (toastT > 0 && (toastT -= dt) <= 0) $("bs-toast").hidden = true;
+    }
+    function hits(x, y) {
+      var r0 = Math.max(0, Math.floor((y - R) / ROWH) - 1);
+      for (var r = r0; r < Math.min(rows.length, r0 + 3); r++)
+        for (var c = 0; c < COLS; c++)
+          if (rows[r].cells[c] >= 0 && Math.hypot(x - cellX(r, c), y - cellY(r)) < 2 * R - 6) return true;
+      return false;
+    }
+
+    function land() {
+      // Eng yaqin böş katak: yoki birinçi qatorda, yoki biror şarçaga tegib turgan bölişi kerak
+      var best = null, bd = Infinity, rMax = Math.min(DEAD_ROW + 1, Math.floor((shot.y - R) / ROWH) + 2);
+      ensureRow(rMax);
+      for (var r = 0; r <= rMax; r++) for (var c = 0; c < COLS; c++) {
+        if (rows[r].cells[c] >= 0) continue;
+        if (r > 0 && !neighbors(r, c).some(function (p) { return at(p[0], p[1]) >= 0; })) continue;
+        var d = Math.hypot(shot.x - cellX(r, c), shot.y - cellY(r));
+        if (d < bd) { bd = d; best = [r, c]; }
+      }
+      var color = shot.color; shot = null;
+      if (!best) { trim(); return; }
+      rows[best[0]].cells[best[1]] = color;
+
+      var group = cluster(best[0], best[1], true);
+      if (group.length >= 3) {
+        group.forEach(function (p) { pop(p[0], p[1]); });
+        var gained = group.length * 100, dropped = 0;
+        floating().forEach(function (p) {
+          effects.push({ type: "fall", x: cellX(p[0], p[1]), y: cellY(p[0]), vx: (Math.random() - 0.5) * 160, vy: -120 - Math.random() * 120, color: at(p[0], p[1]), t: 0 });
+          rows[p[0]].cells[p[1]] = -1; dropped++;
+        });
+        gained += dropped * 100;
+        score += gained;
+        effects.push({ type: "text", x: cellX(best[0], best[1]), y: cellY(best[0]), text: "+" + gained, t: 0 });
+        blip(dropped ? 880 : 700, 0.12, "sine");
+        trim();
+        if (!rows.length) {
+          score += 1000; toast(T.cleared); blip(1046, 0.3, "sine");
+          for (var i = 0; i < START_ROWS; i++) rows.push(newRow(i % 2 === 1));
+        }
+      } else {
+        misses++;
+        if (misses >= MISSES_PER_ROW) { misses = 0; addTopRow(); blip(160, 0.2, "sawtooth"); }
+        trim();
+      }
+      if (colorsOnBoard().indexOf(cur) < 0) cur = randomColor();   // yöq rangdagi şarça qolib ketmasin
+      if (colorsOnBoard().indexOf(next) < 0) next = randomColor();
+      CPGame.score(score);   // hisob yuqoridagi umumiy panelda körinadi
+      if (rows.length > DEAD_ROW) gameOver();
+    }
+    function cluster(r, c, sameColor) {
+      var color = at(r, c), seen = {}, out = [], stack = [[r, c]];
+      while (stack.length) {
+        var p = stack.pop(), key = p[0] + ":" + p[1];
+        if (seen[key]) continue;
+        seen[key] = 1;
+        var v = at(p[0], p[1]);
+        if (v < 0 || (sameColor && v !== color)) continue;
+        out.push(p);
+        neighbors(p[0], p[1]).forEach(function (q) { stack.push(q); });
+      }
+      return out;
+    }
+    function floating() {
+      var held = {};
+      for (var c = 0; c < COLS; c++) if (at(0, c) >= 0) cluster(0, c, false).forEach(function (p) { held[p[0] + ":" + p[1]] = 1; });
+      var out = [];
+      rows.forEach(function (row, r) { row.cells.forEach(function (v, c) { if (v >= 0 && !held[r + ":" + c]) out.push([r, c]); }); });
+      return out;
+    }
+    function pop(r, c) {
+      effects.push({ type: "pop", x: cellX(r, c), y: cellY(r), color: at(r, c), t: 0 });
+      rows[r].cells[c] = -1;
+    }
+    function toast(text) { $("bs-toast").textContent = text; $("bs-toast").hidden = false; toastT = 1.6; }
+
+    function gameOver() {
+      state = "over";
+      var before = parseInt(localStorage.getItem("cpGameBest:bubbleshooter") || "0", 10) || 0;
+      CPGame.over(score);
+      $("bs-final").textContent = score;
+      $("bs-best").textContent = Math.max(before, score) || "—";
+      $("bs-record").hidden = !(score > before);
+      blip(196, 0.4, "triangle");
+      setTimeout(function () { if (state === "over") show("bs-over"); }, 500);
+    }
+
+    // --- Ovoz (WebAudio, fayl yuklanmaydi) ---
+    var audio = null;
+    function blip(freq, dur, type) {
+      if (!sound) return;
+      try {
+        audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+        var o = audio.createOscillator(), g = audio.createGain(), t0 = audio.currentTime;
+        o.type = type; o.frequency.setValueAtTime(freq, t0); o.frequency.exponentialRampToValueAtTime(freq * 1.5, t0 + dur);
+        g.gain.setValueAtTime(0.12, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+        o.connect(g); g.connect(audio.destination); o.start(t0); o.stop(t0 + dur);
+      } catch (e) {}
+    }
+
+    // --- Çiziş ---
+    function bubble(x, y, color, scale, alpha) {
+      var r = R * (scale || 1) - 1, c = COLORS[color];
+      ctx.globalAlpha = alpha == null ? 1 : alpha;
+      var g = ctx.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.1, x, y, r);
+      g.addColorStop(0, "#fff"); g.addColorStop(0.25, c[0]); g.addColorStop(1, c[1]);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    function aimPath() {
+      // Nişon çiziği: devordan bir marta qaytişi bilan
+      var x = SX, y = SY, vx = Math.cos(aim), vy = -Math.sin(aim), len = 0, pts = [];
+      while (len < 520 && y > R) {
+        x += vx * 6; y += vy * 6; len += 6;
+        if (x < R || x > BW - R) { vx = -vx; x = Math.max(R, Math.min(BW - R, x)); }
+        if (hits(x, y)) break;
+        if (len % 18 === 0) pts.push([x, y]);
+      }
+      return pts;
+    }
+    function draw() {
+      var bg = ctx.createLinearGradient(0, 0, 0, BH);
+      bg.addColorStop(0, "#1e1b4b"); bg.addColorStop(1, "#312e81");
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, BW, BH);
+      ctx.strokeStyle = "rgba(248,113,113,.55)"; ctx.setLineDash([6, 6]); ctx.lineWidth = 2;   // xavfli çiziq
+      ctx.beginPath(); ctx.moveTo(0, DEAD_Y); ctx.lineTo(BW, DEAD_Y); ctx.stroke(); ctx.setLineDash([]);
+
+      rows.forEach(function (row, r) { row.cells.forEach(function (v, c) { if (v >= 0) bubble(cellX(r, c), cellY(r), v); }); });
+      effects.forEach(function (e) {
+        if (e.type === "pop") bubble(e.x, e.y, e.color, 1 + e.t * 2, 1 - e.t / 0.22);
+        else if (e.type === "fall") bubble(e.x, e.y, e.color, 1, 0.9);
+        else { ctx.globalAlpha = 1 - e.t / 0.9; ctx.fillStyle = "#fde047"; ctx.font = "bold 18px system-ui, sans-serif"; ctx.textAlign = "center";
+          ctx.fillText(e.text, e.x, e.y - e.t * 40); ctx.globalAlpha = 1; }
+      });
+
+      if (state === "play" && !shot) {
+        ctx.fillStyle = "rgba(255,255,255,.55)";
+        aimPath().forEach(function (p, i) { ctx.beginPath(); ctx.arc(p[0], p[1], 2.6 - i * 0.06, 0, Math.PI * 2); ctx.fill(); });
+      }
+      // Otiş qurilmasi
+      ctx.fillStyle = "rgba(255,255,255,.08)"; ctx.fillRect(0, SY - R - 14, BW, BH);
+      ctx.save(); ctx.translate(SX, SY); ctx.rotate(-aim);
+      ctx.fillStyle = "#a5b4fc"; ctx.fillRect(0, -7, R + 22, 14);
+      ctx.restore();
+      ctx.fillStyle = "#4338ca"; ctx.beginPath(); ctx.arc(SX, SY, R + 8, 0, Math.PI * 2); ctx.fill();
+      if (shot) bubble(shot.x, shot.y, shot.color); else bubble(SX, SY, cur);
+      bubble(NX, NY, next, 0.7);
+      ctx.fillStyle = "rgba(255,255,255,.7)"; ctx.font = "11px system-ui, sans-serif"; ctx.textAlign = "center";
+      ctx.fillText(T.next, NX, NY + R + 4);
+      ctx.fillText(T.rows_in, SX + 88, NY + R + 4);
+      for (var i = 0; i < MISSES_PER_ROW; i++) {                      // yangi qatorgaça qolgan otişlar
+        ctx.fillStyle = i < MISSES_PER_ROW - misses ? "#fde047" : "rgba(255,255,255,.2)";
+        ctx.beginPath(); ctx.arc(SX + 62 + i * 13, NY, 4.5, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+
+    function loop(time) {
+      var dt = Math.min(0.033, (time - lastTime) / 1000);
+      lastTime = time;
+      if (state === "play" || (state === "over" && effects.length)) { step(dt); draw(); }
+      requestAnimationFrame(loop);
+    }
+
+    function show(id) { ["bs-start", "bs-paused", "bs-over"].forEach(function (o) { $(o).hidden = o !== id; }); }
+    function pause() { if (state === "play") { state = "paused"; keyRot = 0; show("bs-paused"); } }
+    function resume() { if (state === "paused") { state = "play"; show(null); } }
+    function setAim(a) { aim = Math.max(0.13, Math.min(Math.PI - 0.13, a)); }
+
+    // --- Boşqaruv ---
+    function point(e) { var r = canvas.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * BW, y: (e.clientY - r.top) / r.height * BH }; }
+    function aimAt(p) { if (p.y < SY - 4) setAim(Math.atan2(SY - p.y, p.x - SX)); }
+    var aiming = false;
+    canvas.addEventListener("pointerdown", function (e) {
+      if (state !== "play") return;
+      var p = point(e);
+      if (Math.hypot(p.x - NX, p.y - NY) < R * 1.4) { swap(); return; }
+      aiming = true; aimAt(p);
+      canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener("pointermove", function (e) { if (state === "play" && (aiming || e.pointerType === "mouse")) aimAt(point(e)); });
+    canvas.addEventListener("pointerup", function (e) {
+      if (!aiming) return;
+      aiming = false;
+      if (point(e).y < SY - 4) fire();        // barmoqni pastga (otiş joyiga) olib borsa — otmay bekor qilinadi
+    });
+    canvas.addEventListener("pointercancel", function () { aiming = false; });
+
+    function typing(e) { return e.target.closest && e.target.closest("input, textarea, select, [contenteditable]"); }
+    document.addEventListener("keydown", function (e) {
+      if (typing(e)) return;  // izoh yozişga xalaqit bermasin
+      if (state === "play") {
+        if (e.code === "ArrowLeft" || e.code === "KeyA") { keyRot = -1; e.preventDefault(); return; }
+        if (e.code === "ArrowRight" || e.code === "KeyD") { keyRot = 1; e.preventDefault(); return; }
+        if (e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyW") { e.preventDefault(); fire(); return; }
+        if (e.code === "KeyS" || e.code === "ArrowDown") { e.preventDefault(); swap(); return; }
+        if (e.code === "KeyP" || e.code === "Escape") { e.preventDefault(); pause(); }
+      } else if (state === "paused" && (e.code === "KeyP" || e.code === "Space" || e.key === "Enter")) {
+        e.preventDefault(); resume();
+      } else if ((state === "start" || state === "over") && e.key === "Enter") {
+        e.preventDefault(); start();
+      }
+    });
+    document.addEventListener("keyup", function (e) {
+      if ((e.code === "ArrowLeft" || e.code === "KeyA") && keyRot < 0) keyRot = 0;
+      if ((e.code === "ArrowRight" || e.code === "KeyD") && keyRot > 0) keyRot = 0;
+    });
+
+    document.querySelectorAll("[data-act]").forEach(function (b) {
+      b.addEventListener("click", function () { b.dataset.act === "resume" ? resume() : start(); });
+    });
+    $("bs-swap-btn").addEventListener("click", function () { swap(); this.blur(); });
+    $("bs-pause-btn").addEventListener("click", function () { state === "play" ? pause() : state === "paused" ? resume() : start(); this.blur(); });
+    function syncSound() { $("bs-sound").textContent = sound ? "🔊 " + T.sound_on : "🔇 " + T.sound_off; }
+    $("bs-sound").addEventListener("click", function () {
+      sound = !sound; syncSound(); this.blur();
+      try { localStorage.setItem("bubbleSound", sound ? "on" : "off"); } catch (e) {}
+    });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+    window.addEventListener("resize", fit);
+
+    if (matchMedia("(pointer:coarse)").matches) $("bs-hint").textContent = T.hint_touch;
+    syncSound();
+    CPGame.init({ id: "bubbleshooter", title: "Bubble Shooter", before: board });
+    for (var i = 0; i < START_ROWS; i++) rows.push(newRow(i % 2 === 1));   // boşlanğiç ekran uçun körinişi
+    cur = randomColor(); next = randomColor();
+    fit();
+    requestAnimationFrame(function (t) { lastTime = t; requestAnimationFrame(loop); });
+  })();
+</script>
+{% include "includes/scroll_buttons.html" %}
 </body>
 </html>
