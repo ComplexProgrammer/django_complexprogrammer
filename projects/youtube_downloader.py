@@ -20,6 +20,12 @@ from core import downloads
 
 logger = logging.getLogger(__name__)
 
+# Server 64 yadroli, CloudLinux esa oqimlar sonini (NPROC) cheklaydi. deno (V8) har yadroga oqim ochishga urinib
+# limitga uriladi va qotib qoladi — yt-dlp esa deno'ni timeout'siz kutadi. Bitta oqimda ishlashga majburlaymiz
+# (deno muhit o'zgaruvchilarini yt-dlp jarayonidan meros oladi). ffmpeg ham shu sababli 2 oqim bilan ishlaydi.
+os.environ.setdefault("DENO_V8_FLAGS", "--single-threaded")
+FFMPEG_THREADS = "2"
+
 # Juda uzun videolar server diski va vaqtini band qilmasin
 MAX_DURATION = 3 * 3600
 MAX_FILESIZE = 1024 * 1024 * 1024
@@ -112,6 +118,7 @@ def _options(**extra):
     ff = ffmpeg_path()
     if ff:
         opts["ffmpeg_location"] = ff
+        opts["postprocessor_args"] = {"default": ["-threads", FFMPEG_THREADS]}
     opts["js_runtimes"] = js_runtimes()
     # Server IP'si bloklanganda: kirilgan akkaunt cookie'lari va/yoki proksi (settings.YTDLP_*)
     cookies = getattr(settings, "YTDLP_COOKIES", "")
@@ -136,7 +143,7 @@ def video_info(url):
     try:
         with yt_dlp.YoutubeDL(_options(skip_download=True)) as ydl:
             info = ydl.extract_info(url, download=False)
-    except yt_dlp.utils.DownloadError as exc:
+    except yt_dlp.utils.YoutubeDLError as exc:
         raise _error(exc) from exc
     heights = sorted({f["height"] for f in info.get("formats") or [] if f.get("height") and f.get("vcodec") not in (None, "none")})
     return {
@@ -153,22 +160,31 @@ def video_info(url):
 
 
 def _download(url, opts, ext, progress=None):
-    """Faylni vaqtinchalik nom bilan yuklaydi va ``downloads`` papkasida xavfsiz nom bilan qaytaradi."""
+    """Faylni vaqtinchalik nom bilan yuklaydi va ``downloads`` papkasida xavfsiz nom bilan qaytaradi.
+
+    ``progress(pct, stage)`` — bosqich: "info" (video ma'lumoti, deno), "downloading" (foiz), "processing" (ffmpeg).
+    """
     folder = downloads.ensure_dir()
     tmp_id = uuid.uuid4().hex
-    hooks = []
-    if progress:
-        def hook(d):
-            if d.get("status") == "downloading":
-                total = d.get("total_bytes") or d.get("total_bytes_estimate")
-                if total:
-                    progress(min(99, int(d.get("downloaded_bytes", 0) * 100 / total)))
-            elif d.get("status") == "finished":
-                progress(100)
-        hooks.append(hook)
+    report = progress or (lambda pct, stage: None)
+
+    def hook(d):
+        if d.get("status") == "downloading":
+            total = d.get("total_bytes") or d.get("total_bytes_estimate")
+            if total:
+                report(min(99, int(d.get("downloaded_bytes", 0) * 100 / total)), "downloading")
+        elif d.get("status") == "finished":
+            report(100, "downloading")
+
+    def pp_hook(d):
+        if d.get("status") == "started":
+            report(100, "processing")
+
+    report(0, "info")
     opts = _options(
         outtmpl=os.path.join(folder, tmp_id + ".%(ext)s"),
-        progress_hooks=hooks,
+        progress_hooks=[hook],
+        postprocessor_hooks=[pp_hook],
         max_filesize=MAX_FILESIZE,
         **opts,
     )
@@ -178,7 +194,7 @@ def _download(url, opts, ext, progress=None):
             info = ydl.extract_info(url, download=False)
             _check(info)
             info = ydl.process_ie_result(info, download=True)
-    except yt_dlp.utils.DownloadError as exc:
+    except yt_dlp.utils.YoutubeDLError as exc:
         _cleanup(folder, tmp_id)
         raise _error(exc) from exc
     # Postprocessor (birlashtirish / mp3) yakuniy kengaytmani o'zgartirishi mumkin — tayyor faylni topamiz
@@ -230,7 +246,7 @@ def download_playlist(url, resolution):
     try:
         with yt_dlp.YoutubeDL(_options(noplaylist=False, extract_flat=True, playlistend=PLAYLIST_LIMIT)) as ydl:
             info = ydl.extract_info(url, download=False)
-    except yt_dlp.utils.DownloadError as exc:
+    except yt_dlp.utils.YoutubeDLError as exc:
         raise _error(exc) from exc
     urls = [e.get("url") or f"https://www.youtube.com/watch?v={e['id']}" for e in info.get("entries") or [] if e.get("id")]
     return download_videos(urls[:PLAYLIST_LIMIT], resolution)
