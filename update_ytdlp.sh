@@ -52,7 +52,11 @@ LATEST=$("$PYTHON" -m pip index versions yt-dlp --disable-pip-version-check 2>/d
 [ -n "$LATEST" ] || fail "PyPI'ga ulanib bo'lmadi — yt-dlp yangilanmadi"
 
 OLD=$(version)
-"$PYTHON" -m pip install -q --disable-pip-version-check -U yt-dlp
+# [default]: yt-dlp-ejs — YouTube'ning kirilgan (cookie) klientlari uchun JavaScript
+"$PYTHON" -m pip install -q --disable-pip-version-check -U "yt-dlp[default]"
+# deno — o'sha JavaScript'ni bajaradigan runtime. glibc 2.27 dan eski tizimda o'rnatilmaydi:
+# xato yt-dlp yangilanishini to'xtatmasin, faqat logga yozilsin (o'rniga node ishlatish mumkin — YTDLP_NODE)
+"$PYTHON" -m pip install -q --disable-pip-version-check -U deno     || echo "OGOHLANTIRISH: deno o'rnatilmadi (glibc: $(ldd --version 2>/dev/null | head -1)). Node yo'lini .env dagi YTDLP_NODE ga yozing"
 if ! "$PYTHON" -c "import imageio_ffmpeg" 2>/dev/null; then
     echo "imageio-ffmpeg o'rnatilmoqda (birinchi marta, ~30 MB)..."
     "$PYTHON" -m pip install -q --disable-pip-version-check imageio-ffmpeg
@@ -84,5 +88,8 @@ try:
     info = yd.video_info('$TEST_URL')
     print('YouTube sinovi' + via + ': OK — ' + info['title'] + ', sifatlar: ' + str(info['heights']))
 except Exception as exc:
-    print('YouTube sinovi' + via + ': XATO — ' + str(exc)[:300])
+    print('YouTube sinovi' + via + ': XATO — ' + str(exc)[:200])
+    if getattr(exc, 'detail', ''):
+        print('   sabab: ' + exc.detail[:400])
+print('   JS runtime: ' + ', '.join(k + '=' + str(v.get('path', 'PATH')) for k, v in yd.js_runtimes().items()))
 " 2>/dev/null || true

@@ -7,7 +7,9 @@ serverga alohida o'rnatish shart emas) yoki tizimdan olinadi; topilmasa — birl
 formatlar tanlanadi.
 """
 
+import logging
 import os
+import re
 import shutil
 import uuid
 
@@ -15,6 +17,8 @@ import yt_dlp
 from django.conf import settings
 
 from core import downloads
+
+logger = logging.getLogger(__name__)
 
 # Juda uzun videolar server diski va vaqtini band qilmasin
 MAX_DURATION = 3 * 3600
@@ -32,7 +36,11 @@ UNAVAILABLE = "YouTube'dan yuklab bo'lmadi, birozdan so'ng urinib ko'ring"
 
 
 class DownloadError(Exception):
-    """Foydalanuvchiga ko'rsatiladigan tushunarli xato."""
+    """Foydalanuvchiga ko'rsatiladigan tushunarli xato; ``detail`` — yt-dlp'ning asl xabari (log va diagnostika uchun)."""
+
+    def __init__(self, message, detail=""):
+        super().__init__(message)
+        self.detail = detail
 
 
 def ffmpeg_path():
@@ -44,9 +52,39 @@ def ffmpeg_path():
         return shutil.which("ffmpeg")
 
 
+def js_runtimes():
+    """YouTube'ning kirilgan (cookie) klientlari imzoni JavaScript bilan hal qilishni talab qiladi.
+
+    yt-dlp sukut bo'yicha faqat tizimdagi deno'ni qidiradi — Passenger PATH'ida u bo'lmasligi mumkin.
+    Shuning uchun pip ``deno`` paketining binari (yoki tizimdagi deno/node) yo'li bilan aniq beriladi.
+    """
+    runtimes = {}
+    try:
+        import deno
+
+        runtimes["deno"] = {"path": deno.find_deno_bin()}
+    except Exception:  # paket yo'q yoki binar topilmadi
+        if shutil.which("deno"):
+            runtimes["deno"] = {}
+    node = getattr(settings, "YTDLP_NODE", "") or shutil.which("node")
+    if node:
+        runtimes["node"] = {"path": node}
+    return runtimes or {"deno": {}}
+
+
+def _error(exc):
+    """yt-dlp xatosini foydalanuvchiga tushunarli DownloadError'ga aylantiradi (asl matn logga yoziladi)."""
+    detail = re.sub(r"\x1b\[[0-9;]*m", "", str(exc))  # terminal rang kodlari logni chalkashtirmasin
+    logger.warning("yt-dlp: %s", detail)
+    return DownloadError(_explain(detail), detail)
+
+
 def _explain(exc):
     """yt-dlp xatosini foydalanuvchiga tushunarli matnga aylantiradi."""
     text = str(exc).lower()
+    if "requested format is not available" in text or "only images are available" in text:
+        # JS runtime yo'q yoki YouTube imzosini hal qilib bo'lmadi — video formatlari olinmadi
+        return UNAVAILABLE
     if "sign in to confirm" in text or "not a bot" in text:
         return "YouTube hozir serverdan yuklashni cheklab qo'ygan. Birozdan so'ng urinib ko'ring"
     if "private video" in text:
@@ -74,6 +112,7 @@ def _options(**extra):
     ff = ffmpeg_path()
     if ff:
         opts["ffmpeg_location"] = ff
+    opts["js_runtimes"] = js_runtimes()
     # Server IP'si bloklanganda: kirilgan akkaunt cookie'lari va/yoki proksi (settings.YTDLP_*)
     cookies = getattr(settings, "YTDLP_COOKIES", "")
     if cookies and os.path.isfile(cookies):
@@ -98,7 +137,7 @@ def video_info(url):
         with yt_dlp.YoutubeDL(_options(skip_download=True)) as ydl:
             info = ydl.extract_info(url, download=False)
     except yt_dlp.utils.DownloadError as exc:
-        raise DownloadError(_explain(exc)) from exc
+        raise _error(exc) from exc
     heights = sorted({f["height"] for f in info.get("formats") or [] if f.get("height") and f.get("vcodec") not in (None, "none")})
     return {
         "id": info.get("id"),
@@ -141,7 +180,7 @@ def _download(url, opts, ext, progress=None):
             info = ydl.process_ie_result(info, download=True)
     except yt_dlp.utils.DownloadError as exc:
         _cleanup(folder, tmp_id)
-        raise DownloadError(_explain(exc)) from exc
+        raise _error(exc) from exc
     # Postprocessor (birlashtirish / mp3) yakuniy kengaytmani o'zgartirishi mumkin — tayyor faylni topamiz
     produced = [f for f in os.listdir(folder) if f.startswith(tmp_id + ".") and not f.endswith((".part", ".ytdl"))]
     final = next((f for f in produced if f.endswith("." + ext)), produced[0] if produced else None)
@@ -192,7 +231,7 @@ def download_playlist(url, resolution):
         with yt_dlp.YoutubeDL(_options(noplaylist=False, extract_flat=True, playlistend=PLAYLIST_LIMIT)) as ydl:
             info = ydl.extract_info(url, download=False)
     except yt_dlp.utils.DownloadError as exc:
-        raise DownloadError(_explain(exc)) from exc
+        raise _error(exc) from exc
     urls = [e.get("url") or f"https://www.youtube.com/watch?v={e['id']}" for e in info.get("entries") or [] if e.get("id")]
     return download_videos(urls[:PLAYLIST_LIMIT], resolution)
 

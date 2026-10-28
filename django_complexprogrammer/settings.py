@@ -420,6 +420,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # secrets/ git'ga kirmaydi (.gitignore). Proksi: http://user:pass@host:port yoki socks5://host:port
 YTDLP_COOKIES = config("YTDLP_COOKIES", default=str(BASE_DIR / "secrets" / "youtube_cookies.txt"))
 YTDLP_PROXY = config("YTDLP_PROXY", default="")
+# Ixtiyoriy: node binari yo'li (deno pip orqali o'rnatilmasa — cPanel "Setup Node.js App" dagi node)
+YTDLP_NODE = config("YTDLP_NODE", default="")
 # Foydalanuvchiga yuklab berilishi mumkin bo'lgan kengaytmalar (core/downloads.py)
 GET_FILE_FORMATS = {
     ".mp3",

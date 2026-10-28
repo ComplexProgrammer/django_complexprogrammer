@@ -25,7 +25,10 @@ PyMuPDFb==1.24.10
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python-docx==1.1.2
-yt-dlp>=2026.10.26  # YouTube yuklovchi (pytube YouTube o'zgarishlaridan keyin ishlamay qoldi)
+# [default]: yt-dlp-ejs — YouTube imzosini hal qiluvchi JavaScript (cookie bilan ishlaganda shart).
+# Uni bajarish uchun JS runtime ham kerak: pip install deno (glibc 2.27+) yoki node (settings.YTDLP_NODE) —
+# deno bu yerga qo'shilmagan: eski serverda (CloudLinux 7) o'rnatilmay, butun requirements'ni to'xtatardi
+yt-dlp[default]>=2026.10.26  # YouTube yuklovchi (pytube YouTube o'zgarishlaridan keyin ishlamay qoldi)
 imageio-ffmpeg>=0.6.0  # statik ffmpeg: YouTube video+audio birlashtirish, MP3, make_question_videos
 pytz==2024.2
 requests==2.34.2
