@@ -507,7 +507,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/" target="_blank">
                             <i class="fas fa-home me-1"></i>
-                            Bosh sahifa
+                            Boş sahifa
                         </a>
                     </li>
                     <li class="nav-item">
@@ -538,7 +538,7 @@
                         Arxiv Tizimi
                     </h1>
                     <p class="text-center text-muted fs-5">
-                        Hujjatlarni boshqarish va qidirish tizimi
+                        Hujjatlarni boşqariş va qidiriş tizimi
                     </p>
                 </div>
             </div>
@@ -560,7 +560,7 @@
                 <div class="col-md-3">
                     <div class="stats-card" style="background: linear-gradient(135deg, #10b981, #34d399);">
                         <div class="stats-number">{{ cabinets.count }}</div>
-                        <div class="stats-label">Shkaflar</div>
+                        <div class="stats-label">Şkaflar</div>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -576,7 +576,7 @@
                 <div class="card-header mb-3">
                     <h5 class="mb-0">
                         <i class="fas fa-filter me-2"></i>
-                        Qidirish va filtrlash
+                        Qidiriş va filtrlaş
                     </h5>
                 </div>
                 
@@ -587,7 +587,7 @@
                             Xona raqami
                         </label>
                         <select class="form-select" name="room">
-                            <option value="">Barchasi</option>
+                            <option value="">Barçasi</option>
                             {% for r in rooms %}
                                 <option value="{{ r.id }}" {% if request.GET.room == r.id|stringformat:'s' %}selected{% endif %}>{{ r.number }}</option>
                             {% endfor %}
@@ -597,10 +597,10 @@
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">
                             <i class="fas fa-cabinet-filing me-1"></i>
-                            Shkaf raqami
+                            Şkaf raqami
                         </label>
                         <select class="form-select" name="cabinet">
-                            <option value="">Barchasi</option>
+                            <option value="">Barçasi</option>
                             {% for c in cabinets %}
                                 <option value="{{ c.id }}" {% if request.GET.cabinet == c.id|stringformat:'s' %}selected{% endif %}>{{ c.number }}</option>
                             {% endfor %}
@@ -613,7 +613,7 @@
                             Turi
                         </label>
                         <select class="form-select" name="type">
-                            <option value="">Barchasi</option>
+                            <option value="">Barçasi</option>
                             {% for t in types %}
                                 <option value="{{ t.id }}" {% if request.GET.type == t.id|stringformat:'s' %}selected{% endif %}>{{ t.name }}</option>
                             {% endfor %}
@@ -626,7 +626,7 @@
                             Holati
                         </label>
                         <select class="form-select" name="status">
-                            <option value="">Barchasi</option>
+                            <option value="">Barçasi</option>
                             {% for s in statuses %}
                                 <option value="{{ s.id }}" {% if request.GET.status == s.id|stringformat:'s' %}selected{% endif %}>{{ s.name }}</option>
                             {% endfor %}
@@ -660,11 +660,11 @@
                     <div class="col-12 d-flex gap-2 mt-3">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-search me-2"></i>
-                            Qidirish
+                            Qidiriş
                         </button>
                         <a href="{% url 'arxiv:archive_list' %}" class="btn btn-secondary">
                             <i class="fas fa-undo me-2"></i>
-                            Tozalash
+                            Tozalaş
                         </a>
                     </div>
                 </form>
@@ -688,7 +688,7 @@
                                 {% if items.has_previous %}
                                     <li class="page-item">
                                         <a class="page-link" href="?page=1{% if request.GET.room %}&room={{ request.GET.room }}{% endif %}{% if request.GET.cabinet %}&cabinet={{ request.GET.cabinet }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.register_number %}&register_number={{ request.GET.register_number }}{% endif %}{% if request.GET.request_number %}&request_number={{ request.GET.request_number }}{% endif %}{% if request.GET.patent_number %}&patent_number={{ request.GET.patent_number }}{% endif %}">
-                                            <i class="fas fa-angle-double-left"></i> Birinchi
+                                            <i class="fas fa-angle-double-left"></i> Birinçi
                                         </a>
                                     </li>
                                     <li class="page-item">
@@ -746,7 +746,7 @@
                                 <th><i class="fas fa-file-alt me-1"></i> Talabnoma</th>
                                 <th><i class="fas fa-certificate me-1"></i> Patent</th>
                                 <th><i class="fas fa-door-open me-1"></i> Xona</th>
-                                <th><i class="fas fa-cabinet-filing me-1"></i> Shkaf</th>
+                                <th><i class="fas fa-cabinet-filing me-1"></i> Şkaf</th>
                                 <th><i class="fas fa-layer-group me-1"></i> Qavat</th>
                                 <th><i class="fas fa-tags me-1"></i> Turi</th>
                                 <th><i class="fas fa-info-circle me-1"></i> Holati</th>
@@ -786,22 +786,22 @@
                                             <div class="d-flex flex-column gap-1">
                                                 <a href="{{ item.document.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-eye me-1"></i>
-                                                    Faylni ko'rish
+                                                    Faylni köriş
                                                 </a>
                                                 <small class="text-success">
                                                     <i class="fas fa-check-circle me-1"></i>
-                                                    Fayl ko'rishga ochiq
+                                                    Fayl körişga oçiq
                                                 </small>
                                             </div>
                                         {% else %}
                                             <div class="d-flex flex-column gap-1">
                                                 <span class="text-warning">
                                                     <i class="fas fa-lock me-1"></i>
-                                                    Fayl ko'rishga yopiq
+                                                    Fayl körişga yopiq
                                                 </span>
                                                 <small class="text-muted">
                                                     <i class="fas fa-info-circle me-1"></i>
-                                                    Admin faylni yashirgan
+                                                    Admin faylni yaşirgan
                                                 </small>
                                             </div>
                                         {% endif %}
@@ -818,7 +818,7 @@
                                 <td colspan="9" class="text-center text-muted py-5">
                                     <i class="fas fa-search fa-3x mb-3 text-muted"></i>
                                     <p class="fs-5">Ma'lumot topilmadi</p>
-                                    <p class="text-muted">Boshqa filterlar bilan qayta urinib ko'ring</p>
+                                    <p class="text-muted">Boşqa filterlar bilan qayta urinib köring</p>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -835,7 +835,7 @@
                                 {% if items.has_previous %}
                                     <li class="page-item">
                                         <a class="page-link" href="?page=1{% if request.GET.room %}&room={{ request.GET.room }}{% endif %}{% if request.GET.cabinet %}&cabinet={{ request.GET.cabinet }}{% endif %}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.register_number %}&register_number={{ request.GET.register_number }}{% endif %}{% if request.GET.request_number %}&request_number={{ request.GET.request_number }}{% endif %}">
-                                            <i class="fas fa-angle-double-left"></i> Birinchi
+                                            <i class="fas fa-angle-double-left"></i> Birinçi
                                         </a>
                                     </li>
                                     <li class="page-item">

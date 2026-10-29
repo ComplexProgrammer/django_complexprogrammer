@@ -33,11 +33,24 @@ _SINGLE = {
 }
 _VOWELS = set("aeiouö")
 _NEW_LETTERS = set("ŞÇĞÖşçğö")
-# HTML teglari, <code>...</code>, translate="no" teglar, &...; belgilar, havolalar va @username o'girilmaydi
-_MARKUP = re.compile(r'(<code>.*?</code>|<(\w+)[^>]*\btranslate="no"[^>]*>.*?</\2>|<[^>]*>|&#?\w+;|https?://\S+|@\w+)', re.S)
+# HTML teglari, Django teglari, <code>...</code>, style/script, translate="no" teglar, &...; belgilar, havolalar va @username o'girilmaydi
+_MARKUP = re.compile(
+    r'({%.*?%}|{{.*?}}|<code>.*?</code>|<style.*?>.*?</style>|<script.*?>.*?</script>|<(\w+)[^>]*\btranslate="no"[^>]*>.*?</\2>|<[^>]*>|&#?\w+;|https?://\S+|@\w+)',
+    re.S,
+)
 # Lotincha qoladigan so'z: c (ch emas) yoki w harfi yoki raqami bor
 _WORD = re.compile(r"[A-Za-zŞÇĞÖşçğö0-9'‘’ʻʼ`-]+")
 _FOREIGN = re.compile(r"[cC](?![hH])|[wW]|\d")
+_FOREIGN_LATIN = re.compile(r"[cC](?![hH])|[wW]")
+
+COMMON_FOREIGN_WORDS = {
+    "chrome", "google", "microsoft", "windows", "telegram", "instagram", "facebook",
+    "youtube", "android", "ios", "python", "django", "chat", "chatgpt", "miniapp",
+    "channel", "captcha", "javascript", "exchange", "exchangerates", "download",
+    "downloader", "calculator", "sitemap", "word", "excel", "pdf", "search", "post",
+    "posts", "git", "bash", "linux", "cloudlinux", "passenger", "bootstrap", "css",
+    "html", "json", "api", "id", "url", "qr", "dark", "light", "mode", "theme"
+}
 
 
 def _convert(text, new=False):
@@ -169,7 +182,24 @@ def latin1995_to_2026(text):
         return new.upper() if letter.isupper() else new
 
     def words(part):
-        return _WORD.sub(lambda m: m.group(0) if _FOREIGN.search(m.group(0)) else _OLD_PAIR.sub(pair, m.group(0)), part)
+        def _convert_word(m):
+            w = m.group(0)
+            if w.lower() in COMMON_FOREIGN_WORDS:
+                return w
+            if any(c.isdigit() for c in w) and "-" in w:
+                subs = w.split("-")
+                res = []
+                for s in subs:
+                    if s.lower() in COMMON_FOREIGN_WORDS or _FOREIGN_LATIN.search(s) or s.isdigit():
+                        res.append(s)
+                    else:
+                        res.append(_OLD_PAIR.sub(pair, s))
+                return "-".join(res)
+            if _FOREIGN_LATIN.search(w):
+                return w
+            return _OLD_PAIR.sub(pair, w)
+
+        return _WORD.sub(_convert_word, part)
 
     return _outside_markup(text, words)
 

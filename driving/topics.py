@@ -1,6 +1,6 @@
-"""Avtotest savollarini mavzularga ajratish (o'zbekcha matndagi kalit so'zlar bo'yicha).
+"""Avtotest savollarini mavzularga ajratiş (özbekça matndagi kalit sözlar böyiça).
 
-Bazada mavzu maydoni yo'q, shuning uchun mavzu savol va javob matnidan aniqlanadi; bitta savol bir nechta mavzuga
+Bazada mavzu maydoni yöq, şuning uçun mavzu savol va javob matnidan aniqlanadi; bitta savol bir nechta mavzuga
 tushishi mumkin. Odamlar "chorraha savollari", "quvib o'tish avtotest" kabi so'rovlar bilan qidiradi —
 har bir mavzu alohida sahifa (/avtotest/mavzu/<slug>/).
 """
@@ -13,21 +13,21 @@ from projects.models import AvtoTest
 
 # (slug, kalit so'zlar regex'i, {til: nomi})
 TOPICS = [
-    ("chorrahalar", r"chorraha", {"uz": "Chorrahalardan o'tish", "ru": "Проезд перекрёстков", "en": "Intersections"}),
-    ("quvib-otish", r"quvib o'?t|quvib ket|quvishni", {"uz": "Quvib o'tish", "ru": "Обгон", "en": "Overtaking"}),
-    ("toxtash-va-turish", r"to'xtash|to'xtab tur", {"uz": "To'xtash va to'xtab turish", "ru": "Остановка и стоянка", "en": "Stopping and parking"}),
-    ("svetofor", r"svetofor|tartibga soluvchi|tartibga solin", {"uz": "Svetofor va tartibga soluvchi ishoralari", "ru": "Светофор и сигналы регулировщика", "en": "Traffic lights and controller signals"}),
-    ("yol-belgilari", r"belgi(si|lar|ning|ga|dan|ni)?\b|belgisi", {"uz": "Yo'l belgilari", "ru": "Дорожные знаки", "en": "Road signs"}),
-    ("yol-chiziqlari", r"chiziq", {"uz": "Yo'l chiziqlari (razmetka)", "ru": "Дорожная разметка", "en": "Road markings"}),
-    ("manyovr-va-burilish", r"burilish|qayrilish|orqaga|manyovr|chapga|o'ngga", {"uz": "Manyovr, burilish va qayrilish", "ru": "Манёвры, повороты и разворот", "en": "Manoeuvres, turns and U-turns"}),
-    ("piyodalar", r"piyoda", {"uz": "Piyodalar va piyodalar o'tish joylari", "ru": "Пешеходы и пешеходные переходы", "en": "Pedestrians and crossings"}),
+    ("chorrahalar", r"chorraha|çorraha", {"uz": "Çorrahalardan ötiş", "ru": "Проезд перекрёстков", "en": "Intersections"}),
+    ("quvib-otish", r"quvib o'?t|quvib ket|quvishni", {"uz": "Quvib ötiş", "ru": "Обгон", "en": "Overtaking"}),
+    ("toxtash-va-turish", r"t[oö][\'ʻʼ]?xta[şs]h?|t[oö][\'ʻʼ]?xtab tur", {"uz": "Töxtaş va töxtab turiş", "ru": "Остановка и стоянка", "en": "Stopping and parking"}),
+    ("svetofor", r"svetofor|tartibga soluvchi|tartibga solin", {"uz": "Svetofor va tartibga soluvçi işoralari", "ru": "Светофор и сигналы регулировщика", "en": "Traffic lights and controller signals"}),
+    ("yol-belgilari", r"belgi(si|lar|ning|ga|dan|ni)?\b|belgisi", {"uz": "Yöl belgilari", "ru": "Дорожные знаки", "en": "Road signs"}),
+    ("yol-chiziqlari", r"chiziq|çiziq", {"uz": "Yöl çiziqlari (razmetka)", "ru": "Дорожная разметка", "en": "Road markings"}),
+    ("manyovr-va-burilish", r"burili[şs]h?|qayrili[şs]h?|orqaga|manyovr|çhapga|chapga|[oö][\'ʻʼ]?ngga", {"uz": "Manyovr, buriliş va qayriliş", "ru": "Манёвры, повороты и разворот", "en": "Manoeuvres, turns and U-turns"}),
+    ("piyodalar", r"piyoda", {"uz": "Piyodalar va piyodalar ötiş joylari", "ru": "Пешеходы и пешеходные переходы", "en": "Pedestrians and crossings"}),
     ("tezlik", r"tezlik|km/soat|km/s", {"uz": "Harakat tezligi", "ru": "Скорость движения", "en": "Speed limits"}),
-    ("temir-yol-kesishmasi", r"temir yo'l|pereezd", {"uz": "Temir yo'l kesishmalari", "ru": "Железнодорожные переезды", "en": "Railway crossings"}),
+    ("temir-yol-kesishmasi", r"temir y[oö][\'ʻʼ]?l|pereezd", {"uz": "Temir yöl kesişmalari", "ru": "Железнодорожные переезды", "en": "Railway crossings"}),
     ("jamoat-transporti", r"avtobus|tramvay|trolleybus|marshrut", {"uz": "Jamoat transporti va tramvay", "ru": "Общественный транспорт и трамвай", "en": "Public transport and trams"}),
-    ("shatakka-olish", r"shatak", {"uz": "Shatakka olish", "ru": "Буксировка", "en": "Towing"}),
-    ("tibbiy-yordam", r"tibbiy|jarohat|shikast|qon ket|bint|nafas|yurak|hushidan|kuyish|suyak", {"uz": "Birinchi tibbiy yordam", "ru": "Первая медицинская помощь", "en": "First aid"}),
-    ("texnik-holat", r"tormoz|\bshina|nosoz|\brul\b|texnik holat|dvigatel|akkumulyator", {"uz": "Texnik holat va nosozliklar", "ru": "Техническое состояние и неисправности", "en": "Vehicle condition and faults"}),
-    ("yoritish", r"chiroq|\bfara|yoritish|kechasi|tungi|ko'rinish yetarli", {"uz": "Tashqi yoritish va ko'rinish", "ru": "Внешние световые приборы и видимость", "en": "Lights and visibility"}),
+    ("shatakka-olish", r"[şs]h?atak", {"uz": "Şatakka oliş", "ru": "Буксировка", "en": "Towing"}),
+    ("tibbiy-yordam", r"tibbiy|jarohat|[şs]h?ikast|qon ket|bint|nafas|yurak|hu[şs]h?idan|kuyi[şs]h?|suyak", {"uz": "Birinçi tibbiy yordam", "ru": "Первая медицинская помощь", "en": "First aid"}),
+    ("texnik-holat", r"tormoz|\b[şs]h?ina|nosoz|\brul\b|texnik holat|dvigatel|akkumulyator", {"uz": "Texnik holat va nosozliklar", "ru": "Техническое состояние и неисправности", "en": "Vehicle condition and faults"}),
+    ("yoritish", r"chiroq|çiroq|\bfara|yoriti[şs]h?|keçasi|kechasi|tungi|k[oö][\'ʻʼ]?rini[şs]h? yetarli", {"uz": "Taşqi yoritiş va köriniş", "ru": "Внешние световые приборы и видимость", "en": "Lights and visibility"}),
 ]
 TOPIC_BY_SLUG = {slug: (slug, pattern, names) for slug, pattern, names in TOPICS}
 _COMPILED = [(slug, re.compile(pattern)) for slug, pattern, _ in TOPICS]
@@ -45,7 +45,7 @@ def topics_for_text(text):
 
 
 def topic_map():
-    """{slug: [savol_id, ...]} — 6 soatga keshlanadi (savollar kam o'zgaradi)."""
+    """{slug: [savol_id, ...]} — 6 soatga keshlanadi (savollar kam özgaradi)."""
     data = cache.get(CACHE_KEY)
     if data is None:
         data = {slug: [] for slug, _, _ in TOPICS}

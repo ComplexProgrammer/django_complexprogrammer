@@ -51,7 +51,7 @@ class ArchiveItemAdmin(admin.ModelAdmin):
     def document_link(self, obj):
         if obj.document:
             return f'<a href="{obj.document.url}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i> Hujjatni ko\'rish</a>'
-        return "Hujjat yo'q"
+        return "Hujjat yöq"
 
     document_link.short_description = "Hujjat"
     document_link.allow_tags = True
@@ -76,7 +76,7 @@ class ArchiveItemAdmin(admin.ModelAdmin):
             "Ruxsatlar",
             {
                 "fields": ("is_public",),
-                "description": "Foydalanuvchilar bu hujjatni ko'ra oladimi yoki yo'qmi",
+                "description": "Foydalanuvçilar bu hujjatni köra oladimi yoki yöqmi",
             },
         ),
         ("Vaqt ma'lumotlari", {"fields": ("created_at",), "classes": ("collapse",)}),
@@ -87,28 +87,28 @@ class ArchiveItemAdmin(admin.ModelAdmin):
     def make_public(self, request, queryset):
         updated = queryset.update(is_public=True)
         self.message_user(
-            request, f"{updated} ta hujjat foydalanuvchilar ko'rishiga ochildi"
+            request, f"{updated} ta hujjat foydalanuvçilar körişiga oçildi"
         )
 
-    make_public.short_description = "Tanlangan hujjatlarni public qilish"
+    make_public.short_description = "Tanlangan hujjatlarni public qiliş"
 
     def make_private(self, request, queryset):
         updated = queryset.update(is_public=False)
         self.message_user(
-            request, f"{updated} ta hujjat foydalanuvchilar ko'rishidan yashirildi"
+            request, f"{updated} ta hujjat foydalanuvçilar körişidan yaşirildi"
         )
 
-    make_private.short_description = "Tanlangan hujjatlarni private qilish"
+    make_private.short_description = "Tanlangan hujjatlarni private qiliş"
 
     def get_queryset(self, request):
-        """Admin panelida barcha hujjatlarni ko'rsatish (public va private)"""
+        """Admin panelida barça hujjatlarni körsatiş (public va private)"""
         return super().get_queryset(request)
 
     def get_list_display(self, request):
-        """Admin panelida qo'shimcha ma'lumotlarni ko'rsatish"""
+        """Admin panelida qöşimça ma'lumotlarni körsatiş"""
         list_display = list(super().get_list_display(request))
         if "is_public" in list_display:
-            # is_public maydonini yaxshiroq ko'rsatish
+            # is_public maydonini yaxşiroq körsatiş
             list_display[list_display.index("is_public")] = "is_public"
         return list_display
 
@@ -116,7 +116,7 @@ class ArchiveItemAdmin(admin.ModelAdmin):
         css = {"all": ("admin/css/archive_admin.css",)}
 
     def save_model(self, request, obj, form, change):
-        """Hujjat saqlanganda xabar berish"""
+        """Hujjat saqlanganda xabar beriş"""
         if change and "is_public" in form.changed_data:
             if obj.is_public:
                 self.message_user(
@@ -138,7 +138,7 @@ class ArchiveItemAdmin(admin.ModelAdmin):
         return actions
 
     def changelist_view(self, request, extra_context=None):
-        """Admin panelida qo'shimcha ma'lumotlarni ko'rsatish"""
+        """Admin panelida qöşimça ma'lumotlarni körsatiş"""
         extra_context = extra_context or {}
         extra_context["total_public"] = str(
             ArchiveItem.objects.filter(is_public=True).count()

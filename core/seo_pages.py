@@ -19,18 +19,18 @@ PAGES = {
     "/": {
         "kind": "home",
         "uz": {
-            "title": "Complex Programmer — avtotest, onlayn vositalar va o'yinlar",
+            "title": "Complex Programmer — avtotest, onlayn vositalar va öyinlar",
             "desc": f"Avtotest {YEAR} biletlari, onlayn tarjimon, lotin-kirill o'girgich, PDF konvertor, valyuta kurslari va bepul o'yinlar — barchasi bitta saytda, ro'yxatdan o'tmasdan.",
             "h1": "Complex Programmer — bepul onlayn vositalar",
-            "lead": "Avtotest, tarjimon, PDF konvertor, valyuta kurslari va boshqa foydali xizmatlar.",
+            "lead": "Avtotest, tarjimon, PDF konvertor, valyuta kurslari va boşqa foydali xizmatlar.",
             "text": [
-                ("Saytda nimalar bor?", "Complex Programmer — kundalik ishlarni osonlashtiradigan bepul onlayn vositalar to'plami. Haydovchilik guvohnomasi imtihoniga tayyorlanish uchun avtotest biletlari, 20 dan ortiq tilni qo'llab-quvvatlaydigan tarjimon, o'zbek matnini lotin va kirill yozuvlari o'rtasida o'giruvchi vosita, PDF faylni Word va Excel'ga o'tkazish, Markaziy bank valyuta kurslari, kriptovalyuta narxlari, kuchli parol generatori va brauzerda o'ynaladigan o'yinlar shu yerda."),
-                ("Nega Complex Programmer?", "Barcha vositalar bepul, ro'yxatdan o'tishni talab qilmaydi va telefonda ham qulay ishlaydi. Sayt o'zbek, rus, ingliz va turk tillarida mavjud. Blog bo'limida dasturlash va texnologiyalar haqida foydali maqolalar muntazam chop etiladi."),
+                ("Saytda nimalar bor?", "Complex Programmer — kundalik işlarni osonlaştiradigan bepul onlayn vositalar töplami. Haydovçilik guvohnomasi imtihoniga tayyorlaniş uçun avtotest biletlari, 20 dan ortiq tilni qöllab-quvvatlaydigan tarjimon, özbek matnini lotin va kirill yozuvlari örtasida ögiruvçi vosita, PDF faylni Word va Excel'ga ötkaziş, Markaziy bank valyuta kurslari, kriptovalyuta narxlari, kuçli parol generatori va brauzerda öynaladigan öyinlar şu yerda."),
+                ("Nega Complex Programmer?", "Barça vositalar bepul, röyxatdan ötişni talab qilmaydi va telefonda ham qulay işlaydi. Sayt özbek, rus, ingliz va turk tillarida mavjud. Blog bölimida dasturlaş va texnologiyalar haqida foydali maqolalar muntazam çop etiladi."),
             ],
             "faq": [
-                ("Saytdan foydalanish pullikmi?", "Yo'q, barcha vositalar va testlar bepul, ro'yxatdan o'tish shart emas."),
-                ("Avtotestni telefonda ishlash mumkinmi?", "Ha, sayt mobil qurilmalarga moslashtirilgan. Bundan tashqari, Google Play'da Avtotest ilovasi ham bor."),
-                ("Sayt qaysi tillarda ishlaydi?", "O'zbek, rus, ingliz va turk tillarida. Tilni yuqori paneldagi tanlagich orqali almashtirish mumkin."),
+                ("Saytdan foydalaniş pullikmi?", "Yöq, barça vositalar va testlar bepul, röyxatdan ötiş şart emas."),
+                ("Avtotestni telefonda işlaş mumkinmi?", "Ha, sayt mobil qurilmalarga moslaştirilgan. Bundan taşqari, Google Play'da Avtotest ilovasi ham bor."),
+                ("Sayt qaysi tillarda işlaydi?", "Özbek, rus, ingliz va turk tillarida. Tilni yuqori paneldagi tanlagiç orqali almaştiriş mumkin."),
             ],
         },
         "ru": {
@@ -72,15 +72,15 @@ PAGES = {
             "h1": f"Avto test 1000+ savol javoblari {YEAR}",
             "lead": "Biletni tanlang va haqiqiy imtihondagidek savollarga javob bering.",
             "text": [
-                ("Avtotest nima?", "Avtotest — O'zbekistonda haydovchilik guvohnomasi olish uchun topshiriladigan nazariy imtihon. Unda yo'l harakati qoidalari, yo'l belgilari, chorrahalardan o'tish, birinchi tibbiy yordam va xavfsiz haydash bo'yicha savollar beriladi. Bu sahifada 139 ta bilet va 1385 ta savol jamlangan, har bir biletda 10 ta savol bor."),
-                ("Qanday tayyorlanish kerak?", "Har kuni bir nechta biletni ishlang va xato qilgan savollaringizni \"Xatolar\" bo'limida qayta ko'rib chiqing. Javob belgilangach, to'g'ri variant darhol ko'rsatiladi. Taymer haqiqiy imtihon sharoitiga ko'nikishga yordam beradi. Savollar o'zbek (lotin), rus va ingliz tillarida mavjud."),
+                ("Avtotest nima?", "Avtotest — Özbekistonda haydovçilik guvohnomasi oliş uçun topşiriladigan nazariy imtihon. Unda yöl harakati qoidalari, yöl belgilari, çorrahalardan ötiş, birinçi tibbiy yordam va xavfsiz haydaş böyiça savollar beriladi. Bu sahifada 139 ta bilet va 1385 ta savol jamlangan, har bir biletda 10 ta savol bor."),
+                ("Qanday tayyorlaniş kerak?", "Har kuni bir neçta biletni işlang va xato qilgan savollaringizni \"Xatolar\" bölimida qayta körib çiqing. Javob belgilangaç, töğri variant darhol körsatiladi. Taymer haqiqiy imtihon şaroitiga könikişga yordam beradi. Savollar özbek (lotin), rus va ingliz tillarida mavjud."),
             ],
             "faq": [
-                ("Avtotest imtihonida nechta savol beriladi?", "Imtihonda 20 ta savol beriladi, 25 daqiqa vaqt ajratiladi va ko'pi bilan 2 ta xato qilish mumkin. Saytdagi imtihon simulyatori aynan shu formatda ishlaydi; biletlarda esa 10 tadan savol bor."),
-                ("Avto test savollari va javoblarini PDF'da yuklab olsa bo'ladimi?", "Ha, barcha savollar to'g'ri javoblari va rasmlari bilan bitta PDF faylda — \"PDF yuklab olish\" havolasi orqali bepul yuklab olinadi."),
+                ("Avtotest imtihonida neçta savol beriladi?", "Imtihonda 20 ta savol beriladi, 25 daqiqa vaqt ajratiladi va köpi bilan 2 ta xato qiliş mumkin. Saytdagi imtihon simulyatori aynan şu formatda işlaydi; biletlarda esa 10 tadan savol bor."),
+                ("Avto test savollari va javoblarini PDF'da yuklab olsa böladimi?", "Ha, barça savollar töğri javoblari va rasmlari bilan bitta PDF faylda — \"PDF yuklab oliş\" havolasi orqali bepul yuklab olinadi."),
                 ("Biletlar rasmiy imtihondagi savollarga mosmi?", "Biletlar YHQ imtihon savollari asosida tuzilgan va rasmlar bilan birga beriladi."),
-                ("Xato qilgan savollarimni qayerda ko'raman?", "Xatolaringiz brauzerda saqlanadi va \"Xatolar\" sahifasida ularni qayta ishlash mumkin."),
-                ("Avtotest ilovasi bormi?", "Ha, Google Play'da \"Avtotest\" ilovasini yuklab olishingiz mumkin."),
+                ("Xato qilgan savollarimni qayerda köraman?", "Xatolaringiz brauzerda saqlanadi va \"Xatolar\" sahifasida ularni qayta işlaş mumkin."),
+                ("Avtotest ilovasi bormi?", "Ha, Google Play'da \"Avtotest\" ilovasini yuklab olişingiz mumkin."),
             ],
         },
         "ru": {
@@ -121,16 +121,16 @@ PAGES = {
     "/tests/": {
         "kind": "tool",
         "uz": {
-            "title": "Onlayn testlar — avtotest mavzulari va fanlar bo'yicha savollar",
-            "desc": "Mavzular va kitoblar bo'yicha onlayn testlar: YHQ mavzulari, taymer, natijalar va xatolar ustida ishlash. Bepul va ro'yxatdan o'tmasdan.",
+            "title": "Onlayn testlar — avtotest mavzulari va fanlar böyiça savollar",
+            "desc": "Mavzular va kitoblar böyiça onlayn testlar: YHQ mavzulari, taymer, natijalar va xatolar ustida işlaş. Bepul va röyxatdan ötmasdan.",
             "h1": "Onlayn testlar",
-            "lead": "Kitob va mavzuni tanlang, so'ng testni boshlang.",
+            "lead": "Kitob va mavzuni tanlang, söng testni boşlang.",
             "text": [
-                ("Testlar qanday ishlaydi?", "Testlar kitoblar va mavzular bo'yicha guruhlangan. Kerakli bo'limni tanlab, savollarga javob berasiz; har bir javobdan keyin natija ko'rsatiladi, oxirida esa umumiy ball chiqadi. Xato qilingan savollar alohida saqlanadi."),
+                ("Testlar qanday işlaydi?", "Testlar kitoblar va mavzular böyiça guruhlangan. Kerakli bölimni tanlab, savollarga javob berasiz; har bir javobdan keyin natija körsatiladi, oxirida esa umumiy ball çiqadi. Xato qilingan savollar alohida saqlanadi."),
             ],
             "faq": [
-                ("Testlar bepulmi?", "Ha, barcha testlar bepul."),
-                ("Natijalarim saqlanadimi?", "Xato qilingan savollar brauzeringizda saqlanadi va ularni qayta ishlash mumkin."),
+                ("Testlar bepulmi?", "Ha, barça testlar bepul."),
+                ("Natijalarim saqlanadimi?", "Xato qilingan savollar brauzeringizda saqlanadi va ularni qayta işlaş mumkin."),
             ],
         },
         "ru": {
@@ -163,18 +163,18 @@ PAGES = {
     "/translate/": {
         "kind": "tool",
         "uz": {
-            "title": "Onlayn tarjimon — o'zbek, rus, ingliz va 20+ til, bepul",
-            "desc": "Matnni o'zbek, rus, ingliz, turk va yana 18 ta tilga bepul tarjima qiling. Tilni avtomatik aniqlash, 5000 belgigacha matn va ovozli o'qish.",
+            "title": "Onlayn tarjimon — özbek, rus, ingliz va 20+ til, bepul",
+            "desc": "Matnni özbek, rus, ingliz, turk va yana 18 ta tilga bepul tarjima qiling. Tilni avtomatik aniqlaş, 5000 belgigaça matn va ovozli öqiş.",
             "h1": "Onlayn tarjimon",
             "lead": "Matnni kiriting, tillarni tanlang — tarjima bir zumda tayyor.",
             "text": [
-                ("Qaysi tillar qo'llab-quvvatlanadi?", "Tarjimon 22 ta tilni qo'llab-quvvatlaydi: o'zbek, rus, ingliz, turk, qozoq, qirg'iz, tojik, turkman, ozarbayjon, nemis, fransuz, ispan, italyan, arab va boshqalar. Manba tilini bilmasangiz, \"Auto\" rejimi uni avtomatik aniqlaydi."),
-                ("Qanday foydalaniladi?", "Chap maydonga 5000 belgigacha matn yozing yoki joylashtiring, manba va tarjima tilini tanlang. Natijani bir bosishda nusxalash yoki ovozli tinglash mumkin."),
+                ("Qaysi tillar qöllab-quvvatlanadi?", "Tarjimon 22 ta tilni qöllab-quvvatlaydi: özbek, rus, ingliz, turk, qozoq, qirğiz, tojik, turkman, ozarbayjon, nemis, fransuz, ispan, italyan, arab va boşqalar. Manba tilini bilmasangiz, \"Auto\" rejimi uni avtomatik aniqlaydi."),
+                ("Qanday foydalaniladi?", "Çap maydonga 5000 belgigaça matn yozing yoki joylaştiring, manba va tarjima tilini tanlang. Natijani bir bosişda nusxalaş yoki ovozli tinglaş mumkin."),
             ],
             "faq": [
-                ("Tarjimon bepulmi?", "Ha, ro'yxatdan o'tmasdan bepul foydalanish mumkin."),
-                ("Bir martada qancha matn tarjima qilsa bo'ladi?", "Bir so'rovda 5000 belgigacha."),
-                ("O'zbekchadan ruschaga tarjima qilsa bo'ladimi?", "Ha, o'zbek, rus va ingliz tillari o'rtasida istalgan yo'nalishda tarjima qilish mumkin."),
+                ("Tarjimon bepulmi?", "Ha, röyxatdan ötmasdan bepul foydalaniş mumkin."),
+                ("Bir martada qança matn tarjima qilsa böladi?", "Bir sörovda 5000 belgigaça."),
+                ("Özbekçadan rusçaga tarjima qilsa böladimi?", "Ha, özbek, rus va ingliz tillari örtasida istalgan yönalişda tarjima qiliş mumkin."),
             ],
         },
         "ru": {
@@ -256,17 +256,17 @@ PAGES = {
     "/password_generator/": {
         "kind": "tool",
         "uz": {
-            "title": "Parol generatori — kuchli va xavfsiz parol yaratish onlayn",
-            "desc": "Bir bosishda kuchli parol yarating: uzunlik, katta-kichik harflar, raqamlar va belgilarni tanlang. Parol faqat brauzeringizda yaratiladi.",
-            "h1": "Kuchli parol generatori",
+            "title": "Parol generatori — kuçli va xavfsiz parol yaratiş onlayn",
+            "desc": "Bir bosişda kuçli parol yarating: uzunlik, katta-kiçik harflar, raqamlar va belgilarni tanlang. Parol faqat brauzeringizda yaratiladi.",
+            "h1": "Kuçli parol generatori",
             "lead": "Parol uzunligi va belgilar turini tanlang — xavfsiz parol tayyor.",
             "text": [
-                ("Kuchli parol qanday bo'ladi?", "Kuchli parol kamida 12–16 belgidan iborat bo'lib, katta va kichik harflar, raqamlar hamda maxsus belgilarni o'z ichiga oladi. Unda ism, tug'ilgan sana yoki lug'atdagi so'zlar bo'lmasligi kerak. Har bir sayt uchun alohida parol ishlating."),
-                ("Xavfsizlik", "Parol sizning brauzeringizda yaratiladi va serverga yuborilmaydi. Yaratilgan parolni ishonchli parol menejerida saqlash tavsiya etiladi."),
+                ("Kuçli parol qanday böladi?", "Kuçli parol kamida 12–16 belgidan iborat bölib, katta va kiçik harflar, raqamlar hamda maxsus belgilarni öz içiga oladi. Unda ism, tuğilgan sana yoki luğatdagi sözlar bölmasligi kerak. Har bir sayt uçun alohida parol işlating."),
+                ("Xavfsizlik", "Parol sizning brauzeringizda yaratiladi va serverga yuborilmaydi. Yaratilgan parolni işonçli parol menejerida saqlaş tavsiya etiladi."),
             ],
             "faq": [
-                ("Parol serverda saqlanadimi?", "Yo'q, parol faqat brauzeringizda yaratiladi."),
-                ("Parol necha belgidan iborat bo'lishi kerak?", "Kamida 12 belgi, muhim akkauntlar uchun 16 va undan ko'p belgi tavsiya etiladi."),
+                ("Parol serverda saqlanadimi?", "Yöq, parol faqat brauzeringizda yaratiladi."),
+                ("Parol neça belgidan iborat bölişi kerak?", "Kamida 12 belgi, muhim akkauntlar uçun 16 va undan köp belgi tavsiya etiladi."),
             ],
         },
         "ru": {
@@ -301,17 +301,17 @@ PAGES = {
     "/exchangerates/": {
         "kind": "tool",
         "uz": {
-            "title": "Valyuta kurslari bugun — O'zbekiston Markaziy banki kursi",
-            "desc": "Dollar, yevro, rubl va boshqa valyutalarning bugungi rasmiy kursi — O'zbekiston Respublikasi Markaziy banki ma'lumotlari asosida, kunlik o'zgarish bilan.",
+            "title": "Valyuta kurslari bugun — Özbekiston Markaziy banki kursi",
+            "desc": "Dollar, yevro, rubl va boşqa valyutalarning bugungi rasmiy kursi — Özbekiston Respublikasi Markaziy banki ma'lumotlari asosida, kunlik özgariş bilan.",
             "h1": "Valyuta kurslari — Markaziy bank",
-            "lead": "Bugungi rasmiy kurslar va ularning kunlik o'zgarishi.",
+            "lead": "Bugungi rasmiy kurslar va ularning kunlik özgarişi.",
             "text": [
-                ("Kurslar qayerdan olinadi?", "Kurslar O'zbekiston Respublikasi Markaziy bankining (cbu.uz) rasmiy ma'lumotlaridan olinadi va muntazam yangilanadi. Jadvalda AQSh dollari, yevro, rossiya rubli, qozoq tengesi va boshqa valyutalarning so'mdagi qiymati hamda kunlik o'zgarishi ko'rsatiladi."),
-                ("Muhim eslatma", "Markaziy bank kursi rasmiy hisob-kitoblar uchun belgilanadi. Banklarda valyuta sotib olish va sotish kurslari undan farq qilishi mumkin."),
+                ("Kurslar qayerdan olinadi?", "Kurslar Özbekiston Respublikasi Markaziy bankining (cbu.uz) rasmiy ma'lumotlaridan olinadi va muntazam yangilanadi. Jadvalda AQŞ dollari, yevro, rossiya rubli, qozoq tengesi va boşqa valyutalarning sömdagi qiymati hamda kunlik özgarişi körsatiladi."),
+                ("Muhim eslatma", "Markaziy bank kursi rasmiy hisob-kitoblar uçun belgilanadi. Banklarda valyuta sotib oliş va sotiş kurslari undan farq qilişi mumkin."),
             ],
             "faq": [
-                ("Dollar kursi qachon yangilanadi?", "Markaziy bank kurslarni har ish kuni e'lon qiladi; sahifadagi ma'lumot avtomatik yangilanadi."),
-                ("Bankdagi kurs nega boshqacha?", "Banklar o'z sotib olish va sotish kurslarini belgilaydi, Markaziy bank kursi esa rasmiy hisob-kitob kursi hisoblanadi."),
+                ("Dollar kursi qaçon yangilanadi?", "Markaziy bank kurslarni har iş kuni e'lon qiladi; sahifadagi ma'lumot avtomatik yangilanadi."),
+                ("Bankdagi kurs nega boşqaça?", "Banklar öz sotib oliş va sotiş kurslarini belgilaydi, Markaziy bank kursi esa rasmiy hisob-kitob kursi hisoblanadi."),
             ],
         },
         "ru": {
@@ -346,15 +346,15 @@ PAGES = {
     "/coins/": {
         "kind": "tool",
         "uz": {
-            "title": "Kriptovalyuta narxlari onlayn — Bitcoin, Ethereum va boshqalar",
-            "desc": "Bitcoin, Ethereum va boshqa kriptovalyutalarning joriy narxi, 24 soatlik o'zgarishi va bozor kapitalizatsiyasi — CoinGecko ma'lumotlari asosida.",
+            "title": "Kriptovalyuta narxlari onlayn — Bitcoin, Ethereum va boşqalar",
+            "desc": "Bitcoin, Ethereum va boşqa kriptovalyutalarning joriy narxi, 24 soatlik özgarişi va bozor kapitalizatsiyasi — CoinGecko ma'lumotlari asosida.",
             "h1": "Kriptovalyuta narxlari",
-            "lead": "Eng mashhur kriptovalyutalarning joriy narxlari va o'zgarishi.",
+            "lead": "Eng maşhur kriptovalyutalarning joriy narxlari va özgarişi.",
             "text": [
-                ("Ma'lumotlar manbasi", "Narxlar CoinGecko ochiq API'sidan olinadi. Har bir tanga uchun AQSh dollaridagi narx, 24 soatlik o'zgarish va bozor kapitalizatsiyasi ko'rsatiladi."),
+                ("Ma'lumotlar manbasi", "Narxlar CoinGecko oçiq API'sidan olinadi. Har bir tanga uçun AQŞ dollaridagi narx, 24 soatlik özgariş va bozor kapitalizatsiyasi körsatiladi."),
             ],
             "faq": [
-                ("Bitcoin narxi qanchalik tez yangilanadi?", "Ma'lumotlar bir necha daqiqada bir marta yangilanadi."),
+                ("Bitcoin narxi qançalik tez yangilanadi?", "Ma'lumotlar bir neça daqiqada bir marta yangilanadi."),
             ],
         },
         "ru": {
@@ -385,15 +385,15 @@ PAGES = {
     "/ip/": {
         "kind": "tool",
         "uz": {
-            "title": "IP manzilni aniqlash — mening IP manzilim qanday?",
-            "desc": "O'z IP manzilingizni va istalgan IP'ning joylashuvi, provayderi, shahri va mamlakatini bepul aniqlang.",
-            "h1": "IP manzilni aniqlash",
-            "lead": "Sizning IP manzilingiz va uning joylashuvi haqida ma'lumot.",
+            "title": "IP manzilni aniqlaş — mening IP manzilim qanday?",
+            "desc": "Öz IP manzilingizni va istalgan IP'ning joylaşuvi, provayderi, şahri va mamlakatini bepul aniqlang.",
+            "h1": "IP manzilni aniqlaş",
+            "lead": "Sizning IP manzilingiz va uning joylaşuvi haqida ma'lumot.",
             "text": [
-                ("IP manzil nima?", "IP manzil — internetga ulangan qurilmaning raqamli identifikatori. U orqali taxminiy mamlakat, shahar va internet provayderini aniqlash mumkin. Bu vosita sizning joriy IP manzilingizni ko'rsatadi, shuningdek istalgan IP haqida ma'lumot topishga yordam beradi."),
+                ("IP manzil nima?", "IP manzil — internetga ulangan qurilmaning raqamli identifikatori. U orqali taxminiy mamlakat, şahar va internet provayderini aniqlaş mumkin. Bu vosita sizning joriy IP manzilingizni körsatadi, şuningdek istalgan IP haqida ma'lumot topişga yordam beradi."),
             ],
             "faq": [
-                ("IP orqali aniq manzilni bilish mumkinmi?", "Yo'q, IP faqat taxminiy joylashuvni (shahar yoki mintaqa) ko'rsatadi."),
+                ("IP orqali aniq manzilni biliş mumkinmi?", "Yöq, IP faqat taxminiy joylaşuvni (şahar yoki mintaqa) körsatadi."),
             ],
         },
         "ru": {
@@ -424,15 +424,15 @@ PAGES = {
     "/imagecompare/": {
         "kind": "tool",
         "uz": {
-            "title": "Ikki rasmni solishtirish — farqlarni onlayn topish",
-            "desc": "Ikki rasmni yuklang va ular orasidagi farqlarni bir zumda ko'ring. Dizayn, skrinshot va fotosuratlarni solishtirish uchun bepul vosita.",
-            "h1": "Ikki rasmni solishtirish",
-            "lead": "Ikkita rasmni yuklang — farq qilgan joylar ajratib ko'rsatiladi.",
+            "title": "Ikki rasmni soliştiriş — farqlarni onlayn topiş",
+            "desc": "Ikki rasmni yuklang va ular orasidagi farqlarni bir zumda köring. Dizayn, skrinşot va fotosuratlarni soliştiriş uçun bepul vosita.",
+            "h1": "Ikki rasmni soliştiriş",
+            "lead": "Ikkita rasmni yuklang — farq qilgan joylar ajratib körsatiladi.",
             "text": [
-                ("Qachon foydali?", "Vosita dizayn maketini tayyor sahifa bilan, eski va yangi skrinshotni yoki ikki fotosuratni solishtirishda yordam beradi. Rasmlar piksel darajasida taqqoslanadi va farqlar ajratib ko'rsatiladi."),
+                ("Qaçon foydali?", "Vosita dizayn maketini tayyor sahifa bilan, eski va yangi skrinşotni yoki ikki fotosuratni soliştirişda yordam beradi. Rasmlar piksel darajasida taqqoslanadi va farqlar ajratib körsatiladi."),
             ],
             "faq": [
-                ("Qaysi formatlar qo'llab-quvvatlanadi?", "JPG, PNG va WebP kabi keng tarqalgan rasm formatlari."),
+                ("Qaysi formatlar qöllab-quvvatlanadi?", "JPG, PNG va WebP kabi keng tarqalgan rasm formatlari."),
             ],
         },
         "ru": {
@@ -463,15 +463,15 @@ PAGES = {
     "/sitemap/": {
         "kind": "tool",
         "uz": {
-            "title": "Sitemap generator — sayt xaritasi (sitemap.xml) yaratish",
-            "desc": "Sayt manzilini kiriting va Google hamda Yandex uchun tayyor sitemap.xml faylini bepul yarating.",
+            "title": "Sitemap generator — sayt xaritasi (sitemap.xml) yaratiş",
+            "desc": "Sayt manzilini kiriting va Google hamda Yandex uçun tayyor sitemap.xml faylini bepul yarating.",
             "h1": "Sitemap generator",
             "lead": "Sayt manzilini kiriting — sitemap.xml avtomatik tuziladi.",
             "text": [
-                ("Sitemap nima uchun kerak?", "sitemap.xml — saytdagi sahifalar ro'yxati bo'lib, qidiruv tizimlariga sahifalarni tezroq topish va indekslashga yordam beradi. Generator saytingizdagi havolalarni aylanib chiqadi va standartga mos XML fayl tayyorlaydi. Faylni sayt ildiziga joylab, Google Search Console va Yandex Webmaster'ga yuboring."),
+                ("Sitemap nima uçun kerak?", "sitemap.xml — saytdagi sahifalar röyxati bölib, qidiruv tizimlariga sahifalarni tezroq topiş va indekslaşga yordam beradi. Generator saytingizdagi havolalarni aylanib çiqadi va standartga mos XML fayl tayyorlaydi. Faylni sayt ildiziga joylab, Google Search Console va Yandex Webmaster'ga yuboring."),
             ],
             "faq": [
-                ("Sitemap'ni qayerga joylash kerak?", "Odatda sayt ildiziga: https://sayt.uz/sitemap.xml, so'ng uni robots.txt'da ko'rsatish tavsiya etiladi."),
+                ("Sitemap'ni qayerga joylaş kerak?", "Odatda sayt ildiziga: https://sayt.uz/sitemap.xml, söng uni robots.txt'da körsatiş tavsiya etiladi."),
             ],
         },
         "ru": {
@@ -502,17 +502,17 @@ PAGES = {
     "/pdf_tools/": {
         "kind": "tool",
         "uz": {
-            "title": "PDF ni Word, Excel va rasmga o'tkazish — onlayn, bepul",
-            "desc": "PDF faylni Word (DOCX), Excel (CSV) yoki rasmga (JPG) bepul o'tkazing. Faylni yuklang va natijani bir zumda yuklab oling.",
+            "title": "PDF ni Word, Excel va rasmga ötkaziş — onlayn, bepul",
+            "desc": "PDF faylni Word (DOCX), Excel (CSV) yoki rasmga (JPG) bepul ötkazing. Faylni yuklang va natijani bir zumda yuklab oling.",
             "h1": "PDF konvertor",
-            "lead": "PDF faylni Word, Excel yoki rasm formatiga o'tkazing.",
+            "lead": "PDF faylni Word, Excel yoki rasm formatiga ötkazing.",
             "text": [
-                ("Qanday ishlaydi?", "Kerakli amalni tanlang (PDF → Word, PDF → Excel yoki PDF → rasm), faylni yuklang va tayyor natijani yuklab oling. Matn va jadvallar tahrirlanadigan ko'rinishda saqlanadi."),
-                ("Fayllar xavfsizligi", "Yuklangan fayllar faqat konvertatsiya uchun ishlatiladi va vaqtinchalik saqlanadi."),
+                ("Qanday işlaydi?", "Kerakli amalni tanlang (PDF → Word, PDF → Excel yoki PDF → rasm), faylni yuklang va tayyor natijani yuklab oling. Matn va jadvallar tahrirlanadigan körinişda saqlanadi."),
+                ("Fayllar xavfsizligi", "Yuklangan fayllar faqat konvertatsiya uçun işlatiladi va vaqtinçalik saqlanadi."),
             ],
             "faq": [
-                ("PDF'ni Word'ga o'tkazish bepulmi?", "Ha, ro'yxatdan o'tmasdan bepul."),
-                ("Jadvallar Excel'ga to'g'ri o'tadimi?", "Matnli PDF'dagi jadvallar Excel ustunlariga ajratiladi; skanerlangan PDF'lar uchun natija sifati pastroq bo'lishi mumkin."),
+                ("PDF'ni Word'ga ötkaziş bepulmi?", "Ha, röyxatdan ötmasdan bepul."),
+                ("Jadvallar Excel'ga töğri ötadimi?", "Matnli PDF'dagi jadvallar Excel ustunlariga ajratiladi; skanerlangan PDF'lar uçun natija sifati pastroq bölişi mumkin."),
             ],
         },
         "ru": {
@@ -547,12 +547,12 @@ PAGES = {
     "/youtube_downloader/": {
         "kind": "tool",
         "uz": {
-            "title": "YouTube video yuklab olish — onlayn, bepul",
+            "title": "YouTube video yuklab oliş — onlayn, bepul",
             "desc": "YouTube videoni havolasi orqali yuklab oling: sifatni tanlang va faylni qurilmangizga saqlang.",
-            "h1": "YouTube video yuklab olish",
-            "lead": "Video havolasini joylashtiring va formatni tanlang.",
+            "h1": "YouTube video yuklab oliş",
+            "lead": "Video havolasini joylaştiring va formatni tanlang.",
             "text": [
-                ("Qanday foydalaniladi?", "YouTube'dan video havolasini nusxalang, maydonga joylashtiring, kerakli formatni tanlang va faylni yuklab oling. Faqat o'zingizga tegishli yoki yuklab olishga ruxsat berilgan videolarni yuklab oling."),
+                ("Qanday foydalaniladi?", "YouTube'dan video havolasini nusxalang, maydonga joylaştiring, kerakli formatni tanlang va faylni yuklab oling. Faqat özingizga tegişli yoki yuklab olişga ruxsat berilgan videolarni yuklab oling."),
             ],
             "faq": [],
         },
@@ -579,49 +579,49 @@ PAGES = {
     },
     "/instagram-downloader/": {
         "kind": "tool",
-        "uz": {"title": "Instagram yuklab olish", "desc": "Instagram post va videolarini yuklab olish vositasi.", "h1": "Instagram yuklab olish"},
+        "uz": {"title": "Instagram yuklab oliş", "desc": "Instagram post va videolarini yuklab oliş vositasi.", "h1": "Instagram yuklab oliş"},
         "ru": {"title": "Скачать из Instagram", "desc": "Инструмент для скачивания постов и видео из Instagram.", "h1": "Скачать из Instagram"},
         "en": {"title": "Instagram downloader", "desc": "A tool for downloading Instagram posts and videos.", "h1": "Instagram downloader"},
     },
     "/blog/": {
         "kind": "page",
-        "uz": {"title": "Blog — dasturlash va texnologiyalar bo'yicha maqolalar", "desc": "Dasturlash, veb-texnologiyalar, kiberxavfsizlik va foydali vositalar haqida o'zbek tilida maqolalar."},
+        "uz": {"title": "Blog — dasturlaş va texnologiyalar böyiça maqolalar", "desc": "Dasturlaş, veb-texnologiyalar, kiberxavfsizlik va foydali vositalar haqida özbek tilida maqolalar."},
         "ru": {"title": "Блог — статьи о программировании и технологиях", "desc": "Статьи о программировании, веб-технологиях, кибербезопасности и полезных инструментах."},
         "en": {"title": "Blog — programming and technology articles", "desc": "Articles about programming, web technologies, cybersecurity and useful tools."},
     },
     "/news/": {
         "kind": "page",
-        "uz": {"title": "Yangiliklar — texnologiya va IT yangiliklari", "desc": "Texnologiya, kriptovalyuta va IT sohasidagi so'nggi yangiliklar."},
+        "uz": {"title": "Yangiliklar — texnologiya va IT yangiliklari", "desc": "Texnologiya, kriptovalyuta va IT sohasidagi sönggi yangiliklar."},
         "ru": {"title": "Новости — технологии и IT", "desc": "Последние новости технологий, криптовалют и IT."},
         "en": {"title": "News — technology and IT", "desc": "The latest news on technology, cryptocurrency and IT."},
     },
     "/projects/": {
         "kind": "page",
-        "uz": {"title": "Loyihalar va onlayn o'yinlar — Complex Programmer", "desc": "Brauzerda bepul o'ynaladigan o'yinlar (Snake, Tetris, Ping Pong, Tic Tac Toe) va boshqa loyihalar."},
+        "uz": {"title": "Loyihalar va onlayn öyinlar — Complex Programmer", "desc": "Brauzerda bepul öynaladigan öyinlar (Snake, Tetris, Ping Pong, Tic Tac Toe) va boşqa loyihalar."},
         "ru": {"title": "Проекты и онлайн-игры — Complex Programmer", "desc": "Бесплатные браузерные игры (Snake, Tetris, Ping Pong, крестики-нолики) и другие проекты."},
         "en": {"title": "Projects and online games — Complex Programmer", "desc": "Free browser games (Snake, Tetris, Ping Pong, Tic Tac Toe) and other projects."},
     },
     "/arxiv/": {
         "kind": "page",
-        "uz": {"title": "Arxiv — hujjatlar va patentlar", "desc": "Hujjatlar, ilmiy ishlar va patentlar arxivi."},
+        "uz": {"title": "Arxiv — hujjatlar va patentlar", "desc": "Hujjatlar, ilmiy işlar va patentlar arxivi."},
         "ru": {"title": "Архив — документы и патенты", "desc": "Архив документов, научных работ и патентов."},
         "en": {"title": "Archive — documents and patents", "desc": "An archive of documents, papers and patents."},
     },
     "/markets/": {
         "kind": "page",
-        "uz": {"title": "Bozorlar — do'konlar va mahsulotlar", "desc": "Do'konlar va mahsulotlar katalogi.", "h1": "Bozorlar"},
+        "uz": {"title": "Bozorlar — dökonlar va mahsulotlar", "desc": "Dökonlar va mahsulotlar katalogi.", "h1": "Bozorlar"},
         "ru": {"title": "Рынки — магазины и товары", "desc": "Каталог магазинов и товаров.", "h1": "Рынки"},
         "en": {"title": "Markets — stores and products", "desc": "A catalogue of stores and products.", "h1": "Markets"},
     },
     "/cryptomarket/": {
         "kind": "page",
-        "uz": {"title": "BTC bozori — kriptovalyuta birjalari", "desc": "Bitcoin va kriptovalyuta bozorlari bo'yicha ma'lumotlar.", "h1": "BTC bozorlari"},
+        "uz": {"title": "BTC bozori — kriptovalyuta birjalari", "desc": "Bitcoin va kriptovalyuta bozorlari böyiça ma'lumotlar.", "h1": "BTC bozorlari"},
         "ru": {"title": "Рынки BTC — криптобиржи", "desc": "Данные о рынках биткоина и криптовалют.", "h1": "Рынки BTC"},
         "en": {"title": "BTC markets — crypto exchanges", "desc": "Bitcoin and cryptocurrency market data.", "h1": "BTC markets"},
     },
     "/terms/": {
         "kind": "page",
-        "uz": {"title": "Foydalanish shartlari — Complex Programmer", "desc": "Complex Programmer saytidan foydalanish shartlari.", "h1": "Foydalanish shartlari"},
+        "uz": {"title": "Foydalaniş şartlari — Complex Programmer", "desc": "Complex Programmer saytidan foydalaniş şartlari.", "h1": "Foydalaniş şartlari"},
         "ru": {"title": "Условия использования — Complex Programmer", "desc": "Условия использования сайта Complex Programmer.", "h1": "Условия использования"},
         "en": {"title": "Terms of Service — Complex Programmer", "desc": "Terms of use of the Complex Programmer website.", "h1": "Terms of Service"},
     },
@@ -649,9 +649,9 @@ for _path, _name in GAMES.items():
     PAGES[_path] = {
         "kind": "game",
         "uz": {
-            "title": f"{_name} — onlayn o'ynash bepul",
-            "desc": f"{_name} o'yinini brauzerda yuklab olmasdan va ro'yxatdan o'tmasdan bepul o'ynang. Kompyuter va telefonda ishlaydi.",
-            "h1": f"{_name} — onlayn o'yin",
+            "title": f"{_name} — onlayn öynaş bepul",
+            "desc": f"{_name} öyinini brauzerda yuklab olmasdan va röyxatdan ötmasdan bepul öynang. Kompyuter va telefonda işlaydi.",
+            "h1": f"{_name} — onlayn öyin",
         },
         "ru": {
             "title": f"{_name} — играть онлайн бесплатно",
@@ -669,7 +669,7 @@ for _path, _name in GAMES.items():
 BILET = {
     "uz": {
         "title": "Avtotest {n}-bilet — YHQ imtihon savollari va javoblari",
-        "desc": "Avtotest {n}-bilet: 10 ta savol, rasmlar va to'g'ri javoblar. Haydovchilik guvohnomasi imtihoniga onlayn tayyorlaning.",
+        "desc": "Avtotest {n}-bilet: 10 ta savol, rasmlar va töğri javoblar. Haydovçilik guvohnomasi imtihoniga onlayn tayyorlaning.",
         "h1": "Avtotest — {n}-bilet",
     },
     "ru": {
@@ -686,7 +686,7 @@ BILET = {
 
 # Sarlavhalar uchun tarjimalar (breadcrumb, FAQ bloki)
 LABELS = {
-    "uz": {"home": "Bosh sahifa", "faq": "Ko'p beriladigan savollar", "games": "O'yinlar"},
+    "uz": {"home": "Boş sahifa", "faq": "Köp beriladigan savollar", "games": "Öyinlar"},
     "ru": {"home": "Главная", "faq": "Частые вопросы", "games": "Игры"},
     "en": {"home": "Home", "faq": "Frequently asked questions", "games": "Games"},
 }

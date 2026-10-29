@@ -41,10 +41,10 @@ def webapp_url(lang: str = "uz") -> str:
 
 
 def get_language_keyboard() -> InlineKeyboardMarkup:
-    """Tilni tanlash tugmalari."""
+    """Tilni tanlaş tugmalari."""
     buttons = [
         [
-            InlineKeyboardButton(text="🇺🇿 O'zbekcha", callback_data="set_lang:uz"),
+            InlineKeyboardButton(text="🇺🇿 Özbekça", callback_data="set_lang:uz"),
             InlineKeyboardButton(text="🇷🇺 Русский", callback_data="set_lang:ru"),
         ]
     ]
@@ -57,7 +57,7 @@ def get_bilet_list_keyboard(
     per_page: int = 15,
     lang: str = "uz",
 ) -> InlineKeyboardMarkup:
-    """108 ta bilet uchun sahifalangan (pagination) inline tugmalar."""
+    """108 ta bilet uçun sahifalangan (pagination) inline tugmalar."""
     total_items = len(topics)
     total_pages = max(1, (total_items + per_page - 1) // per_page)
     current_page = max(1, min(current_page, total_pages))
@@ -108,7 +108,7 @@ def get_bilet_list_keyboard(
 
     keyboard.append(nav_row)
     keyboard.append(
-        [InlineKeyboardButton(text="🏠 Bosh menyu", callback_data="to_main_menu")]
+        [InlineKeyboardButton(text="🏠 Boş menyu", callback_data="to_main_menu")]
     )
 
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
@@ -121,7 +121,7 @@ def get_question_keyboard(
     is_last: bool = False,
     lang: str = "uz",
 ) -> InlineKeyboardMarkup:
-    """Savol javob variantlari uchun inline tugmalar."""
+    """Savol javob variantlari uçun inline tugmalar."""
     keyboard = []
     options_row = []
 
@@ -145,14 +145,14 @@ def get_question_keyboard(
     if options_row:
         keyboard.append(options_row)
 
-    # Javob berilgandan so'ng "Keyingi savol" tugmasi
+    # Javob berilgandan söng "Keyingi savol" tugmasi
     if is_answered:
         next_text = get_text(
             "btn_finish_quiz" if is_last else "btn_next_question", lang
         )
         keyboard.append([InlineKeyboardButton(text=next_text, callback_data="next_q")])
 
-    # Bekor qilish tugmasi
+    # Bekor qiliş tugmasi
     keyboard.append(
         [
             InlineKeyboardButton(
@@ -172,10 +172,10 @@ def get_finish_keyboard(
     lang: str = "uz",
     retry_data: str = "retry_quiz",
 ) -> InlineKeyboardMarkup:
-    """Test yakunlanganidagi tugmalar. ``retry_data`` — xuddi shu rejimni qayta boshlash."""
+    """Test yakunlanganidagi tugmalar. ``retry_data`` — xuddi shu rejimni qayta boşlaş."""
     keyboard = []
 
-    # Qayta topshirish
+    # Qayta topşiriş
     keyboard.append(
         [
             InlineKeyboardButton(
@@ -195,7 +195,7 @@ def get_finish_keyboard(
             ]
         )
 
-    # Xatolar ustida ishlash
+    # Xatolar ustida işlaş
     if has_mistakes:
         keyboard.append(
             [
@@ -249,6 +249,6 @@ def get_admin_keyboard() -> InlineKeyboardMarkup:
                 text="📢 Xabar tarqatish (Broadcast)", callback_data="admin_broadcast"
             )
         ],
-        [InlineKeyboardButton(text="🏠 Bosh menyu", callback_data="to_main_menu")],
+        [InlineKeyboardButton(text="🏠 Boş menyu", callback_data="to_main_menu")],
     ]
     return InlineKeyboardMarkup(inline_keyboard=keyboard)

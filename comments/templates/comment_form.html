@@ -168,28 +168,28 @@
   </div></div>
   {% endif %}
   {% if request.path_info|slice:":10" == "/avtotest/" or request.path_info|slice:":7" == "/tests/" %}
-  {# Izohlarda eng ko'p so'raladigan savollar — ko'pchiligi bu saytga aloqasi yo'q xizmatlar haqida #}
+  {# Izohlarda eng köp söraladigan savollar — köpçiligi bu saytga aloqasi yöq xizmatlar haqida #}
   <div class="row justify-content-center mb-4">
     <div class="col-md-8">
       <div class="cp-faq">
-        <h5>❓ Ko'p so'raladigan savollar</h5>
+        <h5>❓ Köp söraladigan savollar</h5>
         <details>
-          <summary>Uy-joy navbati, "nechanchi o'rindaman" — qayerdan ko'raman?</summary>
-          <p>Bu sayt <b>uy-joy navbati yoki boshqa davlat xizmati emas</b> — bu yerda faqat haydovchilik imtihoniga tayyorlanish mumkin.
-            Navbat va arizalar holatini rasmiy davlat xizmatlari portalidan (<a href="https://my.gov.uz" target="_blank" rel="noopener">my.gov.uz</a>) yoki tegishli tashkilotdan bilib oling.</p>
+          <summary>Uy-joy navbati, "neçançi örindaman" — qayerdan köraman?</summary>
+          <p>Bu sayt <b>uy-joy navbati yoki boşqa davlat xizmati emas</b> — bu yerda faqat haydovçilik imtihoniga tayyorlaniş mumkin.
+            Navbat va arizalar holatini rasmiy davlat xizmatlari portalidan (<a href="https://my.gov.uz" target="_blank" rel="noopener">my.gov.uz</a>) yoki tegişli taşkilotdan bilib oling.</p>
         </details>
         <details>
-          <summary>Mobil ilova ochilmayapti / kirib bo'lmayapti</summary>
-          <p>Saytning o'zi telefonda ham to'liq ishlaydi va ilovasiz ham ishlatish mumkin. Brauzer menyusidagi
-            "Bosh ekranga qo'shish" tugmasi saytni ilova kabi o'rnatadi. Telegram'da: <a href="https://t.me/AvtoTestUzbBot" target="_blank" rel="noopener">@AvtoTestUzbBot</a>.</p>
+          <summary>Mobil ilova oçilmayapti / kirib bölmayapti</summary>
+          <p>Saytning özi telefonda ham töliq işlaydi va ilovasiz ham işlatiş mumkin. Brauzer menyusidagi
+            "Boş ekranga qöşiş" tugmasi saytni ilova kabi örnatadi. Telegram'da: <a href="https://t.me/AvtoTestUzbBot" target="_blank" rel="noopener">@AvtoTestUzbBot</a>.</p>
         </details>
         <details>
           <summary>Natijalarim qayerda saqlanadi?</summary>
-          <p>Yechgan biletlaringiz shu brauzerda saqlanadi. Telefon almashtirsangiz ham yo'qolmasligi uchun
-            <a href="{{ lang_prefix }}/profil/">Telegram orqali kiring</a> — natijalar akkauntingizga bog'lanadi.</p>
+          <p>Yeçgan biletlaringiz şu brauzerda saqlanadi. Telefon almaştirsangiz ham yöqolmasligi uçun
+            <a href="{{ lang_prefix }}/profil/">Telegram orqali kiring</a> — natijalar akkauntingizga boğlanadi.</p>
         </details>
         <details>
-          <summary>Haqiqiy imtihonga o'xshash test bormi?</summary>
+          <summary>Haqiqiy imtihonga öxşaş test bormi?</summary>
           <p>Ha — <a href="{{ lang_prefix }}/avtotest/imtihon/">imtihon simulyatori</a>: 20 ta tasodifiy savol, 25 daqiqa, 2 tadan ortiq xato — "yiqildingiz".</p>
         </details>
       </div>
@@ -261,7 +261,7 @@
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-primary px-4">
-                <i class="fas fa-paper-plane me-2"></i>Yuborish
+                <i class="fas fa-paper-plane me-2"></i>Yuboriş
               </button>
             </div>
           </form>
@@ -271,20 +271,20 @@
       <!-- Izohlar ro'yxati -->
       <div class="mt-5">
         <h5 class="mb-4"><i class="fas fa-comments me-2"></i>Izohlar</h5>
-        {# Ko'p izohli sahifalar (avtotest — 700+ izoh) og'irlashmasin: avval 20 tasi, qolgani tugma bilan (comments.views.more_comments) #}
+        {# Köp izohli sahifalar (avtotest — 700+ izoh) oğirlaşmasin: avval 20 tasi, qolgani tugma bilan (comments.views.more_comments) #}
         {% with shown=comments|slice:":20" total=comments.count %}
         <div id="comment-list">
         {% for comment in shown %}{% include "comment_item.html" %}{% empty %}
         <div class="text-center text-muted">
           <i class="fas fa-inbox fa-3x mb-3"></i>
-          <p>Hozircha izoh yo'q.</p>
+          <p>Hozirça izoh yöq.</p>
         </div>
         {% endfor %}
         </div>
         {% if total > 20 %}
         <button type="button" class="btn btn-outline-primary w-100" id="comment-more" data-offset="20" data-total="{{ total }}"
           data-page-url="{{ comment_page_url|default:request.build_absolute_uri }}">
-          <i class="fas fa-chevron-down me-1"></i>Ko'proq izohlar (<span>{{ total|add:"-20" }}</span>)
+          <i class="fas fa-chevron-down me-1"></i>Köproq izohlar (<span>{{ total|add:"-20" }}</span>)
         </button>
         <script>
           (function () {
@@ -366,10 +366,10 @@
             class="btn btn-sm btn-light me-2"
             onclick="hideReplyForm(this)"
           >
-            <i class="fas fa-times me-1"></i>Bekor qilish
+            <i class="fas fa-times me-1"></i>Bekor qiliş
           </button>
           <button type="submit" class="btn btn-sm btn-primary">
-            <i class="fas fa-paper-plane me-1"></i>Yuborish
+            <i class="fas fa-paper-plane me-1"></i>Yuboriş
           </button>
         </div>
       </form>

@@ -1,14 +1,10 @@
 """Yangi Özbek alifbosi klaviaturasi mavzusidagi blog maqolasini naşr qiliş yoki yangilaş.
 
-Uşbu buyruq Microsoft Store'dagi "O'zbek alifbosi klaviaturasi" (Ryzen_b) ilovasi,
-Windows tizimidagi "Turkish Q" tartibi, AltGr maketlari va smartfon sozlamalari
-asosida tayyorlangan töliq qöllanmani blogga naşr etadi.
-
 Işlatiş:
     python manage.py publish_keyboard_post           # darhol saytda naşr qiladi
     python manage.py publish_keyboard_post --update  # mavjud maqola matnini yangilaydi
     python manage.py publish_keyboard_post --draft   # qoralama qilib saqlaydi (2099-yil)
-    python manage.py publish_keyboard_post --dry-run # bazaga yozmasdan tekşiriş
+    python manage.py publish_keyboard_post --dry-run # bazaga yozmasdan tekşiradi
 """
 
 import datetime
@@ -18,513 +14,448 @@ import time
 
 SLUG = "yangi-ozbek-alifbosi-klaviaturasi"
 IMAGE_REL_PATH = "post/images/yangi_ozbek_alifbosi_klaviaturasi.jpg"
-STORE_URL = "https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM"
+SOURCE_URL = "https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM"
 DRAFT_TIME = datetime.datetime(2099, 1, 1, tzinfo=datetime.timezone.utc)
 
-SEO_TITLE = "Yangi Özbek alifbosi klaviaturasi — Windows va smartfonda örnatiş"
-SEO_DESCRIPTION = (
-    "2026-yilgi yangi özbek alifbosi (Ş, Ç, Ğ, Ö) harflarini kompyuter va telefonda "
-    "oson teriş usullari: Microsoft Store ilovasi, Turkish Q tartibi va mobil sozlamalar."
-)
+SEO_TITLE = "Yangi Özbek alifbosi klaviaturasi — Ö, Ğ, Ş, Ç harflarini yoziş"
+SEO_DESCRIPTION = "Windows, Android va iOS-da yangi özbek alifbosi (Ö, Ğ, Ş, Ç) harflarini klaviaturada qulay yoziş: Microsoft Store ilovasi, Turkish Q va tezkor tugmalar."
 
 ARTICLE_DATA = {
+    # ==========================================================================
+    # UZ_UZ (2026-yilgi yangi Lotin alifbosi — qat'iy Ş, Ç, Ğ, Ö harflarida)
+    # ==========================================================================
     "uz": {
-        "name": "Yangi Özbek alifbosi klaviaturasi: Windows, macOS va telefonlarda Ş, Ç, Ğ, Ö harflarini qulay teriş",
-        "title": (
-            "Kompyuter va smartfonlarda 2026-yilgi yangi özbek alifbosida xatosiz va tez yozış uçun "
-            "eng yaxşi klaviatura dasturlari, qisqa klavişlar va amaliy sozlamalar qöllanmasi."
-        ),
+        "name": "Yangi Özbek alifbosi klaviaturasi — Ö, Ğ, Ş, Ç harflarini kompyuter va telefonda oson yoziş qöllanmasi",
+        "title": "Microsoft Store ilovasi («O'zbek alifbosi klaviaturasi»), Windows Turkish Q tartibi, tezkor Alt/Ctrl tugmalari, mobil klaviatura va onlayn ögirgiç imkoniyatlari.",
         "body": """
-<p>Özbekiston Respublikasida 2026-yilgi isloh qilingan lotin alifbosiga bölgan ehtiyoj va qiziqiş tobora oşib bormoqda. Yangi alifboda avvalgi ikki belgili birikmalar örniga bitta yaxlit harflar joriy etildi: <strong>Ş ş</strong> (avvalgi <em>sh</em>), <strong>Ç ç</strong> (avvalgi <em>ch</em>), <strong>Ğ ğ</strong> (avvalgi <em>g‘</em>) va <strong>Ö ö</strong> (avvalgi <em>o‘</em>). Bu islohot matnlarni ixçamlaştiriş, xatoliklarni kamaytiriş va dasturiy ta’minotlarda qidiruv tizimini osonlaştirişda ulkan yutuq böldi.</p>
+<p>Özbekiston Respublikasida 2026-yilda töliq joriy etilayotgan isloh qilingan yangi lotin alifbosi yozuvimizni yanada ixçam, aniq va xalqaro standartlarga mos holatga keltirdi. Amaldagi 1995-yilgi alifbodagi noqulay ikki belgili birikmalar (<code>sh</code>, <code>ch</code>) hamda teskari vergul bilan yoziladigan harflar (<code>o'</code>, <code>g'</code>) yozuv jarayonini sekinlaştirar, matnlarni qidiruv tizimlarida (SEO) indekslaşda va ma'lumotlar bazalarida chalkaşliklar keltirib chiqarar edi.</p>
 
-<p>Biroq köpçilik foydalanuvçilarda tabiiy savol tuğilmoqda: <em>«Kompyuter klaviaturasida yoki smartfonda bu harflarni qanday qilib oson va tez teriş mumkin?»</em> Standart inglizça QWERTY klaviaturasida uşbu harflar alohida klaviş sifatida mavjud emas. Quyidagi batafsil qöllanmada Windows, macOS, Android va iOS tizimlarida yangi harflarni heç qanday qiyinçiliksiz terişning <strong>eng samarali 5 ta usulini</strong> körsatib beramiz.</p>
+<p>Yangi alifboda bu tovuşlar bitta yaxlit harfga aylantirildi: <strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>. Ammo köpçilik foydalanuvçilarda haqli savol tuğiladi: <em>«Standart inglizça QWERTY klaviaturalarida bu harflar yöq-ku, ularni kompyuterda va telefonda qanday qilib tez va qulay yoziş mumkin?»</em></p>
 
-<hr />
+<p>Uşbu maqolada Windows kompyuterlari, noutbuklar hamda smartfonlarda yangi alifbo harflarini heç qanday qiyinçiliksiz yozişning eng sinalgan va samarali 5 ta usulini batafsil körsatib beramiz.</p>
 
-<h2>1-usul: Microsoft Store’dagi «Özbek alifbosi klaviaturasi» dasturi (Tavsiya etiladi)</h2>
+<hr>
 
-<p>Windows 10 va Windows 11 foydalanuvçilari uçun eng qulay va zamonaviy yeçimlardan biri — dasturçi <strong>Ryzen_b</strong> tomonidan yaratilgan va rasmiy Microsoft Store dökoniga joylaştirilgan <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>«Özbek alifbosi klaviaturasi»</strong></a> yordamçi dasturidir.</p>
+<h2>1-usul: Microsoft Store rasmiy ilovasi — «O'zbek alifbosi klaviaturasi» (Tavsiya etiladi)</h2>
+<p>Windows 10 va Windows 11 foydalanuvçilari uçun dasturçi <strong>Ryzen_b</strong> tomonidan yaratilgan va Microsoft Store rasmiy dökoniga joylangan <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>«O'zbek alifbosi klaviaturasi»</strong></a> ilovasi ayni muddao.</p>
 
-<p>Uşbu yengil dastur tizimda orqa fonda işlaydi va odatiy inglizça (yoki özbekça lotin) klaviatura tartibiga maxsus qisqa klavişlar (hotkeys) kombinatsiyasini qöşadi:</p>
+<div style="background: rgba(14, 165, 233, 0.08); border-left: 4px solid #0ea5e9; padding: 14px 18px; margin: 18px 0; border-radius: 6px;">
+  <strong>Ilovaning asosiy qulayliklari:</strong>
+  <ul style="margin-bottom: 0;">
+    <li><strong>Tezkor tugmalar (Hotkeys):</strong> Klaviaturadagi <code>Alt</code> tugmasini bosib turgan holda harflarni bosiş kifoya:
+      <ul>
+        <li><code>Alt + O</code> ➔ <strong>ö</strong> (katta harf uçun: <code>Shift + Alt + O</code> ➔ <strong>Ö</strong>)</li>
+        <li><code>Alt + G</code> ➔ <strong>ğ</strong> (katta harf uçun: <code>Shift + Alt + G</code> ➔ <strong>Ğ</strong>)</li>
+        <li><code>Alt + S</code> ➔ <strong>ş</strong> (katta harf uçun: <code>Shift + Alt + S</code> ➔ <strong>Ş</strong>)</li>
+        <li><code>Alt + C</code> ➔ <strong>ç</strong> (katta harf uçun: <code>Shift + Alt + C</code> ➔ <strong>Ç</strong>)</li>
+      </ul>
+    </li>
+    <li><strong>Moslaşuvçan sozlamalar:</strong> Modifikator tugmasini xohişingizga köra <code>Alt</code>, <code>Ctrl</code> yoki <code>Ctrl + Shift</code> kombinatsiyasiga almaştirişingiz mumkin.</li>
+    <li><strong>Windows bilan birga işga tuşiş:</strong> Tizim yoqilganda dastur avtomatik fonda (Tray bölimida) ishga tuşadi va kompyuter xotirasini deyarli band qilmaydi.</li>
+    <li><strong>Kirill alifbosini aqlli aniqlaş:</strong> Rusça yoki özbekça kirill klaviaturasida yozayotganingizda dastur buni avtomatik sezadi va xalaqit bermaydi.</li>
+  </ul>
+</div>
 
-<ul>
-  <li><code>Alt + O</code> (yoki <code>Ctrl + O</code>) ➔ <strong>ö</strong> (katta harf: <code>Alt + Shift + O</code> ➔ <strong>Ö</strong>)</li>
-  <li><code>Alt + G</code> (yoki <code>Ctrl + G</code>) ➔ <strong>ğ</strong> (katta harf: <code>Alt + Shift + G</code> ➔ <strong>Ğ</strong>)</li>
-  <li><code>Alt + S</code> (yoki <code>Ctrl + S</code>) ➔ <strong>ş</strong> (katta harf: <code>Alt + Shift + S</code> ➔ <strong>Ş</strong>)</li>
-  <li><code>Alt + C</code> (yoki <code>Ctrl + C</code>) ➔ <strong>ç</strong> (katta harf: <code>Alt + Shift + C</code> ➔ <strong>Ç</strong>)</li>
-</ul>
-
-<h3>Dasturning asosiy afzalliklari:</h3>
+<p><strong>Örnatiş tartibi:</strong></p>
 <ol>
-  <li><strong>Avtomatik işga tuşiş:</strong> Kompyuter yoqilişi bilan Windows bilan birga fonda yuklanadi va bildirişlar maydoni (system tray)da qulay belgi bilan turadi.</li>
-  <li><strong>Aqlli til nazorati:</strong> Agar siz klaviatura tilini Rusça (kirill) ga almaştirsangiz, dastur buni avtomatik aniqlaydi va qisqa klavişlarni vaqtinça öçirib turadi. Lotinçaga qaytganingizda esa yana darhol faollaşadi.</li>
-  <li><strong>Xavfsiz va tizimga daxlsiz:</strong> Registr fayllarini yoki tizim drayverlarini özgartirmaydi, kompyuter tezligiga mutlaqo ta’sir qilmaydi.</li>
-  <li><strong>Rasmiy dökon kafolati:</strong> Microsoft Store xavfsizlik tekşiruvidan ötganligi sababli virus yoki zararli kodlardan mutlaqo xoli.</li>
+  <li>Microsoft Store rasmiy sahifasiga öting: <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store — O'zbek alifbosi klaviaturasi</strong></a></li>
+  <li><strong>«Get in Store app»</strong> yoki <strong>«Install»</strong> tugmasini bosing.</li>
+  <li>Dastur örnatilgach, uni ishga tuşiring. Endi istalgan dasturda (Word, brauzer, Telegram) bemalol <code>Alt+O</code>, <code>Alt+G</code>, <code>Alt+S</code>, <code>Alt+C</code> orqali yangi harflarni yoza olasiz!</li>
 </ol>
 
-<p>👉 <strong>Yuklab oliş havolasi:</strong> <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store — Özbek alifbosi klaviaturasi</strong></a></p>
+<p style="text-align: center; margin: 25px 0;">
+  <a class="b-btn" href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: bold; background: #0078d4; color: #fff; text-decoration: none; border-radius: 8px;">
+    📥 Microsoft Store orqali yuklab oliş
+  </a>
+</p>
 
-<hr />
+<hr>
 
-<h2>2-usul: Qöşimça dastursiz — Windows’da «Turkish Q» klaviaturasi</h2>
+<h2>2-usul: Windows sozlamalarida «Turkish Q» tartibini ulab qöyiş (Ilovasiz usul)</h2>
+<p>Agar kompyuteringizga qöşimça heç qanday dastur örnatishni istamasangiz, Windows tizimining ichki imkoniyatidan foydalanişingiz mumkin. Turk alifbosida ham ayni şu to'rt harf (<strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>) mavjud bölib, ular jismoniy klaviaturaning chetki qismlariga joylashtirilgan:</p>
 
-<p>Agar sizda begona, işxona yoki öquv markazi kompyuteri bölib, unga qöşimça dastur örnatiş huquqi (administrator paroli) bölmasa, ajoyib sodda yeçim mavjud: <strong>Turkça Q (Turkish Q)</strong> klaviatura tartibini qöşiş.</p>
-
-<p>Çunki turk alifbosida ham ayni şu harflar (<strong>Ş, Ç, Ö, Ğ</strong>) mavjud bölib, ular klaviaturaning öng tomonidagi tiniş belgilari örnida joylaşgan:</p>
-
-<ul>
-  <li><code>;</code> (nuqtali vergul) klavişi ➔ <strong>Ş ş</strong></li>
-  <li><code>.</code> (nuqta) klavişi ➔ <strong>Ç ç</strong></li>
-  <li><code>,</code> (vergul) klavişi ➔ <strong>Ö ö</strong></li>
-  <li><code>[</code> (kvadrat qavs) klavişi ➔ <strong>Ğ ğ</strong></li>
-</ul>
-
-<h3>Qanday qöşiladi?</h3>
-<ol>
-  <li>Windows <strong>Settings</strong> (Sozlamalar: <code>Win + I</code>) menyusiga kiring.</li>
-  <li><strong>Time &amp; Language</strong> ➔ <strong>Language &amp; Region</strong> (Til va mintaqa) bölimiga öting.</li>
-  <li>Özbek yoki ingliz tili qatoridagi üç nuqtani bosib, <strong>Language options</strong> ni tanlang.</li>
-  <li><strong>Add a keyboard</strong> (Klaviatura qöşiş) tugmasini bosing va röyxatdan <strong>Turkish Q</strong> ni tanlang.</li>
-</ol>
-<p>Endi <code>Alt + Shift</code> yoki <code>Win + Space</code> orqali uşbu klaviaturaga ötib, barmoğingiz ostidagi bitta tugma orqali bemalol yangi harflarni tera olasiz.</p>
-
-<hr />
-
-<h2>3-usul: AltGr tizimi va mustaqil klaviatura maketlari (MSKLC)</h2>
-
-<p>Klaviaturaning öng tomonidagi <code>Alt</code> (ba’zi klaviaturalarda <code>AltGr</code> deb yozilgan) tugmasi xalqaro me’yorda qöşimça belgilarni teriş uçun möljallangan. Dasturçilar tomonidan Microsoft Keyboard Layout Creator (MSKLC) asosida tayyorlangan özbekça maketlarda:</p>
-<ul>
-  <li><code>AltGr + S</code> ➔ <strong>ş</strong></li>
-  <li><code>AltGr + C</code> ➔ <strong>ç</strong></li>
-  <li><code>AltGr + G</code> ➔ <strong>ğ</strong></li>
-  <li><code>AltGr + O</code> ➔ <strong>ö</strong></li>
-</ul>
-<p>Bu usul qidiruv va matn muharrirlaridagi <code>Ctrl + S</code> (saqlaş) yoki <code>Ctrl + C</code> (nusxalaş) kabi tizim buyruqlari bilan heç qaçon töqnaşmaydi.</p>
-
-<hr />
-
-<h2>4-usul: Smartfonlarda (Android va iOS / iPhone) yangi harflarni teriş</h2>
-
-<p>Zamonaviy mobil telefonlarda qöşimça dastur örnatiş şart emas. Ikki xil juda qulay yöl bor:</p>
-
-<h3>1. Bosib turiş (Long-press) usuli:</h3>
-<p>Standart Google Gboard, Samsung Keyboard yoki Apple iOS klaviaturasida asosiy harfni barmoğingiz bilan 1 soniya bosib tursangiz, qöşimça variantlar menyusi oçiladi:</p>
-<ul>
-  <li><strong>S</strong> harfini bosib tursangiz ➔ <strong>Ş ş</strong> çiqadi.</li>
-  <li><strong>C</strong> harfini bosib tursangiz ➔ <strong>Ç ç</strong> çiqadi.</li>
-  <li><strong>G</strong> harfini bosib tursangiz ➔ <strong>Ğ ğ</strong> çiqadi.</li>
-  <li><strong>O</strong> harfini bosib tursangiz ➔ <strong>Ö ö</strong> çiqadi.</li>
-</ul>
-
-<h3>2. Klaviatura sozlamalariga Turkça til qöşiş:</h3>
-<p>Agar harflarni bosib turiş vaqtni olsa, telefon sozlamalaridan klaviaturaga <strong>Turkça (Türkçe)</strong> tilini qöşib qöyişingiz mumkin. Natijada ekran klaviaturangizning öng tomonida <strong>Ş, Ç, Ğ, Ö</strong> harflari alohida tölaqonli tugmalar sifatida doimiy körinib turadi.</p>
-
-<hr />
-
-<h2>5-usul: Katta matnlarni bir zumda ötkaziş — Onlayn Changetext ögirgiç</h2>
-
-<p>Agar sizda allaqaçon eski 1995-yilgi lotin alifbosida (<em>sh, ch, o‘, g‘</em> birikmalari bilan) yoki kirill yozuvida yozilgan katta maqolalar, kurs işlari, kitoblar yoki rasmiy hujjatlar mavjud bölsa, ularni qölda qayta terib çiqişga hojat yöq.</p>
-
-<p>Bizning saytimizda maxsus işlab çiqilgan <a href="https://complexprogrammer.uz/changetext/"><strong>Complex Programmer Lotin-Kirill va Yangi Lotin ögirgiçi</strong></a> orqali birgina tugma bilan minglab sahifali matnlarni 2026-yilgi yangi alifboga soniyalar içida xatosiz aylantirib olişingiz mumkin. Ögirgiç veb-manzillarni, dasturlaş kodlarini va inglizça atamalarni toza saqlaydi.</p>
-
-<hr />
-
-<h2>Yangi harflarning Unicode va klaviatura kodlari jadvali</h2>
-
-<p>Dasturçilar, dizaynerlar va qisqa klavişlardan foydalanuvçilar uçun yangi harflarning rasmiy xalqaro parametrlari:</p>
-
-<table class="table table-bordered table-striped" style="width: 100%; margin-top: 15px;">
+<table class="table table-bordered table-striped" style="width: 100%; margin: 16px 0; border-collapse: collapse;">
   <thead>
-    <tr style="background-color: #2c3e50; color: #ffffff;">
-      <th style="padding: 10px;">Harf (Katta / Kiçik)</th>
-      <th style="padding: 10px;">Unicode kodi</th>
-      <th style="padding: 10px;">Microsoft Store App</th>
-      <th style="padding: 10px;">Turkish Q tartibi</th>
-      <th style="padding: 10px;">AltGr kombinatsiyasi</th>
+    <tr style="background: rgba(14, 165, 233, 0.15);">
+      <th style="padding: 10px; border: 1px solid #ddd;">Klaviatura tugmasi</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Keltirib chiqaradigan harf</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Shift bilan (Katta harf)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="padding: 10px;"><strong>Ş / ş</strong></td>
-      <td style="padding: 10px;"><code>U+015E</code> / <code>U+015F</code></td>
-      <td style="padding: 10px;"><code>Alt + S</code></td>
-      <td style="padding: 10px;"><code>;</code> (nuqtali vergul)</td>
-      <td style="padding: 10px;"><code>AltGr + S</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>[ ; ]</code> (Nuqtali vergul tugmasi)</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>ş</strong></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>Ş</strong></td>
     </tr>
     <tr>
-      <td style="padding: 10px;"><strong>Ç / ç</strong></td>
-      <td style="padding: 10px;"><code>U+00C7</code> / <code>U+00E7</code></td>
-      <td style="padding: 10px;"><code>Alt + C</code></td>
-      <td style="padding: 10px;"><code>.</code> (nuqta)</td>
-      <td style="padding: 10px;"><code>AltGr + C</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>[ ' ]</code> (Yakka tirnoq tugmasi)</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>ö</strong></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>Ö</strong></td>
     </tr>
     <tr>
-      <td style="padding: 10px;"><strong>Ğ / ğ</strong></td>
-      <td style="padding: 10px;"><code>U+011E</code> / <code>U+011F</code></td>
-      <td style="padding: 10px;"><code>Alt + G</code></td>
-      <td style="padding: 10px;"><code>[</code> (kvadrat qavs)</td>
-      <td style="padding: 10px;"><code>AltGr + G</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>[ . ]</code> (Nuqta tugmasi / ç)</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>ç</strong></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>Ç</strong></td>
     </tr>
     <tr>
-      <td style="padding: 10px;"><strong>Ö / ö</strong></td>
-      <td style="padding: 10px;"><code>U+00D6</code> / <code>U+00F6</code></td>
-      <td style="padding: 10px;"><code>Alt + O</code></td>
-      <td style="padding: 10px;"><code>,</code> (vergul)</td>
-      <td style="padding: 10px;"><code>AltGr + O</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>[ ] ]</code> (Yopiluvchi burchak qavs)</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>ğ</strong></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><strong>Ğ</strong></td>
     </tr>
   </tbody>
 </table>
 
-<hr />
+<p><strong>Windows-da sozlash qadamlari:</strong></p>
+<ol>
+  <li>Windows <strong>Settings</strong> (Sozlamalar) ➔ <strong>Time &amp; Language</strong> (Vaqt va til) bölimiga kiring.</li>
+  <li><strong>Language &amp; Region</strong> (Til va mintaqa) bandini tanlang.</li>
+  <li>Özbek tili yonidagi uch nuqtani bosib, <strong>Language options</strong> ➔ <strong>Add a keyboard</strong> (Klaviatura qöşiş) tugmasini bosing va röyxatdan <strong>Turkish Q</strong> ni tanlang (yoki alohida turk tilini qöşimça til qilib qöşing).</li>
+  <li>Endi <code>Win + Space</code> yoki <code>Alt + Shift</code> orqali ushbu tartibga ötib, yangi harflarni birgina tugma orqali bemalol terishingiz mumkin.</li>
+</ol>
 
-<h2>Xulosa</h2>
-<p>2026-yilgi islohot özbek tili yozuvini zamonaviy axborot texnologiyalariga töliq moslaştiriş yönalişidagi eng muhim qadamdir. Kompyuteringizga Microsoft Store’dagi yengil <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>«Özbek alifbosi klaviaturasi»</strong></a> ilovasini örnatib oliş yoki Windows’da <strong>Turkish Q</strong> tartibini yoqiş orqali siz har kuni yuzlab sözlarni bir zumda, xatosiz va çarçoqsiz yoza olasiz!</p>
+<hr>
+
+<h2>3-usul: MSKLC orqali tayyorlangan maxsus tartiblar (Rahim Sadiy, Tezyechim)</h2>
+<p>Klaviatura ishlab chiquvchilari (masalan, Rahim Sadiy va Tezyechim loyihalari) tomonidan Microsoft Keyboard Layout Creator yordamida maxsus <code>.msi</code> installyatorlar tayyorlangan. Ushbu tartiblarda klaviaturadagi öng <strong>AltGr</strong> tugmasi orqali harflar teriladi:</p>
+<ul>
+  <li><code>AltGr + O</code> ➔ <strong>ö</strong> (yoki <code>Shift + AltGr + O</code> ➔ <strong>Ö</strong>)</li>
+  <li><code>AltGr + G</code> ➔ <strong>ğ</strong> (yoki <code>Shift + AltGr + G</code> ➔ <strong>Ğ</strong>)</li>
+  <li><code>AltGr + S</code> ➔ <strong>ş</strong> (yoki <code>Shift + AltGr + S</code> ➔ <strong>Ş</strong>)</li>
+  <li><code>AltGr + C</code> ➔ <strong>ç</strong> (yoki <code>Shift + AltGr + C</code> ➔ <strong>Ç</strong>)</li>
+</ul>
+<p>Bu usul standart inglizcha tugmalar joylashuviga mutlaqo teginmaydi, faqat öngdagi Alt tugmasiga qöşimça funksiya yuklaydi.</p>
+
+<hr>
+
+<h2>4-usul: Smartfonlarda yoziş (Android va iOS)</h2>
+<p>Smartfonlarda yangi harflarni kiritish yanada oson va heç qanday ilova örnatishni talab etmaydi:</p>
+
+<h3>Android (Google Gboard va Samsung Keyboard):</h3>
+<ul>
+  <li><strong>Bosib turish (Long-press):</strong> Klaviaturadagi asosiy harf ustiga barmoğingizni 0.5 soniya bosib tursangiz, uning diakritik variantlari menyusi ochiladi:
+    <ul>
+      <li><code>O</code> ustiga bosib tursangiz ➔ <strong>ö</strong></li>
+      <li><code>G</code> ustiga bosib tursangiz ➔ <strong>ğ</strong></li>
+      <li><code>S</code> ustiga bosib tursangiz ➔ <strong>ş</strong></li>
+      <li><code>C</code> ustiga bosib tursangiz ➔ <strong>ç</strong></li>
+    </ul>
+  </li>
+  <li><strong>Klaviatura sozlamasi:</strong> Gboard sozlamalaridan til bölimiga kirib, «Özbekça (Lotin)» klaviaturasini tanlang va u yerda belgilarni uzoq bosish imkoniyatini yoqib qöying.</li>
+</ul>
+
+<h3>iPhone va iPad (Apple iOS):</h3>
+<ul>
+  <li>iOS klaviaturasida ham xuddi shunday: <code>O</code>, <code>G</code>, <code>S</code>, <code>C</code> harflarini bosib turganda tepasida muqobil harflar paydo böladi.</li>
+  <li>Shuningdek, iOS sozlamalarida <em>Turkish</em> (Turkcha) klaviaturasini ulab qöysangiz, pastki qatorda <strong>ş</strong>, <strong>ç</strong>, <strong>ö</strong>, <strong>ğ</strong> harflari alohida tugmaça bölib doimiy körinib turadi.</li>
+</ul>
+
+<hr>
+
+<h2>5-usul: Mavjud hujjatlarni yangi alifboga ögirish — Complex Programmer Changetext</h2>
+<p>Agar sizda avvaldan yozilgan katta hajmdagi matnlar, maqolalar, referatlar, Word yoki .txt fayllar bölsa, ularni qo'lda bittalab tahrirlab chiquşga aslo hojat yöq!</p>
+
+<p>Bizning saytimizda maxsus ishlab chiqilgan <a href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener"><strong>Complex Programmer Lotin-Kirill matn ögirgiçi</strong></a> orqali birgina harakat bilan butun matnni 2026-yilgi yangi alifboga xatosiz ötkazishingiz mumkin:</p>
+
+<ul>
+  <li>Eski lotindagi <code>sh</code>, <code>ch</code>, <code>o'</code>, <code>g'</code> birikmalarini avtomatik <strong>ş, ç, ö, ğ</strong> harflariga almaştiradi;</li>
+  <li>Kirilldagi <code>ш</code>, <code>ч</code>, <code>ў</code>, <code>ғ</code> tovuşlarini ham to'g'ri yangi lotin harflariga aylantiradi;</li>
+  <li>Havolalar (<code>https://...</code>), <code>@username</code> lar, HTML kodlar va inglizcha dasturlash atamalariga zarar yetkazmaydi;</li>
+  <li>Tayyor matnni bir bosişda nusxalab olish yoki <code>.txt</code> formatida yuklab olish mumkin.</li>
+</ul>
+
+<p style="text-align: center; margin: 25px 0;">
+  <a class="b-btn" href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: bold; background: #059669; color: #fff; text-decoration: none; border-radius: 8px;">
+    🚀 Matnni yangi alifboga ögirish (changetext)
+  </a>
+</p>
+
+<hr>
+
+<h2>Unicode, Alt-kodlar va HTML obyektlar jadvali</h2>
+<p>Dasturçilar, matn teruvçilar va veb-ustalar uçun yangi harflarning xalqaro kodlash standartlari:</p>
+
+<table class="table table-bordered table-striped" style="width: 100%; margin: 16px 0; border-collapse: collapse;">
+  <thead>
+    <tr style="background: rgba(14, 165, 233, 0.15);">
+      <th style="padding: 10px; border: 1px solid #ddd;">Harf</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Nomi</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Unicode</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Windows Alt-kod</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">HTML kodi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #ddd; font-size: 18px; font-weight: bold;">Ö / ö</td>
+      <td style="padding: 8px; border: 1px solid #ddd;">O with diaeresis (umlaüt)</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>U+00D6</code> / <code>U+00F6</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>Alt + 0214</code> / <code>Alt + 0246</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>&amp;Ouml;</code> / <code>&amp;ouml;</code></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #ddd; font-size: 18px; font-weight: bold;">Ğ / ğ</td>
+      <td style="padding: 8px; border: 1px solid #ddd;">G with breve</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>U+011E</code> / <code>U+011F</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>Alt + 0286</code> / <code>Alt + 0287</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>&amp;#286;</code> / <code>&amp;#287;</code></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #ddd; font-size: 18px; font-weight: bold;">Ş / ş</td>
+      <td style="padding: 8px; border: 1px solid #ddd;">S with cedilla</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>U+015E</code> / <code>U+015F</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>Alt + 0350</code> / <code>Alt + 0351</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>&amp;#350;</code> / <code>&amp;#351;</code></td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: 1px solid #ddd; font-size: 18px; font-weight: bold;">Ç / ç</td>
+      <td style="padding: 8px; border: 1px solid #ddd;">C with cedilla</td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>U+00C7</code> / <code>U+00E7</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>Alt + 0199</code> / <code>Alt + 0231</code></td>
+      <td style="padding: 8px; border: 1px solid #ddd;"><code>&amp;Ccedil;</code> / <code>&amp;ccedil;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<h2>Xulosa va tavsiyalar</h2>
+<p>Yangi alifboga ötiş yozuv madaniyatimizni yangi bosqichga olib chiqadi. Har kuni kompyuterda matn bilan ishlaydigan mutaxassislar uçun <strong>Microsoft Store ilovasi</strong> eng qulay va tezkor yechimdir. Smartfonda esa uzoq bosish yoki turkcha klaviatura orqali yozish tavsiya etiladi.</p>
+
+<p>Katta hajmdagi eski matnlaringizni bir lahzada yangi alifboga ötkazish uçun esa har doim <a href="https://complexprogrammer.uz/changetext/"><strong>Complex Programmer Changetext</strong></a> xizmatidan bepul foydalanishingiz mumkin!</p>
 """,
     },
+
+    # ==========================================================================
+    # UZ_CRL (Ўзбек тили — Кирилл алифбосида)
+    # ==========================================================================
+    "uz_crl": {
+        "name": "Янги Ўзбек алифбоси клавиатураси — Ö, Ğ, Ş, Ç ҳарфларини компьютер ва телефонда осон ёзиш қўлланмаси",
+        "title": "Microsoft Store иловаси («O'zbek alifbosi klaviaturasi»), Windows Turkish Q тартиби, тезкор Alt/Ctrl тугмалари, мобил клавиатура ва онлайн ўгиргич имкониятлари.",
+        "body": """
+<p>Ўзбекистон Республикасида 2026 йилда тўлиқ жорий этилаётган ислоҳ қилинган янги лотин алифбоси ёзувимизни янада ихчам, аниқ ва халқаро стандартларга мос ҳолатга келтирди. Амалдаги 1995 йилги алифбодаги ноқулай икки белгили бирикмалар (<code>sh</code>, <code>ch</code>) ҳамда тескари вергул билан ёзиладиган ҳарфлар (<code>o'</code>, <code>g'</code>) ёзув жараёнини секинлаштирар, матнларни қидирув тизимларида (SEO) индексация қилишда чалкашликлар келтириб чиқарар эди.</p>
+
+<p>Янги алифбода бу товушлар битта яхлит ҳарфга айлантирилди: <strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>. Аммо кўпчилик фойдаланувчиларда ҳақли савол туғилади: <em>«Стандарт инглизча QWERTY клавиатураларида бу ҳарфлар йўқ-ку, уларни компьютерда ва телефонда қандай қилиб тез ва қулай ёзиш мумкин?»</em></p>
+
+<p>Ушбу мақолада Windows компьютерлари, ноутбуклар ҳамда смартфонларда янги алифбо ҳарфларини ҳеч қандай қийинчиликсиз ёзишнинг энг синалган ва самарали 5 та усулини батафсил кўрсатиб берамиз.</p>
+
+<hr>
+
+<h2>1-усул: Microsoft Store расмий иловаси — «O'zbek alifbosi klaviaturasi» (Тавсия этилади)</h2>
+<p>Windows 10 ва Windows 11 фойдаланувчилари учун дастурчи <strong>Ryzen_b</strong> томонидан яратилган ва Microsoft Store расмий дўконига жойланган <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>«O'zbek alifbosi klaviaturasi»</strong></a> иловаси айни муддао.</p>
+
+<div style="background: rgba(14, 165, 233, 0.08); border-left: 4px solid #0ea5e9; padding: 14px 18px; margin: 18px 0; border-radius: 6px;">
+  <strong>Илованинг асосий қулайликлари:</strong>
+  <ul style="margin-bottom: 0;">
+    <li><strong>Тезкор тугмалар (Hotkeys):</strong> Клавиатурадаги <code>Alt</code> тугмасини босиб турган ҳолда ҳарфларни босиш кифоя:
+      <ul>
+        <li><code>Alt + O</code> ➔ <strong>ö</strong> (катта ҳарф учун: <code>Shift + Alt + O</code> ➔ <strong>Ö</strong>)</li>
+        <li><code>Alt + G</code> ➔ <strong>ğ</strong> (катта ҳарф учун: <code>Shift + Alt + G</code> ➔ <strong>Ğ</strong>)</li>
+        <li><code>Alt + S</code> ➔ <strong>ş</strong> (катта ҳарф учун: <code>Shift + Alt + S</code> ➔ <strong>Ş</strong>)</li>
+        <li><code>Alt + C</code> ➔ <strong>ç</strong> (катта ҳарф учун: <code>Shift + Alt + C</code> ➔ <strong>Ç</strong>)</li>
+      </ul>
+    </li>
+    <li><strong>Мослашувчан созламалар:</strong> Модификатор тугмасини хоҳишингизга кўра <code>Alt</code>, <code>Ctrl</code> ёки <code>Ctrl + Shift</code> комбинациясига алмаштиришингиз мумкин.</li>
+    <li><strong>Windows билан бирга ишга тушиш:</strong> Тизим ёқилганда дастур автоматик фонда ишга тушади ва компьютер хотирасини деярли банд қилмайди.</li>
+    <li><strong>Кирилл алифбосини ақлли аниқлаш:</strong> Русча ёки ўзбекча кирилл клавиатурасида ёзаётганингизда дастур буни автоматик сезади ва халақит бермайди.</li>
+  </ul>
+</div>
+
+<p><strong>Ўрнатиш тартиби:</strong></p>
+<ol>
+  <li>Microsoft Store расмий саҳифасига ўтинг: <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store — O'zbek alifbosi klaviaturasi</strong></a></li>
+  <li><strong>«Get in Store app»</strong> ёки <strong>«Install»</strong> тугмасини босинг.</li>
+  <li>Дастур ўрнатилгач, уни ишга туширинг. Энди исталган дастурда (Word, браузер, Telegram) бемалол <code>Alt+O</code>, <code>Alt+G</code>, <code>Alt+S</code>, <code>Alt+C</code> орқали янги ҳарфларни ёза оласиз!</li>
+</ol>
+
+<hr>
+
+<h2>2-усул: Windows созламаларида «Turkish Q» тартибини улаб қўйиш (Иловасиз усул)</h2>
+<p>Агар компьютерингизга қўшимча ҳеч қандай дастур ўрнатишни истамасангиз, Windows тизимининг ички имкониятидан фойдаланишингиз мумкин. Турк алифбосида ҳам айни шу тўрт ҳарф (<strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>) мавжуд бўлиб, улар клавиатуранинг четки тугмаларига жойлаштирилган:</p>
+
+<ul>
+  <li><code>[ ; ]</code> (Нуқтали вергул) ➔ <strong>ş</strong> (Shift билан: <strong>Ş</strong>)</li>
+  <li><code>[ ' ]</code> (Якка тирноқ) ➔ <strong>ö</strong> (Shift билан: <strong>Ö</strong>)</li>
+  <li><code>[ . ]</code> (Нуқта) ➔ <strong>ç</strong> (Shift билан: <strong>Ç</strong>)</li>
+  <li><code>[ ] ]</code> (Ёпилувчи бурчак қавс) ➔ <strong>ğ</strong> (Shift билан: <strong>Ğ</strong>)</li>
+</ul>
+
+<p><strong>Windows-да созлаш қадамлари:</strong></p>
+<ol>
+  <li>Windows <strong>Settings</strong> ➔ <strong>Time &amp; Language</strong> ➔ <strong>Language &amp; Region</strong> бўлимига киринг.</li>
+  <li>Ўзбек тили ёнидаги уч нуқтани босиб, <strong>Language options</strong> ➔ <strong>Add a keyboard</strong> тугмасини босинг ва рўйхатдан <strong>Turkish Q</strong> ни танланг.</li>
+  <li>Энди <code>Win + Space</code> ёки <code>Alt + Shift</code> орқали ушбу тартибга ўтиб, янги ҳарфларни бемалол теришингиз мумкин.</li>
+</ol>
+
+<hr>
+
+<h2>3-усул: Смартфонларда ёзиш (Android ва iOS)</h2>
+<p>Смартфонларда янги ҳарфларни киритиш ҳеч қандай илова ўрнатишни талаб этмайди:</p>
+<ul>
+  <li><strong>Android (Gboard ва Samsung Keyboard):</strong> Клавиатурадаги асосий ҳарф (<code>O</code>, <code>G</code>, <code>S</code>, <code>C</code>) устига бармоғингизни 0.5 сония босиб турсангиз, устида <strong>ö</strong>, <strong>ğ</strong>, <strong>ş</strong>, <strong>ç</strong> ҳарфлари пайдо бўлади.</li>
+  <li><strong>iPhone ва iPad (Apple iOS):</strong> Худди шундай, ҳарфни босиб туриш орқали керакли белгини танлашингиз ёки қўшимча <em>Turkish</em> клавиатурасини қўшиб олишингиз мумкин.</li>
+</ul>
+
+<hr>
+
+<h2>4-усул: Мавжуд матнларни янги алифбога ўгириш — Changetext онлайн хизмати</h2>
+<p>Агар сизда аввалдан ёзилган катта ҳажмдаги ҳужжатлар бўлса, уларни қўлда битталаб таҳрирлаб чиқиш шарт эмас. Saytimizdagi <a href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener"><strong>Complex Programmer Лотин-Кирилл ўгиргичи</strong></a> орқали бир зумда бутун матнни янги 2026 йилги алифбога хатосиз ўтказа оласиз.</p>
+
+<p style="text-align: center; margin: 25px 0;">
+  <a class="b-btn" href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: bold; background: #059669; color: #fff; text-decoration: none; border-radius: 8px;">
+    🚀 Матнни янги алифбога ўгириш (changetext)
+  </a>
+</p>
+""",
+    },
+
+    # ==========================================================================
+    # RU_RU (Русский язык)
+    # ==========================================================================
     "ru": {
-        "name": "Клавиатура нового узбекского алфавита: как легко печатать Ş, Ç, Ğ, Ö на Windows, macOS и смартфонах",
-        "title": (
-            "Полное практическое руководство по настройке узбекской клавиатуры реформы 2026 года: "
-            "утилита из Microsoft Store, горячие клавиши, турецкая раскладка и мобильные клавиатуры."
-        ),
+        "name": "Клавиатура нового узбекского алфавита: как легко печатать буквы Ö, Ğ, Ş, Ç на компьютере и смартфоне",
+        "title": "Полное руководство: официальное приложение из Microsoft Store («O'zbek alifbosi klaviaturasi»), турецкая раскладка Turkish Q, горячие клавиши Alt/Ctrl, ввод на Android/iOS и онлайн-конвертер.",
         "body": """
-<p>В рамках реформы узбекского алфавита 2026 года привычные двухбуквенные сочетания заменены отдельными символами с диакритическими знаками: <strong>Ş ş</strong> (вместо <em>sh</em>), <strong>Ç ç</strong> (вместо <em>ch</em>), <strong>Ğ ğ</strong> (вместо <em>g‘</em>) и <strong>Ö ö</strong> (вместо <em>o‘</em>). Это нововведение упрощает поиск, морфологический анализ и набор текста.</p>
+<p>В рамках реформы узбекского латинского алфавита 2026 года привычные двухбуквенные сочетания (<code>sh</code>, <code>ch</code>) и буквы с перевернутым апострофом (<code>o'</code>, <code>g'</code>) заменены на удобные монолитные буквы с диакритическими знаками: <strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>.</p>
 
-<p>Однако на стандартной клавиатуре QWERTY отдельных клавиш для этих букв нет. В данном руководстве рассмотрены <strong>5 лучших способов</strong> быстрой и комфортной печати на новом узбекском алфавите в Windows, macOS, Android и iOS.</p>
+<p>Это новшество значительно упрощает правила правописания и ускоряет набор текста, однако на стандартных англоязычных клавиатурах QWERTY таких клавиш нет. В этом практическом руководстве мы собрали 5 проверенных способов быстрого и комфортного набора новых букв на Windows, Android и iOS.</p>
 
-<hr />
+<hr>
 
-<h2>Способ 1: Приложение «O‘zbek alifbosi klaviaturasi» из Microsoft Store (Рекомендуется)</h2>
+<h2>Способ 1: Официальное приложение из Microsoft Store — «O'zbek alifbosi klaviaturasi» (Рекомендуется)</h2>
+<p>Для пользователей Windows 10 и Windows 11 разработчик <strong>Ryzen_b</strong> создал легкую и удобную утилиту, официально доступную в <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store — O'zbek alifbosi klaviaturasi</strong></a>.</p>
 
-<p>Для пользователей Windows 10 и Windows 11 разработчик <strong>Ryzen_b</strong> создал легкую и удобную фоновую утилиту, доступную официально в магазине <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store</strong></a>.</p>
+<div style="background: rgba(14, 165, 233, 0.08); border-left: 4px solid #0ea5e9; padding: 14px 18px; margin: 18px 0; border-radius: 6px;">
+  <strong>Ключевые преимущества утилиты:</strong>
+  <ul style="margin-bottom: 0;">
+    <li><strong>Быстрые комбинации (Hotkeys):</strong> Нажатие <code>Alt</code> вместе с базовой буквой мгновенно вставляет нужный символ:
+      <ul>
+        <li><code>Alt + O</code> ➔ <strong>ö</strong> (заглавная: <code>Shift + Alt + O</code> ➔ <strong>Ö</strong>)</li>
+        <li><code>Alt + G</code> ➔ <strong>ğ</strong> (заглавная: <code>Shift + Alt + G</code> ➔ <strong>Ğ</strong>)</li>
+        <li><code>Alt + S</code> ➔ <strong>ş</strong> (заглавная: <code>Shift + Alt + S</code> ➔ <strong>Ş</strong>)</li>
+        <li><code>Alt + C</code> ➔ <strong>ç</strong> (заглавная: <code>Shift + Alt + C</code> ➔ <strong>Ç</strong>)</li>
+      </ul>
+    </li>
+    <li><strong>Настраиваемые модификаторы:</strong> Вместо <code>Alt</code> можно назначить <code>Ctrl</code> или <code>Ctrl + Shift</code>.</li>
+    <li><strong>Автозапуск с Windows:</strong> Программа сворачивается в системный трей и потребляет минимум ресурсов.</li>
+    <li><strong>Умная кириллица:</strong> При переключении на русский или узбекский кириллический ввод утилита не мешает набору.</li>
+  </ul>
+</div>
 
-<p>Приложение добавляет глобальные горячие клавиши:</p>
+<p style="text-align: center; margin: 25px 0;">
+  <a class="b-btn" href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: bold; background: #0078d4; color: #fff; text-decoration: none; border-radius: 8px;">
+    📥 Скачать в Microsoft Store
+  </a>
+</p>
+
+<hr>
+
+<h2>Способ 2: Раскладка «Turkish Q» в параметрах Windows (Без сторонних программ)</h2>
+<p>В турецком алфавите используются ровно те же четыре буквы (<strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>). Включив раскладку <strong>Turkish Q</strong> в настройках Windows, вы получаете прямой доступ к этим буквам на физических клавишах:</p>
 <ul>
-  <li><code>Alt + O</code> (или <code>Ctrl + O</code>) ➔ <strong>ö</strong> (заглавная: <code>Alt + Shift + O</code> ➔ <strong>Ö</strong>)</li>
-  <li><code>Alt + G</code> (или <code>Ctrl + G</code>) ➔ <strong>ğ</strong> (заглавная: <code>Alt + Shift + G</code> ➔ <strong>Ğ</strong>)</li>
-  <li><code>Alt + S</code> (или <code>Ctrl + S</code>) ➔ <strong>ş</strong> (заглавная: <code>Alt + Shift + S</code> ➔ <strong>Ş</strong>)</li>
-  <li><code>Alt + C</code> (или <code>Ctrl + C</code>) ➔ <strong>ç</strong> (заглавная: <code>Alt + Shift + C</code> ➔ <strong>Ç</strong>)</li>
+  <li><code>[ ; ]</code> (Точка с запятой) ➔ <strong>ş</strong> (с Shift: <strong>Ş</strong>)</li>
+  <li><code>[ ' ]</code> (Одинарная кавычка) ➔ <strong>ö</strong> (с Shift: <strong>Ö</strong>)</li>
+  <li><code>[ . ]</code> (Точка) ➔ <strong>ç</strong> (с Shift: <strong>Ç</strong>)</li>
+  <li><code>[ ] ]</code> (Закрывающая квадратная скобка) ➔ <strong>ğ</strong> (с Shift: <strong>Ğ</strong>)</li>
 </ul>
 
-<h3>Преимущества утилиты:</h3>
-<ol>
-  <li><strong>Автозапуск с Windows:</strong> запускается автоматически и тихо работает в системном трее.</li>
-  <li><strong>Умное переключение:</strong> при включении русской раскладки перехват сочетаний автоматически отключается, не мешая привычным действиям.</li>
-  <li><strong>Безопасность:</strong> не требует сторонних драйверов, проверено модерацией Microsoft Store.</li>
-</ol>
+<p><strong>Как включить:</strong> Перейдите в <em>Параметры Windows ➔ Время и язык ➔ Язык и регион</em>, выберите параметры языка и добавьте клавиатуру «Turkish Q».</p>
 
-<p>👉 <strong>Скачать из Microsoft Store:</strong> <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>«O‘zbek alifbosi klaviaturasi» (Ryzen_b)</strong></a></p>
+<hr>
 
-<hr />
-
-<h2>Способ 2: Без сторонних программ — Турецкая раскладка (Turkish Q) в Windows</h2>
-
-<p>Если на рабочем или учебном компьютере нет прав администратора для установки приложений, самым простым решением является добавление раскладки <strong>Turkish Q</strong>.</p>
-<p>В турецком алфавите используются в точности те же буквы:</p>
+<h2>Способ 3: Ввод на смартфонах (Android и iOS)</h2>
 <ul>
-  <li>Клавиша <code>;</code> ➔ <strong>Ş ş</strong></li>
-  <li>Клавиша <code>.</code> ➔ <strong>Ç ç</strong></li>
-  <li>Клавиша <code>,</code> ➔ <strong>Ö ö</strong></li>
-  <li>Клавиша <code>[</code> ➔ <strong>Ğ ğ</strong></li>
+  <li><strong>Долгое нажатие (Long-press):</strong> Удерживайте пальцем букву <code>O</code>, <code>G</code>, <code>S</code> или <code>C</code> на экранной клавиатуре Gboard, Samsung Keyboard или iOS, чтобы открыть всплывающее меню с символами <strong>ö</strong>, <strong>ğ</strong>, <strong>ş</strong>, <strong>ç</strong>.</li>
+  <li><strong>Второй язык:</strong> Можно также добавить турецкую раскладку в настройках клавиатуры телефона для вынесения букв на отдельные клавиши.</li>
 </ul>
 
-<p>Чтобы включить: откройте <em>Параметры Windows ➔ Время и язык ➔ Язык и регион ➔ Параметры языка ➔ Добавить клавиатуру ➔ Турецкая (Q)</em>.</p>
+<hr>
 
-<hr />
+<h2>Способ 4: Быстрая конвертация готовых текстов — Changetext</h2>
+<p>Если вам нужно перевести существующие документы, статьи или базы данных на новый алфавит 2026 года, воспользуйтесь бесплатным сервисом <a href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener"><strong>Complex Programmer Changetext</strong></a>. Он автоматически заменяет диграфы, сохраняя ссылки, программный код и форматирование.</p>
 
-<h2>Способ 3: Раскладки на базе AltGr (MSKLC)</h2>
-<p>При использовании правой клавиши <code>AltGr</code> сочетания <code>AltGr + S</code>, <code>AltGr + C</code>, <code>AltGr + G</code>, <code>AltGr + O</code> не конфликтуют с привычными комбинациями типа <code>Ctrl + C</code> / <code>Ctrl + S</code>.</p>
-
-<hr />
-
-<h2>Способ 4: Смартфоны (Android и iPhone / iOS)</h2>
-<ol>
-  <li><strong>Долгое нажатие (Long-press):</strong> в клавиатурах Gboard и iOS удерживайте клавиши <code>S</code>, <code>C</code>, <code>G</code>, <code>O</code> для выбора букв <strong>Ş, Ç, Ğ, Ö</strong>.</li>
-  <li><strong>Добавление турецкой раскладки:</strong> в настройках клавиатуры включите турецкий язык — буквы появятся в качестве отдельных кнопок в правой части клавиатуры.</li>
-</ol>
-
-<hr />
-
-<h2>Способ 5: Мгновенный перевод больших текстов — онлайн-конвертер Changetext</h2>
-<p>Большие готовые документы, написанные по правилам 1995 года или на кириллице, можно за одну секунду перевести в новый алфавит 2026 года с помощью сервиса <a href="https://complexprogrammer.uz/changetext/"><strong>Complex Programmer Changetext</strong></a>.</p>
-
-<hr />
-
-<h2>Сводная таблица кодов Unicode</h2>
-<table class="table table-bordered table-striped" style="width: 100%;">
-  <thead>
-    <tr style="background-color: #2c3e50; color: #ffffff;">
-      <th style="padding: 10px;">Буква</th>
-      <th style="padding: 10px;">Unicode</th>
-      <th style="padding: 10px;">Microsoft Store App</th>
-      <th style="padding: 10px;">Turkish Q</th>
-      <th style="padding: 10px;">AltGr</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="padding: 10px;"><strong>Ş / ş</strong></td>
-      <td style="padding: 10px;"><code>U+015E</code> / <code>U+015F</code></td>
-      <td style="padding: 10px;"><code>Alt + S</code></td>
-      <td style="padding: 10px;"><code>;</code></td>
-      <td style="padding: 10px;"><code>AltGr + S</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ç / ç</strong></td>
-      <td style="padding: 10px;"><code>U+00C7</code> / <code>U+00E7</code></td>
-      <td style="padding: 10px;"><code>Alt + C</code></td>
-      <td style="padding: 10px;"><code>.</code></td>
-      <td style="padding: 10px;"><code>AltGr + C</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ğ / ğ</strong></td>
-      <td style="padding: 10px;"><code>U+011E</code> / <code>U+011F</code></td>
-      <td style="padding: 10px;"><code>Alt + G</code></td>
-      <td style="padding: 10px;"><code>[</code></td>
-      <td style="padding: 10px;"><code>AltGr + G</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ö / ö</strong></td>
-      <td style="padding: 10px;"><code>U+00D6</code> / <code>U+00F6</code></td>
-      <td style="padding: 10px;"><code>Alt + O</code></td>
-      <td style="padding: 10px;"><code>,</code></td>
-      <td style="padding: 10px;"><code>AltGr + O</code></td>
-    </tr>
-  </tbody>
-</table>
+<p style="text-align: center; margin: 25px 0;">
+  <a class="b-btn" href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: bold; background: #059669; color: #fff; text-decoration: none; border-radius: 8px;">
+    🚀 Онлайн-конвертер текста (changetext)
+  </a>
+</p>
 """,
     },
+
+    # ==========================================================================
+    # EN_US (English language)
+    # ==========================================================================
     "en": {
-        "name": "New Uzbek Alphabet Keyboard Layout: How to Type Ş, Ç, Ğ, Ö on Windows, macOS, and Mobile",
-        "title": (
-            "A comprehensive practical guide to setting up the reformed 2026 Uzbek Latin keyboard layout: "
-            "Microsoft Store utility, shortcuts, Turkish Q layout, and smartphone settings."
-        ),
+        "name": "New Uzbek Alphabet Keyboard Guide: How to Type Ö, Ğ, Ş, Ç on Windows, Android, and iOS",
+        "title": "Comprehensive tutorial: official Microsoft Store utility («O'zbek alifbosi klaviaturasi»), Windows Turkish Q layout, Alt/Ctrl hotkeys, mobile typing, and online text converter.",
         "body": """
-<p>The 2026 reform of the Uzbek Latin alphabet replaces cumbersome digraphs with single letters equipped with diacritics: <strong>Ş ş</strong> (formerly <em>sh</em>), <strong>Ç ç</strong> (formerly <em>ch</em>), <strong>Ğ ğ</strong> (formerly <em>g‘</em>), and <strong>Ö ö</strong> (formerly <em>o‘</em>). This streamlined standard significantly improves digital typography, indexing, and typing speed.</p>
+<p>As part of Uzbekistan's 2026 Latin alphabet reform, digraphs and apostrophe-based letters (<code>sh</code>, <code>ch</code>, <code>o'</code>, <code>g'</code>) have been officially replaced by concise diacritical characters: <strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>.</p>
 
-<p>Because these characters are not present on standard US QWERTY keyboards, users need efficient input methods. Here are the <strong>top 5 practical ways</strong> to type the new Uzbek characters effortlessly on PC and mobile devices.</p>
+<p>While this streamlines spelling and digital search indexing, standard physical QWERTY keyboards lack dedicated keys for these letters. Below is a practical guide covering the top 5 methods to type the new Uzbek letters effortlessly across all devices.</p>
 
-<hr />
+<hr>
 
-<h2>Method 1: "O‘zbek alifbosi klaviaturasi" from Microsoft Store (Recommended)</h2>
+<h2>Method 1: Official Microsoft Store App — «O'zbek alifbosi klaviaturasi» (Recommended)</h2>
+<p>For Windows 10 and 11, developer <strong>Ryzen_b</strong> published a dedicated, lightweight utility available in the <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store — O'zbek alifbosi klaviaturasi</strong></a>.</p>
 
-<p>For Windows 10 and 11 users, developer <strong>Ryzen_b</strong> has published a lightweight utility in the official <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store</strong></a>.</p>
+<div style="background: rgba(14, 165, 233, 0.08); border-left: 4px solid #0ea5e9; padding: 14px 18px; margin: 18px 0; border-radius: 6px;">
+  <strong>Key Features:</strong>
+  <ul style="margin-bottom: 0;">
+    <li><strong>Fast Hotkeys:</strong> Press and hold <code>Alt</code> and tap the letter:
+      <ul>
+        <li><code>Alt + O</code> ➔ <strong>ö</strong> (Uppercase: <code>Shift + Alt + O</code> ➔ <strong>Ö</strong>)</li>
+        <li><code>Alt + G</code> ➔ <strong>ğ</strong> (Uppercase: <code>Shift + Alt + G</code> ➔ <strong>Ğ</strong>)</li>
+        <li><code>Alt + S</code> ➔ <strong>ş</strong> (Uppercase: <code>Shift + Alt + S</code> ➔ <strong>Ş</strong>)</li>
+        <li><code>Alt + C</code> ➔ <strong>ç</strong> (Uppercase: <code>Shift + Alt + C</code> ➔ <strong>Ç</strong>)</li>
+      </ul>
+    </li>
+    <li><strong>Customizable Modifiers:</strong> Switch hotkeys to <code>Ctrl</code> or <code>Ctrl + Shift</code> based on personal workflow.</li>
+    <li><strong>Auto-start with Windows:</strong> Sits unobtrusively in the system tray with negligible memory footprint.</li>
+    <li><strong>Cyrillic Auto-detection:</strong> Recognizes when you are typing in Cyrillic layouts and stays out of the way.</li>
+  </ul>
+</div>
 
-<p>It adds convenient system-wide hotkeys:</p>
+<p style="text-align: center; margin: 25px 0;">
+  <a class="b-btn" href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: bold; background: #0078d4; color: #fff; text-decoration: none; border-radius: 8px;">
+    📥 Install via Microsoft Store
+  </a>
+</p>
+
+<hr>
+
+<h2>Method 2: Windows Native «Turkish Q» Layout (No Extra Software)</h2>
+<p>The Turkish alphabet features the exact same four characters (<strong>Ö ö, Ğ ğ, Ş ş, Ç ç</strong>). Adding the <strong>Turkish Q</strong> layout in Windows Settings maps them directly to peripheral keys:</p>
 <ul>
-  <li><code>Alt + O</code> (or <code>Ctrl + O</code>) ➔ <strong>ö</strong> (uppercase: <code>Alt + Shift + O</code> ➔ <strong>Ö</strong>)</li>
-  <li><code>Alt + G</code> (or <code>Ctrl + G</code>) ➔ <strong>ğ</strong> (uppercase: <code>Alt + Shift + G</code> ➔ <strong>Ğ</strong>)</li>
-  <li><code>Alt + S</code> (or <code>Ctrl + S</code>) ➔ <strong>ş</strong> (uppercase: <code>Alt + Shift + S</code> ➔ <strong>Ş</strong>)</li>
-  <li><code>Alt + C</code> (or <code>Ctrl + C</code>) ➔ <strong>ç</strong> (uppercase: <code>Alt + Shift + C</code> ➔ <strong>Ç</strong>)</li>
+  <li><code>[ ; ]</code> (Semicolon) ➔ <strong>ş</strong> (with Shift: <strong>Ş</strong>)</li>
+  <li><code>[ ' ]</code> (Single Quote) ➔ <strong>ö</strong> (with Shift: <strong>Ö</strong>)</li>
+  <li><code>[ . ]</code> (Period) ➔ <strong>ç</strong> (with Shift: <strong>Ç</strong>)</li>
+  <li><code>[ ] ]</code> (Closing Bracket) ➔ <strong>ğ</strong> (with Shift: <strong>Ğ</strong>)</li>
 </ul>
 
-<h3>Key Features:</h3>
-<ol>
-  <li><strong>Autorun:</strong> Starts silently with Windows and rests in the system tray.</li>
-  <li><strong>Intelligent Layout Detection:</strong> Automatically suspends hotkeys when Cyrillic layouts are active.</li>
-  <li><strong>Safe &amp; Clean:</strong> Requires no administrative system hooks or kernel-level drivers.</li>
-</ol>
+<p><strong>Setup:</strong> Go to <em>Windows Settings ➔ Time &amp; Language ➔ Language &amp; Region</em>, and add the Turkish Q keyboard layout.</p>
 
-<p>👉 <strong>Download from Microsoft Store:</strong> <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>O‘zbek alifbosi klaviaturasi (Ryzen_b)</strong></a></p>
+<hr>
 
-<hr />
-
-<h2>Method 2: Built-in Windows Solution — Turkish Q Layout</h2>
-
-<p>If you cannot install third-party software on a school or work computer, you can use the built-in <strong>Turkish Q</strong> layout:</p>
+<h2>Method 3: Mobile Devices (Android and iOS)</h2>
 <ul>
-  <li>Key <code>;</code> ➔ <strong>Ş ş</strong></li>
-  <li>Key <code>.</code> ➔ <strong>Ç ç</strong></li>
-  <li>Key <code>,</code> ➔ <strong>Ö ö</strong></li>
-  <li>Key <code>[</code> ➔ <strong>Ğ ğ</strong></li>
+  <li><strong>Long-press:</strong> Simply press and hold the base letters (<code>O</code>, <code>G</code>, <code>S</code>, <code>C</code>) on Gboard, Samsung Keyboard, or Apple iOS to reveal diacritical alternatives (<strong>ö</strong>, <strong>ğ</strong>, <strong>ş</strong>, <strong>ç</strong>).</li>
+  <li><strong>Secondary Keyboard:</strong> Adding Turkish as an additional typing language provides dedicated on-screen keys.</li>
 </ul>
 
-<p>Add it via <em>Windows Settings ➔ Time &amp; Language ➔ Language &amp; Region ➔ Language options ➔ Add a keyboard ➔ Turkish Q</em>.</p>
+<hr>
 
-<hr />
+<h2>Method 4: Convert Existing Documents via Changetext</h2>
+<p>Instead of manually editing legacy texts, use the free <a href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener"><strong>Complex Programmer Changetext Converter</strong></a>. It converts entire articles, books, and documents into the reformed 2026 Latin alphabet while safeguarding web links, code blocks, and usernames.</p>
 
-<h2>Method 3: AltGr Keyboard Layouts (MSKLC)</h2>
-<p>Layouts based on the Microsoft Keyboard Layout Creator map the right <code>AltGr</code> key to the special characters (e.g. <code>AltGr + S</code> ➔ <strong>ş</strong>), preventing collisions with standard editor shortcuts.</p>
-
-<hr />
-
-<h2>Method 4: Mobile Devices (Android and iOS / iPhone)</h2>
-<ul>
-  <li><strong>Long-press:</strong> On Gboard or iOS, hold down <code>S</code>, <code>C</code>, <code>G</code>, or <code>O</code> to access <strong>Ş, Ç, Ğ, Ö</strong>.</li>
-  <li><strong>Turkish Keyboard:</strong> Add Turkish in your keyboard settings to place dedicated keys right on the on-screen layout.</li>
-</ul>
-
-<hr />
-
-<h2>Method 5: Batch Converting Existing Documents — Online Changetext Tool</h2>
-<p>For existing files written under the 1995 standard or in Cyrillic, use the free <a href="https://complexprogrammer.uz/changetext/"><strong>Complex Programmer Changetext Converter</strong></a> to convert entire articles in seconds while preserving links, usernames, and code snippets.</p>
-
-<hr />
-
-<h2>Unicode Reference Chart</h2>
-<table class="table table-bordered table-striped" style="width: 100%;">
-  <thead>
-    <tr style="background-color: #2c3e50; color: #ffffff;">
-      <th style="padding: 10px;">Letter</th>
-      <th style="padding: 10px;">Unicode</th>
-      <th style="padding: 10px;">Microsoft Store App</th>
-      <th style="padding: 10px;">Turkish Q</th>
-      <th style="padding: 10px;">AltGr</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="padding: 10px;"><strong>Ş / ş</strong></td>
-      <td style="padding: 10px;"><code>U+015E</code> / <code>U+015F</code></td>
-      <td style="padding: 10px;"><code>Alt + S</code></td>
-      <td style="padding: 10px;"><code>;</code></td>
-      <td style="padding: 10px;"><code>AltGr + S</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ç / ç</strong></td>
-      <td style="padding: 10px;"><code>U+00C7</code> / <code>U+00E7</code></td>
-      <td style="padding: 10px;"><code>Alt + C</code></td>
-      <td style="padding: 10px;"><code>.</code></td>
-      <td style="padding: 10px;"><code>AltGr + C</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ğ / ğ</strong></td>
-      <td style="padding: 10px;"><code>U+011E</code> / <code>U+011F</code></td>
-      <td style="padding: 10px;"><code>Alt + G</code></td>
-      <td style="padding: 10px;"><code>[</code></td>
-      <td style="padding: 10px;"><code>AltGr + G</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ö / ö</strong></td>
-      <td style="padding: 10px;"><code>U+00D6</code> / <code>U+00F6</code></td>
-      <td style="padding: 10px;"><code>Alt + O</code></td>
-      <td style="padding: 10px;"><code>,</code></td>
-      <td style="padding: 10px;"><code>AltGr + O</code></td>
-    </tr>
-  </tbody>
-</table>
+<p style="text-align: center; margin: 25px 0;">
+  <a class="b-btn" href="https://complexprogrammer.uz/changetext/" target="_blank" rel="noopener" style="display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: bold; background: #059669; color: #fff; text-decoration: none; border-radius: 8px;">
+    🚀 Open Online Text Converter (changetext)
+  </a>
+</p>
 """,
     },
 }
 
-CYR_DATA = {
-    "name": "Янги Ўзбек алифбоси клавиатураси: Windows, macOS ва телефонларда Ш, Ч, Ғ, Ў ҳарфларини қулай териш",
-    "title": (
-        "Компьютер ва смартфонларда 2026 йилги янги ўзбек алифбосида хатосиз ва тез ёзиш учун "
-        "энг яхши клавиатура дастурлари, қисқа клавишлар ва амалий созламалар қўлланмаси."
-    ),
-    "body": """
-<p>Ўзбекистон Республикасида 2026 йилги ислоҳ қилинган лотин алифбосига бўлган эҳтиёж ва қизиқиш тобора ошиб бормоқда. Янги алифбода аввалги икки белгили бирикмалар ўрнига битта яхлит ҳарфлар жорий этилди: <strong>Ş ş</strong> (аввалги <em>sh</em>), <strong>Ç ç</strong> (аввалги <em>ch</em>), <strong>Ğ ğ</strong> (аввалги <em>g‘</em>) ва <strong>Ö ö</strong> (аввалги <em>o‘</em>). Бу ислоҳот матнларни ихчамлаштириш, хатоликларни камайтириш ва дастурий таъминотларда қидирув тизимини осонлаштиришда улкан ютуқ бўлди.</p>
-
-<p>Бироқ кўпчилик фойдаланувчиларда табиий савол туғилмоқда: <em>«Компьютер клавиатурасида ёки смартфонда бу ҳарфларни қандай қилиб осон ва тез териш мумкин?»</em> Стандарт инглизча QWERTY клавиатурасида ушбу ҳарфлар алоҳида клавиш сифатида мавжуд эмас. Қуйидаги батафсил қўлланмада Windows, macOS, Android ва iOS тизимларида янги ҳарфларни ҳеч қандай қийинчиликсиз теришнинг <strong>энг самарали 5 та усулини</strong> кўрсатиб берамиз.</p>
-
-<hr />
-
-<h2>1-усул: Microsoft Store’даги «O‘zbek alifbosi klaviaturasi» дастури (Тавсия этилади)</h2>
-
-<p>Windows 10 ва Windows 11 фойдаланувчилари учун энг қулай ва замонавий ечимлардан бири — дастурчи <strong>Ryzen_b</strong> томонидан яратилган ва расмий Microsoft Store дўконига жойлаштирилган <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>«O‘zbek alifbosi klaviaturasi»</strong></a> ёрдамчи дастуридир.</p>
-
-<p>Ушбу енгил дастур тизимда орқа фонда ишлайди ва одатий инглизча (ёки ўзбекча лотин) клавиатура тартибига махсус қисқа клавишлар (hotkeys) комбинациясини қўшади:</p>
-
-<ul>
-  <li><code>Alt + O</code> (ёки <code>Ctrl + O</code>) ➔ <strong>ö</strong> (катта ҳарф: <code>Alt + Shift + O</code> ➔ <strong>Ö</strong>)</li>
-  <li><code>Alt + G</code> (ёки <code>Ctrl + G</code>) ➔ <strong>ğ</strong> (катта ҳарф: <code>Alt + Shift + G</code> ➔ <strong>Ğ</strong>)</li>
-  <li><code>Alt + S</code> (ёки <code>Ctrl + S</code>) ➔ <strong>ş</strong> (катта ҳарф: <code>Alt + Shift + S</code> ➔ <strong>Ş</strong>)</li>
-  <li><code>Alt + C</code> (ёки <code>Ctrl + C</code>) ➔ <strong>ç</strong> (катта ҳарф: <code>Alt + Shift + C</code> ➔ <strong>Ç</strong>)</li>
-</ul>
-
-<h3>Дастурнинг асосий афзалликлари:</h3>
-<ol>
-  <li><strong>Автоматик ишга тушиш:</strong> Компьютер ёқилиши билан Windows билан бирга фонда юкланади ва билдиришлар майдони (system tray)да қулай белги билан туради.</li>
-  <li><strong>Ақлли тил назорати:</strong> Агар сиз клавиатура тилини Русча (кирилл) га алмаштирсангиз, дастур буни автоматик аниқлайди ва қисқа клавишларни вақтинча ўчириб туради. Лотинчага қайтганингизда эса яна дарҳол фаоллашади.</li>
-  <li><strong>Хавфсиз ва тизимга дахлсиз:</strong> Регистр файлларини ёки тизим драйверларини ўзгартирмайди, компьютер тезлигига мутлақо таъсир қилмайди.</li>
-  <li><strong>Расмий дўкон кафолати:</strong> Microsoft Store хавфсизлик текширувидан ўтганлиги сабабли вирус ёки зарарли кодлардан мутлақо холи.</li>
-</ol>
-
-<p>👉 <strong>Юклаб олиш ҳаволаси:</strong> <a href="https://apps.microsoft.com/detail/9pb51j83gqtd?hl=en-US&gl=TM" target="_blank" rel="noopener"><strong>Microsoft Store — O‘zbek alifbosi klaviaturasi</strong></a></p>
-
-<hr />
-
-<h2>2-усул: Қўшимча дастурсиз — Windows’да «Turkish Q» клавиатураси</h2>
-
-<p>Агар сизда бегона, ишхона ёки ўқув маркази компьютери бўлиб, унга қўшимча дастур ўрнатиш ҳуқуқи (администратор пароли) бўлмаса, ажойиб содда ечим мавжуд: <strong>Туркча Q (Turkish Q)</strong> клавиатура тартибини қўшиш.</p>
-
-<p>Чунки турк алифбосида ҳам айни шу ҳарфлар (<strong>Ş, Ç, Ö, Ğ</strong>) мавжуд бўлиб, улар клавиатуранинг ўнг томонидаги тиниш белгилари ўрнида жойлашган:</p>
-
-<ul>
-  <li><code>;</code> (нуқтали вергул) клавиши ➔ <strong>Ş ş</strong></li>
-  <li><code>.</code> (нуқта) клавиши ➔ <strong>Ç ç</strong></li>
-  <li><code>,</code> (вергул) клавиши ➔ <strong>Ö ö</strong></li>
-  <li><code>[</code> (квадрат қавс) клавиши ➔ <strong>Ğ ğ</strong></li>
-</ul>
-
-<p>Қўшиш учун: Windows <em>Settings ➔ Time &amp; Language ➔ Language &amp; Region ➔ Language options ➔ Add a keyboard ➔ Turkish Q</em>.</p>
-
-<hr />
-
-<h2>3-усул: AltGr тизими ва мустақил клавиатура макетлари (MSKLC)</h2>
-<p>Ўнгдаги <code>AltGr</code> тугмаси орқали <code>AltGr + S</code>, <code>AltGr + C</code>, <code>AltGr + G</code>, <code>AltGr + O</code> комбинациялари тизим буйруқларига халақит бермайди.</p>
-
-<hr />
-
-<h2>4-усул: Смартфонларда (Android ва iOS / iPhone) янги ҳарфларни териш</h2>
-<ul>
-  <li><strong>Босиб туриш (Long-press):</strong> Gboard ёки iOS клавиатурасида <code>S</code>, <code>C</code>, <code>G</code>, <code>O</code> ҳарфларини босиб турсангиз, <strong>Ş, Ç, Ğ, Ö</strong> ҳарфлари чиқади.</li>
-  <li><strong>Туркча тил қўшиш:</strong> Телефон созламаларидан туркча тилни қўшиб қўйсангиз, ҳарфлар алоҳида тугма бўлиб кўриниб туради.</li>
-</ul>
-
-<hr />
-
-<h2>5-усул: Катта матнларни бир зумда ўтказиш — Changetext ўгиргич</h2>
-<p>Эски алифбода ёки кириллда ёзилган матнларни қўлда қайта териб чиқмасдан, <a href="https://complexprogrammer.uz/changetext/"><strong>Complex Programmer Changetext</strong></a> саҳифасида бир сонияда янги алифбога ўтказиб олишингиз мумкин.</p>
-
-<hr />
-
-<h2>Unicode кодлари жадвали</h2>
-<table class="table table-bordered table-striped" style="width: 100%;">
-  <thead>
-    <tr style="background-color: #2c3e50; color: #ffffff;">
-      <th style="padding: 10px;">Ҳарф</th>
-      <th style="padding: 10px;">Unicode</th>
-      <th style="padding: 10px;">Microsoft Store App</th>
-      <th style="padding: 10px;">Turkish Q</th>
-      <th style="padding: 10px;">AltGr</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="padding: 10px;"><strong>Ş / ş</strong></td>
-      <td style="padding: 10px;"><code>U+015E</code> / <code>U+015F</code></td>
-      <td style="padding: 10px;"><code>Alt + S</code></td>
-      <td style="padding: 10px;"><code>;</code></td>
-      <td style="padding: 10px;"><code>AltGr + S</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ç / ç</strong></td>
-      <td style="padding: 10px;"><code>U+00C7</code> / <code>U+00E7</code></td>
-      <td style="padding: 10px;"><code>Alt + C</code></td>
-      <td style="padding: 10px;"><code>.</code></td>
-      <td style="padding: 10px;"><code>AltGr + C</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ğ / ğ</strong></td>
-      <td style="padding: 10px;"><code>U+011E</code> / <code>U+011F</code></td>
-      <td style="padding: 10px;"><code>Alt + G</code></td>
-      <td style="padding: 10px;"><code>[</code></td>
-      <td style="padding: 10px;"><code>AltGr + G</code></td>
-    </tr>
-    <tr>
-      <td style="padding: 10px;"><strong>Ö / ö</strong></td>
-      <td style="padding: 10px;"><code>U+00D6</code> / <code>U+00F6</code></td>
-      <td style="padding: 10px;"><code>Alt + O</code></td>
-      <td style="padding: 10px;"><code>,</code></td>
-      <td style="padding: 10px;"><code>AltGr + O</code></td>
-    </tr>
-  </tbody>
-</table>
-""",
-}
 
 try:
     from django.core.management.base import BaseCommand, CommandError
@@ -536,7 +467,7 @@ except ImportError:
 
 
 class Command(BaseCommand):
-    help = "Yangi Özbek alifbosi klaviaturasi blog maqolasini naşr qiliş yoki yangilaş."
+    help = "Yangi Özbek alifbosi klaviaturasi haqidagi blog maqolasini naşr qiliş yoki yangilaş."
 
     def add_arguments(self, parser):
         parser.add_argument("--update", action="store_true", help="Mavjud maqola matnini yangilaş")
@@ -564,9 +495,9 @@ class Command(BaseCommand):
                 raise CommandError("Muallif uçun birorta ham User topilmadi.")
 
             category = (
-                Categories.objects.filter(name_uz_uz__icontains="texnolog", is_deleted=False).first()
-                or Categories.objects.filter(name_uz_uz__icontains="dastur", is_deleted=False).first()
+                Categories.objects.filter(name_uz_uz__icontains="texno", is_deleted=False).first()
                 or Categories.objects.filter(name_uz_uz__icontains="ilm", is_deleted=False).first()
+                or Categories.objects.filter(name_uz_uz__icontains="foydali", is_deleted=False).first()
                 or Categories.objects.filter(is_deleted=False).first()
             )
         else:
@@ -587,9 +518,9 @@ class Command(BaseCommand):
             "title_uz_uz": ARTICLE_DATA["uz"]["title"].strip(),
             "body_uz_uz": ARTICLE_DATA["uz"]["body"].strip(),
 
-            "name_uz_crl": CYR_DATA["name"].strip(),
-            "title_uz_crl": CYR_DATA["title"].strip(),
-            "body_uz_crl": CYR_DATA["body"].strip(),
+            "name_uz_crl": ARTICLE_DATA["uz_crl"]["name"].strip(),
+            "title_uz_crl": ARTICLE_DATA["uz_crl"]["title"].strip(),
+            "body_uz_crl": ARTICLE_DATA["uz_crl"]["body"].strip(),
 
             "name_ru_ru": ARTICLE_DATA["ru"]["name"].strip(),
             "title_ru_ru": ARTICLE_DATA["ru"]["title"].strip(),
@@ -601,21 +532,22 @@ class Command(BaseCommand):
 
             "seo_title": SEO_TITLE[:70],
             "seo_description": SEO_DESCRIPTION[:200],
-            "source_url": STORE_URL,
+            "source_url": SOURCE_URL,
             "publish_time": publish_time,
             "image": IMAGE_REL_PATH if has_image else "",
         }
 
-        post = Posts.objects.filter(slug=SLUG).first() if not opts["dry_run"] else None
+        if opts["dry_run"]:
+            self.stdout.write(self.style.SUCCESS("=" * 68))
+            self.stdout.write(self.style.SUCCESS(f"[DRY-RUN] Maqola tayyor: {fields['name_uz_uz']}"))
+            self.stdout.write(self.style.SUCCESS(f"         Slug: {SLUG} | Rasm: {IMAGE_REL_PATH} (mavjud={has_image})"))
+            self.stdout.write(self.style.SUCCESS("=" * 68))
+            return
+
+        post = Posts.objects.filter(slug=SLUG).first()
         if post and not opts["update"]:
             self.stdout.write(self.style.WARNING(f"Maqola allaqaçon mavjud ({SLUG}). Yangilaş uçun --update parametrini bering."))
             self.stdout.write(f"Havola: https://complexprogrammer.uz/blog/{SLUG}/")
-            return
-
-        if opts["dry_run"]:
-            self.stdout.write(self.style.SUCCESS(f"[DRY-RUN] Maqola tayyor: {fields['name_uz_uz']}"))
-            self.stdout.write(f"Slug: {SLUG}")
-            self.stdout.write(f"Rasm: {IMAGE_REL_PATH} (mavjud={has_image})")
             return
 
         if not post:
@@ -639,9 +571,9 @@ class Command(BaseCommand):
             pass
 
         status_text = "Qoralama (2099-yil)" if opts["draft"] else "Naşr qilindi (jonli efirda)"
-        self.stdout.write(self.style.SUCCESS("=" * 64))
+        self.stdout.write(self.style.SUCCESS("=" * 68))
         self.stdout.write(self.style.SUCCESS(f"✅ Maqola muvaffaqiyatli {action}!"))
         self.stdout.write(self.style.SUCCESS(f"📌 Holati: {status_text}"))
         self.stdout.write(self.style.SUCCESS(f"🖼 Rasm: {IMAGE_REL_PATH}"))
         self.stdout.write(self.style.SUCCESS(f"🔗 Saytdagi havola: https://complexprogrammer.uz/blog/{SLUG}/"))
-        self.stdout.write(self.style.SUCCESS("=" * 64))
+        self.stdout.write(self.style.SUCCESS("=" * 68))

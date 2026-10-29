@@ -20,7 +20,7 @@ from tests.models import (
 from comments.pages import page_comments
 from core.seo import SITE_URL, alternates
 
-# /tests/ dagi kitob -> xuddi shu savollar asosiy joylashgan sahifa (O'zbekiston avtotesti: 108 bilet)
+# /tests/ dagi kitob -> xuddi şu savollar asosiy joylaşgan sahifa (Özbekiston avtotesti: 108 bilet)
 DUPLICATE_BOOKS = {49: "/avtotest/"}
 
 
@@ -117,14 +117,14 @@ def tests(request):
         "type_obj": type_data or {},
         "comments": comments,
     }
-    # Har bir kitob sahifasi qidiruvda o'z sarlavhasi bilan chiqsin (sitemap'da ?book_id= bilan)
+    # Har bir kitob sahifasi qidiruvda öz sarlavhasi bilan çiqsin (sitemap'da ?book_id= bilan)
     if book_id and str(book_id).isdigit():
         book = Books.objects.filter(id=book_id, is_deleted=False).select_related("book_type").first()
         if book and book.book_type:
             lang = (translation.get_language() or "uz")[:2]
             field = {"ru": "name_ru_ru", "en": "name_en_us"}.get(lang, "name_uz_uz")
             name = getattr(book.book_type, field, "") or book.book_type.name_uz_uz
-            # Search Console: "e avtomaktab test savollari" kabi so'rovlar — sarlavhada "savollari va javoblari" bo'lsin
+            # Search Console: "e avtomaktab test savollari" kabi so'rovlar — sarlavhada "savollari va javoblari" bölsin
             year = timezone.localdate().year
             context["seo_title"] = {
                 "ru": f"{name} — вопросы и ответы теста {year}, онлайн",
@@ -134,9 +134,9 @@ def tests(request):
             context["seo_description"] = {
                 "ru": f"{name}: {questions} вопросов с правильными ответами. Решайте тест онлайн бесплатно, без регистрации.",
                 "en": f"{name}: {questions} questions with correct answers. Take the test online for free, no sign-up.",
-            }.get(lang, f"{name}: {questions} ta savol va to'g'ri javoblari. Testni onlayn, bepul va ro'yxatdan o'tmasdan yeching.")
+            }.get(lang, f"{name}: {questions} ta savol va töğri javoblari. Testni onlayn, bepul va röyxatdan ötmasdan yeçing.")
         if book is None or not book.questions.filter(is_deleted=False).exists():
-            context["noindex"] = True  # o'chirilgan yoki savolsiz kitob — bo'sh sahifa qidiruvga chiqmasin
+            context["noindex"] = True  # öçirilgan yoki savolsiz kitob — böş sahifa qidiruvga çiqmasin
             context["hreflang_links"] = []
         # Bir xil savollar /avtotest/ da ham bor — qidiruvda raqobatlashmasligi uchun asosiysiga canonical
         main_path = DUPLICATE_BOOKS.get(int(book_id))
@@ -148,7 +148,7 @@ def tests(request):
 
 
 def hide_draft_explanations(rows):
-    """AI qoralamasi (explanation_status="draft") admin tasdiqlamaguncha foydalanuvchiga ko'rsatilmaydi."""
+    """AI qoralamasi (explanation_status="draft") admin tasdiqlamaguncha foydalanuvçiga körsatilmaydi."""
     for row in rows:
         if row.pop("explanation_status", "") == "draft":
             for field in EXPLANATION_FIELDS:
@@ -554,7 +554,7 @@ def tests_mistakes(request):
 
 
 def GetQuestionsByIds(request):
-    """?ids=1,2,3 — savollarni javoblari bilan birga qaytaradi (xatolar ustida ishlash uchun)."""
+    """?ids=1,2,3 — savollarni javoblari bilan birga qaytaradi (xatolar ustida işlaş uçun)."""
     raw = request.GET.get("ids", "")
     ids = [int(x) for x in raw.split(",") if x.strip().isdigit()][:200]
     if not ids:

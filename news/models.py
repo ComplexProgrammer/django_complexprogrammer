@@ -23,7 +23,7 @@ class Posts(Translatable):
         max_length=120,
         unique=True,
         blank=True,
-        help_text="Manzil: /news/<slug>/. Bo'sh qoldirilsa sarlavhadan avtomatik yaratiladi.",
+        help_text="Manzil: /news/<slug>/. Böş qoldirilsa sarlavhadan avtomatik yaratiladi.",
     )
 
     class Meta:

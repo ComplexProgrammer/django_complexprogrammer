@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from core.models import Auditable, Translatable
 
-EXPLANATION_STATUS = [("", "Yo'q"), ("draft", "Qoralama"), ("approved", "Tasdiqlangan")]
+EXPLANATION_STATUS = [("", "Yöq"), ("draft", "Qoralama"), ("approved", "Tasdiqlangan")]
 EXPLANATION_FIELDS = ("explanation_en_us", "explanation_ru_ru", "explanation_uz_crl", "explanation_uz_uz")
 
 
@@ -145,11 +145,11 @@ class Questions(Translatable):
     # AI qoralamasi (manage.py draft_explanations submit --source tests) tasdiqlanmaguncha saytda ko'rinmaydi
     explanation_status = models.CharField(
         max_length=10, blank=True, default="", choices=EXPLANATION_STATUS, db_index=True,
-        help_text="«Qoralama» izoh saytda ko'rinmaydi. Qo'lda yozilgan izoh uchun bo'sh yoki «Tasdiqlangan».",
+        help_text="«Qoralama» izoh saytda körinmaydi. Qölda yozilgan izoh uçun böş yoki «Tasdiqlangan».",
     )
     explanation_confidence = models.CharField(
         max_length=10, blank=True, default="",
-        help_text="AI qoralamaning o'z bahosi (high/medium/low) — past bo'lsa diqqat bilan tekshiring.",
+        help_text="AI qoralamaning öz bahosi (high/medium/low) — past bölsa diqqat bilan tekşiring.",
     )
 
     class Meta:
