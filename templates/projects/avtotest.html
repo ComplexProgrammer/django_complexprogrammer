@@ -45,7 +45,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-    {# popper va bootstrap.min.js olib tashlandi: bootstrap.bundle ularni o'z ichiga oladi (ikki marta yuklanardi) #}
+    {# popper va bootstrap.min.js olib taşlandi: bootstrap.bundle ularni öz içiga oladi (ikki marta yuklanardi) #}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
         integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
@@ -78,7 +78,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="/static/js/avtotest-ui.js?v=1"></script>
     <button type="button" id="themeButton" class="theme-toggle" onclick="toggleTheme()"
-        title="Kun/Tun rejimini o'zgartirish">
+        title="Kun/Tun rejimini özgartiriş">
         <i class="fas fa-moon"></i>
         <span class="theme-toggle-text">Tun</span>
     </button>
@@ -150,20 +150,20 @@
                     <div class="p-3 mb-2 bg-secondary text-white" ng-show="10-togri_javob_soni-notogri_javob_soni!=0">
                         Belgilanmagan savollar : {{10-togri_javob_soni-notogri_javob_soni}} ta</div>
                     <div class="p-3 mb-2 bg-success text-white" ng-show="togri_javob_soni!=0&&notogri_javob_soni!=10">
-                        To'g'ri javob : {{togri_javob_soni}} ta</div>
+                        Töğri javob : {{togri_javob_soni}} ta</div>
                     <div class="p-3 mb-2 bg-danger text-white" ng-show="notogri_javob_soni!=0&&togri_javob_soni!=10">
-                        Noto'g'ri javob : {{notogri_javob_soni}} ta</div>
+                        Notöğri javob : {{notogri_javob_soni}} ta</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" ng-show="timeout" class="btn btn-outline-secondary" style="inline-size:200px"
-                        data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etish</button>
+                        data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> Davom etiş</button>
                     <button type="button" class="btn btn-outline-primary" style="inline-size:200px"
                         ng-click="nextbilet(bilet+1)"><i class="bi bi-box-arrow-right"></i> {{bilet+1}} - biletga
-                        o'tish</button>
+                        ötiş</button>
                     <button type="button" class="btn btn-outline-danger" style="inline-size:200px" ng-click="back()"><i
-                            class="bi bi-backspace"></i> Biletlarga qaytish</button>
+                            class="bi bi-backspace"></i> Biletlarga qaytiş</button>
                     <button type="button" class="btn btn-outline-success" style="inline-size:var(--button-width)"
-                        ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Boshidan boshlash</button>
+                        ng-click="nextbilet(bilet)"><i class="bi bi-arrow-repeat"></i> Boşidan boşlaş</button>
                 </div>
             </div>
         </div>
@@ -276,8 +276,8 @@
             </div>
 
             <div class="at-stats" id="atStats" hidden>
-                <div><b id="atDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yechilgan{% else %}completed{% endif %}</span></div>
-                <div><b id="atPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}o'tilgan{% else %}passed{% endif %}</span></div>
+                <div><b id="atDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yeçilgan{% else %}completed{% endif %}</span></div>
+                <div><b id="atPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}ötilgan{% else %}passed{% endif %}</span></div>
                 <div><b id="atAccuracy">0%</b><span>{% if request.LANGUAGE_CODE == 'ru' %}точность{% elif request.LANGUAGE_CODE == 'uz' %}aniqlik{% else %}accuracy{% endif %}</span></div>
                 <a href="/avtotest/xatolar/" class="at-mistakes-btn" id="atMistakes">
                     ❌ {% if request.LANGUAGE_CODE == 'ru' %}Мои ошибки{% elif request.LANGUAGE_CODE == 'uz' %}Xatolarim{% else %}My mistakes{% endif %}
@@ -290,15 +290,15 @@
             <div class="at-links">
                 <a href="{{ lang_prefix }}/avtotest/imtihon/" class="at-exam">🎯 {% if request.LANGUAGE_CODE == 'ru' %}Симулятор экзамена{% elif request.LANGUAGE_CODE == 'uz' %}Imtihon simulyatori{% else %}Exam simulator{% endif %}</a>
                 <a href="/yhq/">📖 {% if request.LANGUAGE_CODE == 'ru' %}ПДД (текст){% elif request.LANGUAGE_CODE == 'uz' %}YHQ matni{% else %}Traffic rules{% endif %}</a>
-                <a href="{{ lang_prefix }}/avtotest/pdf/">📄 {% if request.LANGUAGE_CODE == 'ru' %}Скачать PDF{% elif request.LANGUAGE_CODE == 'uz' %}PDF yuklab olish{% else %}Download PDF{% endif %}</a>
+                <a href="{{ lang_prefix }}/avtotest/pdf/">📄 {% if request.LANGUAGE_CODE == 'ru' %}Скачать PDF{% elif request.LANGUAGE_CODE == 'uz' %}PDF yuklab oliş{% else %}Download PDF{% endif %}</a>
                 <a href="{{ lang_prefix }}/avtotest/kun-savoli/">📅 {% if request.LANGUAGE_CODE == 'ru' %}Вопрос дня{% elif request.LANGUAGE_CODE == 'uz' %}Kun savoli{% else %}Question of the day{% endif %}</a>
-                <a href="{{ lang_prefix }}/avtotest/mavzular/">📚 {% if request.LANGUAGE_CODE == 'ru' %}Вопросы по темам{% elif request.LANGUAGE_CODE == 'uz' %}Mavzular bo'yicha{% else %}By topic{% endif %}</a>
-                <a href="{{ lang_prefix }}/yol-belgilari/">🚸 {% if request.LANGUAGE_CODE == 'ru' %}Дорожные знаки{% elif request.LANGUAGE_CODE == 'uz' %}Yo'l belgilari{% else %}Road signs{% endif %}</a>
+                <a href="{{ lang_prefix }}/avtotest/mavzular/">📚 {% if request.LANGUAGE_CODE == 'ru' %}Вопросы по темам{% elif request.LANGUAGE_CODE == 'uz' %}Mavzular böyiça{% else %}By topic{% endif %}</a>
+                <a href="{{ lang_prefix }}/yol-belgilari/">🚸 {% if request.LANGUAGE_CODE == 'ru' %}Дорожные знаки{% elif request.LANGUAGE_CODE == 'uz' %}Yöl belgilari{% else %}Road signs{% endif %}</a>
                 <a href="{{ lang_prefix }}/avtotest/reyting/">🏆 {% if request.LANGUAGE_CODE == 'ru' %}Рейтинг{% elif request.LANGUAGE_CODE == 'uz' %}Reyting{% else %}Leaderboard{% endif %}</a>
-                <a href="{{ lang_prefix }}/profil/">👤 {% if user.is_authenticated %}{% if request.LANGUAGE_CODE == 'ru' %}Мой профиль{% elif request.LANGUAGE_CODE == 'uz' %}Profilim{% else %}My profile{% endif %}{% else %}{% if request.LANGUAGE_CODE == 'ru' %}Войти через Telegram{% elif request.LANGUAGE_CODE == 'uz' %}Telegram orqali kirish{% else %}Log in with Telegram{% endif %}{% endif %}</a>
+                <a href="{{ lang_prefix }}/profil/">👤 {% if user.is_authenticated %}{% if request.LANGUAGE_CODE == 'ru' %}Мой профиль{% elif request.LANGUAGE_CODE == 'uz' %}Profilim{% else %}My profile{% endif %}{% else %}{% if request.LANGUAGE_CODE == 'ru' %}Войти через Telegram{% elif request.LANGUAGE_CODE == 'uz' %}Telegram orqali kiriş{% else %}Log in with Telegram{% endif %}{% endif %}</a>
             </div>
             <p class="at-legend">
-                <span class="at-dot at-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≤2 ошибки){% elif request.LANGUAGE_CODE == 'uz' %}o'tdi (≤2 xato){% else %}passed (≤2 mistakes){% endif %}
+                <span class="at-dot at-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≤2 ошибки){% elif request.LANGUAGE_CODE == 'uz' %}ötdi (≤2 xato){% else %}passed (≤2 mistakes){% endif %}
                 <span class="at-dot at-fail"></span> {% if request.LANGUAGE_CODE == 'ru' %}не сдан{% elif request.LANGUAGE_CODE == 'uz' %}yiqildi{% else %}failed{% endif %}
                 <span class="at-dot at-progress"></span> {% if request.LANGUAGE_CODE == 'ru' %}в процессе{% elif request.LANGUAGE_CODE == 'uz' %}davom etmoqda{% else %}in progress{% endif %}
             </p>

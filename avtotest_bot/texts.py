@@ -5,117 +5,117 @@ TEXTS = {
     "uz": {
         "welcome": (
             "🚗 <b>Assalomu alaykum, {name}!</b>\n\n"
-            "<b>@AvtoTestUzbBot</b> rasmiy avtotest botiga xush kelibsiz!\n\n"
-            "Bu bot orqali siz O'zbekiston YHXBB rasmiy imtihon bazasidagi "
-            "<b>108 ta bilet (1080 ta savol)</b> bo'yicha to'liq tayyorgarlik ko'rishingiz, "
-            "haqiqiy imtihon rejimida o'zingizni sinab ko'rishingiz va xatolaringiz ustida ishlashingiz mumkin.\n\n"
+            "<b>@AvtoTestUzbBot</b> rasmiy avtotest botiga xuş kelibsiz!\n\n"
+            "Bu bot orqali siz Özbekiston YHXBB rasmiy imtihon bazasidagi "
+            "<b>108 ta bilet (1080 ta savol)</b> böyiça töliq tayyorgarlik körişingiz, "
+            "haqiqiy imtihon rejimida özingizni sinab körişingiz va xatolaringiz ustida işlaşingiz mumkin.\n\n"
             "📱 <b>Bizning mobil ilova:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Google Play'da Avto Test Uzb</a>\n"
             "🌐 <b>Rasmiy veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/?utm_source=telegram&utm_medium=bot&utm_campaign=info'>complexprogrammer.uz</a>\n"
             "📢 <b>Rasmiy kanalimiz:</b> @complexprogrammeruzchannel\n\n"
-            "Quyidagi menyudan kerakli bo'limni tanlang 👇"
+            "Quyidagi menyudan kerakli bölimni tanlang 👇"
         ),
-        "lang_chosen": "✅ Til muvaffaqiyatli tanlandi: <b>O'zbek tili 🇺🇿</b>",
-        "select_lang": "🌐 <b>Iltimos, o'zingizga qulay tilni tanlang / Пожалуйста, выберите язык:</b>",
+        "lang_chosen": "✅ Til muvaffaqiyatli tanlandi: <b>Özbek tili 🇺🇿</b>",
+        "select_lang": "🌐 <b>Iltimos, özingizga qulay tilni tanlang / Пожалуйста, выберите язык:</b>",
         # Tugmalar
         "btn_bilets": "🚗 Biletlar (1-108)",
         "btn_exam": "🎲 Imtihon (20 savol)",
-        "btn_cdl": "🇺🇸 AQSh CDL testi",
-        "btn_mistakes": "❌ Xatolar ustida ishlash",
+        "btn_cdl": "🇺🇸 AQŞ CDL testi",
+        "btn_mistakes": "❌ Xatolar ustida işlaş",
         "btn_stats": "📊 Mening natijalarim",
-        "btn_lang": "🌐 Tilni o'zgartirish",
+        "btn_lang": "🌐 Tilni özgartiriş",
         "btn_help": "ℹ️ Bot haqida",
         "btn_webapp": "📱 Saytda imtihon",
-        "btn_quick": "⚡ Tezkor mashq (5 savol)",
-        "quick_title": "⚡ Tezkor mashq (5 savol)",
+        "btn_quick": "⚡ Tezkor maşq (5 savol)",
+        "quick_title": "⚡ Tezkor maşq (5 savol)",
         "remind_ask": (
             "⏰ <b>Har kuni eslatib turaymi?</b>\n\n"
-            "Kechqurun, agar o'sha kuni mashq qilmagan bo'lsangiz, bitta qisqa xabar yuboraman. "
-            "Kuniga 10 ta savol — imtihonga eng ishonchli tayyorgarlik."
+            "Keçqurun, agar öşa kuni maşq qilmagan bölsangiz, bitta qisqa xabar yuboraman. "
+            "Kuniga 10 ta savol — imtihonga eng işonçli tayyorgarlik."
         ),
         "btn_remind_yes": "✅ Ha, eslatib tur",
         "btn_remind_no": "Kerak emas",
-        "remind_declined": "Yaxshi, eslatma yubormayman. Fikringiz o'zgarsa: /eslatma",
+        "remind_declined": "Yaxşi, eslatma yubormayman. Fikringiz özgarsa: /eslatma",
         "resume_nudge": (
-            "📌 <b>{title}</b> testini {done}/{total} savolda to'xtatib qo'ygansiz.\n\n"
+            "📌 <b>{title}</b> testini {done}/{total} savolda töxtatib qöygansiz.\n\n"
             "Qolgan {left} ta savolni hozir tugatamizmi?"
         ),
-        "btn_resume": "▶️ Davom ettirish",
-        "no_session": "Faol test topilmadi. Bosh menyudan yangisini boshlang.",
-        "invite_hint": "\n\n🤝 Imtihonga tayyorlanayotgan do'stingiz bormi? /taklif",
+        "btn_resume": "▶️ Davom ettiriş",
+        "no_session": "Faol test topilmadi. Boş menyudan yangisini boşlang.",
+        "invite_hint": "\n\n🤝 Imtihonga tayyorlanayotgan döstingiz bormi? /taklif",
         # Biletlar bo'limi
         "bilet_title": "🚗 <b>Biletni tanlang:</b>\n<i>(Har bir biletda 10 tadan savol bor)</i>",
         "page_info": "Sahifa: {page}/{total_pages}",
         # Test jarayoni
         "question_header": "🚗 <b>{title}</b>\n📌 <b>Savol {current}/{total}</b>  {bar}\n\n",
-        "correct_answer_feedback": "✅ <b>To'g'ri javob! Barakalla!</b>",
-        "wrong_answer_feedback": "❌ <b>Noto'g'ri javob!</b>\n\nTo'g'ri javob: <b>{correct_text}</b>",
+        "correct_answer_feedback": "✅ <b>Töğri javob! Barakalla!</b>",
+        "wrong_answer_feedback": "❌ <b>Notöğri javob!</b>\n\nTöğri javob: <b>{correct_text}</b>",
         "btn_next_question": "Keyingi savol ➡️",
-        "btn_finish_quiz": "Natijani ko'rish 🏁",
-        "btn_cancel_quiz": "⏹ To'xtatish",
-        "quiz_cancelled": "⏹ Test to'xtatildi. Bosh menyuga qaytildi.",
+        "btn_finish_quiz": "Natijani köriş 🏁",
+        "btn_cancel_quiz": "⏹ Töxtatiş",
+        "quiz_cancelled": "⏹ Test töxtatildi. Boş menyuga qaytildi.",
         # Yakuniy natijalar
         "result_header": "🏁 <b>TEST YAKUNLANDI!</b>\n\n",
         "result_info": (
             "📋 <b>Bilet / Rejim:</b> {title}\n"
             "📊 <b>Jami savollar:</b> {total} ta\n"
-            "✅ <b>To'g'ri javoblar:</b> {score} ta\n"
+            "✅ <b>Töğri javoblar:</b> {score} ta\n"
             "❌ <b>Xato javoblar:</b> {mistakes} ta\n"
             "🎯 <b>Natija:</b> {percentage}%\n\n"
         ),
-        "result_passed": "🎉 <b>TABRIKLAYMIZ!</b>\nSiz imtihon sinovidan muvaffaqiyatli o'tdingiz! 👏🚗",
-        "result_failed": "⚠️ <b>AFSUSKI O'TA OLMADINGIZ!</b>\nO'tish bali: 90%. Bilimingizni mustahkamlab, yana qayta topshiring! 💪",
+        "result_passed": "🎉 <b>TABRIKLAYMIZ!</b>\nSiz imtihon sinovidan muvaffaqiyatli ötdingiz! 👏🚗",
+        "result_failed": "⚠️ <b>AFSUSKI ÖTA OLMADINGIZ!</b>\nÖtiş bali: 90%. Bilimingizni mustahkamlab, yana qayta topşiring! 💪",
         # Tugmalar yakunida
-        "btn_retry": "🔄 Qaytadan ishlash",
+        "btn_retry": "🔄 Qaytadan işlaş",
         "btn_next_bilet": "➡️ Keyingi bilet ({next_bilet})",
-        "btn_review_mistakes": "❌ Xatolarni tahlil qilish",
-        "btn_home": "🏠 Bosh menyu",
+        "btn_review_mistakes": "❌ Xatolarni tahlil qiliş",
+        "btn_home": "🏠 Boş menyu",
         # Xatolar bo'limi
         "no_mistakes": (
-            "🎉 <b>Ajoyib! Sizda xato qilingan savollar yo'q!</b>\n"
-            "Biletlarni yoki Imtihon rejimini ishlashda davom eting."
+            "🎉 <b>Ajoyib! Sizda xato qilingan savollar yöq!</b>\n"
+            "Biletlarni yoki Imtihon rejimini işlaşda davom eting."
         ),
-        "mistakes_start": "❌ <b>Xatolar ustida ishlash:</b>\nSiz oldin xato qilgan {count} ta savol bo'yicha mashq boshlanmoqda.",
+        "mistakes_start": "❌ <b>Xatolar ustida işlaş:</b>\nSiz oldin xato qilgan {count} ta savol böyiça maşq boşlanmoqda.",
         # Statistika
         "stats_title": (
-            "📊 <b>SIZNING SHAXSIY NATIJALARINGIZ</b>\n\n"
-            "👤 <b>Foydalanuvchi:</b> {name}\n"
-            "📅 <b>Ro'yxatdan o'tgan:</b> {registered_date}\n\n"
-            "🚗 <b>Ishlangan testlar soni:</b> {total_tests} ta\n"
-            "❓ <b>Yechilgan barcha savollar:</b> {total_questions} ta\n"
-            "✅ <b>To'g'ri berilgan javoblar:</b> {correct_answers} ta\n"
+            "📊 <b>SIZNING ŞAXSIY NATIJALARINGIZ</b>\n\n"
+            "👤 <b>Foydalanuvçi:</b> {name}\n"
+            "📅 <b>Röyxatdan ötgan:</b> {registered_date}\n\n"
+            "🚗 <b>Işlangan testlar soni:</b> {total_tests} ta\n"
+            "❓ <b>Yeçilgan barça savollar:</b> {total_questions} ta\n"
+            "✅ <b>Töğri berilgan javoblar:</b> {correct_answers} ta\n"
             "❌ <b>Xato berilgan javoblar:</b> {wrong_answers} ta\n"
-            "🎯 <b>O'rtacha aniqlik foizi:</b> {accuracy}%\n\n"
-            "<i>Mashq qilishda davom eting va bilimingizni 100% ga yetkazing!</i>"
+            "🎯 <b>Örtaça aniqlik foizi:</b> {accuracy}%\n\n"
+            "<i>Maşq qilişda davom eting va bilimingizni 100% ga yetkazing!</i>"
         ),
         # Bot haqida
         "help_text": (
             "ℹ️ <b>@AvtoTestUzbBot haqida ma'lumot:</b>\n\n"
-            "🚗 <b>Loyiha maqsadi:</b> O'zbekistonda haydovchilik guvohnomasini oluvchilar uchun "
-            "YHXBB rasmiy imtihoniga mukammal tayyorlanish imkoniyatini taqdim etish.\n\n"
+            "🚗 <b>Loyiha maqsadi:</b> Özbekistonda haydovçilik guvohnomasini oluvçilar uçun "
+            "YHXBB rasmiy imtihoniga mukammal tayyorlaniş imkoniyatini taqdim etiş.\n\n"
             "📱 <b>Mobil ilovamiz:</b> <a href='https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz'>Google Play'da Avto Test Uzb</a>\n"
             "🌐 <b>Veb-saytimiz:</b> <a href='https://complexprogrammer.uz/avtotest/?utm_source=telegram&utm_medium=bot&utm_campaign=info'>complexprogrammer.uz</a>\n\n"
-            "❓ <b>Savollar va takliflar uchun:</b> @complexprogrammeruzchannel"
+            "❓ <b>Savollar va takliflar uçun:</b> @complexprogrammeruzchannel"
         ),
         # Kunlik eslatma
         "remind_on": (
             "⏰ <b>Kunlik eslatma yoqildi!</b>\n\n"
-            "Har kuni kechqurun, agar o'sha kuni mashq qilmagan bo'lsangiz, eslatib turamiz. "
-            "O'chirish uchun yana /eslatma yuboring."
+            "Har kuni keçqurun, agar öşa kuni maşq qilmagan bölsangiz, eslatib turamiz. "
+            "Öçiriş uçun yana /eslatma yuboring."
         ),
-        "remind_off": "🔕 Kunlik eslatma o'chirildi. Qayta yoqish uchun /eslatma yuboring.",
+        "remind_off": "🔕 Kunlik eslatma öçirildi. Qayta yoqiş uçun /eslatma yuboring.",
         "ref_info": (
-            "🤝 <b>Do'stlaringizni taklif qiling!</b>\n\n"
-            "Imtihonga tayyorlanayotgan do'stlaringizga shu havolani yuboring:\n{link}\n\n"
+            "🤝 <b>Döstlaringizni taklif qiling!</b>\n\n"
+            "Imtihonga tayyorlanayotgan döstlaringizga şu havolani yuboring:\n{link}\n\n"
             "👥 Siz taklif qilganlar: <b>{count}</b> ta"
         ),
-        "ref_joined": "🎉 <b>{name}</b> sizning havolangiz orqali qo'shildi! Jami taklif qilganlaringiz: <b>{count}</b> ta.",
+        "ref_joined": "🎉 <b>{name}</b> sizning havolangiz orqali qöşildi! Jami taklif qilganlaringiz: <b>{count}</b> ta.",
         "remind_daily": (
-            "🚗 <b>Bugungi mashg'ulot vaqti keldi!</b>\n\n"
-            "Imtihonga tayyorgarlikni to'xtatmang — kuniga 10 ta savol ham katta natija beradi.\n\n"
+            "🚗 <b>Bugungi maşğulot vaqti keldi!</b>\n\n"
+            "Imtihonga tayyorgarlikni töxtatmang — kuniga 10 ta savol ham katta natija beradi.\n\n"
             "🎲 /exam — 20 savollik imtihon\n"
-            "❌ /mistakes — xatolar ustida ishlash\n"
+            "❌ /mistakes — xatolar ustida işlaş\n"
             "🎯 <a href='https://complexprogrammer.uz/avtotest/imtihon/?utm_source=telegram&utm_medium=bot&utm_campaign=eslatma'>Saytdagi imtihon simulyatori</a>\n\n"
-            "<i>Eslatmani o'chirish: /eslatma</i>"
+            "<i>Eslatmani öçiriş: /eslatma</i>"
         ),
     },
     "ru": {

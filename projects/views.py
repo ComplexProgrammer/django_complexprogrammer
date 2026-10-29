@@ -218,15 +218,15 @@ def _youtube_job(job_id, *args):
 
 YT_TEXT = {
     "uz": {
-        "badge_free": "Bepul, ro'yxatdan o'tmasdan", "badge_formats": "MP4 video va MP3 audio", "badge_quality": "4K gacha sifat",
-        "placeholder": "YouTube havolasini qo'ying: https://youtu.be/...", "paste": "Qo'yish", "check": "Ko'rish",
+        "badge_free": "Bepul, röyxatdan ötmasdan", "badge_formats": "MP4 video va MP3 audio", "badge_quality": "4K gaça sifat",
+        "placeholder": "YouTube havolasini qöying: https://youtu.be/...", "paste": "Qöyiş", "check": "Köriş",
         "invalid": "YouTube video havolasini kiriting", "loading": "Video ma'lumoti olinmoqda...",
         "video": "Video (MP4)", "audio": "Audio (MP3)", "audio_m4a": "Audio (M4A)", "quality": "Sifat", "format": "Format",
-        "download": "Yuklab olish", "queued": "Navbatda...", "downloading": "Yuklanmoqda", "processing": "Fayl tayyorlanmoqda...",
-        "ready": "Tayyor!", "save": "Faylni saqlash", "again": "Boshqa video", "error": "Xatolik yuz berdi",
-        "too_long": "Video 3 soatdan uzun — yuklab bo'lmaydi", "live": "Jonli efirni yuklab bo'lmaydi",
-        "note": "Faqat o'zingizga tegishli yoki mualliflik huquqi ruxsat bergan videolarni yuklab oling. Fayllar serverdan 1 soatda o'chiriladi.",
-        "app": "Android ilova", "timeout": "Juda uzoq davom etdi — qaytadan urinib ko'ring",
+        "download": "Yuklab oliş", "queued": "Navbatda...", "downloading": "Yuklanmoqda", "processing": "Fayl tayyorlanmoqda...",
+        "ready": "Tayyor!", "save": "Faylni saqlaş", "again": "Boşqa video", "error": "Xatolik yuz berdi",
+        "too_long": "Video 3 soatdan uzun — yuklab bölmaydi", "live": "Jonli efirni yuklab bölmaydi",
+        "note": "Faqat özingizga tegişli yoki mualliflik huquqi ruxsat bergan videolarni yuklab oling. Fayllar serverdan 1 soatda öçiriladi.",
+        "app": "Android ilova", "timeout": "Juda uzoq davom etdi — qaytadan urinib köring",
     },
     "ru": {
         "badge_free": "Бесплатно, без регистрации", "badge_formats": "Видео MP4 и аудио MP3", "badge_quality": "Качество до 4K",
@@ -439,14 +439,14 @@ def _fetch_json_now(url, cache_key, timeout, ttl, params, headers, fallback, dis
 
 COINS_TEXT = {
     "uz": {
-        "badge_top": "Top 250 tanga", "badge_fresh": "Har 5 daqiqada yangilanadi", "badge_uzs": "Dollar va so'mda",
-        "market_cap": "Bozor kapitalizatsiyasi", "btc_share": "Bitcoin ulushi", "gainers": "24 soatda o'sdi", "losers": "24 soatda tushdi",
-        "search": "Qidirish: Bitcoin, ETH, Solana...", "sort": "Saralash", "sort_rank": "Reyting", "sort_price": "Narx",
-        "sort_up": "Eng ko'p o'sgan", "sort_down": "Eng ko'p tushgan", "sort_cap": "Kapitalizatsiya", "sort_volume": "Savdo hajmi",
+        "badge_top": "Top 250 tanga", "badge_fresh": "Har 5 daqiqada yangilanadi", "badge_uzs": "Dollar va sömda",
+        "market_cap": "Bozor kapitalizatsiyasi", "btc_share": "Bitcoin uluşi", "gainers": "24 soatda ösdi", "losers": "24 soatda tuşdi",
+        "search": "Qidiriş: Bitcoin, ETH, Solana...", "sort": "Saralaş", "sort_rank": "Reyting", "sort_price": "Narx",
+        "sort_up": "Eng köp ösgan", "sort_down": "Eng köp tuşgan", "sort_cap": "Kapitalizatsiya", "sort_volume": "Savdo hajmi",
         "coin": "Tanga", "price": "Narx", "change24": "24 soat", "change7": "7 kun", "cap": "Kapitalizatsiya", "volume": "Hajm (24 soat)",
-        "more": "Yana ko'rsatish", "found": "ta tanga", "none": "Hech narsa topilmadi", "updated": "Yangilandi",
-        "error": "Kripto narxlar xizmati hozir javob bermayapti", "retry": "Qayta urinish", "sum": "so'm",
-        "note": "Ma'lumotlar CoinGecko'dan olinadi. So'mdagi narx Markaziy bank dollar kursi bo'yicha hisoblanadi. Bu investitsiya maslahati emas.",
+        "more": "Yana körsatiş", "found": "ta tanga", "none": "Heç narsa topilmadi", "updated": "Yangilandi",
+        "error": "Kripto narxlar xizmati hozir javob bermayapti", "retry": "Qayta uriniş", "sum": "söm",
+        "note": "Ma'lumotlar CoinGecko'dan olinadi. Sömdagi narx Markaziy bank dollar kursi böyiça hisoblanadi. Bu investitsiya maslahati emas.",
     },
     "ru": {
         "badge_top": "Топ-250 монет", "badge_fresh": "Обновляется каждые 5 минут", "badge_uzs": "В долларах и сумах",
@@ -621,14 +621,14 @@ def _translate_mymemory(text, src, dest):
 
 TRANSLATE_TEXT = {
     "uz": {
-        "badge_langs": "22 til", "badge_limit": "5000 belgigacha", "badge_free": "Bepul, ro'yxatdan o'tmasdan",
-        "auto": "Tilni aniqlash", "from": "Qaysi tildan", "to": "Qaysi tilga", "swap": "Tillarni almashtirish",
-        "placeholder": "Tarjima qilinadigan matnni kiriting...", "result_placeholder": "Tarjima shu yerda chiqadi",
-        "translate": "Tarjima qilish", "translating": "Tarjima qilinmoqda...", "paste": "Qo'yish", "clear": "Tozalash",
-        "copy": "Nusxalash", "copied": "Nusxalandi", "listen": "Tinglash", "stop": "To'xtatish",
-        "too_long": "Matn 5000 belgidan oshmasin", "error": "Tarjima qilib bo'lmadi, birozdan so'ng urinib ko'ring",
+        "badge_langs": "22 til", "badge_limit": "5000 belgigaça", "badge_free": "Bepul, röyxatdan ötmasdan",
+        "auto": "Tilni aniqlaş", "from": "Qaysi tildan", "to": "Qaysi tilga", "swap": "Tillarni almaştiriş",
+        "placeholder": "Tarjima qilinadigan matnni kiriting...", "result_placeholder": "Tarjima şu yerda çiqadi",
+        "translate": "Tarjima qiliş", "translating": "Tarjima qilinmoqda...", "paste": "Qöyiş", "clear": "Tozalaş",
+        "copy": "Nusxalaş", "copied": "Nusxalandi", "listen": "Tinglaş", "stop": "Töxtatiş",
+        "too_long": "Matn 5000 belgidan oşmasin", "error": "Tarjima qilib bölmadi, birozdan söng urinib köring",
         "same": "Manba va natija tillari bir xil", "auto_swap": "Avval manba tilini tanlang",
-        "hint": "Ctrl+Enter — tarjima qilish. Yozishni to'xtatsangiz, tarjima o'zi boshlanadi.", "app": "Android ilova",
+        "hint": "Ctrl+Enter — tarjima qiliş. Yozişni töxtatsangiz, tarjima özi boşlanadi.", "app": "Android ilova",
     },
     "ru": {
         "badge_langs": "22 языка", "badge_limit": "До 5000 символов", "badge_free": "Бесплатно, без регистрации",
@@ -682,13 +682,13 @@ def C0mplexTranslate(request):
 IMAGECOMPARE_TEXT = {
     "uz": {
         "badge_private": "Rasmlar serverga yuborilmaydi", "badge_fast": "Natija bir zumda", "badge_free": "Bepul",
-        "first": "1-rasm (asl)", "second": "2-rasm (o'zgargan)", "drop": "Rasmni shu yerga tashlang yoki bosing",
-        "paste": "Ctrl+V bilan ham qo'yish mumkin", "change": "Almashtirish", "remove": "O'chirish", "swap": "Rasmlar o'rnini almashtirish",
-        "compare": "Solishtirish", "need_two": "Solishtirish uchun ikkala rasmni ham yuklang", "bad_file": "Bu fayl rasm emas yoki buzilgan",
-        "mode_diff": "Farqlar", "mode_slider": "Slayder", "sensitivity": "Sezgirlik", "similar": "O'xshashlik", "changed": "O'zgargan piksellar",
-        "size": "O'lcham", "identical": "Rasmlar bir xil — farq topilmadi", "aspect": "Rasmlar nisbati har xil: 2-rasm 1-rasm o'lchamiga moslab cho'zildi, natija aniq bo'lmasligi mumkin.",
-        "legend": "Qizil — farq qilgan joylar, ramka — farqlar sohasi", "slider_hint": "Surgichni suring: chapda 1-rasm, o'ngda 2-rasm",
-        "download": "Natijani yuklab olish (PNG)", "app": "Android ilova",
+        "first": "1-rasm (asl)", "second": "2-rasm (özgargan)", "drop": "Rasmni şu yerga taşlang yoki bosing",
+        "paste": "Ctrl+V bilan ham qöyiş mumkin", "change": "Almaştiriş", "remove": "Öçiriş", "swap": "Rasmlar örnini almaştiriş",
+        "compare": "Soliştiriş", "need_two": "Soliştiriş uçun ikkala rasmni ham yuklang", "bad_file": "Bu fayl rasm emas yoki buzilgan",
+        "mode_diff": "Farqlar", "mode_slider": "Slayder", "sensitivity": "Sezgirlik", "similar": "Öxşaşlik", "changed": "Özgargan piksellar",
+        "size": "Ölçam", "identical": "Rasmlar bir xil — farq topilmadi", "aspect": "Rasmlar nisbati har xil: 2-rasm 1-rasm ölçamiga moslab çözildi, natija aniq bölmasligi mumkin.",
+        "legend": "Qizil — farq qilgan joylar, ramka — farqlar sohasi", "slider_hint": "Surgiçni suring: çapda 1-rasm, öngda 2-rasm",
+        "download": "Natijani yuklab oliş (PNG)", "app": "Android ilova",
     },
     "ru": {
         "badge_private": "Изображения не отправляются на сервер", "badge_fast": "Результат мгновенно", "badge_free": "Бесплатно",
@@ -796,11 +796,11 @@ def GetBilet(request):
 RATES_FEATURED = ("USD", "EUR", "RUB", "KZT")
 RATES_TEXT = {
     "uz": {
-        "date": "Kurs sanasi", "featured": "Asosiy valyutalar", "all": "Barcha valyutalar", "search": "Valyuta qidirish: dollar, EUR, 840...",
-        "converter": "Valyuta kalkulyatori", "amount": "Miqdor", "currency": "Valyuta", "swap": "Almashtirish", "sum": "so'm",
-        "rate": "Kurs", "change": "O'zgarish", "code": "Kod", "per": "{} uchun", "none": "Hech narsa topilmadi",
-        "error": "Markaziy bank sayti hozir javob bermayapti. Birozdan so'ng sahifani yangilang.",
-        "note": "Markaziy bankning rasmiy kursi. Banklardagi sotib olish va sotish kurslari farq qilishi mumkin.", "app": "Android ilova",
+        "date": "Kurs sanasi", "featured": "Asosiy valyutalar", "all": "Barça valyutalar", "search": "Valyuta qidiriş: dollar, EUR, 840...",
+        "converter": "Valyuta kalkulyatori", "amount": "Miqdor", "currency": "Valyuta", "swap": "Almaştiriş", "sum": "söm",
+        "rate": "Kurs", "change": "Özgariş", "code": "Kod", "per": "{} uçun", "none": "Heç narsa topilmadi",
+        "error": "Markaziy bank sayti hozir javob bermayapti. Birozdan söng sahifani yangilang.",
+        "note": "Markaziy bankning rasmiy kursi. Banklardagi sotib oliş va sotiş kurslari farq qilişi mumkin.", "app": "Android ilova",
     },
     "ru": {
         "date": "Курс на", "featured": "Основные валюты", "all": "Все валюты", "search": "Поиск валюты: доллар, EUR, 840...",
@@ -900,7 +900,7 @@ CHANGETEXT_TEXT = {
         "chars": "belgi", "words": "söz", "paste": "Qöyış", "clear": "Tozalaş", "copy": "Nusxalaş", "copied": "Nusxalandi",
         "download": "Yuklab oliş (.txt)", "swap": "Natijani matnga ötkaziş", "error": "Xatolik yuz berdi, qayta urinib köring",
         "alphabet": "Özbek lotin alifbosi (2026): 28 harf va tutuq belgisi (ʼ)",
-        "alphabet_note": "1995-yilgi alifboda 26 harf va 3 ta harf birikmasi (sh, ch, ng) bor edi. Islohot sh, ch, gʻ va oʻ ni bitta harfga — ş, ç, ğ va ö ga aylantirdi, ng esa alohida harf sifatida sanalmaydi. Tutuq belgisi (ʼ) harf emas, belgi.",
+        "alphabet_note": "1995-yilgi alifboda 26 harf va 3 ta harf birikmasi (ş, ç, ng) bor edi. Islohot ş, ç, ğ va ö ni bitta harfga — ş, ç, ğ va ö ga aylantirdi, ng esa alohida harf sifatida sanalmaydi. Tutuq belgisi (ʼ) harf emas, belgi.",
         "changed": "özgargan harflar", "app": "Android ilova",
         "tip": "Inglizça sözlar, havolalar va @username özgarmaydi. Natijani tekşirib oling.",
     },
@@ -971,16 +971,16 @@ def client_ip(request):
 
 IP_TEXT = {
     "uz": {
-        "your_ip": "Sizning IP manzilingiz", "checked_ip": "Tekshirilgan IP manzil", "copy": "Nusxalash", "copied": "Nusxalandi",
-        "placeholder": "IP manzil kiriting, masalan 8.8.8.8", "search": "Tekshirish", "my_ip": "Mening IP", "invalid": "IP manzil noto'g'ri yozilgan",
-        "loading": "Ma'lumot yuklanmoqda...", "location": "Joylashuv", "network": "Tarmoq", "time": "Vaqt", "country": "Mamlakat haqida",
-        "country_name": "Mamlakat", "region": "Viloyat", "city": "Shahar", "postal": "Pochta indeksi", "coords": "Koordinatalar", "map": "Xaritada ochish",
+        "your_ip": "Sizning IP manzilingiz", "checked_ip": "Tekşirilgan IP manzil", "copy": "Nusxalaş", "copied": "Nusxalandi",
+        "placeholder": "IP manzil kiriting, masalan 8.8.8.8", "search": "Tekşiriş", "my_ip": "Mening IP", "invalid": "IP manzil notöğri yozilgan",
+        "loading": "Ma'lumot yuklanmoqda...", "location": "Joylaşuv", "network": "Tarmoq", "time": "Vaqt", "country": "Mamlakat haqida",
+        "country_name": "Mamlakat", "region": "Viloyat", "city": "Şahar", "postal": "Poçta indeksi", "coords": "Koordinatalar", "map": "Xaritada oçiş",
         "ip": "IP manzil", "version": "Versiya", "org": "Provayder", "asn": "ASN", "net": "Tarmoq bloki", "hostname": "Host nomi",
         "timezone": "Vaqt mintaqasi", "utc": "UTC farqi", "local_time": "Hozirgi vaqt",
         "capital": "Poytaxt", "calling": "Telefon kodi", "currency": "Valyuta", "languages": "Tillar", "tld": "Domen", "population": "Aholi",
-        "area": "Maydoni, km²", "eu": "Yevropa Ittifoqi", "yes": "Ha", "no": "Yo'q", "error": "Xizmat vaqtincha ishlamayapti",
-        "private": "Lokal (xususiy) IP manzil — internetda joylashuvi yo'q",
-        "note": "Joylashuv IP manzil bo'yicha taxminiy aniqlanadi: odatda provayder joylashgan shahar ko'rsatiladi.", "app": "Android ilova",
+        "area": "Maydoni, km²", "eu": "Yevropa Ittifoqi", "yes": "Ha", "no": "Yöq", "error": "Xizmat vaqtinça işlamayapti",
+        "private": "Lokal (xususiy) IP manzil — internetda joylaşuvi yöq",
+        "note": "Joylaşuv IP manzil böyiça taxminiy aniqlanadi: odatda provayder joylaşgan şahar körsatiladi.", "app": "Android ilova",
     },
     "ru": {
         "your_ip": "Ваш IP-адрес", "checked_ip": "Проверяемый IP-адрес", "copy": "Копировать", "copied": "Скопировано",
@@ -1092,18 +1092,18 @@ def password_generator(request):
 
 SITEMAP_TEXT = {
     "uz": {
-        "badge_free": "Bepul, ro'yxatdan o'tmasdan", "badge_pages": "300 tagacha sahifa", "badge_seo": "Google va Yandex uchun",
-        "placeholder": "Sayt manzili: example.uz", "paste": "Qo'yish", "generate": "Sitemap yaratish",
-        "invalid": "Sayt manzilini kiriting, masalan: example.uz", "starting": "Sayt tekshirilmoqda...",
-        "crawling": "Sahifalar qidirilmoqda", "found": "topildi", "checked": "tekshirildi",
-        "ready": "Sitemap tayyor!", "pages": "sahifa", "download": "sitemap.xml yuklab olish", "copy": "Nusxalash", "copied": "Nusxalandi",
-        "tab_list": "Sahifalar", "tab_xml": "XML", "filter": "Sahifalarni qidirish...", "again": "Boshqa sayt",
-        "error": "Xatolik yuz berdi, qayta urinib ko'ring", "timeout": "Juda uzoq davom etdi — qaytadan urinib ko'ring",
-        "how": "Keyin nima qilish kerak?",
-        "step1": "sitemap.xml faylini yuklab oling va saytingizning bosh papkasiga joylang (example.uz/sitemap.xml)",
-        "step2": "robots.txt fayliga qator qo'shing: Sitemap: https://example.uz/sitemap.xml",
+        "badge_free": "Bepul, röyxatdan ötmasdan", "badge_pages": "300 tagaça sahifa", "badge_seo": "Google va Yandex uçun",
+        "placeholder": "Sayt manzili: example.uz", "paste": "Qöyiş", "generate": "Sitemap yaratiş",
+        "invalid": "Sayt manzilini kiriting, masalan: example.uz", "starting": "Sayt tekşirilmoqda...",
+        "crawling": "Sahifalar qidirilmoqda", "found": "topildi", "checked": "tekşirildi",
+        "ready": "Sitemap tayyor!", "pages": "sahifa", "download": "sitemap.xml yuklab oliş", "copy": "Nusxalaş", "copied": "Nusxalandi",
+        "tab_list": "Sahifalar", "tab_xml": "XML", "filter": "Sahifalarni qidiriş...", "again": "Boşqa sayt",
+        "error": "Xatolik yuz berdi, qayta urinib köring", "timeout": "Juda uzoq davom etdi — qaytadan urinib köring",
+        "how": "Keyin nima qiliş kerak?",
+        "step1": "sitemap.xml faylini yuklab oling va saytingizning boş papkasiga joylang (example.uz/sitemap.xml)",
+        "step2": "robots.txt fayliga qator qöşing: Sitemap: https://example.uz/sitemap.xml",
         "step3": "Google Search Console va Yandex Webmaster'da sitemap manzilini yuboring",
-        "note": "robots.txt taqiqlagan, noindex belgilangan va HTML bo'lmagan sahifalar xaritaga kirmaydi.", "app": "Android ilovalar",
+        "note": "robots.txt taqiqlagan, noindex belgilangan va HTML bölmagan sahifalar xaritaga kirmaydi.", "app": "Android ilovalar",
     },
     "ru": {
         "badge_free": "Бесплатно, без регистрации", "badge_pages": "До 300 страниц", "badge_seo": "Для Google и Яндекса",
@@ -1229,14 +1229,14 @@ def sitemap_job_status(request):
 
 SNAKE_TEXT = {
     "uz": {
-        "lead": "Ilonni boshqaring, olmalarni yeng va o'z dumingizga urilmang. Har 5 ta olmadan keyin tezlik oshadi.",
+        "lead": "Ilonni boşqaring, olmalarni yeng va öz dumingizga urilmang. Har 5 ta olmadan keyin tezlik oşadi.",
         "badge_keys": "Klaviatura va barmoq bilan", "badge_record": "Rekord saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
-        "start": "Boshlash", "again": "Qayta o'ynash", "resume": "Davom etish", "paused": "Pauza", "over": "O'yin tugadi",
+        "start": "Boşlaş", "again": "Qayta öynaş", "resume": "Davom etiş", "paused": "Pauza", "over": "Öyin tugadi",
         "score": "Hisob", "best": "Rekord", "new_record": "🎉 Yangi rekord!",
-        "hint_keys": "Strelkalar yoki WASD — boshqarish, Probel — pauza", "hint_touch": "Ekranni suring yoki pastdagi tugmalarni bosing",
-        "speed": "Tezlik", "slow": "Sekin", "normal": "O'rta", "fast": "Tez",
-        "walls": "Devorlar", "walls_pass": "O'tib ketadi", "walls_solid": "Urilsa — o'yin tugaydi",
-        "more_games": "Boshqa o'yinlar", "pause_btn": "Pauza",
+        "hint_keys": "Strelkalar yoki WASD — boşqariş, Probel — pauza", "hint_touch": "Ekranni suring yoki pastdagi tugmalarni bosing",
+        "speed": "Tezlik", "slow": "Sekin", "normal": "Örta", "fast": "Tez",
+        "walls": "Devorlar", "walls_pass": "Ötib ketadi", "walls_solid": "Urilsa — öyin tugaydi",
+        "more_games": "Boşqa öyinlar", "pause_btn": "Pauza",
     },
     "ru": {
         "lead": "Управляйте змейкой, собирайте яблоки и не врезайтесь в свой хвост. Каждые 5 яблок скорость растёт.",
@@ -1287,13 +1287,13 @@ def snake2(request):
 
 CAR_TEXT = {
     "uz": {
-        "lead": "Mashinani boshqaring, boshqa mashinalarga urilmang va iloji boricha uzoqqa boring. Vaqt o'tgan sari tezlik oshadi.",
+        "lead": "Maşinani boşqaring, boşqa maşinalarga urilmang va iloji boriça uzoqqa boring. Vaqt ötgan sari tezlik oşadi.",
         "badge_keys": "Klaviatura va sensorli tugmalar", "badge_record": "Rekord saqlanadi", "badge_free": "Bepul, yuklab olmasdan",
-        "start": "Boshlash", "again": "Qayta o'ynash", "resume": "Davom etish", "paused": "Pauza", "over": "Halokat!",
+        "start": "Boşlaş", "again": "Qayta öynaş", "resume": "Davom etiş", "paused": "Pauza", "over": "Halokat!",
         "best": "Rekord", "new_record": "🎉 Yangi rekord!", "speed": "Tezlik", "kmh": "km/soat",
-        "hint_keys": "← → yoki A D — boshqarish, ↑ ↓ yoki W S — tezlik, Probel — pauza",
-        "hint_touch": "Pastdagi tugmalarni bosib turing yoki yo'lning chap/o'ng tomoniga teging",
-        "sound_on": "Ovoz yoqilgan", "sound_off": "Ovoz o'chirilgan", "pause_btn": "Pauza", "more_games": "Boshqa o'yinlar",
+        "hint_keys": "← → yoki A D — boşqariş, ↑ ↓ yoki W S — tezlik, Probel — pauza",
+        "hint_touch": "Pastdagi tugmalarni bosib turing yoki yölning çap/öng tomoniga teging",
+        "sound_on": "Ovoz yoqilgan", "sound_off": "Ovoz öçirilgan", "pause_btn": "Pauza", "more_games": "Boşqa öyinlar",
     },
     "ru": {
         "lead": "Управляйте машиной, не врезайтесь в другие автомобили и уезжайте как можно дальше. Со временем скорость растёт.",

@@ -483,7 +483,7 @@
     }
   </script>
   <!-- Theme toggle tugmasini yangilash -->
-  <button id="themeButton" class="theme-toggle" onclick="toggleTheme()" title="Kun/Tun rejimini o'zgartirish">
+  <button id="themeButton" class="theme-toggle" onclick="toggleTheme()" title="Kun/Tun rejimini özgartiriş">
     <i class="fas fa-moon"></i>
     <span class="theme-toggle-text">Tun</span>
   </button>
@@ -979,13 +979,13 @@
         </div>
         <div class="modal-footer">
           <button type="button" id="tsContinue" hidden class="btn btn-outline-secondary" style="inline-size:200px"
-            data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> {% if request.LANGUAGE_CODE == 'ru' %}Продолжить{% elif request.LANGUAGE_CODE == 'en' %}Continue{% else %}Davom etish{% endif %}</button>
+            data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> {% if request.LANGUAGE_CODE == 'ru' %}Продолжить{% elif request.LANGUAGE_CODE == 'en' %}Continue{% else %}Davom etiş{% endif %}</button>
           <button type="button" id="tsNextTopic" hidden class="btn btn-outline-primary" style="inline-size:200px"><i
-              class="bi bi-box-arrow-right"></i> {% if request.LANGUAGE_CODE == 'ru' %}Следующий билет{% elif request.LANGUAGE_CODE == 'en' %}Go to the next ticket{% else %}Keyingi biletga o'tish{% endif %}</button>
+              class="bi bi-box-arrow-right"></i> {% if request.LANGUAGE_CODE == 'ru' %}Следующий билет{% elif request.LANGUAGE_CODE == 'en' %}Go to the next ticket{% else %}Keyingi biletga ötiş{% endif %}</button>
           <button type="button" id="tsBack" class="btn btn-outline-danger" style="inline-size:200px"><i
-              class="bi bi-backspace"></i> {% if request.LANGUAGE_CODE == 'ru' %}Вернуться к билетам{% elif request.LANGUAGE_CODE == 'en' %}Back to tickets{% else %}Biletlarga qaytish{% endif %}</button>
+              class="bi bi-backspace"></i> {% if request.LANGUAGE_CODE == 'ru' %}Вернуться к билетам{% elif request.LANGUAGE_CODE == 'en' %}Back to tickets{% else %}Biletlarga qaytiş{% endif %}</button>
           <button type="button" id="tsRestart" class="btn btn-outline-success" style="inline-size:200px"><i
-              class="bi bi-arrow-repeat"></i> {% if request.LANGUAGE_CODE == 'ru' %}Начать сначала{% elif request.LANGUAGE_CODE == 'en' %}Start over{% else %}Boshidan boshlash{% endif %}</button>
+              class="bi bi-arrow-repeat"></i> {% if request.LANGUAGE_CODE == 'ru' %}Начать сначала{% elif request.LANGUAGE_CODE == 'en' %}Start over{% else %}Boşidan boşlaş{% endif %}</button>
         </div>
       </div>
     </div>
@@ -1066,14 +1066,14 @@
       </div>
       {% if type == 'topic' %}
       <div class="ts-stats" id="tsStats" data-book="{{ request.GET.book_id|default:'' }}" hidden>
-        <div><b id="tsDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yechilgan{% else %}completed{% endif %}</span></div>
-        <div><b id="tsPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}o'tilgan{% else %}passed{% endif %}</span></div>
+        <div><b id="tsDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yeçilgan{% else %}completed{% endif %}</span></div>
+        <div><b id="tsPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}ötilgan{% else %}passed{% endif %}</span></div>
         <div><b id="tsAccuracy">—</b><span>{% if request.LANGUAGE_CODE == 'ru' %}точность{% elif request.LANGUAGE_CODE == 'uz' %}aniqlik{% else %}accuracy{% endif %}</span></div>
         <a href="/tests/xatolar/" class="ts-btn ts-mistakes" id="tsMistakes">❌ {% if request.LANGUAGE_CODE == 'ru' %}Мои ошибки{% elif request.LANGUAGE_CODE == 'uz' %}Xatolarim{% else %}My mistakes{% endif %} <b id="tsMistakesCount">0</b></a>
         <a href="#" class="ts-btn ts-random" id="tsRandom">🎲 {% if request.LANGUAGE_CODE == 'ru' %}Случайный билет{% elif request.LANGUAGE_CODE == 'uz' %}Tasodifiy bilet{% else %}Random ticket{% endif %}</a>
       </div>
       <p class="ts-legend">
-        <span class="ts-dot ts-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≥80%){% elif request.LANGUAGE_CODE == 'uz' %}o'tdi (≥80%){% else %}passed (≥80%){% endif %}
+        <span class="ts-dot ts-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≥80%){% elif request.LANGUAGE_CODE == 'uz' %}ötdi (≥80%){% else %}passed (≥80%){% endif %}
         <span class="ts-dot ts-fail"></span> {% if request.LANGUAGE_CODE == 'ru' %}не сдан{% elif request.LANGUAGE_CODE == 'uz' %}yiqildi{% else %}failed{% endif %}
         <span class="ts-dot ts-progress"></span> {% if request.LANGUAGE_CODE == 'ru' %}в процессе{% elif request.LANGUAGE_CODE == 'uz' %}davom etmoqda{% else %}in progress{% endif %}
       </p>

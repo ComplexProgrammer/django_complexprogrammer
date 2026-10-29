@@ -19,11 +19,11 @@ MAX_RESULTS = 20
 
 # Qidiruvda ko'rinadigan vositalar: (url, UI kaliti, qo'shimcha kalit so'zlar)
 TOOLS = [
-    ("/avtotest/", "avtotest", "yhq imtihon bilet prava haydovchilik пдд экзамен driving"),
+    ("/avtotest/", "avtotest", "yhq imtihon bilet prava haydovçilik haydovchilik пдд экзамен driving"),
     ("/avtotest/imtihon/", "exam", "imtihon simulyator sinov экзамен симулятор exam simulator"),
-    ("/yol-belgilari/", "signs", "yo'l belgilari belgi знаки дорожные road signs"),
+    ("/yol-belgilari/", "signs", "yöl yo'l belgilari belgi знаки дорожные road signs"),
     ("/jarimalar/", "jarimalar", "jarima jarimalar shtraf shtrafy bhm ma'muriy kodeks mjdk штрафы штраф fines"),
-    ("/yhq/", "yhq", "yhq yo'l harakati qoidalari qoida пдд правила traffic rules"),
+    ("/yhq/", "yhq", "yhq yöl yo'l harakati qoidalari qoida пдд правила traffic rules"),
     ("/avtotest/reyting/", "leaderboard", "reyting top рейтинг leaderboard"),
     ("/tests/", "tests", "test savol maktab тест"),
     ("/translate/", "translate", "tarjima перевод translate"),
@@ -33,12 +33,12 @@ TOOLS = [
     ("/exchangerates/", "rates", "valyuta kurs dollar rubl курс валют"),
     ("/coins/", "coins", "kripto bitcoin btc крипто"),
     ("/ip/", "ip", "ip manzil адрес"),
-    ("/imagecompare/", "imagecompare", "rasm solishtirish картинка сравнение"),
+    ("/imagecompare/", "imagecompare", "rasm soliştiriş solishtirish картинка сравнение"),
     ("/sitemap/", "sitemap", "sitemap xml sayt xaritasi карта сайта"),
     ("/youtube_downloader/", "youtube", "youtube video yuklab скачать"),
     ("/blog/", "blog", "maqola статья"),
     ("/news/", "news", "yangilik новости"),
-    ("/projects/", "projects", "o'yin игры games snake tetris"),
+    ("/projects/", "projects", "öyin o'yin игры games snake tetris"),
 ]
 
 
@@ -121,10 +121,10 @@ STATIC_SITEMAP_SECTIONS = [
         ("/ip/", "monthly", "0.5"), ("/imagecompare/", "monthly", "0.5"), ("/sitemap/", "monthly", "0.5"),
         ("/youtube_downloader/", "monthly", "0.4"),
     ]),
-    ("Boshqa bo'limlar", [
+    ("Boşqa bölimlar", [
         ("/markets/", "weekly", "0.4"), ("/arxiv/", "weekly", "0.4"), ("/cryptomarket/", "daily", "0.4"),
     ]),
-    ("O'yinlar", [
+    ("Öyinlar", [
         ("/snake/", "yearly", "0.3"), ("/snake2/", "yearly", "0.3"), ("/tetris/", "yearly", "0.3"),
         ("/tictactoe/", "yearly", "0.3"), ("/pingpong/", "yearly", "0.3"), ("/car/", "yearly", "0.3"),
         ("/duckhunt/", "yearly", "0.3"), ("/motorcycle/", "yearly", "0.3"), ("/bubbleshooter/", "yearly", "0.3"),
@@ -162,7 +162,7 @@ def build_sitemap():
 
     from driving import yhq
 
-    sections.append(("Yo'l harakati qoidalari", [("/yhq/", None, "monthly", "0.8")] + [
+    sections.append(("Yöl harakati qoidalari", [("/yhq/", None, "monthly", "0.8")] + [
         (f"/yhq/{c['slug']}-bob/", None, "monthly", "0.6") for c in yhq.load()["chapters"]
     ]))
     sections.append(("Avtotest mavzulari", [("/avtotest/mavzular/", None, "weekly", "0.8")] + [

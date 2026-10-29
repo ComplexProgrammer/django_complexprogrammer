@@ -498,7 +498,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "Complex Admin",
     "site_header": "Complex Admin",
     "site_brand": "ComplexProgrammer",
-    "welcome_sign": "ComplexProgrammer boshqaruv paneli",
+    "welcome_sign": "ComplexProgrammer boşqaruv paneli",
     "copyright": "ComplexProgrammer",
     "custom_css": "css/admin-dark.css",
     "custom_js": "js/admin-theme-toggle.js",

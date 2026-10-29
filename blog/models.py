@@ -41,26 +41,26 @@ class Posts(Translatable):
     image = models.ImageField(upload_to="post/images", blank=True)
     publish_time = models.DateTimeField(
         default=timezone.now,
-        help_text="Kelajakdagi sana qo'yilsa, maqola shu vaqtgacha saytda ko'rinmaydi.",
+        help_text="Kelajakdagi sana qöyilsa, maqola şu vaqtgaça saytda körinmaydi.",
     )
     slug = models.SlugField(
         max_length=120,
         unique=True,
         blank=True,
-        help_text="Manzil: /blog/<slug>/. Bo'sh qoldirilsa sarlavhadan avtomatik yaratiladi.",
+        help_text="Manzil: /blog/<slug>/. Böş qoldirilsa sarlavhadan avtomatik yaratiladi.",
     )
     view_count = models.PositiveIntegerField(default=0, editable=False)
     source_url = models.URLField(
-        blank=True, default="", help_text="Maqola boshqa saytdan olingan bo'lsa — manba havolasi."
+        blank=True, default="", help_text="Maqola boşqa saytdan olingan bölsa — manba havolasi."
     )
     telegram_posted_at = models.DateTimeField(null=True, blank=True, editable=False)
     seo_title = models.CharField(
         max_length=70, blank=True, default="",
-        help_text="Qidiruvdagi sarlavha (o'zbekcha, ≈60 belgi). Bo'sh bo'lsa maqola nomi ishlatiladi.",
+        help_text="Qidiruvdagi sarlavha (özbekça, ≈60 belgi). Böş bölsa maqola nomi işlatiladi.",
     )
     seo_description = models.CharField(
         max_length=200, blank=True, default="",
-        help_text="Qidiruvda sarlavha ostidagi matn (o'zbekcha, ≈150 belgi). Bo'sh bo'lsa kirish matnidan olinadi.",
+        help_text="Qidiruvda sarlavha ostidagi matn (özbekça, ≈150 belgi). Böş bölsa kiriş matnidan olinadi.",
     )
 
     class Meta:

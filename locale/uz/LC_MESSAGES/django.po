@@ -36,7 +36,7 @@ msgstr ""
 
 #: .\templates\base.html:259
 msgid "Home"
-msgstr "Bosh sahifa"
+msgstr "Boş sahifa"
 
 #: .\templates\base.html:260
 msgid "News"

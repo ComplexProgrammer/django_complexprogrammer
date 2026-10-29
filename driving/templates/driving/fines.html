@@ -159,15 +159,15 @@
 
   <div class="f-hero">
     <div class="f-bhm-badge">
-      <span>📌</span> Amaldagi 1 BHM = {{ bhm_fmt }} so'm
+      <span>📌</span> Amaldagi 1 BHM = {{ bhm_fmt }} söm
     </div>
-    <h1>⚖️ Yo'l Harakati Jarimalari (2026)</h1>
+    <h1>⚖️ Yöl Harakati Jarimalari (2026)</h1>
     <p style="margin:0; opacity:0.9; font-size:0.95rem">
-      O'zbekiston Respublikasi Ma'muriy javobgarlik to'g'risidagi kodeksi (MJtK) bo'yicha belgilangan barcha qoidabuzarlik jarimalari va chegirmalar.
+      Özbekiston Respublikasi Ma'muriy javobgarlik töğrisidagi kodeksi (MJtK) böyiça belgilangan barça qoidabuzarlik jarimalari va çegirmalar.
     </p>
 
     <div class="f-discount-box">
-      <b>⚡ 50% Chegirma qoidasi:</b> Jarima to'g'risidagi qaror chiqarilgan kundan boshlab <b>15 kun ichida</b> to'lansa, jarima summasining <b>50 foizini</b> to'lash kifoya qiladi (MJtK 332-1-moddasi).
+      <b>⚡ 50% Çegirma qoidasi:</b> Jarima töğrisidagi qaror çiqarilgan kundan boşlab <b>15 kun içida</b> tölansa, jarima summasining <b>50 foizini</b> tölaş kifoya qiladi (MJtK 332-1-moddasi).
     </div>
   </div>
 
@@ -182,33 +182,33 @@
     </div>
     <div class="d-stats">
       <div>
-        <span style="font-size:0.8rem; color:var(--muted)">To'liq jarima miqdori</span>
-        <b id="calcTotalSum" style="font-size:1.35rem; color:var(--text)">750 000 so'm</b>
+        <span style="font-size:0.8rem; color:var(--muted)">Töliq jarima miqdori</span>
+        <b id="calcTotalSum" style="font-size:1.35rem; color:var(--text)">750 000 söm</b>
       </div>
       <div>
-        <span style="font-size:0.8rem; color:#10b981">15 kun ichida (50% chegirma)</span>
-        <b id="calcDiscSum" style="font-size:1.35rem; color:#10b981">375 000 so'm</b>
+        <span style="font-size:0.8rem; color:#10b981">15 kun içida (50% çegirma)</span>
+        <b id="calcDiscSum" style="font-size:1.35rem; color:#10b981">375 000 söm</b>
       </div>
     </div>
   </div>
 
   <!-- Search and Categories -->
   <form method="get" class="f-search-box" action="{{ lang_prefix }}/jarimalar/">
-    <input type="search" name="q" value="{{ search_query }}" placeholder="🔍 Qoidabuzarlik yoki moddani qidiring (masalan: tezlik, qizil, kamar, telefon)..." aria-label="Qidirish">
+    <input type="search" name="q" value="{{ search_query }}" placeholder="🔍 Qoidabuzarlik yoki moddani qidiring (masalan: tezlik, qizil, kamar, telefon)..." aria-label="Qidiriş">
     {% if selected_cat %}<input type="hidden" name="cat" value="{{ selected_cat }}">{% endif %}
-    <button type="submit" class="d-btn">Qidirish</button>
+    <button type="submit" class="d-btn">Qidiriş</button>
     {% if search_query or selected_cat %}
-      <a href="{{ lang_prefix }}/jarimalar/" class="d-btn alt">Tozalash</a>
+      <a href="{{ lang_prefix }}/jarimalar/" class="d-btn alt">Tozalaş</a>
     {% endif %}
   </form>
 
   <div class="f-cats">
-    <a href="{{ lang_prefix }}/jarimalar/" class="f-cat-pill {% if not selected_cat %}active{% endif %}">Barchasi</a>
+    <a href="{{ lang_prefix }}/jarimalar/" class="f-cat-pill {% if not selected_cat %}active{% endif %}">Barçasi</a>
     <a href="{{ lang_prefix }}/jarimalar/?cat=speed" class="f-cat-pill {% if selected_cat == 'speed' %}active{% endif %}">🏎️ Tezlik</a>
     <a href="{{ lang_prefix }}/jarimalar/?cat=rules" class="f-cat-pill {% if selected_cat == 'rules' %}active{% endif %}">🛑 Qoidalar va svetofor</a>
     <a href="{{ lang_prefix }}/jarimalar/?cat=safety" class="f-cat-pill {% if selected_cat == 'safety' %}active{% endif %}">🛡️ Kamar va telefon</a>
-    <a href="{{ lang_prefix }}/jarimalar/?cat=documents" class="f-cat-pill {% if selected_cat == 'documents' %}active{% endif %}">📄 Hujjatlar va sug'urta</a>
-    <a href="{{ lang_prefix }}/jarimalar/?cat=severe" class="f-cat-pill {% if selected_cat == 'severe' %}active{% endif %}">⚠️ Og'ir qoidabuzarliklar</a>
+    <a href="{{ lang_prefix }}/jarimalar/?cat=documents" class="f-cat-pill {% if selected_cat == 'documents' %}active{% endif %}">📄 Hujjatlar va suğurta</a>
+    <a href="{{ lang_prefix }}/jarimalar/?cat=severe" class="f-cat-pill {% if selected_cat == 'severe' %}active{% endif %}">⚠️ Oğir qoidabuzarliklar</a>
   </div>
 
   <!-- Fines List -->
@@ -223,8 +223,8 @@
       </div>
 
       <div class="f-pricing">
-        <span class="f-price-full">{{ f.amount_fmt }} so'm <small style="font-size:0.8rem; font-weight:500; color:var(--muted)">({{ f.bhm_str }})</small></span>
-        <span class="f-price-disc">15 kun ichida: {{ f.discount_50_fmt }} so'm</span>
+        <span class="f-price-full">{{ f.amount_fmt }} söm <small style="font-size:0.8rem; font-weight:500; color:var(--muted)">({{ f.bhm_str }})</small></span>
+        <span class="f-price-disc">15 kun içida: {{ f.discount_50_fmt }} söm</span>
       </div>
 
       <p style="margin:4px 0 0; font-size:0.88rem; color:var(--muted); line-height:1.4">
@@ -235,16 +235,16 @@
   {% else %}
     <div class="d-card" style="text-align:center; padding:40px 20px">
       <p style="font-size:2rem; margin-bottom:10px">🔍</p>
-      <h3 class="d-h2">Qidiruv bo'yicha jarimalar topilmadi</h3>
-      <p class="d-meta">Iltimos, boshqa so'z bilan qidiring yoki barcha ro'yxatni oching.</p>
-      <a href="{{ lang_prefix }}/jarimalar/" class="d-btn">Barcha jarimalar</a>
+      <h3 class="d-h2">Qidiruv böyiça jarimalar topilmadi</h3>
+      <p class="d-meta">Iltimos, boşqa söz bilan qidiring yoki barça röyxatni oçing.</p>
+      <a href="{{ lang_prefix }}/jarimalar/" class="d-btn">Barça jarimalar</a>
     </div>
   {% endif %}
 
   <div class="d-row" style="margin-top:24px">
     <a href="{{ lang_prefix }}/avtotest/imtihon/" class="d-btn">🎯 Imtihon simulyatori</a>
-    <a href="{{ lang_prefix }}/yhq/" class="d-btn alt">📖 Yo'l harakati qoidalari</a>
-    <a href="{{ lang_prefix }}/yol-belgilari/" class="d-btn alt">🚸 Yo'l belgilari</a>
+    <a href="{{ lang_prefix }}/yhq/" class="d-btn alt">📖 Yöl harakati qoidalari</a>
+    <a href="{{ lang_prefix }}/yol-belgilari/" class="d-btn alt">🚸 Yöl belgilari</a>
   </div>
 </main>
 

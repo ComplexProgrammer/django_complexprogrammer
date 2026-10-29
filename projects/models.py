@@ -55,7 +55,7 @@ class Project(models.Model):
         return self.title
 
 
-EXPLANATION_STATUS = [("", "Yo'q"), ("draft", "Qoralama"), ("approved", "Tasdiqlangan")]
+EXPLANATION_STATUS = [("", "Yöq"), ("draft", "Qoralama"), ("approved", "Tasdiqlangan")]
 
 
 class AvtoTest(models.Model):
@@ -85,11 +85,11 @@ class AvtoTest(models.Model):
     izoh_en = models.TextField(blank=True, default="")
     izoh_holati = models.CharField(
         max_length=10, blank=True, default="", choices=EXPLANATION_STATUS, db_index=True,
-        help_text="Saytda faqat «Tasdiqlangan» izoh ko'rsatiladi.",
+        help_text="Saytda faqat «Tasdiqlangan» izoh körsatiladi.",
     )
     izoh_ishonch = models.CharField(
         max_length=10, blank=True, default="",
-        help_text="AI qoralamaning o'z bahosi (high/medium/low) — past bo'lsa diqqat bilan tekshiring.",
+        help_text="AI qoralamaning öz bahosi (high/medium/low) — past bölsa diqqat bilan tekşiring.",
     )
     objects = models.Manager()
 

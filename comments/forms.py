@@ -18,8 +18,8 @@ class CommentForm(forms.ModelForm):
     def clean_text(self):
         text = self.cleaned_data["text"].strip()
         if len(text) > 3000:
-            raise forms.ValidationError("Izoh 3000 belgidan oshmasin")
-        # "55555", "...", "Ok" kabi ma'nosiz izohlar (bazadagi izohlarning ~22% shunday edi)
+            raise forms.ValidationError("Izoh 3000 belgidan oşmasin")
+        # "55555", "...", "Ok" kabi ma'nosiz izohlar (bazadagi izohlarning ~22% şunday edi)
         if len(text) < 5 or not any(ch.isalpha() for ch in text):
-            raise forms.ValidationError("Izoh juda qisqa: fikringizni to'liqroq yozing")
+            raise forms.ValidationError("Izoh juda qisqa: fikringizni töliqroq yozing")
         return text

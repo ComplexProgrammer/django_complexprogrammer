@@ -46,19 +46,19 @@ def add_comment(request):
     rate_key = f"comment-rate:{_client_ip(request)}"
     sent = cache.get(rate_key, 0)
     if sent >= RATE_LIMIT_COUNT:
-        messages.error(request, "Juda ko'p izoh yubordingiz. Birozdan so'ng urinib ko'ring.")
+        messages.error(request, "Juda köp izoh yubordingiz. Birozdan söng urinib köring.")
         return _safe_redirect(request, back_url)
 
     form = CommentForm(request.POST)
     if not form.is_valid():
         reason = form.errors.get("text")
-        messages.error(request, f"Izoh yuborilmadi: {reason[0] if reason else 'maydonlarni to‘g‘ri to‘ldiring.'}")
+        messages.error(request, f"Izoh yuborilmadi: {reason[0] if reason else 'maydonlarni töğri töldiring.'}")
         return _safe_redirect(request, back_url)
 
     comment = form.save(commit=False)
     # Rasmiy javob belgisi soxtalashtirilmasin: bu email faqat xodimlarga
     if comment.is_official and not request.user.is_staff:
-        messages.error(request, "Bu email manzilidan foydalanib bo'lmaydi.")
+        messages.error(request, "Bu email manzilidan foydalanib bölmaydi.")
         return _safe_redirect(request, back_url)
     comment.page_url = normalize_page_url(back_url)
     parent = None
@@ -70,7 +70,7 @@ def add_comment(request):
         comment.parent = parent
         comment.page_url = parent.page_url
 
-    # Takror yuborish (ikki marta bosish, sahifani yangilash): bazadagi izohlarning ~44% shunday edi
+    # Takror yuborish (ikki marta bosish, sahifani yangilash): bazadagi izohlarning ~44% şunday edi
     duplicate = Comment.objects.filter(
         page_url=comment.page_url,
         email__iexact=comment.email,
@@ -79,7 +79,7 @@ def add_comment(request):
         created_at__gte=timezone.now() - timedelta(hours=24),
     ).exists()
     if duplicate:
-        messages.info(request, "Bu izoh allaqachon qoldirilgan.")
+        messages.info(request, "Bu izoh allaqaçon qoldirilgan.")
         return _safe_redirect(request, back_url)
     comment.save()
     cache.set(rate_key, sent + 1, RATE_LIMIT_SECONDS)
@@ -93,7 +93,7 @@ def add_comment(request):
 
 
 def more_comments(request):
-    """Sahifaning keyingi COMMENTS_PER_PAGE ta izohi (HTML bo'lagi) — "Ko'proq izohlar" tugmasi uchun."""
+    """Sahifaning keyingi COMMENTS_PER_PAGE ta izohi (HTML bo'lagi) — "Köproq izohlar" tugmasi uçun."""
     try:
         offset = max(int(request.GET.get("offset", 0)), 0)
     except ValueError:
