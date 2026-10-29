@@ -120,7 +120,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f"⚠️ {label} modelini yuklab bölmadi: {exc}"))
                 continue
 
-            self.stdout.write(f"\n📂 Model tekşirilmoqda: {self.style.MIME(label)} (maydonlar: {', '.join(fields)})")
+            self.stdout.write(f"\n📂 Model tekşirilmoqda: {self.style.SUCCESS(label)} (maydonlar: {', '.join(fields)})")
 
             qs = model_cls.objects.all()
             model_total = qs.count()
@@ -165,7 +165,7 @@ class Command(BaseCommand):
             if is_apply and records_to_update:
                 self._save_batch(model_cls, records_to_update, fields)
 
-            status_style = self.style.SUCCESS if model_modified else self.style.NOTICE
+            status_style = self.style.SUCCESS if model_modified else getattr(self.style, "NOTICE", self.style.WARNING)
             self.stdout.write(status_style(
                 f"   Jami yozuvlar: {model_total} ta | Yangilanişi kerak: {model_modified} ta"
             ))
