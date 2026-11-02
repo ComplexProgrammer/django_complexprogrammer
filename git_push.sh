@@ -10,6 +10,9 @@
 #   * faqat db.sqlite3 o'zgargan bo'lsa, u DB_MIN_MINUTES (standart 60) daqiqada bir martadan ko'p commit qilinmaydi —
 #     aks holda har bir commit 20 MB lik baza nusxasini qo'shib, repo juda tez kattalashadi;
 #   * push qiladigan narsa bo'lmasa GitHub'dan hech narsa tortilmaydi (kod o'z-o'zidan yangilanib qolmaydi).
+#
+# GitHub'dan yangi kod kelsa (ikkala rejimda): yangi migratsiyalar bölsa, baza nusxasi logs/ ga olinadi va
+# `manage.py migrate` avtomatik bajariladi, söng tmp/restart.txt yangilanadi, keyin sahifalar tekşiriladi.
 #   cPanel → Cron Jobs (har 15 daqiqada):
 #     */15 * * * * PYTHON=/home/<user>/virtualenv/.../bin/python bash /path/to/django/git_push.sh --auto
 set -e
@@ -92,13 +95,38 @@ PULLED=0
 if [ "$BEFORE" != "$(git rev-parse HEAD)" ]; then
     PULLED=1
     echo
-    echo "GitHub'dan yangi o'zgarishlar keldi. Kerak bo'lsa:"
-    echo "  $PYTHON manage.py migrate        # yangi migratsiyalar"
-    echo "  touch tmp/restart.txt            # saytni qayta ishga tushirish (Passenger)"
-    echo "  botni qayta ishga tushiring      # bot kodi o'zgargan bo'lsa"
-    if [ "$AUTO" = 1 ]; then
-        echo "⚠️  git_push.sh --auto: GitHub'dan yangi kod tortildi — migrate/restart kerakmi, tekshiring." >&3
+    echo "GitHub'dan yangi o'zgarishlar keldi."
+
+    # Yangi migratsiyalar avtomatik qöllanadi: aks holda yangi kod bazada hali yöq ustunni söraydi va sahifalar
+    # migrate qilinguncha xato beradi (2026-11-02: "no such column: comments_comment.status", 14 ta sahifa).
+    if "$PYTHON" manage.py migrate --check > /dev/null 2>&1; then
+        echo "Yangi migratsiya yöq."
+    else
+        # Migratsiyadan oldin bazaning nusxasi (WAL bilan birga, sqlite backup API orqali) — muammo bölsa qaytariş uçun
+        mkdir -p logs
+        BACKUP="logs/db_before_migrate_$(date '+%Y%m%d_%H%M%S').sqlite3"
+        "$PYTHON" - "$BACKUP" <<'PY'
+import sqlite3, sys
+src = sqlite3.connect("db.sqlite3", timeout=30)
+dst = sqlite3.connect(sys.argv[1])
+src.backup(dst)
+dst.close(); src.close()
+PY
+        echo "Baza nusxasi: $BACKUP"
+        # Faqat oxirgi 5 ta nusxa saqlanadi (har biri ~20 MB)
+        ls -1t logs/db_before_migrate_*.sqlite3 2>/dev/null | tail -n +6 | xargs -r rm -f
+        if "$PYTHON" manage.py migrate --noinput; then
+            echo "Migratsiyalar qöllandi."
+        else
+            echo "⚠️  migrate xato bilan tugadi! Bazani qaytariş: cp $BACKUP db.sqlite3"
+            [ "$AUTO" = 1 ] && echo "⚠️  git_push.sh --auto: migrate xato berdi. Nusxa: $BACKUP. Batafsil: logs/git_push.log" >&3
+        fi
     fi
+
+    # Passenger yangi kodni yuklasin
+    mkdir -p tmp && touch tmp/restart.txt
+    echo "Sayt qayta işga tuşirildi (tmp/restart.txt)."
+    echo "Bot kodi (avtotest_bot/) özgargan bölsa, botni qöl bilan qayta işga tuşiring: bash restart_bot.sh"
 fi
 # Asosiy sahifalar ishlayaptimi (2026-10-10..12 dagi kabi uzilish sezilmay qolmasin).
 # Avtomatik rejimda — faqat yangi kod kelganda (har 15 daqiqada saytga so'rov yubormaslik uchun).
