@@ -27,6 +27,42 @@ except ImportError:
     cache = None
 
 
+# Model konfiguratsiyalari: (nomi, model_yöli, tekşiriladigan_maydonlar)
+MODEL_TARGETS = [
+    # 1. Blog
+    ("blog.Categories", "blog.models.Categories", ["name_uz_uz"]),
+    ("blog.Posts", "blog.models.Posts", ["name_uz_uz", "title_uz_uz", "body_uz_uz", "seo_title", "seo_description"]),
+
+    # 2. Loyihalar va Avtotest
+    # projects.Project ataylab yöq: uning title/sub_title maydonlari inglizça (Sçool, Şooter xatosi şundan çiqqan)
+    ("projects.AvtoTest", "projects.models.AvtoTest", ["savol", "javob_a", "javob_b", "javob_c", "javob_d", "izoh"]),
+
+    # 3. Testlar va yöl belgilari
+    ("tests.BookTypes", "tests.models.BookTypes", ["name_uz_uz", "description"]),
+    ("tests.Types", "tests.models.Types", ["name_uz_uz"]),
+    ("tests.Groups", "tests.models.Groups", ["name_uz_uz"]),
+    ("tests.Topics", "tests.models.Topics", ["name_uz_uz"]),
+    ("tests.Books", "tests.models.Books", ["name_uz_uz"]),
+    ("tests.Questions", "tests.models.Questions", ["name_uz_uz", "explanation_uz_uz"]),
+    ("tests.Answers", "tests.models.Answers", ["name_uz_uz"]),
+    ("tests.RoadSignCategories", "tests.models.RoadSignCategories", ["name_uz_uz"]),
+    ("tests.RoadSigns", "tests.models.RoadSigns", ["name_uz_uz", "description_uz_uz"]),
+    ("tests.QuestionExplanation", "tests.models.QuestionExplanation", ["explanation"]),
+
+    # 4. Yangiliklar
+    ("news.Posts", "news.models.Posts", ["name_uz_uz", "title_uz_uz", "body_uz_uz"]),
+
+    # 5. Bozorlar
+    ("markets.Category", "markets.models.Category", ["name_uz_uz"]),
+    ("markets.Market", "markets.models.Market", ["name_uz_uz"]),
+    ("markets.Store", "markets.models.Store", ["name_uz_uz"]),
+    ("markets.Product", "markets.models.Product", ["name_uz_uz", "description_uz_uz"]),
+
+    # 6. Izohlar
+    ("comments.Comment", "comments.models.Comment", ["text"]),
+]
+
+
 class Command(BaseCommand):
     help = "Bazadagi barça özbekça matnlarni 2026-yilgi yangi lotin alifbosiga ötkaziş."
 
@@ -68,40 +104,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f"  Holat: {mode_str}"))
         self.stdout.write(self.style.SUCCESS("=" * 72))
 
-        # Model konfiguratsiyalari: (nomi, model_yöli, tekşiriladigan_maydonlar)
-        TARGETS = [
-            # 1. Blog
-            ("blog.Categories", "blog.models.Categories", ["name_uz_uz"]),
-            ("blog.Posts", "blog.models.Posts", ["name_uz_uz", "title_uz_uz", "body_uz_uz", "seo_title", "seo_description"]),
-
-            # 2. Loyihalar va Avtotest
-            ("projects.Project", "projects.models.Project", ["title", "sub_title", "category"]),
-            ("projects.AvtoTest", "projects.models.AvtoTest", ["savol", "javob_a", "javob_b", "javob_c", "javob_d", "izoh"]),
-
-            # 3. Testlar va yöl belgilari
-            ("tests.BookTypes", "tests.models.BookTypes", ["name_uz_uz", "description"]),
-            ("tests.Types", "tests.models.Types", ["name_uz_uz"]),
-            ("tests.Groups", "tests.models.Groups", ["name_uz_uz"]),
-            ("tests.Topics", "tests.models.Topics", ["name_uz_uz"]),
-            ("tests.Books", "tests.models.Books", ["name_uz_uz"]),
-            ("tests.Questions", "tests.models.Questions", ["name_uz_uz", "explanation_uz_uz"]),
-            ("tests.Answers", "tests.models.Answers", ["name_uz_uz"]),
-            ("tests.RoadSignCategories", "tests.models.RoadSignCategories", ["name_uz_uz"]),
-            ("tests.RoadSigns", "tests.models.RoadSigns", ["name_uz_uz", "description_uz_uz"]),
-            ("tests.QuestionExplanation", "tests.models.QuestionExplanation", ["explanation"]),
-
-            # 4. Yangiliklar
-            ("news.Posts", "news.models.Posts", ["name_uz_uz", "title_uz_uz", "body_uz_uz"]),
-
-            # 5. Bozorlar
-            ("markets.Category", "markets.models.Category", ["name_uz_uz"]),
-            ("markets.Market", "markets.models.Market", ["name_uz_uz"]),
-            ("markets.Store", "markets.models.Store", ["name_uz_uz"]),
-            ("markets.Product", "markets.models.Product", ["name_uz_uz", "description_uz_uz"]),
-
-            # 6. Izohlar
-            ("comments.Comment", "comments.models.Comment", ["text"]),
-        ]
+        TARGETS = MODEL_TARGETS
 
         total_checked = 0
         total_modified = 0

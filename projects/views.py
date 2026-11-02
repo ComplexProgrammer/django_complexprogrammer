@@ -23,7 +23,7 @@ from django.views.decorators.http import require_POST
 from comments.pages import page_comments
 from core import downloads
 from core.translit import ALPHABET_2026, convert
-from projects import sitemap_crawler, youtube_downloader
+from projects import catalog, sitemap_crawler, youtube_downloader
 from projects.models import AvtoTest, Project
 
 logger = logging.getLogger(__name__)
@@ -86,9 +86,22 @@ def base(request):
         "services": services,
         "projects": projects,
         "today": home_today(request),
+        "avtotest_stats": avtotest_stats(),
         # 'is_mobile': is_mobile,
     }
     return render(request, "base.html", context=context)
+
+
+def avtotest_stats():
+    """Bilet va savollar soni bazadan (bosh sahifadagi raqamlar haqiqiy bazaga mos kelsin). 1 soat keşlanadi."""
+    stats = cache.get("home:avtotest_stats")
+    if stats is None:
+        stats = {
+            "bilets": AvtoTest.objects.values("bilet").distinct().count(),
+            "questions": AvtoTest.objects.count(),
+        }
+        cache.set("home:avtotest_stats", stats, 3600)
+    return stats
 
 
 def home_today(request):
@@ -1712,8 +1725,13 @@ def projects(request):
     comments = page_comments(request)
     context = {"comments": comments}
 
-    projects = Project.actives.all()
-    context = {"projects": projects, "comments": comments}
+    projects = catalog.annotate(Project.actives.all())
+    used = {p.group for p in projects}
+    context = {
+        "projects": projects,
+        "groups": [(key, label) for key, label in catalog.group_labels() if key in used],
+        "comments": comments,
+    }
     return render(request, "projects/home.html", context=context)
 
 

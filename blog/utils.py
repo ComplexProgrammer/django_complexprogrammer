@@ -22,7 +22,7 @@ UI = {
     "uz": {
         "blog": "Blog", "home": "Bosh sahifa", "all": "Barcha maqolalar", "categories": "Kategoriyalar",
         "latest": "So'nggi maqolalar", "popular": "Ko'p o'qilganlar", "related": "O'xshash maqolalar",
-        "read_more": "O'qish", "min_read": "daqiqa o'qish", "views": "marta o'qilgan",
+        "read_more": "O'qish", "min_read": "daqiqa o'qish", "updated": "Yangilandi", "author": "Muallif", "views": "marta o'qilgan",
         "prev": "Oldingi maqola", "next": "Keyingi maqola", "share": "Ulashish", "copy_link": "Havolani nusxalash",
         "copied": "Havola nusxalandi", "search": "Blogdan qidirish…", "found": "ta maqola topildi",
         "nothing": "Hech narsa topilmadi", "reset": "Filtrni tozalash", "source": "Manba",
@@ -39,7 +39,7 @@ UI = {
     "ru": {
         "blog": "Блог", "home": "Главная", "all": "Все статьи", "categories": "Категории",
         "latest": "Последние статьи", "popular": "Популярное", "related": "Похожие статьи",
-        "read_more": "Читать", "min_read": "мин. чтения", "views": "просмотров",
+        "read_more": "Читать", "min_read": "мин. чтения", "updated": "Обновлено", "author": "Автор", "views": "просмотров",
         "prev": "Предыдущая статья", "next": "Следующая статья", "share": "Поделиться", "copy_link": "Копировать ссылку",
         "copied": "Ссылка скопирована", "search": "Поиск по блогу…", "found": "статей найдено",
         "nothing": "Ничего не найдено", "reset": "Сбросить фильтр", "source": "Источник",
@@ -56,7 +56,7 @@ UI = {
     "en": {
         "blog": "Blog", "home": "Home", "all": "All articles", "categories": "Categories",
         "latest": "Latest articles", "popular": "Most read", "related": "Related articles",
-        "read_more": "Read", "min_read": "min read", "views": "views",
+        "read_more": "Read", "min_read": "min read", "updated": "Updated", "author": "Author", "views": "views",
         "prev": "Previous article", "next": "Next article", "share": "Share", "copy_link": "Copy link",
         "copied": "Link copied", "search": "Search the blog…", "found": "articles found",
         "nothing": "Nothing found", "reset": "Clear filter", "source": "Source",
@@ -73,7 +73,7 @@ UI = {
 }
 UI["tr"] = dict(UI["en"], **{
     "home": "Ana sayfa", "all": "Tüm makaleler", "categories": "Kategoriler", "latest": "Son makaleler",
-    "popular": "En çok okunanlar", "related": "Benzer makaleler", "read_more": "Oku", "min_read": "dk okuma",
+    "popular": "En çok okunanlar", "related": "Benzer makaleler", "read_more": "Oku", "min_read": "dk okuma", "updated": "Güncellendi", "author": "Yazar",
     "views": "görüntülenme", "prev": "Önceki makale", "next": "Sonraki makale", "share": "Paylaş",
     "copy_link": "Bağlantıyı kopyala", "copied": "Bağlantı kopyalandı", "search": "Blogda ara…",
     "found": "makale bulundu", "nothing": "Hiçbir şey bulunamadı", "reset": "Filtreyi temizle", "source": "Kaynak",

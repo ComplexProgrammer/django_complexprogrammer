@@ -53,6 +53,30 @@ COMMON_FOREIGN_WORDS = {
 }
 
 
+# sh/ch bilan yoziladigan inglizça sözlar (va inglizça yozilişdagi nomlar): 2026-yilgi alifboga ögirilmaydi.
+# Ro'yxat bazadagi haqiqiy buzilişlardan (Sçool, Şooter, toothaçe...) yig'ilgan; özbekça sözlar ataylab
+# kiritilmagan (chap, choy, tosh, bosh, kishi, ish, uch, shu, chin, sher, osh...).
+ENGLISH_SH_CH_WORDS = frozenset("""
+she should shouldn shall shan school schools scholarship scholz children child childhood change changed changes
+changing exchange exchanging shooter shooting shoot shot short shorter shorts shop shops shopping shoppers
+bookshop bookshops photoshop each much such which rich reach teach teacher teachers teaching approach speech
+english french turkish polish spanish finish finished finishing fish fishing fisherman fishermen match matches
+matching unmatched chess cheese cheap cheat cheats cheater cheers chef chemist chemistry charge charm charters
+chair chairs chapter purchase kitchen lunch brunch launch touch touched stretch brush brushes brushing push
+pushed pushing rubbish hardship hardships share shared shares sharing shape shark shelf shelton shift shifted
+shine shines shining shone shoe shoes shoulder shirt shirts show shows showed shown shower flash crash cash
+wash washing watch catch fresh dish notch beech birch ranch march inch technology technologies tech techs
+fintech mechanism machine machines machinery headache toothache earache research searching search achievement
+achievements anchor anchors orchestra orchestras champion champions championship challenge challenges chance
+choose chose chosen choice check checked cherry chicken chocolate church chair cheek chest chaplin
+publish published publisher publishing fashion fashioned chauffeur chauffeurs tashkent shakespeare
+richard charles christie chester manchester chevrolet blanchard aeschylus synchronized
+breach breaches charity charities sponsorship channel channels attachment attachments interchangeable dashboard
+schedule scheduled schema sketch switch fetch batch patch watchers worship relationship ownership membership
+leadership partnership friendship workshop bishop crash brushed shell shellcode bash flush hash refresh push
+""".split())
+
+
 def _convert(text, new=False):
     out = []
     i, n = 0, len(text)
@@ -184,8 +208,10 @@ def latin1995_to_2026(text):
     def words(part):
         def _convert_word(m):
             w = m.group(0)
-            if w.lower() in COMMON_FOREIGN_WORDS:
+            if w.lower() in COMMON_FOREIGN_WORDS or is_english_word(w):
                 return w
+            if "-" in w and not any(c.isdigit() for c in w):
+                return "-".join(s if is_english_word(s) else _OLD_PAIR.sub(pair, s) for s in w.split("-"))
             if any(c.isdigit() for c in w) and "-" in w:
                 subs = w.split("-")
                 res = []
@@ -202,6 +228,75 @@ def latin1995_to_2026(text):
         return _WORD.sub(_convert_word, part)
 
     return _outside_markup(text, words)
+
+
+_EN_SUFFIX = ("", "s", "t", "ll", "re", "ve", "d", "m")  # children's, shouldn't, she'll
+_APOS_SPLIT = re.compile(r"^([^" + _APOS + r"]*)[" + _APOS + r"](.*)$")
+
+
+def is_english_word(word):
+    """``word`` (1995 lotin yoki 2026 yozuvida) — ``ENGLISH_SH_CH_WORDS`` dagi inglizça sözmi.
+
+    ``şe’r`` (she + r) özbekça: tutuq belgisidan keyingi qism inglizça qisqartma bölgandagina inglizça hisoblanadi.
+    """
+    if not word:
+        return False
+    low = word.lower().replace("ş", "sh").replace("ç", "ch")
+    m = _APOS_SPLIT.match(low)
+    base, suffix = (m.group(1), m.group(2)) if m else (low, "")
+    return base in ENGLISH_SH_CH_WORDS and suffix in _EN_SUFFIX
+
+
+def _restore_case(word):
+    upper = word.isupper() and len(word) > 1
+    return word.replace("Ş", "SH" if upper else "Sh").replace("Ç", "CH" if upper else "Ch").replace(
+        "ş", "sh").replace("ç", "ch")
+
+
+def restore_english_2026(text):
+    """2026-yilgi alifboga xato ögirilgan inglizça sözlarni tiklaydi: Sçool -> School, ÇANGE -> CHANGE.
+
+    Özbekça sözlarga tegmaydi (faqat ``ENGLISH_SH_CH_WORDS`` dagi sözlar); ö/ğ bor söz inglizça emas.
+    """
+    if not text or not any(c in "şçŞÇ" for c in text):
+        return text
+
+    out = []
+    pos = 0
+    for start, end, is_markup in _segments(text):
+        if is_markup:
+            continue
+        for m in _WORD.finditer(text, start, end):
+            w = m.group(0)
+            if not any(c in "şçŞÇ" for c in w) or any(c in "öğÖĞ" for c in w):
+                continue
+            after = text[m.end():m.end() + 8]
+            if after[:1].isalnum():
+                continue  # birç᧐k: söz boşqa yozuvdagi harf bilan davom etadi
+            ent = _APOS_ENTITY.match(after)
+            if ent and ent.group(1).lower() not in _EN_SUFFIX:
+                continue  # şe&#39;rlar — özbekça (şe’r)
+            parts = w.split("-")
+            if not all(is_english_word(p) for p in parts if any(c in "şçŞÇ" for c in p)):
+                continue  # şop-şup — hammasi inglizça bölmasa tegmaymiz
+            out.append(text[pos:m.start()])
+            out.append("-".join(_restore_case(p) for p in parts))
+            pos = m.end()
+    out.append(text[pos:])
+    return "".join(out)
+
+
+_APOS_ENTITY = re.compile(r"(?:&#39;|&#x27;|&apos;|&rsquo;|&lsquo;|&#8217;|&#8216;)([A-Za-z]*)")
+
+
+def _segments(text):
+    """(boşlanış, tugaş, belgilaşmi) — ``_outside_markup`` bilan bir xil böliş, lekin indekslar bilan."""
+    pos = 0
+    for m in _MARKUP.finditer(text):
+        yield pos, m.start(), False
+        yield m.start(), m.end(), True
+        pos = m.end()
+    yield pos, len(text), False
 
 
 def latin2026_to_1995(text):

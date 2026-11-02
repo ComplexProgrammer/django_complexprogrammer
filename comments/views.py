@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
+from comments.moderation import spam_reason
 from comments.pages import normalize_page_url, page_comments
 from comments.utils import in_background, send_comment_notification, send_reply_notification
 from .forms import CommentForm
@@ -70,10 +71,10 @@ def add_comment(request):
         comment.parent = parent
         comment.page_url = parent.page_url
 
-    # Takror yuborish (ikki marta bosish, sahifani yangilash): bazadagi izohlarning ~44% şunday edi
+    # Takror yuborish (ikki marta bosish, sahifani yangilash): bazadagi izohlarning ~44% şunday edi.
+    # Email boşqa bölsa ham bir xil matn bir sahifaga 24 soat içida ikkinçi marta qöşilmaydi (spam botlar)
     duplicate = Comment.objects.filter(
         page_url=comment.page_url,
-        email__iexact=comment.email,
         text=comment.text,
         parent=parent,
         created_at__gte=timezone.now() - timedelta(hours=24),
@@ -81,13 +82,21 @@ def add_comment(request):
     if duplicate:
         messages.info(request, "Bu izoh allaqaçon qoldirilgan.")
         return _safe_redirect(request, back_url)
+    reason = "" if request.user.is_staff else spam_reason(comment.text, comment.username)
+    if reason:
+        comment.status = Comment.Status.PENDING
+        comment.moderation_note = reason
     comment.save()
     cache.set(rate_key, sent + 1, RATE_LIMIT_SECONDS)
 
     if parent is None:
         in_background(send_comment_notification, comment)
     else:
-        in_background(send_reply_notification, comment, parent)
+        if not reason:  # moderatsiyadagi izoh haqida javob kutayotgan odamga xat yuborilmaydi
+            in_background(send_reply_notification, comment, parent)
+    if reason:
+        messages.info(request, "Izohingiz qabul qilindi va moderatsiyadan keyin çiqadi.")
+        return _safe_redirect(request, back_url)
     messages.success(request, "Izohingiz qabul qilindi. Rahmat!")
     return _safe_redirect(request, back_url)
 

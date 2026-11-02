@@ -450,6 +450,9 @@ else:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    # HSTS: brauzer saytni faqat HTTPS orqali oçadi. Subdomenlar (includeSubDomains) va preload ataylab yoqilmagan —
+    # HTTPS'siz subdomen bölsa, u oçilmay qoladi. Muddatni SECURE_HSTS_SECONDS orqali özgartiriş mumkin.
+    SECURE_HSTS_SECONDS = config("SECURE_HSTS_SECONDS", default=31536000, cast=int)
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 

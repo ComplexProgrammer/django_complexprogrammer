@@ -76,19 +76,20 @@
     </label>
     <div class="pj-chips" id="pjChips" role="group" aria-label="Kategoriyalar">
       <button type="button" class="on" data-cat="">Barçasi</button>
+      {% for key, label in groups %}<button type="button" data-cat="{{ key }}">{{ label }}</button>{% endfor %}
     </div>
   </div>
 
   <div class="pj-grid" id="pjGrid">
     {% for item in projects %}
-    <a class="pj-card" href="/{{ item.url }}" data-cat="{{ item.category }}" data-q="{{ item.title|lower }} {{ item.sub_title|lower }} {{ item.category|lower }}">
+    <a class="pj-card" href="/{{ item.url }}" data-cat="{{ item.group }}" data-q="{{ item.display_title|lower }} {{ item.display_desc|lower }} {{ item.title|lower }} {{ item.group_label|lower }}">
       <div class="pj-img">
-        {% if item.image %}<img src="/media/{{ item.image }}" alt="{{ item.title }}" loading="lazy" decoding="async" width="400" height="250">{% endif %}
+        {% if item.image %}<img src="/media/{{ item.image }}" alt="{{ item.display_title }}" loading="lazy" decoding="async" width="400" height="250">{% endif %}
       </div>
       <div class="pj-body">
-        <span class="pj-cat">{{ item.category }}</span>
-        <h2>{{ item.title }}</h2>
-        <p>{{ item.sub_title }}</p>
+        <span class="pj-cat">{{ item.group_label }}</span>
+        <h2>{{ item.display_title }}</h2>
+        {% if item.display_desc %}<p>{{ item.display_desc }}</p>{% endif %}
         <span class="pj-more">Oçiş <span aria-hidden="true">→</span></span>
       </div>
     </a>
@@ -109,18 +110,8 @@
     var empty = document.getElementById("pjEmpty");
     var cat = "";
 
-    var seen = {};
-    cards.forEach(function (c) {
-      var name = c.dataset.cat;
-      if (!name || seen[name]) return;
-      seen[name] = true;
-      var b = document.createElement("button");
-      b.type = "button";
-      b.dataset.cat = name;
-      b.textContent = name;
-      chips.appendChild(b);
-    });
-    if (Object.keys(seen).length < 2) chips.style.display = "none";
+    // Guruh tugmalari serverda (projects/catalog.py) çiqariladi
+    if (chips.querySelectorAll("button").length < 3) chips.style.display = "none";
 
     function apply() {
       var q = input.value.trim().toLowerCase();
