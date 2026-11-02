@@ -1,5 +1,5 @@
 {# Natijalarni (avtotestResults, avtotestMistakes) server bilan sinxronlaş — faqat Telegram orqali kirganlar uçun. #}
-{# Sahifalar javob berilganda cpSync.answered(töğrimi), localStorage özgarganda cpSync.sçedule() çaqiradi. #}
+{# Sahifalar javob berilganda cpSync.answered(töğrimi), localStorage özgarganda cpSync.schedule() çaqiradi. #}
 <script>
 {% if user.is_authenticated %}
 (function () {
@@ -60,4 +60,20 @@
 {% else %}
 window.cpSync = { schedule: function () {}, answered: function () {} };
 {% endif %}
+// Kunlik faollik şu brauzerda ham saqlanadi (cpDays: {"2026-11-02": javoblar soni}) — bosh sahifadagi
+// "ketma-ket kunlar" va "bugungi maqsad" kirmagan foydalanuvçilar uçun ham işlasin. Oxirgi 60 kun saqlanadi.
+(function () {
+  var orig = window.cpSync.answered;
+  window.cpSync.answered = function (ok) {
+    try {
+      var d = new Date(), key = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
+      var days = JSON.parse(localStorage.getItem("cpDays") || "{}");
+      days[key] = (days[key] || 0) + 1;
+      var keys = Object.keys(days).sort();
+      while (keys.length > 60) delete days[keys.shift()];
+      localStorage.setItem("cpDays", JSON.stringify(days));
+    } catch (e) {}
+    return orig.call(window.cpSync, ok);
+  };
+})();
 </script>

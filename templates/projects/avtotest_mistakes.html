@@ -37,15 +37,21 @@
 (function () {
   var LANG = "{{ LANGUAGE_CODE|slice:':2' }}";
   var DICT = {
-    uz: { title: "Xatolarim", left: "qoldi", empty: "Xato qilingan savollar yo'q!", emptyHint: "Biletlarni yeching — xato qilgan savollaringiz shu yerga yig'iladi.",
-          tickets: "Biletlarga", next: "Keyingi", bilet: "bilet", savol: "savol", correct: "To'g'ri! Savol ro'yxatdan olib tashlandi.",
-          wrong: "Noto'g'ri. To'g'ri javob belgilandi.", done: "Barcha xatolar ustida ishladingiz! 🎉", clear: "Ro'yxatni tozalash", hint: "Klaviatura: 1–4 javob, Enter — keyingi" },
+    uz: { title: "Xatolarim", left: "qoldi", empty: "Xato qilingan savollar yöq!", emptyHint: "Biletlarni yeçing — xato qilgan savollaringiz şu yerga yiğiladi.",
+          tickets: "Biletlarga", next: "Keyingi", bilet: "bilet", savol: "savol", correct: "Töğri! Savol röyxatdan olib taşlandi.",
+          wrong: "Notöğri. Töğri javob belgilandi.", done: "Barça xatolar ustida işladingiz! 🎉", clear: "Röyxatni tozalaş", hint: "Klaviatura: 1–4 javob, Enter — keyingi",
+          later: "Töğri! Savol {d} kundan keyin yana söraladi (yaxşi eslab qolişingiz uçun).",
+          rest: "Bugungi takrorlaş tugadi 🎉", restHint: "Qolgan {n} ta savol keyingi kunlarda söraladi.", practiceAll: "Baribir hammasini işlaş" },
     ru: { title: "Мои ошибки", left: "осталось", empty: "Ошибок нет!", emptyHint: "Решайте билеты — вопросы с ошибками будут собраны здесь.",
           tickets: "К билетам", next: "Далее", bilet: "билет", savol: "вопрос", correct: "Верно! Вопрос убран из списка.",
-          wrong: "Неверно. Правильный ответ отмечен.", done: "Все ошибки проработаны! 🎉", clear: "Очистить список", hint: "Клавиатура: 1–4 ответ, Enter — далее" },
+          wrong: "Неверно. Правильный ответ отмечен.", done: "Все ошибки проработаны! 🎉", clear: "Очистить список", hint: "Клавиатура: 1–4 ответ, Enter — далее",
+          later: "Верно! Вопрос появится снова через {d} дн. (чтобы закрепить).",
+          rest: "На сегодня повторение закончено 🎉", restHint: "Остальные {n} вопр. появятся в ближайшие дни.", practiceAll: "Всё равно решать все" },
     en: { title: "My mistakes", left: "left", empty: "No mistakes yet!", emptyHint: "Solve tickets — questions you get wrong are collected here.",
           tickets: "To tickets", next: "Next", bilet: "ticket", savol: "question", correct: "Correct! Removed from the list.",
-          wrong: "Wrong. The correct answer is highlighted.", done: "All mistakes reviewed! 🎉", clear: "Clear list", hint: "Keyboard: 1–4 to answer, Enter — next" }
+          wrong: "Wrong. The correct answer is highlighted.", done: "All mistakes reviewed! 🎉", clear: "Clear list", hint: "Keyboard: 1–4 to answer, Enter — next",
+          later: "Correct! It will come back in {d} day(s) to make it stick.",
+          rest: "Today's review is done 🎉", restHint: "The other {n} question(s) will come back in the next days.", practiceAll: "Practise all anyway" }
   };
   var T = DICT[LANG] || DICT.en;
   var sfx = LANG === "ru" ? "_ru" : (LANG === "uz" ? "" : "_en");
@@ -53,12 +59,34 @@
 
   function load() { try { return JSON.parse(localStorage.getItem("avtotestMistakes")) || {}; } catch (e) { return {}; } }
   function save(m) { try { localStorage.setItem("avtotestMistakes", JSON.stringify(m)); } catch (e) {} window.cpSync.schedule(); }
+  // Oraliq takrorlaş: töğri javobdan keyin savol 1, söng 3 kundan keyin yana beriladi; uçinçi töğri javobda öçadi.
+  // Holat faqat şu brauzerda (avtotestReview); xato qilinsa boşidan boşlanadi.
+  var DAY = 864e5, STEPS = [1, 3];
+  function loadReview() { try { return JSON.parse(localStorage.getItem("avtotestReview")) || {}; } catch (e) { return {}; } }
+  function saveReview(r) { try { localStorage.setItem("avtotestReview", JSON.stringify(r)); } catch (e) {} }
+  function isDue(id) {
+    var r = loadReview()[id], m = load()[id];
+    // Biletda yana xato qilingan bölsa (mistake.t yangiroq) — darhol takrorlanadi
+    return !r || r.due <= Date.now() || (m && m.t > r.at);
+  }
   function esc(t) { var d = document.createElement("div"); d.textContent = t == null ? "" : t; return d.innerHTML; }
   function pick(q, field) { return q[field + sfx] || q[field] || ""; }
 
   var mistakes = load();
   var ids = Object.keys(mistakes);
-  var queue = [], index = 0, answered = false, initial = 0;
+  var all = [], queue = [], index = 0, answered = false, initial = 0;
+
+  function rest() {
+    app.innerHTML = '<div class="m-card m-empty"><div>⏳</div><h2>' + esc(T.rest) + '</h2><p class="m-meta">' +
+      esc(T.restHint.replace("{n}", Object.keys(load()).length)) + '</p>' +
+      '<a class="btn btn-primary mt-2" href="/avtotest/">🚗 ' + esc(T.tickets) + '</a> ' +
+      '<button id="all" class="btn btn-outline-primary mt-2">' + esc(T.practiceAll) + '</button></div>';
+    document.getElementById("all").addEventListener("click", function () {
+      queue = all.filter(function (q) { return load()[q.id]; }); index = 0; initial = queue.length;
+      if (!queue.length) { empty(T.done, ""); return; }
+      render();
+    });
+  }
 
   function empty(msg, hint) {
     app.innerHTML = '<div class="m-card m-empty"><div>✅</div><h2>' + esc(msg) + '</h2><p class="m-meta">' + esc(hint || "") +
@@ -70,15 +98,20 @@
   fetch("/GetSavol/?ids=" + ids.join(","))
     .then(function (r) { return r.json(); })
     .then(function (data) {
-      queue = data.sort(function (a, b) { return a.bilet - b.bilet || a.raqam - b.raqam; });
+      all = data.sort(function (a, b) { return a.bilet - b.bilet || a.raqam - b.raqam; });
+      if (!all.length) { save({}); empty(T.empty, T.emptyHint); return; }
+      queue = all.filter(function (q) { return isDue(q.id); });
+      if (!queue.length) { rest(); return; }
       initial = queue.length;
-      if (!queue.length) { save({}); empty(T.empty, T.emptyHint); return; }
       render();
     })
     .catch(function () { app.innerHTML = '<div class="alert alert-danger">Network error</div>'; });
 
   function render() {
-    if (index >= queue.length) { empty(T.done, ""); return; }
+    if (index >= queue.length) {
+      if (Object.keys(load()).length) rest(); else empty(T.done, "");
+      return;
+    }
     answered = false;
     var q = queue[index];
     var left = Object.keys(load()).length;
@@ -105,7 +138,7 @@
     });
     document.getElementById("next").addEventListener("click", next);
     document.getElementById("clear").addEventListener("click", function () {
-      if (confirm(T.clear + "?")) { save({}); empty(T.empty, T.emptyHint); }
+      if (confirm(T.clear + "?")) { save({}); saveReview({}); empty(T.empty, T.emptyHint); }
     });
   }
 
@@ -120,12 +153,23 @@
       if (l === q.javob) b.classList.add("ok");
       else if (l === letter) b.classList.add("bad");
     });
-    var m = load();
-    if (ok) { delete m[q.id]; save(m); }
+    var m = load(), review = loadReview(), msg = ok ? T.correct : T.wrong;
+    if (ok) {
+      var stage = (review[q.id] && review[q.id].s) || 0;
+      if (stage < STEPS.length) {
+        review[q.id] = { s: stage + 1, due: Date.now() + STEPS[stage] * DAY, at: Date.now() };
+        msg = T.later.replace("{d}", STEPS[stage]);
+      } else {
+        delete review[q.id]; delete m[q.id]; save(m);
+      }
+    } else {
+      delete review[q.id];
+    }
+    saveReview(review);
     window.cpSync.answered(ok);
     var expl = pick(q, "izoh");
     var explHtml = expl ? '<div class="mt-2 p-2 rounded" style="background:rgba(99,102,241,0.1); border-left:4px solid #6366f1; font-size:0.88rem">💡 <b>Qoida izohi:</b> ' + esc(expl) + '</div>' : '';
-    document.getElementById("feedback").innerHTML = '<div class="alert alert-' + (ok ? "success" : "danger") + ' py-2 m-0">' + esc(ok ? T.correct : T.wrong) + '</div>' + explHtml;
+    document.getElementById("feedback").innerHTML = '<div class="alert alert-' + (ok ? "success" : "danger") + ' py-2 m-0">' + esc(msg) + '</div>' + explHtml;
     document.getElementById("next").disabled = false;
     document.getElementById("next").focus();
   }

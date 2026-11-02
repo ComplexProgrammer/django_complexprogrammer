@@ -36,10 +36,18 @@ def page_url_for(request):
 
 def page_comments(request, page_url=None):
     """Joriy sahifaning (yoki berilgan ``page_url``ning) yuqori darajadagi izohlari, javoblari bilan."""
+    from django.db.models import Prefetch
+
     from comments.models import Comment
 
+    approved = Comment.objects.filter(status=Comment.Status.APPROVED)
+    replies = approved  # Meta.ordering (yangisi yuqorida) saqlanadi
+    # Javoblar ham faqat tasdiqlanganlari (3 daraja çuqurlikkaça, replies_template.html)
+    nested = replies.prefetch_related(
+        Prefetch("replies", queryset=replies.prefetch_related(Prefetch("replies", queryset=replies)))
+    )
     return (
-        Comment.objects.filter(page_url=page_url or page_url_for(request), parent=None)
-        .prefetch_related("replies", "replies__replies", "replies__replies__replies")
+        approved.filter(page_url=page_url or page_url_for(request), parent=None)
+        .prefetch_related(Prefetch("replies", queryset=nested))
         .order_by("-created_at")
     )

@@ -1,0 +1,47 @@
+{# Ovozli öqiş: savol va javoblarni brauzerning öz ovozi (Web Speech API) bilan öqiydi.
+   Parametrlar: q — savol matni selektori, a — javoblar selektori. Bir neçta mos element bölsa, körinib turgani olinadi.
+   Tugma faqat brauzerda sahifa tiliga mos ovoz bölsa çiqadi (özbekça ovoz hamma qurilmada yöq). #}
+<button type="button" class="cp-tts" id="cpTts" hidden aria-label="{% if ui_lang == 'ru' %}Прочитать вслух{% elif ui_lang == 'uz' %}Ovoz çiqarib öqiş{% else %}Read aloud{% endif %}">
+  🔊 <span>{% if ui_lang == 'ru' %}Прочитать{% elif ui_lang == 'uz' %}Öqib beriş{% else %}Read aloud{% endif %}</span>
+</button>
+<style>
+  .cp-tts{position:fixed;left:16px;bottom:16px;z-index:1040;border:0;border-radius:999px;padding:10px 16px;background:#0ea5e9;color:#fff;
+    font:600 15px/1 Inter,system-ui,sans-serif;box-shadow:0 8px 24px rgba(15,23,42,.25);cursor:pointer}
+  .cp-tts[hidden]{display:none}
+  .cp-tts.on{background:#ef4444}
+</style>
+<script>
+  (function () {
+    var synth = window.speechSynthesis, btn = document.getElementById("cpTts");
+    if (!synth || !btn || !window.SpeechSynthesisUtterance) return;
+    var LANG = { uz: "uz", ru: "ru", en: "en", tr: "tr" }["{{ ui_lang|default:'uz' }}"] || "uz";
+    var Q = "{{ q|escapejs }}", A = "{{ a|escapejs }}", voice = null;
+
+    function pickVoice() {
+      voice = synth.getVoices().filter(function (v) { return (v.lang || "").toLowerCase().indexOf(LANG) === 0; })[0] || null;
+      btn.hidden = !voice || !document.querySelector(Q);
+    }
+    pickVoice();
+    if (synth.onvoiceschanged !== undefined) synth.addEventListener("voiceschanged", pickVoice);
+    setTimeout(pickVoice, 1500); // AngularJS savollarni keyinroq çizadi (avtotest bilet sahifasi)
+
+    function visible(sel) {
+      return [].slice.call(document.querySelectorAll(sel)).filter(function (el) { return el.offsetParent !== null; });
+    }
+    function text(el) { return (el.innerText || el.textContent || "").replace(/\s+/g, " ").trim(); }
+
+    btn.addEventListener("click", function () {
+      if (synth.speaking) { synth.cancel(); btn.classList.remove("on"); return; }
+      var q = visible(Q)[0];
+      if (!q) return;
+      var parts = [text(q)];
+      visible(A).forEach(function (el, i) { var t = text(el); if (t) parts.push((i + 1) + ". " + t); });
+      var u = new SpeechSynthesisUtterance(parts.join(". "));
+      u.voice = voice; u.lang = voice.lang; u.rate = 0.95;
+      u.onend = u.onerror = function () { btn.classList.remove("on"); };
+      btn.classList.add("on");
+      synth.speak(u);
+    });
+    window.addEventListener("pagehide", function () { synth.cancel(); });
+  })();
+</script>

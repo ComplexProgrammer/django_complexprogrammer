@@ -592,8 +592,6 @@
     <!-- Unified Site Header -->
     {% include "includes/site_header.html" %}
 
-    <!-- PWA Install Banner -->
-    {% include "includes/pwa_install.html" %}
 
     <main role="main" class="fade-in">
         <div class="container">
@@ -620,7 +618,7 @@
                             <div class="cp-btn-ico"><i class="fas fa-layer-group"></i></div>
                             <div>
                                 <span class="cp-btn-main">{{ ui.hero_tickets }}</span>
-                                <small class="cp-btn-sub">108 bilet · 1080 rasmiy savol</small>
+                                <small class="cp-btn-sub">{{ avtotest_stats.bilets }} bilet · {{ avtotest_stats.questions }} savol</small>
                             </div>
                         </a>
                     </div>
@@ -629,7 +627,7 @@
                         <a class="cp-hero-chip" href="{{ lang_prefix }}/jarimalar/">
                             <i class="fas fa-file-invoice-dollar"></i> {{ ui.jarimalar }}
                         </a>
-                        <a class="cp-hero-chip" href="/tests/xatolar/">
+                        <a class="cp-hero-chip" href="{{ lang_prefix }}/avtotest/xatolar/">
                             <i class="fas fa-rotate-left"></i> Xatolar ustida işlaş
                         </a>
                         <a class="cp-hero-chip" href="{{ lang_prefix }}/yol-belgilari/">
@@ -658,7 +656,7 @@
                     <div class="cp-readiness-stats">
                         <div class="cp-readiness-stat">
                             <span>Yeçilgan biletlar</span>
-                            <b id="cpSolvedBilets">0 / 108</b>
+                            <b id="cpSolvedBilets">0 / {{ avtotest_stats.bilets }}</b>
                         </div>
                         <div class="cp-readiness-stat">
                             <span>Örtaça aniqlik</span>
@@ -669,12 +667,36 @@
                             <b id="cpMistakesCount" style="color:#ef4444">0 ta</b>
                         </div>
                         <div style="display:flex; align-items:stretch;">
-                            <a id="cpResumeBtn" href="/avtotest/" class="cp-readiness-btn" style="width:100%">
-                                Davom ettiriş &rarr;
+                            <a id="cpResumeBtn" href="{{ lang_prefix }}/avtotest/1/" class="cp-readiness-btn" style="width:100%">
+                                1-biletdan boşlaş &rarr;
                             </a>
                         </div>
                     </div>
+                    {# Imtihon sanasi böyiça reja: sana, kunlik maqsad va ketma-ket kunlar faqat şu brauzerda (localStorage) #}
+                    <div class="cp-plan" id="cpPlan">
+                        <div class="cp-plan-item"><span>🔥 Ketma-ket</span><b id="cpStreak">0 kun</b></div>
+                        <div class="cp-plan-item cp-plan-today">
+                            <span>🎯 Bugun</span><b id="cpToday">0 / 20 savol</b>
+                            <div class="cp-plan-bar"><div id="cpTodayFill"></div></div>
+                        </div>
+                        <label class="cp-plan-item cp-plan-date">
+                            <span>📅 Imtihon sanasi</span>
+                            <input type="date" id="cpExamDate" aria-label="Imtihon sanasi">
+                        </label>
+                        <p class="cp-plan-tip" id="cpPlanTip">Imtihon sanasini kiriting — kuniga neçta bilet yeçiş kerakligini hisoblab beramiz.</p>
+                    </div>
                 </section>
+                <style>
+                    .cp-plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px;padding-top:14px;
+                        border-top:1px dashed rgba(99,102,241,.3)}
+                    .cp-plan-item{display:flex;flex-direction:column;gap:4px;font-size:.85rem;margin:0}
+                    .cp-plan-item span{opacity:.75}
+                    .cp-plan-item b{font-size:1.05rem}
+                    .cp-plan-item input{border:1px solid rgba(99,102,241,.35);border-radius:8px;padding:4px 8px;background:transparent;color:inherit;font:inherit}
+                    .cp-plan-bar{height:6px;border-radius:6px;background:rgba(99,102,241,.15);overflow:hidden}
+                    .cp-plan-bar div{height:100%;width:0;background:#22c55e;transition:width .4s}
+                    .cp-plan-tip{grid-column:1/-1;margin:0;font-size:.9rem;font-weight:600}
+                </style>
 
                 <!-- Core 6 Pillars of Avtotest -->
                 <h2 class="cp-section-h">
@@ -692,7 +714,7 @@
                     <a href="/avtotest/" class="cp-pillar-card">
                         <div class="cp-pillar-ico ico-sky"><i class="fas fa-book-open"></i></div>
                         <div class="cp-pillar-body">
-                            <h3>108 ta Bilet (1080 savol)</h3>
+                            <h3>{{ avtotest_stats.bilets }} ta bilet ({{ avtotest_stats.questions }} savol)</h3>
                             <p>Rasmiy testlar. Har bir savol böyiça qonuniy YHQ moddalari tuşuntirişlari.</p>
                         </div>
                     </a>
@@ -703,7 +725,7 @@
                             <p>2026 yangi jarimalar jadvali, 15 kunlik 50% çegirma hisobi va moddalar qidiruvi.</p>
                         </div>
                     </a>
-                    <a href="/tests/xatolar/" class="cp-pillar-card">
+                    <a href="{{ lang_prefix }}/avtotest/xatolar/" class="cp-pillar-card">
                         <div class="cp-pillar-ico ico-rose"><i class="fas fa-rotate-left"></i></div>
                         <div class="cp-pillar-body">
                             <h3>Xatolar ustida işlaş</h3>
@@ -779,7 +801,7 @@
                         <i class="fas fa-gamepad cp-today-ico text-warning"></i>
                         <div>
                             <b>{{ ui.games }}</b>
-                            <small>Snake · Tetris · Car · Şooter</small>
+                            <small>Snake · Tetris · Car · Shooter</small>
                         </div>
                     </a>
                 </div>
@@ -864,6 +886,7 @@
     <!-- Student Progress Live Calculation Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            var TOTAL_BILETS = {{ avtotest_stats.bilets|default:139 }};
             try {
                 var results = JSON.parse(localStorage.getItem('avtotestResults') || '{}');
                 var mistakes = JSON.parse(localStorage.getItem('avtotestMistakes') || '{}');
@@ -887,7 +910,7 @@
                     });
 
                     var accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-                    var readinessScore = Math.min(100, Math.round((solvedCount / 108) * 60 + (accuracy * 0.4)));
+                    var readinessScore = Math.min(100, Math.round((solvedCount / TOTAL_BILETS) * 60 + (accuracy * 0.4)));
 
                     var widget = document.getElementById('cpReadinessWidget');
                     var scoreEl = document.getElementById('cpReadinessScore');
@@ -901,13 +924,13 @@
                         widget.style.display = 'block';
                         if (scoreEl) scoreEl.textContent = readinessScore + '% Tayyor';
                         if (fillEl) fillEl.style.width = readinessScore + '%';
-                        if (solvedEl) solvedEl.textContent = solvedCount + ' / 108';
+                        if (solvedEl) solvedEl.textContent = solvedCount + ' / ' + TOTAL_BILETS;
                         if (accEl) accEl.textContent = accuracy + '%';
                         if (mistakesEl) mistakesEl.textContent = mistakesCount + ' ta';
                         if (resumeBtn) {
-                            var nextBilet = Math.min(108, lastBilet + 1);
-                            resumeBtn.href = '/avtotest/' + nextBilet + '/';
-                            resumeBtn.innerHTML = nextBilet + '-bilet &rarr;';
+                            var nextBilet = Math.min(TOTAL_BILETS, lastBilet + 1);
+                            resumeBtn.href = '{{ lang_prefix }}/avtotest/' + nextBilet + '/';
+                            resumeBtn.innerHTML = 'Davom ettiriş: ' + nextBilet + '-bilet &rarr;';
                         }
                     }
                 }
@@ -915,6 +938,51 @@
                 console.error("Readiness widget error:", e);
             }
         });
+    </script>
+    <script>
+        // Tayyorgarlik rejasi: imtihon sanasi (cpExamDate), bugungi javoblar va ketma-ket kunlar (cpDays — driving/_sync.html yozadi)
+        (function () {
+            var TOTAL = {{ avtotest_stats.bilets|default:139 }}, PER_BILET = 10, DEFAULT_GOAL = 20;
+            function get(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
+            function dayKey(d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+            var days = get("cpDays", {}), results = get("avtotestResults", {});
+            var input = document.getElementById("cpExamDate");
+            if (!input) return;
+            var today = new Date(); today.setHours(0, 0, 0, 0);
+            input.min = dayKey(today);
+            try { input.value = localStorage.getItem("cpExamDate") || ""; } catch (e) {}
+
+            // Ketma-ket kunlar: bugun hali yeçmagan bölsa, kecha bilan tugagan seriya ham sanaladi
+            var streak = 0, d = new Date(today);
+            if (!days[dayKey(d)]) d.setDate(d.getDate() - 1);
+            while (days[dayKey(d)]) { streak++; d.setDate(d.getDate() - 1); }
+            document.getElementById("cpStreak").textContent = streak + " kun";
+
+            function render() {
+                var passed = Object.keys(results).filter(function (k) { return results[k] && results[k].wrong <= 2; }).length;
+                var left = Math.max(TOTAL - passed, 0), goal = DEFAULT_GOAL, tip;
+                var exam = input.value ? new Date(input.value + "T00:00:00") : null;
+                if (exam && exam >= today) {
+                    var daysLeft = Math.max(Math.round((exam - today) / 864e5), 1);
+                    var perDay = Math.ceil(left / daysLeft);
+                    goal = Math.max(perDay * PER_BILET, PER_BILET);
+                    tip = left
+                        ? "Imtihongaça " + daysLeft + " kun qoldi: kuniga " + perDay + " ta bilet (" + goal + " savol) yeçsangiz, barça biletlardan ötasiz."
+                        : "Barça biletlardan ötgansiz! Imtihongaça " + daysLeft + " kun: imtihon simulyatorida mustahkamlang.";
+                } else {
+                    tip = "Imtihon sanasini kiriting — kuniga neçta bilet yeçiş kerakligini hisoblab beramiz.";
+                }
+                var done = days[dayKey(today)] || 0;
+                document.getElementById("cpToday").textContent = done + " / " + goal + " savol" + (done >= goal ? " ✅" : "");
+                document.getElementById("cpTodayFill").style.width = Math.min(100, Math.round(done / goal * 100)) + "%";
+                document.getElementById("cpPlanTip").textContent = tip;
+            }
+            input.addEventListener("change", function () {
+                try { input.value ? localStorage.setItem("cpExamDate", input.value) : localStorage.removeItem("cpExamDate"); } catch (e) {}
+                render();
+            });
+            render();
+        })();
     </script>
     {% block extra_js %}{% endblock %}
 </body>

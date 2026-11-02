@@ -62,6 +62,7 @@ urlpatterns += [
     path("admin/", admin.site.urls),
     path("sitemap.xml", core_views.sitemap_xml, name="sitemap_xml"),
     path("sitemap.xml/", core_views.sitemap_xml),
+    re_path(r"^sitemap-(?P<slug>[a-z]+)\.xml$", core_views.sitemap_section_xml, name="sitemap_section_xml"),
     path("robots.txt", core_views.robots_txt, name="robots_txt"),
     re_path(r"^(?P<key>[0-9a-f]{32})\.txt$", core_views.indexnow_key, name="indexnow_key"),
     path("robots.txt/", core_views.robots_txt),

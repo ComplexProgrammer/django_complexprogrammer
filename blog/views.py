@@ -200,6 +200,12 @@ def detail(request, slug):
     if lang == "uz" and post.seo_description:
         description = post.seo_description
     category_name = pick(post.categorie, "name", lang)[0] if post.categorie else ""
+    # Muallif: admin profilidagi ism (bölmasa — sayt nomi); maqola keyinroq tahrirlangan bölsa, yangilangan sana körinadi
+    creator = post.created_by
+    author_name = (creator.get_full_name() if creator else "").strip()
+    author = {"@type": "Person", "name": author_name} if author_name else {
+        "@type": "Organization", "name": "Complex Programmer", "url": SITE_URL}
+    was_updated = post.updated_at.date() > post.publish_time.date()
     json_ld = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -209,7 +215,7 @@ def detail(request, slug):
         "datePublished": post.publish_time.isoformat(),
         "dateModified": post.updated_at.isoformat(),
         "mainEntityOfPage": canonical,
-        "author": {"@type": "Organization", "name": "Complex Programmer", "url": SITE_URL},
+        "author": author,
         "publisher": {
             "@type": "Organization",
             "name": "Complex Programmer",
@@ -235,6 +241,8 @@ def detail(request, slug):
             "is_native": is_native,
             "minutes": reading_minutes(body),
             "category_name": category_name,
+            "author_name": author_name,
+            "was_updated": was_updated,
             "source_host": (urlsplit(post.source_url).hostname or "").removeprefix("www."),
             "newer": _card(newer, lang) if newer else None,
             "older": _card(older, lang) if older else None,

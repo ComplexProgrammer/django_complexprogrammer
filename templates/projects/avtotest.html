@@ -137,7 +137,7 @@
     {% if request.LANGUAGE_CODE == 'uz' %}
     {% verbatim %}
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="staticBackdrop" ng-cloak data-nosnippet data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -173,7 +173,7 @@
     {% if request.LANGUAGE_CODE == 'ru' %}
     {% verbatim %}
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="staticBackdrop" ng-cloak data-nosnippet data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -209,7 +209,7 @@
     {% else %}
     {% verbatim %}
     <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="staticBackdrop" ng-cloak data-nosnippet data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -302,6 +302,25 @@
                 <span class="at-dot at-fail"></span> {% if request.LANGUAGE_CODE == 'ru' %}не сдан{% elif request.LANGUAGE_CODE == 'uz' %}yiqildi{% else %}failed{% endif %}
                 <span class="at-dot at-progress"></span> {% if request.LANGUAGE_CODE == 'ru' %}в процессе{% elif request.LANGUAGE_CODE == 'uz' %}davom etmoqda{% else %}in progress{% endif %}
             </p>
+            {% with L=request.LANGUAGE_CODE %}
+            <div class="at-filter" id="atFilter" role="group" hidden>
+                <button type="button" class="on" data-f="">{% if L == 'ru' %}Все{% elif L == 'uz' %}Barçasi{% else %}All{% endif %}</button>
+                <button type="button" data-f="new">{% if L == 'ru' %}Не начатые{% elif L == 'uz' %}Boşlanmagan{% else %}Not started{% endif %} <b></b></button>
+                <button type="button" data-f="is-fail">{% if L == 'ru' %}Не сданные{% elif L == 'uz' %}Yiqilgan{% else %}Failed{% endif %} <b></b></button>
+                <button type="button" data-f="is-progress">{% if L == 'ru' %}Начатые{% elif L == 'uz' %}Davom etmoqda{% else %}In progress{% endif %} <b></b></button>
+                <button type="button" data-f="is-pass">{% if L == 'ru' %}Сданные{% elif L == 'uz' %}Ötilgan{% else %}Passed{% endif %} <b></b></button>
+            </div>
+            {% endwith %}
+            <style>
+                .at-filter{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 18px}
+                .at-filter[hidden]{display:none}
+                .at-filter button{border:1px solid rgba(99,102,241,.35);background:rgba(255,255,255,.85);color:#1e293b;border-radius:999px;
+                    padding:6px 14px;font-weight:600;font-size:.9rem;cursor:pointer}
+                .at-filter button.on{background:#4f46e5;border-color:#4f46e5;color:#fff}
+                .at-filter button b{opacity:.75;font-weight:700}
+                .at-filter button[disabled]{opacity:.45;cursor:default}
+                [data-theme="dark"] .at-filter button:not(.on){background:rgba(30,41,59,.85);color:#e2e8f0}
+            </style>
             <div class="tickets-grid">
                 {% for i in row %}
                 <div class="ticket-card-3d" data-bilet="{{ i }}">
@@ -375,6 +394,30 @@
             var pool = unsolved.length ? unsolved : Array.from(cards).map(function (c) { return c.getAttribute("data-bilet"); });
             document.getElementById("atRandom").href = "/avtotest/" + pool[Math.floor(Math.random() * pool.length)] + "/";
             document.getElementById("atStats").hidden = false;
+
+            // Filtr: boşlanmagan / yiqilgan / davom etayotgan / ötilgan biletlar (natija bölsagina körsatiladi)
+            var filter = document.getElementById("atFilter");
+            var counts = { "new": 0, "is-fail": 0, "is-progress": 0, "is-pass": 0 };
+            cards.forEach(function (c) {
+                var k = c.classList.contains("is-pass") ? "is-pass" : c.classList.contains("is-fail") ? "is-fail"
+                    : c.classList.contains("is-progress") ? "is-progress" : "new";
+                c.dataset.state = k;
+                counts[k]++;
+            });
+            if (counts["new"] < cards.length) {
+                filter.querySelectorAll("button[data-f]").forEach(function (b) {
+                    var f = b.dataset.f, n = b.querySelector("b");
+                    if (n) n.textContent = counts[f];
+                    if (f && !counts[f]) b.disabled = true;
+                });
+                filter.hidden = false;
+                filter.addEventListener("click", function (e) {
+                    var b = e.target.closest("button");
+                    if (!b || b.disabled) return;
+                    filter.querySelectorAll("button").forEach(function (x) { x.classList.toggle("on", x === b); });
+                    cards.forEach(function (c) { c.style.display = !b.dataset.f || c.dataset.state === b.dataset.f ? "" : "none"; });
+                });
+            }
         })();
     </script>
     {% else %}
@@ -537,6 +580,7 @@
     <hr />
 {% include "includes/seo_text.html" %}
 {% include "driving/_sync.html" %}
+{% include "includes/tts.html" with q='[ng-repeat="item in data"] h4.page-content' a='[ng-repeat="item in data"] .list-group-item' %}
 <script>window.CP_LOGGED_IN = {{ user.is_authenticated|yesno:"true,false" }}; window.CP_LANG_PREFIX = "{{ lang_prefix }}"; window.CP_BILET = {{ bilet|default:0 }};</script>
     {% include 'comment_form.html' %}
     <script src="/static/js/avtotest-app.js?v=1"></script>

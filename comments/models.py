@@ -4,6 +4,11 @@ from django.utils import timezone
 
 
 class Comment(models.Model):
+    class Status(models.TextChoices):
+        APPROVED = "approved", "Tasdiqlangan"
+        PENDING = "pending", "Moderatsiyada"
+        HIDDEN = "hidden", "Yaşirilgan (spam)"
+
     username = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)  # Email manzili
     page_url = models.CharField(max_length=200)  # Qaysi sahifada qoldirilgani
@@ -12,6 +17,9 @@ class Comment(models.Model):
     parent = models.ForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
     )
+    # Havola yoki reklama sözlari bor izoh "pending" bölib saqlanadi va admin tasdiqlamaguncha körinmaydi
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.APPROVED, db_index=True)
+    moderation_note = models.CharField(max_length=100, blank=True, default="")
 
     class Meta:
         ordering = ["-created_at"]

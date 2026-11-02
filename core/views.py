@@ -139,14 +139,8 @@ STATIC_SITEMAP_SECTIONS = [
 UZ_ONLY_PREFIXES = ("/yhq/",)
 
 
-def build_sitemap():
-    """Sitemap XML matni: yangi blog/yangilik/bilet qo'shilsa, o'zi paydo bo'ladi.
-
-    Har bir sahifa barcha til versiyalari (uz — prefikssiz, /ru/, /en/) bilan, hreflang havolalari bilan beriladi.
-    ``/sitemap.xml`` va ``manage.py write_sitemap`` (static/sitemap.xml) shu funksiyadan foydalanadi.
-    """
-    from xml.sax.saxutils import escape
-
+def sitemap_sections():
+    """Sitemap bölimlari: [(sarlavha, [(manzil, lastmod, changefreq, priority), ...]), ...]."""
     from django.db.models import Max
 
     # Bo'limlar: (sarlavha, [(manzil, lastmod, changefreq, priority), ...])
@@ -195,6 +189,33 @@ def build_sitemap():
         (f"/project/{p['id']}/", p["updated_time"], "monthly", "0.4")
         for p in Project.actives.order_by("id").values("id", "updated_time")
     ]))
+    return sections
+
+
+# Sitemap index'dagi fayl nomi: /sitemap-<slug>.xml (bölim sarlavhasi örniga barqaror nom)
+SITEMAP_SLUGS = {
+    "Avtotest biletlari": "biletlar", "Yöl harakati qoidalari": "yhq", "Avtotest mavzulari": "mavzular",
+    "Avtotest savollari": "savollar", "Yo'l belgilari": "belgilar", "Testlar (kitoblar bo'yicha)": "testlar",
+    "Blog maqolalari": "blog", "Yangiliklar": "yangiliklar", "Loyihalar": "loyihalar",
+}
+
+
+def _section_slug(title):
+    return SITEMAP_SLUGS.get(title) or "sahifalar"
+
+
+def build_sitemap(slug=None):
+    """Sitemap XML matni: yangi blog/yangilik/bilet qo'shilsa, o'zi paydo bo'ladi.
+
+    Har bir sahifa barcha til versiyalari (uz — prefikssiz, /ru/, /en/) bilan, hreflang havolalari bilan beriladi.
+    ``slug`` berilsa — faqat şu bölim (``/sitemap-<slug>.xml``), aks holda hammasi bitta faylda
+    (``manage.py write_sitemap`` -> static/sitemap.xml).
+    """
+    from xml.sax.saxutils import escape
+
+    sections = sitemap_sections()
+    if slug is not None:
+        sections = [(t, rows) for t, rows in sections if _section_slug(t) == slug]
 
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
@@ -228,11 +249,37 @@ def build_sitemap():
 
 
 def sitemap_xml(request):
-    # Minglab sahifa × 3 til — har so'rovda qayta qurish og'ir (robotlar tez-tez so'raydi)
-    xml = cache.get("sitemap_xml")
+    """Sitemap index: bölimlar alohida fayllarda (bitta 3 MB lik fayl robotlar uçun sekin yuklanardi)."""
+    from xml.sax.saxutils import escape
+
+    xml = cache.get("sitemap_index")
     if xml is None:
-        xml = build_sitemap()
-        cache.set("sitemap_xml", xml, 3600)
+        slugs = []
+        for title, rows in sitemap_sections():
+            slug = _section_slug(title)
+            if rows and slug not in slugs:
+                slugs.append(slug)
+        lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+        for slug in slugs:
+            lines.append(f"  <sitemap><loc>{escape(SITE_URL)}/sitemap-{slug}.xml</loc></sitemap>")
+        lines += ["</sitemapindex>", ""]
+        xml = "\n".join(lines)
+        cache.set("sitemap_index", xml, 3600)
+    return HttpResponse(xml, content_type="application/xml")
+
+
+def sitemap_section_xml(request, slug):
+    from django.http import Http404
+
+    if slug not in set(SITEMAP_SLUGS.values()) | {"sahifalar"}:
+        raise Http404
+    key = f"sitemap_xml:{slug}"
+    xml = cache.get(key)
+    if xml is None:
+        xml = build_sitemap(slug)
+        if "<url>" not in xml:
+            raise Http404
+        cache.set(key, xml, 3600)
     return HttpResponse(xml, content_type="application/xml")
 
 

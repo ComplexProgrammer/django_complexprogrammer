@@ -30,6 +30,8 @@
           <h1>{{ name }}</h1>
           <div class="b-meta">
             <time datetime="{{ post.publish_time|date:'c' }}">📅 {{ post.publish_time|date:"j E Y" }}</time>
+            {% if was_updated %}<span>🔄 {{ t.updated }}: <time datetime="{{ post.updated_at|date:'c' }}">{{ post.updated_at|date:"j E Y" }}</time></span>{% endif %}
+            <span>✍️ {{ t.author }}: {{ author_name|default:"Complex Programmer" }}</span>
             <span>⏱ {{ minutes }} {{ t.min_read }}</span>
             <span>👁 {{ post.view_count }} {{ t.views }}</span>
           </div>
