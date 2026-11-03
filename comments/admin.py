@@ -22,6 +22,7 @@ class CommentAdmin(ModelAdmin):
     search_help_text = "Ism, email, matn yoki sahifa manzili böyiça"
     readonly_fields = ["created_at"]
     ordering = ["-created_at"]
+    autocomplete_fields = ["parent"]
 
     @display(description="Izoh", ordering="text")
     def short_text(self, obj):
