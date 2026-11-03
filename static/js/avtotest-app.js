@@ -9,6 +9,20 @@ app.controller("avtotest", ["$scope", "$http", "$filter", function ($scope, $htt
     $scope.timeout = false;
     $scope.savol_raqami = 1;
     $scope.bilet = window.CP_BILET || 0;
+    // Biletdagi savollar soni: hamma bilet ham 10 talik emas (masalan, 136-biletda 8 ta)
+    $scope.total = window.CP_BILET_SIZE || 10;
+    $scope.maxBilet = window.CP_MAX_BILET || 0;
+    var PREFIX = window.CP_LANG_PREFIX || "";
+    var LANG = (document.documentElement.lang || "uz").slice(0, 2);
+    var MSG = {
+        uz: { right: "Töğri javob", wrong: "Notöğri javob", timeout: "Vaqt tugadi", error: "Xatolik yuz berdi" },
+        ru: { right: "Правильный ответ", wrong: "Неправильный ответ", timeout: "Время вышло", error: "Произошла ошибка" },
+        en: { right: "Correct answer", wrong: "Wrong answer", timeout: "Time is up", error: "Something went wrong" }
+    }[LANG] || null;
+    if (!MSG) MSG = { right: "Töğri javob", wrong: "Notöğri javob", timeout: "Vaqt tugadi", error: "Xatolik yuz berdi" };
+    function answeredCount() {
+        return $scope.javoblar.filter(function (w) { return w.bilet == $scope.bilet; }).length;
+    }
 $scope.time = 900;
 $scope.togri_javob_soni = 0;
 $scope.notogri_javob_soni = 0;
@@ -21,14 +35,14 @@ if ($scope.bilet != 0) {
 }
 $scope.mValue = null;
 $scope.back = function () {
-    window.location.href = "/avtotest";
+    window.location.href = PREFIX + "/avtotest/";
 }
 $scope.nextbilet = function (value) {
     if ($scope.bilet == value) {
         $scope.javoblar = $scope.javoblar.filter(word => word.bilet != $scope.bilet);
         saveJavoblar();
     }
-    window.location.href = "/avtotest/" + value;
+    window.location.href = PREFIX + "/avtotest/" + value + "/";
 }
 $scope.showModal = function () {
     $scope.isPaused = true;
@@ -64,7 +78,7 @@ function displayTime(second) {
 }
 
 function endCount() {
-    timeH.innerHTML = "Vaqt tugadi";
+    timeH.innerHTML = MSG.timeout;
     myModal.show();
 }
 // Javoblar localStorage'da saqlanadi: cookie ~4 KB bilan cheklangani sababli
@@ -165,7 +179,7 @@ function getCookie(cname) {
 }
 function checkJavoblar() {
     $scope.javoblar = loadJavoblar();
-    if ($scope.javoblar.filter(word => word.bilet == $scope.bilet).length == 10) {
+    if (answeredCount() >= $scope.total) {
         $scope.javoblar = $scope.javoblar.filter(word => word.bilet != $scope.bilet);
         saveJavoblar();
     }
@@ -220,20 +234,20 @@ function setJavob(javob) {
         document.getElementById('right').play();
         document.getElementById(javob + $scope.id).classList.add('list-group-item-success');
         document.getElementById('ab' + $scope.savol_raqami).classList.add('bg-success');
-        alertify.success("To`g`ri javob");
+        alertify.success(MSG.right);
     }
     else {
         $scope.notogri_javob_soni = $scope.notogri_javob_soni + 1;
         document.getElementById('wrong').play();
         document.getElementById(javob + $scope.id).classList.add('list-group-item-danger');
         document.getElementById('ab' + $scope.savol_raqami).classList.add('bg-danger');
-        alertify.error("Noto`g`ri javob");
+        alertify.error(MSG.wrong);
     }
     document.getElementById('A' + $scope.id).classList.add('disabledDiv');
     document.getElementById('B' + $scope.id).classList.add('disabledDiv');
     document.getElementById('C' + $scope.id).classList.add('disabledDiv');
     document.getElementById('D' + $scope.id).classList.add('disabledDiv');
-    if ($scope.javoblar.filter(word => word.bilet == $scope.bilet).length == 10) {
+    if (answeredCount() >= $scope.total) {
         $scope.isPaused = true;
         $scope.timeout = false;
         saveResult();
@@ -282,7 +296,7 @@ function LoadData() {
     })
     $http({
         method: 'GET',
-        url: "/GetSavol?bilet=" + $scope.bilet,
+        url: "/GetSavol/?bilet=" + $scope.bilet,
         dataType: "json"
     }).then(function (d) {
         d.data.forEach((item) => {
@@ -317,21 +331,23 @@ function LoadData() {
         });
         let raqam = 0;
         $scope.data = $scope.data.sort(function (a, b) { return a.raqam - b.raqam });
-        $scope.data.forEach((element) => {
-            if (element.raqam > raqam && raqam == element.raqam - 1 && element.berilgan_javob != '') {
-                raqam = element.raqam;
+        if ($scope.data.length) $scope.total = $scope.data.length;
+        $scope.data.forEach((element, idx) => {
+            if (raqam == idx && element.berilgan_javob != '') {
+                raqam = idx + 1;
             }
             if (element.berilgan_javob) {
                 if (element.javob == element.berilgan_javob) {
                     $scope.togri_javob_soni = $scope.togri_javob_soni + 1;
-                    document.getElementById('ab' + element.raqam).classList.add('bg-success');
+                    document.getElementById('ab' + (idx + 1)).classList.add('bg-success');
                 }
                 else {
                     $scope.notogri_javob_soni = $scope.notogri_javob_soni + 1;
-                    document.getElementById('ab' + element.raqam).classList.add('bg-danger');
+                    document.getElementById('ab' + (idx + 1)).classList.add('bg-danger');
                 }
             }
         });
+        if (raqam >= $scope.data.length) raqam = 0;
         $scope.savol = $scope.data[raqam];
         $scope.id = $scope.savol.id;
         $scope.savol_raqami = raqam + 1;
@@ -343,7 +359,7 @@ function LoadData() {
         $("#hh").modal('hide');
         document.getElementById('conn').style.visibility = "hidden";
         console.log("error in GetSavol -> ", error);
-        alertify.error("Xatolik yuz berdi");
+        alertify.error(MSG.error);
     });
 }
   }]);

@@ -20,7 +20,8 @@ from tests.models import (
 from comments.pages import page_comments
 from core.seo import SITE_URL, alternates
 
-# /tests/ dagi kitob -> xuddi şu savollar asosiy joylaşgan sahifa (Özbekiston avtotesti: 108 bilet)
+# /tests/ dagi kitob -> xuddi şu savollar asosiy joylaşgan sahifa.
+# Kitob 49 (108 bilet) /avtotest/ ning 1–108-biletlari; /avtotest/ da yana e-avtomaktab (kitob 50) biletlari ham bor.
 DUPLICATE_BOOKS = {49: "/avtotest/"}
 
 
@@ -117,6 +118,17 @@ def tests(request):
         "type_obj": type_data or {},
         "comments": comments,
     }
+    # Guruh sahifasi (?group_id=): brauzer tabi va ulaşişda guruh nomi körinsin.
+    # Canonical /tests/ da qoladi (guruh sahifasi faqat kitoblar röyxati).
+    if group_id and str(group_id).isdigit() and not book_id and isinstance(type_data, dict) and type_data:
+        lang = (translation.get_language() or "uz")[:2]
+        field = {"ru": "name_ru_ru", "en": "name_en_us"}.get(lang, "name_uz_uz")
+        name = type_data.get(field) or type_data.get("name_uz_uz") or ""
+        if name:
+            context["seo_title"] = {
+                "ru": f"{name} — онлайн-тесты",
+                "en": f"{name} — online tests",
+            }.get(lang, f"{name} — onlayn testlar")
     # Har bir kitob sahifasi qidiruvda öz sarlavhasi bilan çiqsin (sitemap'da ?book_id= bilan)
     if book_id and str(book_id).isdigit():
         book = Books.objects.filter(id=book_id, is_deleted=False).select_related("book_type").first()

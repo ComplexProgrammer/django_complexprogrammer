@@ -914,6 +914,7 @@
 </head>
 
 <body>
+<script>window.CP_LANG_PREFIX = "{{ lang_prefix }}";</script>
 {% include "includes/site_header.html" %}
 {% include "includes/seo_intro.html" %}
   <!-- Three.js Background Canvas -->
@@ -1069,7 +1070,7 @@
         <div><b id="tsDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yeçilgan{% else %}completed{% endif %}</span></div>
         <div><b id="tsPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}ötilgan{% else %}passed{% endif %}</span></div>
         <div><b id="tsAccuracy">—</b><span>{% if request.LANGUAGE_CODE == 'ru' %}точность{% elif request.LANGUAGE_CODE == 'uz' %}aniqlik{% else %}accuracy{% endif %}</span></div>
-        <a href="/tests/xatolar/" class="ts-btn ts-mistakes" id="tsMistakes">❌ {% if request.LANGUAGE_CODE == 'ru' %}Мои ошибки{% elif request.LANGUAGE_CODE == 'uz' %}Xatolarim{% else %}My mistakes{% endif %} <b id="tsMistakesCount">0</b></a>
+        <a href="{{ lang_prefix }}/tests/xatolar/" class="ts-btn ts-mistakes" id="tsMistakes">❌ {% if request.LANGUAGE_CODE == 'ru' %}Мои ошибки{% elif request.LANGUAGE_CODE == 'uz' %}Xatolarim{% else %}My mistakes{% endif %} <b id="tsMistakesCount">0</b></a>
         <a href="#" class="ts-btn ts-random" id="tsRandom">🎲 {% if request.LANGUAGE_CODE == 'ru' %}Случайный билет{% elif request.LANGUAGE_CODE == 'uz' %}Tasodifiy bilet{% else %}Random ticket{% endif %}</a>
       </div>
       <p class="ts-legend">
@@ -1103,46 +1104,46 @@
             {% endif %}
             <div class="C0mplexButton Success" style="margin-block-end: 0px;">
               {% if type == 'type' %}
-              <a href="/tests?type_id={{ item.id }}">
+              <a href="{{ lang_prefix }}/tests/?type_id={{ item.id }}">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <i class="material-icons">&#9758;</i>
-                Enter
+                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
                 <div class="spinner-border" role="status"></div>
               </a>
               {% endif %}
               {% if type == 'group' %}
-              <a href="/tests?group_id={{ item.id }}">
+              <a href="{{ lang_prefix }}/tests/?group_id={{ item.id }}">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <i class="material-icons">&#9758;</i>
-                Enter
+                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
                 <div class="spinner-border" role="status"></div>
               </a>
               {% endif %}
               {% if type == 'book' %}
-              <a href="/tests?book_id={{ item.id }}">
+              <a href="{{ lang_prefix }}/tests/?book_id={{ item.id }}">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <i class="material-icons">&#9758;</i>
-                Enter
+                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
                 <div class="spinner-border" role="status"></div>
               </a>
               {% endif %}
               {% if type == 'topic' %}
-              <a href="/tests?topic_id={{ item.id }}">
+              <a href="{{ lang_prefix }}/tests/?topic_id={{ item.id }}">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
                 <i class="material-icons">&#9758;</i>
-                Enter
+                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
                 <div class="spinner-border" role="status"></div>
               </a>
               {% endif %}
@@ -1217,7 +1218,7 @@
       if (nMistakes) link.href = "/tests/xatolar/" + (bookId ? "?book_id=" + encodeURIComponent(bookId) : "");
       else link.style.display = "none";
       var pool = unsolved.length ? unsolved : all;
-      document.getElementById("tsRandom").href = "/tests?topic_id=" + pool[Math.floor(Math.random() * pool.length)];
+      document.getElementById("tsRandom").href = (window.CP_LANG_PREFIX || "") + "/tests/?topic_id=" + pool[Math.floor(Math.random() * pool.length)];
       box.hidden = false;
     })();
   </script>
@@ -1227,7 +1228,7 @@
 {% include "includes/seo_text.html" %}
   {% include "comment_form.html" %}
   {% if type == 'question' %}
-  <script src="/static/js/tests-quiz.js?v=1" defer></script>
+  <script src="/static/js/tests-quiz.js?v=2" defer></script>
   {% endif %}
   <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
     data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>

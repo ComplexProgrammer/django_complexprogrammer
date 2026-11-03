@@ -13,7 +13,7 @@ import requests
 import urllib3
 from django.conf import settings
 from django.core.cache import cache, caches
-from django.db.models import Max
+from django.db.models import Count, Max
 from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.text import Truncator
@@ -745,6 +745,18 @@ def ImageCompare(request):
     return render(request, "projects/imagecompare.html", context)
 
 
+def avtotest_bilet_sizes():
+    """10 talik bölmagan biletlar: {bilet: savollar soni}. Bilet kartasidagi "7/9" kabi hisob uçun, 1 soat keşlanadi."""
+    sizes = cache.get("avtotest:bilet_sizes")
+    if sizes is None:
+        sizes = {
+            row["bilet"]: row["n"]
+            for row in AvtoTest.objects.values("bilet").annotate(n=Count("id")).exclude(n=10)
+        }
+        cache.set("avtotest:bilet_sizes", sizes, 3600)
+    return sizes
+
+
 def avtotest(request):
     comments = page_comments(request)
 
@@ -752,7 +764,12 @@ def avtotest(request):
     max_bilet = AvtoTest.objects.aggregate(Max("bilet"))["bilet__max"]
     total_bilets = max_bilet + 1 if max_bilet else 1
 
-    context = {"comments": comments, "row": range(1, total_bilets), "bilet": 0}
+    context = {
+        "comments": comments,
+        "row": range(1, total_bilets),
+        "bilet": 0,
+        "bilet_sizes": avtotest_bilet_sizes(),
+    }
     return render(request, "projects/avtotest.html", context=context)
 
 
@@ -766,6 +783,9 @@ def avtotest_item(request, bilet):
         {"raqam": q["raqam"], "text": Truncator(q[field] or q["savol"]).chars(120)}
         for q in AvtoTest.objects.filter(bilet=bilet).order_by("raqam").values("raqam", "savol", field)
     ]
+    if not questions:
+        # /avtotest/99999/ kabi mavjud bölmagan bilet böş sahifa (200) emas, 404 qaytarsin
+        raise Http404("Bilet topilmadi")
     context = {"comments": comments, "row": range(1, total_bilets), "bilet": bilet, "questions": questions}
     return render(request, "projects/avtotest.html", context=context)
 

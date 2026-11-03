@@ -159,7 +159,7 @@
   function restartTopic(target) {
     state.answers = state.answers.filter(function (a) { return a.topic_id != target.id; });
     saveAnswers();
-    location.href = "/tests?topic_id=" + target.id;
+    location.href = (window.CP_LANG_PREFIX || "") + "/tests/?topic_id=" + target.id;
   }
 
   // --- savollar ---
@@ -264,7 +264,7 @@
   $("tsStop").addEventListener("click", function (e) { e.preventDefault(); if (!state.finished) showModal(true); });
   els.nextTopic.addEventListener("click", function () { var n = nextTopic(); if (n) restartTopic(n); });
   $("tsRestart").addEventListener("click", function () { restartTopic(topic); });
-  $("tsBack").addEventListener("click", function () { location.href = "/tests?book_id=" + topic.book_id; });
+  $("tsBack").addEventListener("click", function () { location.href = (window.CP_LANG_PREFIX || "") + "/tests/?book_id=" + topic.book_id; });
   els.image.addEventListener("click", function () {
     if (window.openImageModal && els.image.src) window.openImageModal(els.image.src);
   });
