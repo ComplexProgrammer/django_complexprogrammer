@@ -45,7 +45,11 @@ def page_meta(path, lang):
         return meta
     match = _BILET_RE.fullmatch(path)
     if match:
-        meta = {k: v.format(n=match.group(1)) for k, v in BILET[ml].items()}
+        from projects.views import avtotest_bilet_sizes  # lazy: core.seo projects'dan oldin yuklanadi
+
+        n = int(match.group(1))
+        q = avtotest_bilet_sizes().get(n, 10)  # 117, 128, 133-biletlarda 9 ta, 136-da 8 ta savol
+        meta = {k: v.format(n=n, q=q) for k, v in BILET[ml].items()}
         meta.update(kind="bilet", parent="/avtotest/")
         return meta
     return None

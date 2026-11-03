@@ -29,6 +29,7 @@
 </style>
 </head>
 <body>
+<script>window.CP_LANG_PREFIX = "{{ lang_prefix }}";</script>
 {% include "includes/site_header.html" %}
 <main>
   <div id="app"></div>
@@ -37,9 +38,9 @@
 (function () {
   var LANG = "{{ LANGUAGE_CODE|slice:':2' }}";
   var DICT = {
-    uz: { title: "Xatolarim", left: "qoldi", empty: "Xato qilingan savollar yo'q!", emptyHint: "Testlarni yeching — xato qilgan savollaringiz shu yerga yig'iladi.",
-          tickets: "Testlarga", next: "Keyingi", savol: "savol", correct: "To'g'ri! Savol ro'yxatdan olib tashlandi.",
-          wrong: "Noto'g'ri. To'g'ri javob belgilandi.", done: "Barcha xatolar ustida ishladingiz! 🎉", clear: "Ro'yxatni tozalash", hint: "Klaviatura: 1–9 javob, Enter — keyingi" },
+    uz: { title: "Xatolarim", left: "qoldi", empty: "Xato qilingan savollar yöq!", emptyHint: "Testlarni yeçing — xato qilgan savollaringiz şu yerga yiğiladi.",
+          tickets: "Testlarga", next: "Keyingi", savol: "savol", correct: "Töğri! Savol röyxatdan olib taşlandi.",
+          wrong: "Notöğri. Töğri javob belgilandi.", done: "Barça xatolar ustida işladingiz! 🎉", clear: "Röyxatni tozalaş", hint: "Klaviatura: 1–9 javob, Enter — keyingi" },
     ru: { title: "Мои ошибки", left: "осталось", empty: "Ошибок нет!", emptyHint: "Решайте тесты — вопросы с ошибками будут собраны здесь.",
           tickets: "К тестам", next: "Далее", savol: "вопрос", correct: "Верно! Вопрос убран из списка.",
           wrong: "Неверно. Правильный ответ отмечен.", done: "Все ошибки проработаны! 🎉", clear: "Очистить список", hint: "Клавиатура: 1–9 ответ, Enter — далее" },
@@ -50,7 +51,8 @@
   var T = DICT[LANG] || DICT.en;
   var sfx = LANG === "ru" ? "_ru_ru" : (LANG === "uz" ? "_uz_uz" : "_en_us");
   var bookId = new URLSearchParams(location.search).get("book_id");
-  var backUrl = bookId ? "/tests?book_id=" + encodeURIComponent(bookId) : "/tests/";
+  var P = window.CP_LANG_PREFIX || "";
+  var backUrl = bookId ? P + "/tests/?book_id=" + encodeURIComponent(bookId) : P + "/tests/";
   var app = document.getElementById("app");
 
   function load() { try { return JSON.parse(localStorage.getItem("testsMistakes")) || {}; } catch (e) { return {}; } }
@@ -95,7 +97,7 @@
       '<span class="m-meta">' + left + ' ' + esc(T.left) + '</span></div>' +
       '<div class="m-progress"><div style="width:' + Math.round(index / initial * 100) + '%"></div></div>' +
       '<div class="m-card">' +
-      '<div class="m-meta mb-2"><a href="/tests?topic_id=' + q.topic_id + '">' + esc(q["topic__name" + sfx] || q.topic__name_uz_uz) + '</a>, ' + q.number + '-' + esc(T.savol) + '</div>' +
+      '<div class="m-meta mb-2"><a href="' + P + '/tests/?topic_id=' + q.topic_id + '">' + esc(q["topic__name" + sfx] || q.topic__name_uz_uz) + '</a>, ' + q.number + '-' + esc(T.savol) + '</div>' +
       '<div class="m-q">' + esc(pick(q, "name")) + '</div>' +
       (q.image ? '<img class="m-img" src="/media/' + encodeURI(q.image) + '" alt="">' : '') +
       visible.map(function (a, i) {

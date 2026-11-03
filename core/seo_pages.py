@@ -20,7 +20,7 @@ PAGES = {
         "kind": "home",
         "uz": {
             "title": "Complex Programmer — avtotest, onlayn vositalar va öyinlar",
-            "desc": f"Avtotest {YEAR} biletlari, onlayn tarjimon, lotin-kirill o'girgich, PDF konvertor, valyuta kurslari va bepul o'yinlar — barchasi bitta saytda, ro'yxatdan o'tmasdan.",
+            "desc": f"Avtotest {YEAR} biletlari, onlayn tarjimon, lotin-kirill öğirgiç, PDF konvertor, valyuta kurslari va bepul öyinlar — barçasi bitta saytda, röyxatdan ötmasdan.",
             "h1": "Complex Programmer — bepul onlayn vositalar",
             "lead": "Avtotest, tarjimon, PDF konvertor, valyuta kurslari va boşqa foydali xizmatlar.",
             "text": [
@@ -68,15 +68,15 @@ PAGES = {
         "kind": "tool",
         "uz": {
             "title": f"Avto test 1000+ savol javoblari {YEAR} — onlayn va PDF",
-            "desc": f"Avto test {YEAR}: 1385 ta savol va to'g'ri javoblar, 139 bilet, 20 savollik imtihon simulyatori va PDF yuklab olish. Bepul, ro'yxatdan o'tmasdan.",
+            "desc": f"Avto test {YEAR}: 1385 ta savol va töğri javoblar, 139 bilet, 20 savollik imtihon simulyatori va PDF yuklab oliş. Bepul, röyxatdan ötmasdan.",
             "h1": f"Avto test 1000+ savol javoblari {YEAR}",
             "lead": "Biletni tanlang va haqiqiy imtihondagidek savollarga javob bering.",
             "text": [
-                ("Avtotest nima?", "Avtotest — Özbekistonda haydovçilik guvohnomasi oliş uçun topşiriladigan nazariy imtihon. Unda yöl harakati qoidalari, yöl belgilari, çorrahalardan ötiş, birinçi tibbiy yordam va xavfsiz haydaş böyiça savollar beriladi. Bu sahifada 139 ta bilet va 1385 ta savol jamlangan, har bir biletda 10 ta savol bor."),
+                ("Avtotest nima?", "Avtotest — Özbekistonda haydovçilik guvohnomasi oliş uçun topşiriladigan nazariy imtihon. Unda yöl harakati qoidalari, yöl belgilari, çorrahalardan ötiş, birinçi tibbiy yordam va xavfsiz haydaş böyiça savollar beriladi. Bu sahifada 139 ta bilet va 1385 ta savol jamlangan, biletlarning aksariyatida 10 tadan savol bor."),
                 ("Qanday tayyorlaniş kerak?", "Har kuni bir neçta biletni işlang va xato qilgan savollaringizni \"Xatolar\" bölimida qayta körib çiqing. Javob belgilangaç, töğri variant darhol körsatiladi. Taymer haqiqiy imtihon şaroitiga könikişga yordam beradi. Savollar özbek (lotin), rus va ingliz tillarida mavjud."),
             ],
             "faq": [
-                ("Avtotest imtihonida neçta savol beriladi?", "Imtihonda 20 ta savol beriladi, 25 daqiqa vaqt ajratiladi va köpi bilan 2 ta xato qiliş mumkin. Saytdagi imtihon simulyatori aynan şu formatda işlaydi; biletlarda esa 10 tadan savol bor."),
+                ("Avtotest imtihonida neçta savol beriladi?", "Imtihonda 20 ta savol beriladi, 25 daqiqa vaqt ajratiladi va köpi bilan 2 ta xato qiliş mumkin. Saytdagi imtihon simulyatori aynan şu formatda işlaydi; biletlarda esa asosan 10 tadan savol bor."),
                 ("Avto test savollari va javoblarini PDF'da yuklab olsa böladimi?", "Ha, barça savollar töğri javoblari va rasmlari bilan bitta PDF faylda — \"PDF yuklab oliş\" havolasi orqali bepul yuklab olinadi."),
                 ("Biletlar rasmiy imtihondagi savollarga mosmi?", "Biletlar YHQ imtihon savollari asosida tuzilgan va rasmlar bilan birga beriladi."),
                 ("Xato qilgan savollarimni qayerda köraman?", "Xatolaringiz brauzerda saqlanadi va \"Xatolar\" sahifasida ularni qayta işlaş mumkin."),
@@ -89,11 +89,11 @@ PAGES = {
             "h1": f"Автотест 1000+ вопросов и ответов {YEAR}",
             "lead": "Выберите билет и отвечайте на вопросы как на настоящем экзамене.",
             "text": [
-                ("Что такое автотест?", "Автотест — теоретический экзамен для получения водительского удостоверения в Узбекистане. В нём проверяется знание правил дорожного движения, дорожных знаков, проезда перекрёстков, первой помощи и безопасного вождения. Здесь собраны 139 билетов и 1385 вопросов, по 10 вопросов в каждом билете."),
+                ("Что такое автотест?", "Автотест — теоретический экзамен для получения водительского удостоверения в Узбекистане. В нём проверяется знание правил дорожного движения, дорожных знаков, проезда перекрёстков, первой помощи и безопасного вождения. Здесь собраны 139 билетов и 1385 вопросов, в большинстве билетов по 10 вопросов."),
                 ("Как готовиться?", "Решайте несколько билетов каждый день и повторяйте вопросы, в которых ошиблись, в разделе «Ошибки». После ответа сразу показывается правильный вариант, а таймер помогает привыкнуть к условиям настоящего экзамена. Вопросы доступны на узбекском, русском и английском языках."),
             ],
             "faq": [
-                ("Сколько вопросов на экзамене?", "На экзамене 20 вопросов, на них даётся 25 минут, допускается не более 2 ошибок. Симулятор экзамена на сайте работает в этом формате; в билетах — по 10 вопросов."),
+                ("Сколько вопросов на экзамене?", "На экзамене 20 вопросов, на них даётся 25 минут, допускается не более 2 ошибок. Симулятор экзамена на сайте работает в этом формате; в билетах — в основном по 10 вопросов."),
                 ("Можно ли скачать вопросы и ответы в PDF?", "Да, все вопросы с правильными ответами и картинками собраны в одном PDF-файле — скачать бесплатно по ссылке «Скачать PDF»."),
                 ("Соответствуют ли билеты официальному экзамену?", "Билеты составлены на основе экзаменационных вопросов и сопровождаются иллюстрациями."),
                 ("Где посмотреть свои ошибки?", "Ошибки сохраняются в браузере, их можно прорешать заново на странице «Ошибки»."),
@@ -106,11 +106,11 @@ PAGES = {
             "h1": "Avtotest — Uzbekistan driving exam tickets",
             "lead": "Pick a ticket and answer the questions just like in the real exam.",
             "text": [
-                ("What is Avtotest?", "Avtotest is the theory exam for a driving licence in Uzbekistan. It covers traffic rules, road signs, intersections, first aid and safe driving. This page contains 139 tickets and 1385 questions, 10 questions per ticket."),
+                ("What is Avtotest?", "Avtotest is the theory exam for a driving licence in Uzbekistan. It covers traffic rules, road signs, intersections, first aid and safe driving. This page contains 139 tickets and 1385 questions; most tickets have 10 questions."),
                 ("How to prepare", "Solve a few tickets every day and revisit the questions you got wrong in the Mistakes section. The correct answer is shown right after you choose, and the timer helps you get used to real exam conditions. Questions are available in Uzbek, Russian and English."),
             ],
             "faq": [
-                ("How many questions are in the exam?", "The exam has 20 questions, 25 minutes and at most 2 mistakes are allowed. The exam simulator on this site uses the same format; tickets have 10 questions each."),
+                ("How many questions are in the exam?", "The exam has 20 questions, 25 minutes and at most 2 mistakes are allowed. The exam simulator on this site uses the same format; most tickets have 10 questions."),
                 ("Can I download the questions and answers as a PDF?", "Yes, all questions with correct answers and pictures are in a single free PDF — use the “Download PDF” link."),
                 ("Are the tickets based on the official exam?", "Yes, the tickets are based on the exam questions and include illustrations."),
                 ("Where can I review my mistakes?", "Your mistakes are saved in the browser and can be practised again on the Mistakes page."),
@@ -669,17 +669,17 @@ for _path, _name in GAMES.items():
 BILET = {
     "uz": {
         "title": "Avtotest {n}-bilet — YHQ imtihon savollari va javoblari",
-        "desc": "Avtotest {n}-bilet: 10 ta savol, rasmlar va töğri javoblar. Haydovçilik guvohnomasi imtihoniga onlayn tayyorlaning.",
+        "desc": "Avtotest {n}-bilet: {q} ta savol, rasmlar va töğri javoblar. Haydovçilik guvohnomasi imtihoniga onlayn tayyorlaning.",
         "h1": "Avtotest — {n}-bilet",
     },
     "ru": {
         "title": "Автотест билет {n} — вопросы и ответы ПДД Узбекистана",
-        "desc": "Билет {n} автотеста: 10 вопросов с картинками и правильными ответами. Готовьтесь к экзамену на права онлайн.",
+        "desc": "Билет {n} автотеста: {q} вопросов с картинками и правильными ответами. Готовьтесь к экзамену на права онлайн.",
         "h1": "Автотест — билет {n}",
     },
     "en": {
         "title": "Avtotest ticket {n} — Uzbekistan driving test questions",
-        "desc": "Driving test ticket {n}: 10 questions with pictures and correct answers. Prepare for the Uzbekistan licence exam online.",
+        "desc": "Driving test ticket {n}: {q} questions with pictures and correct answers. Prepare for the Uzbekistan licence exam online.",
         "h1": "Avtotest — ticket {n}",
     },
 }
