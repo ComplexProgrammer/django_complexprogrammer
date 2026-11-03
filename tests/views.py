@@ -21,7 +21,8 @@ from comments.pages import page_comments
 from core.seo import SITE_URL, alternates
 
 # /tests/ dagi kitob -> xuddi şu savollar asosiy joylaşgan sahifa.
-# Kitob 49 (108 bilet) /avtotest/ ning 1–108-biletlari; /avtotest/ da yana e-avtomaktab (kitob 50) biletlari ham bor.
+# Kitob 49 = /avtotest/ ning 1–108-biletlari, kitob 50 (e-avtomaktab) = 109-bilet va keyingilari.
+# Ikkalasi ham yagona manba: tahrir şu yerda (Tests → Questions), projects.AvtoTest undan avtomatik hosil qilinadi (projects/avtotest_sync.py).
 DUPLICATE_BOOKS = {49: "/avtotest/"}
 
 
