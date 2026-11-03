@@ -11,8 +11,8 @@ class Types(Translatable):
     image = models.ImageField(upload_to="tests/types/images", blank=True)
 
     class Meta:
-        verbose_name = "Type"
-        verbose_name_plural = "Types"
+        verbose_name = "Test turi"
+        verbose_name_plural = "Test turlari"
         ordering = ["sort_order"]
 
     def __str__(self):
@@ -34,8 +34,8 @@ class Groups(Translatable):
     image = models.ImageField(upload_to="tests/groups/images", blank=True)
 
     class Meta:
-        verbose_name = "Group"
-        verbose_name_plural = "Groups"
+        verbose_name = "Guruh"
+        verbose_name_plural = "Guruhlar"
         ordering = ["number"]
 
     def __str__(self):
@@ -48,8 +48,8 @@ class BookTypes(Translatable):
     image = models.ImageField(upload_to="tests/book_types/images", blank=True)
 
     class Meta:
-        verbose_name = "BookType"
-        verbose_name_plural = "BookTypes"
+        verbose_name = "Kitob turi"
+        verbose_name_plural = "Kitob turlari"
         ordering = ["sort_order"]
 
     def __str__(self):
@@ -74,8 +74,8 @@ class Books(Auditable):
     group = models.ForeignKey(Groups, related_name="books", on_delete=models.DO_NOTHING)
 
     class Meta:
-        verbose_name = "Book"
-        verbose_name_plural = "Books"
+        verbose_name = "Kitob"
+        verbose_name_plural = "Kitoblar"
         ordering = ["sort_order"]
 
     def __str__(self):
@@ -102,12 +102,13 @@ class Topics(Translatable):
     image = models.ImageField(upload_to="tests/topics/images", blank=True)
 
     class Meta:
-        verbose_name = "Topic"
-        verbose_name_plural = "Topics"
+        verbose_name = "Bilet / mavzu"
+        verbose_name_plural = "Biletlar / mavzular"
         ordering = ["number"]
 
     def __str__(self):
-        return f"{self.name_uz_uz}"
+        # Kitob nomi bilan: "28-bilet" bir neçta kitobda bor, admin'dagi tanlovda adaşmaslik uçun
+        return f"{self.name_uz_uz} · {self.book}" if self.book_id else f"{self.name_uz_uz}"
 
 
 class Questions(Translatable):
@@ -153,8 +154,8 @@ class Questions(Translatable):
     )
 
     class Meta:
-        verbose_name = "Question"
-        verbose_name_plural = "Questions"
+        verbose_name = "Savol"
+        verbose_name_plural = "Savollar"
         ordering = ["number"]
 
     def __str__(self):
@@ -198,8 +199,8 @@ class Answers(Translatable):
     )
 
     class Meta:
-        verbose_name = "Answer"
-        verbose_name_plural = "Answers"
+        verbose_name = "Javob"
+        verbose_name_plural = "Javoblar"
         ordering = ["number"]
 
     def __str__(self):
@@ -219,8 +220,8 @@ class RoadSignCategories(models.Model):
     is_deleted = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = "Road sign category"
-        verbose_name_plural = "Road sign categories"
+        verbose_name = "Belgi kategoriyasi"
+        verbose_name_plural = "Belgi kategoriyalari"
         ordering = ["sort_order"]
 
     def __str__(self):
@@ -248,8 +249,8 @@ class RoadSigns(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Road sign"
-        verbose_name_plural = "Road signs"
+        verbose_name = "Yöl belgisi"
+        verbose_name_plural = "Yöl belgilari"
         ordering = ["category__sort_order", "sort_order"]
 
     def __str__(self):

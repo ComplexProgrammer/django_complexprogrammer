@@ -1,20 +1,35 @@
+from django import forms
 from django.contrib import admin, messages
 from django.core.exceptions import ValidationError
+from django.db.models import Count, Q
 from django.forms.models import BaseInlineFormSet
-from .models import (
-    Answers,
-    Books,
-    Groups,
-    Questions,
-    Topics,
-    Types,
-    BookTypes,
-    RoadSignCategories,
-    RoadSigns,
+from django.urls import reverse
+from django.utils.html import format_html
+
+from core.admin_base import (
+    UNFOLD,
+    ModelAdmin,
+    TabularInline,
+    action,
+    autocomplete_filter,
+    choices_dropdown,
+    display,
+    dropdown,
 )
 from core.translit import convert
+
+if UNFOLD:
+    from unfold.widgets import UnfoldAdminTextInputWidget as TextInput
 from projects.avtotest_sync import SYNCED_BOOK_IDS, question_problem
 from projects.signals import sync_bilets, topic_bilets
+
+from .models import Answers, Books, BookTypes, Groups, Questions, RoadSignCategories, RoadSigns, Topics, Types
+
+STATUS_LABELS = {"approved": "success", "draft": "warning", "": "info"}
+
+
+def _thumb(image):
+    return format_html('<img src="{}" class="cp-thumb" loading="lazy" alt="">', image.url) if image else "—"
 
 
 def _is_synced(question):
@@ -32,6 +47,15 @@ def _warn_if_unsynced(request, question):
         messages.warning(request, f"«{question}» /avtotest/ ga yozilmadi: {problem}. Tuzatilgunça eski nusxa qoladi.")
 
 
+def _copy_parents(obj, parent):
+    """Takroriy bog'lanişlar (type/group/book) ota yozuvdan olinadi — bir-biriga zid bölib qolmasin."""
+    for field in ("type_id", "group_id", "book_id"):
+        setattr(obj, field, getattr(parent, field))
+
+
+# =================================================================================================
+# Javoblar (savol ičida)
+# =================================================================================================
 class AnswersInlineFormSet(BaseInlineFormSet):
     def clean(self):
         super().clean()
@@ -49,14 +73,25 @@ class AnswersInlineFormSet(BaseInlineFormSet):
             raise ValidationError("Avtotest savolida javob variantiga rasm qöyib bölmaydi — rasmni savolning öziga qöying.")
 
 
-class AnswersInline(admin.TabularInline):
+class AnswersInline(TabularInline):
     model = Answers
     formset = AnswersInlineFormSet
     fk_name = "question"
     fields = ["number", "name_uz_uz", "name_uz_crl", "name_ru_ru", "name_en_us", "image", "right", "is_deleted"]
     ordering = ["number", "id"]
     extra = 0
-    can_delete = False  # öçiriş örniga "is deleted" (yumşoq öçiriş)
+    can_delete = False  # öçiriş örniga "Öçirilgan" belgisi (yumşoq öçiriş)
+    show_title = False  # Unfold: har bir qator ustida javob matnini takrorlamaslik
+    verbose_name = "javob varianti"
+    verbose_name_plural = "Javob variantlari"
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        if db_field.name.startswith("name_"):  # javob matni qisqa — bir qatorli maydon
+            kwargs["widget"] = TextInput() if UNFOLD else forms.TextInput()
+        formfield = super().formfield_for_dbfield(db_field, request, **kwargs)
+        if db_field.name == "number" and formfield is not None:
+            formfield.widget.attrs["style"] = "width:64px"
+        return formfield
 
     def get_queryset(self, request):
         return super().get_queryset(request).filter(is_deleted=False)
@@ -71,54 +106,55 @@ class AnswersInline(admin.TabularInline):
 SYNCED_INFO = (
     "Bu savol /avtotest/, mobil ilova va bot uçun asosiy manba: saqlangandan keyin AvtoTest avtomatik yangilanadi."
 )
-@admin.register(Types)
-class TypesAdmin(admin.ModelAdmin):
-    list_display = ["name_uz_uz"]
-    list_filter = ["name_uz_uz"]
-    search_fields = ["name_uz_uz"]
-    ordering = ["sort_order"]
 
 
-@admin.register(Groups)
-class GroupsAdmin(admin.ModelAdmin):
-    list_display = ["name_uz_uz", "number", "type"]
-    list_filter = ["name_uz_uz", "number", "type"]
-    search_fields = ["name_uz_uz", "number", "type"]
-    ordering = ["sort_order"]
-
-
-@admin.register(BookTypes)
-class BookTypesAdmin(admin.ModelAdmin):
-    list_display = ["code", "description"]
-    list_filter = ["code", "description"]
-    search_fields = ["code", "description"]
-    ordering = ["sort_order"]
-
-
-@admin.register(Books)
-class BooksAdmin(admin.ModelAdmin):
-    list_display = ["book_type", "type", "group"]
-    list_filter = ["book_type", "type", "group"]
-    search_fields = ["book_type", "type", "group"]
-    ordering = ["sort_order"]
-
-
-@admin.register(Topics)
-class TopicsAdmin(admin.ModelAdmin):
-    list_display = ["name_uz_uz", "number", "type", "group", "book"]
-    list_filter = ["name_uz_uz", "number", "type", "group", "book"]
-    search_fields = ["name_uz_uz", "number", "type", "group", "book"]
-    ordering = ["sort_order"]
-
-
+# =================================================================================================
+# Savollar
+# =================================================================================================
 @admin.register(Questions)
-class QuestionsAdmin(admin.ModelAdmin):
-    list_display = ["name_uz_uz", "number", "type", "group", "book", "topic", "image", "explanation_status", "explanation_confidence"]
-    list_filter = ["explanation_status", "explanation_confidence", "type", "group", "book", "topic"]
-    search_fields = ["name_uz_uz", "number", "type", "group", "book", "topic", "image", "explanation_uz_uz"]
-    ordering = ["sort_order"]
+class QuestionsAdmin(ModelAdmin):
+    list_display = ["thumb", "question_text", "ticket", "number", "variants", "status_badge", "explanation_confidence", "is_deleted"]
+    list_display_links = ["thumb", "question_text"]
+    list_filter = [
+        dropdown("topic__book"),
+        autocomplete_filter("topic"),
+        choices_dropdown("explanation_status"),
+        "explanation_confidence",
+        "is_deleted",
+    ]
+    search_fields = ["name_uz_uz", "name_uz_crl", "name_ru_ru", "name_en_us", "explanation_uz_uz", "=id"]
+    search_help_text = "Savol matni (istalgan tilda), izoh yoki =id böyiça qidiriş"
+    list_select_related = ["topic__book__book_type"]
+    autocomplete_fields = ["topic"]
+    exclude = ["type", "group", "book"]  # bilet (topic) orqali avtomatik töldiriladi
+    ordering = ["topic__book_id", "topic__number", "number"]
     actions = ["approve_explanations", "reset_explanations"]
     inlines = [AnswersInline]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            live_answers=Count("answers", filter=Q(answers__is_deleted=False), distinct=True)
+        )
+
+    @display(description="Rasm")
+    def thumb(self, obj):
+        return _thumb(obj.image)
+
+    @display(description="Savol", ordering="name_uz_uz")
+    def question_text(self, obj):
+        return obj.name_uz_uz[:110] + ("…" if len(obj.name_uz_uz) > 110 else "")
+
+    @display(description="Bilet", ordering="topic__number", header=True)
+    def ticket(self, obj):
+        return [obj.topic.name_uz_uz, str(obj.topic.book)] if obj.topic_id else ["—", ""]
+
+    @display(description="Variant", ordering="live_answers")
+    def variants(self, obj):
+        return obj.live_answers
+
+    @display(description="Izoh", ordering="explanation_status", label=STATUS_LABELS)
+    def status_badge(self, obj):
+        return obj.explanation_status, obj.get_explanation_status_display()
 
     def change_view(self, request, object_id, form_url="", extra_context=None):
         obj = self.get_object(request, object_id)
@@ -126,14 +162,18 @@ class QuestionsAdmin(admin.ModelAdmin):
             messages.info(request, SYNCED_INFO)
         return super().change_view(request, object_id, form_url, extra_context)
 
+    def save_model(self, request, obj, form, change):
+        if obj.topic_id:
+            _copy_parents(obj, obj.topic)
+        super().save_model(request, obj, form, change)
+
     def save_formset(self, request, form, formset, change):
         if formset.model is not Answers:
             return super().save_formset(request, form, formset, change)
         question = form.instance
         for answer in formset.save(commit=False):
-            # Takroriy bog'lanişlar savoldan olinadi — bir-biriga zid bölib qolmasin
-            answer.topic_id, answer.book_id = question.topic_id, question.topic.book_id
-            answer.group_id, answer.type_id = question.topic.group_id, question.topic.type_id
+            answer.topic_id = question.topic_id
+            _copy_parents(answer, question.topic)
             if not answer.created_by_id:
                 answer.created_by = request.user
             if not answer.name_uz_crl:
@@ -150,69 +190,135 @@ class QuestionsAdmin(admin.ModelAdmin):
         sync_bilets(*topic_bilets(set(queryset.values_list("topic_id", flat=True))))  # update() signal yubormaydi
         return n
 
-    @admin.action(description="Izohni tasdiqlaş (saytda körsatiş)")
+    @action(description="Izohni tasdiqlaş (saytda körsatiş)", icon="check_circle")
     def approve_explanations(self, request, queryset):
         self.message_user(request, f"{self._update_explanations(queryset, 'approved')} ta izoh tasdiqlandi.")
 
-    @admin.action(description="Izohni qoralamaga qaytariş (saytdan yaşiriş)")
+    @action(description="Izohni qoralamaga qaytariş (saytdan yaşiriş)", icon="undo")
     def reset_explanations(self, request, queryset):
         self.message_user(request, f"{self._update_explanations(queryset, 'draft')} ta izoh qoralamaga qaytarildi.")
 
 
 @admin.register(Answers)
-class AnswersAdmin(admin.ModelAdmin):
-    list_display = [
-        "name_uz_uz",
-        "number",
-        "question_id",
-        "type",
-        "group",
-        "book",
-        "topic",
-        "question",
-        "image",
-        "right",
-    ]
-    list_filter = [
-        "name_uz_uz",
-        "number",
-        "type",
-        "group",
-        "book",
-        "topic",
-        "question",
-        "image",
-        "right",
-    ]
-    search_fields = [
-        "name_uz_uz",
-        "number",
-        "type",
-        "group",
-        "book",
-        "topic",
-        "question",
-        "image",
-        "right",
-    ]
-    ordering = ["sort_order"]
+class AnswersAdmin(ModelAdmin):
+    list_display = ["name_uz_uz", "question_text", "number", "right", "book_name", "is_deleted"]
+    list_display_links = ["name_uz_uz"]
+    list_filter = ["right", "is_deleted", dropdown("question__topic__book")]
+    search_fields = ["name_uz_uz", "name_ru_ru", "question__name_uz_uz", "=question__id", "=id"]
+    search_help_text = "Javob yoki savol matni, =savol_id böyiça qidiriş"
+    list_select_related = ["question__topic__book__book_type"]
+    autocomplete_fields = ["question"]
+    exclude = ["type", "group", "book", "topic"]  # savol orqali avtomatik töldiriladi
+    ordering = ["question_id", "number"]
+
+    @display(description="Savol", ordering="question__name_uz_uz")
+    def question_text(self, obj):
+        text = obj.question.name_uz_uz
+        return text[:80] + ("…" if len(text) > 80 else "")
+
+    @display(description="Kitob")
+    def book_name(self, obj):
+        topic = obj.question.topic
+        return f"{topic.book} · {topic.name_uz_uz}" if topic else "—"
 
     def save_model(self, request, obj, form, change):
+        if obj.question_id:
+            obj.topic_id = obj.question.topic_id
+            _copy_parents(obj, obj.question.topic)
         super().save_model(request, obj, form, change)
         _warn_if_unsynced(request, obj.question)
 
 
+# =================================================================================================
+# Biletlar, kitoblar, guruhlar, turlar
+# =================================================================================================
+@admin.register(Topics)
+class TopicsAdmin(ModelAdmin):
+    list_display = ["name_uz_uz", "number", "book", "questions_link", "is_deleted"]
+    list_filter = [dropdown("book"), "is_deleted"]
+    search_fields = ["name_uz_uz", "name_ru_ru", "=number"]
+    list_select_related = ["book__book_type"]
+    exclude = ["type", "group"]  # kitob orqali avtomatik töldiriladi
+    ordering = ["book_id", "number"]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            live_questions=Count("questions", filter=Q(questions__is_deleted=False), distinct=True)
+        )
+
+    @display(description="Savollar", ordering="live_questions")
+    def questions_link(self, obj):
+        url = reverse("admin:tests_questions_changelist") + f"?topic__id__exact={obj.pk}"
+        return format_html('<a href="{}">{} ta savol →</a>', url, obj.live_questions)
+
+    def save_model(self, request, obj, form, change):
+        if obj.book_id:
+            obj.group_id, obj.type_id = obj.book.group_id, obj.book.type_id
+        super().save_model(request, obj, form, change)
+
+
+@admin.register(Books)
+class BooksAdmin(ModelAdmin):
+    list_display = ["__str__", "book_type", "group", "type", "topics_link", "is_deleted"]
+    list_filter = [dropdown("group"), dropdown("type"), "is_deleted"]
+    search_fields = ["book_type__code", "book_type__name_uz_uz", "group__name_uz_uz"]
+    list_select_related = ["book_type", "group", "type"]
+    ordering = ["sort_order"]
+
+    @display(description="Biletlar")
+    def topics_link(self, obj):
+        url = reverse("admin:tests_topics_changelist") + f"?book__id__exact={obj.pk}"
+        return format_html('<a href="{}">biletlar →</a>', url)
+
+
+@admin.register(Groups)
+class GroupsAdmin(ModelAdmin):
+    list_display = ["name_uz_uz", "number", "type", "is_deleted"]
+    list_filter = [dropdown("type"), "is_deleted"]
+    search_fields = ["name_uz_uz", "name_ru_ru", "=number"]
+    list_select_related = ["type"]
+    ordering = ["sort_order"]
+
+
+@admin.register(Types)
+class TypesAdmin(ModelAdmin):
+    list_display = ["name_uz_uz", "name_ru_ru", "sort_order", "is_deleted"]
+    search_fields = ["name_uz_uz", "name_ru_ru"]
+    ordering = ["sort_order"]
+
+
+@admin.register(BookTypes)
+class BookTypesAdmin(ModelAdmin):
+    list_display = ["code", "name_uz_uz", "description"]
+    search_fields = ["code", "name_uz_uz", "description"]
+    ordering = ["sort_order"]
+
+
+# =================================================================================================
+# Yöl belgilari
+# =================================================================================================
 @admin.register(RoadSignCategories)
-class RoadSignCategoriesAdmin(admin.ModelAdmin):
-    list_display = ["name_uz_uz", "code", "sort_order", "is_deleted"]
+class RoadSignCategoriesAdmin(ModelAdmin):
+    list_display = ["thumb", "name_uz_uz", "code", "sort_order", "is_deleted"]
+    list_display_links = ["thumb", "name_uz_uz"]
     list_editable = ["sort_order", "is_deleted"]
     search_fields = ["name_uz_uz", "name_ru_ru", "code"]
     ordering = ["sort_order"]
 
+    @display(description="Rasm")
+    def thumb(self, obj):
+        return _thumb(obj.image)
+
 
 @admin.register(RoadSigns)
-class RoadSignsAdmin(admin.ModelAdmin):
-    list_display = ["number", "name_uz_uz", "category", "sort_order", "is_deleted"]
-    list_filter = ["category", "is_deleted"]
+class RoadSignsAdmin(ModelAdmin):
+    list_display = ["thumb", "number", "name_uz_uz", "category", "sort_order", "is_deleted"]
+    list_display_links = ["thumb", "number", "name_uz_uz"]
+    list_filter = [dropdown("category"), "is_deleted"]
     search_fields = ["number", "name_uz_uz", "name_ru_ru", "description_uz_uz"]
+    list_select_related = ["category"]
     ordering = ["category__sort_order", "sort_order"]
+
+    @display(description="Rasm")
+    def thumb(self, obj):
+        return _thumb(obj.image)

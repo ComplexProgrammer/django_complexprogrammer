@@ -41,8 +41,10 @@ class RichTextAdminMixin:
         ):
             from django_ckeditor_5.widgets import CKEditor5Widget
 
+            from core.admin_base import label_for
+
             return _RichTextFormField(
-                label=db_field.verbose_name.capitalize(),
+                label=label_for(db_field) or db_field.verbose_name.capitalize(),
                 help_text=db_field.help_text,
                 must_fill=not db_field.blank,
                 widget=CKEditor5Widget(config_name="default"),
