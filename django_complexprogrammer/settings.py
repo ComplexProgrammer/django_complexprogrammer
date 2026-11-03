@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import os
+from importlib.util import find_spec
 from pathlib import Path
 from decouple import config
 from django.utils.translation import gettext_lazy as _
@@ -51,8 +52,12 @@ INDEXNOW_KEY = config("INDEXNOW_KEY", default="48816631ea16ae79251e3dba4fdc5cbb"
 
 # Application definition
 
+# Admin mavzusi: django-unfold (core/admin_base.py, core/admin_nav.py, core/admin_dashboard.py).
+# Paket örnatilmagan bölsa sayt yiqilmaydi — admin oddiy Django körinişida işlaydi.
+ADMIN_UNFOLD = find_spec("unfold") is not None
+
 INSTALLED_APPS = [
-    "jazzmin",
+    *(["unfold", "unfold.contrib.filters", "unfold.contrib.forms", "unfold.contrib.inlines"] if ADMIN_UNFOLD else []),
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -497,72 +502,32 @@ SERVER_EMAIL = "complexprogrammer@mail.ru"
 COMMENTS_OFFICIAL_EMAIL = "complexprogrammer@mail.ru"
 
 
-JAZZMIN_SETTINGS = {
-    "site_title": "Complex Admin",
-    "site_header": "Complex Admin",
-    "site_brand": "ComplexProgrammer",
-    "welcome_sign": "ComplexProgrammer boşqaruv paneli",
-    "copyright": "ComplexProgrammer",
-    "custom_css": "css/admin-dark.css",
-    "custom_js": "js/admin-theme-toggle.js",
-    "site_logo": "img/C0mplex.png",
-    "login_logo": None,
-    "login_logo_dark": None,
-    "show_ui_builder": False,
-    "navigation_expanded": True,
-    "hide_apps": [],
-    "hide_models": [],
-    "related_modal_active": True,
-    "topmenu_links": [
-        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
-        {"app": "projects"},
-        {"app": "markets"},
-        {"app": "news"},
-        {"model": "auth.User"},
-    ],
-    "usermenu_links": [
-        {"name": "Homepage", "url": "/", "new_window": True},
-        {"model": "auth.user"},
-    ],
-    "changeform_format": "horizontal_tabs",
-    "changeform_format_overrides": {"auth.user": "collapsible"},
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.group": "fas fa-users",
-        "core": "fas fa-cubes",
-        "projects": "fas fa-project-diagram",
-        "markets": "fas fa-store",
-        "markets.category": "fas fa-tags",
-        "markets.product": "fas fa-box",
-        "markets.store": "fas fa-shop",
-        "news": "fas fa-newspaper",
-        "blog": "fas fa-blog",
-        "comments": "fas fa-comments",
-        "arxiv": "fas fa-archive",
-        "pdf_tools": "fas fa-file-pdf",
-        "tests": "fas fa-book-open",
-        "cryptomarket": "fas fa-coins",
+UNFOLD = {
+    "SITE_TITLE": "Complex Admin",
+    "SITE_HEADER": "ComplexProgrammer",
+    "SITE_SUBHEADER": "Boşqaruv paneli",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "terminal",
+    "SITE_FAVICONS": [{"rel": "icon", "sizes": "any", "type": "image/x-icon", "href": "/static/img/favicon.ico"}],
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "SHOW_BACK_BUTTON": True,
+    "ENVIRONMENT": "core.admin_nav.environment",
+    "DASHBOARD_CALLBACK": "core.admin_dashboard.dashboard_callback",
+    "STYLES": ["/static/css/admin-unfold.css"],
+    "COMMAND": {"search_models": True, "show_history": True},  # Ctrl+K — modellar böyiça tezkor qidiruv
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": False,
+        "navigation": "core.admin_nav.sidebar",
     },
-    "order_with_respect_to": [
-        "core",
-        "projects",
-        "markets",
-        "news",
-        "blog",
-        "comments",
-        "arxiv",
-        "pdf_tools",
-        "tests",
-        "cryptomarket",
-    ],
-}
-
-JAZZMIN_UI_TWEAKS = {
-    "theme": "flatly",
-    "dark_mode_theme": "darkly",
-    "navbar": "navbar-light",
-    "sidebar_nav_flat_style": True,
-    "sidebar_nav_compact_style": True,
+    "COLORS": {  # asosiy rang — indigo
+        "primary": {
+            "50": "oklch(96.2% .018 272.314)", "100": "oklch(93% .034 272.788)", "200": "oklch(87% .065 274.039)",
+            "300": "oklch(78.5% .115 274.713)", "400": "oklch(67.3% .182 276.935)", "500": "oklch(58.5% .233 277.117)",
+            "600": "oklch(51.1% .262 276.966)", "700": "oklch(45.7% .24 277.023)", "800": "oklch(39.8% .195 277.366)",
+            "900": "oklch(35.9% .144 278.697)", "950": "oklch(25.7% .09 281.288)",
+        },
+    },
 }
 WHITENOISE_USE_FINDERS = True

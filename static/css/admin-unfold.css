@@ -1,0 +1,58 @@
+/* Admin (django-unfold) uçun qöşimça uslublar: dashboard kartalari va kiçik qulayliklar.
+   Ranglar Unfold özgaruvçilaridan olinadi (--color-primary-*, --color-base-*) — kun/tun rejimi özi işlaydi. */
+
+.cp-dash { display: flex; flex-direction: column; gap: 24px; }
+
+/* --- KPI kartalari ------------------------------------------------------------------------- */
+.cp-kpis { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.cp-kpi {
+    position: relative; display: flex; flex-direction: column; gap: 4px; padding: 18px 20px;
+    border: 1px solid var(--color-base-200); border-radius: 12px; background: #fff;
+    box-shadow: 0 1px 2px rgb(0 0 0 / .04); transition: border-color .15s, box-shadow .15s, transform .15s;
+    text-decoration: none; overflow: hidden;
+}
+.cp-kpi:hover { border-color: var(--color-primary-300); box-shadow: 0 6px 20px rgb(79 70 229 / .10); transform: translateY(-1px); }
+.cp-kpi__icon {
+    position: absolute; right: 14px; top: 14px; width: 40px; height: 40px; display: flex; align-items: center;
+    justify-content: center; border-radius: 10px; background: var(--color-primary-50); color: var(--color-primary-600);
+}
+.cp-kpi__title { font-size: 13px; color: var(--color-base-500); padding-right: 48px; }
+.cp-kpi__value { font-size: 30px; line-height: 1.15; font-weight: 700; color: var(--color-base-900); font-variant-numeric: tabular-nums; }
+.cp-kpi__note { font-size: 12px; color: var(--color-base-500); }
+.cp-kpi--alert .cp-kpi__icon { background: #fef3c7; color: #b45309; }
+.cp-kpi--alert .cp-kpi__value { color: #b45309; }
+
+/* --- panellar ------------------------------------------------------------------------------ */
+.cp-row { display: flex; gap: 24px; flex-wrap: wrap; align-items: stretch; }
+.cp-row > * { min-width: 0; }
+.cp-panel {
+    flex: 1 1 300px; padding: 18px 20px; border: 1px solid var(--color-base-200); border-radius: 12px; background: #fff;
+}
+.cp-panel--wide { flex: 3 1 520px; }
+.cp-panel__title { display: flex; align-items: center; gap: 8px; margin: 0 0 14px; font-size: 15px; font-weight: 600; color: var(--color-base-900); }
+.cp-panel__title .material-symbols-outlined { color: var(--color-primary-600); font-size: 20px; }
+.cp-muted { color: var(--color-base-500); font-size: 13px; }
+.cp-apps { flex: 1 1 520px; display: flex; flex-direction: column; gap: 20px; }
+
+.cp-quick { display: grid; gap: 8px; }
+.cp-quick__item {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px;
+    border: 1px solid var(--color-base-200); color: var(--color-base-700); font-size: 14px; text-decoration: none;
+    transition: background .15s, border-color .15s;
+}
+.cp-quick__item:hover { background: var(--color-primary-50); border-color: var(--color-primary-200); color: var(--color-primary-700); }
+.cp-quick__item .material-symbols-outlined { font-size: 20px; color: var(--color-primary-600); }
+.cp-quick__ext { margin-left: auto; font-size: 16px !important; color: var(--color-base-400) !important; }
+
+/* --- tun rejimi ---------------------------------------------------------------------------- */
+.dark .cp-kpi, .dark .cp-panel { background: var(--color-base-900); border-color: var(--color-base-800); }
+.dark .cp-kpi__value, .dark .cp-panel__title { color: var(--color-base-100); }
+.dark .cp-kpi__title, .dark .cp-kpi__note, .dark .cp-muted { color: var(--color-base-400); }
+.dark .cp-kpi__icon { background: rgb(79 70 229 / .18); color: var(--color-primary-300); }
+.dark .cp-kpi--alert .cp-kpi__icon { background: rgb(180 83 9 / .25); color: #fbbf24; }
+.dark .cp-kpi--alert .cp-kpi__value { color: #fbbf24; }
+.dark .cp-quick__item { border-color: var(--color-base-800); color: var(--color-base-300); }
+.dark .cp-quick__item:hover { background: rgb(79 70 229 / .15); color: var(--color-primary-200); }
+
+/* --- röyxatdagi kiçik rasmlar --------------------------------------------------------------- */
+.cp-thumb { width: 56px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid var(--color-base-200); }

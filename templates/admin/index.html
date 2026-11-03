@@ -1,0 +1,61 @@
+{% extends "admin/index.html" %}
+{% comment %}
+  Admin bosh sahifasi. Ma'lumotlar: core/admin_dashboard.py (UNFOLD["DASHBOARD_CALLBACK"]).
+  Unfold örnatilmagan bölsa (kpis yöq) — standart Django sahifasi körsatiladi.
+{% endcomment %}
+
+{% block content %}
+{% if kpis %}
+<div class="cp-dash">
+    <section class="cp-kpis">
+        {% for k in kpis %}
+            <a href="{{ k.link }}" class="cp-kpi{% if k.alert %} cp-kpi--alert{% endif %}">
+                <span class="material-symbols-outlined cp-kpi__icon">{{ k.icon }}</span>
+                <span class="cp-kpi__title">{{ k.title }}</span>
+                <strong class="cp-kpi__value">{{ k.value }}</strong>
+                <span class="cp-kpi__note">{{ k.note }}</span>
+            </a>
+        {% endfor %}
+    </section>
+
+    <section class="cp-row">
+        <div class="cp-panel cp-panel--wide">
+            <h2 class="cp-panel__title">
+                <span class="material-symbols-outlined">bar_chart</span>
+                Avtotest faolligi — söngi {{ chart_days }} kun
+            </h2>
+            {% if activity_chart %}
+                {% include "unfold/components/chart/bar.html" with data=activity_chart height=260 %}
+            {% else %}
+                <p class="cp-muted">Ma'lumot yöq.</p>
+            {% endif %}
+        </div>
+
+        <div class="cp-panel">
+            <h2 class="cp-panel__title">
+                <span class="material-symbols-outlined">bolt</span>
+                Tezkor amallar
+            </h2>
+            <div class="cp-quick">
+                {% for q in quick_links %}
+                    <a href="{{ q.link }}" class="cp-quick__item"{% if q.external %} target="_blank" rel="noopener"{% endif %}>
+                        <span class="material-symbols-outlined">{{ q.icon }}</span>
+                        <span>{{ q.title }}</span>
+                        {% if q.external %}<span class="material-symbols-outlined cp-quick__ext">open_in_new</span>{% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="cp-row">
+        <div class="cp-apps">
+            {% include "unfold/helpers/app_list_default.html" with show_changelinks=True %}
+        </div>
+        {% include "unfold/helpers/history.html" %}
+    </section>
+</div>
+{% else %}
+    {{ block.super }}
+{% endif %}
+{% endblock %}

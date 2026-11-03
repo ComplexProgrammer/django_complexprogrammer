@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class DrivingConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "driving"
-    verbose_name = "Avtotest foydalanuvchilari"
+    verbose_name = "Avtotest foydalanuvçilari"
