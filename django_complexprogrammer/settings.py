@@ -515,6 +515,7 @@ UNFOLD = {
     "ENVIRONMENT": "core.admin_nav.environment",
     "DASHBOARD_CALLBACK": "core.admin_dashboard.dashboard_callback",
     "STYLES": ["/static/css/admin-unfold.css"],
+    "SCRIPTS": ["/static/js/admin-theme-migrate.js"],  # eski Jazzmin localStorage qiymatini tuzatadi
     "COMMAND": {"search_models": True, "show_history": True},  # Ctrl+K — modellar böyiça tezkor qidiruv
     "SIDEBAR": {
         "show_search": True,
