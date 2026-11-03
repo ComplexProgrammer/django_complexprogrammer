@@ -5,9 +5,9 @@
     python manage.py draft_explanations status                                          # yuborilgan batchlar holati
     python manage.py draft_explanations collect                                         # tayyor natijalarni bazaga yozish
 
-Batch API oddiy so'rovdan 50% arzon, natija odatda 1 soat ichida tayyor bo'ladi. Qoralamalar ``izoh_holati="draft"``
-(/tests/ uchun ``explanation_status="draft"``) bilan saqlanadi — saytda faqat admin panelda "Izohni tasdiqlash"
-qilingandan keyin ko'rinadi.
+Batch API oddiy so'rovdan 50% arzon, natija odatda 1 soat ichida tayyor bo'ladi. Qoralamalar tests savoliga
+``explanation_status="draft"`` bilan saqlanadi (/avtotest/ savollariniki ham — yagona manba tests, kitob 49/50;
+AvtoTest undan avtomatik yangilanadi) — saytda faqat admin panelda "Izohni tasdiqlaş" qilingandan keyin körinadi.
 Kalit: ANTHROPIC_API_KEY (.env) yoki `ant auth login` profili.
 """
 
@@ -20,6 +20,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from core.translit import latin_to_cyrillic
 from projects.models import AvtoTest
+from projects.avtotest_sync import builder, tests_question
 from tests.models import Answers, Questions
 
 MODEL = "claude-opus-5-5"
@@ -249,21 +250,24 @@ class Command(BaseCommand):
                 except ValueError:
                     skipped += 1
                     continue
-                if kind == "t":
-                    uz = data["uz"].strip()
-                    saved += Questions.objects.filter(pk=pk).exclude(explanation_status="approved").update(
-                        explanation_uz_uz=uz, explanation_uz_crl=latin_to_cyrillic(uz),
-                        explanation_ru_ru=data["ru"].strip(), explanation_en_us=data["en"].strip(),
-                        explanation_confidence=data["confidence"], explanation_status="draft",
-                    )
-                    continue
-                saved += AvtoTest.objects.filter(pk=pk).exclude(izoh_holati="approved").update(
-                    izoh=data["uz"].strip(), izoh_ru=data["ru"].strip(), izoh_en=data["en"].strip(),
-                    izoh_ishonch=data["confidence"], izoh_holati="draft",
+                if kind != "t":
+                    # /avtotest/ savoli: izoh asosiy manbaga (tests, kitob 49/50) yoziladi, AvtoTest undan yangilanadi
+                    row = AvtoTest.objects.filter(pk=pk).first()
+                    question = tests_question(row.bilet, row.raqam) if row else None
+                    if question is None:
+                        skipped += 1
+                        continue
+                    pk = question.pk
+                uz = data["uz"].strip()
+                saved += Questions.objects.filter(pk=pk).exclude(explanation_status="approved").update(
+                    explanation_uz_uz=uz, explanation_uz_crl=latin_to_cyrillic(uz),
+                    explanation_ru_ru=data["ru"].strip(), explanation_en_us=data["en"].strip(),
+                    explanation_confidence=data["confidence"], explanation_status="draft",
                 )
             b["collected"] = True
         _save_state(state)
+        builder().sync_all()  # update() signal yubormaydi — yangi izohlar /avtotest/ ga ham tuşsin
         self.stdout.write(self.style.SUCCESS(
             f"{saved} ta qoralama saqlandi, {skipped} tasi o'tkazib yuborildi. "
-            "Admin → AvtoTest (yoki Tests → Questions) → filtr 'Qoralama' orqali tekshirib, tasdiqlang."
+            "Admin → Tests → Questions → filtr 'Qoralama' orqali tekşirib, tasdiqlang (/avtotest/ izohlari ham şu yerda)."
         ))
