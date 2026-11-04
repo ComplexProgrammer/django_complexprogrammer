@@ -1,0 +1,217 @@
+{
+ "source": "claude-code",
+ "model": "claude-opus-5-5",
+ "started": "2026-11-04T17:45:55",
+ "items": [
+  {
+   "id": "a31_1",
+   "uz": "Rasmda «Töxtaş taqiqlangan» belgisi va uning ostida nogironlar aravaçasi tasviri ustidan çizilgan qöşimça jadvalça bor. Bu jadvalça «Nogironlardan taşqari» degan ma'noni beradi, ya'ni asosiy belgining taqiqi «Nogiron» taniqlik belgisi örnatilgan transport vositalariga tatbiq etilmaydi. Şuning uçun bu hududda bunday avtomobilning töxtaşiga ruxsat etiladi.",
+   "ru": "На рисунке знак «Остановка запрещена» с табличкой, на которой изображение инвалидной коляски перечёркнуто. Такая табличка означает «Кроме инвалидов»: действие основного знака не распространяется на транспортные средства с опознавательным знаком «Инвалид». Поэтому остановка такого автомобиля в зоне действия знаков разрешена.",
+   "en": "The picture shows a \"No stopping\" sign with a plate below it on which the wheelchair symbol is crossed out. This plate means \"Except disabled drivers\": the main sign's ban does not apply to vehicles with the \"Disabled\" identification sign. So a car with this sign may stop in the area covered by these signs.",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_2",
+   "uz": "2-belgi «Xavfli buriliş» belgisi. U yöl kiçik radiusli yoki körinişi çeklangan burilişga yaqinlaşayotganingizni bildiradi, bu rasmda buriliş çapga. 1-belgi yölning torayişi haqida, 3-belgi bir nečta ketma-ket xavfli buriliş haqida ogohlantiradi. 4-belgi köp yölakli yölda harakat yölakining boşlaniši yoki tugašini körsatadi, 5-belgi esa «Boşqa xavflar» belgisi. Şuning uçun bitta xavfli buriliş haqida faqat 2-belgi ogohlantiradi.",
+   "ru": "Знак 2 — «Опасный поворот». Он предупреждает, что впереди закругление дороги малого радиуса или с ограниченной видимостью; здесь поворот налево. Знак 1 предупреждает о сужении дороги, знак 3 — о нескольких опасных поворотах подряд. Знак 4 показывает начало или окончание полосы на многополосной дороге, а знак 5 — «Прочие опасности». Поэтому об одном опасном повороте предупреждает только знак 2.",
+   "en": "Sign 2 is the \"Dangerous bend\" sign. It warns that you are approaching a curve with a small radius or poor visibility; in this picture the bend is to the left. Sign 1 warns that the road narrows, and sign 3 warns of several dangerous bends in a row. Sign 4 shows where a lane begins or ends on a multi-lane road, and sign 5 means \"Other dangers\". So only sign 2 warns of a single dangerous bend.",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_3",
+   "uz": "Rasmdagi qizil-oq strelkali belgi (1.34 «Burilişdagi harakat yönalişi») faqat ögzaga burilayotgan yöl qayerga qarab ketişini körsatadi va hech qanday harakatni taqiqlamaydi. Unda burilişga majbur qiluvçi yoki boşqa yönalişni taqiqlovçi talab yöq. Şuning uçun haydovçi asosiy yöl bölab A tomonga ham, yon tomondagi şağalli yölga (B) ham burilişi mumkin. Demak, A va B yönalişlarining ikkalasi ham ruxsat etilgan.",
+   "ru": "Знак с красно-белыми стрелками на рисунке (1.34 «Направление поворота») лишь показывает, куда поворачивает дорога, и ничего не запрещает. Он не обязывает поворачивать и не запрещает другие направления. Поэтому водитель может ехать как по основной дороге в направлении А, так и свернуть на гравийную дорогу справа (Б). Значит, разрешено движение и в направлении А, и в направлении Б.",
+   "en": "The red-and-white chevron sign in the picture (1.34 \"Direction of turn\") only shows which way the road curves and does not prohibit anything. It does not require drivers to turn or forbid other directions. So the driver may follow the main road in direction A or turn onto the gravel side road (B). This means both A and B are allowed.",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_4",
+   "uz": "YHQ böyiça avtomagistralda transport vositasini boşqarişni örganiş taqiqlanadi. Avtomagistralda tezlik yuqori va harakat jadal bölgani uçun tajribasiz örganuvçi xavfli vaziyat yaratişi mumkin. Şu sababli yöriqçining malakasi, tezlik çegarasi yoki taniqlik belgisi bor-yöqligidan qat'i nazar, bu yerda örganiş mumkin emas. Demak, töğri javob: \"Ta'qiqlangan\".",
+   "ru": "По ПДД обучение вождению на автомагистрали запрещено. На автомагистрали высокие скорости и интенсивное движение, поэтому неопытный ученик может создать опасную ситуацию. Поэтому учиться здесь нельзя независимо от квалификации инструктора, ограничения скорости или наличия опознавательного знака. Значит, правильный ответ: «Запрещено».",
+   "en": "Under the traffic rules, driving lessons on a motorway are prohibited. Motorways have high speeds and heavy traffic, so an inexperienced learner could create a dangerous situation. That is why training is not allowed there, whatever the instructor's skill, the speed limit or whether an identification sign is fitted. So the correct answer is \"Prohibited\".",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_5",
+   "uz": "Teng ahamiyatli yöllar kesişmasida haydovçi önğ tomondan kelayotgan transport vositasiga yöl berişi şart. Rasmda kök avtomobilning önğ tomonida hеç kim yöq, şuning uçun u birinçi ötadi. Qizil avtomobilning önğ tomonida kök avtomobil bor, u kökdan keyin ötadi. Yaşil avtomobilning önğ tomonida qizil avtomobil bor, şuning uçun u oxirida ötadi.",
+   "ru": "На перекрёстке равнозначных дорог водитель обязан уступить дорогу транспортному средству, приближающемуся справа. Справа от синего автомобиля никого нет, поэтому он проезжает первым. Справа от красного находится синий, поэтому красный едет после него. Справа от зелёного находится красный, поэтому зелёный проезжает последним.",
+   "en": "At an intersection of equal roads, a driver must give way to vehicles approaching from the right. Nothing is on the blue car's right, so it goes first. The blue car is on the red car's right, so the red car goes after it. The red car is on the green car's right, so the green car goes last.",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_6",
+   "uz": "Qoidaga körä, mexanik transport vositasini şatakka olib ketayotganda tezlik 50 km/soatdan oşmasligi kerak. Bu çeklov yöl belgisi bundan yuqori tezlikka ruxsat bergan joyda ham amal qiladi. Rasmda yuk avtomobili yengil avtomobilni egiluvçan bog'lama bilan şatakka olib ketmoqda, belgida esa 80 km/soat körsatilgan. Baribir şatakka olişda eng yuqori tezlik 50 km/soat bölib qoladi.",
+   "ru": "По Правилам, при буксировке механического транспортного средства скорость не должна превышать 50 км/ч. Это ограничение действует и там, где знак разрешает ехать быстрее. На рисунке грузовик буксирует легковой автомобиль на гибкой сцепке, а знак показывает 80 км/ч. Тем не менее максимальная скорость при буксировке остаётся 50 км/ч.",
+   "en": "Under the traffic rules, a vehicle towing another motor vehicle must not go faster than 50 km/h. This limit applies even where a road sign allows a higher speed. In the picture, a truck is towing a car on a flexible tow line, and the sign shows 80 km/h. The maximum towing speed is still 50 km/h.",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_7",
+   "uz": "Qoidaga köra transport vositasi yölning öng tomonida, imkon qadar öngroqda töxtatiladi. Yöl yoqasi bölsa, yöl çekkasida emas, yöl yoqasining özida töxtatiş kerak. Demak, yöl yoqasi bor joyda haydovçi transport vositasini mumkin qadar öngroqda, yöl yoqasi ustida töxtatadi. Şuning uçun töğri javob — C.",
+   "ru": "По Правилам транспортное средство останавливают на правой стороне дороги, как можно правее. Если есть обочина, останавливаться нужно на самой обочине, а не у края проезжей части. Поэтому при наличии обочины водитель останавливается как можно правее, на обочине. Правильный ответ — C.",
+   "en": "Under the rules, a vehicle is stopped on the right side of the road, as far to the right as possible. If there is a shoulder, the vehicle must stop on the shoulder itself, not at the edge of the carriageway. So where a shoulder exists, the driver stops as far right as possible, on the shoulder. The correct answer is C.",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_8",
+   "uz": "Aholi yaşaydigan joylardan taşqarida töxtaş va töxtab turiş imkon qadar qatnov qismidan taşqarida, yöl yoqasida bajarilişi kerak; köriniş çeklangan burilişlarda esa töxtaş taqiqlanadi. Rasmda yengil avtomobil yöl yoqasiga çiqmasdan, köriniş yomon bölgan burilişda töğridan-töğri qatnov qismida turibdi. Töxtaş taqiqlangan joyda töxtab turiş ham taqiqlanadi. Şuning uçun haydovçi ikkala qoidani ham buzgan.",
+   "ru": "Вне населённых пунктов остановку и стоянку нужно по возможности делать за пределами проезжей части, на обочине, а на закруглениях дороги с ограниченной видимостью остановка запрещена. На рисунке легковой автомобиль не съехал на обочину и стоит прямо на проезжей части, на закруглении с плохой видимостью. Где запрещена остановка, запрещена и стоянка. Поэтому водитель нарушил и правила остановки, и правила стоянки.",
+   "en": "Outside built-up areas, stopping and parking should be done off the carriageway, on the shoulder, where possible, and stopping is prohibited on bends with limited visibility. In the picture, the car has not pulled onto the shoulder and is standing right on the carriageway on a bend with poor visibility. Wherever stopping is prohibited, parking is prohibited too. So the driver broke both the stopping rules and the parking rules.",
+   "confidence": "medium"
+  },
+  {
+   "id": "a31_9",
+   "uz": "Qoidaga köra, şina protektori naqşining qoldiq balandligi transport vositasining toifasiga qarab belgilanadi: M1, N1, O1, O2 toifalari uçun 1,6 mm, M2, M3 toifalari uçun 2 mm, N2, N3, O3, O4 toifalari uçun esa 1 mm. Savolda N2, N3, O3, O4 toifalari, ya'ni yuk avtomobillari va oğir tirkamalar haqida söralmoqda. Şuning uçun ularning şinalarida protektor naqşining qoldiq balandligi kamida 1 mm bölişi kerak. Undan kam bölsa, bunday transport vositasidan foydalanişga ruxsat berilmaydi.",
+   "ru": "Согласно правилам, минимальная остаточная высота рисунка протектора шин зависит от категории транспортного средства: для категорий M1, N1, O1, O2 — 1,6 мм, для M2, M3 — 2 мм, для N2, N3, O3, O4 — 1 мм. В вопросе речь идёт о категориях N2, N3, O3, O4, то есть о грузовых автомобилях и тяжёлых прицепах. Поэтому остаточная высота рисунка протектора их шин должна быть не менее 1 мм. При меньшей высоте эксплуатация такого транспортного средства запрещена.",
+   "en": "Under the rules, the minimum remaining tyre tread depth depends on the vehicle category: 1.6 mm for categories M1, N1, O1 and O2, 2 mm for M2 and M3, and 1 mm for N2, N3, O3 and O4. The question asks about categories N2, N3, O3 and O4, which are trucks and heavy trailers. So their tyres must have a remaining tread depth of at least 1 mm. If the tread is shallower than that, the vehicle must not be used.",
+   "confidence": "high"
+  },
+  {
+   "id": "a31_10",
+   "uz": "Qoidaga köra, mexanik transport vositasi va uning tirkamasi egasi transport vositasini xarid qilgan yoki olgan paytdan boşlab 10 kun ichida uni DYHX xizmatida röyxatdan ötkazişi şart. Bu talab transport vositasining texnik holatiga bog'liq emas, ya'ni u sozmi yoki nosozmi, farqi yöq. Şuning uçun xarid qilingan avtomobil yoki tirkama 10 kun içida röyxatdan ötkazilişi kerak, demak töğri javob — 10 kun.",
+   "ru": "Согласно правилам, владелец механического транспортного средства или прицепа обязан зарегистрировать его в службе ГСБДД в течение 10 дней с момента покупки (получения). Это требование действует независимо от технического состояния: исправно транспортное средство или нет, значения не имеет. Поэтому купленный автомобиль или прицеп нужно зарегистрировать в течение 10 дней, правильный ответ — 10 дней.",
+   "en": "Under the rules, the owner of a motor vehicle or trailer must register it with the Road Traffic Safety Service (DYHX) within 10 days of buying or receiving it. This applies whatever the vehicle's technical condition, so it makes no difference whether it works or not. That means a newly bought car or trailer has to be registered within 10 days, and the correct answer is 10 days.",
+   "confidence": "medium"
+  },
+  {
+   "id": "a32_1",
+   "uz": "Quruq yölda keskin töxtaşda tormoz pedalini ulagiçni ajratmasdan bosiş kerak. Şunda dvigatel ham tormozlaşga yordam beradi va avtomobil yön böyiça barqaror qoladi. Ulagiç yoki uzatma avval ajratilsa, dvigatel bilan tormozlaş yöqoladi, ğildiraklar tezroq blokirovka bölib, avtomobil sirpanib ketişi mumkin. Şuning uçun to'ğri javob C.",
+   "ru": "При экстренном торможении на сухой дороге нужно нажимать на педаль тормоза, не выжимая сцепление. Тогда двигатель тоже помогает тормозить, и автомобиль остаётся устойчивым по направлению. Если сначала выжать сцепление или выключить передачу, торможение двигателем пропадёт, колёса быстрее заблокируются, и машину может занести. Поэтому правильный ответ — C.",
+   "en": "For emergency braking on a dry road, press the brake pedal without disengaging the clutch. This way the engine also helps to slow the car down, and the car stays stable and keeps its direction. If you first disengage the clutch or shift to neutral, you lose engine braking, the wheels lock up more easily, and the car may skid. That is why the correct answer is C.",
+   "confidence": "high"
+  },
+  {
+   "id": "a32_2",
+   "uz": "Bu axborot-körsatkiç belgisi yuk avtomobillari, traktorlar va öziyurar maşinalar uçun tavsiya etiladigan harakat yönalişini körsatadi. U oldindagi çorrahada şu transport vositalariga yönalişlardan biri böyiça harakatlaniş ta'qiqlangan bölsa örnatiladi. Rasmdagi belgida yuk avtomobili va önga qaragan strelka bor, ya'ni bu transport vositalariga önga burilib harakatlaniş tavsiya etiladi. Belgi majburiy emas, tavsiyaviy bölgani uçun A, B va D javoblar notöğri.",
+   "ru": "Этот информационно-указательный знак показывает рекомендуемое направление движения для грузовых автомобилей, тракторов и самоходных машин. Его устанавливают, если на перекрёстке впереди движение этих транспортных средств в одном из направлений запрещено. На знаке изображены грузовик и стрелка вправо, то есть этим транспортным средствам рекомендуется повернуть направо. Знак не предписывающий, а рекомендательный, поэтому варианты A, B и D неверны.",
+   "en": "This information sign shows the recommended direction of travel for trucks, tractors and self-propelled machines. It is installed when, at the intersection ahead, these vehicles are prohibited from going in one of the directions. The sign shows a truck and an arrow pointing right, so these vehicles are advised to turn right. The sign is a recommendation, not a mandatory instruction, so options A, B and D are wrong.",
+   "confidence": "high"
+  },
+  {
+   "id": "a32_3",
+   "uz": "Rasmdagi qizil hoşiyali uçburçak ogohlantiruvçi belgi bölib, unda avtomobil qirğoqdan suvga tuşib ketayotgani tasvirlangan. Bu belgi oldinda yöl anhor yoqasiga yoki suv havzasining qirğoğiga çiqişini bildiradi. Belgida köprik ham, kötarma köprik ham, suvdan keçiş joyi ham yöq, faqat suvga yaqin qirğoq körsatilgan. Şuning uçun haydovçi tezlikni pasaytirib, ehtiyot bölişi kerak.",
+   "ru": "На рисунке предупреждающий треугольный знак с красной каймой: автомобиль съезжает с берега в воду. Он предупреждает, что впереди дорога выходит на набережную или берег водоёма. На знаке нет ни моста, ни разводного моста, ни переправы — изображён только берег у воды. Поэтому водителю нужно снизить скорость и быть внимательным.",
+   "en": "The picture shows a red-bordered triangular warning sign with a car falling off a bank into the water. It warns that the road ahead leads onto an embankment, a canal bank or the shore of a body of water. The sign shows no bridge, drawbridge or ferry crossing, only a bank next to the water. So the driver should slow down and take extra care.",
+   "confidence": "high"
+  },
+  {
+   "id": "a32_4",
+   "uz": "Teng ahamiyatli çorrahada haydovçi öng tomondan kelayotganga yöl beradi, çapga burilayotgan esa qarşidan tö'ğri yoki öngga ketayotganni ötkazib yuboradi. Qizil avtomobilning öng tomonida hеç kim yöq (yaşil uning çap tomonida), şuning uçun u çorrahaga birinçi kiradi, lekin çapga burilgani uçun qarşidan tö'ğri kelayotgan kök avtomobilni kutib töxtaydi. Şu payt öngga burilayotgan yaşil avtomobilning yöli qizil va kökning yöliga kesişmaydi, u çorrahadan ötib ketadi. Keyin kök ötadi, oxirida qizil burilişni tugallaydi.",
+   "ru": "На перекрёстке равнозначных дорог водитель уступает транспорту, приближающемуся справа, а при повороте налево — встречному транспорту, движущемуся прямо или направо. Справа от красного автомобиля никого нет (зелёный находится слева), поэтому он въезжает на перекрёсток первым, но, поворачивая налево, останавливается, чтобы пропустить встречный синий. В это время зелёный поворачивает направо: его путь не пересекается с путями красного и синего, поэтому он проезжает перекрёсток. Затем проезжает синий, и последним красный завершает поворот.",
+   "en": "At an intersection of equal roads, a driver yields to traffic coming from the right, and a driver turning left yields to oncoming traffic going straight or turning right. Nobody is on the red car's right (the green car is on its left), so it enters the intersection first, but because it is turning left it stops to let the oncoming blue car go. Meanwhile, the green car is turning right and its path does not cross the red or blue car's path, so it passes through. Then the blue car goes, and the red car finishes its turn last.",
+   "confidence": "medium"
+  },
+  {
+   "id": "a32_5",
+   "uz": "Bu teng ahamiyatli yöllarning tartibga solinmagan çorrahasi. Bunday çorrahada haydovçi öng tomondan yaqinlaşayotgan transportga yöl berişi kerak. Qizil avtomobilning öng tomonida hеç kim yöq, şuning uçun u birinçi ötadi. Yaşil avtomobil öng tomonidagi qizilga yöl beradi va ikkinçi ötadi, kök avtomobil esa öng tomonidagi yaşilga yöl berib, uçinçi bölib ötadi.",
+   "ru": "Это нерегулируемый перекрёсток равнозначных дорог, где водитель должен уступить дорогу транспортному средству, приближающемуся справа. Справа от красного автомобиля никого нет, поэтому он проезжает первым. Зелёный уступает красному, который у него справа, и проезжает вторым. Синий уступает зелёному, который у него справа, и проезжает третьим.",
+   "en": "This is an uncontrolled intersection of equal roads, so a driver must yield to any vehicle approaching from the right. No one is to the red car's right, so it goes first. The green car yields to the red car on its right and goes second. The blue car yields to the green car on its right and goes third.",
+   "confidence": "high"
+  },
+  {
+   "id": "a32_6",
+   "uz": "Aholi punktlarida har bir yönalişda üç va undan ortiq harakat bölagi bölsa, yengil avtomobil haydovçilari özlari uçun eng qulay bölakda, şu jumladan eng çap bölakda ham harakatlanişlari mumkin. Rasmda yöl har bir yönalişda bir neçta bölakka ega. «A» avtomobili öng tomondan ikkinçi bölakda, «Б» avtomobili esa öz yönalişining eng çap bölagida harakatlanmoqda. Ikkalasining harakati ham ruxsat etilgan, şuning uçun ikkala haydovçi ham qoidani buzmayapti.",
+   "ru": "В населённых пунктах на дорогах с тремя и более полосами в одном направлении водители легковых автомобилей могут двигаться по наиболее удобной для них полосе, в том числе по крайней левой. На рисунке дорога имеет несколько полос в каждом направлении. Автомобиль «А» движется по второй полосе справа, а автомобиль «Б» — по крайней левой полосе своего направления. Оба варианта движения разрешены, поэтому ни один из водителей правила не нарушает.",
+   "en": "In built-up areas, on roads with three or more lanes in one direction, passenger car drivers may use whichever lane is most convenient for them, including the leftmost one. In the picture, the road has several lanes in each direction. Car \"A\" is in the second lane from the right, and car \"Б\" is in the leftmost lane for its direction. Both positions are allowed, so neither driver is breaking the rules.",
+   "confidence": "medium"
+  },
+  {
+   "id": "a32_7",
+   "uz": "Qoidaga köra, haydovçi tezlikni belgilangan çeklovdan oşirmasdan tanlaşi kerak. Bunda u harakatning serqatnovligini, transport vositasi va yukning xususiyati va holatini, şuningdek yöl va ob-havo şaroitini hisobga olişi şart. A va B variantlarida bu omillarning faqat bir qismi bor, şuning uçun barça omillarni öz içiga olgan C javobi töğri. Şunday tezlikda haydovçi harakatni doimo nazorat qila oladi va xavf tuğilganda töxtay oladi.",
+   "ru": "По Правилам водитель должен вести транспортное средство со скоростью, не превышающей установленного ограничения. При выборе скорости он обязан учитывать интенсивность движения, особенности и состояние транспортного средства и груза, а также дорожные и метеорологические условия. В вариантах A и B названа только часть этих факторов, поэтому правильный ответ — C, где перечислены все. При такой скорости водитель постоянно контролирует движение и может остановиться при возникновении опасности.",
+   "en": "Under the rules, a driver must not exceed the set speed limit. When choosing a speed, the driver must take into account traffic intensity, the features and condition of the vehicle and its load, and the road and weather conditions. Options A and B each list only some of these factors, so C, which covers all of them, is correct. At such a speed the driver can keep control of the vehicle at all times and stop if a hazard appears.",
+   "confidence": "high"
+  },
+  {
+   "id": "a32_8",
+   "uz": "Asosiy bölmagan yöldan tartibga solinmagan çorrahaga yaqinlaşganda (rasmda teng ahamiyatli yöllar kesişmasi belgisi bor) quvib ötiş taqiqlanadi, lekin yon tirkamasiz ikki ğildirakli transport vositalarini quvib ötişga ruxsat beriladi. «А» yönalişida haydovçi qarama-qarşi tomondagi yöl qismiga çiqib yengil avtomobilni quvib ötadi, bu taqiqlangan. «Б» yönalişida esa yon tirkamasiz mototsikl quvib ötiladi, bunga ruxsat bor. Şuning uçun töğri yönaliş — faqat «Б».",
+   "ru": "При приближении к нерегулируемому перекрёстку по дороге, которая не является главной (на рисунке стоит знак «Пересечение равнозначных дорог»), обгон запрещён, но двухколёсные транспортные средства без бокового прицепа обгонять можно. По траектории «А» водитель выезжает на встречную сторону и обгоняет легковой автомобиль, а это запрещено. По траектории «Б» он обгоняет мотоцикл без бокового прицепа, и это разрешено. Поэтому правильно ехать только по траектории «Б».",
+   "en": "When approaching an uncontrolled intersection on a road that is not the main road (the picture shows the \"Intersection of equal roads\" sign), overtaking is prohibited, but two-wheeled vehicles without a sidecar may be overtaken. On path \"A\" the driver moves into the oncoming side to overtake a car, which is prohibited. On path \"Б\" the driver overtakes a motorcycle without a sidecar, which is allowed. So the only correct path is \"Б\".",
+   "confidence": "high"
+  },
+  {
+   "id": "a32_9",
+   "uz": "Avtopoezd harakatlanganda tirkama tortuvçi transport vositasining izidan aniq yurmaydi. U yon tomonlarga çayqaladi, burilişlarda esa buriliş markaziga qarab siljiydi, şu sababli avtopoezd egallaydigan yölak uning öz kengligidan kengroq böladi. Şuning uçun haydovçi faqat ölçamlarni emas, tirkamaning çayqalişi va siljişini ham hisobga olişi kerak. Demak, B javob tögri.",
+   "ru": "При движении автопоезда прицеп не идёт точно по следу тягача. Он раскачивается в стороны, а на поворотах смещается к центру поворота, поэтому полоса, которую занимает автопоезд, шире его собственных габаритов. Значит, водитель должен учитывать не только габариты по ширине, но и раскачивание прицепа и его смещение к центру поворота. Поэтому правильный ответ — B.",
+   "en": "When a road train is moving, the trailer does not follow exactly in the tractor's tracks. It sways from side to side and shifts toward the centre of a turn, so the strip of road the road train takes up is wider than the vehicle itself. That is why the driver must take into account not only the vehicle's width but also the trailer's sway and its shift toward the turning centre. So the correct answer is B.",
+   "confidence": "high"
+  },
+  {
+   "id": "a32_10",
+   "uz": "Qoidaga köra, 12 yoşga tölmagan bolalarni yengil avtomobilning oldingi örindiğida faqat maxsus bola uşlab turuvçi moslamalarda taşişga ruxsat etiladi. Demak, bunday moslamasiz oldingi örindiqda faqat 12 yoş va undan katta bolalarni taşiş mumkin. Yonida katta yoşli yölovçi borligi bu talabni bekor qilmaydi, 7 yoş esa bu qoidadagi çegara emas.",
+   "ru": "По Правилам дети младше 12 лет могут ехать на переднем сиденье легкового автомобиля только в специальных детских удерживающих устройствах. Значит, без такого устройства на переднем сиденье можно перевозить только детей 12 лет и старше. Присутствие взрослого пассажира это требование не отменяет, а возраст 7 лет в этом правиле границей не является.",
+   "en": "Under the rules, children under 12 may ride in the front seat of a passenger car only in a special child restraint. So without such a restraint, only children aged 12 and older may ride in the front seat. Having an adult passenger present does not cancel this requirement, and age 7 is not the limit in this rule.",
+   "confidence": "high"
+  },
+  {
+   "id": "a33_1",
+   "uz": "Yöl harakati qoidalariga körä, transport vositasi harakatlanayotganda yölovçilarga haydovçini boşqaruvdan çalğitiş taqiqlanadi. Haydovçining diqqati bir lahzaga bölinsa ham, u yöldagi xavfni körmay qolişi va avariya sodir bölişi mumkin. Bu taqiq barça transport vositalariga, jumladan belgilangan yönalişdagi transportga ham tegişli, çipta sotib oliş uçun ham istisno yöq. Şuning uçun töğri javob: taqiqlanadi.",
+   "ru": "По Правилам дорожного движения пассажирам запрещено отвлекать водителя от управления, пока транспортное средство движется. Даже если водитель отвлечётся на мгновение, он может не заметить опасность на дороге, и произойдёт ДТП. Запрет действует во всех транспортных средствах, в том числе в маршрутных, и исключения для покупки билета нет. Поэтому правильный ответ: запрещается.",
+   "en": "Under the traffic rules, passengers must not distract the driver from driving while the vehicle is moving. Even a moment of distraction can make the driver miss a hazard on the road and cause a crash. The ban covers all vehicles, including fixed-route transport, and there is no exception for buying a ticket. So the correct answer is: it is prohibited.",
+   "confidence": "high"
+  },
+  {
+   "id": "a33_2",
+   "uz": "Rasmdagi belgi «Töxtab turiş taqiqlanadi» belgisidir. Qoidaga körä, bu belginiŋ amal qilişi taksometri yoqilgan taksilarga va «Nogiron» taniqlik belgisi örnatilgan, nogiron boşqarayotgan avtomobillarga tatbiq etilmaydi. Yönalişli taksilar bu istisnoga kirmaydi. Şu sababli töğri javob — ikkinçi va uçinçi javoblarda körsatilgan transport vositalari.",
+   "ru": "На рисунке знак «Стоянка запрещена». По правилам действие этого знака не распространяется на такси с включённым таксометром и на автомобили, которыми управляют инвалиды, если на них установлен опознавательный знак «Инвалид». Маршрутные такси в это исключение не входят. Поэтому правильный ответ — транспортные средства, указанные во втором и третьем ответах.",
+   "en": "The sign shown is \"No parking\". Under the rules, this sign does not apply to taxis with the taximeter switched on or to cars driven by disabled drivers that display the \"Disabled\" identification sign. Route taxis are not part of this exception. That is why the correct answer is the vehicles listed in the second and third answers.",
+   "confidence": "high"
+  },
+  {
+   "id": "a33_3",
+   "uz": "Yöl çetidagi yaxlit sariq çiziq (1.4 çiziği) töxtaşni taqiqlaydi, şuning uçun qizil avtomobil töğri töxtamadi. Uzuq-uzuq sariq çiziq (1.10 çiziği) faqat töxtab turişni taqiqlaydi, yölovçini tuşiriş uçun qisqa töxtaşga esa ruxsat beradi, şuning uçun mototsiklçi töğri töxtadi. Zigzag sariq çiziq (1.17 çiziği) yönalişli transport bekatini bildiradi. Bu joyga 15 m dan yaqin masofada töxtaş taqiqlanadi, lekin yölovçini mindiriş va tuşiriş uçun töxtaşga ruxsat bor. Şuning uçun kök avtomobil haydovçisi ham töğri töxtadi.",
+   "ru": "Сплошная жёлтая линия у края проезжей части (разметка 1.4) запрещает остановку, поэтому красный автомобиль остановился неправильно. Прерывистая жёлтая линия (разметка 1.10) запрещает только стоянку, а кратковременную остановку для высадки пассажира разрешает, поэтому мотоциклист остановился правильно. Жёлтый зигзаг (разметка 1.17) обозначает остановку маршрутных транспортных средств. Останавливаться ближе 15 м от неё запрещено, но остановка для посадки и высадки пассажиров разрешена. Поэтому водитель синего автомобиля тоже остановился правильно.",
+   "en": "A solid yellow line along the road edge (marking 1.4) prohibits stopping, so the red car stopped incorrectly. A broken yellow line (marking 1.10) prohibits only parking and allows a brief stop to let a passenger out, so the motorcyclist stopped correctly. A yellow zigzag (marking 1.17) marks a stop for route vehicles. Stopping within 15 m of it is prohibited, but stopping to pick up or drop off passengers is allowed. So the driver of the blue vehicle also stopped correctly.",
+   "confidence": "medium"
+  },
+  {
+   "id": "a33_4",
+   "uz": "Enli uzuq-uzuq çiziq (1.8 yotiq çiziq) tezlaniş yoki sekinlaniş bölagini qatnov qismining asosiy bölagidan ajratib turadi. Rasmda bu çiziq asosiy qatnov qismi çetida, yöldan çiqiş yoki yölga kiriş bölagi boşlanadigan joyda çizilgan. Demak, u tezlaniş yoki sekinlaniş bölagi bilan qatnov qismining asosiy bölagi örtasidagi çegarani bildiradi.",
+   "ru": "Широкая прерывистая линия (горизонтальная разметка 1.8) отделяет полосу разгона или торможения от основной части проезжей части. На рисунке эта линия нанесена по краю основной проезжей части, там, где начинается полоса съезда или въезда. Значит, она обозначает границу между полосой разгона или торможения и основной частью проезжей части.",
+   "en": "A wide broken line (horizontal marking 1.8) separates an acceleration or deceleration lane from the main part of the carriageway. In the picture, this line runs along the edge of the main carriageway, where the exit or entry lane begins. So it marks the boundary between the acceleration or deceleration lane and the main part of the carriageway.",
+   "confidence": "high"
+  },
+  {
+   "id": "a33_5",
+   "uz": "Belgilar va svetofor yöq teng ahamiyatli yöllar çorrahasida haydovçi önğ tomondan kelayotgan transport vositasiga yöl berişi kerak („önğ tomondagi töşiq“ qoidasi). Rasmda avtomobil mototsikl uçun önğ tomonda joylaşgan. Şuning uçun mototsikl haydovçisi yöl beradi, avtomobil esa birinçi bölib harakatlanadi.",
+   "ru": "На перекрёстке равнозначных дорог без знаков и светофора водитель должен уступить дорогу транспортному средству, приближающемуся справа (правило «помехи справа»). На рисунке автомобиль находится справа от мотоцикла. Поэтому мотоциклист уступает дорогу, а автомобиль проезжает первым.",
+   "en": "At an intersection of equal roads with no signs or traffic lights, a driver must give way to vehicles approaching from the right (the \"yield to the right\" rule). In the picture, the car is on the motorcyclist's right. So the motorcyclist must give way, and the car goes first.",
+   "confidence": "medium"
+  },
+  {
+   "id": "a33_6",
+   "uz": "Qoidaga körä, öziniñ özi quvib ötayotgan transport vositasini quvib ötiş taqiqlanadi. Rasmda mototsiklçi yuk avtomobili va u egiluvçan ulagiç (bayroqçali tros) bilan sudrab ketayotgan sariq avtomobilni quvib ötmoqda. Qizil avtomobil esa şu quvib ötayotgan mototsiklni quvib ötgan bölar edi, şuning uçun bu vaziyatda quvib ötiş taqiqlanadi.",
+   "ru": "По правилам запрещено обгонять транспортное средство, которое само совершает обгон. На рисунке мотоциклист обгоняет грузовик и жёлтый автомобиль, который тот буксирует на гибкой сцепке (трос с флажками). Красный автомобиль обгонял бы уже обгоняющий мотоцикл, поэтому в этой ситуации обгон запрещён.",
+   "en": "The rules prohibit overtaking a vehicle that is itself overtaking. In the picture, the motorcyclist is overtaking a truck and the yellow car it is towing on a flexible tow (a rope with flags). The red car would be overtaking a motorcycle that is already overtaking, so overtaking is prohibited here.",
+   "confidence": "medium"
+  },
+  {
+   "id": "a33_7",
+   "uz": "Qoidaga köra, reversiv harakatli yölga burilganda haydovçi faqat çetki öng bölakka çiqişi kerak. Boşqa bölaklarga faqat reversiv svetofor ruxsat bergandan yoki boşqa bölaklarda ham harakatlanişga ruxsat beradigan «Bölaklar böyiça harakatlaniş yönalişi» belgisidan ötgandan keyin qayta tizilişi mumkin. Bu qoida aholi punktida ham, undan taşqarida ham amal qiladi. Şuning uçun to'g'ri javob B.",
+   "ru": "По правилам, при повороте на дорогу с реверсивным движением водитель должен выехать только на крайнюю правую полосу. Перестраиваться на другие полосы можно только после того, как это разрешит реверсивный светофор, или после знака «Направления движения по полосам», который разрешает движение и по другим полосам. Это правило действует и в населённом пункте, и вне его. Поэтому правильный ответ — B.",
+   "en": "Under the rules, when you turn onto a road with reversible traffic, you must enter only the far right lane. You may move into other lanes only after a reversible traffic light allows it, or after you pass a \"Lane directions\" sign that also allows driving in other lanes. This rule applies both inside and outside built-up areas. That is why the correct answer is B.",
+   "confidence": "high"
+  },
+  {
+   "id": "a33_8",
+   "uz": "Qoidaga köra, töxtab turiş boşqa transport vositalarining kirişi yoki çiqişiga imkon qoldirmaydigan joylarda hamda piyodalar harakatiga xalaqit beradigan joylarda ta'qiqlanadi. D variantida aynan şu holat aytilgan, şuning uçun u töğri javob. A va B variantlaridagi 10 metr masofa noto'ğri: kesişma çekkasi va piyodalar ötiş joyi oldida töxtaş 5 metrdan yaqin masofada ta'qiqlanadi. C variantidagi \"kamida bir metr\" esa qoidada umuman yöq.",
+   "ru": "По правилам стоянка запрещена в местах, где транспортное средство не оставляет другим машинам возможности въехать или выехать, а также там, где оно мешает движению пешеходов. Именно это сказано в варианте D, поэтому он правильный. Расстояние 10 метров в вариантах A и B указано неверно: у края пересечения проезжих частей и перед пешеходным переходом остановка запрещена ближе 5 метров. Условия «не менее одного метра» из варианта C в правилах нет.",
+   "en": "Under the rules, parking is prohibited where a vehicle leaves no room for other vehicles to enter or exit, and where it obstructs pedestrians. Option D states exactly this, so it is the correct answer. The 10-metre distance in options A and B is wrong: stopping is prohibited closer than 5 metres to the edge of an intersection or to a pedestrian crossing. The \"at least one metre\" condition in option C does not appear in the rules at all.",
+   "confidence": "high"
+  },
+  {
+   "id": "a33_9",
+   "uz": "Avtopoezdni (tirkamali transport vositasini) tormozlaşda tezlikni oldindan kamaytirib, tormoz pedalini ravon va birtekis bosiş kerak, ulagiç (ilaşiş muftasi) esa ajratilmaydi. Ulagiç ulangan holda dvigatel ham tormozlaşda yordam beradi, birtekis tormozlaş esa tirkamaning tortuvçi avtomobilni itarib yuborişi, «buklaniş» va yo'ldan çiqib ketişining oldini oladi. Şuning uçun keskin tormozlaş va ulagiçni ajratiş xavfli, to'ğri javob — B.",
+   "ru": "Тормозить автопоездом (транспортным средством с прицепом) нужно плавно и равномерно, заранее снизив скорость и не выключая сцепление. Со включённым сцеплением двигатель помогает тормозить, а равномерное торможение не даёт прицепу толкать тягач, «складываться» и уходить в занос. Поэтому резкое торможение с выключенным сцеплением опасно, и правильный ответ — B.",
+   "en": "A road train (a vehicle with a trailer) should be braked smoothly and evenly, after reducing speed in advance and without disengaging the clutch. With the clutch engaged, the engine helps with braking, and even braking keeps the trailer from pushing the towing vehicle, jackknifing or skidding. That makes hard braking with the clutch disengaged dangerous, so the correct answer is B.",
+   "confidence": "high"
+  },
+  {
+   "id": "a33_10",
+   "uz": "Qoidalarga köra, 12 yoşga tölmagan bolalarni mototsiklning orqa örindiğida taşiş taqiqlanadi. Demak, yon kajavasi bölmagan mototsiklda faqat 12 yoşdan katta bolalarni taşiş mumkin. Bunda bola orqa örindiqda öltirib, motoşlem kiygan bölişi kerak. Yonida katta yoşdagi yölovçi bölişi bu taqiqni bekor qilmaydi.",
+   "ru": "По правилам запрещается перевозить детей до 12 лет на заднем сиденье мотоцикла. Значит, на мотоцикле без бокового прицепа можно перевозить только детей старше 12 лет. Ребёнок при этом должен сидеть на заднем сиденье в мотошлеме. Присутствие взрослого пассажира этот запрет не снимает.",
+   "en": "The rules prohibit carrying children under 12 on the rear seat of a motorcycle. So on a motorcycle without a sidecar, only children older than 12 may be carried. The child must sit on the rear seat and wear a motorcycle helmet. Having an adult passenger along does not lift this ban.",
+   "confidence": "high"
+  }
+ ]
+}

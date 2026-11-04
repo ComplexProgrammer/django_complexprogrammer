@@ -71,10 +71,22 @@ RESET_AT_RE = re.compile(
 )
 
 
+NETWORK_RE = re.compile(
+    r"can.t reach the api|ENOTFOUND|EAI_AGAIN|ECONNRESET|ECONNREFUSED|ETIMEDOUT|ENETUNREACH|socket hang up"
+    r"|connection (?:error|refused|reset)|network error|fetch failed|overloaded|\b5(?:00|02|03|04|29)\b",
+    re.I,
+)
+NETWORK_RETRY = timedelta(minutes=1)
+
+
 class LimitReached(Exception):
-    def __init__(self, message, reset_at):
+    """Sörovlarni vaqtinça töxtatiş sababi. ``kind``: "limit" — obuna limiti, "network" — internet/server xatosi,
+    "errors" — ketma-ket tanilmagan xatolar."""
+
+    def __init__(self, message, reset_at, kind="limit"):
         super().__init__(message)
         self.reset_at = reset_at
+        self.kind = kind
 
 
 def _reset_time(text, now=None):
@@ -169,13 +181,17 @@ def _synthetic(out):
 
 def _check_limit(proc, out):
     text = _message(proc, out)
-    if (out and out.get("api_error_status") == 429) or LIMIT_RE.search(text) or _synthetic(out):
+    if (out and out.get("api_error_status") == 429) or LIMIT_RE.search(text):
+        raise LimitReached(_brief(proc, out), _reset_time(text))
+    if NETWORK_RE.search(text):  # internet / DNS / server vaqtinça işlamayapti — limit emas
+        raise LimitReached(_brief(proc, out), None, kind="network")
+    if _synthetic(out):  # API'ga sörov ketmagan, sababi tanilmadi — limit bölişi mumkin
         raise LimitReached(_brief(proc, out), _reset_time(text))
 
 
-def _wait_until(target):
+def _wait_until(target, reason):
     """Uyqu rejimidan keyin ham töğri işlaşi uçun soat bilan tekşirib kutadi."""
-    print(f"\n⏸  Limit tugadi. {target:%Y-%m-%d %H:%M} gaça kutiladi, keyin avtomatik davom etadi "
+    print(f"\n⏸  {reason} {target:%Y-%m-%d %H:%M} gaça kutiladi, keyin avtomatik davom etadi "
           "(töxtatiş: Ctrl+C, tayyorlari saqlangan).", flush=True)
     last_note = time.monotonic()
     while True:
@@ -301,7 +317,8 @@ def _round(claude, todo, workers, save, progress):
                 if limit is None:
                     for f in futures:
                         f.cancel()
-                    print(f"⛔ {label}: obuna limiti — {e}", flush=True)
+                    kind = "tarmoq xatosi" if e.kind == "network" else "obuna limiti"
+                    print(f"⛔ {label}: {kind} — {e}", flush=True)
                 if limit is None or (e.reset_at and (not limit.reset_at or e.reset_at > limit.reset_at)):
                     limit = e
                 continue
@@ -320,7 +337,8 @@ def _round(claude, todo, workers, save, progress):
                         f.cancel()
                     progress["failed"].difference_update(streak)  # bular ham kutişdan keyin qayta yuboriladi
                     progress["n"] -= len(streak)
-                    limit = LimitReached(f"ketma-ket {len(streak)} ta xato (töliq matn: {ERROR_LOG.relative_to(ROOT)})", None)
+                    limit = LimitReached(f"ketma-ket {len(streak)} ta xato (töliq matn: {ERROR_LOG.relative_to(ROOT)})",
+                                         None, kind="errors")
                     print(f"⛔ {limit} — limit deb hisoblanadi.", flush=True)
                 continue
             if item is None:
@@ -375,15 +393,19 @@ def run(args):
             if not remaining:
                 break
             now = datetime.now()
-            if limit.reset_at and limit.reset_at > now:
-                resume = limit.reset_at + RESET_MARGIN
+            if limit.kind == "network":
+                resume, reason = now + NETWORK_RETRY, "Internet yoki Claude serveri bilan aloqa yöq."
+            elif limit.reset_at and limit.reset_at > now:
+                resume, reason = limit.reset_at + RESET_MARGIN, "Obuna limiti tugadi, yangilaniş vaqti:"
             else:  # vaqt aniqlanmadi — birozdan keyin qayta urinib köriladi
                 resume = now + timedelta(minutes=args.retry_minutes)
-            if args.no_wait:
+                reason = ("Ketma-ket xatolar." if limit.kind == "errors"
+                          else "Limit tugagan bölişi mumkin (yangilaniş vaqti noma'lum), qayta tekşiriş:")
+            if args.no_wait and limit.kind != "network":
                 print(f"\n--no-wait: {len(remaining)} ta savol qoldi. Limit ~{resume:%Y-%m-%d %H:%M} da yangilanadi, "
                       "keyin skriptni qayta işga tuşiring.")
                 break
-            _wait_until(resume)
+            _wait_until(resume, reason)
     except KeyboardInterrupt:
         print("\nTöxtatildi (Ctrl+C). Tayyor izohlar saqlangan, qayta işga tuşirsangiz qolganidan davom etadi.")
 
