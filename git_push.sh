@@ -13,6 +13,7 @@
 #
 # GitHub'dan yangi kod kelsa (ikkala rejimda): yangi migratsiyalar bölsa, baza nusxasi logs/ ga olinadi va
 # `manage.py migrate` avtomatik bajariladi, söng tmp/restart.txt yangilanadi, keyin sahifalar tekşiriladi.
+# projects/data/explanations/ ga yangi izoh fayli kelsa, `manage.py import_explanations` ham bajariladi.
 #   cPanel → Cron Jobs (har 15 daqiqada):
 #     */15 * * * * PYTHON=/home/<user>/virtualenv/.../bin/python bash /path/to/django/git_push.sh --auto
 set -e
@@ -123,6 +124,15 @@ PY
         fi
     fi
 
+    # Lokalda yaratilgan AI izoh qoralamalari (scripts/explanations_local.py) kelsa — bazaga yozamiz
+    if git diff --name-only "$BEFORE" HEAD -- projects/data/explanations | grep -q .; then
+        if "$PYTHON" manage.py import_explanations; then
+            echo "Yangi izoh qoralamalari bazaga yozildi (Admin → Tests → Questions → Qoralama)."
+        else
+            echo "⚠️  import_explanations xato bilan tugadi."
+            [ "$AUTO" = 1 ] && echo "⚠️  git_push.sh --auto: import_explanations xato berdi. Batafsil: logs/git_push.log" >&3
+        fi
+    fi
     # Passenger yangi kodni yuklasin
     mkdir -p tmp && touch tmp/restart.txt
     echo "Sayt qayta işga tuşirildi (tmp/restart.txt)."

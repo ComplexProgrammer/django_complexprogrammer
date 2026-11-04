@@ -9,64 +9,29 @@ Batch API oddiy so'rovdan 50% arzon, natija odatda 1 soat ichida tayyor bo'ladi.
 ``explanation_status="draft"`` bilan saqlanadi (/avtotest/ savollariniki ham — yagona manba tests, kitob 49/50;
 AvtoTest undan avtomatik yangilanadi) — saytda faqat admin panelda "Izohni tasdiqlaş" qilingandan keyin körinadi.
 Kalit: ANTHROPIC_API_KEY (.env) yoki `ant auth login` profili.
+
+Serverda API kaliti saqlanmasa — qoralamalarni lokal kompyuterda yarating (Django kerak emas):
+    python scripts/explanations_local.py submit --limit 100   # keyin: status, collect
+Natija ``projects/data/explanations/*.json`` ga yoziladi, git orqali serverga boradi va ``git_push.sh``
+uni ``manage.py import_explanations`` bilan bazaga yozadi. Prompt va sxema: ``projects/explanation_prompts.py``.
 """
 
-import base64
 import json
 from pathlib import Path
 
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-from core.translit import latin1995_to_2026, latin_to_cyrillic
+from projects.explanation_prompts import (
+    LETTERS, MODEL, SYSTEM, SYSTEM_TESTS, avtotest_content, image_block, params, parse_custom_id,
+)
+from projects.explanation_store import save_draft, sync_avtotest
 from projects.models import AvtoTest
-from projects.avtotest_sync import builder, tests_question
 from tests.models import Answers, Questions
 
-MODEL = "claude-opus-5-5"
-LETTERS = ("A", "B", "C", "D")
 STATE_FILE = Path(settings.BASE_DIR) / "tmp" / "explanation_batches.json"
 IMAGES = Path(settings.BASE_DIR) / "static" / "avtotest"
 MEDIA = Path(settings.MEDIA_ROOT)
-
-SYSTEM = """Siz O'zbekiston yo'l harakati qoidalari (YHQ) bo'yicha tajribali o'qituvchisiz. Haydovchilikka nomzodlar uchun \
-avtotest savolining to'g'ri javobi nima uchun to'g'ri ekanini qisqa tushuntirasiz.
-
-Talablar:
-- 2-4 gap, sodda til. Avval qoida mazmunini ayting, keyin uni shu vaziyatga qo'llang.
-- To'g'ri javob sizga berilgan — uni o'zgartirmang va boshqa variantni to'g'ri demang.
-- YHQ band raqamini faqat aniq bilsangiz yozing; ishonchingiz komil bo'lmasa, raqamsiz qoida mazmunini ayting.
-- Rasm berilgan bo'lsa, undagi vaziyatga (belgilar, transport vositalari joylashuvi) tayaning.
-- Uchala tilda bir xil mazmun: o'zbekcha (lotin), ruscha, inglizcha.
-- confidence: berilgan javobni qoidaga ishonchli bog'lay olsangiz "high", qisman "medium", \
-savol yoki javob noaniq/xato tuyulsa "low"."""
-
-# /tests/ da haydovchilik testlaridan tashqari maktab fanlari (matematika, tarix, ingliz tili...) ham bor
-SYSTEM_TESTS = """Siz tajribali o'qituvchisiz. O'quvchiga test savolining to'g'ri javobi nima uchun to'g'ri ekanini \
-qisqa tushuntirasiz. Fan (to'plam nomi) savol bilan birga beriladi.
-
-Talablar:
-- 2-4 gap, sodda til. Avval qoida, ta'rif yoki faktni ayting, keyin uni shu savolga qo'llang.
-- Hisoblash savolida asosiy qadamlarni qisqa ko'rsating.
-- To'g'ri javob sizga berilgan — uni o'zgartirmang va boshqa variantni to'g'ri demang.
-- Haydovchilik testi bo'lsa: O'zbekiston YHQ (to'plam AQSh CDL bo'lsa — o'sha qoidalar) asosida tushuntiring; \
-band raqamini faqat aniq bilsangiz yozing.
-- Rasm berilgan bo'lsa, undagi vaziyatga tayaning.
-- Uchala tilda bir xil mazmun: o'zbekcha (lotin), ruscha, inglizcha.
-- confidence: berilgan javobni ishonchli asoslay olsangiz "high", qisman "medium", \
-savol yoki javob noaniq/xato tuyulsa "low"."""
-
-SCHEMA = {
-    "type": "object",
-    "properties": {
-        "uz": {"type": "string"},
-        "ru": {"type": "string"},
-        "en": {"type": "string"},
-        "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
-    },
-    "required": ["uz", "ru", "en", "confidence"],
-    "additionalProperties": False,
-}
 
 
 def _state():
@@ -94,25 +59,6 @@ def _client():
     return anthropic.Anthropic(api_key=key) if key else anthropic.Anthropic()
 
 
-def _image_block(path):
-    media = "image/png" if path.suffix.lower() == ".png" else "image/jpeg"
-    return {
-        "type": "image",
-        "source": {"type": "base64", "media_type": media, "data": base64.standard_b64encode(path.read_bytes()).decode()},
-    }
-
-
-def _params(system, content):
-    return {
-        "model": MODEL,
-        "max_tokens": 16000,
-        "output_config": {"effort": "medium", "format": {"type": "json_schema", "schema": SCHEMA}},
-        # Barcha so'rovlarda bir xil tizim matni — keshlanadi
-        "system": [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
-        "messages": [{"role": "user", "content": content}],
-    }
-
-
 def _tests_request(q, answers):
     """/tests/ savoli (tests.Questions): variantlar Answers jadvalida, to'g'risi right=True."""
     options = [a for a in answers if a.name_uz_uz.strip()]
@@ -128,26 +74,13 @@ def _tests_request(q, answers):
     content = []
     image = MEDIA / q.image.name if q.image else None
     if image and image.is_file():
-        content.append(_image_block(image))
+        content.append(image_block(image))
     content.append({"type": "text", "text": "\n".join(lines)})
-    return {"custom_id": f"t{q.id}", "params": _params(SYSTEM_TESTS, content)}
+    return {"custom_id": f"t{q.id}", "params": params(SYSTEM_TESTS, content)}
 
 
 def _request(q):
-    options = "\n".join(
-        f"{letter}) {getattr(q, 'javob_' + letter.lower())}"
-        for letter in LETTERS if getattr(q, "javob_" + letter.lower())
-    )
-    text = (
-        f"Savol ({q.bilet}-bilet, {q.raqam}-savol): {q.savol}\n\nVariantlar:\n{options}\n\n"
-        f"To'g'ri javob: {q.javob}"
-    )
-    content = []
-    image = IMAGES / q.rasm if q.rasm else None
-    if image and image.is_file():
-        content.append(_image_block(image))
-    content.append({"type": "text", "text": text})
-    return {"custom_id": f"q{q.id}", "params": _params(SYSTEM, content)}
+    return {"custom_id": f"q{q.id}", "params": params(SYSTEM, avtotest_content(q, IMAGES))}
 
 
 class Command(BaseCommand):
@@ -241,7 +174,6 @@ class Command(BaseCommand):
                 self.stdout.write(f"{b['id']}: hali tugamagan.")
                 continue
             for result in client.messages.batches.results(b["id"]):
-                kind, pk = result.custom_id[0], int(result.custom_id[1:])
                 if result.result.type != "succeeded":
                     skipped += 1  # keyingi 'submit' da qayta yuboriladi
                     continue
@@ -255,24 +187,14 @@ class Command(BaseCommand):
                 except ValueError:
                     skipped += 1
                     continue
-                if kind != "t":
-                    # /avtotest/ savoli: izoh asosiy manbaga (tests, kitob 49/50) yoziladi, AvtoTest undan yangilanadi
-                    row = AvtoTest.objects.filter(pk=pk).first()
-                    question = tests_question(row.bilet, row.raqam) if row else None
-                    if question is None:
-                        skipped += 1
-                        continue
-                    pk = question.pk
-                # Bazadagi savollar 2026-yilgi imloda (ş, ç, ğ, ö) — izoh ham şunday saqlanadi
-                uz = latin1995_to_2026(data["uz"].strip())
-                saved += Questions.objects.filter(pk=pk).exclude(explanation_status="approved").update(
-                    explanation_uz_uz=uz, explanation_uz_crl=latin_to_cyrillic(uz),
-                    explanation_ru_ru=data["ru"].strip(), explanation_en_us=data["en"].strip(),
-                    explanation_confidence=data["confidence"], explanation_status="draft",
-                )
+                kind, key = parse_custom_id(result.custom_id)
+                if save_draft(kind, key, data):
+                    saved += 1
+                else:
+                    skipped += 1
             b["collected"] = True
         _save_state(state)
-        builder().sync_all()  # update() signal yubormaydi — yangi izohlar /avtotest/ ga ham tuşsin
+        sync_avtotest()
         self.stdout.write(self.style.SUCCESS(
             f"{saved} ta qoralama saqlandi, {skipped} tasi o'tkazib yuborildi. "
             "Admin → Tests → Questions → filtr 'Qoralama' orqali tekşirib, tasdiqlang (/avtotest/ izohlari ham şu yerda)."
