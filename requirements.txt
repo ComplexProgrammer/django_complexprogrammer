@@ -39,7 +39,7 @@ sqlparse==0.6.0
 tabula-py==2.9.3
 termcolor==2.4.0
 tqdm==4.66.5
-typing_extensions==4.12.2
+typing_extensions>=4.13  # anthropic kutubxonasi TypedDict(extra_items=...) işlatadi — 4.12 da "unexpected keyword argument 'extra_items'"
 tzdata==2024.1
 urllib3==2.8.0
 whitenoise==6.7.0
