@@ -41,7 +41,7 @@
     </ul>
   </div>
   {% endif %}
-  {% include "includes/ad_slot.html" %}
+  {% include "includes/ad_slot.html" with slot=ad_slots.question %}
   <div class="d-card d-cta">
     <h2 class="d-h2">🎯 {{ t.exam }}</h2>
     <p>{{ t.exam_cta }}</p>
@@ -60,7 +60,7 @@
     </ul>
     <p style="margin:12px 0 0"><a href="{{ lang_prefix }}/avtotest/">← {{ t.all_tickets }}</a></p>
   </section>
-  {% include "includes/ad_slot.html" with format="autorelaxed" slot="2479701367" %}
+  {% include "includes/ad_slot.html" with format="autorelaxed" slot=ad_slots.multiplex %}
 </main>
 {# Izohlar: savol böyiça muhokama. Bootstrap faqat şu blok uçun, sahifa pastida ulanadi — yuqoridagi kontent kutmaydi #}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">

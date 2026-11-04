@@ -231,7 +231,7 @@
         {% if ui_lang == 'ru' %}{{ f.desc_ru }}{% else %}{{ f.desc_uz }}{% endif %}
       </p>
     </div>
-    {% if forloop.counter|divisibleby:8 and not forloop.last %}{% include "includes/ad_slot.html" %}{% endif %}
+    {% if forloop.counter|divisibleby:8 and not forloop.last %}{% include "includes/ad_slot.html" with slot=ad_slots.fines %}{% endif %}
     {% endfor %}
   {% else %}
     <div class="d-card" style="text-align:center; padding:40px 20px">

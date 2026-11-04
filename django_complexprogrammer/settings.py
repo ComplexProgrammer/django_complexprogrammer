@@ -532,3 +532,19 @@ UNFOLD = {
     },
 }
 WHITENOISE_USE_FINDERS = True
+
+# --- Reklama ---
+# AdSense ad unit ID'lari bitta joyda. Kalit — joylaşuv nomi (templates/includes/ad_slot.html'ga
+# slot=ad_slots.<kalit> qilib beriladi). Kalit bu yerda bölmasa "default" işlatiladi.
+# AdSense'da yangi unit yaratilganda (Ads → By ad unit) ID'ni şu yerga qöşiş kifoya — şablonlarga tegiş şart emas.
+ADSENSE_SLOTS = {
+    "default": "3869366477",      # Display, responsive
+    "multiplex": "2479701367",    # autorelaxed
+    "in_article": "2303661293",   # fluid, in-article
+    "in_feed": "4679993061",      # fluid, in-feed
+    # "avtotest": "",  "question": "",  "yhq": "",  "fines": "",  "exam_result": "",  "driving": "",
+}
+# Yandex Autoplacement (ap-loader.js) reklamani sahifaga özi joylaştiradi va qöl bilan qöyilgan Google
+# bloklari hamda Google Auto ads bilan bir joy uçun raqobatlaşadi. Yandex RTB bloklari va Floor Ad bunga
+# böğliq emas — ular işlayveradi. Qayta yoqiş uçun True qiling.
+YANDEX_AUTOPLACEMENT = False

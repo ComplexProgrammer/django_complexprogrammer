@@ -16,7 +16,10 @@ SEO_LANGS = ("uz", "ru", "en")
 PREFIX_LANGS = ("ru", "en")
 OG_LOCALES = {"uz": "uz_UZ", "ru": "ru_RU", "en": "en_US", "tr": "tr_TR"}
 # Indekslanmaydigan sahifalar (shaxsiy natijalar, qidiruv)
-NOINDEX_PATHS = {"/search/", "/avtotest/xatolar/", "/tests/xatolar/", "/offline/", "/profil/", "/auth/telegram/", "/avtotest/imtihon/natija/"}
+NOINDEX_PATHS = {"/search/", "/avtotest/xatolar/", "/tests/xatolar/", "/offline/", "/profil/", "/auth/telegram/", "/avtotest/imtihon/natija/",
+                 # Instagram yuklovçisi vaqtinça işlamaydi (projects.views.INSTAGRAM_UNAVAILABLE): foydasiz sahifa
+                 # qidiruvda turmasin va AdSense "low value content" deb belgilamasin
+                 "/instagram-downloader/"}
 # canonical/hreflang'da saqlanadigan (sahifa mazmunini o'zgartiradigan) parametrlar
 CANONICAL_PARAMS = ("id", "book_id", "categorie_id", "page")
 
@@ -49,7 +52,11 @@ def page_meta(path, lang):
 
         n = int(match.group(1))
         q = avtotest_bilet_sizes().get(n, 10)  # 117, 128, 133-biletlarda 9 ta, 136-da 8 ta savol
-        meta = {k: v.format(n=n, q=q) for k, v in BILET[ml].items()}
+        # Satrlar va [(sarlavha, matn), ...] röyxatlari (text, faq) — ikkalasida ham {n}/{q} almaştiriladi
+        meta = {
+            k: [tuple(x.format(n=n, q=q) for x in pair) for pair in v] if isinstance(v, list) else v.format(n=n, q=q)
+            for k, v in BILET[ml].items()
+        }
         meta.update(kind="bilet", parent="/avtotest/")
         return meta
     return None

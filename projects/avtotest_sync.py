@@ -31,7 +31,7 @@ IMAGE_DIR = "tests/questions/images"
 
 
 def book_for(bilet):
-    """Bilet raqami -> (kitob id, kitob ičidagi bilet (topic) raqami)."""
+    """Bilet raqami -> (kitob id, kitob içidagi bilet (topic) raqami)."""
     for book_id, first in reversed(SYNCED_BOOKS):
         if bilet >= first:
             return book_id, bilet - first + 1
@@ -52,7 +52,7 @@ def _cyr(text):
 
 
 def _rasm(image_name):
-    """tests'dagi rasm yöli -> AvtoTest.rasm (static/avtotest/ ičidagi fayl nomi)."""
+    """tests'dagi rasm yöli -> AvtoTest.rasm (static/avtotest/ içidagi fayl nomi)."""
     if not image_name:
         return ""
     prefix = IMAGE_DIR + "/"
@@ -156,7 +156,7 @@ class AvtoTestBuilder(_Base):
         seen = set()
         for q in questions:
             if q.number in seen:
-                self._skip(bilet, q.number, "bilet ičida bir xil raqamli ikkinçi savol")
+                self._skip(bilet, q.number, "bilet içida bir xil raqamli ikkinçi savol")
                 continue
             seen.add(q.number)
             row = rows.pop(q.number, None)

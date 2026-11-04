@@ -27,11 +27,11 @@
       <p>{% if forloop.first %}<a class="n" href="#b{{ point.num }}">{{ point.num }}.</a> {% endif %}{{ paragraph|linebreaksbr }}</p>
       {% endfor %}
     </div>
-    {% if forloop.counter|divisibleby:8 and not forloop.last %}{% include "includes/ad_slot.html" with format="fluid" layout="in-article" slot="2303661293" %}{% endif %}
+    {% if forloop.counter|divisibleby:8 and not forloop.last %}{% include "includes/ad_slot.html" with format="fluid" layout="in-article" slot=ad_slots.in_article %}{% endif %}
     {% endfor %}
     <p class="d-meta" style="margin-top:12px">{{ t.yhq_source }}: <a href="{{ source }}" target="_blank" rel="noopener">lex.uz — VM 172-son qarori</a></p>
   </article>
-  {% include "includes/ad_slot.html" %}
+  {% include "includes/ad_slot.html" with slot=ad_slots.yhq %}
   {% if questions %}
   <section class="d-card">
     <h2 class="d-h2">🚗 {{ t.yhq_related }}</h2>

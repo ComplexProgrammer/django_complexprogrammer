@@ -33,7 +33,7 @@
 {% include "includes/site_header.html" %}
 <main>
   <div id="app"></div>
-  {% include "includes/ad_slot.html" %}
+  {% include "includes/ad_slot.html" with slot=ad_slots.mistakes %}
 </main>
 <script>
 (function () {

@@ -54,7 +54,7 @@ def _copy_parents(obj, parent):
 
 
 # =================================================================================================
-# Javoblar (savol ičida)
+# Javoblar (savol içida)
 # =================================================================================================
 class AnswersInlineFormSet(BaseInlineFormSet):
     def clean(self):

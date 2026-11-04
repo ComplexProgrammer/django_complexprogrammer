@@ -323,7 +323,7 @@
         </div>
     </div>
 
-    {% include "includes/ad_slot.html" %}
+    {% include "includes/ad_slot.html" with slot=ad_slots.avtotest %}
 
     {{ bilet_sizes|json_script:"atSizes" }}
     <script>
@@ -538,7 +538,7 @@
         }
     </script>
     {# Savol bloki tugagandan keyin: javob variantlaridan 32px uzoqda (tasodifiy bosiş bölmasin) #}
-    {% include "includes/ad_slot.html" %}
+    {% include "includes/ad_slot.html" with slot=ad_slots.avtotest %}
     {% if questions %}
     <div class="container at-qlist">
         <h2 class="h5">{% if request.LANGUAGE_CODE == 'ru' %}Вопросы билета {{ bilet }} с ответами{% elif request.LANGUAGE_CODE == 'uz' %}{{ bilet }}-bilet savollari va javoblari{% else %}Ticket {{ bilet }} questions with answers{% endif %}</h2>

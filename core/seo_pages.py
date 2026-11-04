@@ -508,7 +508,7 @@ PAGES = {
             "lead": "PDF faylni Word, Excel yoki rasm formatiga ötkazing.",
             "text": [
                 ("Qanday işlaydi?", "Kerakli amalni tanlang (PDF → Word, PDF → Excel yoki PDF → rasm), faylni yuklang va tayyor natijani yuklab oling. Matn va jadvallar tahrirlanadigan körinişda saqlanadi."),
-                ("Fayllar xavfsizligi", "Yuklangan fayllar faqat konvertatsiya uçun işlatiladi va vaqtinçalik saqlanadi."),
+                ("Fayllar xavfsizligi", "Yuklangan fayllar faqat konvertatsiya uçun işlatiladi va serverdan 1 soat içida avtomatik öçiriladi. Fayllar heçkimga körsatilmaydi."),
             ],
             "faq": [
                 ("PDF'ni Word'ga ötkaziş bepulmi?", "Ha, röyxatdan ötmasdan bepul."),
@@ -522,7 +522,7 @@ PAGES = {
             "lead": "Преобразуйте PDF в Word, Excel или изображения.",
             "text": [
                 ("Как это работает?", "Выберите действие (PDF → Word, PDF → Excel или PDF → изображение), загрузите файл и скачайте готовый результат. Текст и таблицы сохраняются в редактируемом виде."),
-                ("Безопасность файлов", "Загруженные файлы используются только для конвертации и хранятся временно."),
+                ("Безопасность файлов", "Загруженные файлы используются только для конвертации и автоматически удаляются с сервера в течение 1 часа. Файлы никому не показываются."),
             ],
             "faq": [
                 ("Конвертация PDF в Word бесплатна?", "Да, бесплатно и без регистрации."),
@@ -536,7 +536,7 @@ PAGES = {
             "lead": "Turn a PDF into Word, Excel or image files.",
             "text": [
                 ("How it works", "Choose an action (PDF → Word, PDF → Excel or PDF → image), upload your file and download the result. Text and tables are kept editable."),
-                ("File security", "Uploaded files are used only for the conversion and stored temporarily."),
+                ("File security", "Uploaded files are used only for the conversion and are automatically deleted from the server within 1 hour. Files are never shown to anyone."),
             ],
             "faq": [
                 ("Is PDF to Word free?", "Yes, free and without registration."),
@@ -553,8 +553,14 @@ PAGES = {
             "lead": "Video havolasini joylaştiring va formatni tanlang.",
             "text": [
                 ("Qanday foydalaniladi?", "YouTube'dan video havolasini nusxalang, maydonga joylaştiring, kerakli formatni tanlang va faylni yuklab oling. Faqat özingizga tegişli yoki yuklab olişga ruxsat berilgan videolarni yuklab oling."),
+                ("Qaysi formatlar bor?", "Videoni MP4 formatida 4K gaça sifatda yoki faqat ovozini MP3 (M4A) audio sifatida yuklab oliş mumkin. Sifat qança yuqori bölsa, fayl şunça katta böladi — telefon uçun odatda 720p yetarli."),
             ],
-            "faq": [],
+            "faq": [
+                ("YouTube'dan video yuklab oliş bepulmi?", "Ha, bepul va röyxatdan ötmasdan işlaydi."),
+                ("Videodan faqat musiqani (MP3) olsa böladimi?", "Ha, formatni «Audio (MP3)» qilib tanlang — faqat ovoz yuklab olinadi."),
+                ("Qança uzun videoni yuklab oliş mumkin?", "3 soatgaça bölgan videolarni. Jonli efirlarni yuklab bölmaydi."),
+                ("Yuklangan fayl serverda saqlanadimi?", "Yöq, tayyor fayl serverdan 1 soat içida avtomatik öçiriladi."),
+            ],
         },
         "ru": {
             "title": "Скачать видео с YouTube — онлайн и бесплатно",
@@ -563,8 +569,14 @@ PAGES = {
             "lead": "Вставьте ссылку на видео и выберите формат.",
             "text": [
                 ("Как пользоваться?", "Скопируйте ссылку на видео YouTube, вставьте её в поле, выберите формат и скачайте файл. Скачивайте только собственные видео или те, на которые есть разрешение."),
+                ("Какие форматы доступны?", "Видео в MP4 с качеством до 4K или только звук в MP3 (M4A). Чем выше качество, тем больше файл — для телефона обычно достаточно 720p."),
             ],
-            "faq": [],
+            "faq": [
+                ("Скачивание видео с YouTube бесплатное?", "Да, бесплатно и без регистрации."),
+                ("Можно скачать только музыку (MP3)?", "Да, выберите формат «Аудио (MP3)» — скачается только звук."),
+                ("Видео какой длины можно скачать?", "До 3 часов. Прямые эфиры скачать нельзя."),
+                ("Хранится ли файл на сервере?", "Нет, готовый файл автоматически удаляется с сервера в течение 1 часа."),
+            ],
         },
         "en": {
             "title": "YouTube video downloader — free online",
@@ -573,8 +585,14 @@ PAGES = {
             "lead": "Paste the video link and choose a format.",
             "text": [
                 ("How to use it", "Copy a YouTube video link, paste it into the field, choose a format and download the file. Only download videos you own or have permission to download."),
+                ("Which formats are available?", "MP4 video in up to 4K quality, or audio only as MP3 (M4A). Higher quality means a bigger file — 720p is usually enough for a phone."),
             ],
-            "faq": [],
+            "faq": [
+                ("Is downloading YouTube videos free?", "Yes, it is free and needs no registration."),
+                ("Can I get only the music (MP3)?", "Yes, choose the “Audio (MP3)” format and only the sound is downloaded."),
+                ("How long can the video be?", "Up to 3 hours. Live streams can't be downloaded."),
+                ("Is the file kept on the server?", "No, the finished file is automatically deleted from the server within 1 hour."),
+            ],
         },
     },
     "/instagram-downloader/": {
@@ -671,16 +689,43 @@ BILET = {
         "title": "Avtotest {n}-bilet — YHQ imtihon savollari va javoblari",
         "desc": "Avtotest {n}-bilet: {q} ta savol, rasmlar va töğri javoblar. Haydovçilik guvohnomasi imtihoniga onlayn tayyorlaning.",
         "h1": "Avtotest — {n}-bilet",
+        "text": [
+            ("{n}-biletni qanday yeçiş kerak?", "Biletda {q} ta savol bor. Har bir savolga bitta javobni tanlang — töğri javob yaşil, xato javob qizil rangda körsatiladi. Vaqt hisoblagiçi yuqorida turadi, natija oynasida töğri va xato javoblar soni çiqadi. Natijalar brauzeringizda saqlanadi, Telegram orqali kirsangiz boşqa qurilmalarda ham körinadi."),
+            ("Imtihonga tayyorlaniş", "Rasmiy imtihonda 20 ta savolga 25 daqiqada javob beriladi va köpi bilan 2 ta xatoga ruxsat bor. Biletlarni ketma-ket yeçib, xato qilgan savollaringizni «Xatolarim» bölimida qayta işlang, keyin imtihon simulyatorida özingizni sinab köring."),
+        ],
+        "faq": [
+            ("Avtotest {n}-biletda neçta savol bor?", "{n}-biletda {q} ta savol bor, har biri töğri javobi bilan."),
+            ("Imtihondan ötiş uçun neçta xato qiliş mumkin?", "Köpi bilan 2 ta. 3 ta xato qilinsa, imtihon topşirilmagan hisoblanadi."),
+            ("Biletlarni bepul yeçsa böladimi?", "Ha, barça biletlar va imtihon simulyatori bepul, röyxatdan ötiş şart emas."),
+        ],
     },
     "ru": {
         "title": "Автотест билет {n} — вопросы и ответы ПДД Узбекистана",
         "desc": "Билет {n} автотеста: {q} вопросов с картинками и правильными ответами. Готовьтесь к экзамену на права онлайн.",
         "h1": "Автотест — билет {n}",
+        "text": [
+            ("Как решать билет {n}?", "В билете {q} вопросов. Выберите один ответ на каждый вопрос — правильный ответ подсвечивается зелёным, ошибка — красным. Таймер показан вверху, а в окне результата видно количество правильных и неправильных ответов. Результаты сохраняются в браузере, а после входа через Telegram — и на других устройствах."),
+            ("Подготовка к экзамену", "На официальном экзамене нужно ответить на 20 вопросов за 25 минут, допускается не более 2 ошибок. Решайте билеты по порядку, повторяйте ошибки в разделе «Мои ошибки», а затем проверьте себя в симуляторе экзамена."),
+        ],
+        "faq": [
+            ("Сколько вопросов в билете {n}?", "В билете {n} — {q} вопросов с правильными ответами."),
+            ("Сколько ошибок можно допустить на экзамене?", "Не более 2. При 3 ошибках экзамен считается не сданным."),
+            ("Можно ли решать билеты бесплатно?", "Да, все билеты и симулятор экзамена бесплатны, регистрация не нужна."),
+        ],
     },
     "en": {
         "title": "Avtotest ticket {n} — Uzbekistan driving test questions",
         "desc": "Driving test ticket {n}: {q} questions with pictures and correct answers. Prepare for the Uzbekistan licence exam online.",
         "h1": "Avtotest — ticket {n}",
+        "text": [
+            ("How to solve ticket {n}", "Ticket {n} has {q} questions. Choose one answer for each question — a correct answer turns green and a wrong one turns red. The timer is shown at the top, and the result window shows how many answers were right and wrong. Results are saved in your browser, and on other devices too once you log in with Telegram."),
+            ("Preparing for the exam", "The official exam has 20 questions to answer in 25 minutes, with at most 2 mistakes allowed. Solve the tickets in order, review your errors in “My mistakes”, then test yourself in the exam simulator."),
+        ],
+        "faq": [
+            ("How many questions are in ticket {n}?", "Ticket {n} has {q} questions, each with the correct answer."),
+            ("How many mistakes are allowed in the exam?", "At most 2. With 3 mistakes the exam is failed."),
+            ("Are the tickets free?", "Yes, all tickets and the exam simulator are free and need no registration."),
+        ],
     },
 }
 

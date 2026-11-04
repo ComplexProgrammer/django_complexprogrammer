@@ -130,6 +130,13 @@ def news_active():
     return active
 
 
+class _AdSlots(dict):
+    """Şablonda ``ad_slots.question`` kabi murojaat: kalit bölmasa "default" unit qaytariladi."""
+
+    def __getitem__(self, key):
+        return dict.get(self, key) or dict.get(self, "default", "")
+
+
 def _lang_key(code):
     code = (code or "uz").split("-")[0]
     return code if code in UI else "en"
@@ -165,6 +172,9 @@ def site(request):
         "news_active": is_news_active,
         # O'quv sahifalarida pastki "yopishqoq" reklama yo'q: javob tugmalarini to'sadi, telefonda sahifani sekinlashtiradi
         "no_floor_ad": path.startswith(NO_FLOOR_AD_PREFIXES),
+        # AdSense unit ID'lari (settings.ADSENSE_SLOTS): kalit topilmasa — "default"
+        "ad_slots": _AdSlots(getattr(settings, "ADSENSE_SLOTS", {})),
+        "yandex_autoplacement": getattr(settings, "YANDEX_AUTOPLACEMENT", False),
         "lang_prefix": prefix,
         "available_languages": settings.LANGUAGES,
     }

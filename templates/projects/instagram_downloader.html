@@ -309,7 +309,7 @@
 <div class="alert alert-warning text-center m-2" role="status">{{ unavailable }}</div>
   <canvas id="threejs-bg"></canvas>
 
-  <ins class="adsbygoogle"
+{% if not unavailable %}  <ins class="adsbygoogle"
   style="display:block; text-align:center;"
   data-ad-layout="in-article"
   data-ad-format="fluid"
@@ -317,7 +317,7 @@
   data-ad-slot="2303661293"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+</script>{% endif %}
   <div id="conn" style="visibility:hidden;position:absolute;margin-left:45%;margin-top:20%;z-index:9999">
       <img src="/static/img/buffering.gif" />
   </div>
@@ -406,27 +406,27 @@
         {% endif %}
       <div class="row">
           <div class="col">
-              <!-- Yandex.RTB After content R-A-20240413-3 -->
+{% if not unavailable %}              <!-- Yandex.RTB After content R-A-20240413-3 -->
               <div id="yandex_rtb_R-A-20240413-3"></div>
               <script>window.yaContextCb.push(()=>{
                 Ya.Context.AdvManager.render({
                   renderTo: 'yandex_rtb_R-A-20240413-3',
                   blockId: 'R-A-20240413-3'
                 })
-              })</script>
+              })</script>{% endif %}
           </div>
       </div>
   </div>
   {% include 'comment_form.html' %}
-  <ins class="adsbygoogle"
+{% if not unavailable %}  <ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-format="autorelaxed"
     data-ad-client="ca-pub-7773722896374259"
     data-ad-slot="2479701367"></ins>
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-<ins class="adsbygoogle"
+</script>{% endif %}
+{% if not unavailable %}<ins class="adsbygoogle"
 style="display:block; text-align:center;"
 data-ad-format="fluid"
 data-ad-layout-key="-an-4i-cp+a2+21k"
@@ -434,9 +434,9 @@ data-ad-client="ca-pub-7773722896374259"
 data-ad-slot="4679993061"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+</script>{% endif %}
 <!-- Display 1 -->
-<ins class="adsbygoogle"
+{% if not unavailable %}<ins class="adsbygoogle"
     style="display:block; text-align:center;"
     data-ad-client="ca-pub-7773722896374259"
     data-ad-slot="3869366477"
@@ -444,7 +444,7 @@ data-ad-slot="4679993061"></ins>
     data-full-width-responsive="true"></ins>
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+</script>{% endif %}
 <!-- 1 chi abzast Mobil -->
   {% include "includes/scroll_buttons.html" %}
 

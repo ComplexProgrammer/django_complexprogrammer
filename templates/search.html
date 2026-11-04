@@ -44,7 +44,7 @@
           </a>
         {% endfor %}
       {% endfor %}
-      {% include "includes/ad_slot.html" %}
+      {% include "includes/ad_slot.html" with slot=ad_slots.search %}
     {% else %}
       <div class="s-empty">«{{ q }}» — 0 😕</div>
     {% endif %}
