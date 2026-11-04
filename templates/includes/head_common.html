@@ -56,6 +56,59 @@
     add("https://mc.yandex.ru/metrika/tag.js");
   })();
 </script>
+<!-- Google AdSense: darhol (async) ulanadi. Ilgari "load" + requestIdleCallback'dan keyin yuklanardi va
+     tez çiqib ketgan tashrifçilar reklamani körmay ketardi (impression/viewability yöqotilardi). -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259" crossorigin="anonymous"></script>
+<style>ins.adsbygoogle[data-ad-status="unfilled"]{display:none!important}</style>
+<!-- Google Funding Choices (consent/GDPR xabari) — faqat asosiy hisob uçun, barça sahifalarda.
+     Ilgari base.html ičida ikki hisob (pub-4137874891184814 va pub-7773722896374259) uçun ikki marta ulangan edi. -->
+<script async src="https://fundingchoicesmessages.google.com/i/pub-7773722896374259?ers=1"></script>
+<script>
+  (function () {
+    function signalGooglefcPresent() {
+      if (!window.frames["googlefcPresent"]) {
+        if (document.body) {
+          var iframe = document.createElement("iframe");
+          iframe.style = "width:0;height:0;border:none;z-index:-1000;left:-1000px;top:-1000px;";
+          iframe.style.display = "none";
+          iframe.name = "googlefcPresent";
+          document.body.appendChild(iframe);
+        } else {
+          setTimeout(signalGooglefcPresent, 0);
+        }
+      }
+    }
+    signalGooglefcPresent();
+  })();
+</script>
+<script>
+  // Reklama bloklarining holati (filled/unfilled) GA4'ga "ad_slot_status" hodisasi bölib yuboriladi —
+  // qaysi sahifa/slot böş qolayotganini (fill-rate) körish uçun.
+  window.addEventListener("load", function () {
+    if (!window.MutationObserver) return;
+    var seen = typeof WeakSet === "function" ? new WeakSet() : null;
+    function report(el) {
+      var st = el.getAttribute("data-ad-status");
+      if (!st || (seen && seen.has(el))) return;
+      if (seen) seen.add(el);
+      window.cpTrack && window.cpTrack("ad_slot_status", {
+        ad_status: st,
+        ad_slot: el.getAttribute("data-ad-slot") || "auto",
+        ad_format: el.getAttribute("data-ad-format") || el.getAttribute("data-ad-layout") || "",
+        page_path: location.pathname
+      });
+    }
+    var obs = new MutationObserver(function (list) {
+      list.forEach(function (m) { if (m.target.matches && m.target.matches("ins.adsbygoogle")) report(m.target); });
+    });
+    var slots = document.querySelectorAll("ins.adsbygoogle");
+    for (var i = 0; i < slots.length; i++) {
+      report(slots[i]);
+      obs.observe(slots[i], { attributes: true, attributeFilter: ["data-ad-status"] });
+    }
+    setTimeout(function () { obs.disconnect(); }, 30000);
+  });
+</script>
 <!-- Yandex Autoplacement 20240413 -->
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 <script data-page-id="20240413" src="https://yandex.ru/ads/system/ap-loader.js" async></script>
@@ -79,8 +132,6 @@
         for (var k in attrs || {}) s.setAttribute(k, attrs[k]);
         document.head.appendChild(s);
       }
-      // Google AdSense (reklama bloklari window.adsbygoogle navbatida kutib turadi)
-      add("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7773722896374259", { crossorigin: "anonymous" });
       // Tag Manager (GA4 va Metrika yuqorida darhol ulangan)
       dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
       add("https://www.googletagmanager.com/gtm.js?id=GTM-NW763C2");
