@@ -542,7 +542,12 @@ ADSENSE_SLOTS = {
     "multiplex": "2479701367",    # autorelaxed
     "in_article": "2303661293",   # fluid, in-article
     "in_feed": "4679993061",      # fluid, in-feed
-    # "avtotest": "",  "question": "",  "yhq": "",  "fines": "",  "exam_result": "",  "driving": "",
+    "question": "6139904410",     # /avtotest/<bilet>/<savol>/
+    "yhq": "6842787000",          # /yhq/ va boblar
+    "fines": "4986991884",        # /jarimalar/
+    "avtotest": "5529705333",     # /avtotest/ va bilet sahifalari
+    "exam_result": "7065973272",  # imtihon simulyatori natija ekrani
+    # Hali alohida unit yöq ("default" işlatiladi): "driving", "mistakes", "search", "projects"
 }
 # Yandex Autoplacement (ap-loader.js) reklamani sahifaga özi joylaştiradi va qöl bilan qöyilgan Google
 # bloklari hamda Google Auto ads bilan bir joy uçun raqobatlaşadi. Yandex RTB bloklari va Floor Ad bunga
