@@ -1,0 +1,21 @@
+{
+ "source": "antigravity",
+ "model": "gemini-4-argon",
+ "started": "2026-11-04T19:50:56",
+ "items": [
+  {
+   "id": "a42_3",
+   "uz": "Yöl harakati qoidalariga köra, 1.16.1–1.16.3 yotiq yöl çiziqlari transport oqimlari bölinadigan yoki qöşiladigan joylardagi yönaltiruvçi orolçalarni bildiradi. Uşbu orolçalar sidirğa çiziq bilan çegaralangan bölib, ularning ustiga çiqiş, harakatlaniş yoki töxtaş qat'iyan taqiqlanadi. Şuning uçun rasmda körsatilgan oq çiziqli orolçaga kiriş taqiqlanadi.",
+   "ru": "Согласно Правилам дорожного движения, горизонтальная разметка 1.16.1–1.16.3 обозначает направляющие островки в местах разделения или слияния транспортных потоков. Такие островки ограничены сплошной линией разметки, поэтому заезжать на них, двигаться по ним или останавливаться строго запрещено. Следовательно, въезд на показанный на рисунке островок запрещается.",
+   "en": "According to the traffic rules, horizontal road markings 1.16.1–1.16.3 indicate channelizing islands at places where traffic flows diverge or merge. These islands are bordered by solid lines, and driving onto, moving across, or stopping on them is strictly prohibited. Therefore, entering the white-lined island shown in the picture is prohibited.",
+   "confidence": "high"
+  },
+  {
+   "id": "a42_4",
+   "uz": "Teng ahamiyatli yöllar çorrahasida relssiz transport vositasining haydovçisi öng tomondan yaqinlaşayotgan transport vositalariga yöl berişi şart. Uşbu vaziyatda çorrahada imtiyoz belgilari yöq va yöllar teng ahamiyatli bölgani uçun, kök avtomobil haydovçisi özidan öngda kelayotgan qizil avtomobilga yöl berişi kerak.",
+   "ru": "На перекрёстке равнозначных дорог водитель безрельсового транспортного средства обязан уступить дорогу транспортным средствам, приближающимся справа. В данной ситуации знаки приоритета отсутствуют и дороги являются равнозначными, поэтому водитель синего автомобиля должен уступить дорогу красному автомобилю, который приближается справа от него.",
+   "en": "At an intersection of equivalent roads, the driver of a non-rail vehicle must yield to vehicles approaching from the right. Since there are no priority signs here and the roads are of equal importance, the driver of the blue vehicle must yield to the red car approaching from the right.",
+   "confidence": "high"
+  }
+ ]
+}
