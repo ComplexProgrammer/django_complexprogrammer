@@ -10,8 +10,8 @@ Batch API oddiy so'rovdan 50% arzon, natija odatda 1 soat ichida tayyor bo'ladi.
 AvtoTest undan avtomatik yangilanadi) — saytda faqat admin panelda "Izohni tasdiqlaş" qilingandan keyin körinadi.
 Kalit: ANTHROPIC_API_KEY (.env) yoki `ant auth login` profili.
 
-Serverda API kaliti saqlanmasa — qoralamalarni lokal kompyuterda yarating (Django kerak emas):
-    python scripts/explanations_local.py submit --limit 100   # keyin: status, collect
+API kalitisiz (tavsiya etiladi) — lokal kompyuterda Claude Code orqali (Django va kalit kerak emas):
+    python scripts/explanations_local.py run --limit 100
 Natija ``projects/data/explanations/*.json`` ga yoziladi, git orqali serverga boradi va ``git_push.sh``
 uni ``manage.py import_explanations`` bilan bazaga yozadi. Prompt va sxema: ``projects/explanation_prompts.py``.
 """

@@ -1,0 +1,14 @@
+{
+ "source": "claude-code",
+ "model": "claude-opus-5-5",
+ "started": "2026-11-04T14:19:52",
+ "items": [
+  {
+   "id": "a1_1",
+   "uz": "Rasmdagi «Töxtaş taqiqlangan» belgisi ostida nogiron belgisi tasvirlangan qöşimça lavha bor. Bu lavha taqiq «Nogiron» taniqli belgisi bölgan transport vositalariga taalluqli emasligini bildiradi. Şuning uçun belgining ta'sir oraliğida «Nogiron» belgisi bölgan sariq avtomobil töxtaşi mumkin, qizil avtomobil esa töxtay olmaydi.",
+   "ru": "В кадре знак «Остановка запрещена» с дополнительной табличкой, на которой изображён символ инвалида. Эта табличка означает, что запрет не распространяется на транспортные средства с опознавательным знаком «Инвалид». Поэтому в зоне действия знака может остановиться жёлтый автомобиль со знаком «Инвалид», а красный автомобиль — нет.",
+   "en": "The picture shows a \"No stopping\" sign with an extra plate showing the disabled symbol. This plate means the ban does not apply to vehicles with a \"Disabled driver\" identification sign. So within the sign's zone, the yellow car with the \"Disabled driver\" sign may stop, but the red car may not.",
+   "confidence": "high"
+  }
+ ]
+}

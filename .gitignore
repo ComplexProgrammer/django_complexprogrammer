@@ -151,8 +151,6 @@ static/sitemap2.xml
 
 # restart_bot.sh yozadigan bot jarayoni PID fayli
 tmp/bot.pid
-# Lokal AI izoh batchlari holati (scripts/explanations_local.py) — faqat şu kompyuterga tegişli
-tmp/explanation_batches_local.json
 
 # make_question_videos natijalari (serverda yasaladi, repo og'irlashmasin)
 media/videos/
