@@ -122,4 +122,16 @@
     html.setAttribute("data-theme", next);
     try { localStorage.setItem("theme", next); } catch (e) {}
   });
+  // Maxfiylik siyosati va foydalaniş şartlariga havola barça sahifalarda bölişi kerak (AdSense talabi).
+  // Footer'i yöq sahifalarga (base.html'dan taşqari deyarli hammasi) sahifa oxiriga kiçik footer qöşiladi.
+  document.addEventListener("DOMContentLoaded", function () {
+    if (document.querySelector('a[href="/privacy"], a[href="/privacy/"], a[href$="/privacy/"]')) return;
+    var f = document.createElement("footer");
+    f.className = "cp-legal";
+    f.setAttribute("style", "text-align:center;padding:24px 12px 32px;font-size:.85rem;opacity:.75");
+    f.innerHTML = '<a href="/privacy/">{% if ui_lang == "ru" %}Политика конфиденциальности{% elif ui_lang == "uz" %}Maxfiylik siyosati{% else %}Privacy Policy{% endif %}</a>'
+      + ' · <a href="/terms/">{% if ui_lang == "ru" %}Условия использования{% elif ui_lang == "uz" %}Foydalaniş şartlari{% else %}Terms of Use{% endif %}</a>'
+      + ' · © {% now "Y" %} Complex Programmer';
+    document.body.appendChild(f);
+  });
 </script>
