@@ -247,6 +247,9 @@
       <div id="authNotice"></div>
     </div>
 
+    {# Faqat natija ekranida: imtihon paytida reklama yöq. Blok yaşirin bölgani uçun push finish() ičida #}
+    {% include "includes/ad_slot.html" with defer=True %}
+
     <!-- Mistakes & Answers Review -->
     <div class="d-card">
       <h3 class="d-h2">📋 Barça savollar tahlili</h3>
@@ -441,6 +444,11 @@ function setExamMode(m) {
 
     $("exam").hidden = true;
     $("result").hidden = false;
+    document.querySelectorAll("#result ins.adsbygoogle[data-cp-defer]").forEach(function (el) {
+      if (el.getAttribute("data-cp-pushed")) return;
+      el.setAttribute("data-cp-pushed", "1");
+      try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+    });
 
     // Render Protocol
     var stamp = $("stampBox");

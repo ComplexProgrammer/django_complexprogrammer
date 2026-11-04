@@ -3,102 +3,138 @@
 <head>
     <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
+<style>
+  .pp{max-width:860px;margin:0 auto;padding:24px 16px 48px;line-height:1.65}
+  .pp h1{font-size:1.8rem;margin-bottom:4px}.pp h2{font-size:1.25rem;margin-top:28px}
+  .pp table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.95rem}
+  .pp th,.pp td{border:1px solid rgba(127,127,127,.3);padding:8px 10px;text-align:left;vertical-align:top}
+  .pp .meta{opacity:.7;font-size:.9rem}
+</style>
 </head>
 <body>
 {% include "includes/site_header.html" %}
-  <h1>Privacy Policy for Complex Programmer</h1>
+<main class="pp">
+{% if ui_lang == 'ru' %}
+  <h1>Политика конфиденциальности</h1>
+  <p class="meta">Последнее обновление: 4 ноября 2026 г.</p>
+  <p>Настоящая политика описывает, какие данные собирает сайт <b>complexprogrammer.uz</b> (далее — «Сайт»), как они используются и какие сторонние сервисы работают на Сайте.</p>
 
-  <p>At Complex Programmer, accessible from https://complexprogrammer.uz, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Complex Programmer and how we use it.</p>
-
-  <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
-
-  <p>This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in Complex Programmer. This policy is not applicable to any information collected offline or via channels other than this website. Our Privacy Policy was created with the help of the
-  <a href="https://h-supertools.com/web/privacy-policy-generator/">H-supertools Privacy Policy Generator</a>.</p>
-
-  <h2>Consent</h2>
-
-  <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
-
-  <h2>Information we collect</h2>
-
-  <p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
-  <p>If you contact us directly, we may receive additional information about you such as your name, email address, phone number, the contents of the message and/or attachments you may send us, and any other information you may choose to provide.</p>
-  <p>When you register for an Account, we may ask for your contact information, including items such as name, company name, address, email address, and telephone number.</p>
-
-  <h2>How we use your information</h2>
-
-  <p>We use the information we collect in various ways, including to:</p>
-
+  <h2>1. Какие данные мы собираем</h2>
   <ul>
-  <li>Provide, operate, and maintain our website</li>
-  <li>Improve, personalize, and expand our website</li>
-  <li>Understand and analyze how you use our website</li>
-  <li>Develop new products, services, features, and functionality</li>
-  <li>Communicate with you, either directly or through one of our partners, including for customer service, to provide you with updates and other information relating to the website, and for marketing and promotional purposes</li>
-  <li>Send you emails</li>
-  <li>Find and prevent fraud</li>
+    <li><b>Вход через Telegram:</b> Telegram ID, имя, имя пользователя и ссылка на фото профиля — для профиля, рейтинга и синхронизации результатов.</li>
+    <li><b>Комментарии и результаты тестов</b> (Автотест, симулятор экзамена), которые вы сохраняете на Сайте.</li>
+    <li><b>Загруженные файлы</b> (PDF-инструменты, загрузчики видео) обрабатываются только для выполнения запроса и автоматически удаляются с сервера в течение 1 часа.</li>
+    <li><b>Технические данные:</b> IP-адрес, тип браузера и устройства, страницы, время посещения (журналы сервера и аналитика).</li>
+    <li>Текст поискового запроса на Сайте <b>не передаётся</b> в системы аналитики.</li>
   </ul>
 
-  <h2>Log Files</h2>
+  <h2>2. Файлы cookie и локальное хранилище</h2>
+  <p>Сайт использует собственные cookie (сессия входа, защита форм CSRF, выбранный язык) и локальное хранилище браузера (тема оформления, прогресс по билетам). Сторонние сервисы, перечисленные ниже, устанавливают свои cookie для аналитики и показа рекламы.</p>
 
-  <p>Complex Programmer follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.</p>
+  <h2>3. Сторонние сервисы</h2>
+  <table>
+    <tr><th>Сервис</th><th>Назначение</th><th>Политика / отказ</th></tr>
+    <tr><td>Google AdSense</td><td>Показ рекламы, в том числе персонализированной, на основе ваших посещений этого и других сайтов</td><td><a href="https://policies.google.com/technologies/ads" rel="nofollow">Реклама Google</a>, <a href="https://adssettings.google.com" rel="nofollow">Настройки рекламы</a></td></tr>
+    <tr><td>Рекламная сеть Яндекса</td><td>Показ рекламы</td><td><a href="https://yandex.ru/legal/confidential/" rel="nofollow">Политика Яндекса</a></td></tr>
+    <tr><td>Google Analytics 4, Google Tag Manager</td><td>Статистика посещений</td><td><a href="https://policies.google.com/technologies/partner-sites" rel="nofollow">Как Google использует данные</a>, <a href="https://tools.google.com/dlpage/gaoptout" rel="nofollow">Отказ</a></td></tr>
+    <tr><td>Яндекс Метрика</td><td>Статистика посещений, карта кликов</td><td><a href="https://yandex.ru/support/metrica/general/opt-out.html" rel="nofollow">Отказ</a></td></tr>
+    <tr><td>Microsoft Clarity</td><td>Анализ удобства страниц (тепловые карты)</td><td><a href="https://privacy.microsoft.com/privacystatement" rel="nofollow">Заявление Microsoft</a></td></tr>
+    <tr><td>Telegram</td><td>Вход на сайт</td><td><a href="https://telegram.org/privacy" rel="nofollow">Политика Telegram</a></td></tr>
+  </table>
+  <p>Google и его партнёры используют cookie (в том числе DoubleClick) для показа рекламы на основе предыдущих посещений. Отключить персонализированную рекламу можно в <a href="https://adssettings.google.com" rel="nofollow">настройках рекламы Google</a> или на <a href="https://www.aboutads.info/choices/" rel="nofollow">aboutads.info</a>.</p>
 
-  <h2>Cookies and Web Beacons</h2>
+  <h2>4. Согласие (GDPR/CCPA)</h2>
+  <p>Посетителям из Европейской экономической зоны, Великобритании и Швейцарии показывается окно согласия Google; вы можете изменить выбор в любое время через ссылку в этом окне. Мы не продаём персональные данные.</p>
 
-  <p>Like any other website, Complex Programmer uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.</p>
+  <h2>5. Дети</h2>
+  <p>Сайт не собирает намеренно персональные данные детей младше 13 лет. Если вы считаете, что такие данные попали к нам, свяжитесь с нами — мы удалим их.</p>
 
-  <h2>Google DoubleClick DART Cookie</h2>
+  <h2>6. Ваши права</h2>
+  <p>Вы можете запросить удаление своего профиля, комментариев и результатов, а также очистить cookie в настройках браузера.</p>
 
-  <p>Google is one of a third-party vendor on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to www.website.com and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – <a href="https://policies.google.com/technologies/ads">https://policies.google.com/technologies/ads</a></p>
+  <h2>7. Контакты</h2>
+  <p>По вопросам конфиденциальности: Telegram <a href="https://t.me/AvtoTestUzbBot">@AvtoTestUzbBot</a>.</p>
+{% elif ui_lang == 'uz' %}
+  <h1>Maxfiylik siyosati</h1>
+  <p class="meta">Oxirgi yangilaniş: 2026-yil 4-noyabr</p>
+  <p>Uşbu siyosat <b>complexprogrammer.uz</b> sayti (keyingi örinlarda — «Sayt») qanday ma'lumotlarni yiğişi, ulardan qanday foydalanişi va Saytda qaysi üçinçi tomon xizmatlari işlaşini tuşuntiradi.</p>
 
-  <h2>Our Advertising Partners</h2>
-
-  <p>Some of advertisers on our site may use cookies and web beacons. Our advertising partners are listed below. Each of our advertising partners has their own Privacy Policy for their policies on user data. For easier access, we hyperlinked to their Privacy Policies below.</p>
-
+  <h2>1. Qanday ma'lumotlar yiğiladi</h2>
   <ul>
-      <li>
-          <p>Google</p>
-          <p><a href="https://policies.google.com/technologies/ads">https://policies.google.com/technologies/ads</a></p>
-      </li>
+    <li><b>Telegram orqali kiriş:</b> Telegram ID, ism, foydalanuvçi nomi va profil rasmi havolasi — profil, reyting va natijalarni sinxronlaş uçun.</li>
+    <li><b>Izohlar va test natijalari</b> (Avtotest, imtihon simulyatori) — Saytda özingiz saqlaganlaringiz.</li>
+    <li><b>Yuklangan fayllar</b> (PDF vositalari, video yuklovçilar) faqat söröv bajarilişi uçun işlanadi va serverdan 1 soat ičida avtomatik öçiriladi.</li>
+    <li><b>Texnik ma'lumotlar:</b> IP manzil, brauzer va qurilma turi, körilgan sahifalar, taşrif vaqti (server jurnallari va analitika).</li>
+    <li>Saytdagi qidiruv matni analitika tizimlariga <b>yuborilmaydi</b>.</li>
   </ul>
 
-  <h2>Advertising Partners Privacy Policies</h2>
+  <h2>2. Cookie va brauzer xotirasi</h2>
+  <p>Sayt öz cookie fayllaridan (kiriş sessiyasi, formalarni CSRF himoyasi, tanlangan til) va brauzerning mahalliy xotirasidan (mavzu, biletlar böyiça natijalar) foydalanadi. Quyidagi üçinçi tomon xizmatlari analitika va reklama uçun öz cookie fayllarini örnatadi.</p>
 
-  <P>You may consult this list to find the Privacy Policy for each of the advertising partners of Complex Programmer.</p>
+  <h2>3. Üçinçi tomon xizmatlari</h2>
+  <table>
+    <tr><th>Xizmat</th><th>Maqsad</th><th>Siyosat / rad etiş</th></tr>
+    <tr><td>Google AdSense</td><td>Reklama körsatiş, şu jumladan uşbu va boşqa saytlarga taşriflaringiz asosida şaxsiylaştirilgan reklama</td><td><a href="https://policies.google.com/technologies/ads" rel="nofollow">Google reklamasi</a>, <a href="https://adssettings.google.com" rel="nofollow">Reklama sozlamalari</a></td></tr>
+    <tr><td>Yandex reklama tarmoği</td><td>Reklama körsatiş</td><td><a href="https://yandex.ru/legal/confidential/" rel="nofollow">Yandex siyosati</a></td></tr>
+    <tr><td>Google Analytics 4, Google Tag Manager</td><td>Taşriflar statistikasi</td><td><a href="https://policies.google.com/technologies/partner-sites" rel="nofollow">Google ma'lumotlardan qanday foydalanadi</a>, <a href="https://tools.google.com/dlpage/gaoptout" rel="nofollow">Rad etiş</a></td></tr>
+    <tr><td>Yandex Metrika</td><td>Taşriflar statistikasi, bosişlar xaritasi</td><td><a href="https://yandex.ru/support/metrica/general/opt-out.html" rel="nofollow">Rad etiş</a></td></tr>
+    <tr><td>Microsoft Clarity</td><td>Sahifalar qulayligini tahlil qiliş (issiqlik xaritalari)</td><td><a href="https://privacy.microsoft.com/privacystatement" rel="nofollow">Microsoft bayonoti</a></td></tr>
+    <tr><td>Telegram</td><td>Saytga kiriş</td><td><a href="https://telegram.org/privacy" rel="nofollow">Telegram siyosati</a></td></tr>
+  </table>
+  <p>Google va uning hamkorlari avvalgi taşriflaringiz asosida reklama körsatiş uçun cookie fayllaridan (şu jumladan DoubleClick) foydalanadi. Şaxsiylaştirilgan reklamani <a href="https://adssettings.google.com" rel="nofollow">Google reklama sozlamalari</a> yoki <a href="https://www.aboutads.info/choices/" rel="nofollow">aboutads.info</a> orqali öçirib qöyiş mumkin.</p>
 
-  <p>Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on Complex Programmer, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.</p>
+  <h2>4. Rozilik (GDPR/CCPA)</h2>
+  <p>Yevropa iqtisodiy hududi, Buyuk Britaniya va Şveytsariyadan kirganlarga Google rozilik oynasi körsatiladi; tanlovni istalgan vaqtda şu oynadagi havola orqali özgartiriş mumkin. Biz şaxsiy ma'lumotlarni sotmaymiz.</p>
 
-  <p>Note that Complex Programmer has no access to or control over these cookies that are used by third-party advertisers.</p>
+  <h2>5. Bolalar</h2>
+  <p>Sayt 13 yoşdan kiçik bolalarning şaxsiy ma'lumotlarini ataylab yiğmaydi. Agar bunday ma'lumot bizga tuşgan deb hisoblasangiz, biz bilan boğlaning — ular öçiriladi.</p>
 
-  <h2>Third Party Privacy Policies</h2>
+  <h2>6. Sizning huquqlaringiz</h2>
+  <p>Profilingiz, izohlaringiz va natijalaringizni öçirişni söraşingiz, cookie fayllarini esa brauzer sozlamalarida tozalaşingiz mumkin.</p>
 
-  <p>Complex Programmer's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options. </p>
+  <h2>7. Boğlaniş</h2>
+  <p>Maxfiylik böyiça savollar uçun: Telegram <a href="https://t.me/AvtoTestUzbBot">@AvtoTestUzbBot</a>.</p>
+{% else %}
+  <h1>Privacy Policy</h1>
+  <p class="meta">Last updated: November 4, 2026</p>
+  <p>This policy explains what information <b>complexprogrammer.uz</b> (the "Site") collects, how it is used, and which third-party services operate on the Site.</p>
 
-  <p>You can choose to disable cookies through your individual browser options. To know more detailed information about cookie management with specific web browsers, it can be found at the browsers' respective websites.</p>
+  <h2>1. Information we collect</h2>
+  <ul>
+    <li><b>Telegram login:</b> Telegram ID, first name, username and profile photo URL — for your profile, leaderboard and syncing results.</li>
+    <li><b>Comments and test results</b> (Avtotest, exam simulator) that you save on the Site.</li>
+    <li><b>Uploaded files</b> (PDF tools, video downloaders) are processed only to fulfil your request and are automatically deleted from the server within 1 hour.</li>
+    <li><b>Technical data:</b> IP address, browser and device type, pages viewed, time of visit (server logs and analytics).</li>
+    <li>Search queries typed on the Site are <b>not sent</b> to analytics services.</li>
+  </ul>
 
-  <h2>CCPA Privacy Rights (Do Not Sell My Personal Information)</h2>
+  <h2>2. Cookies and local storage</h2>
+  <p>The Site uses its own cookies (login session, CSRF form protection, selected language) and browser local storage (theme, ticket progress). The third-party services listed below set their own cookies for analytics and advertising.</p>
 
-  <p>Under the CCPA, among other rights, California consumers have the right to:</p>
-  <p>Request that a business that collects a consumer's personal data disclose the categories and specific pieces of personal data that a business has collected about consumers.</p>
-  <p>Request that a business delete any personal data about the consumer that a business has collected.</p>
-  <p>Request that a business that sells a consumer's personal data, not sell the consumer's personal data.</p>
-  <p>If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us.</p>
+  <h2>3. Third-party services</h2>
+  <table>
+    <tr><th>Service</th><th>Purpose</th><th>Policy / opt-out</th></tr>
+    <tr><td>Google AdSense</td><td>Serving ads, including personalised ads based on your visits to this and other websites</td><td><a href="https://policies.google.com/technologies/ads" rel="nofollow">Google advertising</a>, <a href="https://adssettings.google.com" rel="nofollow">Ad settings</a></td></tr>
+    <tr><td>Yandex Advertising Network</td><td>Serving ads</td><td><a href="https://yandex.com/legal/confidential/" rel="nofollow">Yandex policy</a></td></tr>
+    <tr><td>Google Analytics 4, Google Tag Manager</td><td>Visit statistics</td><td><a href="https://policies.google.com/technologies/partner-sites" rel="nofollow">How Google uses data</a>, <a href="https://tools.google.com/dlpage/gaoptout" rel="nofollow">Opt out</a></td></tr>
+    <tr><td>Yandex Metrica</td><td>Visit statistics, click maps</td><td><a href="https://yandex.com/support/metrica/general/opt-out.html" rel="nofollow">Opt out</a></td></tr>
+    <tr><td>Microsoft Clarity</td><td>Usability analysis (heatmaps)</td><td><a href="https://privacy.microsoft.com/privacystatement" rel="nofollow">Microsoft statement</a></td></tr>
+    <tr><td>Telegram</td><td>Site login</td><td><a href="https://telegram.org/privacy" rel="nofollow">Telegram policy</a></td></tr>
+  </table>
+  <p>Google and its partners use cookies (including DoubleClick) to serve ads based on prior visits. You can opt out of personalised advertising in <a href="https://adssettings.google.com" rel="nofollow">Google Ad Settings</a> or at <a href="https://www.aboutads.info/choices/" rel="nofollow">aboutads.info</a>.</p>
 
-  <h2>GDPR Data Protection Rights</h2>
+  <h2>4. Consent (GDPR/CCPA)</h2>
+  <p>Visitors from the European Economic Area, the UK and Switzerland are shown Google's consent message; you can change your choice at any time via the link in that message. We do not sell personal information.</p>
 
-  <p>We would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:</p>
-  <p>The right to access – You have the right to request copies of your personal data. We may charge you a small fee for this service.</p>
-  <p>The right to rectification – You have the right to request that we correct any information you believe is inaccurate. You also have the right to request that we complete the information you believe is incomplete.</p>
-  <p>The right to erasure – You have the right to request that we erase your personal data, under certain conditions.</p>
-  <p>The right to restrict processing – You have the right to request that we restrict the processing of your personal data, under certain conditions.</p>
-  <p>The right to object to processing – You have the right to object to our processing of your personal data, under certain conditions.</p>
-  <p>The right to data portability – You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions.</p>
-  <p>If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us.</p>
+  <h2>5. Children</h2>
+  <p>The Site does not knowingly collect personal information from children under 13. If you believe such information has reached us, contact us and we will delete it.</p>
 
-  <h2>Children's Information</h2>
+  <h2>6. Your rights</h2>
+  <p>You can request deletion of your profile, comments and results, and clear cookies in your browser settings.</p>
 
-  <p>Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.</p>
-
-  <p>Complex Programmer does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
+  <h2>7. Contact</h2>
+  <p>For privacy questions: Telegram <a href="https://t.me/AvtoTestUzbBot">@AvtoTestUzbBot</a>.</p>
+{% endif %}
+</main>
 </body>
 </html>
