@@ -156,3 +156,6 @@ tmp/bot.pid
 media/videos/
 # build_avtotest_pdf natijasi (serverda yasaladi: python manage.py build_avtotest_pdf)
 media/avtotest/*.pdf
+
+# AI izoh skripti xatolari (scripts/explanations_local.py)
+tmp/explanations_errors.log
