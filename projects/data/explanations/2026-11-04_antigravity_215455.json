@@ -1,0 +1,21 @@
+{
+ "source": "antigravity",
+ "model": "gemini-4-argon",
+ "started": "2026-11-04T21:54:55",
+ "items": [
+  {
+   "id": "a68_5",
+   "uz": "Teng ahamiyatli yöllar çorrahasida haydovçilar öziga öng tomondan yaqinlaşayotgan transport vositasiga yöl berişlari şart. Rasmda mototsiklning öng tomonida heç qanday tösiq yöq, avtobusga nisbatan mototsikl, yuk avtomobiliga nisbatan esa avtobus öng tomonda joylaşgan. Şu sababli çorrahadan birinçi bölib mototsikl, ikkinçi bölib avtobus va oxirida yuk avtomobili ötib ketadi.",
+   "ru": "На перекрестке равнозначных дорог водители обязаны уступить дорогу транспортным средствам, приближающимся справа. На рисунке у мотоцикла нет помехи справа, для автобуса помехой справа является мотоцикл, а для грузового автомобиля — автобус. Поэтому перекресток первым проедет мотоцикл, вторым — автобус, и последним — грузовой автомобиль.",
+   "en": "At an intersection of roads of equal importance, drivers must yield the right-of-way to vehicles approaching from the right. In the image, the motorcycle has no obstruction on its right, the motorcycle is on the right of the bus, and the bus is on the right of the truck. Therefore, the motorcycle will pass through the intersection first, followed by the bus, and finally the truck.",
+   "confidence": "high"
+  },
+  {
+   "id": "a68_6",
+   "uz": "Yöl harakati qoidalariga köra, 12 yoşga tölmagan bolalarni yengil avtomobilning oldingi örindiğida bolalarni uşlab turuvçi maxsus qurilma örnatilmagan holda taşiş taqiqlanadi. Şu sababli maxsus qurilmasiz oldingi örindiqda bolalarni faqat 12 yoşdan boşlab taşişga ruxsat etiladi.",
+   "ru": "Согласно Правилам дорожного движения, перевозка детей до 12 лет на переднем сиденье легкового автомобиля при отсутствии специального детского удерживающего устройства запрещается. Поэтому перевозить детей на переднем сиденье без такого устройства разрешается только с 12-летнего возраста.",
+   "en": "According to the traffic rules, transporting children under 12 years of age in the front seat of a passenger car without a special child restraint system is prohibited. Therefore, children are allowed to ride in the front seat without a special restraint device only from the age of 12.",
+   "confidence": "high"
+  }
+ ]
+}
