@@ -86,7 +86,12 @@ def _client():
         import anthropic
     except ImportError as e:
         raise CommandError("anthropic kutubxonasi o'rnatilmagan: pip install anthropic") from e
-    return anthropic.Anthropic()
+    from decouple import config
+
+    # SDK kalitni faqat muhit özgaruvçisidan oladi — .env'dagi kalitni (settings kabi) decouple orqali beramiz
+    # (kalit bölmasa SDK özi muhit özgaruvçilari va `ant auth login` profilini qidiradi)
+    key = config("ANTHROPIC_API_KEY", default="")
+    return anthropic.Anthropic(api_key=key) if key else anthropic.Anthropic()
 
 
 def _image_block(path):
