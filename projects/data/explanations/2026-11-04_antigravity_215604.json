@@ -1,0 +1,42 @@
+{
+ "source": "antigravity",
+ "model": "gemini-4-argon",
+ "started": "2026-11-04T21:56:04",
+ "items": [
+  {
+   "id": "a66_1",
+   "uz": "Yöl harakati qoidalariga köra, agar yöl-transport hodisasi oqibatida tan jarohati olganlar bölmasa, moddiy zarar ahamiyatsiz bölsa hamda haydovçilar hodisa holatini baholaşda özaro kelişa olsalar, ular hodisa joyini tark etişlari mumkin. Buning uçun haydovçilar avval hodisa çizmasini çizib, uni imzolaşlari va hodisani qayd etiş uçun eng yaqin DYHXX maskani yoki içki işlar organlari idorasiga borişlari kerak.",
+   "ru": "Согласно Правилам дорожного движения, если в результате дорожно-транспортного происшествия нет пострадавших, материальный ущерб незначителен, а у водителей нет разногласий в оценке обстоятельств, они могут покинуть место ДТП. Для этого водители должны предварительно составить схему происшествия, подписать ее и прибыть на ближайший пост ГСБДД или в орган внутренних дел для оформления происшествия.",
+   "en": "According to the Traffic Rules, if no one is injured in a road traffic accident, the material damage is minor, and the drivers agree on the circumstances, they may leave the scene of the accident. To do so, the drivers must first draw a diagram of the accident, sign it, and then proceed to the nearest traffic police post or internal affairs office to officially register the incident.",
+   "confidence": "high"
+  },
+  {
+   "id": "a66_2",
+   "uz": "5.15 «Töxtab turiş joyi» belgisi ostidagi 7.6.3 qöşimça axborot belgisi faqat yengil avtomobillar va mototsikllarni trotarga qisman çiqarib, yölning qatnov qismiga parallel ravışda töxtab turişga qöyişni buyuradi. Uşbu vaziyatda yuk avtomobili (Б) trotarga çiqib töxtagani uçun, kök (В) va sariq (Г) yengil avtomobillar esa belgidagi qöyiş usuliga amal qilmagani sababli qoidani buzgan. Faqat qizil yengil avtomobil (А) qoidaga töliq rioya qilgan holda töxtab turibdi.",
+   "ru": "Табличка 7.6.3 под знаком 5.15 «Место стоянки» предписывает ставить на стоянку с частичным заездом на тротуар параллельно краю проезжей части только легковые автомобили и мотоциклы. В данной ситуации водитель грузовика (Б) нарушил правило, заехав на тротуар, а водители синего (В) и желтого (Г) легковых автомобилей нарушили указанный на табличке способ постановки на стоянку. Правила соблюдает только водитель красного легкового автомобиля (А).",
+   "en": "The supplementary plate 7.6.3 under sign 5.15 «Parking place» requires only passenger cars and motorcycles to park parallel to the roadway while partially on the sidewalk. In this situation, the truck driver (Б) violated the rule by parking on the sidewalk, while the drivers of the blue (В) and yellow (Г) passenger cars failed to follow the parking method indicated on the plate. Only the driver of the red passenger car (А) parked in full compliance with the rules.",
+   "confidence": "high"
+  },
+  {
+   "id": "a66_3",
+   "uz": "Rasmda 5.3 «Avtomobillar uçun yöl» axborot-işora belgisi tasvirlangan. Yöl harakati qoidalariga muvofiq, uşbu belgi örnatilgan yöl faqat avtomobillar, avtobuslar va mototsikllarning harakatlanişi uçun möljallangan. Şu sababli mazkur yölda faqat avtomobillarga, avtobuslarga va mototsikllarga harakatlanişga ruxsat etiladi.",
+   "ru": "На изображении показан информационно-указательный знак 5.3 «Дорога для автомобилей». Согласно Правилам дорожного движения, дорога, обозначенная этим знаком, предназначена для движения только автомобилей, автобусов и мотоциклов. Поэтому по данной дороге разрешается движение только автомобилям, автобусам и мотоциклам.",
+   "en": "The image shows the information sign 5.3 «Road for motor vehicles». According to the Traffic Rules, a road marked with this sign is intended solely for the movement of automobiles, buses, and motorcycles. Therefore, only automobiles, buses, and motorcycles are permitted to travel along this road.",
+   "confidence": "high"
+  },
+  {
+   "id": "a66_4",
+   "uz": "Teng ahamiyatli yöllar kesocmasida relssiz transport vositalari haydovçilari öng tomondan yaqinlaşayotgan transport vositasiga yöl berişlari, çapga burilişda esa qarama-qarşi yönaIişdan töğriga yoki öngga harakatlanayotganlarga ham yöl berişlari şart. Rasmda kök avtomobil öng tomonidagi yaşil avtomobilga yöl beradi, qizil avtomobil esa çapga burilayotgani sababli qarşisidagi kök avtomobilni ötkazib yuborişi kerak. Yaşil avtomobil öngga burilayotgani va uning harakat trayektoriyasi qizil avtomobil bilan kesişmagani uçun çorrahani birinçi bölib kesib ötadi.",
+   "ru": "На перекрестке равнозначных дорог водители безрельсовых транспортных средств обязаны уступить дорогу транспортным средствам, приближающимся справа, а при повороте налево — также встречным транспортным средствам, движущимся прямо или направо. На рисунке синий автомобиль уступает зеленому, находящемуся справа от него, а красный при повороте налево обязан уступить встречному синему автомобилю. Поскольку зеленый автомобиль поворачивает направо и его траектория не пересекается с красным автомобилем, он проедет перекресток первым.",
+   "en": "At an intersection of equal roads, drivers of non-rail vehicles must yield to vehicles approaching from the right, and when turning left, they must also yield to oncoming vehicles going straight or turning right. In the image, the blue car yields to the green car on its right, while the red car turning left must yield to the oncoming blue car. Because the green car is turning right and its path does not intersect with the red car, the green car will cross the intersection first.",
+   "confidence": "high"
+  },
+  {
+   "id": "a66_5",
+   "uz": "Yöl harakati qoidalariga köra, qatnov qismi bölaklarida harakatlaniş yönalişi qarama-qarşi tomonga özgaradigan (reversiv) harakatni tartibga soliş uçun qizil rangli 'X' simon isoralar va pastga yönaltirilgan yaşil yönaqişli (strelkali) svetoforlar qöllaniladi. Bunday svetofor isoralari ular qaysi harakatlaniş bölagi ustiga joylaştirilgan bölsa, faqat öşa bölakka amal qiladi. Demak, rasmda körsatilgan svetoforning qizil 'X' simon yoritgiçi yonganda, u qaysi bölak ustiga örnatilgan bölsa, aynan öşa bölak böyiça harakatlaniş taqiqlanadi.",
+   "ru": "Согласно Правилам дорожного движения, для регулирования движения по полосам проезжей части, где направление движения может меняться на противоположное (реверсивное движение), применяются светофоры с красным X-образным сигналом и зеленым сигналом в виде стрелки, направленной вниз. Данные сигналы распространяют свое действие только на ту полосу, над которой они расположены. Следовательно, при включенном красном X-образном сигнале показанного на рисунке светофора движение запрещается именно по той полосе, над которой он установлен.",
+   "en": "According to the Traffic Rules, traffic lights with a red 'X'-shaped signal and a downward-pointing green arrow are used to regulate traffic on lanes where the direction of movement can be reversed (reversible lanes). These signals apply strictly to the specific lane above which they are positioned. Therefore, when the red 'X' signal of the traffic light shown in the image is illuminated, driving is prohibited only in the lane directly beneath it.",
+   "confidence": "high"
+  }
+ ]
+}

@@ -14,6 +14,7 @@ import argparse
 import importlib.util
 import json
 import os
+import random
 import re
 import shutil
 import sqlite3
@@ -29,6 +30,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DB = ROOT / "db.sqlite3"
 IMAGES = ROOT / "static" / "avtotest"
 TIMEOUT = 180  # bitta savol uçun maksimal vaqt (soniya)
+MAX_RETRIES = 4  # tarmoq yoki vaqtinça xatolikda qayta urinishlar soni
 ERROR_LOG = ROOT / "tmp" / "explanations_antigravity_errors.log"
 
 
@@ -49,11 +51,12 @@ Qat'iy talablar:
 2. To'g'ri javob sizga berilgan — uni aslo o'zgartirmang va boshqa variantni to'g'ri deb ko'rsatmang.
 3. YHQ band raqamini faqat aniq bilsangiz yozing; ishonchingiz komil bo'lmasa, band raqamisiz qoida mazmunini tushuntiring.
 4. Rasm berilgan bo'lsa, rasmni ko'rib chiqib, undagi yo'l belgilari, chiziqlar va transport vositalari joylashuviga tayaning.
-5. Uchala tilda bir xil mazmun:
+5. Matn ichida juft qo'shtirnoq (") ishlatmang! Qoidalar, atamalar yoki belgilar nomi uchun faqat burchakli («...») yoki bittalik ('...') qo'shtirnoq ishlating.
+6. Uchala tilda bir xil mazmun:
    - "uz": O'zbek tili (2026-yilgi yangi lotin alifbosi: sh->ş, ch->ç, g'->ğ, o'->ö harflari bilan yozilsin!);
    - "ru": Rus tili;
    - "en": Ingliz tili.
-6. "confidence": berilgan javobni qoidaga to'liq va ishonchli bog'lay olsangiz "high", qisman asoslasangiz "medium", savol yoki variant noaniq tuyulsa "low".
+7. "confidence": berilgan javobni qoidaga to'liq va ishonchli bog'lay olsangiz "high", qisman asoslasangiz "medium", savol yoki variant noaniq tuyulsa "low".
 
 Javobni FAQAT va FAQAT bitta toza JSON obyekti ko'rinishida bering (boshqa hech qanday so'z, izoh yoki matn qo'shmang):
 {
@@ -97,15 +100,48 @@ def _clean_2026_uzbek(text):
     return res
 
 
+def _clean_internal_quotes(text):
+    """Matn ichidagi buzilgan yoki qochirilmagan qo'shtirnoqlarni to'g'rilash."""
+    if not text:
+        return ""
+    # Matn ichidagi qochirilmagan " larni « » ga almashtirish
+    cleaned = text.replace('\\"', '"')
+    # Chetdagi qo'shtirnoqlardan tashqari ichkaridagilar
+    parts = cleaned.split('"')
+    if len(parts) > 1:
+        # Barchasini burchakli qo'shtirnoqqa o'girish
+        return "«".join(parts)
+    return cleaned
+
+
+def _extract_by_regex(raw_text):
+    """JSON ichida qochirilmagan qo'shtirnoq bo'lsa ham maydonlarni regex orqali ajratib olish."""
+    uz_m = re.search(r'"uz"\s*:\s*"([\s\S]*?)"\s*,\s*"ru"\s*:', raw_text)
+    ru_m = re.search(r'"ru"\s*:\s*"([\s\S]*?)"\s*,\s*"en"\s*:', raw_text)
+    en_m = re.search(r'"en"\s*:\s*"([\s\S]*?)"\s*,\s*"confidence"\s*:', raw_text)
+    conf_m = re.search(r'"confidence"\s*:\s*"?([a-zA-Z]+)"?', raw_text, re.I)
+
+    if uz_m and ru_m and en_m:
+        uz = _clean_internal_quotes(uz_m.group(1).strip())
+        ru = _clean_internal_quotes(ru_m.group(1).strip())
+        en = _clean_internal_quotes(en_m.group(1).strip())
+        conf = conf_m.group(1).lower() if conf_m else "high"
+        if conf not in ("high", "medium", "low"):
+            conf = "high"
+        return {"uz": uz, "ru": ru, "en": en, "confidence": conf}
+    return None
+
+
 def _extract_json_response(raw_text):
     """Matn ichidan JSON obyektini xavfsiz ajratib olish."""
     if not raw_text:
         return None
     raw_text = raw_text.strip()
+
     # 1. To'g'ridan-to'g'ri JSON bo'lsa
     try:
         data = json.loads(raw_text)
-        if isinstance(data, dict):
+        if isinstance(data, dict) and all(k in data for k in ("uz", "ru", "en")):
             return data
     except ValueError:
         pass
@@ -115,7 +151,7 @@ def _extract_json_response(raw_text):
     if m:
         try:
             data = json.loads(m.group(1))
-            if isinstance(data, dict):
+            if isinstance(data, dict) and all(k in data for k in ("uz", "ru", "en")):
                 return data
         except ValueError:
             pass
@@ -126,10 +162,16 @@ def _extract_json_response(raw_text):
     if first != -1 and last != -1 and last > first:
         try:
             data = json.loads(raw_text[first:last + 1])
-            if isinstance(data, dict):
+            if isinstance(data, dict) and all(k in data for k in ("uz", "ru", "en")):
                 return data
         except ValueError:
             pass
+
+    # 4. Regex orqali (qo'shtirnoq qochirilmagan holatlar uchun)
+    fallback = _extract_by_regex(raw_text)
+    if fallback:
+        return fallback
+
     return None
 
 
@@ -173,7 +215,7 @@ def _cid(q):
     return P.avtotest_custom_id(q["bilet"], q["raqam"])
 
 
-def _build_prompt(q):
+def _build_prompt(q, safe_mode=False):
     """Savol uchun Antigravity CLI ga beriladigan to'liq prompt."""
     options = []
     for ltr in ("a", "b", "c", "d"):
@@ -193,9 +235,18 @@ def _build_prompt(q):
                 "(Iltimos, ushbu rasmni ko'rib chiqib, undagi yo'l belgilari, chiziqlar va transport vositalari vaziyatiga tayaning.)\n\n"
             )
 
+    savol_matni = q["savol"]
+    preface = ""
+    if safe_mode:
+        preface = (
+            "Ushbu topshiriq O'zbekiston Respublikasi rasmiy Yo'l harakati qoidalari bo'yicha haydovchilik "
+            "imtihon biletining qonuniy me'yoriy talablariga bag'ishlangan sof o'quv-ta'limiy savolidir:\n\n"
+        )
+
     body = (
+        f"{preface}"
         f"{image_part}"
-        f"Savol ({q['bilet']}-bilet, {q['raqam']}-savol): {q['savol']}\n\n"
+        f"Savol ({q['bilet']}-bilet, {q['raqam']}-savol): {savol_matni}\n\n"
         f"Variantlar:\n{opts_str}\n\n"
         f"To'g'ri javob: {q['javob']}\n\n"
         "Talablarga binoan FAQAT bitta JSON obyekti qaytaring."
@@ -204,71 +255,107 @@ def _build_prompt(q):
 
 
 def _ask_agy(agy_exe, q):
-    """Antigravity CLI orqali bitta savol izohini olish."""
-    prompt = _build_prompt(q)
-    cmd = [agy_exe, "-p", prompt, "--output-format", "json"]
+    """Antigravity CLI orqali bitta savol izohini olish (vaqtincha xatolar uchun avtomatik qayta urinish bilan)."""
+    last_err = None
+    safe_mode = False
 
-    proc = subprocess.run(
-        cmd,
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        timeout=TIMEOUT,
-        cwd=ROOT,
-    )
+    for attempt in range(1, MAX_RETRIES + 1):
+        prompt = _build_prompt(q, safe_mode=safe_mode)
+        cmd = [agy_exe, "-p", prompt, "--output-format", "json"]
 
-    if proc.returncode != 0 and not proc.stdout:
-        err = proc.stderr.strip() or f"exit code {proc.returncode}"
-        raise RuntimeError(f"agy xatosi: {err}")
+        try:
+            proc = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=TIMEOUT,
+                cwd=ROOT,
+            )
+        except subprocess.TimeoutExpired:
+            last_err = RuntimeError(f"agy so'rovi vaqt bo'yicha tugadi ({TIMEOUT} soniya)")
+            time.sleep(3 * attempt)
+            continue
 
-    # agy natijasi: {"status": "SUCCESS", "response": "..."}
-    outer_json = None
-    try:
-        outer_json = json.loads(proc.stdout)
-    except ValueError:
-        # Boshqa matn bo'lsa, oxirgi qatorlardan izlash
-        for line in reversed(proc.stdout.splitlines()):
-            line = line.strip()
-            if line.startswith("{"):
-                try:
-                    outer_json = json.loads(line)
-                    break
-                except ValueError:
-                    pass
+        raw_stdout = proc.stdout or ""
+        raw_stderr = proc.stderr or ""
 
-    if not outer_json:
-        raise RuntimeError("agy javobida JSON topilmadi")
+        # agy natijasi: {"status": "SUCCESS", "response": "..."}
+        outer_json = None
+        try:
+            outer_json = json.loads(raw_stdout)
+        except ValueError:
+            for line in reversed(raw_stdout.splitlines()):
+                line = line.strip()
+                if line.startswith("{"):
+                    try:
+                        outer_json = json.loads(line)
+                        break
+                    except ValueError:
+                        pass
 
-    if outer_json.get("status") != "SUCCESS":
-        err_msg = outer_json.get("error") or proc.stderr.strip() or "noma'lum xato"
-        raise RuntimeError(f"agy muvaffaqiyatsiz: {err_msg}")
+        status = outer_json.get("status") if outer_json else None
+        err_msg = (outer_json.get("error") if outer_json else "") or raw_stderr.strip()
 
-    response_text = outer_json.get("response") or ""
-    item_data = _extract_json_response(response_text)
-    if not item_data:
-        raise RuntimeError(f"Model javobidan izoh JSON ajratib olinmadi: {response_text[:150]}")
+        # Agar muvaffaqiyatsiz bo'lsa, xato sababini aniqlaymiz:
+        if status != "SUCCESS":
+            err_lower = err_msg.lower()
 
-    for k in ("uz", "ru", "en"):
-        if not item_data.get(k):
-            raise RuntimeError(f"JSON'da '{k}' maydoni yetishmaydi")
+            # 1. Tarmoq, DNS yoki til modeli aniqlanmadi xatosi (odatda vaqtincha 2-5 soniyali uzilish)
+            if any(k in err_lower for k in ("plan model not specified", "authentication failed", "timed out", "getaddrinfow", "dial tcp", "network", "connection refused", "reset")):
+                last_err = RuntimeError(f"agy ulanish xatosi (urinish {attempt}/{MAX_RETRIES}): {err_msg[:120]}")
+                time.sleep(3 * attempt)
+                continue
 
-    conf = str(item_data.get("confidence", "high")).lower()
-    if conf not in ("high", "medium", "low"):
-        conf = "high"
+            # 2. Xavfsizlik filtri (safety filter) to'sqinlik qilgan bo'lsa
+            if any(k in err_lower for k in ("content safety filters", "prohibited use", "sensitive words")):
+                safe_mode = True
+                last_err = RuntimeError(f"xavfsizlik filtri to'xtatdi (urinish {attempt}/{MAX_RETRIES}): {err_msg[:120]}")
+                time.sleep(2)
+                continue
 
-    # 2026-yilgi imlo qoidasini kafolatlash
-    uz_text = _clean_2026_uzbek(item_data["uz"].strip())
+            # Boshqa noma'lum xato
+            last_err = RuntimeError(f"agy muvaffaqiyatsiz: {err_msg}")
+            time.sleep(2 * attempt)
+            continue
 
-    return {
-        "uz": uz_text,
-        "ru": item_data["ru"].strip(),
-        "en": item_data["en"].strip(),
-        "confidence": conf,
-    }
+        response_text = outer_json.get("response") or ""
+        item_data = _extract_json_response(response_text)
+        if not item_data:
+            # Agar JSON ajratib olinmasa, model ba'zan boshqa format qaytargan bo'lishi mumkin — qayta urinish
+            last_err = RuntimeError(f"Model javobidan izoh JSON ajratib olinmadi: {response_text[:120]}")
+            time.sleep(2)
+            continue
+
+        # Maydonlar borligini tekshirish
+        missing = [k for k in ("uz", "ru", "en") if not item_data.get(k)]
+        if missing:
+            last_err = RuntimeError(f"JSON'da {missing} maydonlari yetishmaydi")
+            time.sleep(2)
+            continue
+
+        conf = str(item_data.get("confidence", "high")).lower()
+        if conf not in ("high", "medium", "low"):
+            conf = "high"
+
+        # 2026-yilgi imlo qoidasini kafolatlash
+        uz_text = _clean_2026_uzbek(item_data["uz"].strip())
+
+        return {
+            "uz": uz_text,
+            "ru": item_data["ru"].strip(),
+            "en": item_data["en"].strip(),
+            "confidence": conf,
+        }
+
+    raise last_err or RuntimeError("So'rov barcha urinishlarda muvaffaqiyatsiz bo'ldi")
 
 
 def _run_worker(agy_exe, q, lock, save_fn, progress):
     """Bitta savolni qayta ishlash va xatolik yuz bersa yozib qo'yish."""
+    # Oqimlar birdaniga bir millisekundda agy ga tushmasligi uchun kichik tasodifiy surilish
+    time.sleep(random.uniform(0.1, 0.5))
+
     label = f"{q['bilet']}-bilet {q['raqam']}-savol"
     try:
         res = _ask_agy(agy_exe, q)
@@ -356,7 +443,7 @@ def run(args):
         print(f'  git add {out_file.relative_to(ROOT)} && git commit -m "izohlar: antigravity" && git push')
     else:
         out_file.unlink(missing_ok=True)
-        print("\n⚠️ Hech qanday izoh olinmadi.")
+        print("\n⚠️ Hech qanday yangi izoh olinmadi.")
 
 
 def main():
@@ -373,4 +460,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
