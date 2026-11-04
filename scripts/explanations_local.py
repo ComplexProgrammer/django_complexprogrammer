@@ -39,6 +39,8 @@ DB = ROOT / "db.sqlite3"
 IMAGES = ROOT / "static" / "avtotest"
 TIMEOUT = 300  # bitta savol uçun (soniya)
 RESET_MARGIN = timedelta(minutes=2)  # limit yangilangandan keyin biroz kutib turiş
+MAX_CONSECUTIVE_ERRORS = 5  # ketma-ket şunça xato — tanilmagan limit deb hisoblanib, kutiladi
+ERROR_LOG = ROOT / "tmp" / "explanations_errors.log"
 
 
 def _load_prompts():
@@ -56,7 +58,7 @@ P = _load_prompts()
 
 LIMIT_RE = re.compile(
     r"usage limit|limit reached|hit your (?:\w+ )?limit|limit will reset|out of (?:extra )?usage|rate[ _-]?limit"
-    r"|too many requests|\b429\b",
+    r"|too many requests",
     re.I,
 )
 MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
@@ -118,9 +120,57 @@ def _reset_time(text, now=None):
     return target.astimezone().replace(tzinfo=None) if tz else target
 
 
-def _check_limit(text, out):
-    if (out and out.get("api_error_status") == 429) or LIMIT_RE.search(text):
-        raise LimitReached(text.strip()[:300], _reset_time(text))
+def _parse_output(stdout):
+    """``claude -p --output-format json`` natijasi; oldida/ortida boşqa qator bölsa ham oxirgi JSON obyekt olinadi."""
+    try:
+        return json.loads(stdout)
+    except ValueError:
+        pass
+    for line in reversed(stdout.splitlines()):
+        line = line.strip()
+        if line.startswith("{"):
+            try:
+                return json.loads(line)
+            except ValueError:
+                continue
+    return None
+
+
+def _message(proc, out):
+    """Qisqa matn: modelning javobi / xato xabari (JSON'dagi ``result``), bölmasa stderr."""
+    parts = [str(out.get("result") or "") if out else "", proc.stderr or ""]
+    if not out:
+        parts.append(proc.stdout or "")
+    return "\n".join(p.strip() for p in parts if p and p.strip())
+
+
+def _brief(proc, out):
+    return (_message(proc, out) or f"exit code {proc.returncode}").replace("\n", " ")[:300]
+
+
+def _log_error(q, proc):
+    """Töliq çiqişni tmp/explanations_errors.log ga yozadi (konsolda faqat qisqasi körinadi)."""
+    try:
+        ERROR_LOG.parent.mkdir(parents=True, exist_ok=True)
+        with ERROR_LOG.open("a", encoding="utf-8") as f:
+            f.write(f"--- {datetime.now():%Y-%m-%d %H:%M:%S} {q['bilet']}-bilet {q['raqam']}-savol, exit={proc.returncode}\n"
+                    f"stdout: {proc.stdout}\nstderr: {proc.stderr}\n")
+    except OSError:
+        pass
+
+
+def _synthetic(out):
+    """API'ga umuman sörov ketmagan javob (limitda Claude Code şunday qaytaradi): 0 ms, 0 token."""
+    if not out:
+        return False
+    usage = out.get("usage") or {}
+    return out.get("duration_api_ms") == 0 and not usage.get("output_tokens") and not usage.get("input_tokens")
+
+
+def _check_limit(proc, out):
+    text = _message(proc, out)
+    if (out and out.get("api_error_status") == 429) or LIMIT_RE.search(text) or _synthetic(out):
+        raise LimitReached(_brief(proc, out), _reset_time(text))
 
 
 def _wait_until(target):
@@ -206,18 +256,22 @@ def _ask(claude, q, stop):
         "--strict-mcp-config", "--no-session-persistence",
     ]
     proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", timeout=TIMEOUT, env=_env(), cwd=ROOT)
-    try:
-        out = json.loads(proc.stdout)
-    except ValueError:
-        out = None
-    if proc.returncode != 0 or out is None or out.get("is_error"):
-        text = "\n".join(filter(None, [str(out.get("result") or "") if out else "", proc.stderr, "" if out else proc.stdout]))
-        _check_limit(text, out)
-        raise RuntimeError(text.strip()[:300] or f"exit code {proc.returncode}")
-    data = out.get("structured_output") or json.loads(out.get("result") or "{}")
-    if not all(data.get(k) for k in ("uz", "ru", "en", "confidence")):
+    out = _parse_output(proc.stdout or "")
+    data = None
+    if proc.returncode == 0 and out and not out.get("is_error"):
+        data = out.get("structured_output")
+        if not data:
+            try:
+                data = json.loads(out.get("result") or "")
+            except ValueError:
+                data = None
+    if isinstance(data, dict) and all(data.get(k) for k in ("uz", "ru", "en", "confidence")):
+        return {k: data[k] for k in ("uz", "ru", "en", "confidence")}
+    _log_error(q, proc)
+    _check_limit(proc, out)
+    if isinstance(data, dict):
         raise RuntimeError(f"töliq bölmagan javob: {list(data)}")
-    return {k: data[k] for k in ("uz", "ru", "en", "confidence")}
+    raise RuntimeError(_brief(proc, out))
 
 
 def _task(claude, q, stop):
@@ -233,6 +287,7 @@ def _round(claude, todo, workers, save, progress):
     """Bir bosqiç: limitga urilsa, yangi sörovlar yuborilmaydi va LimitReached qaytariladi."""
     stop = threading.Event()
     limit = None
+    streak = []  # ketma-ket xato bergan savollar
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futures = {pool.submit(_task, claude, q, stop): q for q in todo}
         for future in as_completed(futures):
@@ -253,12 +308,24 @@ def _round(claude, todo, workers, save, progress):
             except KeyboardInterrupt:
                 raise
             except Exception as e:  # bitta savol xatosi butun jarayonni töxtatmasin — keyingi işga tuşirişda qayta yuboriladi
+                if limit is not None:  # limitdan keyin tugagan sörov — qayta yuboriladi
+                    continue
+                streak.append(_cid(q))
                 progress["failed"].add(_cid(q))
                 progress["n"] += 1
                 print(f"[{progress['n']}/{progress['total']}] {label} ✗ {e}", flush=True)
+                if len(streak) >= MAX_CONSECUTIVE_ERRORS:
+                    stop.set()
+                    for f in futures:
+                        f.cancel()
+                    progress["failed"].difference_update(streak)  # bular ham kutişdan keyin qayta yuboriladi
+                    progress["n"] -= len(streak)
+                    limit = LimitReached(f"ketma-ket {len(streak)} ta xato (töliq matn: {ERROR_LOG.relative_to(ROOT)})", None)
+                    print(f"⛔ {limit} — limit deb hisoblanadi.", flush=True)
                 continue
             if item is None:
                 continue
+            streak.clear()
             save({"id": _cid(q), **item})
             progress["n"] += 1
             print(f"[{progress['n']}/{progress['total']}] {label} ✓", flush=True)
