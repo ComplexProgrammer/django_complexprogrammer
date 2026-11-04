@@ -74,8 +74,9 @@ Javobni FAQAT va FAQAT bitta toza JSON obyekti ko'rinishida bering (boshqa hech 
 # --- Limit va tarmoqni aniqlash -----------------------------------------------------------------
 
 LIMIT_RE = re.compile(
-    r"usage limit|limit reached|hit your (?:\w+ )?limit|limit will reset|quota exceeded|out of (?:extra )?usage|"
-    r"resource_exhausted|credits? exhausted|out of credits|rate[ _-]?limit|too many requests|\b429\b",
+    r"credits?\s+balance|balance\s+is\s+too\s+low|too\s+low\s+to\s+continue|out\s+of\s+credits|"
+    r"credits?\s+exhausted|resource_exhausted|quota\s+exceeded|usage\s+limit|limit\s+reached|"
+    r"hit\s+your.*limit|limit\s+will\s+reset|rate[ _-]?limit|too\s+many\s+requests|\b429\b",
     re.I,
 )
 MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
@@ -105,33 +106,40 @@ def _reset_time(text, now=None):
     if m and (m.group(1) or m.group(2)):
         return now + timedelta(hours=int(m.group(1) or 0), minutes=int(m.group(2) or 0))
     m = RESET_AT_RE.search(text)
-    if not m:
-        return None
-    month, day, hour, minute, ampm, tz_name = m.groups()
-    hour, minute = int(hour), int(minute or 0)
-    if ampm:
-        hour = hour % 12 + (12 if ampm[0].lower() == "p" else 0)
-    if hour > 23 or minute > 59:
-        return None
-    tz = None
-    if tz_name:
-        try:
-            from zoneinfo import ZoneInfo
-            tz = ZoneInfo(tz_name)
-        except Exception:
+    if m:
+        month, day, hour, minute, ampm, tz_name = m.groups()
+        hour, minute = int(hour), int(minute or 0)
+        if ampm:
+            hour = hour % 12 + (12 if ampm[0].lower() == "p" else 0)
+        if hour <= 23 and minute <= 59:
             tz = None
-    base = datetime.now(tz) if tz else now
-    try:
-        target = base.replace(hour=hour, minute=minute, second=0, microsecond=0)
-        if month:
-            target = target.replace(month=MONTHS.index(month[:3].lower()) + 1, day=int(day))
-            if target < base - timedelta(days=1):
-                target = target.replace(year=target.year + 1)
-        elif target <= base:
-            target += timedelta(days=1)
-    except ValueError:
-        return None
-    return target.astimezone().replace(tzinfo=None) if tz else target
+            if tz_name:
+                try:
+                    from zoneinfo import ZoneInfo
+                    tz = ZoneInfo(tz_name)
+                except Exception:
+                    tz = None
+            base = datetime.now(tz) if tz else now
+            try:
+                target = base.replace(hour=hour, minute=minute, second=0, microsecond=0)
+                if month:
+                    target = target.replace(month=MONTHS.index(month[:3].lower()) + 1, day=int(day))
+                    if target < base - timedelta(days=1):
+                        target = target.replace(year=target.year + 1)
+                elif target <= base:
+                    target += timedelta(days=1)
+                return target.astimezone().replace(tzinfo=None) if tz else target
+            except ValueError:
+                pass
+
+    # AI credits balansi tugagan bo'lsa — keyingi soat boshiga yoki kamida 20 daqiqaga mo'ljallash
+    if re.search(r"credits?\s+balance|balance\s+is\s+too\s+low", text, re.I):
+        next_hour = (now + timedelta(hours=1)).replace(minute=1, second=0, microsecond=0)
+        if (next_hour - now).total_seconds() < 900:  # 15 daqiqadan kam qolgan bo'lsa
+            next_hour += timedelta(hours=1)
+        return next_hour
+
+    return None
 
 
 def _wait_until(target, reason):
@@ -425,10 +433,11 @@ def _ask_agy(agy_exe, q, stop_event=None):
         # Agar muvaffaqiyatsiz bo'lsa:
         if status != "SUCCESS":
             err_lower = err_msg.lower()
+            combined_err = f"{raw_stdout} {raw_stderr} {err_msg}"
 
-            # 1. Asosiy obuna yoki kvota limiti tugagan bo'lsa (pauza qilib kutiladi)
-            if LIMIT_RE.search(err_msg):
-                raise LimitReached(err_msg, _reset_time(err_msg))
+            # 1. Asosiy obuna, kredit yoki kvota limiti tugagan bo'lsa (pauza qilib kutiladi)
+            if LIMIT_RE.search(combined_err):
+                raise LimitReached(err_msg or "AI kreditlari balansi tugagan", _reset_time(combined_err))
 
             # 2. Tarmoq / DNS uzilishi yoki model aniqlanmadi (vaqtincha 2-5 soniyali uzilish)
             if any(k in err_lower for k in ("plan model not specified", "authentication failed", "timed out", "getaddrinfow", "dial tcp", "network", "connection refused", "reset")):
@@ -518,9 +527,10 @@ def _round(agy_exe, todo, workers, save_fn, progress):
     """Bir bosqich: agar obuna/kvota limiti tugasa, boshqa oqimlar to'xtatilib, LimitReached qaytariladi."""
     stop_event = threading.Event()
     limit_exc = None
+    lock = threading.Lock()
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures = {pool.submit(_run_worker, agy_exe, q, threading.Lock(), save_fn, progress, stop_event): q for q in todo}
+        futures = {pool.submit(_run_worker, agy_exe, q, lock, save_fn, progress, stop_event): q for q in todo}
         for future in as_completed(futures):
             q = futures[future]
             label = f"{q['bilet']}-bilet {q['raqam']}-savol"

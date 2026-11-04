@@ -1,0 +1,28 @@
+{
+ "source": "antigravity",
+ "model": "gemini-4-argon",
+ "started": "2026-11-04T22:07:33",
+ "items": [
+  {
+   "id": "a50_2",
+   "uz": "Yöl harakati qoidalariga köra, sariq fondagi 5.31.1 «Qayta tizilişning boşlanğiç sxemasi» axborot-körsatgiç belgisi ajratuvçi bölagi bölgan yölning harakat uçun yopiq qismini aylanib ötiş yönalişini va qarama-qarşi qatnov qismiga qayta tiziliş tartibini bildiradi. Rasmda körsatilgan qolgan belgilar esa yölning torayişi hamda qöşimça harakatlaniş bölaqlarining boşlanişi yoki oxiri haqida axborot beradi. Şuning uçun aynan 5-raqamli belgi töğri javob hisoblanadi.",
+   "ru": "Согласно Правилам дорожного движения, информационно-указательный знак 5.31.1 «Предварительная схема перестроения» на желтом фоне указывает направление объезда закрытого для движения участка проезжей части на дороге с разделительной полосой и порядок перестроения на встречную проезжую часть. Остальные знаки на рисунке информируют о сужении дороги, а также о начале или конце дополнительных полос движения. Поэтому правильным ответом является именно знак под номером 5.",
+   "en": "According to the Traffic Rules, information sign 5.31.1 «Preliminary lane change diagram» on a yellow background indicates the detour direction around a closed section of the carriageway on a road with a dividing strip and the procedure for merging onto the oncoming carriageway. The other signs in the picture inform drivers about road narrowing as well as the beginning or end of additional traffic lanes. Therefore, sign number 5 is the correct answer.",
+   "confidence": "high"
+  },
+  {
+   "id": "a51_9",
+   "uz": "Yöl harakati qoidalarining 162-bandiga binoan, transport vositasining balandligi (yuk bilan yoki yuksiz) yöl sathidan 4 metrdan oşmasligi kerak. Uşbu vaziyatda «Gazel» avtomobilining yuk bilan balandligi 3,8 metrni taşkil etadi va belgilangan me'yordan oşmaydi. Şuning uçun bunday yukni heç qanday qöşimça çäklovlarsiz taşişga ruxsat beriladi.",
+   "ru": "Согласно пункту 162 Правил дорожного движения, габаритная высота транспортного средства (с грузом или без груза) от поверхности проезжей части не должна превышать 4 метров. В данной ситуации высота автомобиля «Газель» вместе с грузом составляет 3,8 метра, что укладывается в установленную норму. Поэтому перевозка такого груза разрешается без каких-либо дополнительных ограничений.",
+   "en": "According to Clause 162 of the Traffic Rules, the overall height of a vehicle (with or without cargo) measured from the road surface must not exceed 4 meters. In this situation, the height of the «Gazelle» truck with its cargo is 3.8 meters, which is within the permitted limit. Therefore, transporting this cargo is allowed without any additional restrictions.",
+   "confidence": "high"
+  },
+  {
+   "id": "a52_9",
+   "uz": "Malakali haydovçilar tayyorlaş talablariga köra, öquv yurtlarida transport vositalarini boşqarişni örgatiş uçun nomzodlar yetarli kasbiy malaka va iş stajiga ega bölişi lozim. Şu sababli, kamida 5 yillik haydovçilik iş davriga ega bölgan 1- va 2-toifa haydovçilar öquv yurtlarida boşqarişni örgatiş huquqiga ega hisoblanadi.",
+   "ru": "Согласно квалификационным требованиям к подготовке водителей, для обучения вождению транспортных средств в учебных заведениях кандидаты должны обладать достаточной профессиональной квалификацией и стажем работы. Поэтому правом обучать вождению в учебных заведениях обладают водители 1-го и 2-го класса, имеющие водительский стаж не менее 5 лет.",
+   "en": "According to qualification requirements for driver training, candidates must possess sufficient professional qualification and work experience to teach driving at educational institutions. Therefore, 1st and 2nd class drivers with at least 5 years of driving work experience have the right to teach driving in educational institutions.",
+   "confidence": "low"
+  }
+ ]
+}
