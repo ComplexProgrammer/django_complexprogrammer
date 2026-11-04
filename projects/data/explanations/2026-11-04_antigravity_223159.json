@@ -1,0 +1,14 @@
+{
+ "source": "antigravity",
+ "model": "gemini-3.8-flash",
+ "started": "2026-11-04T22:31:59",
+ "items": [
+  {
+   "id": "a50_1",
+   "uz": "«Tirkama bilan harakatlaniş taqiqlangan» (3.7) belgisi har qanday turdagi tirkamali yuk avtomobillari va traktorlarning harakatlanişini, ularning ruxsat etilgan töliq vaznidan qat'i nazar, taqiqlaydi. 4-raqamdagi belgi aynan şu taqiqni anglatadi. Şuning uçun ruxsat etilgan töliq vazni 7 tonna bölgan tirkamali yuk avtomobilining harakatlanişi uşbu belgi ta'sir doirasida taqiqlanadi.",
+   "ru": "Знак 3.7 «Движение с прицепом запрещено» запрещает движение грузовых автомобилей и тракторов с прицепами любого типа независимо от их разрешенной максимальной массы. Под номером 4 изображен именно этот запрещающий знак. Таким образом, движение грузового автомобиля с прицепом с разрешенной максимальной массой 7 тонн запрещается данным знаком.",
+   "en": "Sign 3.7 'Driving with trailers prohibited' forbids the movement of trucks and tractors with trailers of any kind, regardless of their permissible maximum mass. Sign 4 is precisely this regulatory sign. Therefore, operating a truck with a trailer having a permissible total mass of 7 tons is prohibited under this sign.",
+   "confidence": "high"
+  }
+ ]
+}

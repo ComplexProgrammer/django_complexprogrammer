@@ -52,6 +52,7 @@ SYSTEM_PROMPT = """Siz O'zbekiston yo'l harakati qoidalari (YHQ) bo'yicha oliy t
 Haydovchilikka nomzodlar uchun avtotest savolining to'g'ri javobi nima uchun to'g'ri ekanini qisqa, tushunarli va asosli tushuntirasiz.
 
 Qat'iy talablar:
+0. Hech qanday tashqi asbob (tool), terminal buyrug'i (command) yoki qidiruv ishlatmang! Faqat to'g'ridan-to'g'ri o'z ichki bilimingizga tayanib javob bering.
 1. Matn hajmi: 2-4 gap, sodda va lo'nda til. Avval qoida mazmunini ayting, keyin uni ushbu vaziyatga qo'llang.
 2. To'g'ri javob sizga berilgan — uni aslo o'zgartirmang va boshqa variantni to'g'ri deb ko'rsatmang.
 3. YHQ band raqamini faqat aniq bilsangiz yozing; ishonchingiz komil bo'lmasa, band raqamisiz qoida mazmunini tushuntiring.
@@ -381,7 +382,7 @@ def _build_prompt(q, safe_mode=False):
     return f"{SYSTEM_PROMPT}\n\n---\n\n{body}"
 
 
-def _ask_agy(agy_exe, q, stop_event=None):
+def _ask_agy(agy_exe, q, stop_event=None, model="gemini-3.8-flash"):
     """Antigravity CLI orqali bitta savol izohini olish."""
     if stop_event and stop_event.is_set():
         return None
@@ -395,7 +396,7 @@ def _ask_agy(agy_exe, q, stop_event=None):
             return None
 
         prompt = _build_prompt(q, safe_mode=safe_mode)
-        cmd = [agy_exe, "-p", prompt, "--output-format", "json"]
+        cmd = [agy_exe, "-p", prompt, "--model", model, "--output-format", "json"]
 
         try:
             proc = subprocess.run(
@@ -489,7 +490,7 @@ def _ask_agy(agy_exe, q, stop_event=None):
     raise last_err or RuntimeError("So'rov barcha urinishlarda muvaffaqiyatsiz bo'ldi")
 
 
-def _run_worker(agy_exe, q, lock, save_fn, progress, stop_event):
+def _run_worker(agy_exe, q, lock, save_fn, progress, stop_event, model="gemini-3.8-flash"):
     """Bitta savolni qayta ishlash."""
     if stop_event.is_set():
         return None
@@ -498,7 +499,7 @@ def _run_worker(agy_exe, q, lock, save_fn, progress, stop_event):
     label = f"{q['bilet']}-bilet {q['raqam']}-savol"
 
     try:
-        res = _ask_agy(agy_exe, q, stop_event)
+        res = _ask_agy(agy_exe, q, stop_event, model=model)
         if res is None:
             return None
         save_fn({"id": _cid(q), **res})
@@ -523,14 +524,14 @@ def _run_worker(agy_exe, q, lock, save_fn, progress, stop_event):
         return False
 
 
-def _round(agy_exe, todo, workers, save_fn, progress):
+def _round(agy_exe, todo, workers, save_fn, progress, model="gemini-3.8-flash"):
     """Bir bosqich: agar obuna/kvota limiti tugasa, boshqa oqimlar to'xtatilib, LimitReached qaytariladi."""
     stop_event = threading.Event()
     limit_exc = None
     lock = threading.Lock()
 
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        futures = {pool.submit(_run_worker, agy_exe, q, lock, save_fn, progress, stop_event): q for q in todo}
+        futures = {pool.submit(_run_worker, agy_exe, q, lock, save_fn, progress, stop_event, model): q for q in todo}
         for future in as_completed(futures):
             q = futures[future]
             label = f"{q['bilet']}-bilet {q['raqam']}-savol"
@@ -574,7 +575,7 @@ def run(args):
         return
 
     print(f"📋 Jami: {len(queue)} ta savol, parallel oqimlar: {args.workers} ta.")
-    print(f"🤖 Antigravity CLI: {agy_exe}")
+    print(f"🤖 Antigravity CLI: {agy_exe} (model: {args.model})")
 
     if args.dry_run:
         print("\n--- Birinchi so'rov namunasi ---\n")
@@ -585,7 +586,7 @@ def run(args):
     out_file = P.RESULTS_DIR / f"{datetime.now():%Y-%m-%d}_antigravity_{datetime.now():%H%M%S}.json"
     payload = {
         "source": "antigravity",
-        "model": "gemini-4-argon",
+        "model": args.model,
         "started": datetime.now().isoformat(timespec="seconds"),
         "items": [],
     }
@@ -609,7 +610,7 @@ def run(args):
             if not remaining:
                 break
 
-            limit = _round(agy_exe, remaining, args.workers, save, progress)
+            limit = _round(agy_exe, remaining, args.workers, save, progress, model=args.model)
             if limit is None:
                 # Agar limit xatosi bo'lmasa va qolganlar bo'lsa (masalan, ayrim xatoliklar), tugatamiz yoki davom etamiz
                 remaining = [q for q in queue if _cid(q) not in done and _cid(q) not in progress["failed"]]
@@ -651,6 +652,7 @@ def run(args):
 def main():
     parser = argparse.ArgumentParser(description="Avtotest izohlari AI qoralamasi (Antigravity tokenlari orqali).")
     parser.add_argument("action", nargs="?", default="run", choices=["run"], help="Harakat (standart: run)")
+    parser.add_argument("--model", default="gemini-3.8-flash", help="Antigravity modeli (standart: gemini-3.8-flash)")
     parser.add_argument("--limit", type=int, default=0, help="Nechta savol ishlanishi (0 — barchasi)")
     parser.add_argument("--bilet", type=int, help="Faqat ko'rsatilgan bilet savollari")
     parser.add_argument("--workers", type=int, default=2, help="Bir vaqtda ishlaydigan so'rovlar soni (standart: 2)")
