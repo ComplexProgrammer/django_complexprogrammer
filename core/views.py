@@ -293,6 +293,11 @@ def indexnow_key(request, key):
 
 def robots_txt(request):
     lines = [
+        # AdSense krouleri barça sahifalarni (şu jumladan /search/) körişi kerak: körolmagan sahifaga
+        # mos reklama tanlanmaydi va blok böş qoladi
+        "User-agent: Mediapartners-Google",
+        "Allow: /",
+        "",
         "User-agent: *",
         "Disallow: /admin/",
         "Disallow: /send_file/",
