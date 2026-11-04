@@ -4,9 +4,13 @@ API kaliti talab qilinmaydi: har bir savol uçun Antigravity CLI (``agy -p``) ç
 sarf joriy tizimdagi Antigravity hisobi / tokenlaridan ketadi.
 
 İşlatilişi:
-    python scripts/explanations_antigravity.py run [--limit 20] [--bilet 42] [--workers 2] [--dry-run]
+    python scripts/explanations_antigravity.py run [--limit 20] [--bilet 42] [--workers 2] [--dry-run] [--no-wait]
 
-Natija ``projects/data/explanations/<sana>_antigravity_<vaqt>.json`` fayliga yozib boriladi.
+Limit tugasa (daqiqlik/soatlik/kunlik kvota):
+    Skript avtomatik ravishda PAUZA holatiga ötadi, yangilaniş vaqtini (yoki belgilangan daqiqani) kutadi
+    va limit tiklangaç inson aralashuvisiz özi avtomatik qolgan savollardan davom etadi.
+
+Natija ``projects/data/explanations/<sana>_antigravity_<vaqt>.json`` fayliga har bir savoldan söng darhol yoziladi.
 Keyin: serverda ``manage.py import_explanations`` bilan bazaga yuklanadi.
 """
 
@@ -31,6 +35,7 @@ DB = ROOT / "db.sqlite3"
 IMAGES = ROOT / "static" / "avtotest"
 TIMEOUT = 180  # bitta savol uçun maksimal vaqt (soniya)
 MAX_RETRIES = 4  # tarmoq yoki vaqtinça xatolikda qayta urinishlar soni
+RESET_MARGIN = timedelta(minutes=2)  # limit yangilangandan keyin ehtiyotkorona biroz kutib turiş
 ERROR_LOG = ROOT / "tmp" / "explanations_antigravity_errors.log"
 
 
@@ -65,6 +70,84 @@ Javobni FAQAT va FAQAT bitta toza JSON obyekti ko'rinishida bering (boshqa hech 
   "en": "English explanation",
   "confidence": "high"
 }"""
+
+# --- Limit va tarmoqni aniqlash -----------------------------------------------------------------
+
+LIMIT_RE = re.compile(
+    r"usage limit|limit reached|hit your (?:\w+ )?limit|limit will reset|quota exceeded|out of (?:extra )?usage|"
+    r"resource_exhausted|credits? exhausted|out of credits|rate[ _-]?limit|too many requests|\b429\b",
+    re.I,
+)
+MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+RESET_AT_RE = re.compile(
+    r"resets?\s+(?:at\s+|on\s+)?"
+    r"(?:(" + "|".join(MONTHS) + r")[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(?:at\s+)?)?"
+    r"(\d{1,2})(?::(\d{2}))?\s*([ap]\.?m\.?)?"
+    r"(?:\s*\(([A-Za-z_]+(?:/[A-Za-z_+-]+)+)\))?",
+    re.I,
+)
+
+
+class LimitReached(Exception):
+    """Kvota yoki so'rovlar limiti tugaganda jarayonni xavfsiz to'xtatib kutish uchun istisno."""
+    def __init__(self, message, reset_at=None):
+        super().__init__(message)
+        self.reset_at = reset_at
+
+
+def _reset_time(text, now=None):
+    """Xabar matnidan limit qachon yangilanishini aniqlash (mavjud bo'lsa)."""
+    now = now or datetime.now()
+    m = re.search(r"\|(\d{10})\b", text)
+    if m:
+        return datetime.fromtimestamp(int(m.group(1)))
+    m = re.search(r"resets?\s+in\s+(?:(\d+)\s*h\w*)?\s*(?:(\d+)\s*m\w*)?", text, re.I)
+    if m and (m.group(1) or m.group(2)):
+        return now + timedelta(hours=int(m.group(1) or 0), minutes=int(m.group(2) or 0))
+    m = RESET_AT_RE.search(text)
+    if not m:
+        return None
+    month, day, hour, minute, ampm, tz_name = m.groups()
+    hour, minute = int(hour), int(minute or 0)
+    if ampm:
+        hour = hour % 12 + (12 if ampm[0].lower() == "p" else 0)
+    if hour > 23 or minute > 59:
+        return None
+    tz = None
+    if tz_name:
+        try:
+            from zoneinfo import ZoneInfo
+            tz = ZoneInfo(tz_name)
+        except Exception:
+            tz = None
+    base = datetime.now(tz) if tz else now
+    try:
+        target = base.replace(hour=hour, minute=minute, second=0, microsecond=0)
+        if month:
+            target = target.replace(month=MONTHS.index(month[:3].lower()) + 1, day=int(day))
+            if target < base - timedelta(days=1):
+                target = target.replace(year=target.year + 1)
+        elif target <= base:
+            target += timedelta(days=1)
+    except ValueError:
+        return None
+    return target.astimezone().replace(tzinfo=None) if tz else target
+
+
+def _wait_until(target, reason):
+    """Limit tiklangunga qadar pauzada turish va vaqt yetganda avtomatik uyg'onish."""
+    print(f"\n⏸  {reason} {target:%Y-%m-%d %H:%M} gaça kutiladi, söng avtomatik davom etadi "
+          "(töxtatiş: Ctrl+C, tayyorlari saqlangan).", flush=True)
+    last_note = time.monotonic()
+    while True:
+        left = (target - datetime.now()).total_seconds()
+        if left <= 0:
+            print(f"▶  {datetime.now():%H:%M} — limit tiklandi, avtomatik davom etilmoqda.", flush=True)
+            return
+        if time.monotonic() - last_note >= 1800:
+            last_note = time.monotonic()
+            print(f"   ... yana {int(left // 3600)} soat {int(left % 3600 // 60)} daqiqa kutilmoqda", flush=True)
+        time.sleep(min(left, 20))
 
 
 def _find_agy():
@@ -104,12 +187,9 @@ def _clean_internal_quotes(text):
     """Matn ichidagi buzilgan yoki qochirilmagan qo'shtirnoqlarni to'g'rilash."""
     if not text:
         return ""
-    # Matn ichidagi qochirilmagan " larni « » ga almashtirish
     cleaned = text.replace('\\"', '"')
-    # Chetdagi qo'shtirnoqlardan tashqari ichkaridagilar
     parts = cleaned.split('"')
     if len(parts) > 1:
-        # Barchasini burchakli qo'shtirnoqqa o'girish
         return "«".join(parts)
     return cleaned
 
@@ -138,7 +218,6 @@ def _extract_json_response(raw_text):
         return None
     raw_text = raw_text.strip()
 
-    # 1. To'g'ridan-to'g'ri JSON bo'lsa
     try:
         data = json.loads(raw_text)
         if isinstance(data, dict) and all(k in data for k in ("uz", "ru", "en")):
@@ -146,7 +225,6 @@ def _extract_json_response(raw_text):
     except ValueError:
         pass
 
-    # 2. ```json ... ``` blokidan izlash
     m = re.search(r"```(?:json)?\s*(\{[\s\S]*?\})\s*```", raw_text, re.I)
     if m:
         try:
@@ -156,7 +234,6 @@ def _extract_json_response(raw_text):
         except ValueError:
             pass
 
-    # 3. Eng birinchi { va eng oxirgi } orasidan izlash
     first = raw_text.find("{")
     last = raw_text.rfind("}")
     if first != -1 and last != -1 and last > first:
@@ -167,7 +244,6 @@ def _extract_json_response(raw_text):
         except ValueError:
             pass
 
-    # 4. Regex orqali (qo'shtirnoq qochirilmagan holatlar uchun)
     fallback = _extract_by_regex(raw_text)
     if fallback:
         return fallback
@@ -297,13 +373,19 @@ def _build_prompt(q, safe_mode=False):
     return f"{SYSTEM_PROMPT}\n\n---\n\n{body}"
 
 
-def _ask_agy(agy_exe, q):
-    """Antigravity CLI orqali bitta savol izohini olish (vaqtincha xatolar uchun avtomatik qayta urinish bilan)."""
+def _ask_agy(agy_exe, q, stop_event=None):
+    """Antigravity CLI orqali bitta savol izohini olish."""
+    if stop_event and stop_event.is_set():
+        return None
+
     last_err = None
     safe_mode = False
     is_safety_blocked = False
 
     for attempt in range(1, MAX_RETRIES + 1):
+        if stop_event and stop_event.is_set():
+            return None
+
         prompt = _build_prompt(q, safe_mode=safe_mode)
         cmd = [agy_exe, "-p", prompt, "--output-format", "json"]
 
@@ -324,7 +406,6 @@ def _ask_agy(agy_exe, q):
         raw_stdout = proc.stdout or ""
         raw_stderr = proc.stderr or ""
 
-        # agy natijasi: {"status": "SUCCESS", "response": "..."}
         outer_json = None
         try:
             outer_json = json.loads(raw_stdout)
@@ -341,17 +422,21 @@ def _ask_agy(agy_exe, q):
         status = outer_json.get("status") if outer_json else None
         err_msg = (outer_json.get("error") if outer_json else "") or raw_stderr.strip()
 
-        # Agar muvaffaqiyatsiz bo'lsa, xato sababini aniqlaymiz:
+        # Agar muvaffaqiyatsiz bo'lsa:
         if status != "SUCCESS":
             err_lower = err_msg.lower()
 
-            # 1. Tarmoq, DNS yoki til modeli aniqlanmadi xatosi (odatda vaqtincha 2-5 soniyali uzilish)
+            # 1. Asosiy obuna yoki kvota limiti tugagan bo'lsa (pauza qilib kutiladi)
+            if LIMIT_RE.search(err_msg):
+                raise LimitReached(err_msg, _reset_time(err_msg))
+
+            # 2. Tarmoq / DNS uzilishi yoki model aniqlanmadi (vaqtincha 2-5 soniyali uzilish)
             if any(k in err_lower for k in ("plan model not specified", "authentication failed", "timed out", "getaddrinfow", "dial tcp", "network", "connection refused", "reset")):
                 last_err = RuntimeError(f"agy ulanish xatosi (urinish {attempt}/{MAX_RETRIES}): {err_msg[:120]}")
                 time.sleep(3 * attempt)
                 continue
 
-            # 2. Xavfsizlik filtri (safety filter) to'sqinlik qilgan bo'lsa
+            # 3. Xavfsizlik filtri to'sqinlik qilgan bo'lsa
             if any(k in err_lower for k in ("content safety filters", "prohibited use", "sensitive words", "blocked by")):
                 safe_mode = True
                 is_safety_blocked = True
@@ -359,7 +444,6 @@ def _ask_agy(agy_exe, q):
                 time.sleep(1.5)
                 continue
 
-            # Boshqa noma'lum xato
             last_err = RuntimeError(f"agy muvaffaqiyatsiz: {err_msg}")
             time.sleep(2 * attempt)
             continue
@@ -367,12 +451,10 @@ def _ask_agy(agy_exe, q):
         response_text = outer_json.get("response") or ""
         item_data = _extract_json_response(response_text)
         if not item_data:
-            # Agar JSON ajratib olinmasa, model ba'zan boshqa format qaytargan bo'lishi mumkin — qayta urinish
             last_err = RuntimeError(f"Model javobidan izoh JSON ajratib olinmadi: {response_text[:120]}")
             time.sleep(2)
             continue
 
-        # Maydonlar borligini tekshirish
         missing = [k for k in ("uz", "ru", "en") if not item_data.get(k)]
         if missing:
             last_err = RuntimeError(f"JSON'da {missing} maydonlari yetishmaydi")
@@ -383,7 +465,6 @@ def _ask_agy(agy_exe, q):
         if conf not in ("high", "medium", "low"):
             conf = "high"
 
-        # 2026-yilgi imlo qoidasini kafolatlash
         uz_text = _clean_2026_uzbek(item_data["uz"].strip())
 
         return {
@@ -393,26 +474,32 @@ def _ask_agy(agy_exe, q):
             "confidence": conf,
         }
 
-    # Barcha urinishlardan keyin ham xavfsizlik filtri sababli to'xtagan bo'lsa — zaxira qoidaviy izohni beramiz
     if is_safety_blocked:
         return _safety_fallback_explanation(q)
 
     raise last_err or RuntimeError("So'rov barcha urinishlarda muvaffaqiyatsiz bo'ldi")
 
 
-def _run_worker(agy_exe, q, lock, save_fn, progress):
-    """Bitta savolni qayta ishlash va xatolik yuz bersa yozib qo'yish."""
-    # Oqimlar birdaniga bir millisekundda agy ga tushmasligi uchun kichik tasodifiy surilish
-    time.sleep(random.uniform(0.1, 0.5))
+def _run_worker(agy_exe, q, lock, save_fn, progress, stop_event):
+    """Bitta savolni qayta ishlash."""
+    if stop_event.is_set():
+        return None
 
+    time.sleep(random.uniform(0.1, 0.4))
     label = f"{q['bilet']}-bilet {q['raqam']}-savol"
+
     try:
-        res = _ask_agy(agy_exe, q)
+        res = _ask_agy(agy_exe, q, stop_event)
+        if res is None:
+            return None
         save_fn({"id": _cid(q), **res})
         with lock:
             progress["n"] += 1
             print(f"[{progress['n']}/{progress['total']}] {label} ✓ ({res['confidence']})", flush=True)
         return True
+    except LimitReached as lr:
+        stop_event.set()
+        raise lr
     except Exception as e:
         with lock:
             progress["n"] += 1
@@ -425,6 +512,39 @@ def _run_worker(agy_exe, q, lock, save_fn, progress):
             except OSError:
                 pass
         return False
+
+
+def _round(agy_exe, todo, workers, save_fn, progress):
+    """Bir bosqich: agar obuna/kvota limiti tugasa, boshqa oqimlar to'xtatilib, LimitReached qaytariladi."""
+    stop_event = threading.Event()
+    limit_exc = None
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(_run_worker, agy_exe, q, threading.Lock(), save_fn, progress, stop_event): q for q in todo}
+        for future in as_completed(futures):
+            q = futures[future]
+            label = f"{q['bilet']}-bilet {q['raqam']}-savol"
+            try:
+                future.result()
+            except CancelledError:
+                continue
+            except LimitReached as lr:
+                if limit_exc is None:
+                    stop_event.set()
+                    for f in futures:
+                        f.cancel()
+                    print(f"\n⛔ {label}: Kvota / limit tugadi — {lr}", flush=True)
+                    limit_exc = lr
+                continue
+            except KeyboardInterrupt:
+                stop_event.set()
+                for f in futures:
+                    f.cancel()
+                raise
+            except Exception:
+                continue
+
+    return limit_exc
 
 
 def run(args):
@@ -472,14 +592,37 @@ def run(args):
 
     print(f"🚀 Jarayon boshlandi. Natijalar fayli: {out_file.relative_to(ROOT)}\n", flush=True)
 
+    remaining = []
     try:
-        with ThreadPoolExecutor(max_workers=args.workers) as pool:
-            futures = [pool.submit(_run_worker, agy_exe, q, lock, save, progress) for q in queue]
-            for future in as_completed(futures):
-                try:
-                    future.result()
-                except CancelledError:
-                    pass
+        while True:
+            remaining = [q for q in queue if _cid(q) not in done and _cid(q) not in progress["failed"]]
+            if not remaining:
+                break
+
+            limit = _round(agy_exe, remaining, args.workers, save, progress)
+            if limit is None:
+                # Agar limit xatosi bo'lmasa va qolganlar bo'lsa (masalan, ayrim xatoliklar), tugatamiz yoki davom etamiz
+                remaining = [q for q in queue if _cid(q) not in done and _cid(q) not in progress["failed"]]
+                break
+
+            remaining = [q for q in queue if _cid(q) not in done and _cid(q) not in progress["failed"]]
+            if not remaining:
+                break
+
+            now = datetime.now()
+            if limit.reset_at and limit.reset_at > now:
+                resume = limit.reset_at + RESET_MARGIN
+                reason = "Limit tugadi, yangilaniş vaqti:"
+            else:
+                resume = now + timedelta(minutes=args.retry_minutes)
+                reason = f"Limit tugadi (yangilaniş vaqti noma'lum, {args.retry_minutes} daqiqadan söng tekşiriladi):"
+
+            if args.no_wait:
+                print(f"\n--no-wait rejimi: {len(remaining)} ta savol qoldi. Limit ~{resume:%Y-%m-%d %H:%M} da yangilanadi.")
+                break
+
+            _wait_until(resume, reason)
+
     except KeyboardInterrupt:
         print("\n\n⏹ Foydalanuvchi tomonidan to'xtatildi (Ctrl+C). Saqlangan izohlar faylda qoldi.")
 
@@ -503,6 +646,8 @@ def main():
     parser.add_argument("--workers", type=int, default=2, help="Bir vaqtda ishlaydigan so'rovlar soni (standart: 2)")
     parser.add_argument("--redo", action="store_true", help="Izohi bor savollarni ham qayta ishlash")
     parser.add_argument("--dry-run", action="store_true", help="Haqiqiy so'rov yubormasdan savol va promptni ko'rish")
+    parser.add_argument("--no-wait", action="store_true", help="Limit tugasa kutmasdan chiqish")
+    parser.add_argument("--retry-minutes", type=int, default=10, help="Limit yangilanish vaqti noma'lum bo'lsa, necha daqiqadan keyin qayta urinilsin (standart: 10)")
     args = parser.parse_args()
     run(args)
 
