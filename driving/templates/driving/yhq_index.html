@@ -17,7 +17,7 @@
   <div class="d-card">
     <ol class="d-list">
       {% for c in chapters %}
-      <li><a href="/yhq/{{ c.slug }}-bob/"><b>{{ c.num }}</b><span style="flex:1">{{ c.title }}</span><span class="d-meta" style="white-space:nowrap">{{ c.points|length }}</span></a></li>
+      <li><a href="{% if ui_lang == 'ru' %}/ru{% endif %}/yhq/{{ c.slug }}-bob/"><b>{{ c.num }}</b><span style="flex:1">{{ c.title }}</span><span class="d-meta" style="white-space:nowrap">{{ c.points|length }}</span></a></li>
       {% endfor %}
     </ol>
   </div>

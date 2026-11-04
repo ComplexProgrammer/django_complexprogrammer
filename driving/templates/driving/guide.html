@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+{% include "includes/head_common.html" %}
+{% include "driving/_style.html" %}
+<style>
+  .g-steps{counter-reset:s;list-style:none;padding:0;margin:0}
+  .g-steps li{counter-increment:s;position:relative;padding:0 0 14px 44px}
+  .g-steps li::before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;
+    background:#4f46e5;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .g-plan{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .g-plan div{border:1px solid rgba(99,102,241,.25);border-radius:12px;padding:12px 14px}
+  .g-plan b{display:block;margin-bottom:4px}
+  .g-faq details{border-top:1px solid rgba(100,116,139,.2);padding:10px 0}
+  .g-faq summary{cursor:pointer;font-weight:600}
+</style>
+</head>
+<body>
+{% include "includes/site_header.html" %}
+<main class="d-main">
+  <nav class="d-crumbs" aria-label="breadcrumb">
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>{{ g.h1 }}</span>
+  </nav>
+  <h1 class="d-h1">📘 {{ g.h1 }}</h1>
+  <p>{{ lead }}</p>
+
+  <section class="d-card">
+    <h2 class="d-h2">{{ g.steps_h }}</h2>
+    <ol class="g-steps">
+      {% for title, text in g.steps %}<li><b>{{ title }}.</b> {{ text }}</li>{% endfor %}
+    </ol>
+    <p class="d-meta" style="margin:4px 0 0">ℹ️ {{ g.steps_note }}</p>
+  </section>
+
+  <section class="d-card">
+    <h2 class="d-h2">{{ g.exam_h }}</h2>
+    <ul>{% for p in exam_points %}<li>{{ p }}</li>{% endfor %}</ul>
+    <div class="d-row">
+      <a class="d-btn" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/">🚗 {{ t.all_tickets }}</a>
+    </div>
+  </section>
+
+  {% include "includes/ad_slot.html" with slot=ad_slots.driving %}
+
+  <section class="d-card">
+    <h2 class="d-h2">{{ g.plan_h }}</h2>
+    <div class="g-plan">
+      {% for title, text in g.plan %}<div><b>{{ title }}</b>{{ text }}</div>{% endfor %}
+    </div>
+  </section>
+
+  {% if hard_topics %}
+  <section class="d-card">
+    <h2 class="d-h2">{{ g.topics_h }}</h2>
+    <p>{{ g.topics_lead }}</p>
+    <div class="d-row">
+      {% for tp in hard_topics %}<a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzu/{{ tp.slug }}/">📚 {{ tp.name }}</a>{% endfor %}
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzular/">… {{ t.topics }}</a>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="d-card">
+    <h2 class="d-h2">{{ g.tips_h }}</h2>
+    <ul>{% for tip in g.tips %}<li>{{ tip }}</li>{% endfor %}</ul>
+  </section>
+
+  {% include "includes/ad_slot.html" with format="fluid" layout="in-article" slot=ad_slots.in_article %}
+
+  <section class="d-card">
+    <h2 class="d-h2">{{ g.tools_h }}</h2>
+    <div class="d-row">
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/imtihon/">🎯 {{ t.start_exam }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/">🚗 {{ t.all_tickets }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzular/">📚 {{ t.topics }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/xatolar/">❌ {{ ui.avtotest }}: {% if ui_lang == 'ru' %}мои ошибки{% elif ui_lang == 'uz' %}xatolarim{% else %}my mistakes{% endif %}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/yol-belgilari/">🚸 {{ ui.signs }}</a>
+      <a class="d-btn alt" href="/yhq/">📖 {{ ui.yhq }}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/jarimalar/">⚖️ {% if ui_lang == 'ru' %}Штрафы{% elif ui_lang == 'uz' %}Jarimalar{% else %}Fines{% endif %}</a>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/pdf/">📄 PDF</a>
+    </div>
+  </section>
+
+  <section class="d-card g-faq">
+    <h2 class="d-h2">{{ seo_labels.faq }}</h2>
+    {% for q, a in faq %}<details><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+  </section>
+
+  <div class="d-card d-between">
+    <span>📢 {{ t.channel_cta }}</span>
+    <a class="d-btn" href="https://t.me/complexprogrammeruzchannel" target="_blank" rel="noopener">Telegram</a>
+  </div>
+  {% include "includes/ad_slot.html" with format="autorelaxed" slot=ad_slots.multiplex %}
+</main>
+</body>
+</html>

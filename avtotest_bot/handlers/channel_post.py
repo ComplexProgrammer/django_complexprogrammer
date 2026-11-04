@@ -72,7 +72,7 @@ async def post_random_question(bot: Bot, chat_id: str):
             type="quiz",
             correct_option_id=correct,
             is_anonymous=True,
-            explanation=f"To'g'ri javob: {q['javob']}. Barcha biletlar: complexprogrammer.uz/avtotest",
+            explanation=f"Töğri javob: {q['javob']}. Barça biletlar: complexprogrammer.uz/avtotest",
             reply_markup=keyboard,
         )
         return q["id"]

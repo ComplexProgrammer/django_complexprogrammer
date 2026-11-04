@@ -10,12 +10,18 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-# Rasmiy matn faqat o'zbek tilida olinadi (lex.uz'dagi ruscha tarjima alohida hujjat va topilmadi) —
-# /ru/, /en/ sahifalari noindex.
+# Rasmiy matn: özbekça (asosiy) va ruscha (lex.uz'da alohida hujjat — 5953887). /en/ sahifalari özbekça
+# matnni körsatadi va canonical özbekça sahifaga.
 SOURCE_URL = "https://lex.uz/uz/docs/-5953883"
+SOURCE_URLS = {"uz": SOURCE_URL, "ru": "https://lex.uz/ru/docs/5953887"}
+LANGS = tuple(SOURCE_URLS)
 DATA_DIR = Path(__file__).resolve().parent / "data"
 
-_ELEMENT = re.compile(r'<div class="([A-Z_]+) lx_elem"[^>]*>.*?<div name="(-\d+)" id="-\d+">(.*?)</div>\s*</div>', re.S)
+# Element ID: özbekça sahifada manfiy ("-7706740"), ruscha hujjatda musbat
+_ELEMENT = re.compile(r'<div class="([A-Z_]+) lx_elem"[^>]*>.*?<div name="(-?\d+)" id="-?\d+">(.*?)</div>\s*</div>', re.S)
+# Bob sarlavhasi: "5-bob. Nomi" (uz) yoki "Глава 5. Название" / "Глава 17¹. ..." (ru)
+_CHAPTER_UZ = re.compile(r"^(\d+)([⁰¹²³⁴⁵⁶⁷⁸⁹]*)[-‑]\s*bob\.?\s*(.+)$", re.I)
+_CHAPTER_RU = re.compile(r"^Глава\s+(\d+)([⁰¹²³⁴⁵⁶⁷⁸⁹]*)\.?\s*(.+)$", re.I)
 _SUP = str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹")
 _UNSUP = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
 _POINT = re.compile(r"^(\d+[⁰¹²³⁴⁵⁶⁷⁸⁹]*)\.\s")
@@ -53,7 +59,7 @@ def parse(page_html):
             continue
         if section == "rules":
             if cls == "TEXT_HEADER_DEFAULT":
-                m = re.match(r"^(\d+)([⁰¹²³⁴⁵⁶⁷⁸⁹]*)[-‑]\s*bob\.?\s*(.+)$", text, re.I)
+                m = _CHAPTER_UZ.match(text) or _CHAPTER_RU.match(text)
                 if not m:
                     continue
                 number, sup, title = m.group(1), m.group(2), m.group(3).strip()
@@ -79,17 +85,26 @@ def parse(page_html):
     return {"chapters": chapters, "signs": sorted(signs, key=lambda s: [int(x) for x in s["num"].split(".")])}
 
 
-@lru_cache(maxsize=1)
-def load():
-    path = DATA_DIR / "yhq_uz.json"
+@lru_cache(maxsize=4)
+def load(lang="uz"):
+    path = DATA_DIR / f"yhq_{lang}.json"
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {"chapters": [], "signs": [], "fetched": ""}
 
 
-def chapter(slug):
-    return next((c for c in load()["chapters"] if c["slug"] == slug), None)
+def text_lang(lang):
+    """Sahifa tilida rasmiy matn bormi: ruscha fayl bölsa "ru", qolgan hollarda özbekça matn."""
+    return lang if lang in LANGS and load(lang)["chapters"] else "uz"
+
+
+def chapter(slug, lang="uz"):
+    return next((c for c in load(lang)["chapters"] if c["slug"] == slug), None)
+
+
+def chapter_label(num, lang="uz"):
+    return f"Глава {num}" if lang == "ru" else f"{num}-bob"
 
 
 # Avtotest mavzulari -> tegishli boblar (savol sahifasidan qoidaga, qoidadan savollarga havola)

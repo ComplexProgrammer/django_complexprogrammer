@@ -18,7 +18,7 @@ from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-from core.translit import latin_to_cyrillic
+from core.translit import latin1995_to_2026, latin_to_cyrillic
 from projects.models import AvtoTest
 from projects.avtotest_sync import builder, tests_question
 from tests.models import Answers, Questions
@@ -258,7 +258,8 @@ class Command(BaseCommand):
                         skipped += 1
                         continue
                     pk = question.pk
-                uz = data["uz"].strip()
+                # Bazadagi savollar 2026-yilgi imloda (ş, ç, ğ, ö) — izoh ham şunday saqlanadi
+                uz = latin1995_to_2026(data["uz"].strip())
                 saved += Questions.objects.filter(pk=pk).exclude(explanation_status="approved").update(
                     explanation_uz_uz=uz, explanation_uz_crl=latin_to_cyrillic(uz),
                     explanation_ru_ru=data["ru"].strip(), explanation_en_us=data["en"].strip(),
