@@ -16,7 +16,7 @@
   <p class="d-meta">{{ count }}</p>
   <div class="d-card d-cta">
     <a class="d-btn green" href="{{ lang_prefix }}/avtotest/imtihon/?mavzu={{ slug }}">🎯 {{ t.practice_topic }}</a>
-    {% for c in rule_chapters %}<a class="d-btn alt" href="/yhq/{{ c.slug }}-bob/" style="margin-left:6px">📖 {{ t.yhq }} {{ c.num }}-bob</a>{% endfor %}
+    {% for c in rule_chapters %}<a class="d-btn alt" href="{% if ui_lang == 'ru' %}/ru{% endif %}/yhq/{{ c.slug }}-bob/" style="margin-left:6px">📖 {{ t.yhq }} {% if ui_lang == 'ru' %}Глава {{ c.num }}{% else %}{{ c.num }}-bob{% endif %}</a>{% endfor %}
   </div>
   <section class="d-card">
     <ol class="d-list">

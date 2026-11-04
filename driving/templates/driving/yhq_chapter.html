@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="{{ yhq_lang|default:'uz' }}">
 <head>
 <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
@@ -16,10 +16,10 @@
 {% include "includes/site_header.html" %}
 <main class="d-main">
   <nav class="d-crumbs" aria-label="breadcrumb">
-    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="/yhq/">{{ t.yhq_h1 }}</a> › <span>{{ chapter.num }}-bob</span>
+    <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{% if ui_lang == 'ru' %}/ru{% endif %}/yhq/">{{ t.yhq_h1 }}</a> › <span>{{ chapter.label }}</span>
   </nav>
-  <h1 class="d-h1">{{ chapter.num }}-bob. {{ chapter.title }}</h1>
-  <article class="d-card" lang="uz">
+  <h1 class="d-h1">{{ chapter.label }}. {{ chapter.title }}</h1>
+  <article class="d-card" lang="{{ yhq_lang|default:'uz' }}">
     {% for p in chapter.intro %}<p>{{ p }}</p>{% endfor %}
     {% for point in chapter.points %}
     <div class="yhq-point" id="b{{ point.num }}">
@@ -29,7 +29,7 @@
     </div>
     {% if forloop.counter|divisibleby:8 and not forloop.last %}{% include "includes/ad_slot.html" with format="fluid" layout="in-article" slot=ad_slots.in_article %}{% endif %}
     {% endfor %}
-    <p class="d-meta" style="margin-top:12px">{{ t.yhq_source }}: <a href="{{ source }}" target="_blank" rel="noopener">lex.uz — VM 172-son qarori</a></p>
+    <p class="d-meta" style="margin-top:12px">{{ t.yhq_source }}: <a href="{{ source }}" target="_blank" rel="noopener">lex.uz — {% if yhq_lang == 'ru' %}Постановление КМ № 172{% else %}VM 172-son qarori{% endif %}</a></p>
   </article>
   {% include "includes/ad_slot.html" with slot=ad_slots.yhq %}
   {% if questions %}
@@ -46,8 +46,8 @@
   </section>
   {% endif %}
   <div class="d-between">
-    {% if prev_chapter %}<a class="d-btn alt" href="/yhq/{{ prev_chapter.slug }}-bob/" rel="prev">← {{ prev_chapter.num }}-bob</a>{% else %}<span></span>{% endif %}
-    {% if next_chapter %}<a class="d-btn" href="/yhq/{{ next_chapter.slug }}-bob/" rel="next">{{ next_chapter.num }}-bob →</a>{% endif %}
+    {% if prev_chapter %}<a class="d-btn alt" href="{% if ui_lang == 'ru' %}/ru{% endif %}/yhq/{{ prev_chapter.slug }}-bob/" rel="prev">← {{ prev_chapter.label }}</a>{% else %}<span></span>{% endif %}
+    {% if next_chapter %}<a class="d-btn" href="{% if ui_lang == 'ru' %}/ru{% endif %}/yhq/{{ next_chapter.slug }}-bob/" rel="next">{{ next_chapter.label }} →</a>{% endif %}
   </div>
 </main>
 </body>

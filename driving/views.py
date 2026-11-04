@@ -1,6 +1,6 @@
 import json
 import time
-from datetime import timedelta
+from datetime import date, timedelta
 
 from django.conf import settings
 from django.contrib.auth import login, logout
@@ -110,7 +110,7 @@ def question(request, bilet, raqam):
     rule_chapters = []
     for item in q_topics:
         for chapter_slug in yhq.TOPIC_CHAPTERS.get(item["slug"], []):
-            chapter = yhq.chapter(chapter_slug)
+            chapter = yhq.chapter(chapter_slug, yhq.text_lang(lang))
             if chapter and chapter not in rule_chapters:
                 rule_chapters.append(chapter)
 
@@ -615,7 +615,7 @@ def topic(request, slug):
     desc = t["topic_desc"].format(name=name, n=len(questions))
     from driving import yhq
 
-    rule_chapters = [c for c in (yhq.chapter(x) for x in yhq.TOPIC_CHAPTERS.get(slug, [])) if c]
+    rule_chapters = [c for c in (yhq.chapter(x, yhq.text_lang(lang)) for x in yhq.TOPIC_CHAPTERS.get(slug, [])) if c]
     context = {
         "t": t, "slug": slug, "name": name, "questions": questions, "others": others, "rule_chapters": rule_chapters,
         "h1": t["topic_h1"].format(name=name), "count": t["topic_count"].format(n=len(questions)),
@@ -706,14 +706,60 @@ def avtotest_pdf(request):
     return render(request, "driving/pdf.html", context)
 
 
+# ==================== TAYYORLANIŞ QÖLLANMASI ====================
+
+
+def guide(request):
+    """/avtotest/qollanma/ — imtihonga tayyorlaniş qöllanmasi (matn: driving/guide.py)."""
+    from driving.guide import GUIDE, HARD_TOPICS
+
+    lang = _lang(request)
+    t = texts(lang)
+    g = GUIDE.get(lang) or GUIDE["en"]
+    total = AvtoTest.objects.filter(javob__in=LETTERS).count()
+    bilets = AvtoTest.objects.values("bilet").distinct().count()
+
+    def fmt(x):
+        return x.format(n=total, b=bilets, year=date.today().year)
+
+    faq = [(fmt(q), fmt(a)) for q, a in g["faq"]]
+    hard = [
+        {"slug": slug, "name": topics.topic_name(slug, lang)}
+        for slug in HARD_TOPICS if slug in topics.TOPIC_BY_SLUG
+    ]
+    url_lang = _url_lang(request)
+    graph = [
+        _breadcrumbs(lang, url_lang, [("Avtotest", "/avtotest/"), (g["h1"], "/avtotest/qollanma/")]),
+        {
+            "@type": "FAQPage",
+            "mainEntity": [
+                {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq
+            ],
+        },
+    ]
+    context = {
+        "t": t, "g": g, "faq": faq, "hard_topics": hard, "total": total, "bilets": bilets,
+        "lead": fmt(g["lead"]), "exam_points": [fmt(x) for x in g["exam"]],
+        **_seo(fmt(g["title"]), g["desc"], graph),
+    }
+    return render(request, "driving/guide.html", context)
+
+
 # ==================== YO'L HARAKATI QOIDALARI ====================
 
 
-def _yhq_lang_context(request, path):
-    """Rasmiy matn faqat o'zbekcha: /ru/, /en/ versiyalar o'zbekcha sahifaga canonical (dublikat bo'lmasin)."""
-    if getattr(request, "lang_prefix", ""):
-        return {"canonical_url": SITE_URL + path, "hreflang_links": [("uz", SITE_URL + path)]}
-    return {"hreflang_links": [("uz", SITE_URL + path), ("x-default", SITE_URL + path)]}
+def _yhq_lang_context(request, path, text_lang):
+    """Rasmiy matn uz va ru'da. /en/ özbekça matnni körsatadi va özbekça sahifaga canonical (dublikat bölmasin)."""
+    from driving import yhq
+
+    links = [("uz", SITE_URL + path)]
+    if yhq.load("ru")["chapters"]:
+        links.append(("ru", SITE_URL + "/ru" + path))
+    links.append(("x-default", SITE_URL + path))
+    ctx = {"hreflang_links": links, "yhq_lang": text_lang}
+    if getattr(request, "lang_prefix", "") and text_lang == "uz":
+        ctx["canonical_url"] = SITE_URL + path
+    return ctx
 
 
 def yhq_index(request):
@@ -721,21 +767,22 @@ def yhq_index(request):
 
     lang = _lang(request)
     t = texts(lang)
-    data = yhq.load()
-    chapters = data["chapters"]
+    tl = yhq.text_lang(lang)
+    data = yhq.load(tl)
+    chapters = [{**c, "label": yhq.chapter_label(c["num"], tl)} for c in data["chapters"]]
     points = sum(len(c["points"]) for c in chapters)
     graph = [
         _breadcrumbs(lang, _url_lang(request), [(t["yhq_h1"], "/yhq/")]),
         {
-            "@type": "Legislation", "name": "Yo'l harakati qoidalari", "legislationIdentifier": "VM 172",
-            "legislationDate": "2022-04-12", "legislationType": "Qaror", "inLanguage": "uz",
-            "legislationJurisdiction": "UZ", "isBasedOn": yhq.SOURCE_URL, "url": SITE_URL + "/yhq/",
+            "@type": "Legislation", "name": "Правила дорожного движения" if tl == "ru" else "Yöl harakati qoidalari",
+            "legislationIdentifier": "VM 172", "legislationDate": "2022-04-12", "legislationType": "Qaror", "inLanguage": tl,
+            "legislationJurisdiction": "UZ", "isBasedOn": yhq.SOURCE_URLS[tl], "url": SITE_URL + ("/ru" if tl == "ru" else "") + "/yhq/",
         },
     ]
     context = {
-        "t": t, "chapters": chapters, "points": points, "source": yhq.SOURCE_URL, "fetched": data.get("fetched", ""),
+        "t": t, "chapters": chapters, "points": points, "source": yhq.SOURCE_URLS[tl], "fetched": data.get("fetched", ""),
         **_seo(t["yhq_title"], t["yhq_desc"].format(n=len(chapters), p=points), graph),
-        **_yhq_lang_context(request, "/yhq/"),
+        **_yhq_lang_context(request, "/yhq/", tl),
     }
     return render(request, "driving/yhq_index.html", context)
 
@@ -743,16 +790,25 @@ def yhq_index(request):
 def yhq_chapter(request, slug):
     from driving import yhq
 
-    chapter = yhq.chapter(slug)
+    lang = _lang(request)
+    tl = yhq.text_lang(lang)
+    chapter = yhq.chapter(slug, tl)
+    if chapter is None:
+        tl = "uz"  # bu bob ruscha matnda yöq — özbekçasi körsatiladi
+        chapter = yhq.chapter(slug)
     if chapter is None:
         raise Http404
-    lang = _lang(request)
     t = texts(lang)
     sfx = _sfx(lang)
-    chapters = yhq.load()["chapters"]
+    chapters = yhq.load(tl)["chapters"]
     index = next(i for i, c in enumerate(chapters) if c["slug"] == slug)
-    prev_chapter = chapters[index - 1] if index > 0 else None
-    next_chapter = chapters[index + 1] if index < len(chapters) - 1 else None
+
+    def label(c):
+        return {**c, "label": yhq.chapter_label(c["num"], tl)} if c else None
+
+    chapter = label(chapter)
+    prev_chapter = label(chapters[index - 1]) if index > 0 else None
+    next_chapter = label(chapters[index + 1]) if index < len(chapters) - 1 else None
 
     # Shu bobga tegishli mavzulardagi avtotest savollari (ichki havolalar: qoida <-> savol)
     related_topics = [topic for topic, slugs in yhq.TOPIC_CHAPTERS.items() if slug in slugs]
@@ -763,22 +819,24 @@ def yhq_chapter(request, slug):
         for q in AvtoTest.objects.filter(id__in=ids).order_by("bilet", "raqam").values("bilet", "raqam", "savol", "savol" + sfx)[:12]
     ]
     path = f"/yhq/{slug}-bob/"
-    name = f"{chapter['num']}-bob. {chapter['title']}"
+    name = f"{chapter['label']}. {chapter['title']}"
     first = chapter["points"][0]["paragraphs"][0] if chapter["points"] else " ".join(chapter.get("intro", []))
     graph = [
         _breadcrumbs(lang, _url_lang(request), [(t["yhq_h1"], "/yhq/"), (name, path)]),
         {
-            "@type": "Legislation", "name": name, "inLanguage": "uz", "isPartOf": {"@type": "Legislation", "name": "Yo'l harakati qoidalari", "url": SITE_URL + "/yhq/"},
-            "isBasedOn": yhq.SOURCE_URL, "url": SITE_URL + path,
+            "@type": "Legislation", "name": name, "inLanguage": tl,
+            "isPartOf": {"@type": "Legislation", "name": "Правила дорожного движения" if tl == "ru" else "Yöl harakati qoidalari",
+                         "url": SITE_URL + ("/ru" if tl == "ru" else "") + "/yhq/"},
+            "isBasedOn": yhq.SOURCE_URLS[tl], "url": SITE_URL + ("/ru" if tl == "ru" else "") + path,
         },
     ]
     context = {
         "t": t, "chapter": chapter, "prev_chapter": prev_chapter, "next_chapter": next_chapter,
         "questions": questions, "related_topics": [{"slug": tp, "name": topics.topic_name(tp, lang)} for tp in related_topics],
-        "source": yhq.SOURCE_URL,
+        "source": yhq.SOURCE_URLS[tl],
         **_seo(t["yhq_chapter_title"].format(num=chapter["num"], title=chapter["title"]),
                Truncator(f"{name}: {first}").chars(160), graph),
-        **_yhq_lang_context(request, path),
+        **_yhq_lang_context(request, path, tl),
     }
     return render(request, "driving/yhq_chapter.html", context)
 

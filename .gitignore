@@ -117,6 +117,7 @@ db_backup/
 db.sqlite3.bak
 db2.sqlite3
 db_backup/
+docs/
 
 # SSL sertifikat/kalitlar — server SSL'ni cPanel orqali boshqaradi, kodda ishlatilmaydi
 *.crt

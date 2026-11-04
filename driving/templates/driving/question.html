@@ -37,7 +37,7 @@
   <div class="d-card">
     <h2 class="d-h2">📖 {{ t.yhq_rule }}</h2>
     <ul class="d-list">
-      {% for c in rule_chapters %}<li><a href="/yhq/{{ c.slug }}-bob/"><b>{{ c.num }}</b><span>{{ c.title }}</span></a></li>{% endfor %}
+      {% for c in rule_chapters %}<li><a href="{% if ui_lang == 'ru' %}/ru{% endif %}/yhq/{{ c.slug }}-bob/"><b>{{ c.num }}</b><span>{{ c.title }}</span></a></li>{% endfor %}
     </ul>
   </div>
   {% endif %}

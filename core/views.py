@@ -112,7 +112,7 @@ STATIC_SITEMAP_SECTIONS = [
     ("Asosiy sahifalar", [
         ("/", "daily", "1.0"), ("/avtotest/", "weekly", "0.9"), ("/avtotest/imtihon/", "weekly", "0.9"),
         ("/jarimalar/", "weekly", "0.9"), ("/yol-belgilari/", "weekly", "0.8"),
-        ("/avtotest/reyting/", "daily", "0.5"), ("/avtotest/kun-savoli/", "daily", "0.7"), ("/avtotest/pdf/", "monthly", "0.8"), ("/tests/", "weekly", "0.8"),
+        ("/avtotest/reyting/", "daily", "0.5"), ("/avtotest/kun-savoli/", "daily", "0.7"), ("/avtotest/pdf/", "monthly", "0.8"), ("/avtotest/qollanma/", "monthly", "0.8"), ("/tests/", "weekly", "0.8"),
         ("/blog/", "daily", "0.8"), ("/projects/", "weekly", "0.7"),
     ]),
     ("Onlayn vositalar", [
@@ -135,8 +135,13 @@ STATIC_SITEMAP_SECTIONS = [
 ]
 
 
-# Faqat o'zbekcha mavjud sahifalar (rasmiy matn) — /ru/, /en/ versiyalari sitemap'ga kirmaydi
-UZ_ONLY_PREFIXES = ("/yhq/",)
+def _limited_langs(path):
+    """Faqat ayrim tillarda mavjud sahifalar: YHQ rasmiy matni uz va ru'da (/en/ özbekça sahifaga canonical)."""
+    if path.startswith("/yhq/"):
+        from driving import yhq
+
+        return tuple(code for code in yhq.LANGS if code == "uz" or yhq.load(code)["chapters"])
+    return None
 
 
 def sitemap_sections():
@@ -230,12 +235,12 @@ def build_sitemap(slug=None):
             continue
         lines += ["", f"  <!-- {title} ({len(rows)} ta sahifa × {len(SEO_LANGS)} til) -->"]
         for path, lastmod, freq, prio in rows:
-            uz_only = path.startswith(UZ_ONLY_PREFIXES)
-            links = [] if uz_only else [
-                f'    <xhtml:link rel="alternate" hreflang="{code}" href="{escape(href)}"/>'
-                for code, href in alternates(path)
+            langs = _limited_langs(path) or SEO_LANGS
+            pairs = [(c, h) for c, h in alternates(path) if c in langs or c == "x-default"]
+            links = [] if len(langs) < 2 else [
+                f'    <xhtml:link rel="alternate" hreflang="{code}" href="{escape(href)}"/>' for code, href in pairs
             ]
-            for lang in (("uz",) if uz_only else SEO_LANGS):
+            for lang in langs:
                 lines.append("  <url>")
                 lines.append(f"    <loc>{escape(lang_url(path, lang))}</loc>")
                 if lastmod:

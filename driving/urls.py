@@ -9,6 +9,7 @@ urlpatterns = [
     path("avtotest/imtihon/natija.png", views.exam_card, name="avtotest_exam_card"),
     path("avtotest/mavzular/", views.topics_index, name="avtotest_topics"),
     path("avtotest/pdf/", views.avtotest_pdf, name="avtotest_pdf"),
+    path("avtotest/qollanma/", views.guide, name="avtotest_guide"),
     path("avtotest/kun-savoli/", views.daily_question, name="avtotest_daily"),
     path("avtotest/mavzu/<slug:slug>/", views.topic, name="avtotest_topic"),
     path("avtotest/reyting/", views.leaderboard, name="avtotest_leaderboard"),
