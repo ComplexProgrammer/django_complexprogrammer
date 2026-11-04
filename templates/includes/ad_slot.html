@@ -1,0 +1,15 @@
+{% comment %}
+Qayta işlatiladigan Google AdSense bloki.
+  {% include "includes/ad_slot.html" %}                          — oddiy responsive (300x250 mobilda)
+  {% include "includes/ad_slot.html" with slot="1234567890" %}   — alohida ad unit (AdSense hisobotida sahifani ajratiş uçun)
+  {% include "includes/ad_slot.html" with format="autorelaxed" slot="2479701367" %} — multiplex
+Interaktiv elementlardan (javob variantlari, tugmalar) tasodifiy bosiş bölmasligi uçun yuqori/pastdan joy qoldiriladi.
+{% endcomment %}
+<div class="cp-ad-slot" style="margin:32px auto;max-width:100%;clear:both;text-align:center">
+  <ins class="adsbygoogle" style="display:block;text-align:center"
+       data-ad-client="ca-pub-7773722896374259"
+       data-ad-slot="{{ slot|default:'3869366477' }}"
+       data-ad-format="{{ format|default:'auto' }}"{% if not format or format == 'auto' %}
+       data-full-width-responsive="true"{% endif %}></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
