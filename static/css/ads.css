@@ -1,3 +1,4 @@
+
 /* Advertisement styles */
 .ad-container {
     margin: 2rem 0;
@@ -12,8 +13,10 @@
     border-radius: var(--radius-md);
 }
 
+/* Reklama barça ekranlarda (mobil ham) körsatiladi: ilgari mobilda ca-pub-7773722896374259
+   bloklari display:none qilingan va telefon trafikidan daromad tuşmas edi. */
 .adsbygoogle {
-    display: block !important;
+    display: block;
     margin: 0 auto;
     inline-size: 100%;
     max-inline-size: 100%;
@@ -21,24 +24,23 @@
     background: transparent;
 }
 
+/* Google bloki töldirilmasa (unfilled) böş joy qoldirmaymiz */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+    display: none !important;
+}
+
+.ad-container:has(> ins.adsbygoogle[data-ad-status="unfilled"]) {
+    display: none;
+}
+
 @media (max-inline-size: 768px) {
-    .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
-        display: block !important;
-    }
-    .adsbygoogle[data-ad-client="ca-pub-7773722896374259"] {
-        display: none !important;
-    }
     .ad-container {
         margin: 1rem 0;
         min-block-size: 100px;
+        padding: 0.5rem;
     }
-}
 
-@media (min-inline-size: 769px) {
-    .adsbygoogle[data-ad-client="ca-pub-4137874891184814"] {
-        display: none !important;
-    }
-    .adsbygoogle[data-ad-client="ca-pub-7773722896374259"] {
-        display: block !important;
+    .adsbygoogle {
+        min-block-size: 100px;
     }
 }
