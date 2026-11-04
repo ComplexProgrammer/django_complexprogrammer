@@ -86,13 +86,6 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
     
-    <!-- Yandex.RTB Fullscreen (Desktop: R-A-20240413-6, Mobile: R-A-20240413-7) -->
-    <script>window.yaContextCb.push(() => {
-            Ya.Context.AdvManager.render({
-                type: 'fullscreen',
-                blockId: window.matchMedia('(max-width: 768px)').matches ? 'R-A-20240413-7' : 'R-A-20240413-6'
-            })
-        })</script>
     <!-- Yandex.RTB Before content R-A-20240413-2 -->
     <div id="yandex_rtb_R-A-20240413-2"></div>
     <script>window.yaContextCb.push(() => {
@@ -330,6 +323,8 @@
         </div>
     </div>
 
+    {% include "includes/ad_slot.html" %}
+
     {{ bilet_sizes|json_script:"atSizes" }}
     <script>
         // Bilet kartalarini localStorage'dagi natijalar bo'yicha bo'yash va statistika
@@ -542,6 +537,8 @@
             }
         }
     </script>
+    {# Savol bloki tugagandan keyin: javob variantlaridan 32px uzoqda (tasodifiy bosiş bölmasin) #}
+    {% include "includes/ad_slot.html" %}
     {% if questions %}
     <div class="container at-qlist">
         <h2 class="h5">{% if request.LANGUAGE_CODE == 'ru' %}Вопросы билета {{ bilet }} с ответами{% elif request.LANGUAGE_CODE == 'uz' %}{{ bilet }}-bilet savollari va javoblari{% else %}Ticket {{ bilet }} questions with answers{% endif %}</h2>
