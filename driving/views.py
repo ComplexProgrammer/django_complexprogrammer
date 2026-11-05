@@ -161,7 +161,9 @@ def question(request, bilet, raqam):
     title = t["q_title"].format(text=Truncator(text).chars(70), b=bilet, r=raqam)
     # Izoh bölsa — qidiruv natijasidagi tavsifda ham körinsin (noyob matn, bosiş ulushi oşadi)
     desc_template = t["q_desc_expl"] if explanation else t["q_desc"]
-    desc = Truncator(desc_template.format(b=bilet, r=raqam, answer=right, expl=explanation)).chars(160)
+    # Javob nuqta bilan tugasa, şablondagi nuqta bilan «..» bölmasin
+    answer_short = right.rstrip(" .;:")
+    desc = Truncator(desc_template.format(b=bilet, r=raqam, answer=answer_short, expl=explanation)).chars(160)
     context = {
         "t": t, "q": q, "text": text, "answers": answers, "bilet": bilet, "raqam": raqam,
         "siblings": siblings, "prev_url": prev_url, "next_url": next_url,

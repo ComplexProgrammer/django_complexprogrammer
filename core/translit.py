@@ -351,3 +351,33 @@ def convert(text, to=None):
     if to == "cyr":
         return latin_to_cyrillic(text)
     return latin1995_to_2026(text) if to == "lat2026" else latin2026_to_1995(text)
+
+
+# AI yozgan özbekça matnda uçraydigan begona harflar (turkça, ruminça, grekça, kirill «körä» kabi aralaşmalar)
+_STRAY = str.maketrans({
+    "ä": "a", "Ä": "A", "ı": "i", "İ": "I", "ü": "u", "Ü": "U", "š": "ş", "Š": "Ş", "ș": "ş", "Ș": "Ş",
+    "ţ": "t", "ț": "t", "τ": "t", "č": "ç", "Č": "Ç", "ə": "a", "Ə": "A", "ó": "ö", "ò": "ö", "ÿ": "y",
+    "ñ": "n", "è": "e", "é": "e", "ĺ": "l", "ŋ": "ng", "ӧ": "ö", "Ӧ": "Ö", "\xad": "",
+})
+_LETTERS_RUN = re.compile(r"[^\W\d_]+")
+_IS_CYR = re.compile(r"[Ѐ-ӿ]")
+
+
+def clean_uz_latin(text):
+    """Özbek lotin (2026) matnidagi begona belgilarni tuzatadi.
+
+    * turkça/ruminça/grekça harflar: körä → köra, üçun → uçun, beriși → beriş, öτadi → ötadi;
+    * lotin söz içiga aralaşgan kirill harflar: öрнатилган → örnatilgan, nеçа → neça;
+    * alohida turgan kirill bosh harflar (А, Б, В — rasmdagi avtomobil belgilari) özgarmaydi.
+    """
+    if not text:
+        return text
+    text = text.replace('\\"', '"').translate(_STRAY)
+
+    def fix(m):
+        word = m.group(0)
+        if not _IS_CYR.search(word) or (len(word) <= 2 and word.isupper()):
+            return word
+        return cyrillic_to_latin(word, "2026")
+
+    return _LETTERS_RUN.sub(fix, text)
