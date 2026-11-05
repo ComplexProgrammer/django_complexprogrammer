@@ -23,13 +23,16 @@
 .ts-head p { margin: 0; color: var(--ts-muted); }
 
 /* --- Kartalar: tur, guruh, kitob --- */
-.ts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; margin: 8px 0 24px; }
+/* Kartalar kam bölsa ham örtada tursin (justify-content), keng ekranda haddan taşqari çözilmasin (280px) */
+.ts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 280px)); justify-content: center; gap: 16px; margin: 8px 0 24px; }
 .ts-card { display: flex; flex-direction: column; background: var(--ts-card); border: 1px solid var(--ts-line); border-radius: var(--ts-radius);
   overflow: hidden; color: inherit !important; text-decoration: none !important; box-shadow: var(--ts-shadow);
   transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
 .ts-card:hover, .ts-card:focus-visible { transform: translateY(-3px); border-color: var(--ts-accent); box-shadow: 0 10px 28px rgba(79, 70, 229, .16); }
-.ts-card-img { display: block; aspect-ratio: 16 / 9; background: var(--ts-accent-soft); }
-.ts-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* overflow:hidden — flex ustunda rasm öz balandligi bilan blokni çözib yubormasin (kartalar bir xil balandlikda) */
+.ts-card-img { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--ts-accent-soft); }
+/* contain — maktab fanlari rasmlaridagi yozuv («5-SINF») qirqilmasin */
+.ts-card-img img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .ts-card-body { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px 16px; flex: 1; }
 .ts-card-body strong { font-size: 1.08rem; line-height: 1.3; }
 .ts-card-body small { color: var(--ts-muted); }
@@ -145,7 +148,7 @@
   .ts-bar .ts-timer { margin-left: auto; }
   .question-container { padding: 14px; border-radius: 14px; }
   .page-content { font-size: 1.05rem; }
-  .ts-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .ts-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .ts-card-body { padding: 10px 12px 12px; }
   .ts-card-body strong { font-size: .98rem; }
   .ts-tiles { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
