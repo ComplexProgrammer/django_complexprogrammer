@@ -19,7 +19,9 @@ OG_LOCALES = {"uz": "uz_UZ", "ru": "ru_RU", "en": "en_US", "tr": "tr_TR"}
 NOINDEX_PATHS = {"/search/", "/avtotest/xatolar/", "/tests/xatolar/", "/offline/", "/profil/", "/auth/telegram/", "/avtotest/imtihon/natija/",
                  # Instagram yuklovçisi vaqtinça işlamaydi (projects.views.INSTAGRAM_UNAVAILABLE): foydasiz sahifa
                  # qidiruvda turmasin va AdSense "low value content" deb belgilamasin
-                 "/instagram-downloader/"}
+                 "/instagram-downloader/",
+                 # BTC bozorlari: manba (TradeOgre) yopilgan, jadval böş — "low value content" bölmasin
+                 "/cryptomarket/"}
 # canonical/hreflang'da saqlanadigan (sahifa mazmunini o'zgartiradigan) parametrlar
 CANONICAL_PARAMS = ("id", "book_id", "categorie_id", "page")
 

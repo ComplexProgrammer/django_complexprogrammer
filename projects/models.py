@@ -10,7 +10,8 @@ class IsService(models.Manager):
 
 # Bazada Active bo'lsa ham ro'yxatda ko'rsatilmaydigan loyihalar: sahifasi o'chirilgan yoki ishlamaydi
 # (foydalanuvchi 404 yoki "ishlamayapti" sahifasiga tushib qolmasin). Qayta yoqish uchun shu yerdan olib tashlang.
-DISABLED_PROJECT_URLS = ("site_clones", "cartoonize", "instagram-downloader")
+# market: /cryptomarket/ ma'lumot manbai (TradeOgre birjasi) 2025-yilda yopilgan — sahifa böş, /projects/ da körsatilmaydi
+DISABLED_PROJECT_URLS = ("site_clones", "cartoonize", "instagram-downloader", "market")
 
 
 class IsActive(models.Manager):
