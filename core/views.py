@@ -122,7 +122,7 @@ STATIC_SITEMAP_SECTIONS = [
         ("/youtube_downloader/", "monthly", "0.4"),
     ]),
     ("Boşqa bölimlar", [
-        ("/markets/", "weekly", "0.4"), ("/arxiv/", "weekly", "0.4"), ("/cryptomarket/", "daily", "0.4"),
+        ("/markets/", "weekly", "0.4"), ("/arxiv/", "weekly", "0.4"),
     ]),
     ("Öyinlar", [
         ("/snake/", "yearly", "0.3"), ("/snake2/", "yearly", "0.3"), ("/tetris/", "yearly", "0.3"),
