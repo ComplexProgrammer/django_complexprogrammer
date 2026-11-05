@@ -34,6 +34,7 @@ ARTICLES = [
     {
         "key": "pricel",
         "slug": "cs-16-pricel-sozlamalari",
+        "image": "post/images/cs16_pricel_sozlamalari.jpg",
         "seo_title": "CS 1.6 pricel sozlamalari — rang, ölçam va buyruqlar (2026)",
         "seo_description": "CS 1.6 da pricel (crosshair) rangi, ölçami va şaffofligini konsol buyruqlari bilan sozlaş: cl_crosshair_color, cl_crosshair_size, saqlab qöyiş.",
         "uz": {
@@ -192,6 +193,7 @@ cl_dynamiccrosshair 1</code></pre>
     {
         "key": "fps",
         "slug": "cs-16-fps-oshirish",
+        "image": "post/images/cs16_fps_oshirish.jpg",
         "seo_title": "CS 1.6 da FPS oşiriş — buyruqlar va işga tuşiriş parametrlari",
         "seo_description": "CS 1.6 qotsa yoki FPS past bölsa: fps_max, gl_vsync, net_graph buyruqlari, Steam işga tuşiriş parametrlari va kuçsiz kompyuter uçun grafik sozlamalar.",
         "uz": {
@@ -363,6 +365,7 @@ cl_dynamiccrosshair 1</code></pre>
     {
         "key": "headshot",
         "slug": "cs-16-headshot-sozlamalari",
+        "image": "post/images/cs16_headshot_sozlamalari.jpg",
         "seo_title": "CS 1.6 headshot kodlari: haqiqat va işlaydigan sozlamalar",
         "seo_description": "CS 1.6 «headshot kodlari» aslida nima: rate, cl_updaterate, cl_cmdrate, ex_interp tarmoq sozlamalari, siçqonça (m_rawinput) va nişon oliş maslahatlari.",
         "uz": {
@@ -595,7 +598,7 @@ class Command(BaseCommand):
 
         for article in articles:
             fields = {"seo_title": article["seo_title"][:70], "seo_description": article["seo_description"][:200],
-                      "image": IMAGE, "source_url": "", "publish_time": publish_time}
+                      "image": article.get("image", IMAGE), "source_url": "", "publish_time": publish_time}
             for lang, sfx in (("uz", "uz_uz"), ("ru", "ru_ru"), ("en", "en_us")):
                 data = article[lang]
                 fields[f"name_{sfx}"] = data["name"].strip()
