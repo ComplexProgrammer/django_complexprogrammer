@@ -190,6 +190,12 @@ def tests(request):
                 "ru": f"{name} — онлайн-тесты",
                 "en": f"{name} — online tests",
             }.get(lang, f"{name} — onlayn testlar")
+    # Bilet (savollar) sahifasi: brauzer tabida «e-avtomaktab · 1-bilet» körinsin — bir neça tab oçilganda adaşmaslik uçun
+    if topic_id and str(topic_id).isdigit() and _type == "question" and isinstance(type_data, dict) and type_data:
+        book_name = _name(_book(type_data.get("book_id")), lang)
+        topic_name = _name(type_data, lang)
+        suffix = {"ru": "вопросы теста", "en": "test questions"}.get(lang, "test savollari")
+        context["seo_title"] = " · ".join(x for x in (book_name, topic_name) if x) + f" — {suffix}"
     # Har bir kitob sahifasi qidiruvda öz sarlavhasi bilan çiqsin (sitemap'da ?book_id= bilan)
     if book_id and str(book_id).isdigit():
         book = Books.objects.filter(id=book_id, is_deleted=False).select_related("book_type").first()

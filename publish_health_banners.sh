@@ -30,3 +30,4 @@ echo "  Python: ${PYTHON_BIN}"
 echo "========================================================================"
 
 "${PYTHON_BIN}" publish_health_banners.py "$@"
+
