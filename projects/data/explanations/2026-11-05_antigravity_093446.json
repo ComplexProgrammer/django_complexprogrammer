@@ -1,0 +1,42 @@
+{
+ "source": "antigravity",
+ "model": "gemini-3.8-flash",
+ "started": "2026-11-05T09:34:46",
+ "items": [
+  {
+   "id": "a89_3",
+   "uz": "Yöl harakati qoidalariga köra, haydovçi harakatlanişni boşlaş yoki manyovr bajarişda qatnov qismida harakatlanayotgan başqa transport vositalariga yöl berişi şart. Uşbu vaziyatda oq avtomobil haydovçisi manyovr qilişda töğri harakatlanayotgan qizil avtomobilga yöl bermasdan xavf tuğdirgan. Şu sababli yöl-transport hodisasida oq avtomobil haydovçisi aybdor hisoblanadi.",
+   "ru": "Согласно Правилам дорожного движения, перед началом движения или совершением маневра водитель обязан уступить дорогу транспортным средствам, движущимся по проезжей части. В данной ситуации водитель белого автомобиля при маневрировании не уступил дорогу двигавшемуся прямо красному автомобилю. По этой причине виновником дорожно-транспортного происшествия является водитель белого автомобиля.",
+   "en": "According to traffic rules, before starting to move or maneuvering, a driver must yield the right of way to other vehicles moving along the roadway. In this situation, the driver of the white car failed to yield to the red car traveling straight while executing a maneuver. Therefore, the driver of the white car is at fault for the traffic accident.",
+   "confidence": "high"
+  },
+  {
+   "id": "a101_10",
+   "uz": "«Maksimal tezlik çeklangan» belgisi «Amal qiliş bölagi» qöşimça axborot lavhasi bilan birga qöllanganda, tezlik çeklovi faqat şu lavha körsatgan harakat bölagiga tegışli böladi. B va V belgilarida esa minimal tezlik talablari aks etgan. Şu sababli faqat A belgisi belgilangan bölakda körsatilgan tezlikdan oşirmasdan harakatlanişni buyuradi.",
+   "ru": "Знак «Ограничение максимальной скорости» совместно с табличкой «Полоса действия» указывает, что ограничение скорости распространяется только на конкретную полосу движения. Знаки Б и В предписывают минимально допустимую скорость движения. Таким образом, только знак А обязывает не превышать указанную скорость на выделенной полосе.",
+   "en": "The 'Maximum speed limit' sign combined with the 'Lane of action' additional plate indicates that the speed limit applies only to that specific lane. Signs B and C prescribe minimum speed requirements instead. Therefore, only sign A directs drivers not to exceed the indicated speed on the designated lane.",
+   "confidence": "high"
+  },
+  {
+   "id": "a102_1",
+   "uz": "Teng ahamiyatli yöllar çorrahasida öngga burilayotgan haydovçi 'öng qöl' qoidasiga köra ustunlikka ega böladi, çunki uning öng tomonida heç qanday xalaqit yöq. Şu sababli uşbu vaziyatda siz çorrahadan birinçi bölib harakatlanasiz.",
+   "ru": "На перекрёстке равнозначных дорог водитель, поворачивающий направо, имеет преимущество по правилу 'помехи справа', так как справа от него нет других транспортных средств. Поэтому в данной ситуации вы проезжаете перекрёсток первым.",
+   "en": "At an intersection of equivalent roads, a driver turning right has priority under the 'give way to the right' rule because there are no vehicles approaching from their right. Therefore, in this situation, you proceed first.",
+   "confidence": "high"
+  },
+  {
+   "id": "a102_2",
+   "uz": "Yöl harakati qoidalariga köra, köpriklarda, yölötkazgiçlarda, estakadalarda hamda ularning ostida qayrilib oliş qat'iyan taqiqlanadi. Uşbu çeklov mutlaq bölib, körinuvçanlik darajasidan qat'i nazar amal qiladi. Şu sababli körsatilgan yönaliş böyiça qayriliş taqiqlanadi.",
+   "ru": "Согласно Правилам дорожного движения, разворот запрещён на мостах, путепроводах, эстакадах и под ними. Этот запрет является безусловным и действует независимо от дальности видимости дороги. Следовательно, выполнение разворота по указанной траектории запрещается.",
+   "en": "According to Traffic Rules, U-turns are strictly prohibited on bridges, overpasses, viaducts, and underneath them. This restriction is absolute and applies regardless of visibility conditions. Therefore, making a U-turn along the indicated trajectory is prohibited.",
+   "confidence": "high"
+  },
+  {
+   "id": "a102_3",
+   "uz": "Yöl harakati qoidalariga köra, öngga burilişda transport vositasi qatnov qismining öng çetiga imkon qadar yaqin harakatlanişi şart. Şu sababli burilişni faqat öng çetki bölakka olib kiruvçi «A» yönalişi böyiça amalga oşirişga ruxsat etiladi. Ikkinçi bölakka olib boruvçi «Б» trayektoriyasi böyiça buriliş esa qoidalarga ziddir.",
+   "ru": "Согласно Правилам дорожного движения, при повороте направо транспортное средство должно двигаться по возможности ближе к правому краю проезжей части. Поэтому поворот разрешен исключительно по траектории «А» в крайнюю правую полосу. Выполнение поворота во вторую полосу по траектории «Б» правилами запрещено.",
+   "en": "According to traffic rules, when turning right, the driver must keep the vehicle as close as possible to the right edge of the roadway. Therefore, the turn is permitted only along trajectory 'A' into the rightmost lane. Turning into the second lane along trajectory 'Б' is a violation of the rules.",
+   "confidence": "high"
+  }
+ ]
+}

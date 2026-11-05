@@ -1,0 +1,21 @@
+{
+ "source": "antigravity",
+ "model": "gemini-3.8-flash",
+ "started": "2026-11-05T09:26:12",
+ "items": [
+  {
+   "id": "a89_1",
+   "uz": "1.1 «Şlagbaumli temiryöl kesişmasi» ogohlantiruvçi belgisi oldinda şlagbaum bilan jihozlangan temiryöl kesişmasi borligini bildiradi. Mazkur belgi haydovçini xavfli hududga yaqinlaşayotgani haqida oldindan ogohlantirib, tezlikni pasaytirişni talab qiladi. Şuning uçun uşbu vaziyatda töğri javob şlagbaumli temiryöl kesişmasidir.",
+   "ru": "Предупреждающий знак 1.1 «Железнодорожный переезд со шлагбаумом» информирует водителя о приближении к переезду, оборудованному шлагбаумом. Данный знак требует от водителя заранее снизить скорость и проявить повышенное внимание. Таким образом, правильным ответом является железнодорожный переезд со шлагбаумом.",
+   "en": "Warning sign 1.1 'Railway crossing with barrier' alerts drivers that they are approaching a level crossing equipped with a barrier. This sign requires the driver to reduce speed and exercise heightened attention in advance. Therefore, the correct answer is a railway crossing with a barrier.",
+   "confidence": "high"
+  },
+  {
+   "id": "a89_2",
+   "uz": "Yöl harakati qoidalariga köra, köpriklarda, estakadalarda, taqiqlovçi belgilar hamda yaxlit yöl çiziqlari ta'sir doirasida töxtaş yoki manyovr bajariş taqiqlanadi. Mazkur vaziyatda qora va kulrang avtomobil haydovçilari tegişli talablarga zid ravişda harakatlanib, qoidalarni buzmoqda. Şu sababli, har ikkala haydovçi ham qoidani buzmoqda.",
+   "ru": "Согласно Правилам дорожного движения, остановка, стоянка и совершение маневров в зоне действия запрещающих знаков, на мостах или сплошных линиях разметки запрещены. В данной дорожной ситуации оба водителя нарушают указанные требования правил. Таким образом, правила нарушают оба водителя.",
+   "en": "According to Traffic Rules, stopping, parking, and maneuvering in violation of prohibitive signs, markings, or bridge restrictions are not allowed. In this traffic situation, both the black and grey car drivers fail to comply with these rules. Therefore, both drivers are violating the Traffic Rules.",
+   "confidence": "high"
+  }
+ ]
+}
