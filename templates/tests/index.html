@@ -1,1473 +1,227 @@
 {% load i18n %}
-{% load static %}
-{% comment %}
-{% load jsonify %}
-{% endcomment %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
 <!DOCTYPE html>
 <html lang="{{ ui_lang }}">
-
 <head>
-
   <meta charset="UTF-8">
 {% include "includes/head_common.html" %}
-  {% if request.LANGUAGE_CODE == 'uz' %}
-  
-  {% else %}
-  {% if request.LANGUAGE_CODE == 'ru' %}
-  
-  {% else %}
-  
-  {% endif %}
-  {% endif %}
-  {% if request.LANGUAGE_CODE == 'uz' %}
-  {% verbatim %}
-  
-  {% endverbatim %}
-  {% else %}
-  {% if request.LANGUAGE_CODE == 'ru' %}
-  {% verbatim %}
-  
-  {% endverbatim %}
-  {% else %}
-  {% verbatim %}
-  
-  {% endverbatim %}
-  {% endif %}
-  {% endif %}
-  <meta property="og:image" content="/media/projects/images/test.png" />
-  <!--  -->
-
+  <meta property="og:image" content="/media/projects/images/test.png">
   <link rel="icon" sizes="16x16" href="/static/img/avtotest.png">
-  <link rel="stylesheet" href="/static/css/C0mplexButtonStyle.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css" />
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
-  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-    integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
-  <script src="/static/js/three-guard.js"></script>
-  <link rel="stylesheet" href="/static/css/tests.css?v=1">
-  <style>
-    /* Hero Section for Tests */
-    .tests-hero {
-      background: var(--primary-gradient);
-      padding: 80px 0 60px;
-      margin-bottom: 50px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tests-hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-      z-index: 0;
-    }
-
-    .tests-hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .tests-hero-title {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .tests-hero-subtitle {
-      font-size: clamp(1.1rem, 3vw, 1.3rem);
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 400;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    #services .services {
-      flex-direction: column;
-      text-align: center;
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 100px 0;
-    }
-
-    #services .service-top {
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    #services .service-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 50px;
-      gap: 2rem;
-    }
-
-    /* Enhanced 3D Service Cards */
-    #services .service-item {
-      flex-basis: calc(25% - 2rem);
-      min-width: 280px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      flex-direction: column;
-      padding: 2rem;
-      border-radius: 28px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--card-shadow-3d);
-      margin: 0;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-      height: 350px;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-      transform-style: preserve-3d;
-      perspective: var(--perspective);
-    }
-
-    /* 3D Glow Effect on Hover */
-    #services .service-item::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent 70%);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s ease, height 0.6s ease;
-      z-index: 0;
-    }
-
-    /* Dark mode for service-item */
-    [data-theme="dark"] #services .service-item {
-      background: rgba(30, 30, 46, 0.4);
-      border-color: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    [data-theme="dark"] #services .service-item:hover {
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    #services .service-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--primary-gradient);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: 1;
-      border-radius: 24px;
-    }
-
-    /* Enhanced 3D Hover Effects */
-    #services .service-item:hover {
-      transform: translateY(-12px) translateZ(30px) rotateX(3deg) rotateY(2deg) scale(1.03);
-      box-shadow: var(--card-shadow-hover);
-      border-color: rgba(99, 102, 241, 0.5);
-    }
-
-    #services .service-item:hover::before {
-      opacity: 0.15;
-    }
-
-    #services .service-item:hover::after {
-      width: 400px;
-      height: 400px;
-    }
-
-    /* Active/Click State */
-    #services .service-item:active {
-      transform: translateY(-8px) translateZ(20px) scale(1.01);
-      transition: all 0.1s ease;
-    }
-
-    /* Enhanced 3D Icon Container */
-    #services .service-item .icon {
-      width: 120px;
-      height: 120px;
-      margin-bottom: 20px;
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-      z-index: 2;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2), 0 4px 10px rgba(0, 0, 0, 0.1);
-      transform-style: preserve-3d;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    #services .service-item .icon::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--primary-gradient);
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      z-index: 1;
-      mix-blend-mode: overlay;
-    }
-
-    #services .service-item:hover .icon {
-      transform: scale(1.15) translateZ(20px) rotateY(5deg);
-      box-shadow: 0 12px 35px rgba(99, 102, 241, 0.35), 0 6px 15px rgba(0, 0, 0, 0.15);
-      border-color: rgba(99, 102, 241, 0.4);
-    }
-
-    #services .service-item:hover .icon::before {
-      opacity: 0.2;
-    }
-
-    #services .service-item .icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 16px;
-      transition: all 0.3s ease;
-    }
-
-    /* Dark mode for icons */
-    [data-theme="dark"] #services .service-item .icon {
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    [data-theme="dark"] #services .service-item:hover .icon {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    #services .service-item h2 {
-      font-size: 1.5rem;
-      color: var(--text-color);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      font-weight: 700;
-      position: relative;
-      z-index: 2;
-      transition: all 0.3s ease;
-    }
-
-    #services .service-item:hover h2 {
-      color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      transform: translateY(-2px);
-    }
-
-    #services .service-item p {
-      color: var(--text-color);
-      text-align: start;
-      opacity: 0.7;
-      position: relative;
-      z-index: 2;
-      transition: all 0.3s ease;
-    }
-
-    #services .service-item:hover p {
-      color: rgba(255, 255, 255, 0.9);
-      opacity: 1;
-    }
-
-    /* Dark mode text colors */
-    [data-theme="dark"] #services .service-item h2 {
-      color: #ffffff;
-    }
-
-    [data-theme="dark"] #services .service-item p {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    [data-theme="dark"] #services .service-item:hover h2 {
-      color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    [data-theme="dark"] #services .service-item:hover p {
-      color: rgba(255, 255, 255, 0.95);
-      opacity: 1;
-    }
-
-    #services .service-item .C0mplexButton {
-      position: relative;
-      z-index: 2;
-      margin-top: auto;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 1200px) {
-      #services .service-item {
-        flex-basis: calc(33.333% - 2rem);
-      }
-    }
-
-    @media (max-width: 768px) {
-      #services .service-item {
-        flex-basis: calc(50% - 1rem);
-        min-width: 250px;
-        height: 300px;
-        padding: 1.5rem;
-      }
-
-      #services .service-item .icon {
-        width: 80px;
-        height: 80px;
-      }
-
-      #services .service-item h2 {
-        font-size: 1.2rem;
-      }
-
-      /* Dark mode mobile adjustments */
-      [data-theme="dark"] #services .service-item {
-        background: rgba(30, 30, 46, 0.5);
-        border-color: rgba(255, 255, 255, 0.15);
-      }
-    }
-
-    @media (max-width: 480px) {
-      #services .service-item {
-        flex-basis: 100%;
-        min-width: 100%;
-        height: 280px;
-        padding: 1rem;
-      }
-
-      /* Dark mode mobile small adjustments */
-      [data-theme="dark"] #services .service-item {
-        background: rgba(30, 30, 46, 0.6);
-        border-color: rgba(255, 255, 255, 0.2);
-      }
-    }
-  </style>
-
-  <style>
-    :root {
-      --bg-color: #ffffff;
-      --text-color: #212121;
-      --card-bg: #ffffff;
-      --border-color: #e0e0e0;
-      transition: all 0.3s ease;
-    }
-
-    [data-theme="dark"] {
-      --bg-color: #212121;
-      --text-color: #ffffff;
-      --card-bg: #2d2d2d;
-      --border-color: #444;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: all 0.3s ease;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border-color: var(--border-color);
-    }
-
-    /* Add table styles for dark mode */
-    [data-theme="dark"] .table {
-      color: var(--text-color);
-    }
-
-    [data-theme="dark"] .table-hover tbody tr:hover {
-      background-color: rgba(255, 255, 255, 0.075);
-      color: var(--text-color);
-    }
-
-    [data-theme="dark"] .table thead th {
-      color: var(--text-color);
-      border-bottom-color: var(--border-color);
-    }
-
-    [data-theme="dark"] .table td {
-      border-color: var(--border-color);
-    }
-
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      padding: 8px 12px;
-      border-radius: 5px;
-      border: 1px solid var(--border-color);
-      background: var(--card-bg);
-      color: var(--text-color);
-      cursor: pointer;
-      z-index: 1000;
-    }
-  </style>
-  <script>
-    // Initialize theme on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      updateThemeButton(savedTheme);
-    });
-
-    function toggleTheme() {
-      const html = document.documentElement;
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-      html.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-
-      // Tugmani yangilash
-      updateThemeButton(newTheme);
-
-      // Tugma animatsiyasi
-      const button = document.getElementById('themeButton');
-      button.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        button.style.transform = '';
-      }, 150);
-    }
-
-    function updateThemeButton(theme) {
-      const button = document.getElementById('themeButton');
-      const icon = theme === 'light' ? 'fa-moon' : 'fa-sun';
-      const text = theme === 'light' ? 'Tun' : 'Kun';
-      const title = theme === 'light' ? 'Tun rejimiga o\'tish' : 'Kun rejimiga o\'tish';
-
-      button.innerHTML = `<i class="fas ${icon}"></i><span class="theme-toggle-text">${text}</span>`;
-      button.title = title;
-    }
-  </script>
-  <!-- Theme toggle tugmasini yangilash -->
-  <button id="themeButton" class="theme-toggle" onclick="toggleTheme()" title="Kun/Tun rejimini özgartiriş">
-    <i class="fas fa-moon"></i>
-    <span class="theme-toggle-text">Tun</span>
-  </button>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      /* Color variables */
-      --primary-color: #0072e5;
-      --secondary-color: #475569;
-      --success-color: #22c55e;
-      --danger-color: #ef4444;
-      --warning-color: #f59e0b;
-      --info-color: #3399ff;
-
-      /* Light theme */
-      --bg-color: #ffffff;
-      --text-color: #1e293b;
-      --card-bg: #ffffff;
-      --border-color: #e2e8f0;
-      --shadow-color: rgba(0, 0, 0, 0.1);
-      --question-bg: #ffffff;
-      --option-bg: #f8fafc;
-      --option-hover: #f1f5f9;
-      --option-border: #e2e8f0;
-      --option-text: #1e293b;
-    }
-
-    [data-theme="dark"] {
-      --bg-color: #0a1929;
-      --text-color: #e7ebf0;
-      --card-bg: #132f4c;
-      --border-color: #1e4976;
-      --shadow-color: rgba(0, 0, 0, 0.4);
-      --question-bg: #132f4c;
-      --option-bg: #173a5e;
-      --option-hover: #1e4976;
-      --option-border: #265d97;
-      --option-text: #e7ebf0;
-      --primary-color: #3399ff;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: all 0.3s ease;
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      border-color: var(--border-color);
-      box-shadow: 0 4px 6px var(--shadow-color);
-    }
-
-    .page-content {
-      background-color: var(--card-bg) !important;
-      color: var(--text-color);
-      border: 1px solid var(--border-color);
-    }
-
-    /* List group styles */
-    .list-group-item {
-      background-color: var(--option-bg);
-      color: var(--option-text);
-      border-color: var(--option-border);
-      transition: all 0.2s ease;
-    }
-
-    .list-group-item:hover:not(.disabledDiv) {
-      background-color: var(--option-hover);
-      border-color: var(--option-border);
-      transform: translateX(8px);
-    }
-
-    /* CSS logical properties */
-    .table thead th {
-      border-block-end-color: var(--border-color);
-    }
-
-    [dir="ltr"] .list-group-item:hover:not(.disabledDiv) {
-      transform: translateX(var(--spacing-sm));
-    }
-
-    [dir="rtl"] .list-group-item:hover:not(.disabledDiv) {
-      transform: translateX(calc(var(--spacing-sm) * -1));
-    }
-
-    /* Enhanced 3D Theme Toggle Button - Fixed Position */
-    .theme-toggle {
-      position: fixed !important;
-      top: 20px !important;
-      right: 20px !important;
-      width: 65px;
-      height: 65px;
-      padding: 0;
-      border: 2px solid var(--glass-border);
-      border-radius: 50%;
-      background: var(--glass-bg);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
-      color: var(--text-color);
-      cursor: pointer;
-      box-shadow: var(--card-shadow-3d);
-      z-index: 9999 !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      font-weight: 600;
-      font-size: 1.1rem;
-      overflow: hidden;
-      transform-style: preserve-3d;
-    }
-
-    .theme-toggle::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--primary-gradient);
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      border-radius: 50%;
-    }
-
-    .theme-toggle::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent 70%);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s ease, height 0.6s ease;
-    }
-
-    .theme-toggle:hover {
-      transform: translateY(-5px) translateZ(15px) scale(1.1);
-      box-shadow: var(--card-shadow-hover);
-      border-color: rgba(99, 102, 241, 0.6);
-    }
-
-    .theme-toggle:hover::before {
-      opacity: 1;
-    }
-
-    .theme-toggle:hover::after {
-      width: 120%;
-      height: 120%;
-    }
-
-    .theme-toggle:active {
-      transform: translateY(-2px) translateZ(10px) scale(1.05);
-      transition: all 0.1s ease;
-    }
-
-    .theme-toggle i {
-      font-size: 1.6rem;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      z-index: 1;
-    }
-
-    .theme-toggle:hover i {
-      transform: rotate(360deg) scale(1.15);
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
-    }
-
-    /* Theme toggle text - Fixed */
-    .theme-toggle-text {
-      position: absolute;
-      bottom: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.7rem;
-      font-weight: 500;
-      color: var(--text-color);
-      opacity: 0.7;
-      white-space: nowrap;
-      transition: all 0.3s ease;
-      z-index: 10000;
-      pointer-events: none;
-    }
-
-    .theme-toggle:hover .theme-toggle-text {
-      opacity: 1;
-      color: white;
-    }
-
-    /* Ensure theme toggle stays on top of everything */
-    #themeButton {
-      position: fixed !important;
-      z-index: 10000 !important;
-    }
-
-    /* Table styles */
-    .table {
-      color: var(--text-color);
-    }
-
-    .table-hover tbody tr:hover {
-      background-color: var(--option-hover);
-      color: var(--text-color);
-    }
-
-    .table thead th {
-      color: var(--text-color);
-      border-bottom-color: var(--border-color);
-    }
-
-    .table td {
-      border-color: var(--border-color);
-    }
-
-    /* Success/Error states */
-    .list-group-item.list-group-item-success {
-      background-color: var(--success-color);
-      color: white;
-      border-color: transparent;
-    }
-
-    .list-group-item.list-group-item-danger {
-      background-color: var(--danger-color);
-      color: white;
-      border-color: transparent;
-    }
-
-    /* Enhanced 3D Modal Styles */
-    .modal-content {
-      background: linear-gradient(135deg,
-          rgba(255, 255, 255, 0.95),
-          rgba(248, 250, 252, 0.9)) !important;
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border: 2px solid rgba(99, 102, 241, 0.3) !important;
-      border-radius: 28px !important;
-      box-shadow:
-        0 20px 60px rgba(99, 102, 241, 0.25),
-        0 8px 24px rgba(0, 0, 0, 0.15),
-        inset 0 2px 8px rgba(255, 255, 255, 0.5) !important;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      animation: modalFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    [data-theme="dark"] .modal-content {
-      background: linear-gradient(135deg,
-          rgba(30, 30, 46, 0.98),
-          rgba(15, 23, 42, 0.95)) !important;
-      border: 2px solid rgba(129, 140, 248, 0.4) !important;
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        0 8px 24px rgba(129, 140, 248, 0.2),
-        inset 0 2px 8px rgba(255, 255, 255, 0.1) !important;
-    }
-
-    .modal-header {
-      border-bottom: 2px solid rgba(99, 102, 241, 0.2) !important;
-      color: var(--text-color) !important;
-      padding: 1.5rem 2rem !important;
-      background: linear-gradient(135deg,
-          rgba(99, 102, 241, 0.08),
-          rgba(236, 72, 153, 0.05));
-      position: relative;
-      overflow: hidden;
-    }
-
-    .modal-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent);
-      animation: shimmer 3s infinite;
-    }
-
-    [data-theme="dark"] .modal-header {
-      border-bottom-color: rgba(129, 140, 248, 0.3) !important;
-      background: linear-gradient(135deg,
-          rgba(129, 140, 248, 0.12),
-          rgba(244, 114, 182, 0.08));
-    }
-
-    .modal-header .modal-title {
-      font-weight: 800 !important;
-      font-size: 1.5rem !important;
-      background: var(--primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      position: relative;
-      z-index: 1;
-    }
-
-    .modal-body {
-      color: var(--text-color) !important;
-      padding: 2rem !important;
-      position: relative;
-      z-index: 1;
-    }
-
-    .modal-body>div {
-      border-radius: 16px !important;
-      padding: 1rem 1.5rem !important;
-      margin-bottom: 1rem !important;
-      font-weight: 600 !important;
-      font-size: 1.1rem !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
-      transition: all 0.3s ease;
-    }
-
-    .modal-body>div:hover {
-      transform: translateX(8px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12) !important;
-    }
-
-    .modal-footer {
-      border-top: 2px solid rgba(99, 102, 241, 0.2) !important;
-      padding: 1.5rem 2rem !important;
-      background: linear-gradient(135deg,
-          rgba(99, 102, 241, 0.05),
-          rgba(236, 72, 153, 0.03));
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    [data-theme="dark"] .modal-footer {
-      border-top-color: rgba(129, 140, 248, 0.3) !important;
-      background: linear-gradient(135deg,
-          rgba(129, 140, 248, 0.08),
-          rgba(244, 114, 182, 0.05));
-    }
-
-    .modal-footer .btn {
-      border-radius: 14px !important;
-      padding: 0.75rem 1.5rem !important;
-      font-weight: 700 !important;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-    }
-
-    .modal-footer .btn::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.6s ease, height 0.6s ease;
-    }
-
-    .modal-footer .btn:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2) !important;
-    }
-
-    .modal-footer .btn:hover::before {
-      width: 300px;
-      height: 300px;
-    }
-
-    .modal-footer .btn-outline-secondary {
-      border: 2px solid rgba(99, 102, 241, 0.4) !important;
-      color: var(--text-color) !important;
-    }
-
-    .modal-footer .btn-outline-primary {
-      border: 2px solid rgba(99, 102, 241, 0.6) !important;
-      color: var(--color-primary) !important;
-      background: rgba(99, 102, 241, 0.1) !important;
-    }
-
-    .modal-footer .btn-outline-danger {
-      border: 2px solid rgba(239, 68, 68, 0.6) !important;
-      color: var(--danger-color) !important;
-      background: rgba(239, 68, 68, 0.1) !important;
-    }
-
-    .modal-footer .btn-outline-success {
-      border: 2px solid rgba(16, 185, 129, 0.6) !important;
-      color: var(--success-color) !important;
-      background: rgba(16, 185, 129, 0.1) !important;
-    }
-
-    @keyframes modalFadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9) translateY(-20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-
-    @keyframes shimmer {
-      0% {
-        left: -100%;
-      }
-
-      100% {
-        left: 100%;
-      }
-    }
-
-    /* Modal backdrop enhancement */
-    .modal-backdrop {
-      backdrop-filter: blur(8px);
-      background-color: rgba(15, 23, 42, 0.7) !important;
-    }
-
-    [data-theme="dark"] .modal-backdrop {
-      background-color: rgba(0, 0, 0, 0.85) !important;
-    }
-  </style>
+  {# Bootstrap faqat bitta versiya: natija oynasi (modal) va izohlar formasi uçun #}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css">
+  <link rel="stylesheet" href="/static/css/tests.css?v=2">
 </head>
-
-<body>
+<body class="ts-page">
 <script>window.CP_LANG_PREFIX = "{{ lang_prefix }}";</script>
 {% include "includes/site_header.html" %}
-{% include "includes/seo_intro.html" %}
-  <!-- Three.js Background Canvas -->
-  <canvas id="threejs-canvas"></canvas>
 
-  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid"
-    data-ad-client="ca-pub-7773722896374259" data-ad-slot="2303661293"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+<main class="ts-main">
+  {% if crumbs %}
+  <nav class="ts-crumbs" aria-label="breadcrumb">
+    {% for name, url in crumbs %}{% if url %}<a href="{{ lang_prefix }}{{ url }}">{{ name }}</a><span aria-hidden="true">›</span>{% else %}<span aria-current="page">{{ name }}</span>{% endif %}{% endfor %}
+  </nav>
+  {% endif %}
 
-  <!-- Yandex.RTB Before content R-A-20240413-2 -->
-  <div id="yandex_rtb_R-A-20240413-2"></div>
-  <script>window.yaContextCb.push(() => {
-      Ya.Context.AdvManager.render({
-        renderTo: 'yandex_rtb_R-A-20240413-2',
-        blockId: 'R-A-20240413-2'
-      })
-    })</script>
-  <div id="conn"
-    style="visibility:hidden;position:absolute;margin-inline-start:45%;margin-block-start:20%;z-index:9999">
-    <img src="/static/img/buffering.gif" />
+{% if type == 'question' %}
+  {# ==================== SAVOLLARNI YEÇIŞ ==================== #}
+  <div class="ts-quiz">
+    <div class="ts-bar">
+      <a class="ts-back" href="{{ lang_prefix }}/tests/?book_id={{ type_obj.book_id }}">←<span> {% if ui_lang == 'ru' %}Билеты{% elif ui_lang == 'en' %}Tickets{% else %}Biletlar{% endif %}</span></a>
+      <h1 class="ts-title">{{ level_name }}</h1>
+      <div class="ts-timer" id="timer" aria-label="{% if ui_lang == 'ru' %}Время{% elif ui_lang == 'en' %}Time{% else %}Vaqt{% endif %}">00:00</div>
+      <button type="button" class="ts-stop" id="tsStop">{% if ui_lang == 'ru' %}Завершить{% elif ui_lang == 'en' %}Finish{% else %}Yakunlaş{% endif %}</button>
+    </div>
+
+    <nav class="ts-nav" aria-label="{% if ui_lang == 'ru' %}Вопросы{% elif ui_lang == 'en' %}Questions{% else %}Savollar{% endif %}">
+      <a class="ts-arrow" href="#" id="tsPrev" aria-label="Previous">‹</a>
+      <ul class="pagination ts-pages" id="tsPages"></ul>
+      <a class="ts-arrow" href="#" id="tsNext" aria-label="Next">›</a>
+    </nav>
+
+    <section class="question-container">
+      <h2 class="page-content" id="tsQTitle"></h2>
+      <img id="tsQImage" class="question-image" alt="" hidden>
+      <div class="list-group ts-answers" id="tsAnswers"></div>
+      <div class="ts-expl" id="tsExpl" hidden></div>
+      <small class="ts-kbd" id="tsKbd"></small>
+    </section>
+
+    <div id="conn" class="ts-loader" aria-hidden="true"><span class="spinner-border text-primary"></span></div>
   </div>
-  <input id="hh" type="hidden" />
-  <audio id="click" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/sounds/click.mp3" type="audio/mpeg" />
-  </audio>
-  <audio id="right" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/sounds/right.mp3" type="audio/mpeg" />
-  </audio>
-  <audio id="wrong" controls="controls" style="position:absolute;visibility:hidden">
-    <source src="/static/sounds/wrong.mp3" type="audio/mpeg" />
-  </audio>
-  {% if type == 'question' %}
-  <!-- Bilet natijasi -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+  {# Natija oynasi — ID'lar static/js/tests-quiz.js bilan bağliq #}
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+      <div class="modal-content ts-result">
         <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">{% if request.LANGUAGE_CODE == 'ru' %}Результат: {{ type_obj.name_ru_ru }}{% elif request.LANGUAGE_CODE == 'en' %}{{ type_obj.name_en_us }} result{% else %}{{ type_obj.name_uz_uz }} natijasi{% endif %}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel">{% if ui_lang == 'ru' %}Результат: {{ type_obj.name_ru_ru }}{% elif ui_lang == 'en' %}{{ type_obj.name_en_us }} result{% else %}{{ type_obj.name_uz_uz }} natijasi{% endif %}</h5>
           <button type="button" id="tsClose" hidden class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="p-3 mb-2 bg-secondary text-white" id="tsUnmarked" hidden></div>
-          <div class="p-3 mb-2 bg-success text-white" id="tsRight" hidden></div>
-          <div class="p-3 mb-2 bg-danger text-white" id="tsWrong" hidden></div>
+          <div class="ts-res ts-res-right" id="tsRight" hidden></div>
+          <div class="ts-res ts-res-wrong" id="tsWrong" hidden></div>
+          <div class="ts-res ts-res-skip" id="tsUnmarked" hidden></div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="tsContinue" hidden class="btn btn-outline-secondary" style="inline-size:200px"
-            data-bs-dismiss="modal"><i class="bi bi-chevron-double-right"></i> {% if request.LANGUAGE_CODE == 'ru' %}Продолжить{% elif request.LANGUAGE_CODE == 'en' %}Continue{% else %}Davom etiş{% endif %}</button>
-          <button type="button" id="tsNextTopic" hidden class="btn btn-outline-primary" style="inline-size:200px"><i
-              class="bi bi-box-arrow-right"></i> {% if request.LANGUAGE_CODE == 'ru' %}Следующий билет{% elif request.LANGUAGE_CODE == 'en' %}Go to the next ticket{% else %}Keyingi biletga ötiş{% endif %}</button>
-          <button type="button" id="tsBack" class="btn btn-outline-danger" style="inline-size:200px"><i
-              class="bi bi-backspace"></i> {% if request.LANGUAGE_CODE == 'ru' %}Вернуться к билетам{% elif request.LANGUAGE_CODE == 'en' %}Back to tickets{% else %}Biletlarga qaytiş{% endif %}</button>
-          <button type="button" id="tsRestart" class="btn btn-outline-success" style="inline-size:200px"><i
-              class="bi bi-arrow-repeat"></i> {% if request.LANGUAGE_CODE == 'ru' %}Начать сначала{% elif request.LANGUAGE_CODE == 'en' %}Start over{% else %}Boşidan boşlaş{% endif %}</button>
+          <button type="button" id="tsContinue" hidden class="btn btn-light" data-bs-dismiss="modal">{% if ui_lang == 'ru' %}Продолжить{% elif ui_lang == 'en' %}Continue{% else %}Davom etiş{% endif %}</button>
+          <button type="button" id="tsNextTopic" hidden class="btn btn-primary">{% if ui_lang == 'ru' %}Следующий билет →{% elif ui_lang == 'en' %}Next ticket →{% else %}Keyingi bilet →{% endif %}</button>
+          <button type="button" id="tsRestart" class="btn btn-outline-primary">↻ {% if ui_lang == 'ru' %}Заново{% elif ui_lang == 'en' %}Start over{% else %}Qaytadan{% endif %}</button>
+          <button type="button" id="tsBack" class="btn btn-outline-secondary">{% if ui_lang == 'ru' %}К билетам{% elif ui_lang == 'en' %}Back to tickets{% else %}Biletlarga qaytiş{% endif %}</button>
         </div>
       </div>
     </div>
   </div>
-  {% endif %}
-
-  <hr />
-  {% if type == 'question' %}
-  <div class="wrapper">
-    <div class="container">
-      <div class="C0mplexButton float-end" id="tsStop" title="{% if request.LANGUAGE_CODE == 'ru' %}Завершить{% elif request.LANGUAGE_CODE == 'en' %}Finish{% else %}Yakunlash{% endif %}">
-        <a href="#">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          X
-        </a>
-      </div>
-      <div class="cp-h1 h1" style="color:green">
-        <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank" rel="noopener">
-          {% if request.LANGUAGE_CODE == 'ru' %}{{ type_obj.name_ru_ru }}{% elif request.LANGUAGE_CODE == 'en' %}{{ type_obj.name_en_us }}{% else %}{{ type_obj.name_uz_uz }}{% endif %}
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank" rel="noopener">
-          <img src="/static/img/google-play.svg" alt="Google Play" />
-        </a>
-      </div>
-      <div class="cp-h1 h1" id="timer">00:00</div>
-      <nav aria-label="{% if request.LANGUAGE_CODE == 'ru' %}Вопросы{% elif request.LANGUAGE_CODE == 'en' %}Questions{% else %}Savollar{% endif %}" class="ts-nav">
-        <a class="page-link" href="#" id="tsPrev" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        <ul class="pagination ts-pages" id="tsPages"></ul>
-        <a class="page-link" href="#" id="tsNext" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-      </nav>
-      <div class="question-container">
-        <h4 class="page-content" id="tsQTitle"></h4>
-        <img id="tsQImage" class="question-image" width="30%" alt="" hidden>
-        <div class="list-group" style="text-align:start" id="tsAnswers"></div>
-        <div class="alert alert-info mt-3" id="tsExpl" hidden></div>
-        <small class="d-block mt-2 text-muted ts-kbd-hint" id="tsKbd"></small>
-      </div>
-    </div>
-  </div>
-  <style>
-    .ts-nav{display:flex;align-items:flex-start;justify-content:center;gap:6px;margin:12px 0}
-    .ts-nav>.page-link{border-radius:8px;flex:0 0 auto}
-    .ts-pages{flex-wrap:wrap;justify-content:center;gap:4px;margin:0;max-height:132px;overflow-y:auto;padding:2px}
-    .ts-pages .page-link{min-width:40px;text-align:center;border-radius:8px!important}
-    .ts-pages .active .page-link{outline:3px solid #6366f1;outline-offset:1px}
-  </style>
   {{ type_obj|json_script:"ts-topic" }}
-  {%else%}
 
-  <section id="services">
-    <div class="services container">
-      <div class="service-top">
-        <h2>
-          <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
-            {% if type == 'type' %}
-            {% if request.LANGUAGE_CODE == 'uz' %}
-            Testlar
-            {% else %}
-            {% if request.LANGUAGE_CODE == 'ru' %}
-            Тесты
-            {% else %}
-            Tests
-            {% endif %}
-            {% endif %}
-            {%else%}
-            {% if request.LANGUAGE_CODE == 'ru' %}{{ type_obj.name_ru_ru }}{% elif request.LANGUAGE_CODE == 'en' %}{{ type_obj.name_en_us }}{% else %}{{ type_obj.name_uz_uz }}{% endif %}
-            {%endif%}
-          </a>
-          <br />
-          <br />
-          <a href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank">
-            <img src="/static/img/google-play.svg" />
-          </a>
-        </h2>
-      </div>
-      {% if type == 'topic' %}
-      <div class="ts-stats" id="tsStats" data-book="{{ request.GET.book_id|default:'' }}" hidden>
-        <div><b id="tsDone">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}пройдено{% elif request.LANGUAGE_CODE == 'uz' %}yeçilgan{% else %}completed{% endif %}</span></div>
-        <div><b id="tsPassed">0</b><span>{% if request.LANGUAGE_CODE == 'ru' %}сдано{% elif request.LANGUAGE_CODE == 'uz' %}ötilgan{% else %}passed{% endif %}</span></div>
-        <div><b id="tsAccuracy">—</b><span>{% if request.LANGUAGE_CODE == 'ru' %}точность{% elif request.LANGUAGE_CODE == 'uz' %}aniqlik{% else %}accuracy{% endif %}</span></div>
-        <a href="{{ lang_prefix }}/tests/xatolar/" class="ts-btn ts-mistakes" id="tsMistakes">❌ {% if request.LANGUAGE_CODE == 'ru' %}Мои ошибки{% elif request.LANGUAGE_CODE == 'uz' %}Xatolarim{% else %}My mistakes{% endif %} <b id="tsMistakesCount">0</b></a>
-        <a href="#" class="ts-btn ts-random" id="tsRandom">🎲 {% if request.LANGUAGE_CODE == 'ru' %}Случайный билет{% elif request.LANGUAGE_CODE == 'uz' %}Tasodifiy bilet{% else %}Random ticket{% endif %}</a>
-      </div>
-      <p class="ts-legend">
-        <span class="ts-dot ts-pass"></span> {% if request.LANGUAGE_CODE == 'ru' %}сдан (≥80%){% elif request.LANGUAGE_CODE == 'uz' %}ötdi (≥80%){% else %}passed (≥80%){% endif %}
-        <span class="ts-dot ts-fail"></span> {% if request.LANGUAGE_CODE == 'ru' %}не сдан{% elif request.LANGUAGE_CODE == 'uz' %}yiqildi{% else %}failed{% endif %}
-        <span class="ts-dot ts-progress"></span> {% if request.LANGUAGE_CODE == 'ru' %}в процессе{% elif request.LANGUAGE_CODE == 'uz' %}davom etmoqda{% else %}in progress{% endif %}
-      </p>
-      {% endif %}
-      <div class="service-bottom">
-        {%for item in data%}
-        {% if item.image != '' %}
-        <div class="service-item"{% if type == 'topic' %} data-topic="{{ item.id }}"{% endif %}>
-          <div class="icon">
-            <img style="block-size: 100%;inline-size: 100%;object-fit: cover;" src="/media/{{item.image}}" />
-          </div>
-          {% else %}
-          <div class="service-item"{% if type == 'topic' %} data-topic="{{ item.id }}"{% endif %}>
-            <div class="icon">
-              <img style="block-size: 100%;inline-size: 100%;object-fit: cover;"
-                src="/media/projects/images/avtotest.jpg" />
-            </div>
-            {% endif %}
-            {% if request.LANGUAGE_CODE == 'uz' %}
-            <h2>{{item.name_uz_uz}}</h2>
-            {% else %}
-            {% if request.LANGUAGE_CODE == 'ru' %}
-            <h2>{{item.name_ru_ru}}</h2>
-            {% else %}
-            <h2>{{item.name_en_us}}</h2>
-            {% endif %}
-            {% endif %}
-            <div class="C0mplexButton Success" style="margin-block-end: 0px;">
-              {% if type == 'type' %}
-              <a href="{{ lang_prefix }}/tests/?type_id={{ item.id }}">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <i class="material-icons">&#9758;</i>
-                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
-                <div class="spinner-border" role="status"></div>
-              </a>
-              {% endif %}
-              {% if type == 'group' %}
-              <a href="{{ lang_prefix }}/tests/?group_id={{ item.id }}">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <i class="material-icons">&#9758;</i>
-                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
-                <div class="spinner-border" role="status"></div>
-              </a>
-              {% endif %}
-              {% if type == 'book' %}
-              <a href="{{ lang_prefix }}/tests/?book_id={{ item.id }}">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <i class="material-icons">&#9758;</i>
-                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
-                <div class="spinner-border" role="status"></div>
-              </a>
-              {% endif %}
-              {% if type == 'topic' %}
-              <a href="{{ lang_prefix }}/tests/?topic_id={{ item.id }}">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <i class="material-icons">&#9758;</i>
-                {% if request.LANGUAGE_CODE == 'ru' %}Войти{% elif request.LANGUAGE_CODE == 'en' %}Enter{% else %}Kiriş{% endif %}
-                <div class="spinner-border" role="status"></div>
-              </a>
-              {% endif %}
-            </div>
-          </div>
-          {%endfor%}
-        </div>
-      </div>
-  </section>
-  {% if type == 'topic' %}
-  <style>
-    .ts-stats{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;max-width:1100px;margin:24px auto 10px;padding:0 16px}
-    .ts-stats>div{flex:1 1 110px;padding:12px 16px;border-radius:14px;background:rgba(255,255,255,.7);border:1px solid rgba(99,102,241,.2);text-align:center}
-    [data-theme="dark"] .ts-stats>div{background:rgba(30,41,59,.8)}
-    .ts-stats b{display:block;font-size:1.6rem;line-height:1.2}
-    .ts-stats span{font-size:.85rem;opacity:.75}
-    .ts-btn{flex:1 1 160px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;
-      font-weight:600;text-decoration:none!important;color:#fff!important;background:linear-gradient(135deg,#6366f1,#8b5cf6)}
-    .ts-mistakes{background:linear-gradient(135deg,#ef4444,#f97316)}
-    .ts-mistakes b{background:rgba(255,255,255,.25);border-radius:999px;padding:0 9px}
-    .ts-legend{font-size:.85rem;opacity:.8;margin:0;text-align:center}
-    .ts-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 12px;vertical-align:middle}
-    .ts-pass{background:#22c55e}.ts-fail{background:#ef4444}.ts-progress{background:#f59e0b}
-    #services .service-item.is-pass{box-shadow:inset 0 0 0 3px #22c55e}
-    #services .service-item.is-fail{box-shadow:inset 0 0 0 3px #ef4444}
-    #services .service-item.is-progress{box-shadow:inset 0 0 0 3px #f59e0b}
-    .ts-score{position:absolute;top:14px;right:16px;z-index:3;font-size:.8rem;font-weight:700;padding:2px 9px;border-radius:999px;color:#fff}
-    .is-pass .ts-score{background:#22c55e}.is-fail .ts-score{background:#ef4444}.is-progress .ts-score{background:#f59e0b}
-  </style>
-  <script>
-    // Bilet kartalarini localStorage'dagi natijalar bo'yicha bo'yash va statistika
-    (function () {
-      function load(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch (e) { return def; } }
-      var box = document.getElementById("tsStats");
-      var bookId = box.getAttribute("data-book");
-      var results = load("testsResults", {});
-      var answers = load("testsAnswers", []);
-      var mistakes = load("testsMistakes", {});
-      var inProgress = {};
-      answers.forEach(function (a) { inProgress[a.topic_id] = (inProgress[a.topic_id] || 0) + 1; });
+  {# Ovozli javob (tests-quiz.js: click/right/wrong) #}
+  <audio id="click" preload="none" hidden><source src="/static/sounds/click.mp3" type="audio/mpeg"></audio>
+  <audio id="right" preload="none" hidden><source src="/static/sounds/right.mp3" type="audio/mpeg"></audio>
+  <audio id="wrong" preload="none" hidden><source src="/static/sounds/wrong.mp3" type="audio/mpeg"></audio>
 
-      var done = 0, passed = 0, correct = 0, total = 0, unsolved = [], all = [];
-      document.querySelectorAll("#services .service-item[data-topic]").forEach(function (card) {
-        var id = card.getAttribute("data-topic");
-        var r = results[id];
-        all.push(id);
-        var badge = document.createElement("span");
-        badge.className = "ts-score";
-        if (r) {
-          done++; correct += r.correct; total += r.total;
-          var ok = r.total && r.correct / r.total >= 0.8;
-          if (ok) passed++;
-          card.classList.add(ok ? "is-pass" : "is-fail");
-          badge.textContent = r.correct + "/" + r.total;
-        } else if (inProgress[id]) {
-          card.classList.add("is-progress");
-          badge.textContent = inProgress[id];
-        } else {
-          unsolved.push(id);
-          return;
-        }
-        card.appendChild(badge);
-      });
-      if (!all.length) return;
-
-      var nMistakes = Object.keys(mistakes).filter(function (k) { return !bookId || String(mistakes[k].book_id) === bookId; }).length;
-      document.getElementById("tsDone").textContent = done + "/" + all.length;
-      document.getElementById("tsPassed").textContent = passed;
-      document.getElementById("tsAccuracy").textContent = total ? Math.round(correct / total * 100) + "%" : "—";
-      document.getElementById("tsMistakesCount").textContent = nMistakes;
-      var link = document.getElementById("tsMistakes");
-      if (nMistakes) link.href = "/tests/xatolar/" + (bookId ? "?book_id=" + encodeURIComponent(bookId) : "");
-      else link.style.display = "none";
-      var pool = unsolved.length ? unsolved : all;
-      document.getElementById("tsRandom").href = (window.CP_LANG_PREFIX || "") + "/tests/?topic_id=" + pool[Math.floor(Math.random() * pool.length)];
-      box.hidden = false;
-    })();
-  </script>
-  {% endif %}
-  {% endif %}
-  <hr />
-{% include "includes/seo_text.html" %}
-  {% include "comment_form.html" %}
-  {% if type == 'question' %}
-  <script src="/static/js/tests-quiz.js?v=2" defer></script>
-  {% endif %}
-  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="autorelaxed"
-    data-ad-client="ca-pub-7773722896374259" data-ad-slot="2479701367"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-
-  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-format="fluid"
-    data-ad-layout-key="-an-4i-cp+a2+21k" data-ad-client="ca-pub-7773722896374259" data-ad-slot="4679993061"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-
-  <!-- Display 1 -->
-  <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-client="ca-pub-7773722896374259"
-    data-ad-slot="3869366477" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  <!-- 1 chi abzast Mobil -->
-
-
-  <!-- Image Modal -->
-  <div id="imageModal" class="image-modal">
-    <span class="modal-close" onclick="closeImageModal()">&times;</span>
-    <img id="modalImage" class="modal-content-image" src="" alt="Question Image">
+  <div id="imageModal" class="image-modal" role="dialog" aria-modal="true">
+    <button type="button" class="modal-close" onclick="closeImageModal()" aria-label="Close">&times;</button>
+    <img id="modalImage" class="modal-content-image" src="" alt="">
   </div>
 
-  <script>
-    function openImageModal(imageSrc) {
-      const modal = document.getElementById('imageModal');
-      const modalImg = document.getElementById('modalImage');
-      modal.classList.add('show');
-      modalImg.src = imageSrc;
-      document.body.style.overflow = 'hidden';
-    }
+  {% include "includes/ad_slot.html" with slot=ad_slots.in_article format="fluid" layout="in-article" %}
 
-    function closeImageModal() {
-      const modal = document.getElementById('imageModal');
-      modal.classList.remove('show');
-      document.body.style.overflow = 'auto';
-    }
+{% else %}
+  {# ==================== RÖYXATLAR: tur → guruh → kitob → bilet ==================== #}
+  {% if type == 'type' %}
+  {% include "includes/seo_intro.html" %}
+  {% else %}
+  <header class="ts-head">
+    <h1>{{ level_name }}</h1>
+    <p>{% if type == 'topic' %}{% if ui_lang == 'ru' %}Выберите билет — результат сохранится на этом устройстве.{% elif ui_lang == 'en' %}Pick a ticket — your results are saved on this device.{% else %}Biletni tanlang — natijangiz şu qurilmada saqlanadi.{% endif %}{% else %}{% if ui_lang == 'ru' %}Выберите раздел.{% elif ui_lang == 'en' %}Choose a section.{% else %}Bölimni tanlang.{% endif %}{% endif %}</p>
+  </header>
+  {% endif %}
 
-    // Close modal when clicking outside the image
-    document.getElementById('imageModal').addEventListener('click', function (e) {
-      if (e.target === this) {
-        closeImageModal();
-      }
-    });
+  {% if type == 'topic' %}
+  <div class="ts-stats" id="tsStats" data-book="{{ request.GET.book_id|default:'' }}" hidden>
+    <div class="ts-stat"><b id="tsDone">0</b><span>{% if ui_lang == 'ru' %}пройдено{% elif ui_lang == 'en' %}completed{% else %}yeçilgan{% endif %}</span></div>
+    <div class="ts-stat"><b id="tsPassed">0</b><span>{% if ui_lang == 'ru' %}сдано{% elif ui_lang == 'en' %}passed{% else %}ötilgan{% endif %}</span></div>
+    <div class="ts-stat"><b id="tsAccuracy">—</b><span>{% if ui_lang == 'ru' %}точность{% elif ui_lang == 'en' %}accuracy{% else %}aniqlik{% endif %}</span></div>
+    <a href="{{ lang_prefix }}/tests/xatolar/" class="ts-act ts-act-red" id="tsMistakes">❌ {% if ui_lang == 'ru' %}Мои ошибки{% elif ui_lang == 'en' %}My mistakes{% else %}Xatolarim{% endif %} <b id="tsMistakesCount">0</b></a>
+    <a href="#" class="ts-act" id="tsRandom">🎲 {% if ui_lang == 'ru' %}Случайный билет{% elif ui_lang == 'en' %}Random ticket{% else %}Tasodifiy bilet{% endif %}</a>
+  </div>
+  <p class="ts-legend">
+    <span class="ts-dot ts-pass"></span>{% if ui_lang == 'ru' %}сдан (≥80%){% elif ui_lang == 'en' %}passed (≥80%){% else %}ötdi (≥80%){% endif %}
+    <span class="ts-dot ts-fail"></span>{% if ui_lang == 'ru' %}не сдан{% elif ui_lang == 'en' %}failed{% else %}yiqildi{% endif %}
+    <span class="ts-dot ts-progress"></span>{% if ui_lang == 'ru' %}в процессе{% elif ui_lang == 'en' %}in progress{% else %}davom etmoqda{% endif %}
+  </p>
 
-    // Close modal with ESC key
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        closeImageModal();
-      }
-    });
-  </script>
+  {# Biletlar — ixçam plitkalar (kitobda 100+ bilet bölişi mumkin) #}
+  <div class="ts-tiles">
+    {% for item in data %}
+    <a class="ts-tile" data-topic="{{ item.id }}" href="{{ lang_prefix }}/tests/?topic_id={{ item.id }}">
+      <b>{% if ui_lang == 'ru' %}{{ item.name_ru_ru|default:item.name_uz_uz }}{% elif ui_lang == 'en' %}{{ item.name_en_us|default:item.name_uz_uz }}{% else %}{{ item.name_uz_uz }}{% endif %}</b>
+      <small>{{ item.n }} {% if ui_lang == 'ru' %}вопр.{% elif ui_lang == 'en' %}questions{% else %}savol{% endif %}</small>
+    </a>
+    {% endfor %}
+  </div>
 
-  <script>
-    // Three.js Scene Setup for Test Page
-    let scene, camera, renderer, particles, geometricShapes = [];
-    let mouseX = 0, mouseY = 0;
+  {% else %}
+  {# Turlar, guruhlar va kitoblar — rasmli kartalar #}
+  <div class="ts-grid">
+    {% for item in data %}
+    <a class="ts-card" href="{{ lang_prefix }}/tests/?{% if type == 'type' %}type_id{% elif type == 'group' %}group_id{% else %}book_id{% endif %}={{ item.id }}">
+      <span class="ts-card-img"><img src="/media/{% if item.image %}{{ item.image }}{% else %}projects/images/avtotest.jpg{% endif %}" alt="" loading="lazy" decoding="async"></span>
+      <span class="ts-card-body">
+        <strong>{% if ui_lang == 'ru' %}{{ item.name_ru_ru|default:item.name_uz_uz }}{% elif ui_lang == 'en' %}{{ item.name_en_us|default:item.name_uz_uz }}{% else %}{{ item.name_uz_uz }}{% endif %}</strong>
+        <small>{% if item.topics_n %}{{ item.topics_n }} {% if ui_lang == 'ru' %}билетов{% elif ui_lang == 'en' %}tickets{% else %}bilet{% endif %} · {% endif %}{{ item.n }} {% if ui_lang == 'ru' %}вопросов{% elif ui_lang == 'en' %}questions{% else %}savol{% endif %}</small>
+        <span class="ts-go">{% if ui_lang == 'ru' %}Открыть{% elif ui_lang == 'en' %}Open{% else %}Oçiş{% endif %} →</span>
+      </span>
+    </a>
+    {% empty %}
+    <p class="ts-empty">{% if ui_lang == 'ru' %}Здесь пока нет тестов.{% elif ui_lang == 'en' %}No tests here yet.{% else %}Bu yerda hozirça test yöq.{% endif %} <a href="{{ lang_prefix }}/tests/">← {% if ui_lang == 'ru' %}Все тесты{% elif ui_lang == 'en' %}All tests{% else %}Barça testlar{% endif %}</a></p>
+    {% endfor %}
+  </div>
+  {% endif %}
 
-    function initThreeJS() {
-      const canvas = document.getElementById('threejs-canvas');
-      if (!canvas) return;
+  {% include "includes/ad_slot.html" with slot=ad_slots.in_article format="fluid" layout="in-article" %}
 
-      scene = new THREE.Scene();
+  <a class="ts-app" href="https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz" target="_blank" rel="noopener">
+    <span>📱 {% if ui_lang == 'ru' %}Тесты без интернета — в приложении для Android{% elif ui_lang == 'en' %}Offline tests in the Android app{% else %}Internetsiz testlar — Android ilovada{% endif %}</span>
+    <img src="/static/img/google-play.svg" alt="Google Play" width="135" height="40" loading="lazy">
+  </a>
+{% endif %}
 
-      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 50;
+  <!-- Yandex.RTB R-A-20240413-2 (kontentdan keyin — sahifa tepasini reklama egallamasin) -->
+  <div id="yandex_rtb_R-A-20240413-2" class="ts-rtb"></div>
+  <script>window.yaContextCb && window.yaContextCb.push(function () { Ya.Context.AdvManager.render({ renderTo: "yandex_rtb_R-A-20240413-2", blockId: "R-A-20240413-2" }); });</script>
 
-      renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: true
-      });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
+  {% include "includes/seo_text.html" %}
+</main>
 
-      // Create floating particles with educational theme colors
-      createParticles();
+<div class="ts-comments">{% include "comment_form.html" %}</div>
+{% include "includes/ad_slot.html" with format="autorelaxed" slot=ad_slots.multiplex %}
 
-      // Create geometric shapes representing knowledge and learning
-      createEducationalShapes();
-
-      // Add lights
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-      scene.add(ambientLight);
-
-      const pointLight1 = new THREE.PointLight(0x6366f1, 1.5, 100);
-      pointLight1.position.set(15, 15, 15);
-      scene.add(pointLight1);
-
-      const pointLight2 = new THREE.PointLight(0xec4899, 1.5, 100);
-      pointLight2.position.set(-15, -15, 15);
-      scene.add(pointLight2);
-
-      const pointLight3 = new THREE.PointLight(0x06b6d4, 1.5, 100);
-      pointLight3.position.set(0, 0, -20);
-      scene.add(pointLight3);
-
-      // Mouse movement listener
-      document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-      });
-
-      // Window resize handler
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-
-      animate();
-    }
-
-    function createParticles() {
-      const geometry = new THREE.BufferGeometry();
-      const vertices = [];
-      const colors = [];
-
-      // Create fewer but larger particles for better visibility
-      for (let i = 0; i < 2000; i++) {
-        vertices.push(
-          Math.random() * 200 - 100,
-          Math.random() * 200 - 100,
-          Math.random() * 200 - 100
-        );
-
-        // Educational theme colors: blue, purple, pink, cyan
-        const colorOptions = [
-          new THREE.Color(0x6366f1), // Indigo
-          new THREE.Color(0x8b5cf6), // Purple
-          new THREE.Color(0xec4899), // Pink
-          new THREE.Color(0x06b6d4), // Cyan
-          new THREE.Color(0xf59e0b)  // Amber
-        ];
-        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
-        colors.push(color.r, color.g, color.b);
-      }
-
-      geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-      const material = new THREE.PointsMaterial({
-        size: 0.8,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.7,
-        blending: THREE.AdditiveBlending
-      });
-
-      particles = new THREE.Points(geometry, material);
-      scene.add(particles);
-    }
-
-    function createEducationalShapes() {
-      // Create shapes representing different aspects of learning
-      const shapes = [
-        { geometry: new THREE.OctahedronGeometry(3.5), color: 0x6366f1, position: { x: 25, y: 15, z: -15 } },
-        { geometry: new THREE.IcosahedronGeometry(3), color: 0xec4899, position: { x: -25, y: -15, z: -10 } },
-        { geometry: new THREE.TorusGeometry(2.5, 0.6, 16, 100), color: 0x06b6d4, position: { x: 20, y: -20, z: -20 } },
-        { geometry: new THREE.TetrahedronGeometry(3), color: 0x8b5cf6, position: { x: -20, y: 20, z: -25 } },
-        { geometry: new THREE.DodecahedronGeometry(2.5), color: 0xf59e0b, position: { x: 0, y: 25, z: -15 } }
-      ];
-
-      shapes.forEach((shape) => {
-        const material = new THREE.MeshPhongMaterial({
-          color: shape.color,
-          transparent: true,
-          opacity: 0.25,
-          wireframe: true,
-          shininess: 100
-        });
-
-        const mesh = new THREE.Mesh(shape.geometry, material);
-        mesh.position.set(shape.position.x, shape.position.y, shape.position.z);
-
-        mesh.userData = {
-          rotationSpeed: {
-            x: Math.random() * 0.015 + 0.005,
-            y: Math.random() * 0.015 + 0.005,
-            z: Math.random() * 0.01
-          }
-        };
-
-        geometricShapes.push(mesh);
-        scene.add(mesh);
-      });
-    }
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      // Rotate particles slowly
-      if (particles) {
-        particles.rotation.y += 0.0008;
-        particles.rotation.x += 0.0004;
-      }
-
-      // Animate geometric shapes
-      geometricShapes.forEach((shape) => {
-        shape.rotation.x += shape.userData.rotationSpeed.x;
-        shape.rotation.y += shape.userData.rotationSpeed.y;
-        shape.rotation.z += shape.userData.rotationSpeed.z;
-      });
-
-      // Gentle camera movement based on mouse
-      camera.position.x += (mouseX * 3 - camera.position.x) * 0.03;
-      camera.position.y += (mouseY * 3 - camera.position.y) * 0.03;
-      camera.lookAt(scene.position);
-
-      renderer.render(scene, camera);
-    }
-
-    // Initialize Three.js when DOM is loaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initThreeJS);
-    } else {
-      initThreeJS();
-    }
-
-    // Update Three.js theme based on dark/light mode
-    function updateThreeJSTheme(theme) {
-      if (!particles || !geometricShapes.length) return;
-
-      if (theme === 'dark') {
-        particles.material.opacity = 0.6;
-        geometricShapes.forEach(shape => {
-          shape.material.opacity = 0.35;
-        });
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+{% if type == 'question' %}
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js" defer></script>
+<script>
+  function openImageModal(src) {
+    var m = document.getElementById("imageModal");
+    document.getElementById("modalImage").src = src;
+    m.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+  function closeImageModal() {
+    document.getElementById("imageModal").classList.remove("show");
+    document.body.style.overflow = "";
+  }
+  document.getElementById("imageModal").addEventListener("click", function (e) { if (e.target === this) closeImageModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeImageModal(); });
+</script>
+{# defer: bootstrap.bundle'dan keyin işga tuşadi (natija oynasi uçun window.bootstrap kerak) #}
+<script src="/static/js/tests-quiz.js?v=3" defer></script>
+{% elif type == 'topic' %}
+<script>
+  // Bilet plitkalarini localStorage'dagi natijalar böyiça böyaş va statistika
+  (function () {
+    function load(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch (e) { return def; } }
+    var box = document.getElementById("tsStats");
+    var bookId = box.getAttribute("data-book");
+    var results = load("testsResults", {}), answers = load("testsAnswers", []), mistakes = load("testsMistakes", {});
+    var inProgress = {};
+    answers.forEach(function (a) { inProgress[a.topic_id] = (inProgress[a.topic_id] || 0) + 1; });
+    var done = 0, passed = 0, correct = 0, total = 0, unsolved = [], all = [];
+    document.querySelectorAll(".ts-tile[data-topic]").forEach(function (tile) {
+      var id = tile.getAttribute("data-topic"), r = results[id];
+      all.push(id);
+      var badge = document.createElement("i");
+      badge.className = "ts-score";
+      if (r) {
+        done++; correct += r.correct; total += r.total;
+        var ok = r.total && r.correct / r.total >= 0.8;
+        if (ok) passed++;
+        tile.classList.add(ok ? "is-pass" : "is-fail");
+        badge.textContent = r.correct + "/" + r.total;
+      } else if (inProgress[id]) {
+        tile.classList.add("is-progress");
+        badge.textContent = inProgress[id];
       } else {
-        particles.material.opacity = 0.7;
-        geometricShapes.forEach(shape => {
-          shape.material.opacity = 0.25;
-        });
+        unsolved.push(id);
+        return;
       }
-    }
-
-    // Hook into existing theme toggle
-    const originalToggleTheme = window.toggleTheme;
-    if (originalToggleTheme) {
-      window.toggleTheme = function () {
-        originalToggleTheme();
-        setTimeout(() => {
-          const currentTheme = document.documentElement.getAttribute('data-theme');
-          updateThreeJSTheme(currentTheme);
-        }, 100);
-      };
-    }
-  </script>
-  {% include "includes/scroll_buttons.html" %}
+      tile.appendChild(badge);
+    });
+    if (!all.length) return;
+    var nMistakes = Object.keys(mistakes).filter(function (k) { return !bookId || String(mistakes[k].book_id) === bookId; }).length;
+    document.getElementById("tsDone").textContent = done + "/" + all.length;
+    document.getElementById("tsPassed").textContent = passed;
+    document.getElementById("tsAccuracy").textContent = total ? Math.round(correct / total * 100) + "%" : "—";
+    document.getElementById("tsMistakesCount").textContent = nMistakes;
+    var link = document.getElementById("tsMistakes");
+    if (nMistakes) link.href = (window.CP_LANG_PREFIX || "") + "/tests/xatolar/" + (bookId ? "?book_id=" + encodeURIComponent(bookId) : "");
+    else link.style.display = "none";
+    var pool = unsolved.length ? unsolved : all;
+    document.getElementById("tsRandom").href = (window.CP_LANG_PREFIX || "") + "/tests/?topic_id=" + pool[Math.floor(Math.random() * pool.length)];
+    box.hidden = false;
+  })();
+</script>
+{% endif %}
+{% include "includes/scroll_buttons.html" %}
 </body>
-
 </html>

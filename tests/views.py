@@ -5,7 +5,7 @@ from django.utils import timezone, translation
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.db.models.functions import Concat
-from django.db.models import F
+from django.db.models import Count, F, Q
 from tests.models import (
     Answers,
     Books,
@@ -26,6 +26,50 @@ from core.seo import SITE_URL, alternates
 DUPLICATE_BOOKS = {49: "/avtotest/"}
 
 
+def _count(path):
+    """Savollar soni bilet → kitob zanjiri orqali (savoldagi type_id/group_id/book_id maktab testlarida izçil emas)."""
+    prefix = f"{path}__" if path else ""
+    return Count(f"{prefix}questions", distinct=True, filter=Q(**{f"{prefix}questions__is_deleted": False}))
+
+
+def _name(obj, lang):
+    if not obj:
+        return ""
+    return obj.get({"ru": "name_ru_ru", "en": "name_en_us"}.get(lang, "name_uz_uz")) or obj.get("name_uz_uz") or ""
+
+
+def _crumbs(level, obj, lang):
+    """Non yöli: [(nomi, manzil), ...] — Testlar › tur › guruh › kitob › bilet (oxirgisi — joriy sahifa, manzilsiz)."""
+    if not obj or level == "type":
+        return []
+    chain = []
+    if level == "question":
+        chain.append((_name(obj, lang), None))
+        obj, level = _book(obj.get("book_id")), "topic"
+    if level == "topic" and obj:
+        chain.append((_name(obj, lang), None if not chain else f"/tests/?book_id={obj['id']}"))
+        obj, level = Groups.objects.filter(id=obj.get("group_id")).values().first(), "book"
+    if level == "book" and obj:
+        chain.append((_name(obj, lang), None if not chain else f"/tests/?group_id={obj['id']}"))
+        obj, level = Types.objects.filter(id=obj.get("type_id")).values().first(), "group"
+    if level == "group" and obj:
+        chain.append((_name(obj, lang), None if not chain else f"/tests/?type_id={obj['id']}"))
+    lang_word = {"ru": "Тесты", "en": "Tests"}.get(lang, "Testlar")
+    return [(lang_word, "/tests/")] + list(reversed(chain))
+
+
+def _book(book_id):
+    return (
+        Books.objects.filter(id=book_id)
+        .annotate(
+            name_en_us=F("book_type__name_en_us"), name_ru_ru=F("book_type__name_ru_ru"),
+            name_uz_crl=F("book_type__name_uz_crl"), name_uz_uz=F("book_type__name_uz_uz"), image=F("book_type__image"),
+        )
+        .values()
+        .first()
+    )
+
+
 def tests(request):
     data = []
     _type = "type"
@@ -43,7 +87,13 @@ def tests(request):
         and topic_id == 0
         and question_id == 0
     ):
-        data = Types.objects.filter(is_deleted=False).order_by("sort_order").values()
+        data = (
+            Types.objects.filter(is_deleted=False)
+            .annotate(n=_count("groups__books__topics"))
+            .filter(n__gt=0)
+            .order_by("sort_order")
+            .values()
+        )
     else:
         if type_id != 0:
             _type = "group"
@@ -52,6 +102,8 @@ def tests(request):
             )
             data = (
                 Groups.objects.filter(is_deleted=False, type_id=type_id)
+                .annotate(n=_count("books__topics"))
+                .filter(n__gt=0)  # savolsiz guruh/kitob/bilet — foydalanuvçini böş sahifaga olib bormasin
                 .order_by("sort_order")
                 .values()
             )
@@ -60,8 +112,11 @@ def tests(request):
             type_data = (
                 Groups.objects.filter(is_deleted=False, id=group_id).values().first()
             )
-            data = Books.objects.filter(is_deleted=False, group_id=group_id).order_by(
-                "sort_order"
+            data = (
+                Books.objects.filter(is_deleted=False, group_id=group_id)
+                .annotate(n=_count("topics"), topics_n=Count("topics", distinct=True, filter=Q(topics__is_deleted=False)))
+                .filter(n__gt=0)
+                .order_by("sort_order")
             )
             data = data.annotate(
                 name_en_us=F("book_type__name_en_us"),
@@ -86,6 +141,8 @@ def tests(request):
             )
             data = (
                 Topics.objects.filter(is_deleted=False, book_id=book_id)
+                .annotate(n=_count(""))
+                .filter(n__gt=0)
                 .order_by("sort_order")
                 .values()
             )
@@ -112,9 +169,12 @@ def tests(request):
                 .values()
             )  # type: ignore
 
+    lang = (translation.get_language() or "uz")[:2]
     context = {
         "data": data,
         "type": _type,
+        "crumbs": _crumbs(_type, type_data if isinstance(type_data, dict) else None, lang),
+        "level_name": _name(type_data, lang) if isinstance(type_data, dict) else "",
         "type_data": json.dumps(type_data, default=serialize_datetime),
         "type_obj": type_data or {},
         "comments": comments,
