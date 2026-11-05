@@ -26,6 +26,7 @@ from driving.texts import texts
 from projects.models import AvtoTest
 from tests.models import RoadSignCategories, RoadSigns
 
+ANDROID_APP_URL = "https://play.google.com/store/apps/details?id=uzbavtotest.complexprogrammer.uz"
 EXAM_QUESTIONS = 20
 EXAM_SECONDS = 25 * 60
 EXAM_MAX_MISTAKES = 2
@@ -736,8 +737,14 @@ def avtotest_pdf(request):
             "url": lang_url("/avtotest/pdf/", _url_lang(request)),
         },
     ]
+    graph.append({
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in t["pdf_faq"]
+        ],
+    })
     context = {
-        "t": t, "files": files, "total": total, "bilets": bilets,
+        "t": t, "files": files, "total": total, "bilets": bilets, "app_url": ANDROID_APP_URL,
         **_seo(t["pdf_title"], t["pdf_desc"].format(n=total), graph),
     }
     return render(request, "driving/pdf.html", context)

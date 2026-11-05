@@ -93,7 +93,7 @@
   {% else %}
   <header class="ts-head">
     <h1>{{ level_name }}</h1>
-    <p>{% if type == 'topic' %}{% if ui_lang == 'ru' %}Выберите билет — результат сохранится на этом устройстве.{% elif ui_lang == 'en' %}Pick a ticket — your results are saved on this device.{% else %}Biletni tanlang — natijangiz şu qurilmada saqlanadi.{% endif %}{% else %}{% if ui_lang == 'ru' %}Выберите раздел.{% elif ui_lang == 'en' %}Choose a section.{% else %}Bölimni tanlang.{% endif %}{% endif %}</p>
+    <p>{% if level_lead %}{{ level_lead }}{% elif type == 'topic' %}{% if ui_lang == 'ru' %}Выберите билет — результат сохранится на этом устройстве.{% elif ui_lang == 'en' %}Pick a ticket — your results are saved on this device.{% else %}Biletni tanlang — natijangiz şu qurilmada saqlanadi.{% endif %}{% else %}{% if ui_lang == 'ru' %}Выберите раздел.{% elif ui_lang == 'en' %}Choose a section.{% else %}Bölimni tanlang.{% endif %}{% endif %}</p>
   </header>
   {% endif %}
 
