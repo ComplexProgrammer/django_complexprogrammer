@@ -1,6 +1,6 @@
 """AI izoh qoralamalarini bazaga yoziş (server tomoni). ``draft_explanations collect`` va ``import_explanations`` işlatadi."""
 
-from core.translit import latin1995_to_2026, latin_to_cyrillic
+from core.translit import clean_uz_latin, latin1995_to_2026, latin_to_cyrillic
 
 
 def save_draft(kind, key, data):
@@ -27,7 +27,8 @@ def save_draft(kind, key, data):
     else:
         pk = key
     # Bazadagi savollar 2026-yilgi imloda (ş, ç, ğ, ö) — izoh ham şunday saqlanadi
-    uz = latin1995_to_2026((data.get("uz") or "").strip())
+    # AI ba'zan turkça/kirill harflarni aralaştiradi (körä, öрнатилган) — tozalab saqlanadi
+    uz = clean_uz_latin(latin1995_to_2026((data.get("uz") or "").strip()))
     if not uz:
         return False
     return bool(Questions.objects.filter(pk=pk).exclude(explanation_status="approved").update(
