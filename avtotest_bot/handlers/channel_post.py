@@ -25,6 +25,7 @@ LETTERS = ("A", "B", "C", "D")
 # Telegram cheklovlari
 POLL_QUESTION_MAX = 300
 POLL_OPTION_MAX = 100
+POLL_EXPLANATION_MAX = 200
 
 
 def _poll_parts(q):
@@ -43,6 +44,18 @@ def _poll_parts(q):
     if any(len(o) > POLL_OPTION_MAX for o in options):
         return None  # qisqartirsak ma'nosi buzilishi mumkin — boshqa savol tanlanadi
     return text, options, correct
+
+
+def _poll_explanation(q) -> str:
+    """Quiz javobidan keyin çiqadigan matn (Telegram: köpi bilan 200 belgi)."""
+    head = f"Töğri javob: {q['javob']}."
+    izoh = (q.get("izoh") or "").strip() if q.get("izoh_holati") == "approved" else ""
+    if not izoh:
+        return f"{head} Barça biletlar: complexprogrammer.uz/avtotest"
+    room = POLL_EXPLANATION_MAX - len(head) - 1
+    if len(izoh) > room:
+        izoh = izoh[: room - 1].rsplit(" ", 1)[0] + "…"
+    return f"{head} {izoh}"
 
 
 async def post_random_question(bot: Bot, chat_id: str):
@@ -72,7 +85,7 @@ async def post_random_question(bot: Bot, chat_id: str):
             type="quiz",
             correct_option_id=correct,
             is_anonymous=True,
-            explanation=f"Töğri javob: {q['javob']}. Barça biletlar: complexprogrammer.uz/avtotest",
+            explanation=_poll_explanation(q),
             reply_markup=keyboard,
         )
         return q["id"]

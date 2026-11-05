@@ -1,4 +1,5 @@
 # avtotest_bot/handlers/quiz.py
+import html
 import logging
 from pathlib import Path
 from typing import Optional, Dict, Any, List
@@ -218,6 +219,15 @@ async def cb_answer_chosen(callback: CallbackQuery, bot: Bot):
         feedback = get_text("correct_answer_feedback", lang)
     else:
         feedback = get_text("wrong_answer_feedback", lang, correct_text=correct_text)
+
+    # Tasdiqlangan izoh bölsa — «Nega şunday?» (rasm izohi 1024 belgi: qisqaroq)
+    explanation = await db.get_explanation(q_id, lang)
+    if explanation:
+        limit = 350 if callback.message.photo else 1500
+        if len(explanation) > limit:
+            explanation = explanation[:limit].rsplit(" ", 1)[0] + "…"
+        label = "Почему?" if lang == "ru" else "Nega şunday?"
+        feedback += f"\n\n💡 <b>{label}</b> {html.escape(explanation)}"
 
     is_last = current_idx == len(question_ids) - 1
     new_kb = get_question_keyboard(

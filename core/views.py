@@ -168,8 +168,9 @@ def sitemap_sections():
         (f"/avtotest/mavzu/{slug}/", None, "weekly", "0.7") for slug, _, _ in TOPICS
     ]))
     sections.append(("Avtotest savollari", [
-        (f"/avtotest/{q['bilet']}/{q['raqam']}/", None, "monthly", "0.5")
-        for q in AvtoTest.objects.order_by("bilet", "raqam").values("bilet", "raqam")
+        # Tasdiqlangan izohli savollar — noyob matnli sahifa, robot ularni birinçi körsin
+        (f"/avtotest/{q['bilet']}/{q['raqam']}/", None, "monthly", "0.7" if q["izoh_holati"] == "approved" else "0.5")
+        for q in AvtoTest.objects.order_by("bilet", "raqam").values("bilet", "raqam", "izoh_holati")
     ]))
     # Yo'l belgilari bo'limi belgilar qo'shilgandan keyingina indekslanadi (bo'sh sahifa — noindex)
     signs = list(RoadSigns.objects.filter(is_deleted=False).order_by("category__sort_order", "sort_order").values("id", "updated_at"))

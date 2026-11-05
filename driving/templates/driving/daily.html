@@ -42,9 +42,27 @@
     <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/mavzular/">📚 {{ t.topics }}</a>
   </div>
   {% include "includes/ad_slot.html" with slot=ad_slots.driving %}
+  {# Vidjet: avtomaktab va bloglar kun savolini öz saytiga joylaydi — orqa havola va yangi foydalanuvçilar #}
+  <section class="d-card">
+    <h2 class="d-h2">🧩 {{ t.widget_embed_title }}</h2>
+    <p>{{ t.widget_embed_text }}</p>
+    <textarea id="embedCode" readonly rows="4" style="width:100%;font:13px/1.4 monospace;padding:8px;border:1px solid #d1d5db;border-radius:8px;resize:vertical">&lt;iframe src="https://complexprogrammer.uz{{ lang_prefix }}/avtotest/vidjet/" width="100%" height="560" style="border:0;max-width:520px" loading="lazy" title="{{ t.daily_h1 }}"&gt;&lt;/iframe&gt;
+&lt;p style="font-size:13px"&gt;&lt;a href="https://complexprogrammer.uz{{ lang_prefix }}/avtotest/"&gt;{{ t.widget_more }}&lt;/a&gt; — complexprogrammer.uz&lt;/p&gt;</textarea>
+    <p style="margin:8px 0 0"><button type="button" class="d-btn alt" id="copyEmbed">📋 {{ t.widget_copy }}</button>
+      <a class="d-btn alt" href="{{ lang_prefix }}/avtotest/vidjet/" target="_blank" rel="noopener nofollow">👁</a></p>
+  </section>
 </main>
 {% include "driving/_sync.html" %}
 <script>
+(function () {
+  var copy = document.getElementById("copyEmbed"), code = document.getElementById("embedCode");
+  if (copy && code) copy.addEventListener("click", function () {
+    code.select();
+    var done = function () { copy.textContent = "{{ t.widget_copied|escapejs }}"; if (window.cpTrack) window.cpTrack("widget_code_copy"); };
+    if (navigator.clipboard) navigator.clipboard.writeText(code.value).then(done, function () { document.execCommand("copy"); done(); });
+    else { document.execCommand("copy"); done(); }
+  });
+})();
 (function () {
   var box = document.getElementById("quiz");
   if (!box) return;

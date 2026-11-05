@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="{{ ui_lang }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{{ t.daily_h1 }} — complexprogrammer.uz</title>
+{# Boşqa saytlarga iframe orqali joylanadigan vidjet: sayt sarlavhasi, reklama va analitikasiz, yengil #}
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1f2937;background:#fff}
+  .w{padding:14px;border:1px solid #e5e7eb;border-radius:12px;max-width:520px}
+  .w-top{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6b7280;margin-bottom:8px}
+  .w-top b{color:#2563eb}
+  h1{font-size:16px;margin:0 0 10px}
+  img{max-width:100%;height:auto;border-radius:8px;margin-bottom:10px;display:block}
+  button{display:flex;gap:8px;width:100%;text-align:left;padding:9px 10px;margin:0 0 6px;border:1px solid #d1d5db;border-radius:8px;background:#f9fafb;font:inherit;color:inherit;cursor:pointer}
+  button:hover:not(:disabled){border-color:#2563eb}
+  button.ok{background:#dcfce7;border-color:#16a34a}
+  button.bad{background:#fee2e2;border-color:#dc2626}
+  button kbd{font:600 13px system-ui;color:#6b7280}
+  #fb{min-height:20px;margin:6px 0;font-weight:600}
+  #fb.ok{color:#16a34a} #fb.bad{color:#dc2626}
+  .w-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .w-links a{flex:1;min-width:150px;text-align:center;padding:8px 10px;border-radius:8px;background:#2563eb;color:#fff;text-decoration:none;font-weight:600;font-size:14px}
+  .w-links a.alt{background:#eef2ff;color:#1e3a8a}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="w-top"><b>🚗 {{ t.daily_h1 }}</b>{% if today %}<span>{{ today.bilet }}-{{ t.bilet }}, {{ today.raqam }}-{{ t.savol }}</span>{% endif %}</div>
+  {% if today %}
+  <div id="quiz" data-right="{{ today.javob }}">
+    <h1>{{ today_text }}</h1>
+    {% if today.rasm %}<img src="/static/avtotest/{{ today.rasm|urlencode }}" alt="" loading="lazy" decoding="async">{% endif %}
+    {% for a in today_answers %}
+    <button type="button" data-l="{{ a.letter }}"><kbd>{{ forloop.counter }}</kbd><span>{{ a.text }}</span></button>
+    {% endfor %}
+    <div id="fb" aria-live="polite"></div>
+  </div>
+  <div class="w-links">
+    <a class="cp-link" href="https://complexprogrammer.uz{{ lang_prefix }}/avtotest/{{ today.bilet }}/{{ today.raqam }}/" target="_blank" rel="noopener">{% if has_explanation %}💡 {{ t.widget_why }}{% else %}{{ t.next }} →{% endif %}</a>
+    <a class="cp-link alt" href="https://complexprogrammer.uz{{ lang_prefix }}/avtotest/" target="_blank" rel="noopener">{{ t.widget_more }}</a>
+  </div>
+  {% else %}
+  <div class="w-links"><a class="cp-link" href="https://complexprogrammer.uz{{ lang_prefix }}/avtotest/" target="_blank" rel="noopener">{{ t.widget_more }}</a></div>
+  {% endif %}
+</div>
+<script>
+(function () {
+  // Qaysi sayt joylagani GA4'da körinsin: utm_campaign = joylagan sayt domeni
+  var host = "";
+  try { host = document.referrer ? new URL(document.referrer).hostname : ""; } catch (e) {}
+  document.querySelectorAll("a.cp-link").forEach(function (a) {
+    a.href += "?utm_source=widget&utm_medium=iframe&utm_campaign=" + encodeURIComponent(host || "unknown");
+  });
+  var box = document.getElementById("quiz");
+  if (!box) return;
+  var right = box.getAttribute("data-right"), done = false, fb = document.getElementById("fb");
+  var T = { ok: "{{ t.correct|escapejs }}", bad: "{{ t.wrong|escapejs }}" };
+  box.querySelectorAll("button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (done) return;
+      done = true;
+      var ok = b.getAttribute("data-l") === right;
+      box.querySelectorAll("button").forEach(function (x) {
+        x.disabled = true;
+        if (x.getAttribute("data-l") === right) x.classList.add("ok"); else if (x === b) x.classList.add("bad");
+      });
+      fb.className = ok ? "ok" : "bad";
+      fb.textContent = ok ? T.ok : T.bad;
+    });
+  });
+})();
+</script>
+</body>
+</html>

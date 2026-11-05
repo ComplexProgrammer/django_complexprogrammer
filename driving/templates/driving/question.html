@@ -21,7 +21,7 @@
     <button type="button" class="d-opt" data-l="{{ a.letter }}"><kbd>{{ forloop.counter }}</kbd><span>{{ a.text }}</span></button>
     {% endfor %}
     <div id="feedback" aria-live="polite"></div>
-    <details class="d-note" style="padding-left:0">
+    <details class="d-note" id="answerBox" style="padding-left:0">
       <summary>{{ t.show_answer }}</summary>
       {% for a in answers %}{% if a.right %}<p><b>{{ t.correct_answer }}:</b> {{ a.text }}</p>{% endif %}{% endfor %}
       {% if explanation %}<p><b>{{ t.why_correct }}</b> {{ explanation }}</p>{% endif %}
@@ -30,6 +30,7 @@
 
   <div class="d-between" style="margin-bottom:16px">
     {% if prev_url %}<a class="d-btn alt" href="{{ lang_prefix }}{{ prev_url }}" rel="prev">← {{ t.prev }}</a>{% else %}<span></span>{% endif %}
+    <button type="button" class="d-btn alt" id="shareQ">📤 {{ t.share }}</button>
     {% if next_url %}<a class="d-btn" href="{{ lang_prefix }}{{ next_url }}" rel="next">{{ t.next }} →</a>{% endif %}
   </div>
 
@@ -94,7 +95,18 @@
     fb.textContent = ok ? T.ok : T.bad;
     remember(ok);
     window.cpSync.answered(ok);
+    // Javobdan keyin töğri javob va izoh darhol körinsin
+    var box2 = document.getElementById("answerBox");
+    if (box2) box2.open = true;
   }
+  var share = document.getElementById("shareQ");
+  if (share) share.addEventListener("click", function () {
+    var url = location.origin + location.pathname + "?utm_source=share&utm_medium=question";
+    var text = "{{ t.share_q_text|escapejs }}";
+    if (window.cpTrack) window.cpTrack("share", { method: navigator.share ? "native" : "telegram", content_type: "question" });
+    if (navigator.share) { navigator.share({ title: document.title, text: text, url: url }).catch(function () {}); return; }
+    window.open("https://t.me/share/url?url=" + encodeURIComponent(url) + "&text=" + encodeURIComponent(text), "_blank", "noopener");
+  });
   buttons.forEach(function (b) { b.addEventListener("click", function () { answer(b.getAttribute("data-l")); }); });
   document.addEventListener("keydown", function (e) {
     var i = "1234".indexOf(e.key);
