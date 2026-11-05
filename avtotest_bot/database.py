@@ -349,7 +349,9 @@ class Database:
     # ==================== KANALGA JOYLASH ====================
 
     async def get_random_channel_questions(self, limit: int = 30) -> List[Dict[str, Any]]:
-        """Saytdagi avtotest (projects_avtotest) savollari — oxirgi 500 ta joylanganlardan tashqari."""
+        """Saytdagi avtotest (projects_avtotest) savollari — oxirgi 500 ta joylanganlardan tashqari.
+
+        Izohi tasdiqlanganlar birinçi: kanal tugmasi olib boradigan sahifada tuşuntiriş bölsin."""
         async with self.connect() as db:
             async with db.execute(
                 """
@@ -359,7 +361,7 @@ class Database:
                       SELECT avtotest_id FROM avtotest_bot_channel_posts
                       WHERE avtotest_id IS NOT NULL ORDER BY posted_at DESC LIMIT 500
                   )
-                ORDER BY RANDOM() LIMIT ?
+                ORDER BY (izoh_holati = 'approved') DESC, RANDOM() LIMIT ?
             """,
                 (limit,),
             ) as cur:
@@ -509,6 +511,20 @@ class Database:
             ) as cur:
                 row = await cur.fetchone()
                 return dict(row) if row else None
+
+    async def get_explanation(self, question_id: int, lang: str = "uz") -> str:
+        """Admin tasdiqlagan «Nega şunday?» izohi (saytdagi bilan bir xil). Yöq bölsa — böş satr."""
+        column = "explanation_ru_ru" if lang == "ru" else "explanation_uz_uz"
+        try:
+            async with self.connect() as db:
+                async with db.execute(
+                    f"SELECT {column} FROM tests_questions WHERE id = ? AND explanation_status = 'approved'",
+                    (question_id,),
+                ) as cur:
+                    row = await cur.fetchone()
+        except Exception:  # eski baza (ustun hali yöq) — izohsiz davom etiladi
+            return ""
+        return (row[0] or "").strip() if row else ""
 
     async def get_answers(self, question_id: int) -> List[Dict[str, Any]]:
         """Savolning javob variantlarini olish."""

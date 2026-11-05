@@ -11,6 +11,7 @@ urlpatterns = [
     path("avtotest/pdf/", views.avtotest_pdf, name="avtotest_pdf"),
     path("avtotest/qollanma/", views.guide, name="avtotest_guide"),
     path("avtotest/kun-savoli/", views.daily_question, name="avtotest_daily"),
+    path("avtotest/vidjet/", views.daily_widget, name="avtotest_widget"),
     path("avtotest/mavzu/<slug:slug>/", views.topic, name="avtotest_topic"),
     path("avtotest/reyting/", views.leaderboard, name="avtotest_leaderboard"),
     path("yhq/", views.yhq_index, name="yhq"),

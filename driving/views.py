@@ -159,7 +159,9 @@ def question(request, bilet, raqam):
         },
     ]
     title = t["q_title"].format(text=Truncator(text).chars(70), b=bilet, r=raqam)
-    desc = Truncator(t["q_desc"].format(b=bilet, r=raqam, answer=right)).chars(160)
+    # Izoh bölsa — qidiruv natijasidagi tavsifda ham körinsin (noyob matn, bosiş ulushi oşadi)
+    desc_template = t["q_desc_expl"] if explanation else t["q_desc"]
+    desc = Truncator(desc_template.format(b=bilet, r=raqam, answer=right, expl=explanation)).chars(160)
     context = {
         "t": t, "q": q, "text": text, "answers": answers, "bilet": bilet, "raqam": raqam,
         "siblings": siblings, "prev_url": prev_url, "next_url": next_url,
@@ -641,16 +643,28 @@ def _channel_posted_ids(limit=30):
         return []
 
 
+def _daily_items():
+    """Kun savoli (birinçisi) va oldingilari: bot kanalga joylaganlar, hali bölmasa — kun böyi bir xil tasodifiy savol."""
+    ids = list(dict.fromkeys(_channel_posted_ids()))
+    if not ids:
+        pool = list(AvtoTest.objects.filter(javob__in=LETTERS).order_by("id").values_list("id", flat=True))
+        ids = [pool[timezone.localdate().toordinal() % len(pool)]] if pool else []
+    by_id = {q.id: q for q in AvtoTest.objects.filter(id__in=ids)}
+    return [by_id[i] for i in ids if i in by_id]
+
+
+def _answers(q, sfx):
+    return [
+        {"letter": letter, "text": _pick(q, "javob_" + letter.lower(), sfx)}
+        for letter in LETTERS if _pick(q, "javob_" + letter.lower(), sfx)
+    ]
+
+
 def daily_question(request):
     lang = _lang(request)
     t = texts(lang)
     sfx = _sfx(lang)
-    ids = list(dict.fromkeys(_channel_posted_ids()))
-    if not ids:  # bot hali joylamagan bo'lsa — kun bo'yi bir xil tasodifiy savol
-        pool = list(AvtoTest.objects.filter(javob__in=LETTERS).order_by("id").values_list("id", flat=True))
-        ids = [pool[timezone.localdate().toordinal() % len(pool)]] if pool else []
-    by_id = {q.id: q for q in AvtoTest.objects.filter(id__in=ids)}
-    items = [by_id[i] for i in ids if i in by_id]
+    items = _daily_items()
     today = items[0] if items else None
     archive = [
         {"bilet": q.bilet, "raqam": q.raqam, "text": Truncator(_pick(q, "savol", sfx)).chars(120)}
@@ -662,12 +676,33 @@ def daily_question(request):
     if today:
         context.update({
             "today_text": _pick(today, "savol", sfx),
-            "today_answers": [
-                {"letter": letter, "text": _pick(today, "javob_" + letter.lower(), sfx)}
-                for letter in LETTERS if _pick(today, "javob_" + letter.lower(), sfx)
-            ],
+            "today_answers": _answers(today, sfx),
         })
     return render(request, "driving/daily.html", context)
+
+
+def daily_widget(request):
+    """Boşqa saytlarga iframe orqali joylanadigan «Kun savoli» (avtomaktablar, bloglar).
+
+    Reklamasiz (AdSense boşqa sayt içidagi iframe'da reklamaga ruxsat bermaydi) — foydasi: orqa havola va trafik.
+    Qidiruvda körinmaydi (noindex), istalgan sayt joylay oladi (frame-ancestors *).
+    """
+    lang = _lang(request)
+    t = texts(lang)
+    sfx = _sfx(lang)
+    items = _daily_items()
+    today = items[0] if items else None
+    context = {"t": t, "today": today}
+    if today:
+        context.update({
+            "today_text": _pick(today, "savol", sfx),
+            "today_answers": _answers(today, sfx),
+            "has_explanation": today.izoh_holati == "approved" and bool(_pick(today, "izoh", sfx)),
+        })
+    response = render(request, "driving/widget.html", context)
+    response["Content-Security-Policy"] = "frame-ancestors *"
+    response["X-Robots-Tag"] = "noindex"
+    return response
 
 
 # ==================== PDF ====================
