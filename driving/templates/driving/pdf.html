@@ -23,6 +23,11 @@
     <p style="margin:0">{{ t.pdf_missing }}</p>
     {% endfor %}
   </div>
+  {# "avto test 1000 скачать" sörovlarining bir qismi ilovani qidiradi — PDF yonida ilova ham bölsin #}
+  <div class="d-card d-between">
+    <div><b>📱 {{ t.pdf_app }}</b><br><span class="d-meta">{{ t.pdf_app_text }}</span></div>
+    <a class="d-btn" href="{{ app_url }}" target="_blank" rel="noopener" data-app-link>{{ t.pdf_app_btn }}</a>
+  </div>
   <section class="d-card">
     <h2 class="d-h2">🎯 {{ t.pdf_online }}</h2>
     <p>{{ t.pdf_online_text }}</p>
@@ -38,10 +43,20 @@
     <a class="d-btn" href="https://t.me/complexprogrammeruzchannel" target="_blank" rel="noopener">Telegram</a>
   </div>
   {% include "includes/ad_slot.html" with slot=ad_slots.driving %}
+  {# FAQ — sahifadagi FAQPage JSON-LD bilan bir xil matn #}
+  <section class="d-card">
+    <h2 class="d-h2">❓ {% if ui_lang == 'ru' %}Частые вопросы{% elif ui_lang == 'en' %}FAQ{% else %}Köp beriladigan savollar{% endif %}</h2>
+    {% for q, a in t.pdf_faq %}
+    <details class="d-note" style="padding-left:0"><summary><b>{{ q }}</b></summary><p style="margin:8px 0 0">{{ a }}</p></details>
+    {% endfor %}
+  </section>
 </main>
 <script>
   document.querySelectorAll("[data-pdf-lang]").forEach(function (a) {
     a.addEventListener("click", function () { window.cpTrack("file_download", { file_name: "avtotest-pdf", language: a.getAttribute("data-pdf-lang") }); });
+  });
+  document.querySelectorAll("[data-app-link]").forEach(function (a) {
+    a.addEventListener("click", function () { window.cpTrack("app_click", { placement: "avtotest_pdf" }); });
   });
 </script>
 </body>

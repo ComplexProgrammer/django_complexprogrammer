@@ -18,12 +18,84 @@ from tests.models import (
     EXPLANATION_FIELDS,
 )
 from comments.pages import page_comments
-from core.seo import SITE_URL, alternates
+from core.seo import SITE_URL, alternates, json_ld_dump, lang_url
 
 # /tests/ dagi kitob -> xuddi şu savollar asosiy joylaşgan sahifa.
 # Kitob 49 = /avtotest/ ning 1–108-biletlari, kitob 50 (e-avtomaktab) = 109-bilet va keyingilari.
 # Ikkalasi ham yagona manba: tahrir şu yerda (Tests → Questions), projects.AvtoTest undan avtomatik hosil qilinadi (projects/avtotest_sync.py).
 DUPLICATE_BOOKS = {49: "/avtotest/"}
+
+
+# Search Console (2026-11): "e avtomaktab" sörovlari ~9 700 körsatiş, /tests/?book_id=50 — 6-örin, CTR 0,1%.
+# Sahifada faqat bilet plitkalari bor edi; tuşuntiriş matni va FAQ (FAQPage JSON-LD bilan) qöşiladi.
+# Halollik: bu e-avtomaktab.uz platformasining rasmiy sayti emas — matnda aniq aytiladi.
+BOOK_SEO = {
+    50: {
+        "uz": {
+            "lead": "e-avtomaktab test savollari: 31 bilet, 305 savol töğri javoblari bilan. Onlayn, bepul va röyxatdan ötmasdan maşq qiling.",
+            "text": [
+                ("Bu qanday testlar?", "Bu yerda e-avtomaktab biletlari böyiça tuzilgan 305 ta savol jamlangan: 31 ta bilet, savollarning yarmiga yaqini rasmli. Har bir javobdan keyin töğri variant darhol körsatiladi, xatolaringiz saqlanadi va ularni alohida qayta işlaş mumkin."),
+                ("e-avtomaktab.uz bilan farqi nima?", "complexprogrammer.uz — e-avtomaktab.uz platformasining rasmiy sayti emas. Masofaviy ta'lim, röyxatdan ötiş va platformadagi testlar uçun e-avtomaktab.uz saytidan foydalaning. Bu sahifa — bepul qöşimça maşq: savollarni xohlagança takrorlaş uçun."),
+                ("Qanday tayyorlaniş kerak?", "Kuniga 2–3 bilet yeçing, hafta oxirida xatolaringizni takrorlang. Tayyor bölgaç, 20 savollik imtihon simulyatorida (25 daqiqa, köpi bilan 2 xato) özingizni sinab köring."),
+            ],
+            "faq": [
+                ("e-avtomaktab testlari bepulmi?", "Ha, bu sahifadagi barça biletlar bepul va röyxatdan ötmasdan işlaydi."),
+                ("e-avtomaktab'da neçta savol bor?", "Bu yerda 31 ta biletda 305 ta savol bor. Asosiy Avto test töplamida yana 1080 ta savol (108 bilet) mavjud."),
+                ("Savollar qaysi tillarda?", "Özbek (lotin va kirill), rus va ingliz tillarida — sayt tilini almaştirsangiz, savollar ham şu tilda çiqadi."),
+                ("Bu e-avtomaktab.uz rasmiy saytimi?", "Yöq. Bu mustaqil maşq sahifasi. e-avtomaktab platformasining öz sayti — e-avtomaktab.uz."),
+            ],
+        },
+        "ru": {
+            "lead": "Вопросы теста e-avtomaktab: 31 билет, 305 вопросов с правильными ответами. Тренируйтесь онлайн бесплатно и без регистрации.",
+            "text": [
+                ("Что это за тесты?", "Здесь собраны 305 вопросов по билетам e-avtomaktab: 31 билет, почти половина вопросов с картинками. После каждого ответа сразу показывается правильный вариант, ошибки сохраняются, и их можно повторить отдельно."),
+                ("Чем отличается от e-avtomaktab.uz?", "complexprogrammer.uz — не официальный сайт платформы e-avtomaktab.uz. Для дистанционного обучения, регистрации и тестов платформы используйте сайт e-avtomaktab.uz. Эта страница — бесплатная дополнительная тренировка: повторяйте вопросы сколько угодно."),
+                ("Как готовиться?", "Решайте 2–3 билета в день, в конце недели повторяйте ошибки. Когда будете готовы, проверьте себя в симуляторе экзамена: 20 вопросов, 25 минут, не больше 2 ошибок."),
+            ],
+            "faq": [
+                ("Тесты e-avtomaktab бесплатные?", "Да, все билеты на этой странице бесплатны и работают без регистрации."),
+                ("Сколько вопросов в e-avtomaktab?", "Здесь 305 вопросов в 31 билете. В основном сборнике «Автотест» есть ещё 1080 вопросов (108 билетов)."),
+                ("На каких языках вопросы?", "На узбекском (латиница и кириллица), русском и английском — при смене языка сайта вопросы тоже меняются."),
+                ("Это официальный сайт e-avtomaktab.uz?", "Нет. Это независимая страница для тренировки. Сайт самой платформы — e-avtomaktab.uz."),
+            ],
+        },
+        "en": {
+            "lead": "e-avtomaktab test questions: 31 tickets, 305 questions with correct answers. Practise online for free, no sign-up.",
+            "text": [
+                ("What are these tests?", "305 questions organised by e-avtomaktab ticket: 31 tickets, nearly half with pictures. The correct option is shown after each answer, and your mistakes are saved for review."),
+                ("How is this different from e-avtomaktab.uz?", "complexprogrammer.uz is not the official site of the e-avtomaktab.uz platform. For distance learning, registration and the platform's own tests, use e-avtomaktab.uz. This page is free extra practice."),
+                ("How should I prepare?", "Do 2–3 tickets a day and review your mistakes at the end of the week. When ready, try the 20-question exam simulator (25 minutes, at most 2 mistakes)."),
+            ],
+            "faq": [
+                ("Are the e-avtomaktab tests free?", "Yes, every ticket on this page is free and needs no sign-up."),
+                ("How many questions does e-avtomaktab have?", "There are 305 questions in 31 tickets here. The main Driving test collection has another 1,080 questions (108 tickets)."),
+                ("Which languages are available?", "Uzbek (Latin and Cyrillic), Russian and English — switch the site language and the questions follow."),
+                ("Is this the official e-avtomaktab.uz site?", "No. This is an independent practice page. The platform's own site is e-avtomaktab.uz."),
+            ],
+        },
+    },
+}
+
+
+def _book_seo(request, context, book_id, lang):
+    """BOOK_SEO dagi kitob uçun: lead, matn, FAQ va mos JSON-LD (BreadcrumbList + FAQPage)."""
+    data = BOOK_SEO.get(book_id)
+    if not data:
+        return
+    page = data.get(lang) or data["uz"]
+    url_lang = getattr(request, "lang_prefix", "").strip("/") or "uz"
+    crumbs = context.get("crumbs") or []
+    items = [
+        {"@type": "ListItem", "position": i, "name": name,
+         "item": lang_url(url or f"/tests/?book_id={book_id}", url_lang)}
+        for i, (name, url) in enumerate(crumbs, 1)
+    ]
+    graph = [{"@type": "BreadcrumbList", "itemListElement": items}] if items else []
+    graph.append({
+        "@type": "FAQPage",
+        "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in page["faq"]],
+    })
+    context.update(level_lead=page["lead"], seo_text=page["text"], seo_faq=page["faq"], seo_json_ld=json_ld_dump(graph))
 
 
 def _count(path):
@@ -217,6 +289,8 @@ def tests(request):
         if book is None or not book.questions.filter(is_deleted=False).exists():
             context["noindex"] = True  # öçirilgan yoki savolsiz kitob — böş sahifa qidiruvga çiqmasin
             context["hreflang_links"] = []
+        if book and not context.get("noindex"):
+            _book_seo(request, context, int(book_id), lang)
         # Bir xil savollar /avtotest/ da ham bor — qidiruvda raqobatlashmasligi uchun asosiysiga canonical
         main_path = DUPLICATE_BOOKS.get(int(book_id))
         if main_path:
