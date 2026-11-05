@@ -37,3 +37,4 @@ if [ -d tmp ]; then
 fi
 
 echo "✨ Muvaffaqiyatli bajarildi!"
+
