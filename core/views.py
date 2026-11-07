@@ -315,3 +315,17 @@ def robots_txt(request):
         f"Sitemap: {SITE_URL}/sitemap.xml",
     ]
     return HttpResponse("\n".join(lines) + "\n", content_type="text/plain")
+
+
+@cache_control(max_age=86400, public=True)
+def traffic_advice(request):
+    """Chrome Privacy Preserving Prefetch Proxy (/.well-known/traffic-advice) uçun ruxsat javobi."""
+    return HttpResponse(
+        '[{"user_agent": "prefetch-proxy", "google_prefetch_proxy_eap": {"fraction": 1.0}}]',
+        content_type="application/trafficadvice+json",
+    )
+
+
+def empty_204(request, *args, **kwargs):
+    """Eski keşda qolgan şablon söravlari (masalan, /static/avtotest/{{item.rasm}}) logni 404 bilan töldirmasligi uçun."""
+    return HttpResponse(status=204)
