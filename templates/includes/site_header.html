@@ -85,25 +85,40 @@
 </header>
 {% if not user.is_authenticated %}
 <script>
-  // Telegram Mini App (bot ichida ochilgan sayt): initData bilan avtomatik kirish
+  // Telegram Mini App (bot içida oçilgan sayt): initData bilan avtomatik kiriş
   (function () {
-    var KEY = "cpTgWebApp";
-    try { if (/tgWebAppData=/.test(location.hash)) sessionStorage.setItem(KEY, "1"); } catch (e) {}
-    try { if (!sessionStorage.getItem(KEY) || sessionStorage.getItem(KEY + "Tried")) return; sessionStorage.setItem(KEY + "Tried", "1"); } catch (e) { return; }
+    var KEY = "cpTgWebApp", rawHash = location.hash || "";
+    try {
+      if (/tgWebAppData=/.test(rawHash) || window.TelegramWebviewProxy || window.TelegramWebview) {
+        sessionStorage.setItem(KEY, "1");
+        if (/tgWebAppData=/.test(rawHash)) sessionStorage.setItem(KEY + "Data", rawHash);
+      }
+    } catch (e) {}
+    try {
+      var onProfile = /\/profil\/?$/.test(location.pathname);
+      if (!sessionStorage.getItem(KEY) || (!onProfile && sessionStorage.getItem(KEY + "Tried"))) return;
+    } catch (e) { return; }
     var s = document.createElement("script");
     s.src = "https://telegram.org/js/telegram-web-app.js";
     s.onload = function () {
       var app = window.Telegram && Telegram.WebApp;
-      if (!app || !app.initData) return;
-      app.ready(); app.expand();
+      var initData = (app && app.initData) || "";
+      if (!initData) {
+        try { initData = sessionStorage.getItem(KEY + "Data") || ""; } catch (e) {}
+      }
+      if (!initData) return;
+      if (app) { try { app.ready(); app.expand(); } catch (e) {} }
+      try { sessionStorage.setItem(KEY + "Tried", "1"); } catch (e) {}
       fetch("/auth/telegram/webapp/", {
         method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json", "X-CSRFToken": "{{ csrf_token }}" },
-        body: JSON.stringify({ init_data: app.initData })
+        body: JSON.stringify({ init_data: initData })
       }).then(function (r) {
-        if (!r.ok) return;
+        return r.ok ? r.json() : null;
+      }).then(function (d) {
+        if (!d || !d.ok) return;
         window.cpTrack && window.cpTrack("login", { method: "telegram_webapp" });
-        setTimeout(function () { location.reload(); }, 300);
+        setTimeout(function () { location.reload(); }, 250);
       }).catch(function () {});
     };
     document.head.appendChild(s);

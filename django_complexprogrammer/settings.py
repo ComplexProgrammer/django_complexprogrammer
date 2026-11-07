@@ -41,9 +41,19 @@ ALLOWED_HOSTS = [
 ]
 
 
-# Telegram orqali kirish (Login Widget). Bot domeni BotFather'da /setdomain bilan complexprogrammer.uz qilib o'rnatilishi shart.
-TELEGRAM_LOGIN_BOT_TOKEN = config("TELEGRAM_LOGIN_BOT_TOKEN", default=config("AVTOTEST_BOT_TOKEN", default=""))
-TELEGRAM_LOGIN_BOT_USERNAME = config("TELEGRAM_LOGIN_BOT_USERNAME", default="AvtoTestUzbBot")
+# Telegram orqali kiriş (Login Widget va Mini App). Bot domeni BotFather'da /setdomain bilan complexprogrammer.uz qilib örnatilişi şart.
+def _clean_token(val: str) -> str:
+    return (val or "").strip().strip("'\"")
+
+
+_tg_tokens = [
+    _clean_token(config("TELEGRAM_LOGIN_BOT_TOKEN", default="")),
+    _clean_token(config("AVTOTEST_BOT_TOKEN", default="")),
+    _clean_token(config("TELEGRAM_BOT_TOKEN", default="")),
+]
+TELEGRAM_BOT_TOKENS = tuple(dict.fromkeys(t for t in _tg_tokens if t))
+TELEGRAM_LOGIN_BOT_TOKEN = TELEGRAM_BOT_TOKENS[0] if TELEGRAM_BOT_TOKENS else ""
+TELEGRAM_LOGIN_BOT_USERNAME = _clean_token(config("TELEGRAM_LOGIN_BOT_USERNAME", default="AvtoTestUzbBot")).lstrip("@") or "AvtoTestUzbBot"
 
 
 # IndexNow (Yandex, Bing): kalit ochiq — /<kalit>.txt da turadi. O'zgartirilsa, eski kalit fayli ham kerak emas.
@@ -459,11 +469,16 @@ else:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    # Telegram Mini App (web.telegram.org iframe) va Login Widget'da sessiya cookie'si işlaşi uçun:
+    SESSION_COOKIE_SAMESITE = "None"
+    CSRF_COOKIE_SAMESITE = "None"
     # HSTS: brauzer saytni faqat HTTPS orqali oçadi. Subdomenlar (includeSubDomains) va preload ataylab yoqilmagan —
     # HTTPS'siz subdomen bölsa, u oçilmay qoladi. Muddatni SECURE_HSTS_SECONDS orqali özgartiriş mumkin.
     SECURE_HSTS_SECONDS = config("SECURE_HSTS_SECONDS", default=31536000, cast=int)
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+# Telegram Login Widget (oauth.telegram.org) popup oynasi window.opener orqali javob qaytara olişi uçun:
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 COLOR_PALETTE = [
     (

@@ -15,6 +15,7 @@ from django.utils.html import strip_tags
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.text import Truncator
 from django.views.decorators.cache import cache_control
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from comments.pages import page_comments
@@ -471,16 +472,17 @@ def telegram_login(request):
     return redirect(target + ("&" if "?" in target else "?") + "welcome=1")
 
 
+@csrf_exempt
 @require_POST
 def telegram_webapp_login(request):
-    """Bot ichida ochilgan sayt (Telegram Mini App) — foydalanuvchi tugma bosmasdan avtomatik kiradi."""
+    """Bot içida oçilgan sayt (Telegram Mini App) — foydalanuvçi tugma bosmasdan avtomatik kiradi."""
     try:
         init_data = json.loads(request.body or b"{}").get("init_data", "")
     except (ValueError, AttributeError):
         return JsonResponse({"ok": False}, status=400)
     data = telegram_auth.verify_webapp(init_data, settings.TELEGRAM_LOGIN_BOT_TOKEN)
     if data is None:
-        return JsonResponse({"ok": False}, status=403)
+        return JsonResponse({"ok": False})
     _login_telegram(request, data)
     return JsonResponse({"ok": True})
 
