@@ -148,20 +148,20 @@ DATABASES = {
 # (API javoblari, tarjimalar, izohlar uchun rate-limit)
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "BACKEND": "core.cache.SafeFileBasedCache",
         "LOCATION": BASE_DIR / "tmp" / "django_cache",
         "TIMEOUT": 600,
-        # Chegaraga yetganda Django yozuvlarning 1/3 qismini tasodifiy o'chiradi — kichik chegarada muhim kalitlar
-        # (home:usd, blog yon paneli) tez-tez o'chib, sahifalar qayta hisoblanardi
-        "OPTIONS": {"MAX_ENTRIES": 20000},
+        # Çegaraga yetganda Django yozuvlarning 1/3 qismini tasodifiy öçiradi — shared-hosting disk/inode
+        # kvotasi tölib qolmasligi uçun 2500 ta yozuv yetarli
+        "OPTIONS": {"MAX_ENTRIES": 2500},
     },
     # Tashqi API'larning zaxira (fallback) javoblari: kalitlar kam, tasodifiy tozalashga tushmasligi kerak —
     # aks holda stale-while-revalidate ishlamay, sahifa CBU'ni 20 soniyagacha kutib qolardi (projects.views.fetch_json)
     "durable": {
-        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "BACKEND": "core.cache.SafeFileBasedCache",
         "LOCATION": BASE_DIR / "tmp" / "django_cache_durable",
         "TIMEOUT": None,
-        "OPTIONS": {"MAX_ENTRIES": 1000},
+        "OPTIONS": {"MAX_ENTRIES": 300},
     },
 }
 
@@ -214,8 +214,12 @@ LOCALE_PATHS = [
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 STATIC_URL = "/static/"
 MEDIA_URL = "/media/"
-STATICFILES_DIRS = [BASE_DIR / "static", BASE_DIR / "media"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+try:
+    STATIC_ROOT.mkdir(exist_ok=True)
+except OSError:
+    pass
 MEDIA_ROOT = BASE_DIR / "media"
 CKEDITOR_UPLOAD_PATH = "uploads/"
 # if DEBUG == True:

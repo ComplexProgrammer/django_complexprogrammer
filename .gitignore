@@ -160,6 +160,9 @@ media/avtotest/*.pdf
 # AI izoh skripti xatolari (scripts/explanations_local.py)
 tmp/explanations_errors.log
 
-# Loyiha va maqola bannerlari zaxiralari
+# Loyiha, maqola bannerlari va logotiplar zaxiralari
 media/projects/backups/
 media/post/backups/
+static/img/backups_logos_*/
+media/projects/images/backups_*/
+media/post/images/backups_*/
