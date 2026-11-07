@@ -2,18 +2,16 @@
 """
 Complex Programmer (complexprogrammer.uz) loyihasi uçun generatsiya qilingan
 yangi logotiplar, piktogrammalar (PWA 192/512, Apple Touch Icon, multi-size favicon.ico)
-hamda OpenGraph brend-bannerlarini xavfsiz (zaxira nusxa bilan) joriy qiliş skripti.
+hamda OpenGraph brend-bannerlarini joriy qiliş skripti.
 
 Işlatiş:
     python publish_logos.py                  # Standart: "knight" (Cyber-Knight C0mplex) uslubi
     python publish_logos.py --style monogram # Minimalist "<CP>" monogramma uslubi
-    python publish_logos.py --dry-run        # O'zgarişlarni tekşiriş (fayllarni yozmasdan)
+    python publish_logos.py --dry-run        # Özgarişlarni tekşiriş (fayllarni yozmasdan)
 """
 
 import argparse
-import os
 import shutil
-import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -43,6 +41,43 @@ def get_targets(style: str, banner_as_c0mplex: bool) -> list[tuple[str, str, str
     ]
 
 
+def cleanup_disk_bloat() -> None:
+    """Hostingda disk kvotasini (Errno 122: Disk quota exceeded) töldirib qöyadigan
+    ortiqça vaqtinçalik/dublikat papkalarni tozalaydi.
+    """
+    # 1. Eski zaxira papkalarini öçiriş (Git tarixida baribir saqlangan)
+    backup_dirs = [
+        BASE_DIR / "media" / "projects" / "backups",
+        BASE_DIR / "media" / "post" / "backups",
+        *STATIC_IMG_DIR.glob("backups_logos_*"),
+        *(BASE_DIR / "media" / "projects" / "images").glob("backups_*"),
+        *(BASE_DIR / "media" / "post" / "images").glob("backups_*"),
+    ]
+    for bdir in backup_dirs:
+        if bdir.exists():
+            shutil.rmtree(bdir, ignore_errors=True)
+
+    # 2. staticfiles/ içidagi ortiqça collectstatic dublikatlarini tozalab, böş papka qoldiriş
+    # (WHITENOISE_USE_FINDERS = True bölgani uçun staticfiles/ içida nusxa saqlaş şart emas,
+    # lekin papkaning özi mavjud bölsa WhiteNoise UserWarning çiqarmaydi)
+    staticfiles_dir = BASE_DIR / "staticfiles"
+    if staticfiles_dir.exists():
+        shutil.rmtree(staticfiles_dir, ignore_errors=True)
+    try:
+        staticfiles_dir.mkdir(exist_ok=True)
+    except OSError:
+        pass
+
+    # 3. Fayl keşini (tmp/django_cache) tozalab joy böşatiş
+    cache_dir = BASE_DIR / "tmp" / "django_cache"
+    if cache_dir.exists():
+        shutil.rmtree(cache_dir, ignore_errors=True)
+    try:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="complexprogrammer.uz logotiplarini joriy qiliş skripti"
@@ -57,6 +92,11 @@ def main() -> int:
         "--banner-as-c0mplex",
         action="store_true",
         help="C0mplex.png sifatida 192x192 kvadrat belgi örniga 686x400 gorizontal bannerni qöllaş",
+    )
+    parser.add_argument(
+        "--backup",
+        action="store_true",
+        help="Alohida backups_logos_<vaqt> papkasiga zaxira nusxa oliş (sukut böyiça disk kvotasini tejaş uçun öçirilgan)",
     )
     parser.add_argument(
         "--dry-run",
@@ -80,10 +120,14 @@ def main() -> int:
         print(f"✗ Xatolik: Quyidagi tayyorlangan fayllar topilmadi: {', '.join(missing)}")
         return 1
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_dir = STATIC_IMG_DIR / f"backups_logos_{timestamp}"
-
     if not args.dry_run:
+        cleanup_disk_bloat()
+        print("🧹 Ortiqça vaqtinçalik fayllar (staticfiles, eski keş va zaxiralar) tozalandi.")
+
+    backup_dir = None
+    if args.backup and not args.dry_run:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_dir = STATIC_IMG_DIR / f"backups_logos_{timestamp}"
         backup_dir.mkdir(parents=True, exist_ok=True)
         print(f"📦 Eski logotiplar zaxira nusxasi: {backup_dir.relative_to(BASE_DIR)}")
 
@@ -98,7 +142,7 @@ def main() -> int:
             applied += 1
             continue
 
-        if dst_path.exists():
+        if backup_dir is not None and dst_path.exists():
             shutil.copy2(dst_path, backup_dir / dst_name)
 
         shutil.copy2(src_path, dst_path)
@@ -110,28 +154,13 @@ def main() -> int:
         print(f"✅ Tekşiruv yakunlandi: {applied} ta fayl joriy qilişga tayyor.")
         return 0
 
-    # collectstatic (agar STATIC_ROOT sozlangan bölsa va server muhiti bölsa)
-    manage_py = BASE_DIR / "manage.py"
-    if manage_py.exists():
-        try:
-            subprocess.run(
-                [sys.executable, str(manage_py), "shell", "-c", "from django.core.cache import cache; cache.clear()"],
-                cwd=str(BASE_DIR),
-                check=False,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-            print("🧹 Django keşi tozalandi.")
-        except Exception:
-            pass
-
     restart_txt = BASE_DIR / "tmp" / "restart.txt"
     try:
         restart_txt.parent.mkdir(parents=True, exist_ok=True)
         restart_txt.touch()
         print("🔄 Passenger serveri qayta işga tuşiriş belgisi yangilandi (tmp/restart.txt).")
-    except Exception:
-        pass
+    except OSError as exc:
+        print(f"⚠ Eslatma: tmp/restart.txt yangilanmadi: {exc}")
 
     print("-" * 72)
     print(f"✅ Muvaffaqiyatli yakunlandi! Jami yangilangan fayllar: {applied} ta.")
@@ -140,4 +169,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

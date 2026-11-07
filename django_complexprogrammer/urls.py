@@ -60,6 +60,7 @@ if settings.DEBUG:
 
 urlpatterns += [
     path("admin/", admin.site.urls),
+    path("favicon.ico", RedirectView.as_view(url="/static/img/favicon.ico", permanent=True)),
     path("sitemap.xml", core_views.sitemap_xml, name="sitemap_xml"),
     path("sitemap.xml/", core_views.sitemap_xml),
     re_path(r"^sitemap-(?P<slug>[a-z]+)\.xml$", core_views.sitemap_section_xml, name="sitemap_section_xml"),
