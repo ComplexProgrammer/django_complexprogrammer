@@ -716,7 +716,17 @@ class Database:
         now_dt = datetime.now().isoformat()
         async with self.connect() as db:
             async with db.execute(
-                "SELECT user_id FROM driving_telegramaccount WHERE telegram_id = ?", (user_id,)
+                "SELECT username, full_name FROM avtotest_bot_users WHERE user_id = ?", (user_id,)
+            ) as cur:
+                b_row = await cur.fetchone()
+            tg_username = ((b_row["username"] if b_row else "") or "").strip()[:64]
+            full_name = ((b_row["full_name"] if b_row else "") or "").strip()
+            parts = full_name.split(None, 1) if full_name else []
+            first_name = (parts[0] if parts else "")[:128]
+            last_name = (parts[1] if len(parts) > 1 else "")[:128]
+
+            async with db.execute(
+                "SELECT user_id, first_name FROM driving_telegramaccount WHERE telegram_id = ?", (user_id,)
             ) as cur:
                 row = await cur.fetchone()
 
@@ -732,15 +742,24 @@ class Database:
                 else:
                     cur = await db.execute(
                         """INSERT INTO auth_user (username, password, first_name, last_name, email, is_staff, is_active, is_superuser, date_joined)
-                           VALUES (?, '!', '', '', '', 0, 1, 0, ?)""",
-                        (username, now_dt),
+                           VALUES (?, '!', ?, '', '', 0, 1, 0, ?)""",
+                        (username, first_name[:150], now_dt),
                     )
                     auth_user_id = cur.lastrowid
 
                 await db.execute(
                     """INSERT OR IGNORE INTO driving_telegramaccount (user_id, telegram_id, username, first_name, last_name, photo_url, created_at, last_login_at)
-                       VALUES (?, ?, '', '', '', '', ?, ?)""",
-                    (auth_user_id, user_id, now_dt, now_dt),
+                       VALUES (?, ?, ?, ?, ?, '', ?, ?)""",
+                    (auth_user_id, user_id, tg_username, first_name, last_name, now_dt, now_dt),
+                )
+            elif not (row["first_name"] or "").strip() and (first_name or tg_username):
+                await db.execute(
+                    """UPDATE driving_telegramaccount
+                       SET username = CASE WHEN username = '' THEN ? ELSE username END,
+                           first_name = CASE WHEN first_name = '' THEN ? ELSE first_name END,
+                           last_name = CASE WHEN last_name = '' THEN ? ELSE last_name END
+                       WHERE telegram_id = ?""",
+                    (tg_username, first_name, last_name, user_id),
                 )
 
             # ActivityDay ni yangilash (streak va haftalik reyting)
