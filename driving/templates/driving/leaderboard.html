@@ -12,9 +12,24 @@
     <a href="{{ lang_prefix }}/">{{ ui.home }}</a> › <a href="{{ lang_prefix }}/avtotest/">{{ ui.avtotest }}</a> › <span>{{ t.lb_h1 }}</span>
   </nav>
   <h1 class="d-h1">🏆 {{ t.lb_h1 }}</h1>
-  <p class="d-meta">{{ t.lb_lead }}</p>
+  <div class="d-between" style="flex-wrap:wrap;gap:10px;margin-bottom:14px">
+    <p class="d-meta" style="margin:0">{{ t.lb_lead }} · <b>{{ total_users_label }}</b>{% if your_rank_label %} · <span>{{ your_rank_label }}</span>{% endif %}</p>
+    <div class="d-row" style="gap:8px">
+      <a class="d-btn{% if period != 'all' %} alt{% endif %}" href="{{ lang_prefix }}/avtotest/reyting/" style="padding:6px 12px;font-size:.9rem">{{ t.lb_all }}</a>
+      <a class="d-btn{% if period != 'week' %} alt{% endif %}" href="{{ lang_prefix }}/avtotest/reyting/?period=week" style="padding:6px 12px;font-size:.9rem">{{ t.lb_week }}</a>
+    </div>
+  </div>
   <div class="d-card">
     {% if rows %}
+    <div class="d-between" style="margin-bottom:10px;flex-wrap:wrap;gap:8px">
+      <span class="d-meta">{{ page_info_label }}</span>
+      {% if total_pages > 1 %}
+      <div class="d-row" style="gap:8px">
+        {% if has_prev %}<a class="d-btn alt" href="?page={{ prev_page }}{{ period_q }}" style="padding:5px 11px;font-size:.86rem">{{ t.lb_prev }}</a>{% endif %}
+        {% if has_next %}<a class="d-btn" href="?page={{ next_page }}{{ period_q }}" style="padding:5px 11px;font-size:.86rem">{{ t.lb_next }}</a>{% endif %}
+      </div>
+      {% endif %}
+    </div>
     <table class="d-table">
       <thead><tr><th>#</th><th>{{ t.lb_name }}</th><th class="n">{{ t.lb_correct }}</th><th class="n">{{ t.lb_answered }}</th></tr></thead>
       <tbody>
@@ -27,6 +42,15 @@
         {% endfor %}
       </tbody>
     </table>
+    {% if total_pages > 1 %}
+    <div class="d-between" style="margin-top:14px;padding-top:12px;border-top:1px solid var(--d-line, rgba(148,163,184,.2));flex-wrap:wrap;gap:10px">
+      <span class="d-meta">{{ page_info_label }}</span>
+      <div class="d-row" style="gap:8px">
+        {% if has_prev %}<a class="d-btn alt" href="?page={{ prev_page }}{{ period_q }}">{{ t.lb_prev }}</a>{% endif %}
+        {% if has_next %}<a class="d-btn" href="?page={{ next_page }}{{ period_q }}">{{ t.lb_next }}</a>{% endif %}
+      </div>
+    </div>
+    {% endif %}
     {% else %}<p style="margin:0">{{ t.lb_empty }}</p>{% endif %}
   </div>
   {% if not user.is_authenticated %}{% include "driving/_login.html" %}{% endif %}

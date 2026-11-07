@@ -423,24 +423,135 @@ def profile(request):
     return render(request, "driving/profile.html", context)
 
 
+LEADERBOARD_PER_PAGE = 100
+
+
 def leaderboard(request):
     lang = _lang(request)
     t = texts(lang)
-    since = timezone.localdate() - timedelta(days=6)
-    rows = list(
-        ActivityDay.objects.filter(date__gte=since, user__telegram__isnull=False)
-        .values("user_id")
-        .annotate(correct_sum=Sum("correct"), answered_sum=Sum("answered"))
-        .filter(answered_sum__gt=0)
-        .order_by("-correct_sum", "-answered_sum")[:50]
-    )
-    names = {a.user_id: a for a in TelegramAccount.objects.filter(user_id__in=[r["user_id"] for r in rows])}
-    for i, row in enumerate(rows, 1):
+    period = "week" if request.GET.get("period") == "week" else "all"
+    try:
+        page = max(1, int(request.GET.get("page") or 1))
+    except (ValueError, TypeError):
+        page = 1
+
+    if period == "week":
+        since = timezone.localdate() - timedelta(days=6)
+        act_qs = ActivityDay.objects.filter(date__gte=since)
+    else:
+        act_qs = ActivityDay.objects.all()
+
+    act_by_user = {
+        r["user_id"]: (r["correct_sum"] or 0, r["answered_sum"] or 0)
+        for r in act_qs.values("user_id").annotate(
+            correct_sum=Sum("correct"), answered_sum=Sum("answered")
+        )
+    }
+
+    acc_by_tg = {a.telegram_id: a for a in TelegramAccount.objects.all()}
+
+    bot_by_tg = {}
+    try:
+        with connection.cursor() as cur:
+            cur.execute(
+                "SELECT user_id, username, full_name, COALESCE(correct_answers, 0), COALESCE(total_questions, 0) "
+                "FROM avtotest_bot_users"
+            )
+            for tg_id, uname, fname, corr, total_q in cur.fetchall():
+                if tg_id:
+                    bot_by_tg[int(tg_id)] = {
+                        "username": (uname or "").strip(),
+                        "full_name": (fname or "").strip(),
+                        "correct": int(corr or 0),
+                        "answered": int(total_q or 0),
+                    }
+    except DatabaseError:
+        pass
+
+    my_user_id = request.user.id if request.user.is_authenticated else None
+    all_rows = []
+    for tg_id in set(acc_by_tg.keys()) | set(bot_by_tg.keys()):
+        acc = acc_by_tg.get(tg_id)
+        bot = bot_by_tg.get(tg_id)
+        user_id = acc.user_id if acc else None
+        act_corr, act_ans = act_by_user.get(user_id, (0, 0)) if user_id else (0, 0)
+
+        if period == "week":
+            correct_sum, answered_sum = act_corr, act_ans
+            if answered_sum <= 0:
+                continue
+        else:
+            bot_corr = bot["correct"] if bot else 0
+            bot_ans = bot["answered"] if bot else 0
+            correct_sum = max(act_corr, bot_corr)
+            answered_sum = max(act_ans, bot_ans)
+
+        first_name = (acc.first_name if acc else "").strip()
+        last_name = (acc.last_name if acc else "").strip()
+        username = (acc.username if acc else "").strip() or (bot["username"] if bot else "")
+        if not first_name and bot and bot["full_name"]:
+            parts = bot["full_name"].split(None, 1)
+            first_name = parts[0] if parts else ""
+            last_name = parts[1] if len(parts) > 1 else ""
+
+        display_name = first_name or username or f"#{tg_id}"
+        if first_name and last_name:
+            display_name += f" {last_name[0]}."
+
+        all_rows.append({
+            "user_id": user_id,
+            "telegram_id": tg_id,
+            "display_name": display_name,
+            "account": {"display_name": display_name},
+            "correct_sum": correct_sum,
+            "answered_sum": answered_sum,
+            "me": bool(my_user_id and user_id == my_user_id),
+        })
+
+    all_rows.sort(key=lambda r: (-r["correct_sum"], -r["answered_sum"], r["telegram_id"]))
+
+    my_row = None
+    for i, row in enumerate(all_rows, 1):
         row["place"] = i
-        row["account"] = names.get(row["user_id"])
-        row["me"] = request.user.is_authenticated and row["user_id"] == request.user.id
+        if row["me"]:
+            my_row = row
+
+    total_users = len(all_rows)
+    total_pages = max(1, (total_users + LEADERBOARD_PER_PAGE - 1) // LEADERBOARD_PER_PAGE)
+    page = min(page, total_pages)
+    start_idx = (page - 1) * LEADERBOARD_PER_PAGE
+    end_idx = min(page * LEADERBOARD_PER_PAGE, total_users)
+    rows = all_rows[start_idx:end_idx]
+
+    has_prev = page > 1
+    has_next = page < total_pages
+    period_q = "&period=week" if period == "week" else ""
+
     graph = [_breadcrumbs(lang, _url_lang(request), [("Avtotest", "/avtotest/"), (t["lb_h1"], "/avtotest/reyting/")])]
-    context = {"t": t, "rows": rows, **_seo(t["lb_title"], t["lb_desc"], graph)}
+    context = {
+        "t": t,
+        "rows": rows,
+        "period": period,
+        "period_q": period_q,
+        "page": page,
+        "total_pages": total_pages,
+        "total_users": total_users,
+        "total_users_label": t["lb_total_users"].format(n=total_users),
+        "page_info_label": t["lb_page_info"].format(
+            start=(start_idx + 1) if total_users else 0,
+            end=end_idx,
+            total=total_users,
+            page=page,
+            pages=total_pages,
+        ),
+        "has_prev": has_prev,
+        "has_next": has_next,
+        "prev_page": page - 1 if has_prev else 1,
+        "next_page": page + 1 if has_next else total_pages,
+        "my_row": my_row,
+        "your_rank_label": t["lb_your_rank"].format(place=my_row["place"]) if my_row else "",
+        **_seo(t["lb_title"], t["lb_desc"], graph),
+    }
     if not request.user.is_authenticated:
         context.update(_login_context(request, "/avtotest/reyting/"))
     return render(request, "driving/leaderboard.html", context)
