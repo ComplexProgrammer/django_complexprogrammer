@@ -438,7 +438,7 @@
             {% verbatim %}
             <div ng-repeat="item in data" ng-show="item.id==id">
                 <h4 class="page-content">{{bilet}} - bilet<br />{{item.raqam}} - savol<br />{{item.savol}}</h4>
-                <img ng-if="item.rasm" ng-show="item.rasm" ng-src="/static/avtotest/{{item.rasm}}" class="test-image">
+                <img ng-if="item.rasm" ng-show="item.rasm" ng-src="{{item.rasm ? '/static/avtotest/' + item.rasm : ''}}" class="test-image">
                 <div class="list-group" style="text-align:start">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="" role="button" class="list-group-item list-group-item-action"
                         ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'"
@@ -468,7 +468,7 @@
             {% verbatim %}
             <div ng-repeat="item in data" ng-show="item.id==id">
                 <h4 class="page-content">{{bilet}}- билет<br />Вопрос {{item.raqam}}<br />{{item.savol_ru}}</h4>
-                <img ng-if="item.rasm" ng-show="item.rasm" ng-src="/static/avtotest/{{item.rasm}}" class="test-image">
+                <img ng-if="item.rasm" ng-show="item.rasm" ng-src="{{item.rasm ? '/static/avtotest/' + item.rasm : ''}}" class="test-image">
                 <div class="list-group">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="" role="button" class="list-group-item list-group-item-action"
                         ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'"
@@ -496,7 +496,7 @@
             {% else %}
             {% verbatim %} <div ng-repeat="item in data" ng-show="item.id==id">
                 <h4 class="page-content">Ticket {{bilet}}<br />Question {{item.raqam}}<br />{{item.savol_en}}</h4>
-                <img ng-if="item.rasm" ng-show="item.rasm" ng-src="/static/avtotest/{{item.rasm}}" class="test-image">
+                <img ng-if="item.rasm" ng-show="item.rasm" ng-src="{{item.rasm ? '/static/avtotest/' + item.rasm : ''}}" class="test-image">
                 <div class="list-group">
                     <a ng-click="ok('A')" id="A{{item.id}}" href="" role="button" class="list-group-item list-group-item-action"
                         ng-class="item.berilgan_javob==''?'':item.berilgan_javob==item.javob&&item.javob=='A'?'list-group-item-success disabledDiv':item.berilgan_javob!=item.javob&&item.javob!='A'?'list-group-item-danger disabledDiv':'disabledDiv'"
